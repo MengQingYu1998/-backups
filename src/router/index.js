@@ -6,15 +6,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/left_nav',
+      name: 'left_nav',
+      component: () => import('../ios/left_nav')
+    },
+    {
       path: '/result',
       name: 'result',
       component: () => import('../keyword/result')
     },
-    {
-      path: '/country',
-      name: 'country',
-      component: () => import('../common/country')
-    },
+
     {
       path: '/think_word',
       name: 'think_word',

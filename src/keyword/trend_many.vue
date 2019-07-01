@@ -233,29 +233,20 @@
     <div class="keywords">
       <div>关键词</div>
 
-      <div class="can_del_div" v-for="(item, index) in keywords" :key="index">
-        {{item}}
-        <img src="../assets/keyword/del.png" alt>
+      <div class="can_del_div" v-for="(item, index) in keyword_data" :key="index">
+        <div>{{item}}</div>
+        <img @click="remove_keyword_data(index)" src="../assets/keyword/del.png" alt>
       </div>
       <div>
         <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
       </div>
-      <div>
+      <div @click="add_can_del_div">
         <el-button type="primary">添加</el-button>
       </div>
     </div>
     <div class="table_title">【抖音】搜索指数走势</div>
-    <div ref="myChart" class="myChart" v-show="is_show_myChart"></div>
-    <!-- <div class="myChart_tips">
-      <div>
-        <img src="../assets/keyword/blue-line.png" alt>
-        <div class="bottom_image_font">抖音</div>
-      </div>
-      <div>
-        <img src="../assets/keyword/red-line.png" alt>
-        <div class="bottom_image_font">快手</div>
-      </div>
-    </div>-->
+    <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart"></div>
+
     <div class="bottom_image" v-show="is_show_myChart">
       <img class="float_right" src="../assets/keyword/down.png" alt>
       <img
@@ -290,7 +281,7 @@
       </tbody>
     </table>
     <div class="bottom_image bottom_image_for_table" v-show="is_show_table">
-      <img class="float_right" src="../assets/keyword/down.png" alt>
+      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
       <img
         v-on:click="is_show_myChart_function"
         class="float_right"
@@ -304,6 +295,7 @@
         alt
       >
     </div>
+    <div class="show_all">显示所有</div>
   </div>
 </template>
 
@@ -323,8 +315,7 @@ export default {
       is_show_table: false,
       // 请输入关键词查询联想词
       input: '',
-      // 可以删除的div关键字
-      keywords: ['抖音', '快手'],
+
       // 设备选择
       equipment: [
         {
@@ -375,13 +366,53 @@ export default {
           }
         ]
       },
-      dateValue: '2019-6-27'
+      dateValue: '2019-6-27',
+      //canvas 关键词data数组
+      keyword_data: [
+        '邮件营销',
+        '联盟广告',
+        '视频广告',
+        '直接访问',
+        '搜索引擎'
+      ],
+      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日']
     }
   },
+
   mounted() {
     this.drawLine()
   },
   methods: {
+    // 便利keyword_data生成canvas的series数据
+    series_data: function() {
+      let series_data_arr = []
+      //声明对象
+      function Obj(name, data) {
+        this.name = name
+        this.type = 'line'
+        this.stack = '总量'
+        this.data = data
+      }
+      //通过便利关键词数组从而创建canvas的series数据
+      this.keyword_data.forEach(element => {
+        series_data_arr.push(
+          new Obj(element, [820, 932, 901, 934, 1290, 1330, 1320])
+        )
+      })
+      console.log(series_data_arr)
+      return series_data_arr
+    },
+    // 删除keyword_data数组里面数据，从而删除can_del_div，canvas随之改变
+    remove_keyword_data: function(index) {
+      this.keyword_data.splice(index, 1)
+      this.drawLine()
+    },
+    // 向keyword_data数组里面添加数据，从而can_del_div和canvas随之改变
+    add_can_del_div: function() {
+      this.keyword_data.push(this.input)
+      this.input = ''
+      this.drawLine()
+    },
     is_show_table_function: function() {
       this.is_show_myChart = false
       this.is_show_table = true
@@ -391,16 +422,17 @@ export default {
       this.is_show_myChart = true
       this.is_show_table = false
     },
-    drawLine() {
+    drawLine: function() {
+      let that = this
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart)
+      let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
       // 绘制图表
       myChart.setOption({
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'],
+          data: that.keyword_data,
           y: 'bottom'
         },
         grid: {
@@ -422,49 +454,33 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          data: that.xAxis_data
         },
         yAxis: {
           type: 'value'
         },
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
+        series: that.series_data()
       })
     }
   }
 }
 </script>
 <style scoped>
+.show_all {
+  width: 65px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 4px;
+  border: solid 1px #009bef;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+  margin: 32px auto;
+}
 thead tr {
   height: 40px;
 }
@@ -577,7 +593,11 @@ table {
   letter-spacing: 0px;
   color: #222222;
 }
+.can_del_div div {
+  display: inline-block;
+}
 .can_del_div {
+  padding: 0 6px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
@@ -585,11 +605,11 @@ table {
   line-height: 24px;
   letter-spacing: 0px;
   color: #444444;
-  width: 63px;
   height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   text-align: center;
+  /* display: flex; */
 }
 .options_03 div:last-child {
   width: 114px !important;

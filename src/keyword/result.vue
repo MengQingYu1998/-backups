@@ -128,7 +128,7 @@
                   <el-button>top10</el-button>
                   <el-button type="primary">all</el-button>
                 </div>
-                <!-- <ve-histogram :data="chartData_IOS12" :settings="chartSettings"></ve-histogram> -->
+                <div ref="myChart_result" class="myChart"></div>
               </div>
             </div>
           </div>
@@ -273,37 +273,6 @@ export default {
       yAxisType: ['percent']
     }
     return {
-      //v-charts图表
-      chartData_IOS11: {
-        columns: ['日期', 'value'],
-        rows: [
-          { 日期: '25日0点', value: 0 },
-          { 日期: '25日4点', value: 0.2 },
-          { 日期: '25日8点', value: 0.2 },
-          { 日期: '25日12点', value: 0.6 },
-          { 日期: '25日16点', value: 0.2 },
-          { 日期: '25日20点', value: 0.2 },
-          { 日期: '26日0点', value: 0.8 },
-          { 日期: '26日4点', value: 0.2 },
-          { 日期: '26日8点', value: 0.4 },
-          { 日期: '26日12点', value: 0.2 }
-        ]
-      },
-      chartData_IOS12: {
-        columns: ['日期', 'value'],
-        rows: [
-          { 日期: '25日0点', value: 0 },
-          { 日期: '25日4点', value: 0.2 },
-          { 日期: '25日8点', value: 0.2 },
-          { 日期: '25日12点', value: 0.6 },
-          { 日期: '25日16点', value: 0.2 },
-          { 日期: '25日20点', value: 0.2 },
-          { 日期: '26日0点', value: 0.8 },
-          { 日期: '26日4点', value: 0.2 },
-          { 日期: '26日8点', value: 0.4 },
-          { 日期: '26日12点', value: 0.2 }
-        ]
-      },
       // 设备选择
       equipment: [
         {
@@ -359,15 +328,84 @@ export default {
       activeName: 'first'
     }
   },
+  mounted() {
+    this.drawLine()
+  },
   methods: {
     // tab-pane选择面板
     handleClick(tab, event) {
       console.log(tab, event)
+    },
+    drawLine: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.myChart_result)
+      // 绘制图表
+      myChart.setOption({
+        color: ['#3398DB'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            //设置Y轴百分比显示
+            axisLabel: {
+              show: true,
+              interval: 'auto',
+              formatter: '{value} %'
+            }
+          }
+        ],
+        series: [
+          {
+            name: '直接访问',
+            type: 'bar',
+            barWidth: '30%',
+            data: [40, 40, 90, 40, 80, 40, 55],
+            itemStyle: {
+              color: '#a4e0ff'
+            }
+          },
+          {
+            name: '间接访问',
+            type: 'bar',
+            barWidth: '30%',
+            data: [40, 20, 40, 40, 100, 40, 40],
+            itemStyle: {
+              color: '#009bef'
+            }
+          }
+        ]
+      })
     }
   }
 }
 </script>
 <style scoped>
+.myChart {
+  width: 341px;
+  height: 278px;
+}
 .flex-row {
   display: flex;
 }

@@ -26,8 +26,12 @@ import {
   DatePicker,
   TabPane,
   Tabs,
-  Button
+  Button,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'element-ui'
+Vue.use(BreadcrumbItem)
+Vue.use(Breadcrumb)
 Vue.use(Input)
 Vue.use(Select)
 Vue.use(Option)

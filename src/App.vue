@@ -12,6 +12,10 @@ export default {
 </script>
 
 <style>
+/* 选择国家组件的自定义下拉样式 */
+.select2-container .select2-selection--single {
+  height: 22px !important;
+}
 /* button组件自定义样式 */
 .el-button {
   padding: 7px 6px !important;

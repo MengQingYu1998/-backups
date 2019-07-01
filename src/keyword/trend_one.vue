@@ -44,15 +44,45 @@
     </div>
 
     <div class="table_title">【抖音】搜索指数走势</div>
-    <div ref="myChart" class="myChart"></div>
-    <div class="bottom_image">
-      <div>
-        <img src="../assets/keyword/blue-line.png" alt>
-        <div class="bottom_image_font">抖音</div>
-      </div>
-      <img class="float_right" src="../assets/keyword/calculator.png" alt>
-      <img class="float_right" src="../assets/keyword/three.png" alt>
-      <img class="float_right" src="../assets/keyword/down.png" alt>
+    <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart"></div>
+
+    <div class="bottom_image" v-show="is_show_myChart">
+      <!-- <img src="../assets/keyword/down.png" alt> -->
+      <img v-on:click="is_show_myChart_function" src="../assets/keyword/three.png" alt>
+      <img v-on:click="is_show_table_function" src="../assets/keyword/calculator.png" alt>
+    </div>
+    <table v-show="is_show_table">
+      <thead>
+        <tr>
+          <th>时间</th>
+          <th>排名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="table_font">2019-02-20 12:56</div>
+          </td>
+          <td>
+            <div class="table_font">1</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="bottom_image bottom_image_for_table" v-show="is_show_table">
+      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
+      <img
+        v-on:click="is_show_myChart_function"
+        class="float_right"
+        src="../assets/keyword/three.png"
+        alt
+      >
+      <img
+        v-on:click="is_show_table_function"
+        class="float_right"
+        src="../assets/keyword/calculator.png"
+        alt
+      >
     </div>
   </div>
 </template>
@@ -62,10 +92,11 @@ export default {
   name: 'trend_one',
   data() {
     return {
-      // 请输入关键词查询联想词
-      input: '',
-      // 可以删除的div关键字
-      keywords: ['抖音', '快手'],
+      // 是否显示myChart
+      is_show_myChart: true,
+      // 是否显示table表格
+      is_show_table: false,
+
       // 设备选择
       equipment: [
         {
@@ -116,87 +147,133 @@ export default {
           }
         ]
       },
-      dateValue: ''
+      dateValue: '',
+      //canvas 关键词data数组
+      keyword_data: ['直接访问'],
+      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      series_data: [
+        {
+          name: '直接访问',
+          type: 'line',
+          stack: '总量',
+          data: [320, 332, 301, 334, 390, 330, 320]
+        }
+      ]
     }
   },
   mounted() {
     this.drawLine()
   },
   methods: {
-    drawLine() {
+    //控制canvas和table的显示
+    is_show_table_function: function() {
+      this.is_show_myChart = false
+      this.is_show_table = true
+    },
+    is_show_myChart_function: function() {
+      this.is_show_myChart = true
+      this.is_show_table = false
+    },
+    // 画canvas
+    drawLine: function() {
+      let that = this
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart)
+      let myChart = this.$echarts.init(this.$refs.myChart_trend_one)
       // 绘制图表
       myChart.setOption({
         tooltip: {
           trigger: 'axis'
         },
+        legend: {
+          data: that.keyword_data,
+          y: 'bottom'
+        },
         grid: {
           left: '0%',
-          right: '0%',
-          bottom: '0%',
+          right: '1%',
+          bottom: '13%',
           containLabel: true
         },
+        toolbox: {
+          feature: {
+            saveAsImage: {
+              title: '保存',
+              iconStyle: {
+                opacity: 1,
+                borderWidth: 2,
+                borderColor: '#555'
+              }
+            }
+          }
+        },
         xAxis: {
-          axisTick: {
-            alignWithLabel: true
-          },
           type: 'category',
-          data: [
-            '2014-5-6',
-            '2014-5-6',
-            '2014-5-6',
-            '2014-5-6',
-            '2014-5-6',
-            '2014-5-6',
-            '2014-5-6'
-          ]
+          boundaryGap: false,
+          data: that.xAxis_data
         },
         yAxis: {
           type: 'value'
         },
-        series: [
-          {
-            name: 'asdf',
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line',
-            itemStyle: {
-              normal: {
-                borderWidth: 3,
-                // borderColor: 'white', //折线图上的点点
-                color: ' #429ae8' //折线
-              }
-            }
-          }
-        ]
+        series: that.series_data
       })
     }
   }
 }
 </script>
 <style scoped>
-.bottom_image .float_right {
-  float: right;
-  margin-left: 20px;
+thead tr {
+  height: 40px;
 }
-.bottom_image_font {
+td,
+th {
+  border: 1px solid #f2f2f2;
+}
+tbody tr {
+  border-bottom: 1px solid #f2f2f2;
+}
+tbody tr td:first-child {
+  width: 50%;
+}
+tbody {
   font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  vertical-align: middle;
+}
+thead {
+  width: 100%;
+  background-color: #f7f7f7;
+  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  display: inline-block;
-  vertical-align: top;
 }
-.bottom_image div:first-child {
-  display: inline-block;
-  width: 70px;
-  margin-left: 553px;
+table {
+  width: 100%;
+  height: 121px;
+  border: solid 1px #f2f2f2;
+  text-align: center;
+  margin-top: 40px;
+}
+.bottom_image img:first-child {
+  z-index: 9999 !important;
+}
+.bottom_image_for_table {
+  position: static !important;
+  margin-top: 40px;
 }
 .bottom_image {
-  margin-top: 30px;
+  float: right;
+  position: absolute;
+  top: 226px;
+  right: -41px;
 }
+
 .myChart {
   width: 1200px;
   height: 300px;
@@ -283,5 +360,6 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 </style>
