@@ -283,16 +283,7 @@ export default {
         }
       ],
       equipmentValue: '安卓',
-      // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
+
       //日期选择
       pickerOptions: {
         disabledDate(time) {

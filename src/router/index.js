@@ -6,6 +6,21 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/ranking_compare',
+      name: 'ranking_compare',
+      component: () => import('../ios/ranking_compare')
+    },
+    {
+      path: '/ios_header',
+      name: 'ios_header',
+      component: () => import('../ios/ios_header')
+    },
+    {
+      path: '/data_table',
+      name: 'data_table',
+      component: () => import('../ios/data_table')
+    },
+    {
       path: '/left_nav',
       name: 'left_nav',
       component: () => import('../ios/left_nav')

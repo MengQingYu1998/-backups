@@ -28,8 +28,14 @@ import {
   Tabs,
   Button,
   Breadcrumb,
+  Radio,
+  RadioGroup,
+  RadioButton,
   BreadcrumbItem
 } from 'element-ui'
+Vue.use(Radio)
+Vue.use(RadioButton)
+Vue.use(RadioGroup)
 Vue.use(BreadcrumbItem)
 Vue.use(Breadcrumb)
 Vue.use(Input)
