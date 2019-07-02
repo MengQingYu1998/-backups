@@ -11,15 +11,222 @@
         <left_nav/>
       </div>
       <div class="right">
+        <div class="right_nav">榜单排名对比</div>
+        <div class="line"></div>
         <!-- 顶部 关键词概述 -->
-        <section></section>
+        <!-- 顶部 关键词概述 -->
+        <!-- 顶部 关键词概述 -->
+        <section class="top">
+          <div class="section_title">关键词概述</div>
+          <div class="btn_group">
+            <div class="option">
+              <div>设备</div>
+              <div>
+                <el-select v-model="equipmentValue">
+                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="option">
+              <div>系统</div>
+              <div>
+                <el-select v-model="systemValue">
+                  <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="option">
+              <div>当前日期</div>
+              <div class="date">
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="date_Now_for_top"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                ></el-date-picker>
+              </div>
+            </div>
+            <div class="option option_date">
+              <div>对比日期</div>
+              <div class="date">
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateCompare_for_top"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                ></el-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="table_top_green">
+            2019年2月20日，关键词总覆盖数：
+            <span>63254</span> 前三关键词：
+            <span>1244</span> 前十关键词：
+            <span>6546</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>搜索指数</th>
+                <th>关键词数量</th>
+                <th>Top3关键词</th>
+                <th>Top10关键词</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div>2019-02-20 12:56</div>
+                </td>
+                <td>
+                  <div>2019-02-20 12:56</div>
+                </td>
+                <td>
+                  <div>2019-02-20 12:56</div>
+                </td>
+                <td>
+                  <div>1</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <!-- 中部 关键词明细 -->
+        <!-- 中部 关键词明细 -->
+        <!-- 中部 关键词明细 -->
+        <section class="middle">
+          <div class="section_title">关键词明细</div>
+          <div class="btn_group">
+            <div class="option">
+              <div>设备</div>
+              <div>
+                <el-select v-model="equipmentValue">
+                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="option">
+              <div>系统</div>
+              <div>
+                <el-select v-model="systemValue">
+                  <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="option">
+              <div>当前日期</div>
+              <div class="date">
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateNow_for_middle"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                ></el-date-picker>
+              </div>
+            </div>
+            <div class="option option_date">
+              <div>对比日期</div>
+              <div class="date">
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateCompare_for_middle"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                ></el-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="btn_group">
+            <div class="option_for_min_max">
+              <div>搜索结果数</div>
+              <div class="all">全部</div>
+              <div class="min_max">
+                <div>
+                  <el-input v-model="result_min_input01" placeholder="最小值"></el-input>
+                </div>
+                <div>---</div>
+                <div>
+                  <el-input v-model="result_max_input01" placeholder="最大值"></el-input>
+                </div>
+              </div>
+            </div>
+            <div class="option_for_min_max">
+              <div>排名</div>
+              <div class="min_max">
+                <div>
+                  <el-input v-model="result_min_input02" placeholder="最小值"></el-input>
+                </div>
+                <div>---</div>
+                <div>
+                  <el-input v-model="result_max_input02" placeholder="最大值"></el-input>
+                </div>
+              </div>
+            </div>
+            <div class="option_for_min_max">
+              <div>搜索结果</div>
+              <div class="min_max">
+                <div>
+                  <el-input v-model="result_min_input03" placeholder="最小值"></el-input>
+                </div>
+                <div>---</div>
+                <div>
+                  <el-input v-model="result_max_input03" placeholder="最大值"></el-input>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>关键词</th>
+                <th>排名</th>
+                <th>变动</th>
+                <th>搜索指数</th>
+                <th>搜索结果数</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div>学习强国</div>
+                </td>
+                <td>
+                  <div>156</div>
+                </td>
+
+                <td>
+                  <div>
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="false">
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="false">
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="true">
+                    2
+                  </div>
+                </td>
+                <td>
+                  <div class="table_font">20112</div>
+                </td>
+                <td>
+                  <div class="table_font">20</div>
+                </td>
+                <td>
+                  <div class="table_font">排名趋势</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
         <!-- 底部 类型模块 -->
-        <section>
-          <div class="right_nav">榜单排名对比</div>
-          <div class="line"></div>
+        <!-- 底部 类型模块 -->
+        <!-- 底部 类型模块 -->
+        <section class="bottom">
           <div class="btn_group">
             <div class="classify">
-              <div>日期</div>
+              <div>类型</div>
               <div>
                 <el-radio-group v-model="radio2" size="mini">
                   <el-radio-button label="按分钟"></el-radio-button>
@@ -66,15 +273,15 @@
               <tbody>
                 <tr>
                   <td>
-                    <div class="table_font">2019-02-20 12:56</div>
+                    <div>2019-02-20 12:56</div>
                   </td>
                   <td>
-                    <div class="table_font">1</div>
+                    <div>1</div>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <div class="bottom_image bottom_image_for_table" v-show="is_show_table">
+            <div class="bottom_image_for_table" v-show="is_show_table">
               <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
               <img
                 v-on:click="is_show_myChart_function"
@@ -89,10 +296,18 @@
                 alt
               >
             </div>
+
             <div class="import_data" v-show="is_show_myChart">导出数据</div>
             <div class="import_data_for_table" v-show="is_show_table">导出数据</div>
+            <div class="clear_float"></div>
           </div>
         </section>
+        <div class="paging">
+          <div>显示第 601 至 700 项结果，共 2,059 项</div>
+          <div>
+            <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -106,6 +321,15 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      //btn-group 下面的最大值最小值
+      result_max_input01: '',
+      result_min_input01: '',
+      //----
+      result_max_input02: '',
+      result_min_input02: '',
+      //----
+      result_max_input03: '',
+      result_min_input03: '',
       // 是否显示myChart
       is_show_myChart: true,
       // 是否显示table表格
@@ -132,6 +356,22 @@ export default {
         }
       ],
       equipmentValue: '安卓',
+      //top section的日期选择 当前日期or对比日期
+      date_Now_for_top: '',
+      dateCompare_for_top: '',
+      //middle section的日期选择 当前日期or对比日期
+      dateNow_for_middle: '',
+      dateCompare_for_middle: '',
+      // 系统选择
+      system: [
+        {
+          value: '安卓'
+        },
+        {
+          value: 'iOS'
+        }
+      ],
+      systemValue: '安卓',
       //自定义选择
       custom: [
         {
@@ -226,6 +466,110 @@ export default {
 }
 </script>
 <style scoped>
+.paging {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #888888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0;
+}
+table img {
+  vertical-align: 2px;
+}
+.min_max > div:nth-child(1),
+.min_max > div:nth-child(3) div {
+  width: 75px;
+}
+.min_max > div:nth-child(2) {
+  color: #dfdfdf;
+}
+.option_for_min_max > div:first-child {
+  margin-right: 10px;
+}
+.option_for_min_max .all {
+  width: 48px;
+  height: 24px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #444444;
+  text-align: center;
+  margin-right: 10px;
+}
+.min_max > div {
+  display: inline-block;
+}
+.option_for_min_max {
+  display: flex;
+  align-items: center;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  text-align: center;
+  margin-left: 30px;
+}
+
+.bottom table {
+  margin-bottom: 50px;
+}
+.middle table {
+  margin-bottom: 33px;
+}
+.top table {
+  margin-top: 0;
+  margin-bottom: 53px;
+}
+.table_top_green span {
+  color: #009bef;
+  margin-right: 5px;
+}
+.table_top_green {
+  width: 984px;
+  height: 40px;
+  background-color: #f5fcff;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 40px;
+  letter-spacing: 0px;
+  color: #444444;
+  padding-left: 16px;
+  margin-top: 22px;
+}
+.option_date {
+  margin-left: 78px !important;
+}
+.date div {
+  width: 119px !important;
+}
+.section_title {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  border-left: 2px solid #009bef;
+  padding-left: 8px;
+  margin-bottom: 20px;
+}
+.clear_float {
+  clear: both;
+}
 .import_data_for_table {
   width: 65px;
   height: 24px;
@@ -239,9 +583,12 @@ export default {
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  position: absolute;
+  /* position: absolute;
   right: 30px;
-  bottom: -64px;
+  bottom: -64px; */
+  float: right;
+  margin-right: -112px;
+  margin-top: -4px;
 }
 .import_data {
   width: 65px;
@@ -319,6 +666,14 @@ thead {
   letter-spacing: 0px;
   color: #222222;
 }
+.table_font {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+}
 table {
   width: 100%;
   height: 121px;
@@ -329,10 +684,11 @@ table {
 .bottom_image img:first-child {
   z-index: 9999 !important;
 }
+
 .bottom_image_for_table {
   position: static !important;
-  margin-top: 44px;
   margin-right: 107px;
+  float: right;
 }
 .bottom_image {
   float: right;
@@ -359,7 +715,6 @@ table {
 .myChart_tips div:nth-child(2) {
   display: inline-block;
   width: 70px;
-  /* margin-left: 553px; */
 }
 .myChart_tips {
   margin-top: 30px;
@@ -388,12 +743,15 @@ table {
   border-radius: 4px;
   border: solid 1px #dfdfdf;
 }
+.middle .btn_group {
+  margin-top: 16px;
+}
 .btn_group {
   display: flex;
   align-items: center;
 }
 .classify > div:nth-child(2) {
-  margin-left: 28px;
+  margin-left: 10px;
   margin-right: 10px;
 }
 .classify > div:nth-child(3) {
@@ -410,12 +768,16 @@ table {
   display: flex;
   align-items: center;
 }
+
 .option div:first-child {
-  margin-right: 5px;
   margin-left: 10px;
 }
 .option div:last-child {
   width: 72px;
+}
+.btn_group .option:first-child div:first-child {
+  margin-left: 0;
+  margin-right: 10px;
 }
 .option {
   font-family: SourceHanSansCN-Medium;
@@ -427,6 +789,7 @@ table {
   color: #222222;
   display: flex;
   align-items: center;
+  margin-left: 30px;
 }
 .right {
   padding-left: 57px;

@@ -6,6 +6,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/grade_start',
+      name: 'grade_start',
+      component: () => import('../ios/grade_start')
+    },
+    {
+      path: '/version_message',
+      name: 'version_message',
+      component: () => import('../ios/version_message')
+    },
+    {
       path: '/ranking_compare',
       name: 'ranking_compare',
       component: () => import('../ios/ranking_compare')

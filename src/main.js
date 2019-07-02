@@ -31,8 +31,18 @@ import {
   Radio,
   RadioGroup,
   RadioButton,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Pagination,
+  Timeline,
+  TimelineItem,
+  Rate,
+  Progress
 } from 'element-ui'
+Vue.use(Progress)
+Vue.use(Rate)
+Vue.use(TimelineItem)
+Vue.use(Timeline)
+Vue.use(Pagination)
 Vue.use(Radio)
 Vue.use(RadioButton)
 Vue.use(RadioGroup)
