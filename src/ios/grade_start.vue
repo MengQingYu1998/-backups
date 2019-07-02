@@ -174,7 +174,7 @@
               <div>时间</div>
               <div>
                 <el-date-picker
-                  v-model="start_date"
+                  v-model="start_date_for_grade"
                   type="date"
                   placeholder="起始时间"
                   :clearable="false"
@@ -182,7 +182,7 @@
               </div>
               <div>
                 <el-date-picker
-                  v-model="end_date"
+                  v-model="end_date_for_grade"
                   type="date"
                   placeholder="结束时间"
                   :clearable="false"
@@ -192,6 +192,153 @@
             </div>
           </div>
           <div ref="grade_start_one" class="myChart"></div>
+        </section>
+        <section class="middle_bottom">
+          <div class="section_title">评论统计</div>
+          <div class="btn_group">
+            <div class="btn_item_02">
+              <div>类型</div>
+              <div>
+                <el-radio-group v-model="radio01" size="mini">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="在线评论"></el-radio-button>
+                  <el-radio-button label="已删除评论"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="btn_item_03">
+              <div>时间</div>
+              <div>
+                <el-date-picker
+                  v-model="start_date_for_common"
+                  type="date"
+                  placeholder="起始时间"
+                  :clearable="false"
+                ></el-date-picker>
+              </div>
+              <div>
+                <el-date-picker
+                  v-model="end_date_for_common"
+                  type="date"
+                  placeholder="结束时间"
+                  :clearable="false"
+                ></el-date-picker>
+              </div>
+              <div>
+                <el-radio-group v-model="radio02" size="mini">
+                  <el-radio-button label="今日"></el-radio-button>
+                  <el-radio-button label="昨日"></el-radio-button>
+                  <el-radio-button label="近一个月"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+          </div>
+          <div ref="common_one" class="myChart"></div>
+        </section>
+        <section class="bottom">
+          <div class="section_title">评论详情</div>
+          <div class="btn_group">
+            <div class="btn_item_02">
+              <div>类型</div>
+              <div>
+                <el-radio-group v-model="radio01" size="mini">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="在线评论"></el-radio-button>
+                  <el-radio-button label="已删除评论"></el-radio-button>
+                  <el-radio-button label="开发者回复"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="btn_item_02">
+              <div>评论</div>
+              <div>
+                <el-radio-group v-model="radio01" size="mini">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="五星"></el-radio-button>
+                  <el-radio-button label="四星"></el-radio-button>
+                  <el-radio-button label="三星"></el-radio-button>
+                  <el-radio-button label="两星"></el-radio-button>
+                  <el-radio-button label="一星"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+          </div>
+          <div class="btn_group">
+            <div class="btn_item_02">
+              <div>类型</div>
+              <div>
+                <el-radio-group v-model="radio01" size="mini">
+                  <el-radio-button label="最有帮助"></el-radio-button>
+                  <el-radio-button label="最高评价"></el-radio-button>
+                  <el-radio-button label="最低评价"></el-radio-button>
+                  <el-radio-button label="最新评价"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="btn_item_03">
+              <div>时间</div>
+              <div>
+                <el-date-picker
+                  v-model="start_date_for_common_description"
+                  type="date"
+                  placeholder="起始时间"
+                  :clearable="false"
+                ></el-date-picker>
+              </div>
+              <div>
+                <el-date-picker
+                  v-model="end_date_for_common_description"
+                  type="date"
+                  placeholder="结束时间"
+                  :clearable="false"
+                ></el-date-picker>
+              </div>
+              <div>
+                <el-radio-group v-model="radio02" size="mini">
+                  <el-radio-button label="今日"></el-radio-button>
+                  <el-radio-button label="昨日"></el-radio-button>
+                  <el-radio-button label="近一个月"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+          </div>
+          <div class="table_top_green">
+            2019年2月20日，关键词总覆盖数：
+            <span>63254</span> 前三关键词：
+            <span>1244</span> 前十关键词：
+            <span>6546</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>评级</th>
+                <th>内容</th>
+                <th>时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="bottom_table_td01">
+                  <div>
+                    <el-rate v-model="table_start"></el-rate>
+                  </div>
+                </td>
+                <td class="bottom_table_td02">
+                  <div class="table_title">软件很好用</div>
+                  <div
+                    class="table_description"
+                  >一直都在用的东西，都用了好多年了，不会换别的搜索软件！一直都在用的东西，都用了好多年了，不会换别的搜索软件！</div>
+                  <div class="table_author">
+                    作者：
+                    <span>khgknkgah</span>
+                  </div>
+                </td>
+                <td class="bottom_table_td03">
+                  <div>2019-02-20 12:56</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </section>
       </div>
     </div>
@@ -206,22 +353,31 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      //评论统计的单选按钮
+      radio01: '',
+      radio02: '',
       //起始时间，结束时间
-      start_date: '',
-      end_date: '',
-
+      start_date_for_grade: '',
+      end_date_for_grade: '',
+      start_date_for_common: '',
+      end_date_for_common: '',
+      start_date_for_common_description: '',
+      end_date_for_common_description: '',
       // 顶部搜索框
       input1: '',
       // 评分五角星
       start_left: 2,
-      start_right: 3
+      start_right: 3,
+
+      table_start: 4
     }
   },
   mounted() {
     this.drawLine()
+    this.drawLine01()
   },
   methods: {
-    // 画canvas
+    // 画middle_top的canvas
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -237,22 +393,13 @@ export default {
         },
         legend: {
           y: 'bottom',
-          data: [
-            '直接访问',
-            '邮件营销',
-            '联盟广告',
-            '视频广告',
-            '搜索引擎',
-            '百度',
-            '谷歌',
-            '必应',
-            '其他'
-          ]
+          data: ['一星', '二星', '三星', '四星', '五星']
         },
         grid: {
-          left: '3%',
-          right: '4%',
+          left: '0%',
+          right: '0%',
           bottom: '12%',
+          top: '7%',
           containLabel: true
         },
         xAxis: [
@@ -268,65 +415,108 @@ export default {
         ],
         series: [
           {
-            name: '直接访问',
+            name: '一星',
+            stack: 'start',
             type: 'bar',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            barWidth: 30, //宽度
+            itemStyle: {
+              color: '#ef8189'
+            },
+            data: [-320, 332, 301, 334, 390, 330, 320]
           },
           {
-            name: '邮件营销',
+            name: '二星',
             type: 'bar',
-            stack: '广告',
+            stack: 'start',
+            itemStyle: {
+              color: '#ef81d4'
+            },
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: '联盟广告',
+            name: '三星',
             type: 'bar',
-            stack: '广告',
+            stack: 'start',
+            itemStyle: {
+              color: '#81e1ef'
+            },
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
-            name: '视频广告',
+            name: '四星',
+            stack: 'start',
             type: 'bar',
-            stack: '广告',
+            itemStyle: {
+              color: '#81ef8e'
+            },
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
-            name: '搜索引擎',
+            name: '五星',
+            stack: 'start',
             type: 'bar',
-            data: [862, 1018, 964, 1026, 1679, 1600, 1570],
-            markLine: {
-              lineStyle: {
-                normal: {
-                  type: 'dashed'
-                }
-              },
-              data: [[{ type: 'min' }, { type: 'max' }]]
-            }
+            itemStyle: {
+              color: '#efd581'
+            },
+            data: [862, 1018, 964, 1026, 1679, 1600, 1570]
+          }
+        ]
+      })
+    }, // 画middle_bottom的canvas
+    drawLine01: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.common_one)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          y: 'bottom',
+          data: ['在线评论', '以删除评论']
+        },
+        grid: {
+          left: '0%',
+          right: '0%',
+          bottom: '12%',
+          top: '7%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '在线评论',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#009bef'
+            },
+            data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: '百度',
+            name: '以删除评论',
+            stack: 'start',
             type: 'bar',
-            barWidth: 5,
-            stack: '搜索引擎',
-            data: [620, 732, 701, 734, 1090, 1130, 1120]
-          },
-          {
-            name: '谷歌',
-            type: 'bar',
-            stack: '搜索引擎',
-            data: [120, 132, 101, 134, 290, 230, 220]
-          },
-          {
-            name: '必应',
-            type: 'bar',
-            stack: '搜索引擎',
-            data: [60, 72, 71, 74, 190, 130, 110]
-          },
-          {
-            name: '其他',
-            type: 'bar',
-            stack: '搜索引擎',
-            data: [62, 82, 91, 84, 109, 110, 120]
+            barWidth: 30, //宽度
+            itemStyle: {
+              color: '#d3f0ff'
+            },
+            data: [20, 332, 301, 334, 390, 330, 320]
           }
         ]
       })
@@ -335,11 +525,150 @@ export default {
 }
 </script>
 <style scoped>
+.bottom_table_td01 {
+  width: 238px !important;
+}
+.bottom_table_td02 {
+  text-align: left;
+  width: 480px !important;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+table .table_author span {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+table .table_description,
+table .table_author {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #888888;
+}
+table .table_title {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #444444;
+}
+thead tr {
+  height: 40px;
+}
+td,
+th {
+  border: 1px solid #f2f2f2;
+}
+tbody tr {
+  border-bottom: 1px solid #f2f2f2;
+}
+tbody tr td:first-child {
+  width: 50%;
+}
+tbody {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  vertical-align: middle;
+}
+thead {
+  width: 100%;
+  background-color: #f7f7f7;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+}
+.table_font {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+table {
+  width: 100%;
+  height: 121px;
+  border: solid 1px #f2f2f2;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.table_top_green span {
+  color: #009bef;
+  margin-right: 5px;
+}
+.table_top_green {
+  width: 984px;
+  height: 40px;
+  background-color: #f5fcff;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 40px;
+  letter-spacing: 0px;
+  color: #444444;
+  padding-left: 16px;
+  margin-top: 22px;
+}
+.bottom > div:nth-child(3) {
+  margin-top: 16px;
+}
+.btn_item_03 > div:nth-child(2) div {
+  width: 119px;
+}
+.btn_item_03 > div:nth-child(3) div {
+  width: 119px;
+}
+.btn_item_03 > div:nth-child(1) {
+  margin-right: 16px !important;
+}
+.btn_item_03 {
+  display: flex;
+  align-items: center;
+}
+.btn_item_03 > div {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-right: 10px;
+}
+.btn_item_02 > div:nth-child(1) {
+  margin-right: 16px !important;
+}
+.btn_item_02 {
+  display: flex;
+  align-items: center;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-right: 16px;
+}
 .myChart {
   width: 976px;
-  height: 297px;
+  height: 350px;
 }
-.btn_item_01 > div:nth-child(4) {
+.btn_item_01 > div:nth-child(4),
+.btn_item_01 > div:nth-child(5),
+.btn_item_01 > div:nth-child(6) {
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
@@ -374,6 +703,10 @@ export default {
   letter-spacing: 0px;
   color: #222222;
   margin-right: 10px;
+}
+.btn_group {
+  display: flex;
+  align-items: center;
 }
 .top {
   margin-bottom: 50px;
