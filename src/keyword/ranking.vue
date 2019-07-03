@@ -302,6 +302,7 @@ table {
   color: #444444;
   text-align: center;
   margin-right: 10px;
+  margin-top: 2px;
 }
 .option div:first-child {
   margin-right: 15px;

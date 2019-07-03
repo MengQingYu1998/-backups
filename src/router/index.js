@@ -6,6 +6,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/app_message',
+      name: 'app_message',
+      component: () => import('../ios/app_message')
+    },
+    {
       path: '/grade_start',
       name: 'grade_start',
       component: () => import('../ios/grade_start')

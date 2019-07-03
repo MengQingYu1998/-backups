@@ -42,24 +42,23 @@
       </div>
     </div>
     <div class="table_title">【抖音】搜索指数走势</div>
-    <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart"></div>
+    <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <div class="bottom_image" v-show="is_show_myChart">
-      <img class="float_right" src="../assets/keyword/down.png" alt>
+    <div class="bottom_image" v-show="is_show_myChart_and_table">
       <img
-        v-on:click="is_show_myChart_function"
+        v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
       >
       <img
-        v-on:click="is_show_table_function"
+        v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
       >
     </div>
-    <table v-show="is_show_table">
+    <table v-show="!is_show_myChart_and_table">
       <thead>
         <tr>
           <th>时间</th>
@@ -77,22 +76,23 @@
         </tr>
       </tbody>
     </table>
-    <div class="bottom_image bottom_image_for_table" v-show="is_show_table">
+    <div class="bottom_image bottom_image_for_table" v-show="!is_show_myChart_and_table">
       <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
       <img
-        v-on:click="is_show_myChart_function"
+        v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
       >
       <img
-        v-on:click="is_show_table_function"
+        v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
       >
     </div>
-    <div class="show_all">显示所有</div>
+    <div class="show_all" v-show="!canvas_is_show_all" @click="selected_data_function(true)">显示所有</div>
+    <div class="show_all" v-show="canvas_is_show_all" @click="selected_data_function(false)">隐藏所有</div>
   </div>
 </template>
 
@@ -107,13 +107,10 @@ export default {
   },
   data() {
     return {
-      // 是否显示myChart
-      is_show_myChart: true,
-      // 是否显示table表格
-      is_show_table: false,
+      // true显示myChart  false显示table表格
+      is_show_myChart_and_table: true,
       // 请输入关键词查询联想词
       input: '',
-
       // 设备选择
       equipment: [
         {
@@ -165,6 +162,8 @@ export default {
         ]
       },
       dateValue: '2019-6-27',
+      // 控制折线图显示所有
+      canvas_is_show_all: true,
       //canvas 关键词data数组
       keyword_data: [
         '邮件营销',
@@ -173,7 +172,18 @@ export default {
         '直接访问',
         '搜索引擎'
       ],
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日']
+      // 数据
+      keyword_data_value: [
+        [820, 932, 901, 934, 11, 1330, 1320],
+        [555, 555, 555, 555, 555, 555, 555],
+        [820, 932, 901, 934, 1290, 1330, 1320],
+        [555, 6, 555, 555, 555, 555, 555],
+        [88, 932, 901, 934, 1290, 1330, 75]
+      ],
+      // X轴文本
+      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      // 控制折线显隐
+      selected_data: {}
     }
   },
 
@@ -181,6 +191,21 @@ export default {
     this.drawLine()
   },
   methods: {
+    // 控制全部数据隐藏
+    selected_data_function: function(bol) {
+      let obj = {}
+      this.keyword_data.forEach(element => {
+        obj[element] = bol
+      })
+      this.selected_data = obj
+      this.drawLine()
+      this.canvas_is_show_all = !this.canvas_is_show_all
+      // console.log(this.selected_data)
+    },
+    // 控制显示echarts还是table
+    is_show_myChart_and_table_function: function() {
+      this.is_show_myChart_and_table = !this.is_show_myChart_and_table
+    },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = []
@@ -192,34 +217,37 @@ export default {
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
-      this.keyword_data.forEach(element => {
-        series_data_arr.push(
-          new Obj(element, [820, 932, 901, 934, 1290, 1330, 1320])
-        )
+      this.keyword_data.forEach((element, index) => {
+        series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
-      console.log(series_data_arr)
+      // console.log(series_data_arr)
       return series_data_arr
     },
     // 删除keyword_data数组里面数据，从而删除can_del_div，canvas随之改变
     remove_keyword_data: function(index) {
+      this.selected_data[this.keyword_data[index]] = false
       this.keyword_data.splice(index, 1)
       this.drawLine()
     },
     // 向keyword_data数组里面添加数据，从而can_del_div和canvas随之改变
     add_can_del_div: function() {
+      if (this.input == '') {
+        this.$alert('不允许添加空的内容', {
+          confirmButtonText: '确定'
+        })
+        return false
+      }
+      if (!(this.keyword_data.indexOf(this.input) == -1)) {
+        this.$alert('不允许添加重复内容', {
+          confirmButtonText: '确定'
+        })
+        return false
+      }
       this.keyword_data.push(this.input)
       this.input = ''
       this.drawLine()
     },
-    is_show_table_function: function() {
-      this.is_show_myChart = false
-      this.is_show_table = true
-    },
-    is_show_myChart_function: function() {
-      // console.log(5345345646)
-      this.is_show_myChart = true
-      this.is_show_table = false
-    },
+
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -231,7 +259,12 @@ export default {
         },
         legend: {
           data: that.keyword_data,
-          y: 'bottom'
+          y: 'bottom',
+          // 控制显示隐藏哪一个折线
+          // selected: {
+          //   邮件营销: false
+          // }
+          selected: that.selected_data
         },
         grid: {
           left: '0%',
@@ -244,7 +277,9 @@ export default {
             saveAsImage: {
               title: '保存',
               iconStyle: {
-                opacity: 0
+                opacity: 1,
+                borderWidth: 2,
+                borderColor: '#555'
               }
             }
           }

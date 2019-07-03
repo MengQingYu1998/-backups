@@ -20,9 +20,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <el-select v-model="countryValue">
-            <el-option v-for="item in  country " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <country/>
         </div>
       </div>
       <div class="options_03 option">
@@ -32,26 +30,28 @@
           <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
         </div>
       </div>
-      <div class="options_div options_div_margin">
-        <div>ios12</div>
-      </div>
-      <div class="options_div options_div_margin">
-        <div>ios12</div>
-      </div>
-      <div class="options_div options_div_margin">
-        <div>ios12</div>
+      <div class="classify">
+        <div>榜单分类</div>
+        <div>
+          <el-radio-group v-model="radio1" size="mini">
+            <el-radio-button label="上海"></el-radio-button>
+            <el-radio-button label="北京"></el-radio-button>
+            <el-radio-button label="广州"></el-radio-button>
+            <el-radio-button label="深圳"></el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
     </div>
 
     <div class="table_title">【抖音】搜索指数走势</div>
-    <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart"></div>
+    <div ref="myChart_trend_one" class="myChart" v-show="is_show_table_myChart_myChart"></div>
 
-    <div class="bottom_image" v-show="is_show_myChart">
+    <div class="bottom_image" v-show="is_show_table_myChart_myChart">
       <!-- <img src="../assets/keyword/down.png" alt> -->
-      <img v-on:click="is_show_myChart_function" src="../assets/keyword/three.png" alt>
-      <img v-on:click="is_show_table_function" src="../assets/keyword/calculator.png" alt>
+      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt>
+      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt>
     </div>
-    <table v-show="is_show_table">
+    <table v-show="!is_show_table_myChart_myChart">
       <thead>
         <tr>
           <th>时间</th>
@@ -69,16 +69,16 @@
         </tr>
       </tbody>
     </table>
-    <div class="bottom_image bottom_image_for_table" v-show="is_show_table">
+    <div class="bottom_image bottom_image_for_table" v-show="!is_show_table_myChart_myChart">
       <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
       <img
-        v-on:click="is_show_myChart_function"
+        v-on:click="is_show_table_myChart_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
       >
       <img
-        v-on:click="is_show_table_function"
+        v-on:click="is_show_table_myChart_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
@@ -88,14 +88,20 @@
 </template>
 
 <script>
+// 引入国家选择组件
+import country from '../common/country_select/country'
+
 export default {
   name: 'trend_one',
+  components: {
+    country
+  },
   data() {
     return {
-      // 是否显示myChart
-      is_show_myChart: true,
-      // 是否显示table表格
-      is_show_table: false,
+      // 多选按钮
+      radio1: '',
+      // true显示myChart false显示table表格
+      is_show_table_myChart_myChart: true,
 
       // 设备选择
       equipment: [
@@ -107,16 +113,7 @@ export default {
         }
       ],
       equipmentValue: '安卓',
-      // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
+
       //日期选择
       pickerOptions: {
         disabledDate(time) {
@@ -166,13 +163,8 @@ export default {
   },
   methods: {
     //控制canvas和table的显示
-    is_show_table_function: function() {
-      this.is_show_myChart = false
-      this.is_show_table = true
-    },
-    is_show_myChart_function: function() {
-      this.is_show_myChart = true
-      this.is_show_table = false
+    is_show_table_myChart_function: function() {
+      this.is_show_table_myChart_myChart = !this.is_show_table_myChart_myChart
     },
     // 画canvas
     drawLine: function() {
@@ -221,6 +213,22 @@ export default {
 }
 </script>
 <style scoped>
+.classify {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.classify > div:nth-child(2) {
+  margin-left: 28px;
+  margin-right: 10px;
+}
 thead tr {
   height: 40px;
 }

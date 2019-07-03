@@ -12,6 +12,14 @@ export default {
 </script>
 
 <style>
+/* 表格的交互 */
+table tbody tr:hover {
+  background-color: #f5fcff;
+}
+
+.tabsContentTable .use > div:nth-child(3):hover {
+  color: #009bef;
+}
 /* 进度条组件element */
 .el-progress-bar__innerText {
   display: none;
@@ -44,8 +52,7 @@ export default {
 /* button组件自定义样式 */
 .el-button {
   padding: 7px 6px !important;
-  height: 24px;
-  line-height: 0px;
+  height: 27px;
 }
 /* select组件自定义样式 */
 .el-select .el-input__inner {

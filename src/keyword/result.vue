@@ -16,9 +16,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <el-select v-model="countryValue">
-            <el-option v-for="item in  country " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <country/>
         </div>
       </div>
       <div class="options_03 option">
@@ -266,8 +264,14 @@
 </template>
 
 <script>
+// 引入国家选择组件
+import country from '../common/country_select/country'
+
 export default {
   name: 'result',
+  components: {
+    country
+  },
   data() {
     this.chartSettings = {
       yAxisType: ['percent']
@@ -325,7 +329,7 @@ export default {
   methods: {
     // tab-pane选择面板
     handleClick(tab, event) {
-      console.log(tab, event)
+      // console.log(tab, event)
     },
     drawLine: function() {
       let that = this
@@ -476,6 +480,7 @@ export default {
   width: 4px;
   height: 8px;
 }
+
 .tabsContentTable .use img {
   width: 40px;
   height: 40px;

@@ -247,23 +247,23 @@
           </div>
           <div class="position_relative">
             <div class="table_title">【今日】榜单排名走势</div>
-            <div ref="myChart_data_table" class="myChart" v-show="is_show_myChart"></div>
-            <div class="bottom_image" v-show="is_show_myChart">
+            <div ref="myChart_data_table" class="myChart" v-show="is_show_myChart_and_table"></div>
+            <div class="bottom_image" v-show="is_show_myChart_and_table">
               <!-- <img class="float_right" src="../assets/keyword/down.png" alt> -->
               <img
-                v-on:click="is_show_myChart_function"
+                v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/three.png"
                 alt
               >
               <img
-                v-on:click="is_show_table_function"
+                v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/calculator.png"
                 alt
               >
             </div>
-            <table v-show="is_show_table">
+            <table v-show="!is_show_myChart_and_table">
               <thead>
                 <tr>
                   <th>时间</th>
@@ -281,24 +281,24 @@
                 </tr>
               </tbody>
             </table>
-            <div class="bottom_image_for_table" v-show="is_show_table">
+            <div class="bottom_image_for_table" v-show="!is_show_myChart_and_table">
               <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
               <img
-                v-on:click="is_show_myChart_function"
+                v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/three.png"
                 alt
               >
               <img
-                v-on:click="is_show_table_function"
+                v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/calculator.png"
                 alt
               >
             </div>
 
-            <div class="import_data" v-show="is_show_myChart">导出数据</div>
-            <div class="import_data_for_table" v-show="is_show_table">导出数据</div>
+            <div class="import_data" v-show="is_show_myChart_and_table">导出数据</div>
+            <div class="import_data_for_table" v-show="!is_show_myChart_and_table">导出数据</div>
             <div class="clear_float"></div>
           </div>
         </section>
@@ -330,19 +330,7 @@ export default {
       //----
       result_max_input03: '',
       result_min_input03: '',
-      // 是否显示myChart
-      is_show_myChart: true,
-      // 是否显示table表格
-      is_show_table: false,
-      //canvas 关键词data数组
-      keyword_data: [
-        '邮件营销',
-        '联盟广告',
-        '视频广告',
-        '直接访问',
-        '搜索引擎'
-      ],
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+
       // 单选按钮组
       radio1: '上海',
       radio2: '今天',
@@ -381,7 +369,27 @@ export default {
           value: 'iOS'
         }
       ],
-      customValue: '自定义'
+      customValue: '自定义',
+      // true显示myChart  false显示table表格
+      is_show_myChart_and_table: true,
+
+      //canvas 关键词data数组
+      keyword_data: [
+        '邮件营销',
+        '联盟广告',
+        '视频广告',
+        '直接访问',
+        '搜索引擎'
+      ],
+      // 数据
+      keyword_data_value: [
+        [820, 932, 901, 934, 11, 1330, 1320],
+        [555, 555, 555, 555, 555, 555, 555],
+        [820, 932, 901, 934, 1290, 1330, 1320],
+        [555, 6, 555, 555, 555, 555, 555],
+        [88, 932, 901, 934, 1290, 1330, 75]
+      ],
+      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日']
     }
   },
 
@@ -400,25 +408,18 @@ export default {
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
-      this.keyword_data.forEach(element => {
-        series_data_arr.push(
-          new Obj(element, [820, 932, 901, 934, 1290, 1330, 1320])
-        )
+      this.keyword_data.forEach((element, index) => {
+        series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
-      console.log(series_data_arr)
+      // console.log(series_data_arr)
       return series_data_arr
     },
 
-    // 控制table和canvas的显隐
-    is_show_table_function: function() {
-      this.is_show_myChart = false
-      this.is_show_table = true
+    // 控制显示echarts还是table
+    is_show_myChart_and_table_function: function() {
+      this.is_show_myChart_and_table = !this.is_show_myChart_and_table
     },
-    is_show_myChart_function: function() {
-      // console.log(5345345646)
-      this.is_show_myChart = true
-      this.is_show_table = false
-    },
+
     // canvas画折线图
     drawLine: function() {
       let that = this

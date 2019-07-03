@@ -252,7 +252,7 @@ function closeNMenu() {
 }
 
 function toolbarHideAllCollapse() {
-  $('[id^="toolbarCollapse"]').collapse('hide')
+  // $('[id^="toolbarCollapse"]').collapse('hide')
 }
 var fastbannerform_status = true
 

@@ -40,6 +40,9 @@ export default {
 }
 </script>
 <style scoped>
+.nav_content:hover {
+  color: #009bef;
+}
 .nav_content {
   font-family: SourceHanSansCN-Medium;
   font-size: 14px;
