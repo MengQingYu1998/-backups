@@ -22,9 +22,13 @@ import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
+// 引入世界地图
+import world from './common/world_map/config_world'
+import './common/world_map/world.css'
+Vue.prototype.pin_config = world.pin_config
+Vue.prototype.map_config = world.map_config
 
 /* eslint-disable no-new */
-
 new Vue({
   el: '#app',
   router,

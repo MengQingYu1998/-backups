@@ -6,6 +6,36 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/the_world_map',
+      name: 'the_world_map',
+      component: () => import('../common/world_map/the_world_map')
+    },
+    {
+      path: '/now_ranking',
+      name: 'now_ranking',
+      component: () => import('../ios/now_ranking')
+    },
+    {
+      path: '/same_dev_app',
+      name: 'same_dev_app',
+      component: () => import('../ios/same_dev_app')
+    },
+    {
+      path: '/goods_optimize',
+      name: 'goods_optimize',
+      component: () => import('../ios/goods_optimize')
+    },
+    {
+      path: '/goods_show',
+      name: 'goods_show',
+      component: () => import('../ios/goods_show')
+    },
+    {
+      path: '/cover_compare',
+      name: 'cover_compare',
+      component: () => import('../ios/cover_compare')
+    },
+    {
       path: '/app_message',
       name: 'app_message',
       component: () => import('../ios/app_message')
