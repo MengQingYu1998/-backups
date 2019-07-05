@@ -340,6 +340,9 @@ export default {
 }
 </script>
 <style scoped>
+.world_map {
+  position: relative;
+}
 .one_level {
   width: 18px;
   height: 18px;
@@ -378,9 +381,7 @@ export default {
   letter-spacing: 0px;
   color: #444444;
 }
-.world_map {
-  position: relative;
-}
+
 .middle_bottom table,
 .bottom table {
   margin-top: 18px;

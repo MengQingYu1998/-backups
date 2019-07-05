@@ -381,23 +381,9 @@ function addEvent(id, relationId) {
       }
     })
     _Textobj.mousemove(function(e) {
-      var x = e.pageX + 10,
-        y = e.pageY + 15
-      // console.log($(document).scrollLeft())
-      // console.log('e.pageX' + e.pageX)
-      // console.log('e.pageY' + e.pageY)
-
-      // var tipw = $('#map-tip').outerWidth(),
-      //   tiph = $('#map-tip').outerHeight()
-      // x =
-      //   x + tipw > $(document).scrollLeft() + $(window).width()
-      //     ? x - tipw - 20 * 2
-      //     : x
-      // y =
-      //   y + tiph > $(document).scrollTop() + $(window).height()
-      //     ? $(document).scrollTop() + $(window).height() - tiph - 10
-      //     : y
-      $('#map-tip').css({ left: x - 550, top: y - 1200 })
+      var x = e.pageX - 400,
+        y = e.pageY - $('#the_world_map').offset().top
+      $('#map-tip').css({ left: x, top: y })
     })
   }
 }

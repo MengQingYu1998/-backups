@@ -12,6 +12,12 @@ export default {
 </script>
 
 <style>
+/* elementUI的提示框，鼠标悬浮白色提示 */
+.el-popover {
+  width: 300px !important ;
+  box-sizing: border-box;
+  /* transition-duration: 0ms !important; */
+}
 /* 表格的交互 */
 table tbody tr:hover {
   background-color: #f5fcff;

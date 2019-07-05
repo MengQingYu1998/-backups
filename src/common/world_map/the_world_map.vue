@@ -1,5 +1,5 @@
 <template>
-  <div id>
+  <div id="the_world_map">
     <div class="map-preview">
       <div class="container">
         <div class="prev">

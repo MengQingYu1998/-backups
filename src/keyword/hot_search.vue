@@ -13,22 +13,29 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>地区</div>
-        <div>
-          <!-- 选择国家 -->
-          <el-select v-model="countryValue">
-            <el-option v-for="item in  country " :key="item.value" :value="item.value"></el-option>
-          </el-select>
-        </div>
+        <!-- 选择国家 -->
+        <country @childFn="parentFn"></country>
       </div>
       <div class="options_03 option">
         <div>日期</div>
         <div class="date">
           <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+          <el-date-picker
+            :picker-options="pickerOptions2"
+            v-model="dateValue"
+            type="date"
+            placeholder="选择日期"
+            clear-icon
+          ></el-date-picker>
         </div>
-        <div class="font_block">昨日</div>
-        <div class="font_block">本周</div>
+        <div
+          :class=" {'change_bg':change_bg_day,'font_block':true}"
+          @click="change_day_dateValue()"
+        >昨日</div>
+        <div
+          :class=" {'change_bg':change_bg_week,'font_block':true}"
+          @click="change_week_dateValue()"
+        >近七天</div>
       </div>
       <div class="options_04 option">
         <div>搜索</div>
@@ -45,23 +52,51 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(item,index) in response_data" :key="index">
           <td>
-            <div class="table_font">
-              <div>2019-02-20 12:56</div>
-              <div>--</div>
-              <div>2019-02-20 12:56</div>
-            </div>
+            <div class="table_font">{{item.strtime}}</div>
           </td>
           <td>
-            <div class="table_font">
-              <div>王者</div>
-              <div>都应</div>
-              <div>都应</div>
-              <div>都应</div>
-              <div>阿斯顿居</div>
-              <div>阿斯顿发生的</div>
-              <div>阿斯蒂芬</div>
+            <div class="table_font table_font_other">
+              <div v-for="(item_list,index_list) in item.list" :key="index_list">
+                <el-popover
+                  placement="bottom"
+                  width="200"
+                  trigger="hover"
+                  open-delay="500"
+                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                >
+                  <div class="table_hover_title">
+                    <span>搜索指数 6668</span>
+                    <span>热搜历史</span>
+                  </div>
+                  <div class="table_hover_line"></div>
+                  <div>热词搜索前5名搜索结果</div>
+                  <div class="table_hover_app_group">
+                    <div>
+                      <img src="../assets/keyword/test.png" alt />
+                      <div>抖音</div>
+                    </div>
+                    <div>
+                      <img src="../assets/keyword/test.png" alt />
+                      <div>抖音</div>
+                    </div>
+                    <div>
+                      <img src="../assets/keyword/test.png" alt />
+                      <div>抖音</div>
+                    </div>
+                    <div>
+                      <img src="../assets/keyword/test.png" alt />
+                      <div>抖音</div>
+                    </div>
+                    <div>
+                      <img src="../assets/keyword/test.png" alt />
+                      <div>抖音</div>
+                    </div>
+                  </div>
+                  <div slot="reference">{{item_list.word}}</div>
+                </el-popover>
+              </div>
             </div>
           </td>
         </tr>
@@ -71,69 +106,163 @@
 </template>
 
 <script>
+// 引入国家选择组件
+import country from '../common/country_select/country'
+// 引入工具类
+import { formatDate } from '../common/util.js'
 export default {
   name: 'result',
+  components: { country },
   data() {
     return {
+      response_data: null,
+      // 获取当前选中的国家
+      now_country: '',
       // 请输入搜索关键词
       search_input: '',
       // 设备选择
       equipment: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
-      // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
-      //日期选择
-      pickerOptions: {
+      equipmentValue: 'iPhone',
+      // 动态改变本周 昨日的类样式
+      change_bg_week: false,
+      change_bg_day: false,
+      //当前选中的日期
+      dateValue: new Date(),
+      pickerOptions2: {
         disabledDate(time) {
           return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
-      },
-      dateValue: ''
+          // 这里就是设置当天后的日期不能被点击
+        }
+      }
     }
   },
-  methods: {}
+
+  created: function() {
+    this.get_data()
+    this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    // 1:iPhone 2:ipad
+    get_data() {
+      let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+      // console.log(this.timeFormat(this.dateValue))
+      console.log(this.dateValue)
+      let url =
+        'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+        deviceType +
+        '&countryId=1&date=' +
+        formatDate(this.dateValue, 'yyyy-MM-dd')
+      this.$axios
+        .get(url)
+        .then(response => {
+          this.response_data = response.data.Data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    //点击昨日按钮
+    change_day_dateValue() {
+      let day2 = new Date()
+      day2.setTime(day2.getTime() - 3600 * 1000 * 24)
+
+      this.change_bg_week = false
+      this.change_bg_day = !this.change_bg_day
+      this.dateValue = day2
+    },
+    //点击本周按钮
+    change_week_dateValue() {
+      let day2 = new Date()
+      day2.setTime(day2.getTime() - 3600 * 1000 * 24 * 7)
+      this.change_bg_week = !this.change_bg_week
+      this.change_bg_day = false
+      this.dateValue = day2
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
+    }
+  }
 }
 </script>
+
 <style scoped>
+.change_bg {
+  color: #ffffff !important;
+  background-color: #009bef;
+}
+.table_font_other {
+  color: #009bef;
+}
+.table_font_other > div {
+  margin-right: 20px;
+}
+.table_font_other > div:nth-child(10),
+.table_font_other > div:nth-child(8),
+.table_font_other > div:nth-child(9) {
+  color: #888888;
+}
+.table_hover_app_group > div {
+  margin-right: 16px;
+  text-align: center;
+}
+.table_hover_app_group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+.table_hover_app_group img {
+  width: 40px;
+  height: 40px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  letter-spacing: 0px;
+  color: #444444;
+}
+.table_hover_line {
+  width: 263px;
+  height: 1px;
+  background-color: #f2f2f2;
+  margin: 15px auto;
+}
+.table_hover_title span:last-child {
+  color: #009bef;
+}
+.table_hover_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.table_hover {
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+}
 thead tr {
   height: 40px;
 }
@@ -143,7 +272,12 @@ th {
 }
 .table_font {
   display: flex;
-  justify-content: space-around;
+  line-height: 80px;
+  padding-left: 50px;
+  flex-wrap: wrap;
+}
+.table_font > div {
+  cursor: pointer;
 }
 tbody > tr > td:first-child {
   width: 325px;
@@ -176,6 +310,7 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
+  margin-bottom: 50px;
 }
 .font_block {
   text-align: center;
@@ -205,7 +340,7 @@ table {
   margin-right: 15px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 87px;
   height: 24px;
 }
 .option {
