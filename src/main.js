@@ -6,6 +6,7 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 import router from './router'
 import { store } from './store/store'
+
 // 引入重置样式
 import './common/reset.css'
 

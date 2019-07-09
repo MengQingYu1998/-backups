@@ -18,7 +18,7 @@
       </div>
       <div class="options_03 option">
         <div>日期</div>
-        <div class="date">
+        <div class="date" @click="change_prop">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
             :picker-options="pickerOptions2"
@@ -63,7 +63,7 @@
                   placement="bottom"
                   width="200"
                   trigger="hover"
-                  open-delay="500"
+                  :open-delay="500"
                   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
                 >
                   <div class="table_hover_title">
@@ -109,7 +109,7 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate, filter_country } from '../common/util.js'
 export default {
   name: 'result',
   components: { country },
@@ -117,7 +117,7 @@ export default {
     return {
       response_data: null,
       // 获取当前选中的国家
-      now_country: '',
+      now_country: '中国',
       // 请输入搜索关键词
       search_input: '',
       // 设备选择
@@ -140,54 +140,116 @@ export default {
           return time.getTime() > Date.now()
           // 这里就是设置当天后的日期不能被点击
         }
-      }
+      },
+      //给后台传递的参数endDate
+      endDate: ''
     }
   },
 
   created: function() {
+    // 设置默认endDate的值与日历值一样、
+    this.endDate = formatDate(this.dateValue, 'yyyy-MM-dd')
     this.get_data()
     this.$watch('dateValue', function(newValue, oldValue) {
+      // console.log('当前日期发生变化，重新请求数据...')
+      this.get_data()
+    })
+    this.$watch('now_country', function(newValue, oldValue) {
+      // console.log('当前国家发生变化，重新请求数据...')
       this.get_data()
     })
   },
   methods: {
     // 请求数据
-    // 1:iPhone 2:ipad
     get_data() {
-      let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-      // console.log(this.timeFormat(this.dateValue))
-      console.log(this.dateValue)
-      let url =
-        'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
-        deviceType +
-        '&countryId=1&date=' +
-        formatDate(this.dateValue, 'yyyy-MM-dd')
       this.$axios
-        .get(url)
+        .get('http://39.97.234.11:8080/GetCountry')
         .then(response => {
-          this.response_data = response.data.Data
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let url
+          if (this.change_bg_week) {
+            let day1 = new Date()
+            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 7)
+            url =
+              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              deviceType +
+              '&countryId=' +
+              country_id +
+              '&startDate=' +
+              formatDate(day1, 'yyyy-MM-dd') +
+              '&endDate=' +
+              formatDate(new Date(), 'yyyy-MM-dd')
+            // console.log(
+            //   '&startDate=' +
+            //     formatDate(day1, 'yyyy-MM-dd') +
+            //     '&endDate=' +
+            //     formatDate(new Date(), 'yyyy-MM-dd')
+            // )
+          } else if (this.change_bg_day) {
+            let day1 = new Date()
+            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
+            url =
+              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              deviceType +
+              '&countryId=' +
+              country_id +
+              '&startDate=' +
+              formatDate(day1, 'yyyy-MM-dd') +
+              '&endDate=' +
+              formatDate(day1, 'yyyy-MM-dd')
+          } else {
+            url =
+              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              deviceType +
+              '&countryId=' +
+              country_id +
+              '&startDate=' +
+              startDate +
+              '&endDate=' +
+              startDate
+          }
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+            })
+            .catch(error => {
+              console.log(error)
+            })
         })
         .catch(error => {
           console.log(error)
         })
     },
-
+    // 点击日历
+    change_prop() {
+      this.change_bg_week = false
+      this.change_bg_day = false
+    },
     //点击昨日按钮
     change_day_dateValue() {
-      let day2 = new Date()
-      day2.setTime(day2.getTime() - 3600 * 1000 * 24)
-
       this.change_bg_week = false
-      this.change_bg_day = !this.change_bg_day
-      this.dateValue = day2
+      this.change_bg_day = true
+      this.get_data()
     },
     //点击本周按钮
     change_week_dateValue() {
-      let day2 = new Date()
-      day2.setTime(day2.getTime() - 3600 * 1000 * 24 * 7)
-      this.change_bg_week = !this.change_bg_week
+      this.change_bg_week = true
       this.change_bg_day = false
-      this.dateValue = day2
+      this.get_data()
     },
 
     // 获取当前选中的国家

@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <section class="top">
@@ -19,53 +19,24 @@
           <div class="timeline">
             <el-timeline>
               <el-timeline-item
-                timestamp="2018/4/12"
+                v-for="(item ,index) in response_data"
+                :key="index"
+                :timestamp="demo(item.publishTime)"
                 placement="top"
                 color="#fff"
                 icon="el-icon-time"
                 size="large"
               >
-                <div class="time_line_item_title">版本5.0.0</div>
+                <div class="time_line_item_title">版本{{item.versionNum}}</div>
                 <div class="time_line_item">
                   <div class="img_description">
-                    <img src="../assets/keyword/test.png" alt>
+                    <img :src="item.Icon" alt />
                     <div class="img_description_child">
-                      <div>学习强国</div>
-                      <div>学习强国学习强国学习强国</div>
+                      <div>{{item.appName}}</div>
+                      <div>{{item.subtitle}}</div>
                     </div>
                   </div>
-                  <div class="time_line_item_content">
-                    修复了一些问题，优化体验。
-                    【游戏介绍】
-                    《和平精英》是腾讯光子工作室群自研打造的反恐军事竞赛体验手游。虚幻引擎4研发，次世代完美画质，极致视听感受；超大实
-                    地图，打造指尖战场，全方面自由施展战术；百人同场竞技，真实弹道，完美的射击手感；好友一键组队，语音开黑；腾讯光子
-                    室群超过300人团队研发，给您带来一场震撼的竞技体验。
-                    【游戏特色】
-                    实景地图 百人竞技
-                    多张超大实景地图，体验丰富的环境变化，百人同场竞技，凭借战斗策略及射击能力勇夺冠军，力争胜利！
-                  </div>
-                </div>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/12" placement="top" color=" #009bef" size="large">
-                <div class="time_line_item_title">版本5.0.0</div>
-                <div class="time_line_item">
-                  <div class="img_description">
-                    <img src="../assets/keyword/test.png" alt>
-                    <div class="img_description_child">
-                      <div>学习强国</div>
-                      <div>学习强国学习强国学习强国</div>
-                    </div>
-                  </div>
-                  <div class="time_line_item_content">
-                    修复了一些问题，优化体验。
-                    【游戏介绍】
-                    《和平精英》是腾讯光子工作室群自研打造的反恐军事竞赛体验手游。虚幻引擎4研发，次世代完美画质，极致视听感受；超大实
-                    地图，打造指尖战场，全方面自由施展战术；百人同场竞技，真实弹道，完美的射击手感；好友一键组队，语音开黑；腾讯光子
-                    室群超过300人团队研发，给您带来一场震撼的竞技体验。
-                    【游戏特色】
-                    实景地图 百人竞技
-                    多张超大实景地图，体验丰富的环境变化，百人同场竞技，凭借战斗策略及射击能力勇夺冠军，力争胜利！
-                  </div>
+                  <div class="time_line_item_content">{{item.updateLog}}</div>
                 </div>
               </el-timeline-item>
             </el-timeline>
@@ -79,14 +50,79 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
+// 引入工具类
+import { myTime } from '../common/util.js'
 export default {
   name: 'version_message',
   components: { ios_header, left_nav },
   data() {
     return {
       // 顶部搜索框
-      input1: ''
-      // 时间线配置
+      input1: '',
+
+      response_data: null,
+      now_country: '中国'
+    }
+  },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('input1', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          let timeOrVerNum =
+            this.input1 == '' ? '&timeOrVerNum' : '&timeOrVerNum=' + this.input1
+          // console.log(country_id)
+          let url =
+            'http://39.97.234.11:8080/GetVersionLogs?countryId=' +
+            country_id +
+            timeOrVerNum +
+            '&appId=281736535'
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
+    },
+    demo(parm) {
+      // console.log(parm)
+      return myTime(parm)
     }
   }
 }
@@ -156,6 +192,7 @@ export default {
 }
 .search_input div {
   width: 260px;
+  margin-bottom: 31px;
 }
 .section_title {
   font-family: SourceHanSansCN-Medium;

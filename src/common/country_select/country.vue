@@ -1,8 +1,8 @@
 <template>
-  <div id>
+  <div id="country" @mousemove="click">
     <!-- 选择国家 -->
-    <select name="country" class="fastbannerform__country" @click="click">
-      <option value="ASA" title="AA">美国</option>
+    <select name="country" class="fastbannerform__country">
+      <option value="AMC" title="AC">美国</option>
       <option value="AND" title="AD">安道尔</option>
       <option value="ARE" title="AE">阿拉伯联合酋长国</option>
       <option value="AFG" title="AF">阿富汗</option>
@@ -221,10 +221,16 @@ export default {
   methods: {
     click: function() {
       let temp = $('.fastbannerform__country option:selected').text() //选中的值
+      // console.log(temp)
       this.$emit('childFn', temp)
     }
   }
 }
 </script>
 <style scoped>
+#country {
+  /* background-color: red; */
+  height: 269px;
+  width: 130px;
+}
 </style>

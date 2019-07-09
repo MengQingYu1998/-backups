@@ -116,7 +116,7 @@ function formatState(state) {
   var stateline = $(
     '<span class="fastbannerform__span f32 NOFLAG ' +
       state.title +
-      '"></span> <span class="fastbannerform__span">' +
+      '"></span> <span  class="now_country fastbannerform__span">' +
       state.text +
       '</span>'
   )
@@ -360,17 +360,3 @@ $(document).ready(function() {
     $('.fastbannerform__form input[type="checkbox"]').removeAttr('checked')
   })
 })
-
-function formatState(state) {
-  if (!state.id) {
-    return state.text
-  }
-  var stateline = $(
-    '<span class="mengs fastbannerform__span f32 NOFLAG ' +
-      state.title +
-      '"></span> <span class="fastbannerform__span">' +
-      state.text +
-      '</span>'
-  )
-  return stateline
-}

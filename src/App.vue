@@ -41,6 +41,7 @@ table tbody tr:hover {
   color: #009bef !important;
   font-size: 20px;
 }
+
 /* timeline 时间轴组件 */
 .el-timeline-item__timestamp.is-top {
   margin-left: -130px;
@@ -53,7 +54,17 @@ table tbody tr:hover {
 }
 /* 选择国家组件的自定义下拉样式 */
 .select2-container .select2-selection--single {
-  height: 22px !important;
+  width: 118px !important;
+  border: solid 1px #dfdfdf !important;
+  color: #444444 !important;
+}
+.select2-dropdown {
+  width: 130px !important;
+}
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  right: 43px !important;
 }
 /* button组件自定义样式 */
 .el-button {

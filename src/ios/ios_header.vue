@@ -1,35 +1,35 @@
 <template>
   <div id="ios_header">
     <div class="wrap">
-      <img src="../assets/keyword/test.png" alt>
+      <img v-if="response_data" :src="response_data.icon" alt />
       <div class="app_description">
-        <div>学习强国</div>
-        <div>多闪好友小视频社交多闪是一闪是一</div>
+        <div v-if="response_data">{{response_data.appName}}</div>
+        <div v-if="response_data">{{response_data.subtitle}}</div>
       </div>
       <div class="app_field">
         <div>版本更新时间</div>
-        <div>2019年2月19日</div>
+        <div v-if="response_data">{{time}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>分类</div>
-        <div>摄影与录像</div>
+        <div v-if="response_data">{{response_data.genreName}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>价格</div>
-        <div>免费</div>
+        <div v-if="response_data">{{response_data.price}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>APPID</div>
-        <div>1426355645</div>
+        <div v-if="response_data">{{response_data.genreId}}</div>
       </div>
       <div class="line"></div>
-      <div class="app_field">
+      <div class="app_field country" @mousemove="click">
         <div>国家/地区</div>
         <!-- 选择国家 -->
-        <country></country>
+        <country @childFn="parentFn"></country>
       </div>
     </div>
     <div class="border"></div>
@@ -37,28 +37,90 @@
 </template>
 
 <script>
+import '../common/country_select/select2_1.js'
 // 引入国家选择组件
 import country from '../common/country_select/country'
+// 引入工具类
+import { myTime } from '../common/util.js'
 export default {
   name: 'ios_header',
   components: { country },
   data() {
     return {
-      // 选择国家和地区
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国'
+      now_country: '中国',
+      response_data: null,
+      time: ''
+    }
+  },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+
+          let url =
+            'http://39.97.234.11:8080/GetAppSynopsis?countryId=' +
+            country_id +
+            '&appId=281736535'
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+              // console.log(this.response_data.appUpdateTime)
+              this.time = myTime(this.response_data.appUpdateTime)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('ios_header' + this.now_country)
+    },
+    // 把获取到的国家传递给父组件
+    click: function() {
+      this.$emit('childFn', this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.country {
+  /* background-color: red; */
+  height: 65px;
+  margin-left: -10px;
+  z-index: 100;
+}
+.country > div:last-child {
+  margin-left: 10px;
+}
 .border {
   margin-top: 30px;
   width: 1198px;

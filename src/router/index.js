@@ -6,9 +6,19 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/ios_header',
+      name: 'ios_header',
+      component: () => import('../ios/ios_header')
+    },
+    {
       path: '/the_world_map',
       name: 'the_world_map',
       component: () => import('../common/world_map/the_world_map')
+    },
+    {
+      path: '/country',
+      name: 'country',
+      component: () => import('../common/country_select/country')
     },
     {
       path: '/now_ranking',
