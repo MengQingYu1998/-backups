@@ -5,32 +5,23 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <!-- 第一部分 -->
         <!-- 第一部分 -->
         <!-- 第一部分 -->
-        <section class="description">
+        <section class="app_description">
           <div class="section_title">应用描述</div>
-          <div class="section_content">
-            【短视频】
-            首页底部快速进入视频频道，海量明星娱乐、搞笑段子、经典剧集视频，还能拍小视频记录身边新鲜事，简单操作能拍又能看。
-            【极速搜索】
-            强大的搜索引擎，一站搜索全网，搜文字、搜图片，快速识别，帮你找到想要的内容。
-            【热门资讯】
-            精选新闻资讯、视频、漫画等优质内容。热门评论置顶显示，查看、互动更方便。
-            【语音识别】
-            加入最懂中文的语音识别技术，识别准确率高达98%。支持语音播报资讯，嘈杂环境也可精准识别，彻底解放双手。
-            【正版小说】
-          </div>
+          <div class="section_content" v-if="response_data">{{response_data.description}}</div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
         <!-- 第二部分 -->
+
         <section class="video">
           <div class="section_title">应用视频</div>
           <div class="section_video">
@@ -46,18 +37,64 @@
                 </div>
               </div>
             </div>
-            <video
-              :class="{'video_iPhone':radio01=='iPhone','video_iPad':radio01=='iPad','video_watch':radio01=='watch'}"
-              src="http://www.w3school.com.cn/i/movie.ogg"
-              controls="controls"
-            >your browser does not support the video tag</video>
+            <div v-if="response_data" class="section_video_flex">
+              <!-- <video id="my_video" class="video-js vjs-default-skin" controls preload="auto">
+                <source
+                  src="https://apptrailers-ssl.itunes.apple.com/itunes-assets/PurpleVideo128/v4/76/69/9b/76699b57-ae9e-e8ac-8aec-6756e068b688/P49805176_default.m3u8"
+                  type="application/x-mpegURL"
+                />
+              </video>-->
+
+              <!-- iphone 的video -->
+              <!-- <video
+                data-setup="{}"
+                v-for="(videoUrl_item,index) in response_data.videoUrl.iphone"
+                :key="'videoUrl_item_iphone'+index"
+                v-show="radio01=='iPhone'"
+                class="video_iPhone video-js vjs-default-skin"
+                preload="auto"
+                :poster="videoUrl_item.preview"
+                controls="controls"
+                :id="'my-video'+index"
+              >
+                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
+              </video>-->
+              <!-- iPad 的video -->
+              <!-- <video
+                data-setup="{}"
+                v-for="(videoUrl_item,index) in response_data.videoUrl.iPad"
+                :key="'videoUrl_item_iPad'+index"
+                v-show="radio01=='iPad'"
+                class="video_iPhone video-js vjs-default-skin"
+                preload="auto"
+                :poster="videoUrl_item.preview"
+                controls="controls"
+                id="my-video"
+              >
+                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
+              </video>-->
+              <!-- watch 的video -->
+              <!-- <video
+                data-setup="{}"
+                v-for="(videoUrl_item,index) in response_data.videoUrl.watch"
+                :key="'videoUrl_item_watch'+index"
+                v-show="radio01=='watch'"
+                class="video_iPhone video-js vjs-default-skin"
+                preload="auto"
+                :poster="videoUrl_item.preview"
+                controls="controls"
+                id="my-video"
+              >
+                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
+              </video>-->
+            </div>
           </div>
         </section>
         <!-- 第三部分 -->
         <!-- 第三部分 -->
         <!-- 第三部分 -->
         <section class="screenshot">
-          <div class="section_title">应用视频</div>
+          <div class="section_title">应用截图</div>
           <div class="section_video">
             <div class="btn_group">
               <div class="btn_item_02">
@@ -71,14 +108,31 @@
                 </div>
               </div>
             </div>
-            <div class="img_group">
-              <img
-                :class="{'img_group_img_iPhone':radio02=='iPhone','img_group_img_iPad':radio02=='iPad','img_group_img_watch':radio02=='watch'}"
-                v-for="item in 'asdfghj'"
-                :key="item"
-                src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1562064279&di=4282b40222fc4cd8d8b8c029587676e3&src=http://pic54.nipic.com/file/20141126/9448607_192721578000_2.jpg"
-                alt
-              >
+            <div class="img_group" v-if="response_data">
+              <div v-if="Array.isArray(response_data.prtscrUrl.iphone) && radio02=='iPhone'">
+                <img
+                  v-for="img_group_img_iPhone_item in response_data.prtscrUrl.iphone"
+                  :key="img_group_img_iPhone_item"
+                  class="img_group_img_iPhone"
+                  :src="img_group_img_iPhone_item"
+                />
+              </div>
+              <div v-if="Array.isArray(response_data.prtscrUrl.ipad)&&radio02=='iPad'">
+                <img
+                  v-for="img_group_img_iPad_item in response_data.prtscrUrl.ipad"
+                  :key="img_group_img_iPad_item"
+                  class="img_group_img_iPad"
+                  :src="img_group_img_iPad_item"
+                />
+              </div>
+              <div v-if="Array.isArray(response_data.prtscrUrl.watch)&&radio02=='watch'">
+                <img
+                  v-for="img_group_img_watch_item in response_data.prtscrUrl.watch"
+                  :key="img_group_img_watch_item"
+                  class="img_group_img_watch"
+                  :src="img_group_img_watch_item"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -87,11 +141,7 @@
         <!-- 第四部分 -->
         <section class="font">
           <div class="section_title">宣传文本</div>
-          <div class="section_content">
-            百度App，7亿用户首选的搜索和资讯客户端。
-            最懂中文的语音搜索识别技术，准确率高达98%。
-            热门新闻、视频抢先看，更有全网正版小说。
-          </div>
+          <div class="section_content" v-if="response_data">{{response_data.advertisingText}}</div>
         </section>
         <!-- 第五部分 -->
         <!-- 第五部分 -->
@@ -99,21 +149,58 @@
         <section class="message">
           <div class="section_title">基础信息</div>
           <div class="section_content">
-            开发者 Beijing Baidu Netcom Science & Technology Co.,Ltd
-            发布日期 2010-08-30
-            更新日期 2019-02-11
-            Bundle ID com.baidu.BaiduMobile
-            版本 11.3.6
-            大小 290.45M
-            是否支持 Watch 支持
-            家人共享 可使用
-            支持网站 https://boxer.baidu.com/scheme?scheme=baiduboxapp%3A%2F%2Fv9%2Fucenter%2Ffeedback%3Fneedlog%3D1%26logargs
-            %2522%253A%25221020418l%2522%257D&target=http%3a%2f%2ftieba.baidu.com%2ff%3fkw%3d%25CA%25
-            开发者网站 http://xbox.m.baidu.com/mo/
-            兼容性 需要 iOS 8.0 或更高版本。与 iPhone、iPad 和 iPod touch 兼容。
-            支持语言 简体中文
-            发行国家/地区
-            内容评级 17+
+            <div>
+              <span>开发者</span>
+              <span v-if="response_data">{{response_data.developerName}}</span>
+            </div>
+            <div>
+              <span>更新日期</span>
+              <span v-if="response_data">{{response_data.appUpdateTime}}</span>
+            </div>
+            <div>
+              <span>Bundle ID</span>
+              <span v-if="response_data">{{response_data.bundleId}}</span>
+            </div>
+            <div>
+              <span>版本</span>
+              <span v-if="response_data">{{response_data.latestVersion}}</span>
+            </div>
+            <div>
+              <span>大小</span>
+              <span v-if="response_data">{{response_data.appSize}}</span>
+            </div>
+            <div>
+              <span>是否支持Watch</span>
+              <span v-if="response_data">{{response_data.detailInfo.is_support_iwatch?'支持':'不支持'}}</span>
+            </div>
+            <div>
+              <span>家人共享</span>
+              <span v-if="response_data">{{response_data.detailInfo.family_share}}</span>
+            </div>
+            <div>
+              <span>支持网站</span>
+              <span v-if="response_data">{{response_data.detailInfo.support_url}}</span>
+            </div>
+            <div>
+              <span>开发者网站</span>
+              <span v-if="response_data">{{response_data.detailInfo.developer_url}}</span>
+            </div>
+            <div>
+              <span>兼容性</span>
+              <span v-if="response_data">{{response_data.detailInfo.compatibility_ios}}</span>
+            </div>
+            <div>
+              <span>支持语言</span>
+              <span v-if="response_data">{{response_data.detailInfo.support_language}}</span>
+            </div>
+            <div>
+              <span>发行国家/地区</span>
+              <span v-if="response_data">{{response_data.publishCountries}}</span>
+            </div>
+            <div>
+              <span>内容评级</span>
+              <span v-if="response_data">{{response_data.detailInfo.content_grade}}</span>
+            </div>
           </div>
         </section>
         <!-- 第六部分 -->
@@ -121,10 +208,14 @@
         <!-- 第六部分 -->
         <section class="like">
           <div class="section_title">你可能还喜欢</div>
-          <div class="section_content">
-            <div class="block" v-for="item in 'asdfghjklzxcvbnm'" :key="item">
-              <img src="../assets/keyword/test.png" alt>
-              <span>计划</span>
+          <div class="section_content" v-if="response_data">
+            <div
+              class="block"
+              v-for="(mayLoveApp_item,index) in response_data.mayLoveApp"
+              :key="'mayLoveApp'+index"
+            >
+              <img :src="mayLoveApp_item.icon" alt />
+              <span>{{mayLoveApp_item.appName}}</span>
             </div>
           </div>
         </section>
@@ -136,6 +227,10 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
+// 引入播放m3u8格式的视频插件
+import 'videojs-contrib-hls'
+import videojs from 'video.js'
+
 export default {
   name: 'version_message',
   components: { ios_header, left_nav },
@@ -143,7 +238,81 @@ export default {
     return {
       //单选按钮
       radio01: 'iPhone', //第二部分
-      radio02: 'iPhone' //第三部分
+      radio02: 'iPhone', //第三部分
+      // 请求的数据
+      response_data: null,
+      now_country: '中国'
+    }
+  },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  mounted() {
+    // videojs(
+    //   'my_video',
+    //   {
+    //     bigPlayButton: false,
+    //     textTrackDisplay: false,
+    //     posterImage: true,
+    //     errorDisplay: false,
+    //     controlBar: true
+    //   },
+    //   function() {
+    //     this.play()
+    //   }
+    // )
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+
+          // console.log(country_id)
+          let url =
+            'http://39.97.234.11:8080/GetAppInfo?countryId=' +
+            country_id +
+            '&appId=281736535'
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
+    },
+    format(parm) {
+      // console.log(parm)
+      return myTime(parm)
     }
   }
 }
@@ -157,16 +326,40 @@ export default {
   width: 283px;
   height: 226px;
 }
+.video_iPhone:first-child {
+  margin-left: 0 !important;
+}
 .video_iPhone {
   width: 225px;
   height: 399px;
+  margin-left: 30px;
 }
 .like .section_content {
   flex-wrap: wrap;
+  display: flex;
 }
 .block img {
   width: 68px;
   height: 68px;
+}
+
+.message .section_content {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.message .section_content > div span:first-child {
+  width: 120px;
+  display: inline-block;
+  vertical-align: top;
+}
+.message .section_content > div span:last-child {
+  width: 850px;
+  display: inline-block;
 }
 .section_content .block {
   height: 104px;
@@ -185,9 +378,10 @@ export default {
   margin-bottom: 20px;
 }
 .section_content {
-  display: flex;
+  /* display: flex; */
   width: 987px;
 }
+
 .message,
 .like,
 .font,
@@ -240,12 +434,10 @@ video {
   border: solid 1px #f2f2f2;
   margin-bottom: 40px;
 }
-.section_video video {
-  /* width: 225px;
-  height: 399px; */
+.section_video_flex {
+  display: flex;
 }
-.section_video {
-}
+
 .section_content {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;

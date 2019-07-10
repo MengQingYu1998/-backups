@@ -38,10 +38,6 @@ export function myTime(date) {
 
   var dd =
     parseInt(darr[0]) + '/' + parseInt(darr[1]) + '/' + parseInt(darr[2]) + ' '
-  // parseInt(marr[0]) +
-  // ':' +
-  // parseInt(marr[1]) +
-  // ':' +
-  // parseInt(marr[2])
+
   return dd
 }

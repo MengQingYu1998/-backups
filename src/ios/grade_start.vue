@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <!-- 第一部分 -->
@@ -21,72 +21,91 @@
               <div class="start_left_title">App Store 当前显示评分</div>
               <div class="start_left_bottom">
                 <div class="start_left_bottom_child_left">
-                  <div>4.7</div>
+                  <div
+                    v-if="response_data_first_part"
+                  >{{response_data_first_part.current.ratingAverage}}</div>
                   <div>
-                    <el-rate v-model="start_left"></el-rate>
+                    <el-rate v-model="start_left" disabled></el-rate>
                   </div>
-                  <div>评分次数：64866774</div>
+                  <div
+                    v-if="response_data_first_part"
+                  >评分次数：{{response_data_first_part.current.totalCount}}</div>
                 </div>
                 <div class="start_left_bottom_child_right">
                   <section>
                     <div>5星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.current.gradeList[4].percent.slice(0, -1))"
                         color=" #fad356"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.current.gradeList[0].count}}</div>
                   </section>
                   <section>
                     <div>4星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.current.gradeList[3].percent.slice(0, -1))"
                         color=" #81ef8e "
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.current.gradeList[1].count}}</div>
                   </section>
                   <section>
                     <div>3星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.current.gradeList[2].percent.slice(0, -1))"
                         color=" #81e1ef"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.current.gradeList[2].count}}</div>
                   </section>
                   <section>
                     <div>2星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.current.gradeList[1].percent.slice(0, -1))"
                         color="#ef81d4"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.current.gradeList[3].count}}</div>
                   </section>
                   <section>
                     <div>1星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.current.gradeList[0].percent.slice(0, -1))"
                         color=" #ef8189"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.current.gradeList[4].count}}</div>
                   </section>
                 </div>
               </div>
@@ -95,72 +114,91 @@
               <div class="start_right_title">所有版本评分</div>
               <div class="start_left_bottom">
                 <div class="start_left_bottom_child_left">
-                  <div>4.7</div>
+                  <div
+                    v-if="response_data_first_part"
+                  >{{response_data_first_part.all.ratingAverage}}</div>
                   <div>
-                    <el-rate v-model="start_right"></el-rate>
+                    <el-rate v-model="start_right" disabled></el-rate>
                   </div>
-                  <div>评分次数：64866774</div>
+                  <div
+                    v-if="response_data_first_part"
+                  >评分次数：{{response_data_first_part.all.totalCount}}</div>
                 </div>
                 <div class="start_left_bottom_child_right">
                   <section>
                     <div>5星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.all.gradeList[4].percent.slice(0, -1))"
                         color=" #fad356"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.all.gradeList[0].count}}</div>
                   </section>
                   <section>
                     <div>4星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.all.gradeList[3].percent.slice(0, -1))"
                         color=" #81ef8e "
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.all.gradeList[1].count}}</div>
                   </section>
                   <section>
                     <div>3星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.all.gradeList[2].percent.slice(0, -1))"
                         color=" #81e1ef"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.all.gradeList[2].count}}</div>
                   </section>
                   <section>
                     <div>2星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.all.gradeList[1].percent.slice(0, -1))"
                         color="#ef81d4"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.all.gradeList[3].count}}</div>
                   </section>
                   <section>
                     <div>1星</div>
                     <div>
                       <el-progress
+                        v-if="response_data_first_part"
                         :text-inside="true"
                         :stroke-width="22"
-                        :percentage="70"
+                        :percentage="parseInt(response_data_first_part.all.gradeList[0].percent.slice(0, -1))"
                         color=" #ef8189"
                       ></el-progress>
                     </div>
-                    <div>34252637</div>
+                    <div
+                      v-if="response_data_first_part"
+                    >{{response_data_first_part.all.gradeList[4].count}}</div>
                   </section>
                 </div>
               </div>
@@ -320,7 +358,7 @@
               <tr>
                 <td class="bottom_table_td01">
                   <div>
-                    <el-rate v-model="table_start"></el-rate>
+                    <el-rate v-model="table_start" disabled></el-rate>
                   </div>
                 </td>
                 <td class="bottom_table_td02">
@@ -348,6 +386,7 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
+
 export default {
   name: 'version_message',
   components: { ios_header, left_nav },
@@ -366,17 +405,78 @@ export default {
       // 顶部搜索框
       input1: '',
       // 评分五角星
-      start_left: 2,
-      start_right: 3,
+      start_left: 0,
+      start_right: 0,
 
-      table_start: 4
+      table_start: 4,
+      // 请求的数据
+      response_data_first_part: null,
+      now_country: '中国'
     }
   },
   mounted() {
     this.drawLine()
     this.drawLine01()
   },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
   methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // console.log(country_id)
+          let url =
+            ' http://39.97.234.11:8080/GetRating?countryId=' +
+            country_id +
+            '&appId=281736535'
+          // console.log(url)
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data_first_part = response.data.Data
+              // 设置左边的五评分五角星
+              this.start_left = this.response_data_first_part.current.ratingAverage
+              // 设置右边的五评分五角星
+              this.start_right = this.response_data_first_part.all.ratingAverage
+              // console.log(
+              //   this.
+              // )
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
+    },
     // 画middle_top的canvas
     drawLine: function() {
       let that = this

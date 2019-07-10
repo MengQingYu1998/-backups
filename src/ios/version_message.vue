@@ -21,7 +21,7 @@
               <el-timeline-item
                 v-for="(item ,index) in response_data"
                 :key="index"
-                :timestamp="demo(item.publishTime)"
+                :timestamp="format(item.publishTime)"
                 placement="top"
                 color="#fff"
                 icon="el-icon-time"
@@ -120,7 +120,7 @@ export default {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
     },
-    demo(parm) {
+    format(parm) {
       // console.log(parm)
       return myTime(parm)
     }
