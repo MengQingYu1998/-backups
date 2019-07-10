@@ -3,9 +3,9 @@
     <div class="breadcrumb">
       <span>iOS应用</span> >
       <span>学习强国</span>
-    </div>
+    </div>childFn
     <!-- 自定义组件 -->
-    <ios_header />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
         <left_nav />
@@ -284,7 +284,7 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
 
-          // console.log(country_id)
+          console.log('country_id' + country_id)
           let url =
             'http://39.97.234.11:8080/GetAppInfo?countryId=' +
             country_id +
@@ -310,6 +310,7 @@ export default {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
     },
+    // 格式化时间
     format(parm) {
       // console.log(parm)
       return myTime(parm)
@@ -337,6 +338,12 @@ export default {
 .like .section_content {
   flex-wrap: wrap;
   display: flex;
+}
+.like .block span {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .block img {
   width: 68px;
