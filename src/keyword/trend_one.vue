@@ -20,7 +20,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country/>
+          <country />
         </div>
       </div>
       <div class="options_03 option">
@@ -48,8 +48,8 @@
 
     <div class="bottom_image" v-show="is_show_table_myChart_myChart">
       <!-- <img src="../assets/keyword/down.png" alt> -->
-      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt>
-      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt>
+      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt />
+      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt />
     </div>
     <table v-show="!is_show_table_myChart_myChart">
       <thead>
@@ -70,19 +70,19 @@
       </tbody>
     </table>
     <div class="bottom_image bottom_image_for_table" v-show="!is_show_table_myChart_myChart">
-      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
+      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false" />
       <img
         v-on:click="is_show_table_myChart_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
-      >
+      />
       <img
         v-on:click="is_show_table_myChart_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
-      >
+      />
     </div>
   </div>
 </template>
@@ -317,6 +317,9 @@ table {
 }
 .options_03 div:last-child {
   width: 114px !important;
+}
+.options_03 {
+  margin-left: 70px !important;
 }
 .option div:first-child {
   margin-right: 15px;

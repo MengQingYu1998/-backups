@@ -1,5 +1,5 @@
 <template>
-  <div id="result" class="content">
+  <div id="hot_search" class="content">
     <div class="title">实时热搜</div>
     <div class="line"></div>
     <div class="options">
@@ -109,9 +109,9 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate, filter_country } from '../common/util.js'
+import { formatDate } from '../common/util.js'
 export default {
-  name: 'result',
+  name: 'hot_search',
   components: { country },
   data() {
     return {

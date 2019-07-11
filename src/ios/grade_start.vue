@@ -1,11 +1,11 @@
 <template>
-  <div id="version_message" class="content">
+  <div id="grade_start" class="content">
     <div class="breadcrumb">
       <span>iOS应用</span> >
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
         <left_nav />
@@ -205,6 +205,9 @@
             </div>
           </div>
         </section>
+        <!-- ===================第二部分====================== -->
+        <!-- ====================第二部分===================== -->
+        <!-- ====================第二部分===================== -->
         <section class="middle_top">
           <div class="section_title">评分记录</div>
           <div class="btn_group">
@@ -212,18 +215,11 @@
               <div>时间</div>
               <div>
                 <el-date-picker
-                  v-model="start_date_for_grade"
-                  type="date"
-                  placeholder="起始时间"
-                  :clearable="false"
-                ></el-date-picker>
-              </div>
-              <div>
-                <el-date-picker
-                  v-model="end_date_for_grade"
-                  type="date"
-                  placeholder="结束时间"
-                  :clearable="false"
+                  v-model="bottom_time01"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
                 ></el-date-picker>
               </div>
               <div>近一个月</div>
@@ -231,6 +227,9 @@
           </div>
           <div ref="grade_start_one" class="myChart"></div>
         </section>
+        <!-- ===================第三部分====================== -->
+        <!-- ====================第三部分===================== -->
+        <!-- ====================第三部分===================== -->
         <section class="middle_bottom">
           <div class="section_title">评论统计</div>
           <div class="btn_group">
@@ -248,20 +247,14 @@
               <div>时间</div>
               <div>
                 <el-date-picker
-                  v-model="start_date_for_common"
-                  type="date"
-                  placeholder="起始时间"
-                  :clearable="false"
+                  v-model="bottom_time01"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
                 ></el-date-picker>
               </div>
-              <div>
-                <el-date-picker
-                  v-model="end_date_for_common"
-                  type="date"
-                  placeholder="结束时间"
-                  :clearable="false"
-                ></el-date-picker>
-              </div>
+              <div></div>
               <div>
                 <el-radio-group v-model="radio02" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
@@ -273,13 +266,16 @@
           </div>
           <div ref="common_one" class="myChart"></div>
         </section>
+        <!-- ===================第四部分====================== -->
+        <!-- ====================第四部分===================== -->
+        <!-- ====================第四部分===================== -->
         <section class="bottom">
           <div class="section_title">评论详情</div>
           <div class="btn_group">
             <div class="btn_item_02">
               <div>类型</div>
               <div>
-                <el-radio-group v-model="radio01" size="mini">
+                <el-radio-group v-model="bottom_radio01" size="mini">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="在线评论"></el-radio-button>
                   <el-radio-button label="已删除评论"></el-radio-button>
@@ -290,7 +286,7 @@
             <div class="btn_item_02">
               <div>评论</div>
               <div>
-                <el-radio-group v-model="radio01" size="mini">
+                <el-radio-group v-model="bottom_radio02" size="mini">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="五星"></el-radio-button>
                   <el-radio-button label="四星"></el-radio-button>
@@ -305,7 +301,7 @@
             <div class="btn_item_02">
               <div>类型</div>
               <div>
-                <el-radio-group v-model="radio01" size="mini">
+                <el-radio-group v-model="bottom_radio03" size="mini">
                   <el-radio-button label="最有帮助"></el-radio-button>
                   <el-radio-button label="最高评价"></el-radio-button>
                   <el-radio-button label="最低评价"></el-radio-button>
@@ -315,24 +311,19 @@
             </div>
             <div class="btn_item_03">
               <div>时间</div>
-              <div>
+              <div @click="change_bottom_radio04">
                 <el-date-picker
-                  v-model="start_date_for_common_description"
-                  type="date"
-                  placeholder="起始时间"
-                  :clearable="false"
+                  v-model="bottom_time01"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions2"
                 ></el-date-picker>
               </div>
-              <div>
-                <el-date-picker
-                  v-model="end_date_for_common_description"
-                  type="date"
-                  placeholder="结束时间"
-                  :clearable="false"
-                ></el-date-picker>
-              </div>
-              <div>
-                <el-radio-group v-model="radio02" size="mini">
+              <div></div>
+              <div @click="change_bottom_time01">
+                <el-radio-group v-model="bottom_radio04" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
                   <el-radio-button label="昨日"></el-radio-button>
                   <el-radio-button label="近一个月"></el-radio-button>
@@ -354,25 +345,31 @@
                 <th>时间</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data_fourth_part">
+              <tr
+                v-for="(response_data_fourth_part_item,index) in response_data_fourth_part"
+                :key="'response_data_fourth_part'+index"
+              >
                 <td class="bottom_table_td01">
                   <div>
-                    <el-rate v-model="table_start" disabled></el-rate>
+                    <el-rate v-model="response_data_fourth_part_item.starLevel" disabled></el-rate>
                   </div>
                 </td>
                 <td class="bottom_table_td02">
-                  <div class="table_title">软件很好用</div>
-                  <div
-                    class="table_description"
-                  >一直都在用的东西，都用了好多年了，不会换别的搜索软件！一直都在用的东西，都用了好多年了，不会换别的搜索软件！</div>
+                  <div class="table_title">
+                    {{response_data_fourth_part_item.title}}
+                    <span
+                      v-if="response_data_fourth_part_item.isDelete"
+                    >该条评论已被删除</span>
+                  </div>
+                  <div class="table_description">{{response_data_fourth_part_item.commentContent}}</div>
                   <div class="table_author">
                     作者：
-                    <span>khgknkgah</span>
+                    <span>{{response_data_fourth_part_item.authorName}}</span>
                   </div>
                 </td>
                 <td class="bottom_table_td03">
-                  <div>2019-02-20 12:56</div>
+                  <div>{{format(response_data_fourth_part_item.publishTime)}}</div>
                 </td>
               </tr>
             </tbody>
@@ -386,12 +383,25 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
-
+// 引入工具类
+import { myTime, formatDate } from '../common/util.js'
 export default {
-  name: 'version_message',
+  name: 'grade_start',
   components: { ios_header, left_nav },
   data() {
     return {
+      // 第四部分的参数
+      bottom_radio01: '全部',
+      bottom_radio02: '全部',
+      bottom_radio03: '最有帮助',
+      bottom_radio04: '今日',
+      bottom_time01: '',
+      pickerOptions2: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
       //评论统计的单选按钮
       radio01: '',
       radio02: '',
@@ -411,6 +421,7 @@ export default {
       table_start: 4,
       // 请求的数据
       response_data_first_part: null,
+      response_data_fourth_part: null,
       now_country: '中国'
     }
   },
@@ -419,15 +430,134 @@ export default {
     this.drawLine01()
   },
   created: function() {
-    this.get_data()
+    // 请求数据
+    this.get_data_for_first_part()
+    this.get_data_for_fourth_part()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
-      this.get_data()
+      this.get_data_for_first_part()
+      this.get_data_for_fourth_part()
+    })
+    //'当前第四部分=》评论部分的    时间  发生变化，重新请求数据...'
+    this.$watch('bottom_time01', function(newValue, oldValue) {
+      this.get_data_for_fourth_part()
+    })
+    this.$watch('bottom_radio01', function(newValue, oldValue) {
+      this.get_data_for_fourth_part()
+    })
+    this.$watch('bottom_radio02', function(newValue, oldValue) {
+      this.get_data_for_fourth_part()
+    })
+    this.$watch('bottom_radio03', function(newValue, oldValue) {
+      this.get_data_for_fourth_part()
+    })
+    this.$watch('bottom_radio04', function(newValue, oldValue) {
+      this.get_data_for_fourth_part()
     })
   },
   methods: {
-    // 请求数据
-    get_data() {
+    // 请求第四部分=》评论部分的数据
+    get_data_for_fourth_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // console.log(555555555555555555)
+          // console.log(country_id)
+          let url = ' http://39.97.234.11:8080/GetPageCommentInfo'
+          // console.log(this.bottom_radio01)
+          let commentType
+          if (this.bottom_radio01 == '全部') {
+            commentType = 0
+          } else if (this.bottom_radio01 == '在线评论') {
+            commentType = 1
+          } else if (this.bottom_radio01 == '已删除评论') {
+            commentType = 2
+          } else if (this.bottom_radio01 == '开发者回复') {
+            commentType = 3
+          }
+          let starLevel
+          if (this.bottom_radio02 == '全部') {
+            starLevel = 0
+          } else if (this.bottom_radio02 == '五星') {
+            starLevel = 5
+          } else if (this.bottom_radio02 == '四星') {
+            starLevel = 4
+          } else if (this.bottom_radio02 == '三星') {
+            starLevel = 3
+          } else if (this.bottom_radio02 == '两星') {
+            starLevel = 2
+          } else if (this.bottom_radio02 == '一星') {
+            starLevel = 1
+          }
+          let orderType
+          if (this.bottom_radio03 == '最有帮助') {
+            orderType = 1
+          } else if (this.bottom_radio03 == '最高评价') {
+            orderType = 2
+          } else if (this.bottom_radio03 == '最低评价') {
+            orderType = 3
+          } else if (this.bottom_radio03 == '最新评价') {
+            orderType = 4
+          }
+          let time
+          if (this.bottom_radio04 == '今日') {
+            time = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.bottom_radio04 == '昨日') {
+            let day1 = new Date()
+            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
+            time = formatDate(day1, 'yyyy-MM-dd')
+          } else if (this.bottom_radio04 == '近一个月') {
+            let day1 = new Date()
+            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 31)
+            let time1 = formatDate(new Date(), 'yyyy-MM-dd')
+            let time2 = formatDate(day1, 'yyyy-MM-dd')
+            time = time2 + '-' + time1
+          } else if (this.bottom_radio04 == '') {
+            let arr = []
+            this.bottom_time01.forEach(element => {
+              let arr_item = formatDate(element, 'yyyy-MM-dd')
+              arr.push(arr_item)
+            })
+            time = arr.join('-')
+          }
+          // console.log(time)
+
+          let data = {
+            appId: 1113268900,
+            countryId: country_id,
+            commentType: commentType,
+            starLevel: starLevel,
+            orderType: orderType,
+            time: time
+          }
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.response_data_fourth_part = response.data.Data
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 请求评分统计的数据
+    get_data_for_first_part() {
       this.$axios
         .get('http://39.97.234.11:8080/GetCountry')
         .then(response => {
@@ -475,7 +605,7 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      // console.log('version_message' + this.now_country)
+      // console.log('grade_start' + this.now_country)
     },
     // 画middle_top的canvas
     drawLine: function() {
@@ -562,7 +692,8 @@ export default {
           }
         ]
       })
-    }, // 画middle_bottom的canvas
+    },
+    // 画middle_bottom的canvas
     drawLine01: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -620,6 +751,19 @@ export default {
           }
         ]
       })
+    },
+    // 当点击第四部分的时间的时候，把和时间一起的单选框置空
+    change_bottom_radio04: function() {
+      this.bottom_radio04 = ''
+    },
+    // 当点击第四部分的单选框的时候，把和单选框一起的时间置空
+    change_bottom_time01: function() {
+      this.bottom_time01 = ''
+    },
+    // 格式化时间
+    format(parm) {
+      // console.log(parm)
+      return myTime(parm)
     }
   }
 }
@@ -627,6 +771,16 @@ export default {
 <style scoped>
 .bottom_table_td01 {
   width: 238px !important;
+}
+
+.bottom_table_td02 .table_title span {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #fe1728;
+  margin-left: 5px;
 }
 .bottom_table_td02 {
   text-align: left;
@@ -726,12 +880,12 @@ table {
 .bottom > div:nth-child(3) {
   margin-top: 16px;
 }
-.btn_item_03 > div:nth-child(2) div {
+/* .btn_item_03 > div:nth-child(2) div {
   width: 119px;
 }
 .btn_item_03 > div:nth-child(3) div {
   width: 119px;
-}
+} */
 .btn_item_03 > div:nth-child(1) {
   margin-right: 16px !important;
 }
@@ -782,12 +936,12 @@ table {
   color: #444444;
   text-align: center;
 }
-.btn_item_01 > div:nth-child(2) div {
+/* .btn_item_01 > div:nth-child(2) div {
   width: 119px;
 }
 .btn_item_01 > div:nth-child(3) div {
   width: 119px;
-}
+} */
 .btn_item_01 > div:nth-child(1) {
   margin-right: 16px !important;
 }

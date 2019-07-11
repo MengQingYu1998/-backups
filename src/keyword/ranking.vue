@@ -1,5 +1,5 @@
  <template>
-  <div id="show_data_table" class="content">
+  <div id="ranking" class="content">
     <div class="title">搜索指数排名</div>
     <div class="line"></div>
     <div class="options">
@@ -118,7 +118,7 @@
 
 <script>
 export default {
-  name: 'show_data_table',
+  name: 'ranking',
   data() {
     return {
       //请输入搜索关键词

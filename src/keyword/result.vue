@@ -16,7 +16,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country/>
+          <country />
         </div>
       </div>
       <div class="options_03 option">
@@ -42,11 +42,11 @@
             <td>January</td>
             <td>
               $100
-              <img src="../assets/keyword/keyword01.png" alt>
+              <img src="../assets/keyword/keyword01.png" alt />
             </td>
             <td>
               $100
-              <img src="../assets/keyword/keyword01.png" alt>
+              <img src="../assets/keyword/keyword01.png" alt />
             </td>
             <td>抖音 火山小视频</td>
           </tr>
@@ -76,7 +76,7 @@
                       <div class="use">
                         <div>1</div>
                         <div>
-                          <img src="../assets/keyword/test.png" alt>
+                          <img src="../assets/keyword/test.png" alt />
                         </div>
                         <div>
                           <div>好几家军军军...</div>
@@ -86,21 +86,21 @@
                     </td>
                     <td>
                       <div class="rankingChange">
-                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt>
+                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (2).png"
                           alt
-                        >
+                        />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (3).png"
                           alt
-                        >
+                        />
                         <div>0</div>
-                        <img src="../assets/keyword/keyword01.png" alt>
+                        <img src="../assets/keyword/keyword01.png" alt />
                       </div>
                     </td>
                     <td>
@@ -157,7 +157,7 @@
                       <div class="use">
                         <div>1</div>
                         <div>
-                          <img src="../assets/keyword/test.png" alt>
+                          <img src="../assets/keyword/test.png" alt />
                         </div>
                         <div>
                           <div>好几家军军军...</div>
@@ -172,21 +172,21 @@
                     </td>
                     <td>
                       <div class="rankingChange">
-                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt>
+                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (2).png"
                           alt
-                        >
+                        />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (3).png"
                           alt
-                        >
+                        />
                         <div>0</div>
-                        <img src="../assets/keyword/keyword01.png" alt>
+                        <img src="../assets/keyword/keyword01.png" alt />
                       </div>
                     </td>
 
@@ -217,7 +217,7 @@
                       <div class="use">
                         <div>1</div>
                         <div>
-                          <img src="../assets/keyword/test.png" alt>
+                          <img src="../assets/keyword/test.png" alt />
                         </div>
                         <div>
                           <div>好几家军军军...</div>
@@ -232,21 +232,21 @@
                     </td>
                     <td>
                       <div class="rankingChange">
-                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt>
+                        <img class="arrowsImg" src="../assets/keyword/arrows (1).png" alt />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (2).png"
                           alt
-                        >
+                        />
                         <img
                           v-show="false"
                           class="arrowsImg"
                           src="../assets/keyword/arrows (3).png"
                           alt
-                        >
+                        />
                         <div>0</div>
-                        <img src="../assets/keyword/keyword01.png" alt>
+                        <img src="../assets/keyword/keyword01.png" alt />
                       </div>
                     </td>
 
@@ -580,13 +580,18 @@ export default {
 }
 .option {
   display: flex;
-  margin-left: 29px;
 }
 option:first-child {
   margin: 0;
 }
 .options .option:first-child {
   margin-left: 0 !important;
+}
+.options_03 {
+  margin-left: 70px;
+}
+.options_02 {
+  margin-left: 30px;
 }
 .options {
   height: 24px;

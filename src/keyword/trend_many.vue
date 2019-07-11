@@ -32,7 +32,7 @@
 
       <div class="can_del_div" v-for="(item, index) in keyword_data" :key="index">
         <div>{{item}}</div>
-        <img @click="remove_keyword_data(index)" src="../assets/keyword/del.png" alt>
+        <img @click="remove_keyword_data(index)" src="../assets/keyword/del.png" alt />
       </div>
       <div>
         <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
@@ -50,13 +50,13 @@
         class="float_right"
         src="../assets/keyword/three.png"
         alt
-      >
+      />
       <img
         v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
-      >
+      />
     </div>
     <table v-show="!is_show_myChart_and_table">
       <thead>
@@ -77,19 +77,19 @@
       </tbody>
     </table>
     <div class="bottom_image bottom_image_for_table" v-show="!is_show_myChart_and_table">
-      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
+      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false" />
       <img
         v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
-      >
+      />
       <img
         v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
-      >
+      />
     </div>
     <div class="show_all" v-show="!canvas_is_show_all" @click="selected_data_function(true)">显示所有</div>
     <div class="show_all" v-show="canvas_is_show_all" @click="selected_data_function(false)">隐藏所有</div>
@@ -446,6 +446,9 @@ table {
 }
 .options_03 div:last-child {
   width: 114px !important;
+}
+.options_03 {
+  margin-left: 70px !important;
 }
 .option div:first-child {
   margin-right: 15px;

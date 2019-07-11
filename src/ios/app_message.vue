@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <span>iOS应用</span> >
       <span>学习强国</span>
-    </div>childFn
+    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -16,94 +16,106 @@
         <!-- 第一部分 -->
         <section class="app_description">
           <div class="section_title">应用描述</div>
-          <div class="section_content" v-if="response_data">{{response_data.description}}</div>
+          <div class="section_content" v-if="response_data" v-html="response_data.description"></div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
         <!-- 第二部分 -->
 
-        <section class="video">
+        <section
+          class="video"
+          v-if="!response_data||response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
+        >
           <div class="section_title">应用视频</div>
           <div class="section_video">
             <div class="btn_group">
               <div class="btn_item_02">
                 <div>类型</div>
                 <div>
-                  <el-radio-group v-model="radio01" size="mini">
-                    <el-radio-button label="iPhone"></el-radio-button>
-                    <el-radio-button label="iPad"></el-radio-button>
-                    <el-radio-button label="watch"></el-radio-button>
+                  <el-radio-group v-model="radio01" size="mini" v-if="response_data">
+                    <el-radio-button label="iPhone" v-if="response_data.videoUrl.iphone!='无'"></el-radio-button>
+                    <el-radio-button label="iPad" v-if="response_data.videoUrl.ipad!='无'"></el-radio-button>
+                    <el-radio-button label="watch" v-if="response_data.videoUrl.watch!='无'"></el-radio-button>
                   </el-radio-group>
                 </div>
               </div>
             </div>
             <div v-if="response_data" class="section_video_flex">
-              <!-- <video id="my_video" class="video-js vjs-default-skin" controls preload="auto">
+              <!-- 测试video -->
+              <!-- <video
+                data-setup="{}"
+                class="video_iPhone video-js vjs-default-skin"
+                preload="auto"
+                controls="controls"
+                id="my-video"
+              >
                 <source
                   src="https://apptrailers-ssl.itunes.apple.com/itunes-assets/PurpleVideo128/v4/76/69/9b/76699b57-ae9e-e8ac-8aec-6756e068b688/P49805176_default.m3u8"
                   type="application/x-mpegURL"
                 />
               </video>-->
-
               <!-- iphone 的video -->
-              <!-- <video
+              <video
+                v-show="response_data.videoUrl.iphone!='无'"
                 data-setup="{}"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.iphone"
                 :key="'videoUrl_item_iphone'+index"
-                v-show="radio01=='iPhone'"
                 class="video_iPhone video-js vjs-default-skin"
                 preload="auto"
                 :poster="videoUrl_item.preview"
                 controls="controls"
-                :id="'my-video'+index"
+                :id="'my-video-iphone'+index"
               >
                 <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>-->
+              </video>
               <!-- iPad 的video -->
-              <!-- <video
+              <video
+                v-show="response_data.videoUrl.ipad!='无'"
                 data-setup="{}"
-                v-for="(videoUrl_item,index) in response_data.videoUrl.iPad"
+                v-for="(videoUrl_item,index) in response_data.videoUrl.ipad"
                 :key="'videoUrl_item_iPad'+index"
-                v-show="radio01=='iPad'"
                 class="video_iPhone video-js vjs-default-skin"
                 preload="auto"
                 :poster="videoUrl_item.preview"
                 controls="controls"
-                id="my-video"
+                :id="'my-video-ipad'+index"
               >
                 <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>-->
+              </video>
               <!-- watch 的video -->
-              <!-- <video
+              <video
+                v-show="response_data.videoUrl.watch!='无'"
                 data-setup="{}"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.watch"
                 :key="'videoUrl_item_watch'+index"
-                v-show="radio01=='watch'"
                 class="video_iPhone video-js vjs-default-skin"
                 preload="auto"
                 :poster="videoUrl_item.preview"
                 controls="controls"
-                id="my-video"
+                :id="'my-video-watch'+index"
               >
                 <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>-->
+              </video>
             </div>
           </div>
         </section>
         <!-- 第三部分 -->
         <!-- 第三部分 -->
         <!-- 第三部分 -->
-        <section class="screenshot">
+        <section
+          class="screenshot"
+          v-if="!response_data||response_data.prtscrUrl.iphone!='无'||response_data.prtscrUrl.ipad!='无'||response_data.prtscrUrl.watch!='无'"
+        >
           <div class="section_title">应用截图</div>
-          <div class="section_video">
+          <div class="section_img">
             <div class="btn_group">
               <div class="btn_item_02">
                 <div>类型</div>
                 <div>
-                  <el-radio-group v-model="radio02" size="mini">
-                    <el-radio-button label="iPhone"></el-radio-button>
-                    <el-radio-button label="iPad"></el-radio-button>
-                    <el-radio-button label="watch"></el-radio-button>
+                  <el-radio-group v-model="radio02" size="mini" v-if="response_data">
+                    <el-radio-button label="iPhone" v-if="response_data.prtscrUrl.iphone!='无'"></el-radio-button>
+                    <el-radio-button label="iPad" v-if="response_data.prtscrUrl.ipad!='无'"></el-radio-button>
+                    <el-radio-button label="watch" v-if="response_data.prtscrUrl.watch!='无'"></el-radio-button>
                   </el-radio-group>
                 </div>
               </div>
@@ -228,9 +240,8 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入播放m3u8格式的视频插件
-import 'videojs-contrib-hls'
 import videojs from 'video.js'
-
+import 'videojs-contrib-hls'
 export default {
   name: 'version_message',
   components: { ios_header, left_nav },
@@ -251,22 +262,246 @@ export default {
       this.get_data()
     })
   },
-  mounted() {
-    // videojs(
-    //   'my_video',
-    //   {
-    //     bigPlayButton: false,
-    //     textTrackDisplay: false,
-    //     posterImage: true,
-    //     errorDisplay: false,
-    //     controlBar: true
-    //   },
-    //   function() {
-    //     this.play()
-    //   }
-    // )
-  },
+
+  mounted: function() {},
   methods: {
+    // 初始化videojs插件
+    videojs_function() {
+      videojs(
+        'my-video-iphone0',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-iphone1',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-iphone2',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-iphone3',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-iphone4',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-iphone5',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad0',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad1',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad2',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad3',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad4',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-ipad5',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch0',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch1',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch2',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch3',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch4',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+      videojs(
+        'my-video-watch5',
+        {
+          bigPlayButton: false,
+          textTrackDisplay: false,
+          posterImage: true,
+          errorDisplay: false,
+          controlBar: true
+        },
+        function() {
+          this.play()
+        }
+      )
+    },
     // 请求数据
     get_data() {
       this.$axios
@@ -295,6 +530,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              this.videojs_function()
             })
             .catch(error => {
               console.log(error)
@@ -309,12 +545,12 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
-    },
-    // 格式化时间
-    format(parm) {
-      // console.log(parm)
-      return myTime(parm)
     }
+    // 格式化时间
+    // format(parm) {
+    //   // console.log(parm)
+    //   return myTime(parm)
+    // }
   }
 }
 </script>
@@ -324,8 +560,8 @@ export default {
   height: 249px;
 }
 .video_watch {
-  width: 283px;
-  height: 226px;
+  width: 340px;
+  height: 272px;
 }
 .video_iPhone:first-child {
   margin-left: 0 !important;
