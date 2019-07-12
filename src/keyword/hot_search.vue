@@ -191,12 +191,7 @@ export default {
               formatDate(day1, 'yyyy-MM-dd') +
               '&endDate=' +
               formatDate(new Date(), 'yyyy-MM-dd')
-            // console.log(
-            //   '&startDate=' +
-            //     formatDate(day1, 'yyyy-MM-dd') +
-            //     '&endDate=' +
-            //     formatDate(new Date(), 'yyyy-MM-dd')
-            // )
+         
           } else if (this.change_bg_day) {
             let day1 = new Date()
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)

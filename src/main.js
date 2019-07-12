@@ -26,10 +26,15 @@ Vue.config.productionTip = false
 // 引入世界地图
 import world from './common/world_map/config_world'
 import './common/world_map/world.css'
-// 引入播放m3u8格式的视频插件
-import 'video.js/dist/video-js.css'
 
-// Vue.use(videojs)
+// 引入播放m3u8格式的视频插件
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer)
+
+import 'videojs-contrib-hls'
+
 Vue.prototype.pin_config = world.pin_config
 Vue.prototype.map_config = world.map_config
 

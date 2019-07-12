@@ -12,6 +12,12 @@ export default {
 </script>
 
 <style>
+/* video视频插件  */
+#version_message .video-js.vjs-fluid,
+.video-js.vjs-16-9,
+.video-js.vjs-4-3 {
+  height: 100% !important;
+}
 /* button组件自定义样式 */
 .el-button {
   padding: 7px 6px !important;

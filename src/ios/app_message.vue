@@ -41,61 +41,36 @@
               </div>
             </div>
             <div v-if="response_data" class="section_video_flex">
-              <!-- 测试video -->
-              <!-- <video
-                data-setup="{}"
-                class="video_iPhone video-js vjs-default-skin"
-                preload="auto"
-                controls="controls"
-                id="my-video"
-              >
-                <source
-                  src="https://apptrailers-ssl.itunes.apple.com/itunes-assets/PurpleVideo128/v4/76/69/9b/76699b57-ae9e-e8ac-8aec-6756e068b688/P49805176_default.m3u8"
-                  type="application/x-mpegURL"
-                />
-              </video>-->
               <!-- iphone 的video -->
-              <video
+              <video-player
                 v-show="response_data.videoUrl.iphone!='无'"
-                data-setup="{}"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.iphone"
                 :key="'videoUrl_item_iphone'+index"
-                class="video_iPhone video-js vjs-default-skin"
-                preload="auto"
-                :poster="videoUrl_item.preview"
-                controls="controls"
-                :id="'my-video-iphone'+index"
-              >
-                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>
+                class="video_iPhone video-player vjs-custom-skin"
+                ref="videoPlayer"
+                :playsinline="true"
+                :options="playerOptions"
+              ></video-player>
               <!-- iPad 的video -->
-              <video
+              <video-player
                 v-show="response_data.videoUrl.ipad!='无'"
-                data-setup="{}"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.ipad"
-                :key="'videoUrl_item_iPad'+index"
-                class="video_iPhone video-js vjs-default-skin"
-                preload="auto"
-                :poster="videoUrl_item.preview"
-                controls="controls"
-                :id="'my-video-ipad'+index"
-              >
-                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>
+                :key="'videoUrl_item_ipad'+index"
+                class="video_iPhone video-player vjs-custom-skin"
+                ref="videoPlayer"
+                :playsinline="true"
+                :options="playerOptions"
+              ></video-player>
               <!-- watch 的video -->
-              <video
+              <video-player
                 v-show="response_data.videoUrl.watch!='无'"
-                data-setup="{}"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.watch"
                 :key="'videoUrl_item_watch'+index"
-                class="video_iPhone video-js vjs-default-skin"
-                preload="auto"
-                :poster="videoUrl_item.preview"
-                controls="controls"
-                :id="'my-video-watch'+index"
-              >
-                <source :src="videoUrl_item.video" type="application/x-mpegURL" />
-              </video>
+                class="video_iPhone video-player vjs-custom-skin"
+                ref="videoPlayer"
+                :playsinline="true"
+                :options="playerOptions"
+              ></video-player>
             </div>
           </div>
         </section>
@@ -240,13 +215,33 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入播放m3u8格式的视频插件
-import videojs from 'video.js'
-import 'videojs-contrib-hls'
+import { videoPlayer } from 'vue-video-player'
+
 export default {
   name: 'version_message',
-  components: { ios_header, left_nav },
+  components: { ios_header, left_nav, videoPlayer },
   data() {
     return {
+      // 播放m3u8格式的视频插件
+      playerOptions: {
+        playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+        autoplay: false, //如果true,浏览器准备好时开始回放。
+        muted: false, // 默认情况下将会消除任何音频。
+        loop: false, // 导致视频一结束就重新开始。
+        preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        language: 'zh-CN',
+        aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        sources: [],
+        poster: '', //你的封面地址
+        notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false,
+          remainingTimeDisplay: false,
+          fullscreenToggle: false //全屏按钮
+        }
+      },
       //单选按钮
       radio01: 'iPhone', //第二部分
       radio02: 'iPhone', //第三部分
@@ -263,244 +258,19 @@ export default {
     })
   },
 
-  mounted: function() {},
   methods: {
-    // 初始化videojs插件
-    videojs_function() {
-      videojs(
-        'my-video-iphone0',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-iphone1',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-iphone2',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-iphone3',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-iphone4',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-iphone5',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad0',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad1',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad2',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad3',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad4',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-ipad5',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch0',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch1',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch2',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch3',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch4',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
-      videojs(
-        'my-video-watch5',
-        {
-          bigPlayButton: false,
-          textTrackDisplay: false,
-          posterImage: true,
-          errorDisplay: false,
-          controlBar: true
-        },
-        function() {
-          this.play()
-        }
-      )
+    // 获取数据并且设置到视频插件的配置项
+    onPlayerPlay(videoUrl_item) {
+      let arr = []
+      function NewObj(videoSrc) {
+        this.src = videoSrc
+        this.type = 'application/x-mpegURL'
+      }
+      videoUrl_item.forEach(element => {
+        arr.push(new NewObj(element.video))
+      })
+      this.playerOptions.sources = arr
+      // console.log(this.playerOptions.sources)
     },
     // 请求数据
     get_data() {
@@ -519,7 +289,7 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
 
-          console.log('country_id' + country_id)
+          // console.log('country_id' + country_id)
           let url =
             'http://39.97.234.11:8080/GetAppInfo?countryId=' +
             country_id +
@@ -530,7 +300,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              this.videojs_function()
+              // 获取数据并且设置到视频插件的配置项
+              this.onPlayerPlay(this.response_data.videoUrl.iphone)
             })
             .catch(error => {
               console.log(error)
@@ -546,11 +317,6 @@ export default {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
     }
-    // 格式化时间
-    // format(parm) {
-    //   // console.log(parm)
-    //   return myTime(parm)
-    // }
   }
 }
 </script>
@@ -673,7 +439,7 @@ export default {
   color: #222222;
   margin-right: 16px;
 }
-video {
+.video {
   border: solid 1px #f2f2f2;
   margin-bottom: 40px;
 }
