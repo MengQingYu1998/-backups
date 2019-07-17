@@ -13,8 +13,11 @@
         </div>
       </div>
       <div class="options_02 option">
-        <!-- 选择国家 -->
-        <country @childFn="parentFn"></country>
+        <div>地区</div>
+        <div>
+          <!-- 选择国家 -->
+          <country @childFn="parentFn"></country>
+        </div>
       </div>
       <div class="options_03 option">
         <div>日期</div>
@@ -62,7 +65,7 @@
                 <el-popover
                   placement="bottom"
                   width="200"
-                  trigger="hover"
+                  trigger="click"
                   :open-delay="500"
                   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
                 >
@@ -191,7 +194,6 @@ export default {
               formatDate(day1, 'yyyy-MM-dd') +
               '&endDate=' +
               formatDate(new Date(), 'yyyy-MM-dd')
-         
           } else if (this.change_bg_day) {
             let day1 = new Date()
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
@@ -220,6 +222,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)
@@ -389,6 +392,9 @@ table {
 }
 .options_04 .search div {
   width: 145px !important;
+}
+.options_03 {
+  margin-left: 70px !important;
 }
 .options_03 .date div {
   width: 114px !important;

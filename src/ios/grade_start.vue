@@ -213,16 +213,20 @@
           <div class="btn_group">
             <div class="btn_item_01">
               <div>时间</div>
-              <div>
+              <div @click="click_second_el_date_picker">
                 <el-date-picker
-                  v-model="bottom_time01"
+                  v-model="middle_top_time01"
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
+                  :picker-options="middle_top_pickerOptions"
                 ></el-date-picker>
               </div>
-              <div>近一个月</div>
+              <div
+                :class="{'font_block':true,'change_bg':click_near_month}"
+                @click="click_near_month_function"
+              >近一个月</div>
             </div>
           </div>
           <div ref="grade_start_one" class="myChart"></div>
@@ -236,27 +240,28 @@
             <div class="btn_item_02">
               <div>类型</div>
               <div>
-                <el-radio-group v-model="radio01" size="mini">
+                <el-radio-group v-model="middle_bottom_radio01" size="mini">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="在线评论"></el-radio-button>
                   <el-radio-button label="已删除评论"></el-radio-button>
                 </el-radio-group>
               </div>
             </div>
-            <div class="btn_item_03">
+            <div class="btn_item_03" @click="change_middle_bottom_radio02">
               <div>时间</div>
               <div>
                 <el-date-picker
-                  v-model="bottom_time01"
+                  v-model="middle_bottom_time01"
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
+                  :picker-options="middle_bottom_pickerOptions"
                 ></el-date-picker>
               </div>
               <div></div>
-              <div>
-                <el-radio-group v-model="radio02" size="mini">
+              <div @click="change_middle_bottom_time01">
+                <el-radio-group v-model="middle_bottom_radio02" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
                   <el-radio-button label="昨日"></el-radio-button>
                   <el-radio-button label="近一个月"></el-radio-button>
@@ -264,7 +269,8 @@
               </div>
             </div>
           </div>
-          <div ref="common_one" class="myChart"></div>
+          <div ref="common_one" class="myChart" v-show="common_one"></div>
+          <div ref="grade_start_three" class="myChart" v-show="grade_start_three"></div>
         </section>
         <!-- ===================第四部分====================== -->
         <!-- ====================第四部分===================== -->
@@ -390,11 +396,75 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      // 第一部分参数
+      // 第一部分参数
+      // 第一部分参数
+      // 评分五角星
+      start_left: 0,
+      start_right: 0,
+
+      table_start: 4,
+      response_data_first_part: null,
+
+      //  第二部分参数
+      //  第二部分参数
+      //  第二部分参数
+      click_near_month: true,
+      response_data_second_part: null,
+      middle_top_time01: '',
+      middle_top_pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
+      middle_top_xAxis: [
+        {
+          type: 'category',
+          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        }
+      ],
+      one_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      two_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      three_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      four_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      five_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      //  第三部分参数
+      //  第三部分参数
+      //  第三部分参数
+      response_data_third_part: null,
+      middle_bottom_radio02: '近一个月', //今日 昨日 近一个月
+      middle_bottom_radio01: '全部', //全部 删除 在线
+      middle_bottom_time01: '',
+      middle_bottom_pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
+      middle_bottom_xAxis: [
+        {
+          type: 'category',
+          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        }
+      ],
+      grade_start_three: false, //五星图表默认隐藏
+      common_one: true, //在线删除图表默认隐藏
+      online_data: [-320, 332, 301, 334, 390, 330, 320],
+      delete_data: [-320, 332, 301, 334, 390, 330, 320],
+      one_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
+      two_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
+      three_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
+      four_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
+      five_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
       // 第四部分的参数
+      // 第四部分的参数
+      // 第四部分的参数
+      response_data_fourth_part: null,
       bottom_radio01: '全部',
       bottom_radio02: '全部',
       bottom_radio03: '最有帮助',
-      bottom_radio04: '今日',
+      bottom_radio04: '近一个月',
       bottom_time01: '',
       pickerOptions2: {
         disabledDate(time) {
@@ -404,7 +474,7 @@ export default {
       },
       //评论统计的单选按钮
       radio01: '',
-      radio02: '',
+
       //起始时间，结束时间
       start_date_for_grade: '',
       end_date_for_grade: '',
@@ -414,29 +484,37 @@ export default {
       end_date_for_common_description: '',
       // 顶部搜索框
       input1: '',
-      // 评分五角星
-      start_left: 0,
-      start_right: 0,
 
-      table_start: 4,
-      // 请求的数据
-      response_data_first_part: null,
-      response_data_fourth_part: null,
       now_country: '中国'
     }
   },
-  mounted() {
-    this.drawLine()
-    this.drawLine01()
-  },
+
   created: function() {
     // 请求数据
     this.get_data_for_first_part()
+    this.get_data_for_second_part()
+    this.get_data_for_third_part()
     this.get_data_for_fourth_part()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_for_first_part()
       this.get_data_for_fourth_part()
+      this.get_data_for_third_part()
+      this.get_data_for_second_part()
+    })
+    // 监听第二部分的时间变化
+    this.$watch('middle_top_time01', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    // 监听第三部分的时间变化
+    this.$watch('middle_bottom_radio02', function(newValue, oldValue) {
+      this.get_data_for_third_part()
+    })
+    this.$watch('middle_bottom_radio01', function(newValue, oldValue) {
+      this.get_data_for_third_part()
+    })
+    this.$watch('middle_bottom_time01', function(newValue, oldValue) {
+      this.get_data_for_third_part()
     })
     //'当前第四部分=》评论部分的    时间  发生变化，重新请求数据...'
     this.$watch('bottom_time01', function(newValue, oldValue) {
@@ -456,6 +534,399 @@ export default {
     })
   },
   methods: {
+    // ====================第二部分=========================
+    // ===================第二部分==========================
+    // ====================第二部分=========================
+    // 第二部分的画middle_top的canvas
+    drawLine: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.grade_start_one)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          y: 'bottom',
+          data: ['一星', '二星', '三星', '四星', '五星']
+        },
+        grid: {
+          left: '0%',
+          right: '0%',
+          bottom: '12%',
+          top: '7%',
+          containLabel: true
+        },
+        xAxis: this.middle_top_xAxis,
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '一星',
+            stack: 'start',
+            type: 'bar',
+            barWidth: 30, //宽度
+            itemStyle: {
+              color: '#ef8189'
+            },
+            data: this.one_start_data
+          },
+          {
+            name: '二星',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#ef81d4'
+            },
+            data: this.two_start_data
+          },
+          {
+            name: '三星',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#81e1ef'
+            },
+            data: this.three_start_data
+          },
+          {
+            name: '四星',
+            stack: 'start',
+            type: 'bar',
+            itemStyle: {
+              color: '#81ef8e'
+            },
+            data: this.four_start_data
+          },
+          {
+            name: '五星',
+            stack: 'start',
+            type: 'bar',
+            itemStyle: {
+              color: '#efd581'
+            },
+            data: this.five_start_data
+          }
+        ]
+      })
+    },
+    click_near_month_function: function() {
+      this.click_near_month = true
+      this.get_data_for_second_part()
+    },
+    click_second_el_date_picker: function() {
+      this.click_near_month = false
+    },
+    // 请求第二部分的图标参数
+    get_data_for_second_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 点击近一个月
+          let near_month_time = new Date()
+          near_month_time.setTime(
+            near_month_time.getTime() - 24 * 60 * 60 * 1000 * 30
+          )
+          let time =
+            formatDate(near_month_time, 'yyyy-MM-dd') +
+            '-' +
+            formatDate(new Date(), 'yyyy-MM-dd')
+
+          if (!this.click_near_month) {
+            let middle_top_time01 = this.middle_top_time01
+            time =
+              formatDate(middle_top_time01[0], 'yyyy-MM-dd') +
+              '-' +
+              formatDate(middle_top_time01[1], 'yyyy-MM-dd')
+          }
+          // console.log(time)
+          let url =
+            'http://39.97.234.11:8080/GetPageStarStatistics?appId=112&time=' +
+            time +
+            '&countryId=' +
+            country_id
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data_second_part = response.data.Data
+              // console.log(this.response_data_second_part)
+              this.one_start_data = this.response_data_second_part.oneStar
+              this.two_start_data = this.response_data_second_part.twoStar
+              this.three_start_data = this.response_data_second_part.threeStar
+              this.four_start_data = this.response_data_second_part.fourStar
+              this.five_start_data = this.response_data_second_part.fiveStar
+              this.middle_top_xAxis[0].data = this.response_data_second_part.publishTime
+              this.drawLine()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // ===================第三部分==========================
+    // ===================第三部分==========================
+    // ====================第三部分=========================
+    //  第三部分的画middle_bottom的canvas
+    drawLine01: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.common_one)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          y: 'bottom',
+          data: ['在线评论', '以删除评论']
+        },
+        grid: {
+          left: '0%',
+          right: '0%',
+          bottom: '12%',
+          top: '7%',
+          containLabel: true
+        },
+        xAxis: this.middle_bottom_xAxis,
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '在线评论',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#009bef'
+            },
+            data: this.online_data
+          },
+          {
+            name: '以删除评论',
+            stack: 'start',
+            type: 'bar',
+            barWidth: 30, //宽度
+            itemStyle: {
+              color: '#d3f0ff'
+            },
+            data: this.delete_data
+          }
+        ]
+      })
+    },
+    drawLine03: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.grade_start_three)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          y: 'bottom',
+          data: ['一星', '二星', '三星', '四星', '五星']
+        },
+        grid: {
+          left: '0%',
+          right: '0%',
+          bottom: '12%',
+          top: '7%',
+          containLabel: true
+        },
+        xAxis: this.middle_bottom_xAxis,
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '一星',
+            stack: 'start',
+            type: 'bar',
+            barWidth: 30, //宽度
+            itemStyle: {
+              color: '#ef8189'
+            },
+            data: this.one_start_data_third
+          },
+          {
+            name: '二星',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#ef81d4'
+            },
+            data: this.two_start_data_third
+          },
+          {
+            name: '三星',
+            type: 'bar',
+            stack: 'start',
+            itemStyle: {
+              color: '#81e1ef'
+            },
+            data: this.three_start_data_third
+          },
+          {
+            name: '四星',
+            stack: 'start',
+            type: 'bar',
+            itemStyle: {
+              color: '#81ef8e'
+            },
+            data: this.four_start_data_third
+          },
+          {
+            name: '五星',
+            stack: 'start',
+            type: 'bar',
+            itemStyle: {
+              color: '#efd581'
+            },
+            data: this.five_start_data_third
+          }
+        ]
+      })
+    },
+    change_middle_bottom_radio02() {
+      this.middle_bottom_radio02 = ''
+    },
+    change_middle_bottom_time01() {
+      this.middle_bottom_time01 = ''
+    },
+    get_data_for_third_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          let time
+          if (this.middle_bottom_time01) {
+            let middle_bottom_time01 = this.middle_bottom_time01
+            time =
+              formatDate(middle_bottom_time01[0], 'yyyy-MM-dd') +
+              '-' +
+              formatDate(middle_bottom_time01[1], 'yyyy-MM-dd')
+          }
+          if (this.middle_bottom_radio02 == '今日') {
+            let time01 = new Date()
+            time =
+              formatDate(time01, 'yyyy-MM-dd') +
+              '-' +
+              formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_bottom_radio02 == '昨日') {
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
+            time =
+              formatDate(time02, 'yyyy-MM-dd') +
+              '-' +
+              formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_bottom_radio02 == '近一个月') {
+            let time03 = new Date()
+            time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 30)
+            time =
+              formatDate(time03, 'yyyy-MM-dd') +
+              '-' +
+              formatDate(new Date(), 'yyyy-MM-dd')
+          }
+          // console.log(time)
+
+          let type = 0
+          if (this.middle_bottom_radio01 == '全部') {
+            this.grade_start_three = false //五星图表显示
+            this.common_one = true //在线删除图表隐藏
+            type = 0
+          } else if (this.middle_bottom_radio01 == '在线评论') {
+            this.grade_start_three = true //五星图表显示
+            this.common_one = false //在线删除图表隐藏
+            type = 1
+          } else if (this.middle_bottom_radio01 == '已删除评论') {
+            this.grade_start_three = true //五星图表显示
+            this.common_one = false //在线删除图表隐藏
+            type = 2
+          }
+          let url =
+            'http://39.97.234.11:8080/GetIsDelete?appId=112&time=' +
+            time +
+            '&countryId=' +
+            country_id +
+            '&type=' +
+            type
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data_third_part = response.data.Data
+              console.log(this.response_data_third_part)
+              this.one_start_data_third = this.response_data_third_part.oneStar
+              this.two_start_data_third = this.response_data_third_part.twoStar
+              this.three_start_data_third = this.response_data_third_part.threeStar
+              this.four_start_data_third = this.response_data_third_part.fourStar
+              this.five_start_data_third = this.response_data_third_part.fiveStar
+              this.online_data = this.response_data_third_part.onLine
+              this.delete_data = this.response_data_third_part.haveDeleted
+              this.middle_bottom_xAxis[0].data = this.response_data_third_part.publishTime
+              this.drawLine01()
+              this.drawLine03()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // ==================第四部分===========================
+    // =================第四部分============================
+    // ==================第四部分===========================
     // 请求第四部分=》评论部分的数据
     get_data_for_fourth_part() {
       this.$axios
@@ -556,7 +1027,7 @@ export default {
           console.log(error)
         })
     },
-    // 请求评分统计的数据
+    // 请求第一部分评分统计的数据
     get_data_for_first_part() {
       this.$axios
         .get('http://39.97.234.11:8080/GetCountry')
@@ -601,157 +1072,6 @@ export default {
           console.log(error)
         })
     },
-
-    // 获取当前选中的国家
-    parentFn(payload) {
-      this.now_country = payload
-      // console.log('grade_start' + this.now_country)
-    },
-    // 画middle_top的canvas
-    drawLine: function() {
-      let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.grade_start_one)
-      // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          y: 'bottom',
-          data: ['一星', '二星', '三星', '四星', '五星']
-        },
-        grid: {
-          left: '0%',
-          right: '0%',
-          bottom: '12%',
-          top: '7%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '一星',
-            stack: 'start',
-            type: 'bar',
-            barWidth: 30, //宽度
-            itemStyle: {
-              color: '#ef8189'
-            },
-            data: [-320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '二星',
-            type: 'bar',
-            stack: 'start',
-            itemStyle: {
-              color: '#ef81d4'
-            },
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '三星',
-            type: 'bar',
-            stack: 'start',
-            itemStyle: {
-              color: '#81e1ef'
-            },
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '四星',
-            stack: 'start',
-            type: 'bar',
-            itemStyle: {
-              color: '#81ef8e'
-            },
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '五星',
-            stack: 'start',
-            type: 'bar',
-            itemStyle: {
-              color: '#efd581'
-            },
-            data: [862, 1018, 964, 1026, 1679, 1600, 1570]
-          }
-        ]
-      })
-    },
-    // 画middle_bottom的canvas
-    drawLine01: function() {
-      let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.common_one)
-      // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          y: 'bottom',
-          data: ['在线评论', '以删除评论']
-        },
-        grid: {
-          left: '0%',
-          right: '0%',
-          bottom: '12%',
-          top: '7%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '在线评论',
-            type: 'bar',
-            stack: 'start',
-            itemStyle: {
-              color: '#009bef'
-            },
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '以删除评论',
-            stack: 'start',
-            type: 'bar',
-            barWidth: 30, //宽度
-            itemStyle: {
-              color: '#d3f0ff'
-            },
-            data: [20, 332, 301, 334, 390, 330, 320]
-          }
-        ]
-      })
-    },
     // 当点击第四部分的时间的时候，把和时间一起的单选框置空
     change_bottom_radio04: function() {
       this.bottom_radio04 = ''
@@ -760,15 +1080,43 @@ export default {
     change_bottom_time01: function() {
       this.bottom_time01 = ''
     },
+
+    // =================通用============================
+    // =================通用============================
+    // =================通用============================
     // 格式化时间
     format(parm) {
       // console.log(parm)
       return myTime(parm)
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('grade_start' + this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.change_bg {
+  color: #ffffff !important;
+  background-color: #009bef;
+}
+.font_block {
+  text-align: center;
+  line-height: 24px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  width: 70px !important;
+  height: 24px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  letter-spacing: 0px;
+  color: #444444;
+  display: inline-block;
+}
 .bottom_table_td01 {
   width: 238px !important;
 }

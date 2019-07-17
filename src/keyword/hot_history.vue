@@ -16,29 +16,18 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <el-select v-model="countryValue">
-            <el-option v-for="item in  country " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <country @childFn="parentFn"></country>
         </div>
-      </div>
-      <div class="options_03 option">
-        <div>日期</div>
-        <div class="date">
-          <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
-        </div>
-        <div class="font_block">昨日</div>
-        <div class="font_block">本周</div>
       </div>
       <div class="options_04 option">
         <div>搜索</div>
         <div class="search">
-          <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
+          <el-input v-model="search_input" @blur="blur" placeholder="请输入搜索关键词"></el-input>
         </div>
       </div>
     </div>
-    <div class="table01">
-      <div>2019年04月17日</div>
+    <div class="table01" v-for="(item,index) in response_data" :key="'table01'+index">
+      <div>{{item.time}}</div>
       <table>
         <thead>
           <tr>
@@ -48,65 +37,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr
+            v-for="(table01_tr_item,table01_tr_index) in item.list"
+            :key="'table01_tr'+table01_tr_index"
+          >
             <td>
-              <div>2019-02-20 12:56</div>
+              <div>{{table01_tr_item.stime}}</div>
             </td>
             <td>
-              <div>2019-02-20 12:56</div>
+              <div>{{table01_tr_item.etime}}</div>
             </td>
             <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table01">
-      <div>2019年04月17日</div>
-      <table>
-        <thead>
-          <tr>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>持续时长</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-            <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-            <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table01">
-      <div>2019年04月17日</div>
-      <table>
-        <thead>
-          <tr>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>持续时长</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-            <td>
-              <div>2019-02-20 12:56</div>
-            </td>
-            <td>
-              <div>2019-02-20 12:56</div>
+              <div>{{table01_tr_item.hours}}</div>
             </td>
           </tr>
         </tbody>
@@ -116,69 +58,99 @@
 </template>
 
 <script>
+// 引入国家选择组件
+import country from '../common/country_select/country'
 export default {
   name: 'hot_history',
+  components: { country },
   data() {
     return {
+      response_data: null,
+      // 获取当前选中的国家
+      now_country: '中国',
       // 请输入搜索关键词
       search_input: '',
       // 设备选择
       equipment: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
+      equipmentValue: 'iPhone',
+
       // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
-      //日期选择
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
-      },
-      dateValue: ''
+      countryValue: '中国'
     }
   },
-  methods: {}
+  created: function() {
+    this.get_data()
+    this.$watch('now_country', function(newValue, oldValue) {
+      // console.log('当前国家发生变化，重新请求数据...')
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let searchWord = this.search_input
+          let url =
+            'http://39.97.234.11:8080/Word/HotSearchDetail?deviceType=' +
+            deviceType +
+            '&countryId=' +
+            country_id +
+            '&searchWord=' +
+            searchWord
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+              console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 输入框失去焦点
+    blur: function() {
+      this.get_data()
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
+    }
+  }
 }
 </script>
 <style scoped>
+.change_bg {
+  color: #ffffff !important;
+  background-color: #009bef;
+}
 .table01 {
   margin-bottom: 22px;
 }
@@ -257,6 +229,9 @@ table {
 }
 .options_04 .search div {
   width: 145px !important;
+}
+.options_04 {
+  margin-left: 70px !important;
 }
 .options_03 .date div {
   width: 114px !important;

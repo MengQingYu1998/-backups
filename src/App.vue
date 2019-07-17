@@ -52,8 +52,8 @@ table tbody tr:hover {
 #result .el-input--suffix .el-input__inner {
   padding-right: 4px;
 }
-/* elementUI的提示框，鼠标悬浮白色提示 */
-#hot_search .el-popover {
+/*#hot_search  elementUI的提示框，鼠标悬浮白色提示 */
+.el-popover {
   width: 300px !important ;
   box-sizing: border-box;
   /* transition-duration: 0ms !important; */
