@@ -54,7 +54,7 @@ table tbody tr:hover {
 }
 /*#hot_search  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
-  width: 300px !important ;
+  width: 320px !important ;
   box-sizing: border-box;
   /* transition-duration: 0ms !important; */
 }

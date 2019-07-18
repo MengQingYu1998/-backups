@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">同开发者应用</div>
@@ -17,47 +17,53 @@
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>应用</th>
-              <th>搜索排名变动</th>
               <th>总榜排名</th>
               <th>分类榜排名</th>
-              <th>关键词覆盖数</th>
-              <th>top3关键词数</th>
-              <th>top3关键词数</th>
+              <th>关键词覆盖</th>
+              <th>上架日期</th>
+              <th>最后更新时间</th>
+              <th>状态</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>
+          <tbody v-if="response_data">
+            <tr v-for="(item ,index) in response_data" :key="index">
+              <td class="first_td">{{index+1}}</td>
+              <td class="second_td">
                 <div class="use">
                   <div>
-                    <img src="../assets/keyword/test.png" alt>
+                    <img :src="item.icon" alt />
                   </div>
                   <div>
-                    <div>好几家军军军...</div>
-                    <!-- <div class="now_app">当前应用</div> -->
-                    <div class="rankingChangeFontColor">好几家军军军...</div>
+                    <div>{{item.appName}}</div>
+                    <div class="rankingChangeFontColor">{{item.subtitle}}</div>
                   </div>
                 </div>
               </td>
 
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div
+                  class="rankingChangeFontColor"
+                  v-if="item.totalGenreName!=null"
+                >{{item.totalGenreName}}</div>
+                <div class="rankingChangeFontColor" v-if="item.totalGenreName==null">--</div>
+                <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor" v-if="item.genreName!=null">{{item.genreName}}</div>
+                <div class="rankingChangeFontColor" v-if="item.genreName==null">--</div>
+                <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
               </td>
-              <td class="rankingChangeFontColor">8000</td>
+              <td class="rankingChangeFontColor">{{item.keyWordHide}}</td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
+                <div class="rankingChangeFontColor">{{item.onLineTime}}</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
+                <div class="rankingChangeFontColor">{{item.updateTime}}</div>
               </td>
               <td class="operation">
-                <div class="rankingChangeFontColor">（总榜）</div>
+                <div class="rankingChangeFontColor">{{item.status}}</div>
               </td>
             </tr>
           </tbody>
@@ -74,11 +80,79 @@ export default {
   name: 'same_dev_app',
   components: { ios_header, left_nav },
   data() {
-    return {}
+    return { now_country: '中国', response_data: null }
+  },
+  created: function() {
+    this.get_data()
+    this.$watch('now_country', function(newValue, oldValue) {
+      console.log('当前国家发生变化，重新请求数据...')
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          // console.log(country_id)
+
+          let url =
+            'http://39.97.234.11:8080/GetSameDevApps?countryId=' +
+            country_id +
+            '&appId=291322250&deviceType=1'
+          // console.log(url)
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+              // console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
+    }
   }
 }
 </script>
 <style scoped>
+.second_td {
+  width: 250px;
+}
+.first_td {
+  width: 50px;
+  font-family: SourceHanSansCN-Bold;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0.3px;
+  color: #222222;
+  text-align: center;
+  padding-left: 20px;
+}
 .operation > div {
   display: flex;
   align-items: center;
@@ -118,6 +192,16 @@ export default {
   right: -9px;
   top: 0;
 }
+.use {
+  text-align: left;
+}
+.use .rankingChangeFontColor {
+  width: 180px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .rankingChangeFontColor {
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
@@ -131,7 +215,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  margin-left: 16px;
+  /* margin-left: 16px; */
   margin-right: 9px;
 }
 .use {
@@ -139,6 +223,9 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+tbody tr {
+  border-bottom: 1px solid #f2f2f2;
 }
 thead tr {
   height: 40px;
@@ -150,6 +237,8 @@ tbody tr td:last-child {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #009bef;
+  padding: 50px 0;
+  width: 108px;
 }
 tbody {
   font-family: SourceHanSansCN-Normal;
@@ -175,6 +264,7 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
+  margin-bottom: 50px;
 }
 .right {
   padding-left: 57px;

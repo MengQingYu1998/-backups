@@ -61,40 +61,31 @@
           </td>
           <td>
             <div class="table_font table_font_other">
-              <div v-for="(item_list,index_list) in item.list" :key="index_list">
+              <div
+                v-for="(item_list,index_list) in item.list"
+                :key="index_list"
+                @mouseover="get_data_for_popover(item_list.word,item.time)"
+              >
                 <el-popover
                   placement="bottom"
                   width="200"
-                  trigger="click"
+                  trigger="hover"
                   :open-delay="500"
                   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
                 >
                   <div class="table_hover_title">
-                    <span>搜索指数 6668</span>
+                    <span v-if="response_datafor_popover">搜索指数 {{response_datafor_popover.Hint}}</span>
                     <span>热搜历史</span>
                   </div>
                   <div class="table_hover_line"></div>
                   <div>热词搜索前5名搜索结果</div>
-                  <div class="table_hover_app_group">
-                    <div>
-                      <img src="../assets/keyword/test.png" alt />
-                      <div>抖音</div>
-                    </div>
-                    <div>
-                      <img src="../assets/keyword/test.png" alt />
-                      <div>抖音</div>
-                    </div>
-                    <div>
-                      <img src="../assets/keyword/test.png" alt />
-                      <div>抖音</div>
-                    </div>
-                    <div>
-                      <img src="../assets/keyword/test.png" alt />
-                      <div>抖音</div>
-                    </div>
-                    <div>
-                      <img src="../assets/keyword/test.png" alt />
-                      <div>抖音</div>
+                  <div class="table_hover_app_group" v-if="response_datafor_popover">
+                    <div
+                      v-for="(item_for_popover ,index_for_popover) in response_datafor_popover.Appinfo"
+                      :key="index_for_popover"
+                    >
+                      <img :src="item_for_popover.icon_url" alt />
+                      <div class="hide_font">{{item_for_popover.app_name}}</div>
                     </div>
                   </div>
                   <div slot="reference">{{item_list.word}}</div>
@@ -119,6 +110,7 @@ export default {
   data() {
     return {
       response_data: null,
+      response_datafor_popover: null,
       // 获取当前选中的国家
       now_country: '中国',
       // 请输入搜索关键词
@@ -222,7 +214,50 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(this.response_data)
+              // console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 请求鼠标悬浮的框框数据
+    get_data_for_popover(word, time) {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let url =
+            'http://39.97.234.11:8080/Word/HotSearchApps?deviceType=' +
+            deviceType +
+            '&countryId=' +
+            country_id +
+            '&word=' +
+            word +
+            '&time=' +
+            time
+          // console.log(url)
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_datafor_popover = response.data
+              // console.log(this.response_datafor_popover)
             })
             .catch(error => {
               console.log(error)
@@ -260,6 +295,13 @@ export default {
 </script>
 
 <style scoped>
+.hide_font {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 45px;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
@@ -281,7 +323,6 @@ export default {
 }
 .table_hover_app_group {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 15px;
 }

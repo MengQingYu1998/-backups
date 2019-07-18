@@ -179,9 +179,11 @@ th {
 }
 tbody > tr > td:first-child {
   width: 325px;
+  padding: 30px 0;
 }
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
+  padding: 30px 0;
 }
 
 tbody {

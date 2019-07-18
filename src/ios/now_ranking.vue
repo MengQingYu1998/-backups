@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <!-- 第一部分 -->
@@ -26,18 +26,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item[0]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item[1]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item[2]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item[3]}}</div>
                 </td>
               </tr>
             </tbody>
@@ -116,7 +116,7 @@
             </div>
           </div>
           <div class="world_map">
-            <world_map :country_temp="country_temp"/>
+            <world_map :country_temp="country_temp" />
             <div class="level">
               <div class="one_level">
                 <div></div>
@@ -216,6 +216,9 @@ export default {
   components: { ios_header, left_nav, world_map },
   data() {
     return {
+      // 第一部分图表的数据
+      now_country: '中国',
+      response_data_first: null,
       // 世界地图测试数据
       country_temp: ['中国', '美国', '俄罗斯', '泰国', '新加坡'],
       // 设备选择
@@ -259,7 +262,51 @@ export default {
   mounted() {
     this.drawLine()
   },
+  created: function() {
+    this.get_data_first()
+    this.$watch('now_country', function(newValue, oldValue) {
+      console.log('当前国家发生变化，重新请求数据...')
+      this.get_data_first()
+    })
+  },
   methods: {
+    // 请求第一部分数据
+    get_data_first() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+          // console.log(country_id)
+
+          let url = 'http://39.97.234.11:8080/PostRealTimeRank'
+          console.log(url)
+          let data = { appId: 472208016, countryId: country_id }
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.response_data_first = response.data.Data
+              // console.log(this.response_data_first)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
       let obj = {}
@@ -335,6 +382,10 @@ export default {
         },
         series: that.series_data()
       })
+    }, // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
   }
 }
@@ -481,10 +532,15 @@ section {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #888888;
+  padding: 30px 0;
 }
 
 thead tr {
   height: 40px;
+  border-bottom: 1px solid #f2f2f2;
+}
+tbody tr {
+  border-bottom: 1px solid #f2f2f2;
 }
 tbody tr td:last-child {
   font-family: SourceHanSansCN-Normal;
