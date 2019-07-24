@@ -28,6 +28,7 @@
     </div>
     <div class="table01" v-for="(item,index) in response_data" :key="'table01'+index">
       <div>{{item.time}}</div>
+
       <table>
         <thead>
           <tr>
@@ -69,7 +70,7 @@ export default {
       // 获取当前选中的国家
       now_country: '中国',
       // 请输入搜索关键词
-      search_input: '',
+      search_input: '王者荣耀',
       // 设备选择
       equipment: [
         {
@@ -150,6 +151,7 @@ export default {
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
+  border: solid 1px #ffffff !important;
 }
 .table01 {
   margin-bottom: 22px;
@@ -244,6 +246,9 @@ table {
 .option div:last-child {
   width: 72px;
   height: 24px;
+}
+.options_01 div:last-child {
+  width: 87px;
 }
 .option {
   display: flex;

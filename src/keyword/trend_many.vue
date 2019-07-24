@@ -16,15 +16,29 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country></country>
+          <country @childFn="parentFn"></country>
         </div>
       </div>
-      <div class="options_03 option">
-        <div>日期</div>
-        <div>
-          <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+      <div class="btn_item_03" @click="change_radio02">
+        <div>时间</div>
+        <div class="date">
+          <el-date-picker
+            v-model="dateValue"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+          ></el-date-picker>
         </div>
+        <div></div>
+      </div>
+      <div @click="change_time01">
+        <el-radio-group v-model="radio02" size="mini">
+          <el-radio-button label="7天"></el-radio-button>
+          <el-radio-button label="30天"></el-radio-button>
+          <el-radio-button label="90天"></el-radio-button>
+        </el-radio-group>
       </div>
     </div>
     <div class="keywords">
@@ -100,6 +114,8 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 
+// 引入工具类
+import { formatDate, timestamp } from '../common/util.js'
 export default {
   name: 'trend_many',
   components: {
@@ -107,90 +123,189 @@ export default {
   },
   data() {
     return {
+      // 请求的数据
+      response_data: null,
       // true显示myChart  false显示table表格
       is_show_myChart_and_table: true,
+      // 单选框
+      radio02: '7天',
       // 请输入关键词查询联想词
       input: '',
       // 设备选择
       equipment: [
+        // 设备选择
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
-      // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
+      equipmentValue: 'iPhone',
+
+      now_country: '中国',
       //日期选择
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
+        }
       },
-      dateValue: '2019-6-27',
+      dateValue: '',
       // 控制折线图显示所有
       canvas_is_show_all: true,
       //canvas 关键词data数组
-      keyword_data: [
-        '邮件营销',
-        '联盟广告',
-        '视频广告',
-        '直接访问',
-        '搜索引擎'
-      ],
+      keyword_data: ['王者荣耀', '抖音'],
       // 数据
-      keyword_data_value: [
-        [820, 932, 901, 934, 11, 1330, 1320],
-        [555, 555, 555, 555, 555, 555, 555],
-        [820, 932, 901, 934, 1290, 1330, 1320],
-        [555, 6, 555, 555, 555, 555, 555],
-        [88, 932, 901, 934, 1290, 1330, 75]
-      ],
+      keyword_data_value: [],
       // X轴文本
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      xAxis_data: [],
       // 控制折线显隐
       selected_data: {}
     }
   },
 
-  mounted() {
-    this.drawLine()
+  created: function() {
+    // 请求数据
+    this.get_data()
+
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    // 监听第二部分的时间变化
+    this.$watch('radio02', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data()
+    })
   },
   methods: {
+    // 请求参数
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // console.log('国家' + country_id)
+          // 请求数据
+          let url = 'http://39.97.234.11:8080/Word/FindSearchHint'
+          let sdate, edate
+          if (this.dateValue) {
+            sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
+            edate = formatDate(this.dateValue[1], 'yyyy-MM-dd')
+          } else if (this.radio02 == '7天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          } else if (this.radio02 == '30天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          } else if (this.radio02 == '90天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 90)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          }
+          console.log(sdate)
+          console.log(edate)
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+
+          let word = this.keyword_data
+          // console.log(word)
+          console.log(deviceType)
+          // console.log(country_id)
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            sdate: sdate,
+            edate: edate,
+            word: word
+          }
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.response_data = response.data
+              console.log(this.response_data)
+
+              this.xAxis_data = this.response_data.Xtime
+              this.keyword_data_value = this.response_data.Xvalue
+              this.drawLine()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 画表格
+    drawLine: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: that.keyword_data,
+          y: 'bottom',
+          // 控制显示隐藏哪一个折线
+          // selected: {
+          //   邮件营销: false
+          // }
+          selected: that.selected_data
+        },
+        grid: {
+          left: '0%',
+          right: '1%',
+          bottom: '13%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {
+              title: '保存',
+              iconStyle: {
+                opacity: 1,
+                borderWidth: 2,
+                borderColor: '#555'
+              }
+            }
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: that.xAxis_data
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: that.series_data()
+      })
+    },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
       let obj = {}
@@ -244,61 +359,48 @@ export default {
         return false
       }
       this.keyword_data.push(this.input)
+      // this.selected_data[this.keyword_data[this.input]] = true
       this.input = ''
+      this.get_data()
       this.drawLine()
     },
 
-    drawLine: function() {
-      let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
-      // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom',
-          // 控制显示隐藏哪一个折线
-          // selected: {
-          //   邮件营销: false
-          // }
-          selected: that.selected_data
-        },
-        grid: {
-          left: '0%',
-          right: '1%',
-          bottom: '13%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
-              }
-            }
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: that.xAxis_data
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: that.series_data()
-      })
+    change_radio02() {
+      this.radio02 = ''
+    },
+    change_time01() {
+      this.dateValue = ''
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.date {
+  margin-top: 2px !important;
+}
+.btn_item_03 > div:nth-child(1) {
+  margin-right: 16px !important;
+}
+.btn_item_03 {
+  display: flex;
+  align-items: center;
+  margin-left: 70px;
+  margin-top: 10px;
+}
+.btn_item_03 > div {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-right: 10px;
+}
 .show_all {
   width: 65px;
   height: 24px;
@@ -454,7 +556,7 @@ table {
   margin-right: 15px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 87px;
   height: 24px;
 }
 .option {

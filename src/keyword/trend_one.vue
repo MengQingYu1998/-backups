@@ -7,39 +7,47 @@
         <div>系统</div>
         <div>
           <!-- 饿了么的select组件 -->
+          <el-select v-model="systemValue">
+            <el-option v-for="item in  system " :key="item.value" :value="item.value"></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="options_01 option">
+        <div>设备</div>
+        <div>
+          <!-- 饿了么的select组件 -->
           <el-select v-model="equipmentValue">
             <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
-      <div class="options_div option">
-        <div>设备</div>
-        <div>ios12</div>
-      </div>
       <div class="options_02 option">
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country />
+          <country @childFn="parentFn"></country>
         </div>
       </div>
-      <div class="options_03 option">
-        <div>日期</div>
-        <div>
-          <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+      <div class="btn_item_03" @click="change_radio02">
+        <div>时间</div>
+        <div class="date">
+          <el-date-picker
+            v-model="dateValue"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions"
+          ></el-date-picker>
         </div>
+        <div></div>
       </div>
-      <div class="classify">
-        <div>榜单分类</div>
-        <div>
-          <el-radio-group v-model="radio1" size="mini">
-            <el-radio-button label="上海"></el-radio-button>
-            <el-radio-button label="北京"></el-radio-button>
-            <el-radio-button label="广州"></el-radio-button>
-            <el-radio-button label="深圳"></el-radio-button>
-          </el-radio-group>
-        </div>
+      <div @click="change_time01">
+        <el-radio-group v-model="radio02" size="mini">
+          <el-radio-button label="7天"></el-radio-button>
+          <el-radio-button label="30天"></el-radio-button>
+          <el-radio-button label="90天"></el-radio-button>
+        </el-radio-group>
       </div>
     </div>
 
@@ -91,6 +99,8 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 
+// 引入工具类
+import { formatDate, timestamp } from '../common/util.js'
 export default {
   name: 'trend_one',
   components: {
@@ -99,69 +109,158 @@ export default {
   data() {
     return {
       // 多选按钮
-      radio1: '',
+      radio02: '7天',
       // true显示myChart false显示table表格
       is_show_table_myChart_myChart: true,
 
       // 设备选择
       equipment: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
+      equipmentValue: 'iPhone',
+      // 系统选择
+      system: [
+        {
+          value: 'ios11'
+        },
+        {
+          value: 'ios12'
+        }
+      ],
+      systemValue: 'ios12',
+      now_country: '中国',
 
       //日期选择
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
+        }
       },
       dateValue: '',
       //canvas 关键词data数组
       keyword_data: ['直接访问'],
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      xAxis_data: [],
       series_data: [
         {
           name: '直接访问',
           type: 'line',
           stack: '总量',
-          data: [320, 332, 301, 334, 390, 330, 320]
+          data: []
         }
       ]
     }
   },
-  mounted() {
-    this.drawLine()
+  created: function() {
+    // 请求数据
+    this.get_data()
+
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    // 监听第二部分的时间变化
+    this.$watch('radio02', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('systemValue', function(newValue, oldValue) {
+      this.get_data()
+    })
   },
   methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // console.log('国家' + country_id)
+          // 请求数据
+          let url = 'http://39.97.234.11:8080/Word/FindSearchNumber'
+          let sdate, edate
+          if (this.dateValue) {
+            sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
+            edate = formatDate(this.dateValue[1], 'yyyy-MM-dd')
+          } else if (this.radio02 == '7天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          } else if (this.radio02 == '30天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          } else if (this.radio02 == '90天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 90)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+          }
+          console.log(sdate)
+          console.log(edate)
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          // 系统选择
+          let iosType = this.systemValue == 'ios11' ? 11 : 12
+
+          // console.log(word)
+          console.log(deviceType)
+          console.log(country_id)
+          console.log(iosType)
+          let word = this.$route.query.Word
+          let wordId = this.$route.query.WordId
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            sdate: sdate,
+            edate: edate,
+            wordId: wordId,
+            word: word,
+            iosType: iosType
+          }
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.response_data = response.data.Data
+              console.log(this.response_data)
+              this.keyword_data = this.response_data.name
+              this.xAxis_data = this.response_data.Xtime
+              this.series_data[0].data = this.response_data.Yvalue
+              // console.log(this.series_data)
+              // console.log(this.xAxis_data)
+              // console.log(this.keyword_data)
+              this.drawLine()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     //控制canvas和table的显示
     is_show_table_myChart_function: function() {
       this.is_show_table_myChart_myChart = !this.is_show_table_myChart_myChart
@@ -208,11 +307,43 @@ export default {
         },
         series: that.series_data
       })
+    },
+    change_radio02() {
+      this.radio02 = ''
+    },
+    change_time01() {
+      this.dateValue = ''
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.date {
+  margin-top: 2px !important;
+}
+.btn_item_03 > div:nth-child(1) {
+  margin-right: 16px !important;
+}
+.btn_item_03 {
+  display: flex;
+  align-items: center;
+  margin-left: 70px;
+  margin-top: 10px;
+}
+.btn_item_03 > div {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-right: 10px;
+}
 .classify {
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
@@ -325,7 +456,7 @@ table {
   margin-right: 15px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 86px;
   height: 24px;
 }
 .option {

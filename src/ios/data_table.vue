@@ -1,14 +1,14 @@
 <template>
-  <div id="ranking_compare" class="content">
+  <div id="data_table" class="content">
     <div class="breadcrumb">
       <span>iOS应用</span> >
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">榜单排名对比</div>
@@ -44,6 +44,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
             </div>
@@ -56,15 +57,16 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
             </div>
           </div>
           <div class="table_top_green">
             2019年2月20日，关键词总覆盖数：
-            <span>63254</span> 前三关键词：
-            <span>1244</span> 前十关键词：
-            <span>6546</span>
+            <span v-if="request_data_first">{{request_data_first.totalCount}}</span> 前三关键词：
+            <span v-if="request_data_first">{{request_data_first.top3Count}}</span> 前十关键词：
+            <span v-if="request_data_first">{{request_data_first.top10Count}}</span>
           </div>
           <table>
             <thead>
@@ -75,20 +77,29 @@
                 <th>Top10关键词</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="request_data_first">
+              <tr
+                v-for="(item, index) in request_data_first.detailKeyWord"
+                :key="'detailKeyWord'+index"
+              >
+                <td>
+                  <div>{{item.hintRange}}</div>
+                </td>
+                <td>
+                  <div>{{item.keyWordCount.num}}</div>
+                </td>
+                <td>
+                  <div>{{item.top3.num}}</div>
+                </td>
+                <td>
+                  <div>{{item.top10.num}}</div>
+                </td>
+              </tr>
               <tr>
-                <td>
-                  <div>2019-02-20 12:56</div>
-                </td>
-                <td>
-                  <div>2019-02-20 12:56</div>
-                </td>
-                <td>
-                  <div>2019-02-20 12:56</div>
-                </td>
-                <td>
-                  <div>1</div>
-                </td>
+                <td>合计：</td>
+                <td>{{request_data_first.totalCount}}</td>
+                <td>{{request_data_first.top3Count}}</td>
+                <td>{{request_data_first.top10Count}}</td>
               </tr>
             </tbody>
           </table>
@@ -201,9 +212,9 @@
 
                 <td>
                   <div>
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="false">
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="false">
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="true">
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="false" />
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="false" />
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="true" />
                     2
                   </div>
                 </td>
@@ -255,13 +266,13 @@
                 class="float_right"
                 src="../assets/keyword/three.png"
                 alt
-              >
+              />
               <img
                 v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/calculator.png"
                 alt
-              >
+              />
             </div>
             <table v-show="!is_show_myChart_and_table">
               <thead>
@@ -282,19 +293,19 @@
               </tbody>
             </table>
             <div class="bottom_image_for_table" v-show="!is_show_myChart_and_table">
-              <img class="float_right" src="../assets/keyword/down.png" alt v-show="false">
+              <img class="float_right" src="../assets/keyword/down.png" alt v-show="false" />
               <img
                 v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/three.png"
                 alt
-              >
+              />
               <img
                 v-on:click="is_show_myChart_and_table_function"
                 class="float_right"
                 src="../assets/keyword/calculator.png"
                 alt
-              >
+              />
             </div>
 
             <div class="import_data" v-show="is_show_myChart_and_table">导出数据</div>
@@ -316,11 +327,50 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
+// 引入工具类
+import { formatDate, timestamp } from '../common/util.js'
 export default {
-  name: 'ranking_compare',
+  name: 'data_table',
   components: { ios_header, left_nav },
   data() {
     return {
+      // 第一部分的参数
+      // 第一部分的参数
+      // 第一部分的参数
+      now_country: '中国',
+      request_data_first: null,
+      date_Now_for_top: new Date(), //top section的日期选择 当前日期or对比日期
+      dateCompare_for_top: new Date(),
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
+      equipment: [
+        // 设备选择
+        {
+          value: 'iPhone'
+        },
+        {
+          value: 'iPad'
+        }
+      ],
+      equipmentValue: 'iPhone',
+      system: [
+        // 系统选择
+        {
+          value: 'ios11'
+        },
+        {
+          value: 'ios12'
+        }
+      ],
+      systemValue: 'ios12',
+
+      // ==========================================================
+      // ==========================================================
+      // ==========================================================
       //btn-group 下面的最大值最小值
       result_max_input01: '',
       result_min_input01: '',
@@ -334,32 +384,11 @@ export default {
       // 单选按钮组
       radio1: '上海',
       radio2: '今天',
-      // 设备选择
-      equipment: [
-        {
-          value: '安卓'
-        },
-        {
-          value: 'iOS'
-        }
-      ],
-      equipmentValue: '安卓',
-      //top section的日期选择 当前日期or对比日期
-      date_Now_for_top: '',
-      dateCompare_for_top: '',
+
       //middle section的日期选择 当前日期or对比日期
       dateNow_for_middle: '',
       dateCompare_for_middle: '',
-      // 系统选择
-      system: [
-        {
-          value: '安卓'
-        },
-        {
-          value: 'iOS'
-        }
-      ],
-      systemValue: '安卓',
+
       //自定义选择
       custom: [
         {
@@ -393,10 +422,107 @@ export default {
     }
   },
 
-  mounted() {
-    this.drawLine()
+  created: function() {
+    // 请求数据
+    this.get_data_for_first_part()
+    this.change_time()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data_for_first_part()
+    })
+    // 对日期做限制
+    this.$watch('date_Now_for_top', function(newValue, oldValue) {
+      this.change_time()
+      this.get_data_for_first_part()
+    })
+    this.$watch('dateCompare_for_top', function(newValue, oldValue) {
+      this.change_time()
+      this.get_data_for_first_part()
+    })
+    // 下拉框，系统
+    this.$watch('systemValue', function(newValue, oldValue) {
+      this.get_data_for_first_part()
+    })
+    //  下拉框，设备
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data_for_first_part()
+    })
   },
   methods: {
+    // ===========================第一部分数据=================================
+    // ===========================第一部分数据=================================
+    // ===========================第一部分数据=================================
+    // 请求第一部分评分统计的数据
+    get_data_for_first_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // console.log(country_id)
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let system = this.systemValue == 'ios11' ? 11 : 12
+          // console.log(this.date_Now_for_top)
+          // console.log(timestamp(this.dateCompare_for_top / 1000, 'Y-M-D'))
+          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
+          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
+          let url =
+            ' http://39.97.234.11:8080/GetKeyWordSynopsis?' +
+            'appId=112' +
+            '&countryId=' +
+            country_id +
+            '&device=' +
+            deviceType +
+            '&system=' +
+            system +
+            '&nowDate=' +
+            nowDate +
+            '&compareDate=' +
+            compareDate
+          console.log(url)
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.request_data_first = response.data.Data
+              console.log(response)
+              console.log(this.request_data_first)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 设置对比日期永远比当前日期小一天
+    change_time() {
+      // console.log(this.date_Now_for_top)
+      //     console.log(this.dateCompare_for_top)
+      if (
+        new Date(this.date_Now_for_top).getTime() <=
+        new Date(this.dateCompare_for_top).getTime()
+      ) {
+        this.dateCompare_for_top =
+          new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
+      }
+    },
+    // ============================================================
+    // ============================================================
+    // ============================================================
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = []
@@ -462,6 +588,11 @@ export default {
         },
         series: that.series_data()
       })
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
   }
 }
@@ -556,6 +687,7 @@ table img {
 }
 .date div {
   width: 119px !important;
+  z-index: 999 !important;
 }
 .section_title {
   font-family: SourceHanSansCN-Medium;
@@ -638,7 +770,9 @@ table img {
 thead tr {
   height: 40px;
 }
-td,
+td {
+  padding: 36px 0;
+}
 th {
   border: 1px solid #f2f2f2;
 }
@@ -774,7 +908,7 @@ table {
   margin-left: 10px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 85px;
 }
 .btn_group .option:first-child div:first-child {
   margin-left: 0;

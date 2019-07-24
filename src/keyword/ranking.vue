@@ -16,69 +16,102 @@
         <div>国家/地区</div>
         <div>
           <!-- 选择国家 -->
-          <el-select v-model="countryValue">
-            <el-option v-for="item in  country " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <country @childFn="parentFn"></country>
         </div>
       </div>
       <div class="options_04 option">
         <div>类别</div>
+        <!-- 选择总榜 -->
         <div>
-          <el-button type="primary">类别</el-button>
+          <div
+            :class=" {'change_bg':change_bg_all,'radio_one':true}"
+            @click="change_all_dateValue()"
+          >总榜</div>
         </div>
-        <div>
-          <!-- 选择应用 -->
-          <el-select v-model="appValue">
-            <el-option v-for="item in  app " :key="item.value" :value="item.value"></el-option>
-          </el-select>
-        </div>
-        <div>
-          <!-- 选择游戏 -->
-          <el-select v-model="gameValue">
-            <el-option v-for="item in  game " :key="item.value" :value="item.value"></el-option>
-          </el-select>
-        </div>
+        <!-- 选择应用 -->
+        <el-popover placement="bottom" trigger="click" width="168">
+          <div class="selected_popover">
+            <div v-for="(item,index) in data_for_classify" :key="'classify'+index">{{item.name}}</div>
+          </div>
+          <div slot="reference">
+            <div
+              :class=" {'change_bg':change_bg_app,'radio_one':true}"
+              @click="change_app_dateValue()"
+            >
+              应用
+              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_app" />
+              <img src="../assets/keyword/white_arrows_up.png" alt v-show="false" />
+              <img src="../assets/keyword/white_arrows_down.png" alt v-show="change_bg_app" />
+            </div>
+          </div>
+        </el-popover>
+        <!-- 选择游戏 -->
+        <el-popover placement="bottom" trigger="click">
+          <div class="selected_popover">
+            <div v-for="(item,index) in data_for_classify" :key="'classify'+index">{{item.name}}</div>
+          </div>
+          <div slot="reference">
+            <div
+              :class=" {'change_bg':change_bg_game,'radio_one':true}"
+              @click="change_game_dateValue()"
+            >
+              游戏
+              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_game" />
+              <img src="../assets/keyword/white_arrows_up.png" alt v-show="false" />
+              <img src="../assets/keyword/white_arrows_down.png" alt v-show="change_bg_game" />
+            </div>
+          </div>
+        </el-popover>
       </div>
       <div class="options_03 option">
         <div>日期</div>
         <div class="date">
           <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+          <el-date-picker
+            v-model="dateValue"
+            type="date"
+            placeholder="选择日期"
+            clear-icon
+            :picker-options="pickerOptions"
+          ></el-date-picker>
         </div>
       </div>
     </div>
     <div class="options">
       <div class="options_01 option">
         <div>搜索结果数</div>
-        <div class="one">全部</div>
-        <div class="min_max">
+        <div :class=" {'change_bg':change_bg_result,'radio_one':true}" @click="result_all()">全部</div>
+        <div class="min_max" @click="change_bg_result_function">
           <div>
-            <el-input v-model="result_min_input" placeholder="最小值"></el-input>
+            <el-input v-model="result_min_input" placeholder="最小值" type="number"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="result_max_input" placeholder="最大值"></el-input>
+            <el-input v-model="result_max_input" placeholder="最大值" type="number"></el-input>
           </div>
         </div>
       </div>
       <div class="options_02 option">
-        <div>搜索结果数</div>
-        <div class="one">全部</div>
-        <div class="one tow">>4545</div>
-        <div class="min_max">
+        <div>搜索指数</div>
+        <div :class=" {'change_bg':change_bg_index_all,'radio_one':true}" @click="index_all()">全部</div>
+        <div
+          :class=" {'change_bg':change_bg_index_number,'radio_one':true}"
+          @click="index_number()"
+        >>4605</div>
+        <div class="min_max" @click="change_bg_index_function">
           <div>
-            <el-input v-model="index_min_input" placeholder="最小值"></el-input>
+            <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="index_max_input" placeholder="最大值"></el-input>
+            <el-input v-model="index_max_input" placeholder="最大值" type="number"></el-input>
           </div>
         </div>
       </div>
       <div class="options_03 option">
         <div>搜索</div>
         <div class="keyword_input">
-          <el-input v-model="keyword_input" placeholder="请输入搜索关键词"></el-input>
+          <el-input v-model="keyword_input" placeholder="请输入搜索关键词" @blur="blur"></el-input>
         </div>
       </div>
     </div>
@@ -94,21 +127,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
           <td>
-            <div>1</div>
+            <div>{{item.rowid}}</div>
           </td>
           <td class="table_font">
-            <div>123156</div>
+            <div>{{item.Word}}</div>
           </td>
           <td class="table_font">
-            <div>123156</div>
+            <div>{{item.WordIdHint}}</div>
+          </td>
+          <!-- 给下一个页面传递参数 -->
+          <td
+            class="table_font"
+            @click="$router.push({path: '/trend_one?Word=' + item.Word+'&WordId=' + item.WordId});"
+          >
+            <div>{{item.SearchCount}}</div>
           </td>
           <td class="table_font">
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>123156</div>
+            <div>{{item.app_name}}</div>
           </td>
         </tr>
       </tbody>
@@ -117,10 +154,31 @@
 </template>
 
 <script>
+// 引入国家选择组件
+import country from '../common/country_select/country'
+// 引入工具类
+import { formatDate } from '../common/util.js'
 export default {
   name: 'ranking',
+  components: { country },
   data() {
     return {
+      // 请求分页
+      page: 1,
+      // 请求的分类数据
+      data_for_classify: null,
+      // 请求的表格数据
+      data_for_table: null,
+      //以下几个变量模仿单选框
+      change_bg_index_all: true,
+      change_bg_index_number: false,
+      change_bg_all: true,
+      change_bg_app: false,
+      change_bg_game: false,
+      change_bg_result: true,
+      change_bg_index: true,
+      // 获取当前选中的国家
+      now_country: '中国',
       //请输入搜索关键词
       keyword_input: '',
       // 搜索结果数最小值和最大值
@@ -132,79 +190,253 @@ export default {
       // 设备选择
       equipment: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
-      // 国家选择
-      country: [
-        {
-          value: '中国'
-        },
-        {
-          value: '美国'
-        }
-      ],
-      countryValue: '中国',
-      // 应用选择
-      app: [
-        {
-          value: '应用'
-        },
-        {
-          value: '快手'
-        }
-      ],
-      appValue: '应用',
-      // 游戏选择
-      game: [
-        {
-          value: '游戏'
-        },
-        {
-          value: '吃鸡'
-        }
-      ],
-      gameValue: '游戏',
+      equipmentValue: 'iPhone',
+
       //日期选择
+      dateValue: new Date(),
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
+          // 这里就是设置当天后的日期不能被点击
+        }
+      }
+    }
+  },
+  created: function() {
+    // 请求悬浮框的数据
+    this.get_data_classify()
+    this.get_data_table()
+    this.$watch('page', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('index_min_input', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('index_max_input', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('result_min_input', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    this.$watch('result_max_input', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+    // this.$watch('keyword_input', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.get_data_table()
+    // })
+    this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.get_data_table()
+    })
+  },
+  methods: {
+    // 请求悬浮框的数据
+    get_data_classify() {
+      let genreID
+      if (this.change_bg_all) {
+        genreID = 36
+      } else if (this.change_bg_app) {
+        genreID = 5000
+      } else if (this.change_bg_game) {
+        genreID = 6014
+      }
+      // console.log(genreID)
+      let url = 'http://39.97.234.11:8080/GetGenre?genreID=' + genreID
+      // console.log(url)
+      // 请求数据
+      this.$axios
+        .get(url)
+        .then(response => {
+          this.data_for_classify = response.data.Data
+
+          // console.log(this.data_for_classify)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 请求表格数据
+    get_data_table() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
             }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
-      },
-      dateValue: ''
+          })
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let url =
+            'http://39.97.234.11:8080/Word/FindWordRank?&page=' +
+            this.page +
+            '&deviceType=' +
+            deviceType +
+            '&countryId=' +
+            country_id +
+            '&minHint=' +
+            this.index_min_input +
+            '&maxHint=' +
+            this.index_max_input +
+            '&minResult=' +
+            this.result_min_input +
+            '&maxResult=' +
+            this.result_max_input +
+            '&word=' +
+            this.keyword_input +
+            '&time=' +
+            formatDate(this.dateValue, 'yyyy-MM-dd')
+          console.log(url)
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.data_for_table = response.data.Data
+
+              console.log(this.data_for_table)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 点击总榜按钮
+    change_all_dateValue() {
+      this.change_bg_all = true
+      this.change_bg_app = false
+      this.change_bg_game = false
+      // 请求悬浮框的数据
+      this.get_data_classify()
+    },
+    // 点击应用按钮
+    change_app_dateValue() {
+      this.change_bg_all = false
+      this.change_bg_app = true
+      this.change_bg_game = false
+      // 请求悬浮框的数据
+      this.get_data_classify()
+    },
+    // 点击游戏按钮
+    change_game_dateValue() {
+      this.change_bg_all = false
+      this.change_bg_app = false
+      this.change_bg_game = true
+      // 请求悬浮框的数据
+      this.get_data_classify()
+    },
+    // 点击搜索结果数的全部
+    result_all() {
+      this.result_min_input = ''
+      this.result_max_input = ''
+      this.change_bg_result = true
+    },
+    // 点击搜索结果数的min_mix
+    change_bg_result_function() {
+      this.change_bg_result = false
+    },
+    // 点击搜索指数的全部
+    index_all() {
+      this.index_min_input = ''
+      this.index_max_input = ''
+      this.change_bg_index_all = true
+      this.change_bg_index_number = false
+    },
+    // 点击搜索指数的数字
+    index_number() {
+      this.index_min_input = '4605'
+      this.index_max_input = ''
+      this.change_bg_index_all = false
+      this.change_bg_index_number = true
+    },
+    // 点击搜索指数的min_max
+    change_bg_index_function() {
+      this.change_bg_index_all = false
+      this.change_bg_index_number = false
+    },
+    // 输入框失去焦点
+    blur: function() {
+      this.get_data_table()
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.selected_popover > div {
+  width: 65px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.selected_popover {
+  display: flex;
+  align-items: center;
+  width: 142px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.change_bg {
+  color: #ffffff !important;
+  background-color: #009bef;
+  border: solid 1px #ffffff !important;
+}
+.radio_one {
+  text-align: center;
+  line-height: 24px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  width: 48px !important;
+  height: 24px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  letter-spacing: 0px;
+  color: #444444;
+  margin-right: 15px;
+  margin-left: -6px;
+  margin-top: 2px;
+  display: inline-block;
+}
 .keyword_input div {
   width: 145px !important;
 }
@@ -214,12 +446,13 @@ export default {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
+  padding: 35px 0;
   color: #009bef;
 }
 thead tr {
   height: 40px;
 }
-td,
+
 th {
   border: 1px solid #f2f2f2;
 }
@@ -251,6 +484,7 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
+  margin-bottom: 78px;
 }
 .table_title {
   font-family: SourceHanSansCN-Medium;
@@ -263,8 +497,14 @@ table {
   margin-top: 60px;
   margin-bottom: 40px;
 }
-.options_04 div:nth-child(2) {
-  margin-right: 10px;
+.options_04 > div:nth-child(1) {
+  margin-right: 20px !important;
+}
+.options_04 img {
+  width: 8px;
+}
+.options_04 {
+  margin-left: 70px !important;
 }
 .options_03 .date div {
   width: 114px !important;
@@ -275,7 +515,7 @@ table {
 }
 .min_max > div:nth-child(2) {
   width: 14px !important;
-  margin-left: -12px;
+  margin-left: 2px;
   margin-right: 2px;
   color: #dfdfdf;
 }
@@ -286,6 +526,7 @@ table {
   width: auto !important;
 }
 .options_02 .tow {
+  margin-left: 10px;
   margin-right: 0px !important;
 }
 .options .one {
@@ -301,13 +542,16 @@ table {
   letter-spacing: 0px;
   color: #444444;
   text-align: center;
-  margin-right: 10px;
   margin-top: 2px;
 }
-.option div:first-child {
+.option > div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
+.options_01 div:last-child {
+  width: 85px;
+}
+.options_03 div:last-child,
+.options_02 div:last-child {
   width: 74px;
   height: 24px;
 }

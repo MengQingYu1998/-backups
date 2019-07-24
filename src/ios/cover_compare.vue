@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">榜单排名对比</div>
@@ -25,13 +25,13 @@
         </div>
         <div class="vs">
           <div class="vs_div">
-            <img src="../assets/ios/vs.png" alt>
+            <img src="../assets/ios/vs.png" alt />
             <span>58同城</span>
             <span>招聘找工作二手房租</span>
           </div>
-          <img src="../assets/ios/vs.png" alt>
+          <img src="../assets/ios/vs.png" alt />
           <div class="vs_div">
-            <img src="../assets/ios/vs.png" alt>
+            <img src="../assets/ios/vs.png" alt />
             <span>58同城</span>
             <span>招聘找工作二手房租</span>
           </div>
@@ -114,13 +114,13 @@ export default {
       // 设备选择
       equipment: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓'
+      equipmentValue: 'iPhone'
     }
   }
 }

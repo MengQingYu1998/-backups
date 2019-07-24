@@ -232,5 +232,6 @@ export default {
   /* background-color: red; */
   height: 269px;
   width: 130px;
+ 
 }
 </style>

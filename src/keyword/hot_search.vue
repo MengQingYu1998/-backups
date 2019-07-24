@@ -68,7 +68,7 @@
               >
                 <el-popover
                   placement="bottom"
-                  width="200"
+                  width="320"
                   trigger="hover"
                   :open-delay="500"
                   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
@@ -288,7 +288,7 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      // console.log(this.now_country)
+      console.log(this.now_country)
     }
   }
 }
@@ -305,6 +305,7 @@ export default {
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
+  border: solid 1px #ffffff !important;
 }
 .table_font_other {
   color: #009bef;
@@ -447,6 +448,7 @@ table {
   width: 87px;
   height: 24px;
 }
+
 .option {
   display: flex;
   margin-left: 29px;

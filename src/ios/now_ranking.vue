@@ -1,5 +1,5 @@
 <template>
-  <div id="same_dev_app" class="content">
+  <div id="now_ranking" class="content">
     <div class="breadcrumb">
       <span>iOS应用</span> >
       <span>学习强国</span>
@@ -52,10 +52,17 @@
             <div class="classify">
               <div>类型</div>
               <div>
-                <el-radio-group v-model="radio1" size="mini">
+                <el-radio-group v-model="middle_top_radio1" size="mini">
                   <el-radio-button label="按分钟"></el-radio-button>
                   <el-radio-button label="按小时"></el-radio-button>
                   <el-radio-button label="按天"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="classify middle_top_time">
+              <div>时间</div>
+              <div @click="click_second_el_radio">
+                <el-radio-group v-model="middle_top_radio3" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
                   <el-radio-button label="昨日"></el-radio-button>
                   <el-radio-button label="7天"></el-radio-button>
@@ -63,12 +70,25 @@
                 </el-radio-group>
               </div>
             </div>
+            <div class="btn_item_01">
+              <!-- <div>时间</div> -->
+              <div @click="click_second_el_date_picker">
+                <el-date-picker
+                  v-model="middle_top_time01"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="middle_top_pickerOptions"
+                ></el-date-picker>
+              </div>
+            </div>
           </div>
           <div class="btn_group">
             <div class="classify">
-              <div>类型</div>
+              <div>榜单分类</div>
               <div>
-                <el-radio-group v-model="radio2" size="mini">
+                <el-radio-group v-model="middle_top_radio2" size="mini">
                   <el-radio-button label="全部"></el-radio-button>
                   <el-radio-button label="免费"></el-radio-button>
                   <el-radio-button label="付费"></el-radio-button>
@@ -211,14 +231,46 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 import world_map from '../common/world_map/the_world_map'
+// 引入工具类
+import { formatDate, timestamp } from '../common/util.js'
 export default {
-  name: 'same_dev_app',
+  name: 'now_ranking',
   components: { ios_header, left_nav, world_map },
   data() {
     return {
       // 第一部分图表的数据
+      // 第一部分图表的数据
+      // 第一部分图表的数据
       now_country: '中国',
       response_data_first: null,
+      // 第二部分折线图数据
+      // 第二部分折线图数据
+      // 第二部分折线图数据
+      response_data_second: null,
+      middle_top_radio1: '按天',
+      middle_top_radio2: '全部',
+      middle_top_radio3: '30天',
+      middle_top_time01: '',
+      middle_top_pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
+      // 控制折线图显示所有
+      canvas_is_show_all: true,
+      //canvas 关键词data数组
+      keyword_data: ['直接访问', '搜索引擎'],
+      // 数据
+      keyword_data_value: [],
+      // X轴文本
+      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      // 控制折线显隐
+      selected_data: {},
+      // =============================================================================================
+      // =============================================================================================
+      // =============================================================================================
+      // =============================================================================================
       // 世界地图测试数据
       country_temp: ['中国', '美国', '俄罗斯', '泰国', '新加坡'],
       // 设备选择
@@ -232,31 +284,8 @@ export default {
       ],
       equipmentValue: '安卓',
       // 单选按钮组
-      radio1: '今日',
-      radio2: '全部',
-      radio3: '总榜',
-      // 控制折线图显示所有
-      canvas_is_show_all: true,
-      //canvas 关键词data数组
-      keyword_data: [
-        '邮件营销',
-        '联盟广告',
-        '视频广告',
-        '直接访问',
-        '搜索引擎'
-      ],
-      // 数据
-      keyword_data_value: [
-        [820, 932, 901, 934, 11, 1330, 1320],
-        [555, 555, 555, 555, 555, 555, 555],
-        [820, 932, 901, 934, 1290, 1330, 1320],
-        [555, 6, 555, 555, 555, 555, 555],
-        [88, 932, 901, 934, 1290, 1330, 75]
-      ],
-      // X轴文本
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
-      // 控制折线显隐
-      selected_data: {}
+
+      radio3: '总榜'
     }
   },
   mounted() {
@@ -264,13 +293,28 @@ export default {
   },
   created: function() {
     this.get_data_first()
+    this.get_data_second()
     this.$watch('now_country', function(newValue, oldValue) {
-      console.log('当前国家发生变化，重新请求数据...')
       this.get_data_first()
+      this.get_data_second()
+    })
+    this.$watch('middle_top_time01', function(newValue, oldValue) {
+      this.get_data_second()
+    })
+    this.$watch('middle_top_radio1', function(newValue, oldValue) {
+      this.get_data_second()
+    })
+    this.$watch('middle_top_radio2', function(newValue, oldValue) {
+      this.get_data_second()
+    })
+    this.$watch('middle_top_radio3', function(newValue, oldValue) {
+      this.get_data_second()
     })
   },
   methods: {
-    // 请求第一部分数据
+    // =============================请求第一部分数据=============================
+    // =============================请求第一部分数据=============================
+    // =============================请求第一部分数据=============================
     get_data_first() {
       this.$axios
         .get('http://39.97.234.11:8080/GetCountry')
@@ -306,7 +350,138 @@ export default {
           console.log(error)
         })
     },
+    // =============================请求第二部分数据=============================
+    // =============================请求第二部分数据=============================
+    // =============================请求第二部分数据=============================
+    get_data_second() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
 
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          //      middle_top_radio1: '按分钟',
+          // middle_top_radio2: '全部',
+          // middle_top_radio3: '30天',
+          let endDate, startDate
+          if (this.middle_top_radio3 == '今日') {
+            startDate = formatDate(new Date(), 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '昨日') {
+            let yesterday = new Date()
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000)
+            startDate = formatDate(yesterday, 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '7天') {
+            let yesterday = new Date()
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 7)
+            startDate = formatDate(yesterday, 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '30天') {
+            let yesterday = new Date()
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 30)
+            startDate = formatDate(yesterday, 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '') {
+            let middle_top_time01 = this.middle_top_time01
+            startDate = formatDate(middle_top_time01[0], 'yyyy-MM-dd')
+            endDate = formatDate(middle_top_time01[1], 'yyyy-MM-dd')
+          }
+          // console.log(endDate)
+          // console.log('=================')
+          // console.log(startDate)
+          let brand
+          if (this.middle_top_radio2 == '全部') {
+            brand = 0
+          } else if (this.middle_top_radio2 == '免费') {
+            brand = 1
+          } else if (this.middle_top_radio2 == '付费') {
+            brand = 2
+          } else if (this.middle_top_radio2 == '畅销') {
+            brand = 3
+          }
+          let timeType
+          if (this.middle_top_radio1 == '按分钟') {
+            timeType = 1
+          } else if (this.middle_top_radio1 == '按小时') {
+            timeType = 2
+          } else if (this.middle_top_radio1 == '按天') {
+            timeType = 3
+          }
+          let url = 'http://39.97.234.11:8080/PostRandTrend'
+          let data = {
+            appId: 600273928,
+            countryId: country_id,
+            startDate: startDate,
+            endDate: endDate,
+            brand: brand,
+            timeType: timeType
+          }
+
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              console.log(response.data.Data)
+              if (response.data.Data != null) {
+                this.response_data_second = response.data.Data
+                // console.log(this.response_data_second)
+                // 都谁？ 抖音 快手 内涵
+                if (this.response_data_second.RankList != null) {
+                  this.keyword_data = this.response_data_second.RankList
+                }
+                // 折线数据
+                if (this.response_data_second.r1 == null) {
+                  // console.log('无数据')
+                  this.keyword_data_value = []
+                  this.xAxis_data = []
+                } else if (this.response_data_second.r1 != null) {
+                  // console.log('有数据')
+                  this.keyword_data_value = []
+
+                  let temp01 = this.response_data_second.r1
+                  temp01.forEach(element => {
+                    this.keyword_data_value.push(element.data)
+                  })
+
+                  let temp02 = this.response_data_second.r2.data
+                  this.xAxis_data = temp02.map(element => {
+                    return timestamp(element, 'Y/M/D h:m:s')
+                  })
+                  // console.log(this.xAxis_data)
+                }
+                this.drawLine()
+              } else if (response.data.Data == null) {
+                this.keyword_data_value = []
+                this.xAxis_data = []
+                this.drawLine()
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 点击日历组件
+    click_second_el_date_picker: function() {
+      this.middle_top_radio3 = ''
+    },
+    // 点击单选按钮组件组件
+    click_second_el_radio: function() {
+      this.middle_top_time01 = ''
+    },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
       let obj = {}
@@ -318,7 +493,6 @@ export default {
       this.canvas_is_show_all = !this.canvas_is_show_all
       // console.log(this.selected_data)
     },
-
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = []
@@ -382,7 +556,8 @@ export default {
         },
         series: that.series_data()
       })
-    }, // 获取当前选中的国家
+    },
+    // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
       // console.log(this.now_country)
@@ -391,6 +566,22 @@ export default {
 }
 </script>
 <style scoped>
+.middle_top_time {
+  margin-left: 20px !important;
+}
+.btn_item_01 {
+  display: flex;
+  align-items: center;
+}
+.btn_item_01 > div {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  margin-right: 10px;
+}
 .world_map {
   position: relative;
 }

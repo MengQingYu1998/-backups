@@ -6,6 +6,13 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/bangdan',
+      name: 'bangdan',
+      component: () => import('../NumVue/bangdan')
+    },
+    // =============================上面是芦的=============================
+    // =============================下面是孟的=============================
+    {
       path: '/the_world_map',
       name: 'the_world_map',
       component: () => import('../common/world_map/the_world_map')

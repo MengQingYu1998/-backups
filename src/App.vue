@@ -12,6 +12,40 @@ export default {
 </script>
 
 <style>
+/*榜单页面*/
+/*设备*/
+.bangdan .el-input__inner {
+  height: 26px;
+  width: 75px;
+  padding: 0;
+  padding-left: 5px;
+}
+.bangdan .el-input__icon {
+  width: 10px;
+  line-height: 26px;
+}
+/*日期*/
+.bangdan .date .el-date-editor.el-input,
+.el-date-editor.el-input__inner,
+.bangdan .date .el-input__inner {
+  width: 120px;
+}
+.bangdan .date .el-input__inner {
+  padding-left: 25px;
+}
+/* =============================上面是芦的============================= */
+/* =============================下面是孟的============================= */
+/* 修改element的单选框 */
+.el-radio-button {
+  margin-left: 10px;
+}
+.el-radio-button__inner {
+  border: solid 1px #dfdfdf;
+  border-radius: 4px !important;
+}
+.el-radio-group .el-radio-button:first-child {
+  margin-left: 0 !important;
+}
 /* video视频插件  */
 #version_message .video-js.vjs-fluid,
 .video-js.vjs-16-9,
@@ -23,12 +57,18 @@ export default {
   padding: 7px 6px !important;
   height: 27px;
 }
+#trend_many .el-button {
+  line-height: 0 !important;
+}
 /* select组件自定义样式 */
 .el-select .el-input__inner {
   padding-right: 22px !important;
 }
 .el-input__inner {
   height: 27px !important;
+}
+#ranking .min_max .el-input__inner {
+  padding: 5px 6px !important;
 }
 .el-input__icon {
   line-height: 30px !important;
@@ -43,6 +83,7 @@ table tbody tr:hover {
   color: #009bef;
 }
 /* DatePicker日期组件自定义样式 */
+#data_table .el-input--suffix .el-input__inner,
 #trend_many .el-input--suffix .el-input__inner,
 #ranking .el-input--suffix .el-input__inner,
 #trend_one .el-input--suffix .el-input__inner,
@@ -52,12 +93,13 @@ table tbody tr:hover {
 #result .el-input--suffix .el-input__inner {
   padding-right: 4px;
 }
-/*#hot_search  elementUI的提示框，鼠标悬浮白色提示 */
+/*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
-  width: 320px !important ;
+  /* width: 320px !important ; */
   box-sizing: border-box;
   /* transition-duration: 0ms !important; */
 }
+
 /* 进度条组件element */
 #grade_start .el-progress-bar__innerText {
   display: none;
@@ -90,7 +132,7 @@ table tbody tr:hover {
   border: solid 1px #dfdfdf !important;
   color: #444444 !important;
 }
-#country .select2-dropdown {
+.select2-dropdown {
   width: 130px !important;
 }
 #country
@@ -100,15 +142,26 @@ table tbody tr:hover {
   right: 43px !important;
 }
 
+#country .select2 {
+  -moz-transform: scale(0.91);
+  -webkit-transform: scale(0.91);
+  -o-transform: scale(0.91);
+}
 /* 时间选择组件===》开始时间与结束时间共存组件 */
-#grade_start .el-date-editor .el-range-separator {
+#trend_one .el-date-editor .el-range-separator,
+#trend_many .el-date-editor .el-range-separator,
+#grade_start .el-date-editor .el-range-separator,
+#now_ranking .el-date-editor .el-range-separator {
   line-height: 21px !important;
   color: #444444 !important;
 }
-#grade_start .el-input__icon {
+#trend_one .el-input__icon,
+#trend_many .el-input__icon,
+#grade_start .el-input__icon,
+#now_ranking .el-input__icon {
   line-height: 21px !important;
 }
-#grade_start .el-date-editor--daterange.el-input,
+.el-date-editor--daterange.el-input,
 .el-date-editor--daterange.el-input__inner,
 .el-date-editor--timerange.el-input,
 .el-date-editor--timerange.el-input__inner {
