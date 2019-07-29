@@ -126,7 +126,7 @@
           <th>搜索结果排名第 1 的应用</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="data_for_table">
         <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
           <td>
             <div>{{item.rowid}}</div>

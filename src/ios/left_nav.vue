@@ -2,28 +2,28 @@
   <div id="left_nav">
     <div class="nav">
       <div class="nav_title">
-        <img src="../assets/ios/left_nav01.png" alt>
+        <img src="../assets/ios/left_nav01.png" alt />
         <div>应用信息</div>
       </div>
-      <router-link to tag="div" class="nav_content">应用信息</router-link>
-      <router-link to tag="div" class="nav_content">版本记录</router-link>
-      <router-link to tag="div" class="nav_content">同开发者应用</router-link>
+      <router-link to="app_message" tag="div" class="nav_content">应用信息</router-link>
+      <router-link to="version_message" tag="div" class="nav_content">版本记录</router-link>
+      <router-link to="same_dev_app" tag="div" class="nav_content">同开发者应用</router-link>
       <div class="nav_title">
-        <img src="../assets/ios/left_nav03.png" alt>
+        <img src="../assets/ios/left_nav03.png" alt />
         <div>ASO数据</div>
       </div>
-      <router-link to tag="div" class="nav_content">榜单实时排名</router-link>
-      <router-link to tag="div" class="nav_content">ASO关键词</router-link>
-      <router-link to tag="div" class="nav_content">评分评论</router-link>
+      <router-link to="now_ranking" tag="div" class="nav_content">榜单实时排名</router-link>
+      <router-link to="data_table" tag="div" class="nav_content">ASO关键词</router-link>
+      <router-link to="grade_start" tag="div" class="nav_content">评分评论</router-link>
       <div class="nav_title">
-        <img src="../assets/ios/left_nav02.png" alt>
+        <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
       </div>
-      <router-link to tag="div" class="nav_content">竞品对比</router-link>
+      <router-link to="ranking_compare" tag="div" class="nav_content">竞品对比</router-link>
       <router-link to tag="div" class="nav_content">竞对报告</router-link>
       <router-link to tag="div" class="nav_content">竞品当前优化</router-link>
-      <div to tag="div" class="nav_title">
-        <img src="../assets/ios/left_nav04.png" alt>
+      <div class="nav_title">
+        <img src="../assets/ios/left_nav04.png" alt />
         <div>ASM</div>
       </div>
       <router-link to tag="div" class="nav_content">ASM竞价词</router-link>

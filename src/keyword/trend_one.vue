@@ -56,8 +56,8 @@
 
     <div class="bottom_image" v-show="is_show_table_myChart_myChart">
       <!-- <img src="../assets/keyword/down.png" alt> -->
-      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt />
-      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt />
+      <!-- <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt />
+      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt />-->
     </div>
     <table v-show="!is_show_table_myChart_myChart">
       <thead>
@@ -143,16 +143,10 @@ export default {
       },
       dateValue: '',
       //canvas 关键词data数组
-      keyword_data: ['直接访问'],
+      keyword_data: [],
       xAxis_data: [],
-      series_data: [
-        {
-          name: '直接访问',
-          type: 'line',
-          stack: '总量',
-          data: []
-        }
-      ]
+      // 数据
+      keyword_data_value: []
     }
   },
   created: function() {
@@ -178,6 +172,23 @@ export default {
     })
   },
   methods: {
+    // 便利keyword_data生成canvas的series数据
+    series_data: function() {
+      let series_data_arr = []
+      //声明对象
+      function Obj(name, data) {
+        this.name = name
+        this.type = 'line'
+        this.stack = '总量'
+        this.data = data
+      }
+      //通过便利关键词数组从而创建canvas的series数据
+      this.keyword_data.forEach((element, index) => {
+        series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
+      })
+      // console.log(series_data_arr)
+      return series_data_arr
+    },
     // 请求数据
     get_data() {
       this.$axios
@@ -217,17 +228,17 @@ export default {
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 90)
             sdate = formatDate(time02, 'yyyy-MM-dd')
           }
-          console.log(sdate)
-          console.log(edate)
+          // console.log(sdate)
+          // console.log(edate)
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
           let iosType = this.systemValue == 'ios11' ? 11 : 12
 
           // console.log(word)
-          console.log(deviceType)
-          console.log(country_id)
-          console.log(iosType)
+          // console.log(deviceType)
+          // console.log(country_id)
+          // console.log(iosType)
           let word = this.$route.query.Word
           let wordId = this.$route.query.WordId
           let data = {
@@ -245,12 +256,14 @@ export default {
             .then(response => {
               this.response_data = response.data.Data
               console.log(this.response_data)
-              this.keyword_data = this.response_data.name
+              this.keyword_data_value.push(this.response_data.Yvalue)
               this.xAxis_data = this.response_data.Xtime
-              this.series_data[0].data = this.response_data.Yvalue
+              // this.series_data[0].data = this.response_data.Yvalue
+              // this.series_data[0].name = this.response_data.name
               // console.log(this.series_data)
               // console.log(this.xAxis_data)
-              // console.log(this.keyword_data)
+              this.keyword_data.push(this.response_data.name)
+              // console.log(this.keyword_data_value)
               this.drawLine()
             })
             .catch(error => {
@@ -305,7 +318,7 @@ export default {
         yAxis: {
           type: 'value'
         },
-        series: that.series_data
+        series: that.series_data()
       })
     },
     change_radio02() {

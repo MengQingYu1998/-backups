@@ -382,7 +382,7 @@ function addEvent(id, relationId) {
     })
     _Textobj.mousemove(function(e) {
       var x = e.pageX - 400,
-        y = e.pageY - $('#the_world_map').offset().top
+        y = e.pageY - $('#the_world_map').offset().top + 50
       $('#map-tip').css({ left: x, top: y })
     })
   }
@@ -572,7 +572,9 @@ function dynamicAddEvent(id) {
         $('#map-tip')
           .show()
           .html(pin_config['points'][id]['hover'])
-        $('#map-tip').css({ left: x, top: y })
+        $('#map-tip')
+          .css$('#map-tip')
+          .css({ left: x, top: y })
       })
       obj.on('touchend', function() {
         $('#' + id).css({ fill: pin_config['points'][id]['upColor'] })

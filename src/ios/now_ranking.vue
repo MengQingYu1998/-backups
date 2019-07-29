@@ -63,10 +63,27 @@
               <div>时间</div>
               <div @click="click_second_el_radio">
                 <el-radio-group v-model="middle_top_radio3" size="mini">
-                  <el-radio-button label="今日"></el-radio-button>
-                  <el-radio-button label="昨日"></el-radio-button>
-                  <el-radio-button label="7天"></el-radio-button>
-                  <el-radio-button label="30天"></el-radio-button>
+                  <el-radio-button
+                    label="今日"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="昨日"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="7天"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="30天"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按天'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="180天"
+                    v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
+                  ></el-radio-button>
+                  <el-radio-button label="380天" v-show="middle_top_radio1=='按天'"></el-radio-button>
                 </el-radio-group>
               </div>
             </div>
@@ -119,40 +136,51 @@
             <div class="option">
               <div>设备</div>
               <div>
-                <el-select v-model="equipmentValue">
-                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
+                <el-select v-model="equipmentValue01">
+                  <el-option
+                    v-for="item in equipment01 "
+                    :key="'equipment01'+item.value"
+                    :value="item.value"
+                  ></el-option>
                 </el-select>
               </div>
             </div>
             <div class="classify">
               <div>分类</div>
-              <div>
+              <div v-if="response_data_third">
                 <el-radio-group v-model="radio3" size="mini">
-                  <el-radio-button label="总榜"></el-radio-button>
-                  <el-radio-button label="应用"></el-radio-button>
-                  <el-radio-button label="工具"></el-radio-button>
+                  <el-radio-button
+                    v-for="(item, index) in response_data_third.data_1.genreList"
+                    :key="'button'+index"
+                    :label="item.genreName"
+                  ></el-radio-button>
                 </el-radio-group>
               </div>
             </div>
           </div>
           <div class="world_map">
-            <world_map :country_temp="country_temp" />
+            <world_map
+              :country_temp01="country_temp01"
+              :country_temp02="country_temp02"
+              :country_temp03="country_temp03"
+              :country_temp04="country_temp04"
+            />
             <div class="level">
               <div class="one_level">
                 <div></div>
                 <div>1</div>
               </div>
+              <div class="four_level">
+                <div></div>
+                <div>2-500</div>
+              </div>
               <div class="two_level">
                 <div></div>
-                <div>500</div>
+                <div>501-1000</div>
               </div>
               <div class="three_level">
                 <div></div>
-                <div>1000</div>
-              </div>
-              <div class="four_level">
-                <div></div>
-                <div>5000</div>
+                <div>1001-5000</div>
               </div>
             </div>
           </div>
@@ -164,17 +192,36 @@
                 <th>地区</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data_third">
+              <tr v-for="(item, index) in response_data_third.data_0" :key="'table01'+index">
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item.RankingInterval}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div
+                    v-for="(item_td, index_td) in item.GenreCountryList"
+                    :key="'table01_td'+index_td"
+                  >
+                    <div v-if="item_td.genreName==radio3">
+                      <div>{{item_td.Num}}</div>
+                    </div>
+                  </div>
                 </td>
-
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div
+                    v-for="(item_td, index_td) in item.GenreCountryList"
+                    :key="'table01_td'+index_td"
+                  >
+                    <div v-if="item_td.genreName==radio3">
+                      <div
+                        class="rankingChangeFontColor"
+                        v-for="(item_div, index_div) in item_td.data"
+                        :key="'table01_div'+index_div"
+                      >
+                        <div>{{item_div.CountryName}}</div>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -189,34 +236,32 @@
             <div class="option">
               <div>设备</div>
               <div>
-                <el-select v-model="equipmentValue">
-                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
+                <el-select v-model="equipmentValue01">
+                  <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
             </div>
           </div>
           <table>
             <thead>
-              <tr>
-                <th>应用总榜（免费）</th>
-                <th>摄影与录像（免费）</th>
-                <th>摄影与录像（免费）</th>
-                <th>总榜（免费）</th>
+              <tr v-if="response_data_third">
+                <th>国家/地区</th>
+                <th
+                  v-for="(item, index) in response_data_third.data_1.genreList"
+                  :key="'table555'+index"
+                >{{item.genreName}}</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data_third">
+              <tr
+                v-for="(item, index) in response_data_third.data_1.list"
+                :key="'table06785'+index"
+              >
                 <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                  <div class="rankingChangeFontColor">{{item.CountryName}}</div>
                 </td>
-                <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">（总榜）</div>
+                <td v-for="(item_son, index) in item.list" :key="'table06sss785'+index">
+                  <div class="rankingChangeFontColor">{{item_son.rankID}}</div>
                 </td>
               </tr>
             </tbody>
@@ -249,7 +294,7 @@ export default {
       response_data_second: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
-      middle_top_radio3: '30天',
+      middle_top_radio3: '7天',
       middle_top_time01: '',
       middle_top_pickerOptions: {
         disabledDate(time) {
@@ -267,33 +312,34 @@ export default {
       xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
       // 控制折线显隐
       selected_data: {},
-      // =============================================================================================
-      // =============================================================================================
-      // =============================================================================================
-      // =============================================================================================
-      // 世界地图测试数据
-      country_temp: ['中国', '美国', '俄罗斯', '泰国', '新加坡'],
+      // =============================请求第三部分数据=============================
+      // =============================请求第三部分数据=============================
+      // =============================请求第三部分数据=============================
+      response_data_third: null,
+      // 世界地图数据
+      country_temp01: ['中国'], //第一
+      country_temp02: [], //第2-500
+      country_temp03: [], //第501-1000
+      country_temp04: [], //第1001-5000
+      // 单选按钮组
+      radio3: '',
       // 设备选择
-      equipment: [
+      equipment01: [
         {
-          value: '安卓'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      equipmentValue: '安卓',
-      // 单选按钮组
-
-      radio3: '总榜'
+      equipmentValue01: 'iPhone'
     }
   },
-  mounted() {
-    this.drawLine()
-  },
+
   created: function() {
     this.get_data_first()
     this.get_data_second()
+    this.get_data_third()
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_first()
       this.get_data_second()
@@ -309,6 +355,12 @@ export default {
     })
     this.$watch('middle_top_radio3', function(newValue, oldValue) {
       this.get_data_second()
+    })
+    this.$watch('equipmentValue01', function(newValue, oldValue) {
+      this.get_data_third()
+    })
+    this.$watch('radio3', function(newValue, oldValue) {
+      this.send_data_to_world_map()
     })
   },
   methods: {
@@ -333,7 +385,7 @@ export default {
           // console.log(country_id)
 
           let url = 'http://39.97.234.11:8080/PostRealTimeRank'
-          console.log(url)
+          // console.log(url)
           let data = { appId: 472208016, countryId: country_id }
           // 请求数据
           this.$axios
@@ -391,6 +443,16 @@ export default {
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 30)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '180天') {
+            let yesterday = new Date()
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 180)
+            startDate = formatDate(yesterday, 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+          } else if (this.middle_top_radio3 == '380天') {
+            let yesterday = new Date()
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 380)
+            startDate = formatDate(yesterday, 'yyyy-MM-dd')
+            endDate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.middle_top_radio3 == '') {
             let middle_top_time01 = this.middle_top_time01
             startDate = formatDate(middle_top_time01[0], 'yyyy-MM-dd')
@@ -431,7 +493,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response.data.Data)
+              // console.log(response.data.Data)
               if (response.data.Data != null) {
                 this.response_data_second = response.data.Data
                 // console.log(this.response_data_second)
@@ -557,6 +619,112 @@ export default {
         series: that.series_data()
       })
     },
+    // =============================请求第三部分数据=============================
+    // =============================请求第三部分数据=============================
+    // =============================请求第三部分数据=============================
+    get_data_third() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+
+          // 设备选择
+          let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
+
+          let url =
+            'http://39.97.234.11:8080/GetGlobalRank?appid=1410120498&device=' +
+            deviceType
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data_third = response.data.Data
+              // console.log(this.response_data_third)
+              this.radio3 = this.response_data_third.data_1.genreList[0].genreName
+              // 向世界地图传递数据
+              this.send_data_to_world_map()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 向世界地图传递数据
+    send_data_to_world_map() {
+      this.country_temp01 = []
+      this.country_temp02 = []
+      this.country_temp03 = []
+      this.country_temp04 = []
+      // 世界地图数据
+      // country_temp01: ['中国', '美国'], //第一
+      // country_temp02: ['澳大利亚'], //第2-500
+      // country_temp03: ['俄罗斯'], //第501-1000
+      // country_temp04: ['印度尼西亚'], //第1001-5000
+      let temp01 = this.response_data_third.data_0
+
+      temp01.forEach((element01, index) => {
+        element01.GenreCountryList.forEach((element02, index02) => {
+          // console.log(index)
+
+          if (element02.genreName == this.radio3) {
+            if (index == 0) {
+              // console.log('index == 0')
+              this.country_temp01 = this.country_temp01.concat(element02.data)
+              // console.log(this.country_temp01)
+            } else if (
+              index == 1 ||
+              index == 2 ||
+              index == 3 ||
+              index == 4 ||
+              index == 5 ||
+              index == 6
+            ) {
+              // console.log('index == 123456')
+              this.country_temp02 = this.country_temp02.concat(element02.data)
+            } else if (index == 7) {
+              // console.log('index == 7')
+              this.country_temp03 = this.country_temp03.concat(element02.data)
+            } else if (index == 8) {
+              // console.log('index == 8')
+              this.country_temp04 = this.country_temp04.concat(element02.data)
+            }
+          }
+        })
+      })
+      this.country_temp01 = this.country_temp01.map(item => {
+        return item.CountryName
+      })
+      this.country_temp02 = this.country_temp02.map(item => {
+        return item.CountryName
+      })
+      this.country_temp03 = this.country_temp03.map(item => {
+        return item.CountryName
+      })
+      this.country_temp04 = this.country_temp04.map(item => {
+        return item.CountryName
+      })
+
+      // console.log('=================================')
+      // console.log(this.country_temp01)
+      // console.log(this.country_temp02)
+      // console.log(this.country_temp03)
+      // console.log(this.country_temp04)
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -593,12 +761,17 @@ export default {
 .two_level {
   width: 18px;
   height: 18px;
+  background-color: #0191df;
+}
+.four_level {
+  width: 18px;
+  height: 18px;
   background-color: #31b6fe;
 }
 .three_level {
   width: 18px;
   height: 18px;
-  background-color: #0191df;
+  background-color: #027fc3;
 }
 .four_level {
   width: 18px;
@@ -610,6 +783,7 @@ export default {
 }
 .level > div > div:last-child {
   margin-left: 27px;
+  width: 100px;
 }
 .level {
   height: 176px;
@@ -633,7 +807,7 @@ export default {
   margin-left: 10px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 86px;
 }
 .option {
   font-family: SourceHanSansCN-Medium;

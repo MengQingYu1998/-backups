@@ -67,6 +67,7 @@ export default {
 .el-input__inner {
   height: 27px !important;
 }
+#data_table .min_max .el-input__inner,
 #ranking .min_max .el-input__inner {
   padding: 5px 6px !important;
 }
@@ -148,6 +149,9 @@ table tbody tr:hover {
   -o-transform: scale(0.91);
 }
 /* 时间选择组件===》开始时间与结束时间共存组件 */
+
+#result .el-date-editor .el-range-separator,
+#data_table .el-date-editor .el-range-separator,
 #trend_one .el-date-editor .el-range-separator,
 #trend_many .el-date-editor .el-range-separator,
 #grade_start .el-date-editor .el-range-separator,
@@ -155,6 +159,8 @@ table tbody tr:hover {
   line-height: 21px !important;
   color: #444444 !important;
 }
+#result .el-input__icon,
+#data_table .el-input__icon,
 #trend_one .el-input__icon,
 #trend_many .el-input__icon,
 #grade_start .el-input__icon,

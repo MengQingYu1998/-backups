@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">竞品概览</div>
@@ -17,52 +17,63 @@
           <thead>
             <tr>
               <th>应用</th>
-              <th>搜索排名变动</th>
               <th>总榜排名</th>
-              <th>分类榜排名</th>
+              <th>分类排名</th>
               <th>关键词覆盖数</th>
-              <th>top3关键词数</th>
-              <th>top3关键词数</th>
+              <th>当前版本评分</th>
+              <th>所有版本评</th>
+              <th>竞品对比</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody v-if="response_data">
+            <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
               <td>
                 <div class="use">
+                  <div>{{index+1}}</div>
                   <div>
-                    <img src="../assets/keyword/test.png" alt>
+                    <img :src="item.icon" alt />
                   </div>
                   <div>
-                    <div>好几家军军军...</div>
+                    <div class="app_name">{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
-                    <div class="rankingChangeFontColor">好几家军军军...</div>
+                    <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
                 </div>
               </td>
 
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
               </td>
-              <td class="rankingChangeFontColor">8000</td>
+              <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
               </td>
               <td class="operation">
                 <div>
-                  <div v-show="false">添加应用</div>
-                  <div>关键词</div>
-                  <div>实时排名</div>
+                  <div v-show="index==0">添加应用</div>
+                  <div v-show="index!=0">实时排名</div>
+                  <div v-show="index!=0">关键词</div>
                 </div>
+                <img
+                  v-show="index!=0"
+                  src="../assets/ios/compare_del.png"
+                  @click="remove_date(index)"
+                  alt
+                />
               </td>
             </tr>
           </tbody>
@@ -73,48 +84,53 @@
           <thead>
             <tr>
               <th>应用</th>
-              <th>搜索排名变动</th>
               <th>总榜排名</th>
-              <th>分类榜排名</th>
+              <th>分类排名</th>
               <th>关键词覆盖数</th>
-              <th>top3关键词数</th>
-              <th>top3关键词数</th>
+              <th>当前版本评分</th>
+              <th>所有版本评</th>
+              <th>竞品对比</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody v-if="response_data">
+            <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
               <td>
                 <div class="use">
+                  <div>{{index+1}}</div>
                   <div>
-                    <img src="../assets/keyword/test.png" alt>
+                    <img :src="item.icon" alt />
                   </div>
                   <div>
-                    <div>好几家军军军...</div>
+                    <div class="app_name">{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
-                    <div class="rankingChangeFontColor">好几家军军军...</div>
+                    <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
                 </div>
               </td>
 
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
+                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
+                <div class="rankingChangeFontColor" v-else>- -</div>
               </td>
-              <td class="rankingChangeFontColor">8000</td>
+              <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
               </td>
               <td>
-                <div class="rankingChangeFontColor">（总榜）</div>
-                <div class="rankingChangeFontColor">免费</div>
+                <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
               </td>
-              <td class="operation">
-                <img src="../assets/ios/ios_add_blue.png" alt>
+              <td>
+                <img src="../assets/ios/ios_add_blue.png" @click="add_date(index)" alt />
               </td>
             </tr>
           </tbody>
@@ -131,11 +147,87 @@ export default {
   name: 'goods_show',
   components: { ios_header, left_nav },
   data() {
-    return {}
+    return { response_data: null }
+  },
+  created: function() {
+    this.get_data()
+
+    this.$watch('now_country', function(newValue, oldValue) {
+      // console.log('当前国家发生变化，重新请求数据...')
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+
+          let url =
+            'http://39.97.234.11:8080/GetCompetingProducts?appId=1308838221'
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+              console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    add_date(index) {
+      this.response_data.data_0.push(this.response_data.data_1[index])
+      this.response_data.data_1.splice(index, 1)
+    },
+    remove_date(index) {
+      this.response_data.data_0.splice(index, 1)
+    }
   }
 }
 </script>
 <style scoped>
+.app_subtitle {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
+  width: 179px;
+  height: 18px;
+}
+.app_name {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  text-align: left;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 122px;
+}
+.use > div:nth-child(1) {
+  font-family: SourceHanSansCN-Bold;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0.3px;
+  color: #222222;
+}
 .section_title {
   margin-top: 50px;
   font-family: SourceHanSansCN-Medium;
@@ -147,6 +239,16 @@ export default {
   border-left: 2px solid #009bef;
   padding-left: 8px;
   margin-bottom: 20px;
+}
+.operation > img {
+  margin-left: 21px;
+}
+.operation {
+  display: flex;
+  align-items: center;
+  /* margin-top: 8px; */
+  justify-content: center;
+  height: 100px;
 }
 .operation > div {
   display: flex;
@@ -184,7 +286,7 @@ export default {
   letter-spacing: 0px;
   color: #009bef;
   position: absolute;
-  right: -9px;
+  right: -118px;
   top: 0;
 }
 .rankingChangeFontColor {
@@ -206,8 +308,10 @@ export default {
 .use {
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
+  padding-left: 30px;
+  box-sizing: border-box;
+  width: 160px;
 }
 thead tr {
   height: 40px;
@@ -228,6 +332,9 @@ tbody {
   letter-spacing: 0px;
   color: #222222;
   vertical-align: middle;
+}
+tbody tr {
+  border-bottom: 1px solid #f2f2f2;
 }
 thead {
   width: 1200px;

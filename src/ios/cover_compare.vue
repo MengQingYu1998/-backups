@@ -5,7 +5,7 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
         <left_nav />
@@ -23,76 +23,74 @@
             </div>
           </div>
         </div>
-        <div class="vs">
+        <div class="vs" v-if="response_data">
           <div class="vs_div">
-            <img src="../assets/ios/vs.png" alt />
-            <span>58同城</span>
-            <span>招聘找工作二手房租</span>
+            <img :src="response_data.currentApp.icon" alt />
+            <span>{{response_data.currentApp.appName }}</span>
           </div>
           <img src="../assets/ios/vs.png" alt />
           <div class="vs_div">
-            <img src="../assets/ios/vs.png" alt />
-            <span>58同城</span>
-            <span>招聘找工作二手房租</span>
+            <img :src="response_data.compareApp.icon" alt />
+            <span>{{response_data.compareApp.appName }}</span>
           </div>
         </div>
         <div class="table_group">
           <table>
             <thead>
-              <tr>
-                <th colspan="3">Top10关键词</th>
+              <tr v-if="response_data">
+                <th colspan="3">我的独家关键词({{response_data.myOwn.length}})</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data">
+              <tr v-for="(item,index) in response_data.myOwn" :key="'table01'+index">
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Ranking}}</div>
                 </td>
               </tr>
             </tbody>
           </table>
           <table>
             <thead>
-              <tr>
-                <th colspan="3">Top10关键词</th>
+              <tr v-if="response_data">
+                <th colspan="3">公共覆盖关键词({{response_data.common.length}})</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data">
+              <tr v-for="(item,index) in response_data.common" :key="'table02'+index">
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Ranking}}</div>
                 </td>
               </tr>
             </tbody>
           </table>
           <table>
             <thead>
-              <tr>
-                <th colspan="3">Top10关键词</th>
+              <tr v-if="response_data">
+                <th colspan="3">我的独家关键词({{response_data.comOwn.length}})</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="response_data">
+              <tr v-for="(item,index) in response_data.comOwn" :key="'table03'+index">
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div>2019-02-20 12:56</div>
+                  <div>{{item.Ranking}}</div>
                 </td>
               </tr>
             </tbody>
@@ -102,7 +100,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
@@ -120,12 +118,93 @@ export default {
           value: 'iPad'
         }
       ],
-      equipmentValue: 'iPhone'
+      equipmentValue: 'iPhone',
+      now_country: '中国',
+      response_data: null
+    }
+  },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 1:iPhone 2:ipad
+
+          // console.log('country_id' + country_id)
+          let comappId = 281747159
+          // let system=11
+          // let device=1
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          // let system = this.systemValue == 'ios11' ? 11 : 12
+          let system = 11
+          let url =
+            'http://39.97.234.11:8080/GetKeyWordCompare?countryId=' +
+            country_id +
+            '&appId=281736535' +
+            '&comappId=' +
+            comappId +
+            '&system=' +
+            system +
+            '&device=' +
+            deviceType
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data.Data
+              console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.vs_div span {
+  width: 130px;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #444444;
+  text-align: center;
+}
 .table_group table:last-child {
   margin-right: 0;
 }
@@ -158,6 +237,9 @@ tbody {
   color: #222222;
   vertical-align: middle;
 }
+td {
+  padding: 33px 0;
+}
 thead {
   width: 100%;
   background-color: #f7f7f7;
@@ -185,21 +267,7 @@ table {
   /* 表格定长 */
   table-layout: fixed;
 }
-.vs_div span:last-child {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.vs_div span:first-child {
-  font-family: SourceHanSansCN-Medium;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #444444;
-}
+
 .vs_div img {
   width: 94px;
   height: 94px;
@@ -225,7 +293,7 @@ table {
   margin-left: 10px;
 }
 .option div:last-child {
-  width: 72px;
+  width: 86px;
 }
 .option {
   font-family: SourceHanSansCN-Medium;

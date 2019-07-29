@@ -8,15 +8,20 @@
         <div class="days">7天</div>
         <div>
           <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+          <el-date-picker
+            v-model="dateValue"
+            type="date"
+            placeholder="选择日期"
+            clear-icon
+            :picker-options="pickerOptions"
+          ></el-date-picker>
         </div>
       </div>
       <div class="options_02 option">
         <div>系统</div>
         <div>
-          <!-- 饿了么的select组件 -->
-          <el-select v-model="equipmentValue">
-            <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
+          <el-select v-model="systemValue">
+            <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
           </el-select>
         </div>
       </div>
@@ -24,114 +29,233 @@
         <div>搜索</div>
         <div>
           <!-- 饿了么的input组件 -->
-          <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
+          <el-input v-model="input" @blur="blur" placeholder="请输入关键词查询联想词"></el-input>
         </div>
       </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-          <th>2019-04-11</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-          <td class="table_font">
-            <div>抖音</div>
-            <div>123156</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table_group">
+      <table class="table_first" v-if="response_data">
+        <thead>
+          <tr>
+            <th></th>
+            <th v-if="response_data">{{response_data.Time[0]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[0]" :key="'table253'+index">
+            <td class="td_first">{{index+1}}</td>
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[1]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[1]" :key="'table2538'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[2]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[2]" :key="'table25382'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[3]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[3]" :key="'table253823'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[4]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[4]" :key="'table2538234'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[5]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[5]" :key="'table25382345'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="response_data">{{response_data.Time[6]}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="response_data">
+          <tr v-for="(item,index) in response_data.Data[6]" :key="'table253823456'+index">
+            <td class="table_font">
+              <div>{{item.keyword}}</div>
+              <div>{{item.hint}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
+// 引入工具类
+import { formatDate } from '../common/util.js'
 export default {
   name: 'think_word',
   data() {
     return {
-      //options 下面的input
-      input: '',
-      // 系统选择
-      equipment: [
-        {
-          value: '安卓'
-        },
-        {
-          value: 'iOS'
-        }
-      ],
-      equipmentValue: '安卓',
-
-      //日期选择
+      dateValue: new Date(),
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
-        },
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24)
-              picker.$emit('pick', date)
-            }
-          },
-          {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date()
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', date)
-            }
-          }
-        ]
+          // 这里就是设置当天后的日期不能被点击
+        }
       },
-      dateValue: ''
+      system: [
+        // 系统选择
+        {
+          value: 'ios11'
+        },
+        {
+          value: 'ios12'
+        }
+      ],
+      systemValue: 'ios12',
+      now_country: '中国',
+      response_data: null,
+      input: 'qq'
+    }
+  },
+  created: function() {
+    this.get_data()
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('systemValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+  },
+  methods: {
+    // 请求数据
+    get_data() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+
+          // console.log('country_id' + country_id)
+          let system = this.systemValue == 'ios11' ? 11 : 12
+          let time = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let word = this.input
+          let url =
+            'http://39.97.234.11:8080/Word/FindJoinWord?countryId=' +
+            country_id +
+            '&deviceType=1' +
+            '&time=' +
+            time +
+            '&iosType=' +
+            system +
+            '&word=' +
+            word
+          console.log(url)
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.response_data = response.data
+              console.log(this.response_data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 输入框失去焦点
+    blur: function() {
+      this.get_data()
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
     }
   }
 }
 </script>
 <style scoped>
+.td_first {
+  border-right: 1px solid #f2f2f2;
+}
+.table_group {
+  margin-bottom: 38px;
+  display: flex;
+  /* align-items: center; */
+}
 .table_font div:first-child {
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
@@ -152,10 +276,13 @@ export default {
 }
 thead tr {
   height: 40px;
-}
-td,
-th {
   border: 1px solid #f2f2f2;
+}
+td {
+  padding: 24px 0;
+}
+th {
+  border-right: 1px solid #f2f2f2;
 }
 tbody tr td:first-child {
   width: 59px;
@@ -182,10 +309,13 @@ thead {
   letter-spacing: 0px;
   color: #222222;
 }
+.table_first {
+  border-left: solid 1px #f2f2f2;
+}
 table {
   width: 100%;
   height: 121px;
-  border: solid 1px #f2f2f2;
+  border-right: solid 1px #f2f2f2;
   text-align: center;
 }
 .option .days {

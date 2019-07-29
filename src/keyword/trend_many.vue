@@ -59,7 +59,7 @@
     <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
     <div class="bottom_image" v-show="is_show_myChart_and_table">
-      <img
+      <!-- <img
         v-on:click="is_show_myChart_and_table_function"
         class="float_right"
         src="../assets/keyword/three.png"
@@ -70,7 +70,7 @@
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
-      />
+      />-->
     </div>
     <table v-show="!is_show_myChart_and_table">
       <thead>

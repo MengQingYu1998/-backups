@@ -113,16 +113,16 @@
             <div class="option">
               <div>设备</div>
               <div>
-                <el-select v-model="equipmentValue">
-                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
+                <el-select v-model="equipmentValue01">
+                  <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
             </div>
             <div class="option">
               <div>系统</div>
               <div>
-                <el-select v-model="systemValue">
-                  <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
+                <el-select v-model="systemValue01">
+                  <el-option v-for="item in system01 " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
             </div>
@@ -131,7 +131,7 @@
               <div class="date">
                 <!-- 饿了么的日期选择组件 -->
                 <el-date-picker
-                  v-model="dateNow_for_middle"
+                  v-model="date_Now_for_middle"
                   type="date"
                   placeholder="选择日期"
                   clear-icon
@@ -153,15 +153,18 @@
           </div>
           <div class="btn_group">
             <div class="option_for_min_max">
-              <div>搜索结果数</div>
-              <div class="all">全部</div>
-              <div class="min_max">
+              <div>搜索指数</div>
+              <div
+                :class=" {'change_bg':change_bg_result,'radio_one':true}"
+                @click="result_all()"
+              >全部</div>
+              <div class="min_max" @click="change_bg_result_function">
                 <div>
-                  <el-input v-model="result_min_input01" placeholder="最小值"></el-input>
+                  <el-input v-model="result_min_input01" placeholder="最小值" type="number"></el-input>
                 </div>
                 <div>---</div>
                 <div>
-                  <el-input v-model="result_max_input01" placeholder="最大值"></el-input>
+                  <el-input v-model="result_max_input01" placeholder="最大值" type="number"></el-input>
                 </div>
               </div>
             </div>
@@ -169,11 +172,11 @@
               <div>排名</div>
               <div class="min_max">
                 <div>
-                  <el-input v-model="result_min_input02" placeholder="最小值"></el-input>
+                  <el-input v-model="result_min_input02" placeholder="最小值" type="number"></el-input>
                 </div>
                 <div>---</div>
                 <div>
-                  <el-input v-model="result_max_input02" placeholder="最大值"></el-input>
+                  <el-input v-model="result_max_input02" placeholder="最大值" type="number"></el-input>
                 </div>
               </div>
             </div>
@@ -181,11 +184,11 @@
               <div>搜索结果</div>
               <div class="min_max">
                 <div>
-                  <el-input v-model="result_min_input03" placeholder="最小值"></el-input>
+                  <el-input v-model="result_min_input03" placeholder="最小值" type="number"></el-input>
                 </div>
                 <div>---</div>
                 <div>
-                  <el-input v-model="result_max_input03" placeholder="最大值"></el-input>
+                  <el-input v-model="result_max_input03" placeholder="最大值" type="number"></el-input>
                 </div>
               </div>
             </div>
@@ -201,118 +204,196 @@
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody v-if="request_data_second">
+              <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
-                  <div>学习强国</div>
+                  <div>{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>156</div>
+                  <div>{{item.Ranking}}</div>
                 </td>
 
                 <td>
                   <div>
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="false" />
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="false" />
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="true" />
-                    2
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="item.Change=0" />
+                    <img src="../assets/keyword/arrows (2).png" alt v-show="item.Change>0" />
+                    <img src="../assets/keyword/arrows (3).png" alt v-show="item.Change<0" />
+                    {{item.Change}}
                   </div>
                 </td>
                 <td>
-                  <div class="table_font">20112</div>
+                  <div class="table_font">{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div class="table_font">20</div>
+                  <div class="table_font">{{item.SearchCount}}</div>
                 </td>
                 <td>
-                  <div class="table_font">排名趋势</div>
+                  <div class="table_font" @click="middle_table_first(index,item.WordId)">排名趋势</div>
+                </td>
+              </tr>
+              <tr v-show="is_show_bottom">
+                <td colspan="6">
+                  <!-- 底部 类型模块 -->
+                  <!-- 底部 类型模块 -->
+                  <!-- 底部 类型模块 -->
+                  <section class="bottom">
+                    <div class="btn_group">
+                      <div class="classify">
+                        <div>类型</div>
+                        <div>
+                          <el-radio-group v-model="bottom_radio1" size="mini">
+                            <el-radio-button label="按分钟"></el-radio-button>
+                            <el-radio-button label="按小时"></el-radio-button>
+                            <el-radio-button label="按天"></el-radio-button>
+                          </el-radio-group>
+                        </div>
+                      </div>
+                      <div class="classify bottom_time">
+                        <div>时间</div>
+                        <div @click="click_second_el_radio">
+                          <el-radio-group v-model="bottom_radio3" size="mini">
+                            <el-radio-button
+                              label="近24小时"
+                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                            ></el-radio-button>
+                            <el-radio-button
+                              label="昨日"
+                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                            ></el-radio-button>
+                            <el-radio-button
+                              label="7天"
+                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'||bottom_radio1=='按天'"
+                            ></el-radio-button>
+                            <el-radio-button
+                              label="30天"
+                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按天'"
+                            ></el-radio-button>
+                            <el-radio-button
+                              label="180天"
+                              v-show="bottom_radio1=='按天'||bottom_radio1=='按天'"
+                            ></el-radio-button>
+                            <!-- <el-radio-button label="380天" v-show="bottom_radio1=='按天'"></el-radio-button> -->
+                          </el-radio-group>
+                        </div>
+                      </div>
+                      <div class="btn_item_01">
+                        <!-- <div>时间</div> -->
+                        <div @click="click_second_el_date_picker">
+                          <el-date-picker
+                            v-model="middle_time01"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="middle_pickerOptions"
+                          ></el-date-picker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="position_relative">
+                      <div class="table_title">【今日】榜单排名走势</div>
+                      <div
+                        ref="myChart_data_table"
+                        class="myChart"
+                        v-show="is_show_myChart_and_table"
+                      ></div>
+                      <div class="bottom_image" v-show="is_show_myChart_and_table">
+                        <!-- <img class="float_right" src="../assets/keyword/down.png" alt> -->
+                        <!-- <img
+                      v-on:click="is_show_myChart_and_table_function"
+                      class="float_right"
+                      src="../assets/keyword/three.png"
+                      alt
+                    />
+                    <img
+                      v-on:click="is_show_myChart_and_table_function"
+                      class="float_right"
+                      src="../assets/keyword/calculator.png"
+                      alt
+                        />-->
+                      </div>
+
+                      <table v-show="!is_show_myChart_and_table">
+                        <thead>
+                          <tr>
+                            <th>时间</th>
+                            <th>排名</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div>2019-02-20 12:56</div>
+                            </td>
+                            <td>
+                              <div>1</div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="bottom_image_for_table" v-show="!is_show_myChart_and_table">
+                        <img
+                          class="float_right"
+                          src="../assets/keyword/down.png"
+                          alt
+                          v-show="false"
+                        />
+                        <img
+                          v-on:click="is_show_myChart_and_table_function"
+                          class="float_right"
+                          src="../assets/keyword/three.png"
+                          alt
+                        />
+                        <img
+                          v-on:click="is_show_myChart_and_table_function"
+                          class="float_right"
+                          src="../assets/keyword/calculator.png"
+                          alt
+                        />
+                      </div>
+
+                      <div class="import_data" v-show="is_show_myChart_and_table">导出数据</div>
+                      <div class="import_data_for_table" v-show="!is_show_myChart_and_table">导出数据</div>
+                      <div class="clear_float"></div>
+                    </div>
+                  </section>
+                  <!-- 底部 类型模块 -->
+                  <!-- 底部 类型模块 -->
+                  <!-- 底部 类型模块 -->
+                </td>
+              </tr>
+
+              <tr v-for="(item ,index) in temp_request_data_second" :key="'tasbleasdf'+index">
+                <td>
+                  <div>{{item.Word}}</div>
+                </td>
+                <td>
+                  <div>{{item.Ranking}}</div>
+                </td>
+
+                <td>
+                  <div>
+                    <img src="../assets/keyword/arrows (1).png" alt v-show="item.Change=0" />
+                    <img src="../assets/keyword/arrows (2).png" alt v-show="item.Change>0" />
+                    <img src="../assets/keyword/arrows (3).png" alt v-show="item.Change<0" />
+                    {{item.Change}}
+                  </div>
+                </td>
+                <td>
+                  <div class="table_font">{{item.WordIdHint}}</div>
+                </td>
+                <td>
+                  <div class="table_font">{{item.SearchCount}}</div>
+                </td>
+                <td>
+                  <div class="table_font" @click="middle_table_second(index,item.WordId)">排名趋势</div>
                 </td>
               </tr>
             </tbody>
           </table>
         </section>
-        <!-- 底部 类型模块 -->
-        <!-- 底部 类型模块 -->
-        <!-- 底部 类型模块 -->
-        <section class="bottom">
-          <div class="btn_group">
-            <div class="classify">
-              <div>类型</div>
-              <div>
-                <el-radio-group v-model="radio2" size="mini">
-                  <el-radio-button label="按分钟"></el-radio-button>
-                  <el-radio-button label="按小时"></el-radio-button>
-                  <el-radio-button label="按天"></el-radio-button>
-                  <el-radio-button label="近24小时"></el-radio-button>
-                  <el-radio-button label="昨日"></el-radio-button>
-                  <el-radio-button label="7天"></el-radio-button>
-                  <el-radio-button label="30天"></el-radio-button>
-                </el-radio-group>
-              </div>
-              <div>
-                <el-select v-model="customValue">
-                  <el-option v-for="item in  custom " :key="item.value" :value="item.value"></el-option>
-                </el-select>
-              </div>
-            </div>
-          </div>
-          <div class="position_relative">
-            <div class="table_title">【今日】榜单排名走势</div>
-            <div ref="myChart_data_table" class="myChart" v-show="is_show_myChart_and_table"></div>
-            <div class="bottom_image" v-show="is_show_myChart_and_table">
-              <!-- <img class="float_right" src="../assets/keyword/down.png" alt> -->
-              <img
-                v-on:click="is_show_myChart_and_table_function"
-                class="float_right"
-                src="../assets/keyword/three.png"
-                alt
-              />
-              <img
-                v-on:click="is_show_myChart_and_table_function"
-                class="float_right"
-                src="../assets/keyword/calculator.png"
-                alt
-              />
-            </div>
-            <table v-show="!is_show_myChart_and_table">
-              <thead>
-                <tr>
-                  <th>时间</th>
-                  <th>排名</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div>2019-02-20 12:56</div>
-                  </td>
-                  <td>
-                    <div>1</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="bottom_image_for_table" v-show="!is_show_myChart_and_table">
-              <img class="float_right" src="../assets/keyword/down.png" alt v-show="false" />
-              <img
-                v-on:click="is_show_myChart_and_table_function"
-                class="float_right"
-                src="../assets/keyword/three.png"
-                alt
-              />
-              <img
-                v-on:click="is_show_myChart_and_table_function"
-                class="float_right"
-                src="../assets/keyword/calculator.png"
-                alt
-              />
-            </div>
 
-            <div class="import_data" v-show="is_show_myChart_and_table">导出数据</div>
-            <div class="import_data_for_table" v-show="!is_show_myChart_and_table">导出数据</div>
-            <div class="clear_float"></div>
-          </div>
-        </section>
         <div class="paging">
           <div>显示第 601 至 700 项结果，共 2,059 项</div>
           <div>
@@ -367,70 +448,83 @@ export default {
         }
       ],
       systemValue: 'ios12',
-
-      // ==========================================================
-      // ==========================================================
-      // ==========================================================
-      //btn-group 下面的最大值最小值
-      result_max_input01: '',
+      // 第二部分参数
+      // 第二部分参数
+      // 第二部分参数
+      request_data_second: null,
+      temp_request_data_second: null,
+      temp01_request_data_second: null,
+      is_show_bottom: false, //默认设置底部折线图隐藏
+      date_Now_for_middle: new Date(), //top section的日期选择 当前日期or对比日期
+      dateCompare_for_middle: new Date(),
+      change_bg_result: true,
       result_min_input01: '',
-      //----
-      result_max_input02: '',
+      result_max_input01: '',
       result_min_input02: '',
-      //----
-      result_max_input03: '',
+      result_max_input02: '',
       result_min_input03: '',
-
-      // 单选按钮组
-      radio1: '上海',
-      radio2: '今天',
-
-      //middle section的日期选择 当前日期or对比日期
-      dateNow_for_middle: '',
-      dateCompare_for_middle: '',
-
-      //自定义选择
-      custom: [
+      result_max_input03: '',
+      equipment01: [
+        // 设备选择
         {
-          value: '自定义'
+          value: 'iPhone'
         },
         {
-          value: 'iOS'
+          value: 'iPad'
         }
       ],
-      customValue: '自定义',
+      equipmentValue01: 'iPhone',
+      system01: [
+        // 系统选择
+        {
+          value: 'ios11'
+        },
+        {
+          value: 'ios12'
+        }
+      ],
+      // 第三部分参数
+      // 第三部分参数
+      // 第三部分参数
+      wordId: null,
+      request_data_third: null,
+      systemValue01: 'ios12',
+      bottom_radio1: '按天',
+      bottom_radio3: '7天',
+      middle_time01: '',
+      middle_pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
+
       // true显示myChart  false显示table表格
       is_show_myChart_and_table: true,
 
       //canvas 关键词data数组
-      keyword_data: [
-        '邮件营销',
-        '联盟广告',
-        '视频广告',
-        '直接访问',
-        '搜索引擎'
-      ],
+      keyword_data: [],
+      xAxis_data: [],
       // 数据
-      keyword_data_value: [
-        [820, 932, 901, 934, 11, 1330, 1320],
-        [555, 555, 555, 555, 555, 555, 555],
-        [820, 932, 901, 934, 1290, 1330, 1320],
-        [555, 6, 555, 555, 555, 555, 555],
-        [88, 932, 901, 934, 1290, 1330, 75]
-      ],
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日']
+      keyword_data_value: []
     }
   },
 
   created: function() {
     // 请求数据
+
+    // ==================第一部分===========================
+    // ==================第一部分===========================
+    // ==================第一部分===========================
     this.get_data_for_first_part()
     this.change_time()
+
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_for_first_part()
+      this.get_data_for_second_part()
     })
-    // 对日期做限制
+    // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
       this.change_time()
       this.get_data_for_first_part()
@@ -439,13 +533,71 @@ export default {
       this.change_time()
       this.get_data_for_first_part()
     })
-    // 下拉框，系统
+    // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
     })
-    //  下拉框，设备
+    //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
+    })
+    // ==================第二部分===========================
+    // ==================第二 部分===========================
+    // ==================第二部分===========================
+    this.get_data_for_second_part()
+    this.change_time01()
+    // 对日期做限制 第二部分
+    this.$watch('date_Now_for_middle', function(newValue, oldValue) {
+      this.change_time01()
+      this.get_data_for_second_part()
+    })
+
+    this.$watch('dateCompare_for_middle', function(newValue, oldValue) {
+      this.change_time01()
+      this.get_data_for_second_part()
+    })
+
+    // 下拉框，系统 第二部分
+    this.$watch('systemValue01', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+      this.get_data_for_third_part()
+    })
+    //  下拉框，设备 第二部分
+    this.$watch('equipmentValue01', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+      this.get_data_for_third_part()
+    })
+    // 最大值最小值的改变
+    this.$watch('result_min_input01', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    this.$watch('result_max_input01', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    this.$watch('result_min_input02', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    this.$watch('result_max_input02', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    this.$watch('result_min_input03', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    this.$watch('result_max_input03', function(newValue, oldValue) {
+      this.get_data_for_second_part()
+    })
+    // ==================第三部分===========================
+    // ==================第三部分===========================
+    // ==================第三部分===========================
+    this.get_data_for_third_part()
+    this.$watch('bottom_radio1', function(newValue, oldValue) {
+      this.get_data_for_third_part()
+    })
+    this.$watch('bottom_radio3', function(newValue, oldValue) {
+      this.get_data_for_third_part()
+    })
+    this.$watch('middle_time01', function(newValue, oldValue) {
+      this.get_data_for_third_part()
     })
   },
   methods: {
@@ -490,15 +642,15 @@ export default {
             nowDate +
             '&compareDate=' +
             compareDate
-          console.log(url)
+          // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.request_data_first = response.data.Data
-              console.log(response)
-              console.log(this.request_data_first)
+              // console.log(response)
+              // console.log(this.request_data_first)
             })
             .catch(error => {
               console.log(error)
@@ -508,7 +660,7 @@ export default {
           console.log(error)
         })
     },
-    // 设置对比日期永远比当前日期小一天
+    // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
       // console.log(this.date_Now_for_top)
       //     console.log(this.dateCompare_for_top)
@@ -520,9 +672,254 @@ export default {
           new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
       }
     },
-    // ============================================================
-    // ============================================================
-    // ============================================================
+    // ===========================第二部分数据=================================
+    // ===========================第二部分数据=================================
+    // ===========================第二部分数据=================================
+    get_data_for_second_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 设备选择
+          let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
+          let system = this.systemValue01 == 'ios11' ? 11 : 12
+          let nowDate = formatDate(this.date_Now_for_middle, 'yyyy-MM-dd')
+          let compareDate = timestamp(
+            this.dateCompare_for_middle / 1000,
+            'Y-M-D'
+          )
+          let url = ' http://39.97.234.11:8080/GetKeyWordDetail'
+          let that = this
+          // console.log(country_id)
+          // console.log(deviceType)
+          // console.log(system)
+          // console.log(nowDate)
+          // console.log(compareDate)
+          // console.log(that.result_min_input01)
+          // console.log(that.result_max_input01)
+          // console.log(that.result_min_input02)
+          // console.log(that.result_max_input02)
+          // console.log(that.result_min_input03)
+          // console.log(that.result_max_input03)
+          let data = {
+            appId: 112,
+            countryId: country_id,
+            device: deviceType,
+            system: system,
+            nowDate: nowDate,
+            compareDate: compareDate,
+            minHint: that.result_min_input01,
+            maxHint: that.result_max_input01,
+            minRank: that.result_min_input02,
+            maxRank: that.result_max_input02,
+            minResult: that.result_min_input03,
+            maxResult: that.result_max_input03
+          }
+
+          // console.log(url)
+
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.request_data_second = response.data.Data
+              console.log(this.request_data_second)
+              this.temp01_request_data_second = this.request_data_second
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 点击搜索结果数的min_mix
+    change_bg_result_function() {
+      this.change_bg_result = false
+    },
+    // 点击搜索结果数的全部
+    result_all() {
+      this.result_min_input01 = ''
+      this.result_max_input01 = ''
+      this.change_bg_result = true
+    },
+    // 设置对比日期永远比当前日期小一天 第二部分
+    change_time01() {
+      // console.log(this.date_Now_for_middle)
+      // console.log(this.dateCompare_for_middle)
+      if (
+        new Date(this.date_Now_for_middle).getTime() <=
+        new Date(this.dateCompare_for_middle).getTime()
+      ) {
+        this.dateCompare_for_middle =
+          new Date(this.date_Now_for_middle).getTime() - 24 * 60 * 60 * 1000
+      }
+    },
+    // 控制折线图在表格的中间显示
+    middle_table_first(index, wordId) {
+      // temp01是一个tr        temp是第三个tr
+
+      this.temp01_request_data_second = this.request_data_second
+
+      this.temp_request_data_second = this.temp01_request_data_second.slice(
+        index + 1
+      )
+      this.temp01_request_data_second = this.temp01_request_data_second.slice(
+        0,
+        index + 1
+      )
+      this.wordId = wordId
+      this.is_show_bottom = true
+      this.get_data_for_third_part()
+    },
+    middle_table_second(index, wordId) {
+      this.temp01_request_data_second = this.temp01_request_data_second.concat(
+        this.temp_request_data_second.slice(0, index + 1)
+      )
+      this.temp_request_data_second = this.temp_request_data_second.slice(
+        index + 1
+      )
+      this.wordId = wordId
+      this.is_show_bottom = true
+      this.get_data_for_third_part()
+    },
+    // ============================第三部分数据================================
+    // ============================第三部分数据================================
+    // ============================第三部分数据================================
+    // 请求数据
+    get_data_for_third_part() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // console.log('国家' + country_id)
+          // 请求数据
+          let url = 'http://39.97.234.11:8080/GetKeyWordApp'
+          let time, sdate, edate
+          if (this.middle_time01) {
+            sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
+            edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
+            time = sdate + '-' + edate
+          } else if (this.bottom_radio3 == '近24小时') {
+            time = 1
+          } else if (this.bottom_radio3 == '昨日') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+            time = sdate + '-' + edate
+          } else if (this.bottom_radio3 == '7天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+            time = sdate + '-' + edate
+          } else if (this.bottom_radio3 == '30天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+            time = sdate + '-' + edate
+          } else if (this.bottom_radio3 == '180天') {
+            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            let time02 = new Date()
+            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 180)
+            sdate = formatDate(time02, 'yyyy-MM-dd')
+            time = sdate + '-' + edate
+          }
+          // 设备选择
+          let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
+          // 系统选择
+          let iosType = this.systemValue01 == 'ios11' ? 11 : 12
+
+          let showType
+          if (this.bottom_radio1 == '按分钟') {
+            showType = 1
+          } else if (this.bottom_radio1 == '按小时') {
+            showType = 2
+          } else if (this.bottom_radio1 == '按天') {
+            showType = 3
+          }
+          let wordId = this.wordId
+          // wordId	是	int	关键词id
+          // showType	是	int	appId
+          // console.log(time)
+          console.log(wordId)
+          // console.log(deviceType)
+          // console.log(country_id)
+          // console.log(iosType)
+          console.log(showType)
+          // console.log(wordId)
+          let data = {
+            countryId: country_id,
+            wordId: wordId,
+            appId: 112,
+            system: iosType,
+            device: deviceType,
+            showType: 2,
+            date: time
+          }
+          // console.log('==============')
+
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              console.log(response.data.Data)
+              if (response.data.Data != null) {
+                this.request_data_third = response.data.Data
+                // console.log('无数据')
+                this.keyword_data_value = []
+                this.xAxis_data = []
+                this.keyword_data.push('测试') //需要把第二部分的APP名字传过来
+                this.xAxis_data = this.request_data_third.timeList
+                this.keyword_data_value.push(this.request_data_third.rankList)
+                this.drawLine()
+              } else if (response.data.Data == null) {
+                this.keyword_data_value = []
+                this.xAxis_data = []
+                this.drawLine()
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 点击单选按钮组件组件
+    click_second_el_radio: function() {
+      this.middle_time01 = ''
+    },
+    // 点击日历组件
+    click_second_el_date_picker: function() {
+      this.bottom_radio3 = ''
+    },
+
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = []
@@ -546,7 +943,7 @@ export default {
       this.is_show_myChart_and_table = !this.is_show_myChart_and_table
     },
 
-    // canvas画折线图
+    // 画canvas
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -589,6 +986,7 @@ export default {
         series: that.series_data()
       })
     },
+
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -598,6 +996,28 @@ export default {
 }
 </script>
 <style scoped>
+.change_bg {
+  color: #ffffff !important;
+  background-color: #009bef;
+  border: solid 1px #ffffff !important;
+}
+.radio_one {
+  text-align: center;
+  line-height: 24px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  width: 48px !important;
+  height: 24px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  letter-spacing: 0px;
+  color: #444444;
+  margin-right: 10px;
+  margin-top: 2px;
+  display: inline-block;
+}
 .paging {
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
