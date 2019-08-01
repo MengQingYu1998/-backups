@@ -1101,7 +1101,7 @@ export default {
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
- border: solid 1px #ffffff !important;
+  border: solid 1px #ffffff !important;
 }
 .font_block {
   text-align: center;

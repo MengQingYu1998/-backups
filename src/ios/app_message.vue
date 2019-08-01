@@ -5,7 +5,9 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
+    <!-- <keep-alive> -->
     <ios_header @childFn="parentFn" />
+    <!-- </keep-alive> -->
     <div class="left_and_right">
       <div class="left">
         <left_nav />
@@ -17,6 +19,7 @@
         <section class="app_description">
           <div class="section_title">应用描述</div>
           <div class="section_content" v-if="response_data" v-html="response_data.description"></div>
+          <div class="section_content" v-else>无</div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
@@ -27,7 +30,7 @@
           v-if="!response_data||response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
         >
           <div class="section_title">应用视频</div>
-          <div class="section_video">
+          <div class="section_video" v-if="response_data">
             <div class="btn_group">
               <div class="btn_item_02">
                 <div>类型</div>
@@ -73,6 +76,7 @@
               ></video-player>
             </div>
           </div>
+          <div class="section_video" v-else>无</div>
         </section>
         <!-- 第三部分 -->
         <!-- 第三部分 -->
@@ -82,7 +86,7 @@
           v-if="!response_data||response_data.prtscrUrl.iphone!='无'||response_data.prtscrUrl.ipad!='无'||response_data.prtscrUrl.watch!='无'"
         >
           <div class="section_title">应用截图</div>
-          <div class="section_img">
+          <div class="section_img" v-if="response_data">
             <div class="btn_group">
               <div class="btn_item_02">
                 <div>类型</div>
@@ -122,6 +126,7 @@
               </div>
             </div>
           </div>
+          <div class="section_img" v-else>无</div>
         </section>
         <!-- 第四部分 -->
         <!-- 第四部分 -->
@@ -129,6 +134,7 @@
         <section class="font">
           <div class="section_title">宣传文本</div>
           <div class="section_content" v-if="response_data">{{response_data.advertisingText}}</div>
+          <div class="section_content" v-else>无</div>
         </section>
         <!-- 第五部分 -->
         <!-- 第五部分 -->
@@ -139,54 +145,67 @@
             <div>
               <span>开发者</span>
               <span v-if="response_data">{{response_data.developerName}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>更新日期</span>
               <span v-if="response_data">{{response_data.appUpdateTime}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>Bundle ID</span>
               <span v-if="response_data">{{response_data.bundleId}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>版本</span>
               <span v-if="response_data">{{response_data.latestVersion}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>大小</span>
               <span v-if="response_data">{{response_data.appSize}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>是否支持Watch</span>
               <span v-if="response_data">{{response_data.detailInfo.is_support_iwatch?'支持':'不支持'}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>家人共享</span>
               <span v-if="response_data">{{response_data.detailInfo.family_share}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>支持网站</span>
               <span v-if="response_data">{{response_data.detailInfo.support_url}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>开发者网站</span>
               <span v-if="response_data">{{response_data.detailInfo.developer_url}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>兼容性</span>
               <span v-if="response_data">{{response_data.detailInfo.compatibility_ios}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>支持语言</span>
               <span v-if="response_data">{{response_data.detailInfo.support_language}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>发行国家/地区</span>
               <span v-if="response_data">{{response_data.publishCountries}}</span>
+              <span v-else>无</span>
             </div>
             <div>
               <span>内容评级</span>
               <span v-if="response_data">{{response_data.detailInfo.content_grade}}</span>
+              <span v-else>无</span>
             </div>
           </div>
         </section>
@@ -205,6 +224,7 @@
               <span>{{mayLoveApp_item.appName}}</span>
             </div>
           </div>
+          <div class="section_content" v-else>无</div>
         </section>
       </div>
     </div>
@@ -214,6 +234,10 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
+// import $ from 'jquery'
+// import '../common/country_select/select_gj.css'
+// import '../common/country_select/select_gj.min.js'
+// import '../common/country_select/select2_1.js'
 // 引入播放m3u8格式的视频插件
 import { videoPlayer } from 'vue-video-player'
 
@@ -302,6 +326,7 @@ export default {
               this.response_data = response.data.Data
               // 获取数据并且设置到视频插件的配置项
               this.onPlayerPlay(this.response_data.videoUrl.iphone)
+              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)
@@ -440,7 +465,7 @@ export default {
   margin-right: 16px;
 }
 .video {
-  border: solid 1px #f2f2f2;
+  /* border: solid 1px #f2f2f2; */
   margin-bottom: 40px;
 }
 .section_video_flex {

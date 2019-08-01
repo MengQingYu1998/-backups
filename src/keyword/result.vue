@@ -23,7 +23,13 @@
         <div>日期</div>
         <div>
           <!-- 饿了么的日期选择组件 -->
-          <el-date-picker v-model="dateValue" type="date" placeholder="选择日期" clear-icon></el-date-picker>
+          <el-date-picker
+            v-model="dateValue"
+            type="date"
+            placeholder="选择日期"
+            clear-icon
+            :picker-options="pickerOptions2"
+          ></el-date-picker>
         </div>
       </div>
     </div>
@@ -44,20 +50,17 @@
               {{response_data_for_ios11.WordInfo.WordIdHint}}
               <img
                 src="../assets/keyword/keyword01.png"
+                @click="$router.push('/trend_many')"
                 alt
               />
             </td>
-            <td>
-              <span
-                v-if="response_data_for_ios12.WordInfo"
-              >{{response_data_for_ios12.WordInfo.SearchCount}}</span>
-              <img src="../assets/keyword/keyword01.png" alt />
+            <td v-if="response_data_for_ios12.WordInfo">
+              <span>{{response_data_for_ios12.WordInfo.SearchCount}}</span>
+              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
             </td>
-            <td class="first_table_last_td">
-              <span
-                v-if="response_data_for_ios11.WordInfo"
-              >{{response_data_for_ios11.WordInfo.SearchCount}}</span>
-              <img src="../assets/keyword/keyword01.png" alt />
+            <td v-if="response_data_for_ios11.WordInfo" class="first_table_last_td">
+              <span>{{response_data_for_ios11.WordInfo.SearchCount}}</span>
+              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
             </td>
           </tr>
         </tbody>
@@ -89,10 +92,13 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt />
+                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
                         </div>
                         <div class="third_div">
-                          <div class="app_name">{{item.app_name}}</div>
+                          <div
+                            class="app_name"
+                            @click="$router.push('/now_ranking')"
+                          >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
                       </div>
@@ -135,7 +141,7 @@
                       <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.price}}</div>
                     </td>
-                    <td>{{item.Cover}}</td>
+                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
                   </tr>
                 </tbody>
@@ -145,8 +151,10 @@
               <div class="right_title">关键词搜索结果变化率</div>
               <div class="right_btn">
                 <div>
-                  <el-button>top10</el-button>
-                  <el-button type="primary">all</el-button>
+                  <el-radio-group v-model="radio1" size="mini">
+                    <el-radio-button label="top10"></el-radio-button>
+                    <el-radio-button label="all"></el-radio-button>
+                  </el-radio-group>
                 </div>
                 <div ref="myChart_result12" class="myChart"></div>
               </div>
@@ -177,10 +185,13 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt />
+                          <img :src="item.icon_url" alt @click="$router.push('/now_ranking')" />
                         </div>
                         <div class="third_div">
-                          <div class="app_name">{{item.app_name}}</div>
+                          <div
+                            class="app_name"
+                            @click="$router.push('/now_ranking')"
+                          >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
                       </div>
@@ -223,13 +234,13 @@
                       <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.price}}</div>
                     </td>
-                    <td>{{item.Cover}}</td>
+                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="right">
+            <!-- <div class="right">
               <div class="right_title">关键词搜索结果变化率</div>
               <div class="right_btn">
                 <div>
@@ -238,7 +249,7 @@
                 </div>
                 <div ref="myChart_result11" class="myChart"></div>
               </div>
-            </div>
+            </div>-->
           </div>
         </el-tab-pane>
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
@@ -270,10 +281,13 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt />
+                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
                         </div>
                         <div class="third_div">
-                          <div class="app_name">{{item.app_name}}</div>
+                          <div
+                            class="app_name"
+                            @click="$router.push('/now_ranking')"
+                          >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
                       </div>
@@ -312,7 +326,7 @@
                         />
                       </div>
                     </td>
-                    <td>{{item.Cover}}</td>
+                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
                     <td>{{item.rating_count}}</td>
                   </tr>
                 </tbody>
@@ -344,10 +358,13 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt />
+                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
                         </div>
                         <div class="third_div">
-                          <div class="app_name">{{item.app_name}}</div>
+                          <div
+                            class="app_name"
+                            @click="$router.push('/now_ranking')"
+                          >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
                       </div>
@@ -386,7 +403,7 @@
                         />
                       </div>
                     </td>
-                    <td>{{item.Cover}}</td>
+                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
                     <td>{{item.rating_count}}</td>
                   </tr>
                 </tbody>
@@ -460,6 +477,8 @@ export default {
   data() {
     return {
       // ===================element的弹窗================
+      // ===================element的弹窗================
+      // ===================element的弹窗================
       word: '',
       appid: '',
       radio01_dialog: '按天',
@@ -501,26 +520,37 @@ export default {
         }
       },
       // tab-pane选择面板
-      activeName: 'first'
+      activeName: 'first',
+      // =======================柱形图============================
+      // =======================柱形图============================
+      // =======================柱形图============================
+      radio1: 'all',
+      //canvas 关键词data数组
+      keyword_data01: [],
+      xAxis_data01: [],
+      // 数据
+      keyword_data_value01: []
     }
   },
-  mounted() {
-    this.drawLine11()
-    this.drawLine12()
-  },
+
   created: function() {
     this.get_data_12()
     this.get_data_11()
+    this.get_data_column()
 
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_12()
       this.get_data_11()
+      this.get_data_column()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
-      // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_12()
       this.get_data_11()
+      this.get_data_column()
+    })
+    this.$watch('radio1', function(newValue, oldValue) {
+      this.get_data_column()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
@@ -629,9 +659,56 @@ export default {
           console.log(error)
         })
     },
-    // =============================others============================
-    // =============================others============================
-    // =============================others============================
+    // =======================柱形图============================
+    // =======================柱形图============================
+    // =======================柱形图============================
+    get_data_column() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let type = this.radio1 == 'all' ? 1 : 0
+          let url =
+            'http://39.97.234.11:8080/Word/FindSearchRate?' +
+            '&deviceType=' +
+            deviceType +
+            '&countryId=' +
+            country_id +
+            '&type=' +
+            type
+          console.log(url)
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              this.keyword_data01 = []
+              this.keyword_data_value01 = []
+              this.xAxis_data01 = []
+              let temp = response.data
+              console.log(temp)
+              this.keyword_data_value01.push(temp.Yvalue)
+              this.xAxis_data01 = temp.Xvalue
+              this.keyword_data01.push('ios12')
+
+              this.drawLine12()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     drawLine12: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -646,16 +723,20 @@ export default {
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
+        legend: {
+          data: that.keyword_data01,
+          y: 'bottom'
+        },
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '3%',
+          bottom: '13%',
           containLabel: true
         },
         xAxis: [
           {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: that.xAxis_data01,
             axisTick: {
               alignWithLabel: true
             }
@@ -672,98 +753,25 @@ export default {
             }
           }
         ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'bar',
-            barWidth: '30%',
-            data: [40, 40, 90, 40, 80, 40, 55],
-            itemStyle: {
-              color: '#a4e0ff'
-            }
-          },
-          {
-            name: '间接访问',
-            type: 'bar',
-            barWidth: '30%',
-            data: [40, 20, 40, 40, 100, 40, 40],
-            itemStyle: {
-              color: '#009bef'
-            }
-          }
-        ]
+        series: that.series_data01()
       })
     },
-    drawLine11: function() {
-      let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_result11)
-      // 绘制图表
-      myChart.setOption({
-        color: ['#3398DB'],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisTick: {
-              alignWithLabel: true
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            //设置Y轴百分比显示
-            axisLabel: {
-              show: true,
-              interval: 'auto',
-              formatter: '{value} %'
-            }
-          }
-        ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'bar',
-            barWidth: '30%',
-            data: [40, 40, 90, 40, 80, 40, 55],
-            itemStyle: {
-              color: '#a4e0ff'
-            }
-          },
-          {
-            name: '间接访问',
-            type: 'bar',
-            barWidth: '30%',
-            data: [40, 20, 40, 40, 100, 40, 40],
-            itemStyle: {
-              color: '#009bef'
-            }
-          }
-        ]
+    // 便利keyword_data生成canvas的series数据
+    series_data01: function() {
+      let series_data_arr = []
+      //声明对象
+      function Obj(name, data) {
+        this.name = name
+        this.type = 'bar'
+        this.stack = '总量'
+        this.data = data
+      }
+      //通过便利关键词数组从而创建canvas的series数据
+      this.keyword_data01.forEach((element, index) => {
+        series_data_arr.push(new Obj(element, this.keyword_data_value01[index]))
       })
-    },
-    // tab-pane选择面板
-    handleClick(tab, event) {
-      // console.log(tab, event)
-    },
-    // 获取当前选中的国家
-    parentFn(payload) {
-      this.now_country = payload
-      // console.log(this.now_country)
+      // console.log(series_data_arr)
+      return series_data_arr
     },
     // ==================element弹窗==============
     // ==================element弹窗==============
@@ -853,7 +861,7 @@ export default {
               this.keyword_data_value = []
               this.xAxis_data = []
               this.response_data_for_dialog = response.data
-              console.log(this.response_data_for_dialog)
+              console.log(this.response_data_for_dialog.Data)
               this.keyword_data_value.push(this.response_data_for_dialog.Yvalue)
               this.xAxis_data = this.response_data_for_dialog.Xvalue
               this.keyword_data.push(this.word)
@@ -945,14 +953,32 @@ export default {
     // 点击日历组件
     click_second_el_date_picker: function() {
       this.radio02_dialog = ''
+    },
+    // ==================element弹窗==============
+    // ==================element弹窗==============
+    // ==================element弹窗==============
+    // tab-pane选择面板
+    handleClick(tab, event) {
+      // console.log(tab, event)
+    },
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log(this.now_country)
     }
-    // ==================element弹窗==============
-    // ==================element弹窗==============
-    // ==================element弹窗==============
   }
 }
 </script>
 <style scoped>
+.app_name {
+  cursor: pointer;
+}
+.pointer {
+  cursor: pointer;
+}
+.keywordContentTable img {
+  vertical-align: 0px;
+}
 .my_dialog_wraper {
   position: fixed;
   width: 100%;
@@ -1137,6 +1163,7 @@ export default {
   border-radius: 10px;
   margin-right: 9px;
   margin-left: 9px;
+  cursor: pointer;
 }
 .tabsContentTable .use {
   display: flex;

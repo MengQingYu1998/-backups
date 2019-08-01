@@ -1,4 +1,7 @@
-$(document).ready(function() {
+// $(document).ready(function() {
+export function start() {
+  console.log('start')
+
   var fastbannerform_status_tlb = true
 
   $('#toolbarCollapseOpenAccount .fastbannerform__country').select2({
@@ -107,9 +110,12 @@ $(document).ready(function() {
       return false
     }
   )
-})
+  // })
+}
 
 function formatState(state) {
+  // debugger
+  console.log('formatState')
   if (!state.id) {
     return state.text
   }

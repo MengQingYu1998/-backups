@@ -228,7 +228,10 @@
                   <div class="table_font">{{item.SearchCount}}</div>
                 </td>
                 <td>
-                  <div class="table_font" @click="middle_table_first(index,item.WordId)">排名趋势</div>
+                  <div
+                    class="table_font"
+                    @click="middle_table_first(index,item.WordId,item.Word)"
+                  >排名趋势</div>
                 </td>
               </tr>
               <tr v-show="is_show_bottom">
@@ -387,17 +390,25 @@
                   <div class="table_font">{{item.SearchCount}}</div>
                 </td>
                 <td>
-                  <div class="table_font" @click="middle_table_second(index,item.WordId)">排名趋势</div>
+                  <div
+                    class="table_font"
+                    @click="middle_table_second(index,item.WordId,item.Word)"
+                  >排名趋势</div>
                 </td>
               </tr>
             </tbody>
           </table>
         </section>
 
-        <div class="paging">
-          <div>显示第 601 至 700 项结果，共 2,059 项</div>
+        <div class="paging" v-if="request_data_second">
+          <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{temp01_request_data_second.length}} 项</div>
           <div>
-            <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="temp01_request_data_second.length"
+              :current-page.sync="currentPage"
+            ></el-pagination>
           </div>
         </div>
       </div>
@@ -413,8 +424,11 @@ import { formatDate, timestamp } from '../common/util.js'
 export default {
   name: 'data_table',
   components: { ios_header, left_nav },
+
   data() {
     return {
+      // 分页
+      currentPage: 1,
       // 第一部分的参数
       // 第一部分的参数
       // 第一部分的参数
@@ -486,6 +500,7 @@ export default {
       // 第三部分参数
       // 第三部分参数
       // 第三部分参数
+      word: '',
       wordId: null,
       request_data_third: null,
       systemValue01: 'ios12',
@@ -511,7 +526,11 @@ export default {
   },
 
   created: function() {
-    // 请求数据
+    // 分页
+    this.$watch('currentPage', function(newValue, oldValue) {
+      console.log(newValue, oldValue)
+      this.get_data_for_second_part()
+    })
 
     // ==================第一部分===========================
     // ==================第一部分===========================
@@ -714,6 +733,7 @@ export default {
           // console.log(that.result_max_input03)
           let data = {
             appId: 112,
+            // appId: 444934666,
             countryId: country_id,
             device: deviceType,
             system: system,
@@ -735,7 +755,18 @@ export default {
             .then(response => {
               this.request_data_second = response.data.Data
               console.log(this.request_data_second)
-              this.temp01_request_data_second = this.request_data_second
+              this.currentPage = Math.ceil(
+                this.request_data_second.length / 100
+              )
+              // console.log(this.currentPage * 100 + 101)
+              // 先把数组置空，不然会出现页面渲染问题
+              this.temp_request_data_second = null //折线图下面的tr
+              this.temp01_request_data_second = null //折线图上面的tr
+              this.is_show_bottom = false //折线图隐藏
+              this.temp01_request_data_second = this.request_data_second.slice(
+                (this.currentPage - 1) * 100,
+                this.currentPage * 100 + 101
+              )
             })
             .catch(error => {
               console.log(error)
@@ -768,7 +799,7 @@ export default {
       }
     },
     // 控制折线图在表格的中间显示
-    middle_table_first(index, wordId) {
+    middle_table_first(index, wordId, word) {
       // temp01是一个tr        temp是第三个tr
 
       this.temp01_request_data_second = this.request_data_second
@@ -781,10 +812,11 @@ export default {
         index + 1
       )
       this.wordId = wordId
+      this.word = word
       this.is_show_bottom = true
       this.get_data_for_third_part()
     },
-    middle_table_second(index, wordId) {
+    middle_table_second(index, wordId, word) {
       this.temp01_request_data_second = this.temp01_request_data_second.concat(
         this.temp_request_data_second.slice(0, index + 1)
       )
@@ -792,6 +824,7 @@ export default {
         index + 1
       )
       this.wordId = wordId
+      this.word = word
       this.is_show_bottom = true
       this.get_data_for_third_part()
     },
@@ -866,11 +899,11 @@ export default {
           // wordId	是	int	关键词id
           // showType	是	int	appId
           // console.log(time)
-          console.log(wordId)
+          // console.log(wordId)
           // console.log(deviceType)
           // console.log(country_id)
           // console.log(iosType)
-          console.log(showType)
+          // console.log(showType)
           // console.log(wordId)
           let data = {
             countryId: country_id,
@@ -888,18 +921,24 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data.Data)
+              // console.log(this.word)
+              this.keyword_data = []
+              this.keyword_data.push(this.word)
               if (response.data.Data != null) {
                 this.request_data_third = response.data.Data
-                // console.log('无数据')
+
                 this.keyword_data_value = []
                 this.xAxis_data = []
-                this.keyword_data.push('测试') //需要把第二部分的APP名字传过来
+                this.keyword_data = []
+                console.log(this.word)
+                this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
                 this.xAxis_data = this.request_data_third.timeList
                 this.keyword_data_value.push(this.request_data_third.rankList)
                 this.drawLine()
               } else if (response.data.Data == null) {
                 this.keyword_data_value = []
                 this.xAxis_data = []
+                this.keyword_data.push(this.word)
                 this.drawLine()
               }
             })
@@ -958,8 +997,8 @@ export default {
           y: 'bottom'
         },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           bottom: '13%',
           containLabel: true
         },
@@ -1277,7 +1316,7 @@ table {
   justify-content: center;
 }
 .myChart {
-  width: 100%;
+  width: 979px;
   height: 300px;
   z-index: 1;
 }

@@ -29,7 +29,10 @@
       <div class="app_field country" @mousemove="click">
         <div>国家/地区</div>
         <!-- 选择国家 -->
+        <!-- <keep-alive> -->
         <country @childFn="parentFn"></country>
+        <!-- <country @childFn="parentFn" v-if="is_show_header"></country> -->
+        <!-- </keep-alive> -->
       </div>
     </div>
     <div class="border"></div>
@@ -47,6 +50,7 @@ export default {
   components: { country },
   data() {
     return {
+      // is_show_header: true,
       now_country: '中国',
       response_data: null,
       time: ''
@@ -87,8 +91,12 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(this.response_data.appUpdateTime)
+              // console.log(this.response_data)
               this.time = myTime(this.response_data.appUpdateTime)
+              // this.is_show_header = false
+              // this.$nextTick(() => {
+              //   this.is_show_header = true
+              // })
             })
             .catch(error => {
               console.log(error)

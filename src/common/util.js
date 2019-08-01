@@ -41,6 +41,7 @@ export function myTime(date) {
 
   return dd
 }
+
 // 把时间戳转为时间
 export function timestamp(number, format) {
   var formateArr = ['Y', 'M', 'D', 'h', 'm', 's']

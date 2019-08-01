@@ -115,7 +115,6 @@
         </div>
       </div>
     </div>
-
     <table>
       <thead>
         <tr>
@@ -126,30 +125,43 @@
           <th>搜索结果排名第 1 的应用</th>
         </tr>
       </thead>
-      <tbody v-if="data_for_table">
-        <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
-          <td>
-            <div>{{item.rowid}}</div>
-          </td>
-          <td class="table_font">
-            <div>{{item.Word}}</div>
-          </td>
-          <td class="table_font">
-            <div>{{item.WordIdHint}}</div>
-          </td>
-          <!-- 给下一个页面传递参数 -->
-          <td
-            class="table_font"
-            @click="$router.push({path: '/trend_one?Word=' + item.Word+'&WordId=' + item.WordId});"
-          >
-            <div>{{item.SearchCount}}</div>
-          </td>
-          <td class="table_font">
-            <div>{{item.app_name}}</div>
-          </td>
-        </tr>
-      </tbody>
     </table>
+    <div class="act_not">
+      <table>
+        <!-- <thead>
+          <tr>
+            <th>排名</th>
+            <th>关键词</th>
+            <th>搜索指数</th>
+            <th>搜索结果数</th>
+            <th>搜索结果排名第 1 的应用</th>
+          </tr>
+        </thead>-->
+        <tbody v-if="data_for_table">
+          <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
+            <td>
+              <div>{{item.rowid}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div @click="$router.push('/result')">{{item.Word}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div @click="$router.push('/trend_many')">{{item.WordIdHint}}</div>
+            </td>
+            <!-- 给下一个页面传递参数 -->
+            <td
+              class="table_font pointer"
+              @click="$router.push({path: '/trend_one?Word=' + item.Word+'&WordId=' + item.WordId});"
+            >
+              <div>{{item.SearchCount}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div @click="$router.push('/now_ranking')">{{item.app_name}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -168,7 +180,7 @@ export default {
       // 请求的分类数据
       data_for_classify: null,
       // 请求的表格数据
-      data_for_table: null,
+      data_for_table: [],
       //以下几个变量模仿单选框
       change_bg_index_all: true,
       change_bg_index_number: false,
@@ -212,12 +224,13 @@ export default {
     // 请求悬浮框的数据
     this.get_data_classify()
     this.get_data_table()
-    this.$watch('page', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.get_data_table()
-    })
+    // this.$watch('page', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.get_data_table()
+    // })
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
@@ -226,18 +239,22 @@ export default {
     })
     this.$watch('index_min_input', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
     })
     this.$watch('index_max_input', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
     })
     this.$watch('result_min_input', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
     })
     this.$watch('result_max_input', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
     })
     // this.$watch('keyword_input', function(newValue, oldValue) {
@@ -246,7 +263,29 @@ export default {
     // })
     this.$watch('dateValue', function(newValue, oldValue) {
       this.get_data_classify()
+      this.page = 1
       this.get_data_table()
+    })
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const el = document.querySelector('.act_not')
+      const offsetHeight = el.offsetHeight
+      el.onscroll = () => {
+        const scrollTop = el.scrollTop
+        const scrollHeight = el.scrollHeight
+        // console.log('===========================')
+        // console.log(scrollTop)//滚动条顶部，滚动的距离
+        // console.log(offsetHeight)//可视区域的高度
+        // console.log(scrollHeight)//滚动区域的高度=可视区域高度+隐藏区域高度
+        // console.log('===========================')
+        if (offsetHeight + scrollTop == scrollHeight) {
+          // 需要执行的代码
+          this.page += 1
+          this.get_data_table()
+          // console.log('===========================')
+        }
+      }
     })
   },
   methods: {
@@ -315,9 +354,27 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.data_for_table = response.data.Data
-
               console.log(this.data_for_table)
+              console.log(response.data.Data)
+              let json01 = JSON.stringify(this.data_for_table)
+              let json02 = JSON.stringify(response.data.Data)
+              // console.log(json01)
+              // console.log(json02.slice(1, json02.length - 1))
+
+              // console.log(
+              //   json01.indexOf(json02.slice(1, json02.length - 1)) != -1
+              // ) //包含
+
+              if (response.data.Data != null) {
+                if (json01.indexOf(json02.slice(1, json02.length - 1)) == -1) {
+                  this.data_for_table = this.data_for_table.concat(
+                    response.data.Data
+                  )
+                } else {
+                  this.data_for_table = response.data.Data
+                }
+                console.log(this.data_for_table)
+              }
             })
             .catch(error => {
               console.log(error)
@@ -393,6 +450,14 @@ export default {
 }
 </script>
 <style scoped>
+.act_not {
+  height: 650px;
+  overflow-y: auto;
+  margin-bottom: 38px;
+}
+.pointer {
+  cursor: pointer;
+}
 .selected_popover > div {
   width: 65px;
   -webkit-line-clamp: 1;
@@ -449,6 +514,7 @@ export default {
   padding: 35px 0;
   color: #009bef;
 }
+
 thead tr {
   height: 40px;
 }
@@ -478,13 +544,16 @@ thead {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
+  /* position: absolute;
+  left: 0;
+  top: 0; */
 }
 table {
   width: 100%;
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
-  margin-bottom: 78px;
+  /* margin-bottom: 78px; */
 }
 .table_title {
   font-family: SourceHanSansCN-Medium;

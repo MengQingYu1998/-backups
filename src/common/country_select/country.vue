@@ -211,17 +211,23 @@
 <script>
 import $ from 'jquery'
 import './select_gj.css'
-import './select_gj.min.js'
-import './select2_1.js'
+// import './select_gj.min.js'
+import { start } from './select2_1.js'
+import './demo.js'
+// import './select2_1.js'
 export default {
   name: '',
   data() {
     return {}
   },
+  created() {
+    start()
+  },
+
   methods: {
     click: function() {
       let temp = $('.fastbannerform__country option:selected').text() //选中的值
-      // console.log(temp)
+      // console.log()
       this.$emit('childFn', temp)
     }
   }
@@ -232,6 +238,5 @@ export default {
   /* background-color: red; */
   height: 269px;
   width: 130px;
- 
 }
 </style>

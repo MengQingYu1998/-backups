@@ -42,6 +42,7 @@ export default {
 <style scoped>
 .nav_content:hover {
   color: #009bef;
+  cursor: pointer;
 }
 .nav_content {
   font-family: SourceHanSansCN-Medium;

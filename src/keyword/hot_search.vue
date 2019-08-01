@@ -149,6 +149,10 @@ export default {
       // console.log('当前日期发生变化，重新请求数据...')
       this.get_data()
     })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      // console.log('当前日期发生变化，重新请求数据...')
+      this.get_data()
+    })
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data()
@@ -214,7 +218,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(this.response_data)
+              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)
@@ -257,7 +261,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_datafor_popover = response.data
-              // console.log(this.response_datafor_popover)
+              console.log(this.response_datafor_popover)
             })
             .catch(error => {
               console.log(error)

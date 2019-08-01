@@ -33,19 +33,19 @@
         </div>
       </div>
     </div>
-    <div class="table_group">
-      <table class="table_first" v-if="response_data">
+    <div class="table_group" v-if="response_data">
+      <table class="table_first" v-if="response_data.Data!=null">
         <thead>
           <tr>
             <th></th>
-            <th v-if="response_data">{{response_data.Time[0]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[0]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[0]" :key="'table253'+index">
             <td class="td_first">{{index+1}}</td>
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -55,13 +55,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[1]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[1]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[1]" :key="'table2538'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -70,13 +70,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[2]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[2]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[2]" :key="'table25382'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -85,13 +85,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[3]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[3]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[3]" :key="'table253823'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -100,13 +100,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[4]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[4]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[4]" :key="'table2538234'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -115,13 +115,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[5]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[5]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[5]" :key="'table25382345'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -130,13 +130,13 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data">{{response_data.Time[6]}}</th>
+            <th v-if="response_data.Data!=null">{{response_data.Time[6]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data">
+        <tbody v-if="response_data.Data!=null">
           <tr v-for="(item,index) in response_data.Data[6]" :key="'table253823456'+index">
             <td class="table_font">
-              <div>{{item.keyword}}</div>
+              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -248,6 +248,9 @@ export default {
 }
 </script>
 <style scoped>
+.pointer {
+  cursor: pointer;
+}
 .td_first {
   border-right: 1px solid #f2f2f2;
 }

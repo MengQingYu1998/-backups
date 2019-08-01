@@ -114,8 +114,12 @@
               </div>
             </div>
           </div>
-          <div class="table_title">【抖音】搜索指数走势</div>
-          <div ref="EChart_now_ranking" class="myChart"></div>
+          <div
+            class="table_title"
+            v-if="response_data_second"
+          >【{{response_data_second.appName}}】搜索指数走势</div>
+          <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
+          <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
           <div
             class="show_all"
             v-show="!canvas_is_show_all"
@@ -159,12 +163,14 @@
             </div>
           </div>
           <div class="world_map">
+            <!-- <div v-if="is_show_map"> -->
             <world_map
               :country_temp01="country_temp01"
               :country_temp02="country_temp02"
               :country_temp03="country_temp03"
               :country_temp04="country_temp04"
             />
+            <!-- </div> -->
             <div class="level">
               <div class="one_level">
                 <div></div>
@@ -291,6 +297,7 @@ export default {
       // 第二部分折线图数据
       // 第二部分折线图数据
       // 第二部分折线图数据
+      is_show_mychart: false,
       response_data_second: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
@@ -305,11 +312,11 @@ export default {
       // 控制折线图显示所有
       canvas_is_show_all: true,
       //canvas 关键词data数组
-      keyword_data: ['直接访问', '搜索引擎'],
+      keyword_data: [],
       // 数据
       keyword_data_value: [],
       // X轴文本
-      xAxis_data: ['周3', '周二', '周三', '周四', '周五', '周六', '周日'],
+      xAxis_data: [],
       // 控制折线显隐
       selected_data: {},
       // =============================请求第三部分数据=============================
@@ -317,10 +324,11 @@ export default {
       // =============================请求第三部分数据=============================
       response_data_third: null,
       // 世界地图数据
-      country_temp01: ['中国'], //第一
-      country_temp02: [], //第2-500
-      country_temp03: [], //第501-1000
-      country_temp04: [], //第1001-5000
+      // is_show_map: false,
+      country_temp01: ['巴西'], //第一
+      country_temp02: ['俄罗斯'], //第2-500
+      country_temp03: ['马来西亚'], //第501-1000
+      country_temp04: ['澳大利亚'], //第1001-5000
       // 单选按钮组
       radio3: '',
       // 设备选择
@@ -479,53 +487,52 @@ export default {
           } else if (this.middle_top_radio1 == '按天') {
             timeType = 3
           }
+          console.log(endDate)
+          console.log(startDate)
+          console.log('country_id' + country_id)
+          console.log('brand' + brand)
+          console.log('timeType' + timeType)
           let url = 'http://39.97.234.11:8080/PostRandTrend'
           let data = {
-            appId: 600273928,
+            appids: 600273928,
             countryId: country_id,
             startDate: startDate,
             endDate: endDate,
             brand: brand,
-            timeType: timeType
+            timeType: timeType,
+            device: 1
           }
 
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response.data.Data)
-              if (response.data.Data != null) {
-                this.response_data_second = response.data.Data
-                // console.log(this.response_data_second)
+              console.log(response.data)
+              // console.log(response.data.Data.length)
+              this.is_show_mychart = false
+              if (response.data.Data.length > 0) {
+                console.log('有数据')
+                this.is_show_mychart = true
+                this.keyword_data_value.length = 0
+                this.xAxis_data.length = 0
+                this.keyword_data.length = 0
+                this.response_data_second = response.data.Data[0]
                 // 都谁？ 抖音 快手 内涵
-                if (this.response_data_second.RankList != null) {
-                  this.keyword_data = this.response_data_second.RankList
-                }
-                // 折线数据
-                if (this.response_data_second.r1 == null) {
-                  // console.log('无数据')
-                  this.keyword_data_value = []
-                  this.xAxis_data = []
-                } else if (this.response_data_second.r1 != null) {
-                  // console.log('有数据')
-                  this.keyword_data_value = []
+                this.keyword_data = this.response_data_second.rankTrendInfo.RankList
 
-                  let temp01 = this.response_data_second.r1
-                  temp01.forEach(element => {
-                    this.keyword_data_value.push(element.data)
-                  })
+                let temp01 = this.response_data_second.rankTrendInfo.r1
+                temp01.forEach(element => {
+                  this.keyword_data_value.push(element.data)
+                })
 
-                  let temp02 = this.response_data_second.r2.data
-                  this.xAxis_data = temp02.map(element => {
-                    return timestamp(element, 'Y/M/D h:m:s')
-                  })
-                  // console.log(this.xAxis_data)
-                }
+                let temp02 = this.response_data_second.rankTrendInfo.r2.data
+                this.xAxis_data = temp02.map(element => {
+                  return timestamp(element, 'Y/M/D h:m:s')
+                })
                 this.drawLine()
-              } else if (response.data.Data == null) {
-                this.keyword_data_value = []
-                this.xAxis_data = []
-                this.drawLine()
+              } else {
+                console.log('无数据')
+                this.is_show_mychart = false
               }
             })
             .catch(error => {
@@ -619,6 +626,7 @@ export default {
         series: that.series_data()
       })
     },
+
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
@@ -654,6 +662,7 @@ export default {
               // console.log(this.response_data_third)
               this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               // 向世界地图传递数据
+              // this.is_show_map = false
               this.send_data_to_world_map()
             })
             .catch(error => {
@@ -719,11 +728,12 @@ export default {
         return item.CountryName
       })
 
-      // console.log('=================================')
-      // console.log(this.country_temp01)
-      // console.log(this.country_temp02)
-      // console.log(this.country_temp03)
-      // console.log(this.country_temp04)
+      console.log('=================================')
+      console.log(this.country_temp01)
+      console.log(this.country_temp02)
+      console.log(this.country_temp03)
+      console.log(this.country_temp04)
+      // this.is_show_map = true
     },
     // 获取当前选中的国家
     parentFn(payload) {
@@ -822,9 +832,13 @@ export default {
   margin-right: 30px;
 }
 .myChart {
-  width: 100%;
+  width: 965px;
   height: 300px;
   z-index: 1;
+  text-align: center;
+  color: #666;
+  line-height: 300px;
+  font-size: 50px;
 }
 .table_title {
   font-family: SourceHanSansCN-Medium;

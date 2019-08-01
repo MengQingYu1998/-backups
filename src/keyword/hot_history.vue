@@ -92,6 +92,10 @@ export default {
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data()
     })
+    this.$watch('equipmentValue', function(newValue, oldValue) {
+      // console.log('当前国家发生变化，重新请求数据...')
+      this.get_data()
+    })
   },
   methods: {
     // 请求数据

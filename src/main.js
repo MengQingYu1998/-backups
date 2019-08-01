@@ -7,6 +7,10 @@ Vue.prototype.$axios = axios
 import router from './router'
 import { store } from './store/store'
 
+// import $ from 'jquery'
+// import './common/country_select/select_gj.css'
+// import './common/country_select/select_gj.min.js'
+// import './common/country_select/select2_1.js'
 // 引入重置样式
 import './common/reset.css'
 
