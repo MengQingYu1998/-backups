@@ -212,16 +212,19 @@
 import $ from 'jquery'
 import './select_gj.css'
 // import './select_gj.min.js'
-import { start } from './select2_1.js'
-import './demo.js'
-// import './select2_1.js'
+import { start, start02, start03 } from './select2_1.js'
+import { start_first, start_second } from './demo.js' //入口文件
 export default {
   name: '',
   data() {
     return {}
   },
-  created() {
+  mounted() {
+    // console.log(111)
+    start_first(start_second)
     start()
+    start02()
+    start03()
   },
 
   methods: {

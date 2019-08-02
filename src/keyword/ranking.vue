@@ -80,31 +80,34 @@
     <div class="options">
       <div class="options_01 option">
         <div>搜索结果数</div>
-        <div :class=" {'change_bg':change_bg_result,'radio_one':true}" @click="result_all()">全部</div>
+        <div
+          :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true}"
+          @click="result_all()"
+        >全部</div>
         <div class="min_max" @click="change_bg_result_function">
           <div>
-            <el-input v-model="result_min_input" placeholder="最小值" type="number"></el-input>
+            <el-input v-model="result_min_input" placeholder="最小值" type="number" @blur="blur"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="result_max_input" placeholder="最大值" type="number"></el-input>
+            <el-input v-model="result_max_input" placeholder="最大值" type="number" @blur="blur"></el-input>
           </div>
         </div>
       </div>
       <div class="options_02 option">
         <div>搜索指数</div>
-        <div :class=" {'change_bg':change_bg_index_all,'radio_one':true}" @click="index_all()">全部</div>
+        <div :class=" {'change_bg':change_bg_index_all,'radio_one':true }" @click="index_all()">全部</div>
         <div
-          :class=" {'change_bg':change_bg_index_number,'radio_one':true}"
+          :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true}"
           @click="index_number()"
         >>4605</div>
         <div class="min_max" @click="change_bg_index_function">
           <div>
-            <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
+            <el-input v-model="index_min_input" placeholder="最小值" type="number" @blur="blur"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="index_max_input" placeholder="最大值" type="number"></el-input>
+            <el-input v-model="index_max_input" placeholder="最大值" type="number" @blur="blur"></el-input>
           </div>
         </div>
       </div>
@@ -230,39 +233,47 @@ export default {
     // })
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_classify()
+      this.data_for_table.length = 0
       this.page = 1
       this.get_data_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_classify()
-      this.get_data_table()
-    })
-    this.$watch('index_min_input', function(newValue, oldValue) {
-      this.get_data_classify()
+      this.data_for_table.length = 0
       this.page = 1
       this.get_data_table()
     })
-    this.$watch('index_max_input', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('result_min_input', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('result_max_input', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.page = 1
-      this.get_data_table()
-    })
+    // this.$watch('index_min_input', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.data_for_table.length = 0
+    //   this.page = 1
+    //   this.get_data_table()
+    // })
+    // this.$watch('index_max_input', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.data_for_table.length = 0
+    //   this.page = 1
+    //   this.get_data_table()
+    // })
+    // this.$watch('result_min_input', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.page = 1
+    //   this.data_for_table.length = 0
+    //   this.get_data_table()
+    // })
+    // this.$watch('result_max_input', function(newValue, oldValue) {
+    //   this.get_data_classify()
+    //   this.data_for_table.length = 0
+    //   this.page = 1
+    //   this.get_data_table()
+    // })
     // this.$watch('keyword_input', function(newValue, oldValue) {
     //   this.get_data_classify()
     //   this.get_data_table()
     // })
     this.$watch('dateValue', function(newValue, oldValue) {
       this.get_data_classify()
+      this.data_for_table.length = 0
       this.page = 1
       this.get_data_table()
     })
@@ -356,8 +367,8 @@ export default {
             .then(response => {
               console.log(this.data_for_table)
               console.log(response.data.Data)
-              let json01 = JSON.stringify(this.data_for_table)
-              let json02 = JSON.stringify(response.data.Data)
+              // let json01 = JSON.stringify(this.data_for_table)
+              // let json02 = JSON.stringify(response.data.Data)
               // console.log(json01)
               // console.log(json02.slice(1, json02.length - 1))
 
@@ -365,16 +376,16 @@ export default {
               //   json01.indexOf(json02.slice(1, json02.length - 1)) != -1
               // ) //包含
 
-              if (response.data.Data != null) {
-                if (json01.indexOf(json02.slice(1, json02.length - 1)) == -1) {
-                  this.data_for_table = this.data_for_table.concat(
-                    response.data.Data
-                  )
-                } else {
-                  this.data_for_table = response.data.Data
-                }
-                console.log(this.data_for_table)
-              }
+              // if (response.data.Data != null) {
+              //   if (json01.indexOf(json02.slice(1, json02.length - 1)) == -1) {
+              this.data_for_table = this.data_for_table.concat(
+                response.data.Data
+              )
+              // } else {
+              // this.data_for_table = response.data.Data
+              // }
+              console.log(this.data_for_table)
+              // }
             })
             .catch(error => {
               console.log(error)
@@ -384,6 +395,7 @@ export default {
           console.log(error)
         })
     },
+
     // 点击总榜按钮
     change_all_dateValue() {
       this.change_bg_all = true
@@ -424,6 +436,9 @@ export default {
       this.index_max_input = ''
       this.change_bg_index_all = true
       this.change_bg_index_number = false
+      this.page = 1
+      this.data_for_table.length = 0
+      this.get_data_table()
     },
     // 点击搜索指数的数字
     index_number() {
@@ -439,6 +454,14 @@ export default {
     },
     // 输入框失去焦点
     blur: function() {
+      if (this.result_min_input == '' && this.result_max_input == '') {
+        this.change_bg_result = true
+      }
+      if (this.index_min_input == '' && this.index_max_input == '') {
+        this.change_bg_index = true
+      }
+      this.page = 1
+      this.data_for_table.length = 0
       this.get_data_table()
     },
     // 获取当前选中的国家
@@ -450,6 +473,45 @@ export default {
 }
 </script>
 <style scoped>
+thead th:nth-child(1) {
+  width: 199px;
+}
+
+thead th:nth-child(2) {
+  width: 223px;
+}
+thead th:nth-child(3) {
+  width: 214px;
+}
+thead th:nth-child(4) {
+  width: 234px;
+}
+thead th:nth-child(5) {
+  width: 327px;
+}
+
+tbody td:nth-child(1) {
+  width: 199px;
+}
+tbody td:nth-child(2) {
+  width: 223px;
+}
+tbody td:nth-child(3) {
+  width: 214px;
+}
+tbody td:nth-child(4) {
+  width: 234px;
+}
+tbody td:nth-child(5) {
+  width: 327px;
+}
+.min_max > div:nth-child(1) div,
+.min_max > div:nth-child(3) div {
+  width: 75px !important;
+}
+.change_something {
+  margin-right: 0px !important;
+}
 .act_not {
   height: 650px;
   overflow-y: auto;

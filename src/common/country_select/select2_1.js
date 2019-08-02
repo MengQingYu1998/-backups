@@ -1,6 +1,7 @@
 // $(document).ready(function() {
 export function start() {
-  console.log('start')
+  // console.log()
+  // console.log('start')
 
   var fastbannerform_status_tlb = true
 
@@ -128,7 +129,9 @@ function formatState(state) {
   )
   return stateline
 }
-$(document).ready(function() {
+// $(document).ready(function() {
+export function start02() {
+  // console.log('start02')
   /**
    * input Search focusIn
    */
@@ -234,7 +237,8 @@ $(document).ready(function() {
       next_block.removeClass('animated slideInRight')
     }, 800)
   })
-})
+  // })
+}
 
 function collapseNMenu() {
   if (
@@ -262,7 +266,9 @@ function toolbarHideAllCollapse() {
 }
 var fastbannerform_status = true
 
-$(document).ready(function() {
+// $(document).ready(function() {
+export function start03() {
+  // console.log('start03')
   $('.fio__upper').on('input propertychange paste focusout', function() {
     for (
       var parts = $(this)
@@ -365,4 +371,5 @@ $(document).ready(function() {
     $('.fastbannerform__form input[type="text"]').val('')
     $('.fastbannerform__form input[type="checkbox"]').removeAttr('checked')
   })
-})
+  // })
+}

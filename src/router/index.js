@@ -22,11 +22,7 @@ export default new Router({
       name: 'country',
       component: () => import('../common/country_select/country')
     },
-    {
-      path: '/new_country',
-      name: 'new_country',
-      component: () => import('../common/new_country/new_country')
-    },
+
     {
       path: '/now_ranking',
       name: 'now_ranking',
