@@ -1,7 +1,9 @@
 import Vue from 'vue'
 let map_config = new Vue().__proto__.map_config
 let pin_config = new Vue().__proto__.pin_config
-$(function() {
+// $(function() {
+export function start01() {
+  // console.log(111111111111111)
   addEvent('map_1')
   addEvent('map_2')
   addEvent('map_3')
@@ -182,8 +184,12 @@ $(function() {
   addEvent('map_178')
   addEvent('map_179')
   addEvent('map_180')
-})
-$(function() {
+  // })
+}
+// $(function() {
+export function start02() {
+  // console.log(22222222222222)
+
   $('#btnSend').click(function() {
     $.ajax({
       type: 'POST',
@@ -241,9 +247,12 @@ $(function() {
       }
     })
   })
-})
+  // })
+}
+// jQuery(document).ready(function() {
+export function start03() {
+  // console.log(3333333333333333)
 
-jQuery(document).ready(function() {
   jQuery(window).scroll(function() {
     if (jQuery(this).scrollTop() > 100) {
       jQuery('.scrollup').fadeIn()
@@ -255,7 +264,8 @@ jQuery(document).ready(function() {
     jQuery('html, body').animate({ scrollTop: 0 }, 700)
     return false
   })
-})
+  // })
+}
 $('#my-button').click(function() {
   $('#my-modal').modal()
 })
@@ -269,7 +279,10 @@ function isTouchEnabled() {
   )
 }
 
-$(function() {
+// $(function() {
+export function start04() {
+  // console.log(4444444444444)
+
   if (
     $('#lakes')
       .find('path')
@@ -309,7 +322,8 @@ $(function() {
       .attr({ fill: map_config['default']['mapShadow'] })
       .css({ 'fill-opacity': shadowOpacity })
   }
-})
+  // })
+}
 
 function addEvent(id, relationId) {
   var _obj = $('#' + id)
@@ -389,7 +403,10 @@ function addEvent(id, relationId) {
 }
 
 //The pins code
-$(function() {
+// $(function() {
+export function start05() {
+  // console.log(5555555555555)
+
   if (
     $('#pin-shadow')
       .find('path')
@@ -547,7 +564,8 @@ $(function() {
       }
     }
   }
-})
+  // })
+}
 
 function dynamicAddEvent(id) {
   var obj = $('#map_points_' + id)

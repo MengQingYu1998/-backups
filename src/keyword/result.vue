@@ -606,7 +606,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_for_ios12 = response.data
-              // console.log(this.response_data_for_ios12)
+              console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -694,7 +694,7 @@ export default {
               this.keyword_data_value01 = []
               this.xAxis_data01 = []
               let temp = response.data
-              console.log(temp)
+              // console.log(temp)
               this.keyword_data_value01.push(temp.Yvalue)
               this.xAxis_data01 = temp.Xvalue
               this.keyword_data01.push('ios12')
@@ -861,7 +861,7 @@ export default {
               this.keyword_data_value = []
               this.xAxis_data = []
               this.response_data_for_dialog = response.data
-              console.log(this.response_data_for_dialog.Data)
+              // console.log(this.response_data_for_dialog.Data)
               this.keyword_data_value.push(this.response_data_for_dialog.Yvalue)
               this.xAxis_data = this.response_data_for_dialog.Xvalue
               this.keyword_data.push(this.word)

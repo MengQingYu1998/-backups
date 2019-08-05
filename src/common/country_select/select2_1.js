@@ -116,7 +116,7 @@ export function start() {
 
 function formatState(state) {
   // debugger
-  console.log('formatState')
+  // console.log('formatState')
   if (!state.id) {
     return state.text
   }

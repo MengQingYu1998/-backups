@@ -1107,7 +1107,7 @@
 
 <script>
 import $ from 'jquery'
-import './world'
+import { start01, start02, start03, start04, start05 } from './world'
 export default {
   name: '',
   props: [
@@ -1122,30 +1122,64 @@ export default {
   },
   mounted() {
     this.demo()
+    start01()
+    start02()
+    start03()
+    start04()
+    start05()
+  },
+  created: function() {
+    this.$watch('country_temp01', function(newValue, oldValue) {
+      this.demo()
+    })
+    // this.$watch('country_temp02', function(newValue, oldValue) {
+    //   this.demo()
+    // })
+    // this.$watch('country_temp03', function(newValue, oldValue) {
+    //   this.demo()
+    // })
+    // this.$watch('country_temp04', function(newValue, oldValue) {
+    //   this.demo()
+    // })
   },
   methods: {
     demo() {
+      // console.log('=============地图组件内部====================')
+      // console.log(this.country_temp01)
+      // console.log(this.country_temp02)
+      // console.log(this.country_temp03)
+      // console.log(this.country_temp04)
+      // console.log('=============地图组件内部====================')
+
       let map = this.__proto__.__proto__.map_config
-      Object.keys(map).forEach((item, index) => {
-        if (this.country_temp01.indexOf(map[item].hover) != -1) {
-          map['map_' + index].upColor = '#91d8ff'
+      // console.log(map)
+      for (let key in map) {
+        if (this.isInArray(this.country_temp01, map[key].hover)) {
+          map[key].upColor = '#91d8ff'
+        } else if (this.isInArray(this.country_temp02, map[key].hover)) {
+          map[key].upColor = '#31b6fe'
+        } else if (this.isInArray(this.country_temp03, map[key].hover)) {
+          map[key].upColor = '#0191df'
+        } else if (this.isInArray(this.country_temp04, map[key].hover)) {
+          map[key].upColor = '#027fc3'
+        } else {
+          map[key].upColor = '#eff9ff'
         }
-      })
-      Object.keys(map).forEach((item, index) => {
-        if (this.country_temp02.indexOf(map[item].hover) != -1) {
-          map['map_' + index].upColor = '#31b6fe'
+      }
+      start01()
+      start02()
+      start03()
+      start04()
+      start05()
+    },
+    //判断一个值是否存在一个数组中
+    isInArray: function(arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+          return true
         }
-      })
-      Object.keys(map).forEach((item, index) => {
-        if (this.country_temp03.indexOf(map[item].hover) != -1) {
-          map['map_' + index].upColor = '#0191df'
-        }
-      })
-      Object.keys(map).forEach((item, index) => {
-        if (this.country_temp04.indexOf(map[item].hover) != -1) {
-          map['map_' + index].upColor = '#027fc3'
-        }
-      })
+      }
+      return false
     }
   }
 }

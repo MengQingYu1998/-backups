@@ -325,10 +325,10 @@ export default {
       response_data_third: null,
       // 世界地图数据
       // is_show_map: false,
-      country_temp01: ['巴西'], //第一
-      country_temp02: ['俄罗斯'], //第2-500
-      country_temp03: ['马来西亚'], //第501-1000
-      country_temp04: ['澳大利亚'], //第1001-5000
+      country_temp01: [], //第一
+      country_temp02: [], //第2-500
+      country_temp03: [], //第501-1000
+      country_temp04: [], //第1001-5000
       // 单选按钮组
       radio3: '',
       // 设备选择
@@ -662,7 +662,7 @@ export default {
               // console.log(this.response_data_third)
               this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               // 向世界地图传递数据
-              // this.is_show_map = false
+
               this.send_data_to_world_map()
             })
             .catch(error => {
@@ -727,13 +727,12 @@ export default {
       this.country_temp04 = this.country_temp04.map(item => {
         return item.CountryName
       })
-
-      console.log('=================================')
-      console.log(this.country_temp01)
-      console.log(this.country_temp02)
-      console.log(this.country_temp03)
-      console.log(this.country_temp04)
-      // this.is_show_map = true
+      // this.country_temp01 = ['中国']
+      // console.log('=================================')
+      // console.log(this.country_temp01)
+      // console.log(this.country_temp02)
+      // console.log(this.country_temp03)
+      // console.log(this.country_temp04)
     },
     // 获取当前选中的国家
     parentFn(payload) {

@@ -280,21 +280,27 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      const el = document.querySelector('.act_not')
-      const offsetHeight = el.offsetHeight
-      el.onscroll = () => {
-        const scrollTop = el.scrollTop
-        const scrollHeight = el.scrollHeight
+      let that = this
+      window.onscroll = function() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         // console.log('===========================')
-        // console.log(scrollTop)//滚动条顶部，滚动的距离
-        // console.log(offsetHeight)//可视区域的高度
-        // console.log(scrollHeight)//滚动区域的高度=可视区域高度+隐藏区域高度
+        // console.log(scrollTop)
+        // console.log(windowHeight)
+        // console.log(scrollHeight)
         // console.log('===========================')
-        if (offsetHeight + scrollTop == scrollHeight) {
+        if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
-          this.page += 1
-          this.get_data_table()
-          // console.log('===========================')
+          that.page += 1
+          that.get_data_table()
+          console.log('yes')
         }
       }
     })
@@ -513,8 +519,9 @@ tbody td:nth-child(5) {
   margin-right: 0px !important;
 }
 .act_not {
-  height: 650px;
+  /* height: 650px;
   overflow-y: auto;
+  margin-bottom: 38px; */
   margin-bottom: 38px;
 }
 .pointer {
