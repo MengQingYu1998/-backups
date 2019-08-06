@@ -34,15 +34,15 @@
       </div>
     </div>
     <div class="table_group" v-if="response_data">
-      <table class="table_first" v-if="response_data.Data!=null">
+      <table class="table_first" v-if="response_data!=null">
         <thead>
           <tr>
             <th></th>
-            <th v-if="response_data.Data!=null">{{response_data.Time[0]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[0]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[0]" :key="'table253'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[0]" :key="'table253'+index">
             <td class="td_first">{{index+1}}</td>
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
@@ -55,11 +55,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[1]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[1]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[1]" :key="'table2538'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[1]" :key="'table2538'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -70,11 +70,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[2]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[2]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[2]" :key="'table25382'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[2]" :key="'table25382'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -85,11 +85,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[3]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[3]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[3]" :key="'table253823'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[3]" :key="'table253823'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -100,11 +100,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[4]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[4]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[4]" :key="'table2538234'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[4]" :key="'table2538234'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -115,11 +115,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[5]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[5]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[5]" :key="'table25382345'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[5]" :key="'table25382345'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -130,11 +130,11 @@
       <table>
         <thead>
           <tr>
-            <th v-if="response_data.Data!=null">{{response_data.Time[6]}}</th>
+            <th v-if="response_data!=null">{{response_data.Xtime[6]}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data.Data!=null">
-          <tr v-for="(item,index) in response_data.Data[6]" :key="'table253823456'+index">
+        <tbody v-if="response_data!=null">
+          <tr v-for="(item,index) in response_data.Yvalue[6]" :key="'table253823456'+index">
             <td class="table_font">
               <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
@@ -207,22 +207,23 @@ export default {
 
           // console.log('country_id' + country_id)
           let system = this.systemValue == 'ios11' ? 11 : 12
-          let time = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let edate = formatDate(new Date(), 'yyyy-MM-dd')
+          let time02 = new Date()
+          time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6)
+          let sdate = formatDate(time02, 'yyyy-MM-dd')
           let word = this.input
-          let url =
-            'http://39.97.234.11:8080/Word/FindJoinWord?countryId=' +
-            country_id +
-            '&deviceType=1' +
-            '&time=' +
-            time +
-            '&iosType=' +
-            system +
-            '&word=' +
-            word
-          console.log(url)
+          let url = 'http://39.97.234.11:8080/Word/FindJoinWord'
+          let data = {
+            countryId: country_id,
+            deviceType: 1,
+            edate: edate,
+            sdate: sdate,
+            word: word,
+            iosType: system
+          }
           // 请求数据
           this.$axios
-            .get(url)
+            .post(url, data)
             .then(response => {
               this.response_data = response.data
               console.log(this.response_data)

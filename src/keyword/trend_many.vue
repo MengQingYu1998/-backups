@@ -247,7 +247,7 @@ export default {
               console.log(this.response_data)
 
               this.xAxis_data = this.response_data.Xtime
-              this.keyword_data_value = this.response_data.Xvalue
+              this.keyword_data_value = this.response_data.Yvalue
               this.drawLine()
             })
             .catch(error => {

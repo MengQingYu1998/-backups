@@ -254,16 +254,14 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              this.response_data = response.data.Data
+              this.response_data = response.data
               console.log(this.response_data)
+              this.keyword_data_value.length = 0
+              this.xAxis_data.length = 0
               this.keyword_data_value.push(this.response_data.Yvalue)
               this.xAxis_data = this.response_data.Xtime
-              // this.series_data[0].data = this.response_data.Yvalue
-              // this.series_data[0].name = this.response_data.name
-              // console.log(this.series_data)
-              // console.log(this.xAxis_data)
+
               this.keyword_data.push(this.response_data.name)
-              // console.log(this.keyword_data_value)
               this.drawLine()
             })
             .catch(error => {

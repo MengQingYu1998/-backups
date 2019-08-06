@@ -243,34 +243,7 @@ export default {
       this.page = 1
       this.get_data_table()
     })
-    // this.$watch('index_min_input', function(newValue, oldValue) {
-    //   this.get_data_classify()
-    //   this.data_for_table.length = 0
-    //   this.page = 1
-    //   this.get_data_table()
-    // })
-    // this.$watch('index_max_input', function(newValue, oldValue) {
-    //   this.get_data_classify()
-    //   this.data_for_table.length = 0
-    //   this.page = 1
-    //   this.get_data_table()
-    // })
-    // this.$watch('result_min_input', function(newValue, oldValue) {
-    //   this.get_data_classify()
-    //   this.page = 1
-    //   this.data_for_table.length = 0
-    //   this.get_data_table()
-    // })
-    // this.$watch('result_max_input', function(newValue, oldValue) {
-    //   this.get_data_classify()
-    //   this.data_for_table.length = 0
-    //   this.page = 1
-    //   this.get_data_table()
-    // })
-    // this.$watch('keyword_input', function(newValue, oldValue) {
-    //   this.get_data_classify()
-    //   this.get_data_table()
-    // })
+
     this.$watch('dateValue', function(newValue, oldValue) {
       this.get_data_classify()
       this.data_for_table.length = 0
@@ -291,11 +264,6 @@ export default {
         //变量scrollHeight是滚动条的总高度
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        // console.log('===========================')
-        // console.log(scrollTop)
-        // console.log(windowHeight)
-        // console.log(scrollHeight)
-        // console.log('===========================')
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
           that.page += 1
@@ -371,27 +339,13 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(this.data_for_table)
               console.log(response.data.Data)
-              // let json01 = JSON.stringify(this.data_for_table)
-              // let json02 = JSON.stringify(response.data.Data)
-              // console.log(json01)
-              // console.log(json02.slice(1, json02.length - 1))
 
-              // console.log(
-              //   json01.indexOf(json02.slice(1, json02.length - 1)) != -1
-              // ) //包含
-
-              // if (response.data.Data != null) {
-              //   if (json01.indexOf(json02.slice(1, json02.length - 1)) == -1) {
               this.data_for_table = this.data_for_table.concat(
                 response.data.Data
               )
-              // } else {
-              // this.data_for_table = response.data.Data
-              // }
-              console.log(this.data_for_table)
-              // }
+
+              // console.log(this.data_for_table)
             })
             .catch(error => {
               console.log(error)

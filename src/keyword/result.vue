@@ -38,28 +38,82 @@
         <thead>
           <tr>
             <th>关键词</th>
-            <th>搜索指数</th>
-            <th>ios12搜索结果数</th>
-            <th>ios11搜索结果数</th>
+            <th v-show="activeName=='first'">搜索指数</th>
+            <th v-show="activeName=='first'">搜索结果数</th>
+            <th v-show="activeName=='first'">搜索联想词</th>
+            <th v-show="activeName=='second'">搜索指数</th>
+            <th v-show="activeName=='second'">搜索结果数</th>
+            <th v-show="activeName=='second'">搜索联想词</th>
+            <th v-show="activeName=='third'">搜索指数</th>
+            <th v-show="activeName=='third'">ios12搜索结果数</th>
+            <th v-show="activeName=='third'">ios11搜索结果数</th>
           </tr>
         </thead>
-        <tbody v-if="response_data_for_ios11&&response_data_for_ios12">
+        <tbody v-if="data_for_top_table02&&data_for_top_table">
           <tr>
-            <td v-if="response_data_for_ios11.WordInfo">{{response_data_for_ios11.WordInfo.Word}}</td>
-            <td v-if="response_data_for_ios11.WordInfo">
-              {{response_data_for_ios11.WordInfo.WordIdHint}}
+            <!-- 关键词 -->
+            <td>{{data_for_top_table02.Word}}</td>
+            <!-- ============ ios12============ -->
+            <!-- ============ ios12============ -->
+            <!-- ============ ios12============ -->
+            <td v-show="activeName=='first'">
+              {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
                 @click="$router.push('/trend_many')"
                 alt
               />
             </td>
-            <td v-if="response_data_for_ios12.WordInfo">
-              <span>{{response_data_for_ios12.WordInfo.SearchCount}}</span>
+            <td v-show="activeName=='first'">
+              <span>{{data_for_top_table02.SearchCount12}}</span>
               <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
             </td>
-            <td v-if="response_data_for_ios11.WordInfo" class="first_table_last_td">
-              <span>{{response_data_for_ios11.WordInfo.SearchCount}}</span>
+            <td v-show="activeName=='first'" class="data_for_top_table_span">
+              <span
+                v-for="(item_son, index_son) in data_for_top_table"
+                :key="'data_for_top_tablesss'+index_son"
+              >{{item_son.keyword}}</span>
+              <span>查看更多>></span>
+            </td>
+            <!-- ============ ios11============ -->
+            <!-- ============ ios11============ -->
+            <!-- ============ ios11============ -->
+            <td v-show="activeName=='second'">
+              {{data_for_top_table02.Hint}}
+              <img
+                src="../assets/keyword/keyword01.png"
+                @click="$router.push('/trend_many')"
+                alt
+              />
+            </td>
+            <td v-show="activeName=='second'">
+              <span>{{data_for_top_table02.SearchCount11}}</span>
+              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+            </td>
+            <td v-show="activeName=='second'" class="data_for_top_table_span">
+              <span
+                v-for="(item_son, index_son) in data_for_top_table"
+                :key="'data_for_top_tablesss'+index_son"
+              >{{item_son.keyword}}</span>
+              <span>查看更多>></span>
+            </td>
+            <!-- ============ 搜索结果对比============ -->
+            <!-- ============ 搜索结果对比============ -->
+            <!-- ============ 搜索结果对比============ -->
+            <td v-show="activeName=='third'">
+              {{data_for_top_table02.Hint}}
+              <img
+                src="../assets/keyword/keyword01.png"
+                @click="$router.push('/trend_many')"
+                alt
+              />
+            </td>
+            <td v-show="activeName=='third'">
+              <span>{{data_for_top_table02.SearchCount12}}</span>
+              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+            </td>
+            <td v-show="activeName=='third'">
+              <span>{{data_for_top_table02.SearchCount11}}</span>
               <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
             </td>
           </tr>
@@ -240,16 +294,6 @@
                 </tbody>
               </table>
             </div>
-            <!-- <div class="right">
-              <div class="right_title">关键词搜索结果变化率</div>
-              <div class="right_btn">
-                <div>
-                  <el-button>top10</el-button>
-                  <el-button type="primary">all</el-button>
-                </div>
-                <div ref="myChart_result11" class="myChart"></div>
-              </div>
-            </div>-->
           </div>
         </el-tab-pane>
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
@@ -434,10 +478,19 @@
             <div></div>
             <div @click="click_second_el_radio">
               <el-radio-group v-model="radio02_dialog" size="mini">
-                <el-radio-button label="近24小时"></el-radio-button>
-                <el-radio-button label="昨日"></el-radio-button>
-                <el-radio-button label="7天"></el-radio-button>
-                <el-radio-button label="30天"></el-radio-button>
+                <!-- <el-radio-button label="近24小时"></el-radio-button> -->
+                <el-radio-button
+                  label="近24小时"
+                  v-show="radio01_dialog=='按小时'||radio01_dialog=='按分钟'"
+                ></el-radio-button>
+                <el-radio-button label="昨日" v-show="radio01_dialog=='按小时'||radio01_dialog=='按分钟'"></el-radio-button>
+                <el-radio-button
+                  label="7天"
+                  v-show="radio01_dialog=='按小时'||radio01_dialog=='按分钟'||radio01_dialog=='按天'"
+                ></el-radio-button>
+                <el-radio-button label="30天" v-show="radio01_dialog=='按小时'||radio01_dialog=='按天'"></el-radio-button>
+                <el-radio-button label="180天" v-show="radio01_dialog=='按天'||radio01_dialog=='按天'"></el-radio-button>
+                <el-radio-button label="380天" v-show="radio01_dialog=='按天'"></el-radio-button>
               </el-radio-group>
             </div>
           </div>
@@ -476,6 +529,11 @@ export default {
   },
   data() {
     return {
+      // ===================顶部table================
+      // ===================顶部table================
+      // ===================顶部table================
+      data_for_top_table: null,
+      data_for_top_table02: null,
       // ===================element的弹窗================
       // ===================element的弹窗================
       // ===================element的弹窗================
@@ -534,10 +592,13 @@ export default {
   },
 
   created: function() {
+    this.get_data_for_top_table()
     this.get_data_12()
     this.get_data_11()
     this.get_data_column()
-
+    this.$watch('activeName', function(newValue, oldValue) {
+      this.get_data_for_top_table()
+    })
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_12()
@@ -569,6 +630,70 @@ export default {
     })
   },
   methods: {
+    // =============================顶部table============================
+    // =============================顶部table============================
+    // =============================顶部table============================
+    get_data_for_top_table() {
+      this.$axios
+        .get('http://39.97.234.11:8080/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据01==============================================
+          // 请求数据01==============================================
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let iosType
+          if (this.activeName == 'first') {
+            iosType = 12
+          } else if (this.activeName == 'second') {
+            iosType = 11
+          }
+          let time = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let url = 'http://39.97.234.11:8080/Word/FindTodayJoinWord'
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            sdate: time,
+            word: 'qq',
+            iosType: iosType
+          }
+          console.log(iosType)
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.data_for_top_table = response.data.Data
+              console.log(this.data_for_top_table)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+          // 请求数据02==============================================
+          // 请求数据02==============================================
+          let url02 = 'http://39.97.234.11:8080/Word/FindWordInfo'
+
+          this.$axios
+            .post(url02, data)
+            .then(response => {
+              this.data_for_top_table02 = response.data.Data
+              console.log(this.data_for_top_table02)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     // =============================tab可切换部分============================
     // =============================tab可切换部分============================
     // =============================tab可切换部分============================
@@ -685,7 +810,7 @@ export default {
             country_id +
             '&type=' +
             type
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -800,7 +925,7 @@ export default {
             sdate = formatDate(this.time_dialog[0], 'yyyy-MM-dd')
             edate = formatDate(this.time_dialog[1], 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '近24小时') {
-            console.log近24小时
+            // console.log近24小时
 
             edate = formatDate(new Date(), 'yyyy-MM-dd')
             sdate = formatDate(new Date(), 'yyyy-MM-dd')
@@ -970,6 +1095,20 @@ export default {
 }
 </script>
 <style scoped>
+.data_for_top_table_span {
+  width: 524px;
+  padding: 0 66px;
+}
+.data_for_top_table_span span {
+  margin-left: 13px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+}
 .app_name {
   cursor: pointer;
 }
@@ -1215,14 +1354,7 @@ td {
 .keywordContentTable thead tr {
   height: 40px;
 }
-.keywordContentTable tbody tr td:last-child {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
+
 .keywordContentTable tbody {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;

@@ -53,10 +53,7 @@ export default {
   height: 100% !important;
 }
 /* button组件自定义样式 */
-.el-button {
-  padding: 7px 6px !important;
-  height: 27px;
-}
+
 #trend_many .el-button {
   line-height: 0 !important;
 }
