@@ -1,9 +1,5 @@
 <template>
   <div id="cover_compare" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -152,7 +148,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -167,16 +163,18 @@ export default {
           // 1:iPhone 2:ipad
 
           // console.log('country_id' + country_id)
-          let comappId = 281747159
+
           // let system=11
           // let device=1
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // let system = this.systemValue == 'ios11' ? 11 : 12
           let system = 11
-          let appid = this.$route.query.appId
+          let appid = this.$store.state.now_app_id
+          let comappId = this.$store.state.now_app_id02
+          console.log(appid + '----' + comappId)
           let url =
-            'http://39.97.234.11:8080/GetKeyWordCompare?countryId=' +
+            '/GetKeyWordCompare?countryId=' +
             country_id +
             '&appId=' +
             appid +
@@ -209,8 +207,9 @@ export default {
     },
     go_to_page01(parm) {
       this.$router.push({
-        path: '/result?word=' + parm
+        path: '/result'
       })
+      this.$store.state.now_app_id = parm
     },
     go_to_page02() {
       this.$router.push('ranking')

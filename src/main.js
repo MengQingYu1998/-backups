@@ -4,15 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import axios from 'axios'
 Vue.prototype.$axios = axios
+//全局配置
+axios.defaults.baseURL = 'http://39.97.234.11:8080'
 import router from './router'
 import { store } from './store/store'
 
-// 引入国家下拉组件
-// import $ from 'jquery'
-// import './common/new_country/bootstrap.min.css'
-// import './common/new_country/bootstrap.min.js'
-// import './common/new_country/bootstrap-select.min.css'
-// import './common/new_country/bootstrap-select.min.js'
 // 引入重置样式
 import './common/reset.css'
 
@@ -29,6 +25,7 @@ import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
+
 // 引入世界地图
 import world from './common/world_map/config_world'
 import './common/world_map/world.css'

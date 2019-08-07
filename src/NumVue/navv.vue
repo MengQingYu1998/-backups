@@ -20,7 +20,7 @@
 
       <div class="searchDiv">
         <img src="../assets/NumImg/pingguo.png" class="ios" />
-        <!-- 选择国家 -->
+
         <country @childFn="parentFn"></country>
         <input type="text" placeholder="应用名称或APPID" />
         <p>
@@ -38,7 +38,7 @@
       </div>
       <!-- 登录 -->
       <div class="ldiv" v-else @mouseover="showMine()" @mouseout="hideMine()">
-        <img src="../assets/NumImg/touxiang.png" />
+        <img :src="touxiang" />
         <P>{{telnow}}</P>
       </div>
       <div class="Combox">
@@ -66,7 +66,7 @@
         <div class="mine" v-show="mine" @mouseover="showMine()" @mouseout="hideMine()">
           <img src="../assets/NumImg/jiao.png" class="jiao" />
           <div class="lie">
-            <p v-for="(mine,index) in mines" @click="climsg(index)" :key="'luye01'+index">
+            <p v-for="(mine,index) in mines" @click="climsg(index)" :key="'LY'+index">
               {{mine.name}}
               <!-- <router-link :to="{path:mine.path}">		
 								
@@ -89,6 +89,7 @@ export default {
       unlogin: true, //未登录
       telnow: '', //当前手机号
       codnow: '', //当前密码
+      uid: '', //用户id
       mine: false,
       appstore: false,
       aso: false,
@@ -110,7 +111,8 @@ export default {
       // 个人中心
       mines: [{ name: '消息中心' }, { name: '账号设置' }, { name: '退出' }],
       // 获取当前选中的国家
-      now_country: '中国'
+      now_country: '中国',
+      touxiang: require('../assets/NumImg/touxiang.png')
     }
   },
   methods: {
@@ -153,17 +155,35 @@ export default {
 
     climsg(index) {
       this.mine = false
+
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
+      } else if (index == 2) {
+        // this.uid=""
+        // this.unlogin=true
+        this.$router.push({ path: '/index' })
+        // console.log(this.uid)
+        // console.log(this.unlogin)
       }
     }
   },
-  props: ['msg'],
   created() {
+    console.log(this.touxiang)
     let userId = localStorage.getItem('userId') //获取userId
     let tel = window.localStorage.getItem('tel')
-    this.unlogin = this.msg
+    console.log(localStorage.getItem('touxiang'))
+    if (localStorage.getItem('touxiang') != null) {
+      this.touxiang = localStorage.getItem('touxiang')
+    }
+
+    console.log(this.touxiang)
     this.telnow = tel
+    this.uid = userId
+    if (this.uid != '') {
+      this.unlogin = false
+    } else {
+      this.unlogin = true
+    }
   }
 }
 </script>
@@ -232,18 +252,19 @@ export default {
 .nav .searchDiv > img {
   width: 18px;
   height: 20px;
-  margin-top: 7px;
-  margin-left: 16px;
+  margin-left: 10px;
 }
 .nav .searchDiv input {
-  width: 140px;
+  width: 134px;
   border: none;
   outline: none;
   background-color: transparent;
   font-family: SourceHanSansCN-Regular;
   font-size: 15px;
   color: #bfbfbf;
-  vertical-align: text-bottom;
+  vertical-align: top;
+  margin-top: 7px;
+  margin-left: 5px;
 }
 .nav .searchDiv > p {
   width: 50px;
@@ -346,7 +367,6 @@ export default {
   border-radius: 4px;
   border-top: 0.013rem solid transparent;
   text-align: left;
-  margin-top: -4px;
 }
 .Combox > div > div p,
 .Combox > div > div p a {

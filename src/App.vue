@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <!-- <navv /> -->
+    <navv />
     <router-view></router-view>
-    <!-- <foot /> -->
+    <foot />
   </div>
 </template>
 
@@ -20,6 +20,142 @@ export default {
 </script>
 
 <style>
+#Application .select2-container--default .select2-selection--single {
+  border: 1px solid #dfdfdf;
+}
+#navv #country,
+.bangdan #country,
+#Application #country {
+  display: inline-block;
+}
+.el-message {
+  min-width: 0;
+  height: 50px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  padding: 0 30px;
+  margin-top: 300px;
+}
+.successicon {
+  width: 18px;
+  height: 18px;
+  background-image: url('assets/NumImg/tick.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.el-message .el-message__content {
+  font-family: SourceHanSansCN-Regular;
+  font-size: 15px;
+  color: #444444;
+  margin-left: 17px;
+}
+.el-button.is-plain:focus,
+.el-button.is-plain:hover {
+  background-color: transparent;
+  border: none;
+}
+.el-button:focus,
+.el-button:hover {
+  background-color: transparent;
+  border: none;
+}
+
+.block,
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  display: inline-block;
+}
+.el-input__inner::placeholder {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  color: #444444;
+}
+.el-button {
+  padding: 7px 9px;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 12px;
+  color: #888888;
+  border: solid 1px #dfdfdf;
+}
+.el-button:focus,
+.el-button:hover,
+.el-button:active {
+  color: #888888 !important;
+  border: solid 1px #dfdfdf;
+}
+/*榜单快照悬浮框*/
+.el-popover {
+  min-width: 128px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  color: #444444;
+  line-height: 1.8;
+  padding: 12px 0;
+}
+.el-popover > div {
+  width: 90px;
+  margin: 0 auto;
+}
+.el-popover > div span {
+  float: right;
+  color: #009bef;
+}
+
+/*榜单页面*/
+/*设备*/
+.bangdan .el-input__inner {
+  height: 26px;
+  width: 75px;
+  padding: 0;
+  padding-left: 5px;
+}
+.bangdan .el-input__icon {
+  width: 10px;
+  line-height: 26px;
+}
+/*日期*/
+.bangdan .date .el-date-editor.el-input,
+.el-date-editor.el-input__inner,
+.bangdan .date .el-input__inner {
+  width: 120px;
+}
+.bangdan .date .el-input__inner {
+  padding-left: 25px;
+}
+#navv #country .select2-container--default .select2-selection--single {
+  background-color: transparent;
+  border: none;
+}
+#navv #country {
+  width: 97px;
+  display: inline-block;
+}
+.bangdan #country .select2-container--default .select2-selection--single {
+  border: solid 1px #dfdfdf;
+  margin-top: 10px;
+  margin-left: 4px;
+}
+/*新修改样式*/
+.bangdan #country .select2-container {
+  width: 130px !important;
+}
+.bangdan
+  #country
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  top: 10px;
+}
+#navv #country .select2-container .select2-selection--single {
+  width: 118px !important;
+  border: none !important;
+  background-color: transparent;
+}
+#navv #country .select2 {
+  width: 103px !important;
+  margin-top: 2px;
+}
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
 .pointer {
@@ -116,6 +252,8 @@ table tbody tr:hover {
   color: #888888;
 }
 /* 选择国家组件的自定义下拉样式 */
+
+#ios_header #country .select2-container .select2-selection--single,
 #country .select2-container .select2-selection--single {
   width: 118px !important;
   border: solid 1px #dfdfdf !important;
@@ -124,6 +262,10 @@ table tbody tr:hover {
 .select2-dropdown {
   width: 130px !important;
 }
+#ios_header
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow,
 #country
   .select2-container--default
   .select2-selection--single
@@ -131,6 +273,7 @@ table tbody tr:hover {
   right: 43px !important;
 }
 
+#ios_header .select2,
 #country .select2 {
   -moz-transform: scale(0.91);
   -webkit-transform: scale(0.91);

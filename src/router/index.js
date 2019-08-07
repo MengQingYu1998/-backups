@@ -41,11 +41,11 @@ export default new Router({
       name: 'message',
       component: () => import('../NumVue/message')
     },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: () => import('../NumVue/login')
-    // },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../NumVue/login')
+    },
     {
       path: '/register',
       name: 'register',
@@ -60,6 +60,11 @@ export default new Router({
       path: '/setEcode',
       name: 'setEcode',
       component: () => import('../NumVue/setEcode')
+    },
+    {
+      path: '/setTcode',
+      name: 'setTcode',
+      component: () => import('../NumVue/setTcode')
     },
 
     // =============================上面是芦的=============================

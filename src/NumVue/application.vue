@@ -2,7 +2,7 @@
 	<div class="box" id="Application">
 		
 		
-		<div class="title"><span>App Store上下架监控</span>
+		<div class="title">App Store上下架监控
 		</div>
 		<div class="content">
 			<ul>
@@ -84,7 +84,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="(tr,index) in zongsdataList" :key="index">
-								<th class="yingyong" @click="goDetail()">
+								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
@@ -120,7 +120,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="(tr,index) in zongsBList" :key="index">
-								<th class="yingyong" @click="goDetail()">
+								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
@@ -177,7 +177,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="(tr,index) in cidataList" :key="index">
-								<th class="yingyong" @click="goDetail()">
+								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.num}}</p>
 									<img src="../assets/NumImg/testIcon.png" class="logo" />
 									<div class="msg">
@@ -294,10 +294,34 @@
 		mounted(){
 			window.addEventListener('scroll',this.handleScroll,true)
 		},
+		
+		created(){
+			this.getData()
+			
+			this.$watch('dateV',function(Value, oldValue) {
+		      // 当前日期发生变化，重新请求数据
+		      // alert(8)
+		      this.zongsdataList.length=0
+		      this.zongsBList.length=0
+		      this.page=1
+		      this.page2=1
+		      this.getData()
+		      this.getDataB()
+		      this.getDataci()
+		    })
+		    this.$watch('now_country', function(newValue, oldValue) {
+		      // 当前国家发生变化，重新请求数据...
+		      this.zongsdataList.length=0
+		      this.page=1
+		      this.getData()
+		      this.zongsBList.length=0
+		      this.page2=1
+		      this.getDataB()
+		      this.getDataci()
+		    })
+		},
 		methods:{
-			goDetail(){
-				// 榜单实时排名页面
-			},
+		
 			// 上下架应用接口
 			getData(){
 				//传给后台的countryid值
@@ -751,32 +775,13 @@
 					this.getDataci()
 				}
 			},
-			
-		},
-		created(){
-			this.getData()
-			
-			this.$watch('dateV',function(Value, oldValue) {
-		      // 当前日期发生变化，重新请求数据
-		      // alert(8)
-		      this.zongsdataList.length=0
-		      this.zongsBList.length=0
-		      this.page=1
-		      this.page2=1
-		      this.getData()
-		      this.getDataB()
-		      this.getDataci()
-		    })
-		    this.$watch('now_country', function(newValue, oldValue) {
-		      // 当前国家发生变化，重新请求数据...
-		      this.zongsdataList.length=0
-		      this.page=1
-		      this.getData()
-		      this.zongsBList.length=0
-		      this.page2=1
-		      this.getDataB()
-		      this.getDataci()
-		    })
+		go_to_page01(parm,parm02) {
+			this.$router.push({
+        path: '/now_ranking'
+      })
+      this.$store.state.now_app_id=parm
+      this.$store.state.now_app_name=parm02
+}
 		}
 	}
 

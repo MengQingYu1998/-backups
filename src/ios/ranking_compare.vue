@@ -1,9 +1,5 @@
 <template>
   <div id="data_table" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
@@ -179,7 +175,7 @@ export default {
   methods: {
     get_data_second() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -258,9 +254,10 @@ export default {
           // console.log('timeType' + timeType)
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let url = 'http://39.97.234.11:8080/PostRandTrend'
+          let url = '/PostRandTrend'
 
-          let appid = this.$route.query.appId + ',' + this.$route.query.appId02
+          let appid =
+            this.$store.state.now_app_id + ',' + this.$store.state.now_app_id02
           console.log(appid)
           let data = {
             // appids: '600273928,951391381',

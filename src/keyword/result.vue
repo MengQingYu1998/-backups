@@ -1,6 +1,6 @@
 <template>
   <div id="result" class="content">
-    <div class="title">「{{this.$route.query.word}}」搜索结果</div>
+    <div class="title">「{{this.$store.state.now_app_name}}」搜索结果</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -77,7 +77,7 @@
             <td v-show="activeName=='first'" class="data_for_top_table_span">
               <span
                 class="pointer"
-                @click="go_to_page04(data_for_top_table02.Word)"
+                @click="go_to_page04(item_son.keyword)"
                 v-for="(item_son, index_son) in data_for_top_table"
                 :key="'data_for_top_tablesss'+index_son"
               >{{item_son.keyword}}</span>
@@ -107,7 +107,7 @@
             <td v-show="activeName=='second'" class="data_for_top_table_span">
               <span
                 class="pointer"
-                @click="go_to_page04(data_for_top_table02.Word)"
+                @click="go_to_page04(item_son.keyword)"
                 v-for="(item_son, index_son) in data_for_top_table"
                 :key="'data_for_top_tablesss'+index_son"
               >{{item_son.keyword}}</span>
@@ -173,12 +173,16 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
+                          <img
+                            :src="item.icon_url"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            alt
+                          />
                         </div>
                         <div class="third_div">
                           <div
                             class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId)"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.AppStoreId}}</div>
                         </div>
@@ -267,12 +271,16 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt @click="go_to_page05(item.AppStoreId)" />
+                          <img
+                            :src="item.icon_url"
+                            alt
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                          />
                         </div>
                         <div class="third_div">
                           <div
                             class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId)"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -354,12 +362,16 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
+                          <img
+                            :src="item.icon_url"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            alt
+                          />
                         </div>
                         <div class="third_div">
                           <div
                             class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId)"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -432,12 +444,16 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
+                          <img
+                            :src="item.icon_url"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            alt
+                          />
                         </div>
                         <div class="third_div">
                           <div
                             class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId)"
+                            @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -666,7 +682,7 @@ export default {
     // =============================顶部table============================
     get_data_for_top_table() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -687,8 +703,8 @@ export default {
             iosType = 11
           }
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let url = 'http://39.97.234.11:8080/Word/FindTodayJoinWord'
-          let word = this.$route.query.word
+          let url = '/Word/FindTodayJoinWord'
+          let word = this.$store.state.now_app_name
           let data = {
             deviceType: deviceType,
             countryId: country_id,
@@ -709,13 +725,13 @@ export default {
             })
           // 请求数据02==============================================
           // 请求数据02==============================================
-          let url02 = 'http://39.97.234.11:8080/Word/FindWordInfo'
+          let url02 = '/Word/FindWordInfo'
 
           this.$axios
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              // console.log(this.data_for_top_table02)
+              console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -732,7 +748,7 @@ export default {
     // 请求数据  ios12 ios12 ios12
     get_data_12() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -747,9 +763,9 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$route.query.word
+          let word = this.$store.state.now_app_name
           let url =
-            'http://39.97.234.11:8080/Word/FindSearch?page=1' +
+            '/Word/FindSearch?page=1' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
@@ -777,7 +793,7 @@ export default {
     },
     get_data_11() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -792,19 +808,19 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$route.query.word
+          let word = this.$store.state.now_app_name
           let url =
-            'http://39.97.234.11:8080/Word/FindSearch?page=1' +
+            '/Word/FindSearch?page=1' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
             country_id +
-            '&word' +
+            '&word=' +
             word +
             '&time=' +
             time +
             '&iosType=11'
-          // console.log(url)
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -825,7 +841,7 @@ export default {
     // =======================柱形图============================
     get_data_column() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -839,7 +855,7 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let type = this.radio1 == 'all' ? 1 : 0
           let url =
-            'http://39.97.234.11:8080/Word/FindSearchRate?' +
+            '/Word/FindSearchRate?' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
@@ -940,7 +956,7 @@ export default {
 
     get_data_dialog() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -995,7 +1011,7 @@ export default {
           let appid = this.appid
           let wordid = 5
           let url =
-            'http://39.97.234.11:8080/Word/FindHistory?page=1' +
+            '/Word/FindHistory?page=1' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
@@ -1129,33 +1145,45 @@ export default {
     },
     go_to_page01(parm) {
       this.$router.push({
-        path: '/think_word?Word=' + parm
+        path: '/think_word'
       })
+      this.$store.state.now_app_name = parm
     },
     go_to_page02(parm) {
       this.$router.push({
-        path: '/trend_many?Word=' + parm
+        path: '/trend_many'
       })
+      this.$store.state.now_app_name = parm
     },
     go_to_page03(parm) {
       this.$router.push({
-        path: '/trend_one?Word=' + parm
+        path: '/trend_one'
       })
+      this.$store.state.now_app_name = parm
     },
     go_to_page04(parm) {
+      // console.log(parm)
+      this.get_data_for_top_table()
+      this.get_data_12()
+      this.get_data_11()
+      this.get_data_column()
       this.$router.push({
-        path: '/result?Word=' + parm
+        path: '/result'
       })
+      this.$store.state.now_app_name = parm
     },
-    go_to_page05(parm) {
+    go_to_page05(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking?appId=' + parm
+        path: '/now_ranking'
       })
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
     },
     go_to_page06(parm) {
       this.$router.push({
-        path: '/data_table?appId=' + parm
+        path: '/data_table'
       })
+      this.$store.state.now_app_id = parm
     }
   }
 }

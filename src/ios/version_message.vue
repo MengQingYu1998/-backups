@@ -1,9 +1,5 @@
 <template>
   <div id="version_message" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -82,7 +78,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -98,11 +94,16 @@ export default {
           let timeOrVerNum =
             this.input1 == '' ? '&timeOrVerNum' : '&timeOrVerNum=' + this.input1
           // console.log(country_id)
+          let appId = this.$store.state.now_app_id
+          console.log(appId)
+
           let url =
-            'http://39.97.234.11:8080/GetVersionLogs?countryId=' +
+            '/GetVersionLogs?countryId=' +
             country_id +
             timeOrVerNum +
-            '&appId=281736535'
+            // '&appId=281736535'
+            '&appId=' +
+            appId
 
           // 请求数据
           this.$axios

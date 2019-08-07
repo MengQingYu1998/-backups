@@ -147,7 +147,10 @@
               <div>{{item.SearchCount}}</div>
             </td>
             <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page04(item.AppStoreId)">{{item.app_name}}</div>
+              <div
+                class="pointer"
+                @click="go_to_page04(item.AppStoreId,item.app_name)"
+              >{{item.app_name}}</div>
             </td>
           </tr>
         </tbody>
@@ -280,7 +283,7 @@ export default {
         genreID = 6014
       }
       // console.log(genreID)
-      let url = 'http://39.97.234.11:8080/GetGenre?genreID=' + genreID
+      let url = '/GetGenre?genreID=' + genreID
       // console.log(url)
       // 请求数据
       this.$axios
@@ -297,7 +300,7 @@ export default {
     // 请求表格数据
     get_data_table() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -311,7 +314,7 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let url =
-            'http://39.97.234.11:8080/Word/FindWordRank?&page=' +
+            '/Word/FindWordRank?&page=' +
             this.page +
             '&deviceType=' +
             deviceType +
@@ -426,23 +429,26 @@ export default {
     },
     go_to_page01(parm) {
       this.$router.push({
-        path: '/result?word=' + parm
+        path: '/result'
       })
+      this.$store.state.now_app_id=parm
     },
-    go_to_page02(parm) {
-      this.$router.push({
-        path: '/trend_many?word=' + parm
+     go_to_page01(parm) {this.$router.push({
+        path: '/trend_many'
       })
-    },
+      this.$store.state.now_app_name = parm},
     go_to_page03(parm) {
       this.$router.push({
-        path: '/trend_one?word=' + parm
-      })
+path: '/trend_one'
+})
+this.$store.state.now_app_name=parm
     },
-    go_to_page04(parm) {
+    go_to_page04(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking?appId=' + parm
+        path: '/now_ranking'
       })
+      this.$store.state.now_app_id=parm
+      this.$store.state.now_app_name=parm02
     }
   }
 }

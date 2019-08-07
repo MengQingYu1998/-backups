@@ -70,7 +70,7 @@ export default {
       // 获取当前选中的国家
       now_country: '中国',
       // 请输入搜索关键词
-      search_input: '王者荣耀',
+      search_input: null,
       // 设备选择
       equipment: [
         {
@@ -87,7 +87,7 @@ export default {
     }
   },
   created: function() {
-    this.search_input = this.$route.query.word
+    this.search_input = this.$store.state.now_app_name
     this.get_data()
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
@@ -102,7 +102,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -118,7 +118,7 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let searchWord = this.search_input
           let url =
-            'http://39.97.234.11:8080/Word/HotSearchDetail?deviceType=' +
+            '/Word/HotSearchDetail?deviceType=' +
             deviceType +
             '&countryId=' +
             country_id +
@@ -152,7 +152,11 @@ export default {
   }
 }
 </script>
+
 <style scoped>
+#hot_history {
+  min-height: 700px;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;

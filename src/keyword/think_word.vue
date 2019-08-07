@@ -1,6 +1,6 @@
 <template>
   <div id="think_word" class="content">
-    <div class="title">「网易云音乐」关键词搜索联想词</div>
+    <div class="title">「{{this.$store.state.now_app_name}}」关键词搜索联想词</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -172,10 +172,11 @@ export default {
       systemValue: 'ios12',
       now_country: '中国',
       response_data: null,
-      input: 'qq'
+      input: ''
     }
   },
   created: function() {
+    this.input = this.$store.state.now_app_name
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
@@ -192,7 +193,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -212,7 +213,7 @@ export default {
           time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6)
           let sdate = formatDate(time02, 'yyyy-MM-dd')
           let word = this.input
-          let url = 'http://39.97.234.11:8080/Word/FindJoinWord'
+          let url = '/Word/FindJoinWord'
           let data = {
             countryId: country_id,
             deviceType: 1,
@@ -248,8 +249,9 @@ export default {
 
     go_to_page01(parm) {
       this.$router.push({
-        path: '/result?word=' + parm
+        path: '/result'
       })
+      this.$store.state.now_app_name = parm
     }
   }
 }

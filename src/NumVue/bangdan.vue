@@ -112,7 +112,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="(tr,index) in zongsData" :key="index">
-								<th class="yingyong" @click="goDetail()">
+								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
@@ -246,6 +246,28 @@
 				timFont:'当前时间'
 			}
 		},
+			created(){
+			this.getData()
+			this.$watch('dateV',function(Value, oldValue) {
+		      // 当前日期发生变化，重新请求数据
+		      this.kuaizTim='';
+		      this.zongsData.length=0
+			  this.page=1
+		      this.getData()
+		    })
+		    this.$watch('equipmentValue',function(Value, oldValue) {
+		    	// 设备
+		    	this.zongsData.length=0
+				this.page=1
+		        this.getData()
+		    })
+		    this.$watch('now_country', function(newValue, oldValue) {
+		      // 当前国家发生变化，重新请求数据...
+		        this.zongsData.length=0
+				this.page=1
+		        this.getData()
+		    })
+		},
 		mounted(){
 			window.addEventListener('scroll',this.handleScroll,true)
 		},
@@ -274,9 +296,7 @@
 
 				console.log(this.now_country)
 			},
-			goDetail(){
-				// 跳转至榜单实时排名页面
-			},
+	
 			// 获取数据
 			getData(){
 				
@@ -580,30 +600,16 @@
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
-			}
-		},
-		created(){
-			this.getData()
-			this.$watch('dateV',function(Value, oldValue) {
-		      // 当前日期发生变化，重新请求数据
-		      this.kuaizTim='';
-		      this.zongsData.length=0
-			  this.page=1
-		      this.getData()
-		    })
-		    this.$watch('equipmentValue',function(Value, oldValue) {
-		    	// 设备
-		    	this.zongsData.length=0
-				this.page=1
-		        this.getData()
-		    })
-		    this.$watch('now_country', function(newValue, oldValue) {
-		      // 当前国家发生变化，重新请求数据...
-		        this.zongsData.length=0
-				this.page=1
-		        this.getData()
-		    })
+			},
+			go_to_page01(parm,parm02) {
+			this.$router.push({
+        path: '/now_ranking'
+      })
+      this.$store.state.now_app_id=parm
+      this.$store.state.now_app_name=parm02
+}
 		}
+	
 	}
 
 </script>
@@ -809,9 +815,7 @@
 .content .kuaizhao>div>div{
 	display: inline-block;
 }
-.content .kuaizhao>div>div img{
-	width:;
-}
+
 .content .kuaizhao>div>div:nth-child(12){
 	margin-right: 64px;
 }

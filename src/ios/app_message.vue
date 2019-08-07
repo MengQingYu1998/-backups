@@ -1,12 +1,11 @@
 <template>
   <div id="version_message" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <!-- <keep-alive> -->
-    <ios_header @childFn="parentFn" />
+    <ios_header
+      @childFn="parentFn"
+    
+    />
     <!-- </keep-alive> -->
     <div class="left_and_right">
       <div class="left">
@@ -299,7 +298,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -314,10 +313,13 @@ export default {
           // 1:iPhone 2:ipad
 
           // console.log('country_id' + country_id)
+          let appId = this.$store.state.now_app_id
           let url =
-            'http://39.97.234.11:8080/GetAppInfo?countryId=' +
+            '/GetAppInfo?countryId=' +
             country_id +
-            '&appId=281736535'
+            // '&appId=281736535'
+            '&appId=' +
+            appId
 
           // 请求数据
           this.$axios

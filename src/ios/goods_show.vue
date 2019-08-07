@@ -1,11 +1,7 @@
 <template>
   <div id="goods_show" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
-    <ios_header />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
         <left_nav />
@@ -31,12 +27,17 @@
                 <div class="use">
                   <div>{{index+1}}</div>
                   <div>
-                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
+                    <img
+                      :src="item.icon"
+                      class="pointer"
+                      @click="go_to_page01(item.appId,item.appName)"
+                      alt
+                    />
                   </div>
                   <div>
                     <div
                       class="app_name pointer"
-                      @click="go_to_page01(item.appId)"
+                      @click="go_to_page01(item.appId,item.appName)"
                     >{{item.appName}}>{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
@@ -67,7 +68,7 @@
               </td>
               <td class="operation">
                 <div>
-                  <div v-show="index==0">添加应用</div>
+                  <div v-show="index==0">当前应用</div>
                   <div v-show="index!=0" class="pointer" @click="go_to_page03(item.appId)">实时排名</div>
                   <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
                 </div>
@@ -101,10 +102,18 @@
                 <div class="use">
                   <div>{{index+1}}</div>
                   <div>
-                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
+                    <img
+                      :src="item.icon"
+                      class="pointer"
+                      @click="go_to_page01(item.appId,item.appName)"
+                      alt
+                    />
                   </div>
                   <div>
-                    <div class="app_name pointer" @click="go_to_page01(item.appId)">{{item.appName}}</div>
+                    <div
+                      class="app_name pointer"
+                      @click="go_to_page01(item.appId,item.appName)"
+                    >{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
@@ -150,7 +159,10 @@ export default {
   name: 'goods_show',
   components: { ios_header, left_nav },
   data() {
-    return { response_data: null, receive_appid: 1308838221 }
+    return {
+      response_data: null,
+      now_country: '中国'
+    }
   },
   created: function() {
     this.get_data()
@@ -164,7 +176,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -178,8 +190,7 @@ export default {
           // 请求数据
 
           let url =
-            'http://39.97.234.11:8080/GetCompetingProducts?appId=' +
-            this.receive_appid
+            '/GetCompetingProducts?appId=' + this.$store.state.now_app_id
           // 请求数据
           this.$axios
             .get(url)
@@ -202,28 +213,39 @@ export default {
     remove_date(index) {
       this.response_data.data_0.splice(index, 1)
     },
-    go_to_page01(parm) {
-      // console.log(parm)
+    // 获取当前选中的国家
+    parentFn(payload) {
+      this.now_country = payload
+      // console.log('version_message' + this.now_country)
+    },
+    go_to_page01(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking?appId=' + parm
+        path: '/now_ranking'
       })
+      this.$store.state.now_app_id02 = parm
+      this.$store.state.now_app_name = parm02
     },
     go_to_page02(parm) {
       this.$router.push({
-        path: '/cover_compare?appId=' + parm
+        path: '/cover_compare'
       })
+      this.$store.state.now_app_id02 = parm
+      this.$store.state.now_app_id = this.$store.state.now_app_id
     },
     go_to_page03(parm) {
-      let that = this
       this.$router.push({
-        path:
-          '/ranking_compare?appId=' + parm + '&appId02=' + that.receive_appid
+        path: '/ranking_compare'
       })
+      this.$store.state.now_app_id02 = parm
+      this.$store.state.now_app_id = this.$store.state.now_app_id
     }
   }
 }
 </script>
 <style scoped>
+#goods_show {
+  min-height: 800px;
+}
 .app_subtitle {
   -webkit-line-clamp: 1;
   display: -webkit-box;

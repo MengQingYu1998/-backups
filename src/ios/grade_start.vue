@@ -1,14 +1,12 @@
 <template>
   <div id="grade_start" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
+    <ios_header
+      @childFn="parentFn"
+    />
     <div class="left_and_right">
       <div class="left">
-        <left_nav />
+         <left_nav />
       </div>
       <div class="right">
         <!-- 第一部分 -->
@@ -628,7 +626,7 @@ export default {
     // 请求第二部分的图标参数
     get_data_for_second_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -660,9 +658,13 @@ export default {
               formatDate(middle_top_time01[1], 'yyyy-MM-dd')
           }
           // console.log(time)
+          let appId = this.$store.state.now_app_id
           let url =
-            'http://39.97.234.11:8080/GetPageStarStatistics?appId=112&time=' +
+            // appId=112&
+            '/GetPageStarStatistics?time=' +
             time +
+            '&appId=' +
+            appId +
             '&countryId=' +
             country_id
 
@@ -833,7 +835,7 @@ export default {
     },
     get_data_for_third_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -892,11 +894,15 @@ export default {
             this.common_one = false //在线删除图表隐藏
             type = 2
           }
+          let appId = this.$store.state.now_app_id
           let url =
-            'http://39.97.234.11:8080/GetIsDelete?appId=112&time=' +
+            // appId=112
+            '/GetIsDelete?time=' +
             time +
             '&countryId=' +
             country_id +
+            '&appId=' +
+            appId +
             '&type=' +
             type
           // 请求数据
@@ -930,7 +936,7 @@ export default {
     // 请求第四部分=》评论部分的数据
     get_data_for_fourth_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -946,7 +952,7 @@ export default {
           // 请求数据
           // console.log(555555555555555555)
           // console.log(country_id)
-          let url = ' http://39.97.234.11:8080/GetPageCommentInfo'
+          let url = ' /GetPageCommentInfo'
           // console.log(this.bottom_radio01)
           let commentType
           if (this.bottom_radio01 == '全部') {
@@ -1030,7 +1036,7 @@ export default {
     // 请求第一部分评分统计的数据
     get_data_for_first_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -1045,10 +1051,8 @@ export default {
           })
           // 请求数据
           // console.log(country_id)
-          let url =
-            ' http://39.97.234.11:8080/GetRating?countryId=' +
-            country_id +
-            '&appId=281736535'
+          let appId = this.$store.state.now_app_id
+          let url = ' /GetRating?countryId=' + country_id + '&appId=' + appId
           // console.log(url)
 
           // 请求数据
@@ -1412,24 +1416,6 @@ table {
 .left_and_right {
   display: flex;
   margin-top: 27px;
-}
-.breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
 }
 .content {
   width: 1200px;

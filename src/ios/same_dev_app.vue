@@ -1,9 +1,5 @@
 <template>
   <div id="same_dev_app" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -33,10 +29,18 @@
               <td class="second_td">
                 <div class="use">
                   <div>
-                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
+                    <img
+                      :src="item.icon"
+                      class="pointer"
+                      @click="go_to_page01(item.appId,item.appName)"
+                      alt
+                    />
                   </div>
                   <div>
-                    <div class="pointer" @click="go_to_page01(item.appId)">{{item.appName}}</div>
+                    <div
+                      class="pointer"
+                      @click="go_to_page01(item.appId,item.appName)"
+                    >{{item.appName}}</div>
                     <div class="rankingChangeFontColor">{{item.subtitle}}</div>
                   </div>
                 </div>
@@ -93,7 +97,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -107,11 +111,14 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
           // console.log(country_id)
-
+          let appId = this.$store.state.now_app_id
           let url =
-            'http://39.97.234.11:8080/GetSameDevApps?countryId=' +
+            '/GetSameDevApps?countryId=' +
             country_id +
-            '&appId=291322250&deviceType=1'
+            '&deviceType=1' +
+            '&appId=' +
+            appId
+          // &appId=291322250
           // console.log(url)
           // 请求数据
           this.$axios
@@ -134,10 +141,12 @@ export default {
       this.now_country = payload
       // console.log(this.now_country)
     },
-    go_to_page01(parm) {
+    go_to_page01(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking?appId=' + parm
+        path: '/now_ranking'
       })
+      this.$store.state.now_app_id=parm
+      this.$store.state.now_app_name=parm02
     }
   }
 }
@@ -274,6 +283,7 @@ table {
 .right {
   padding-left: 57px;
   position: relative;
+  min-height: 800px;
 }
 .line {
   width: 985px;

@@ -1,9 +1,5 @@
 <template>
   <div id="now_ranking" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -377,7 +373,7 @@ export default {
     // =============================请求第一部分数据=============================
     get_data_first() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -392,10 +388,10 @@ export default {
           // 1:iPhone 2:ipad
           // console.log(country_id)
 
-          let url = 'http://39.97.234.11:8080/PostRealTimeRank'
+          let url = '/PostRealTimeRank'
           // console.log(url)
           // let appId = 472208016
-          let appId = this.$route.query.appId
+          let appId = this.$store.state.now_app_id
           let data = { appId: appId, countryId: country_id }
           // 请求数据
           this.$axios
@@ -423,7 +419,7 @@ export default {
     // =============================请求第二部分数据=============================
     get_data_second() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -496,13 +492,13 @@ export default {
             timeType = 3
           }
           // let appId = 472208016
-          let appId = this.$route.query.appId
+          let appId = this.$store.state.now_app_id
           console.log(endDate)
           console.log(startDate)
           console.log('country_id' + country_id)
           console.log('brand' + brand)
           console.log('timeType' + timeType)
-          let url = 'http://39.97.234.11:8080/PostRandTrend'
+          let url = '/PostRandTrend'
           let data = {
             appids: appId,
             countryId: country_id,
@@ -642,7 +638,7 @@ export default {
     // =============================请求第三部分数据=============================
     get_data_third() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -660,12 +656,8 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
           // let appId = 472208016
-          let appId = this.$route.query.appId
-          let url =
-            'http://39.97.234.11:8080/GetGlobalRank?appid=' +
-            appId +
-            '&device=' +
-            deviceType
+          let appId = this.$store.state.now_app_id
+          let url = '/GetGlobalRank?appid=' + appId + '&device=' + deviceType
 
           // 请求数据
           this.$axios

@@ -52,7 +52,7 @@
 
 
 <script>
-	import SIdentify  from '../components/sidentify'
+	import SIdentify  from './sidentify'
 	export default{
 		components: { SIdentify },
 		data(){
@@ -174,8 +174,9 @@
 						    this.$router.push({path:'/index',query:{tel:this.tel,code:this.code}})
 						    let userid=res.data.Data
 						    console.log(userid)
-						    localStorage.setItem("userId",userid);//以“key”为名称存储一个值“value”
-							
+						    localStorage.setItem("userId",userid);//存储userId(用户id)
+							localStorage.setItem("tel",this.tel);//存储手机号
+							localStorage.setItem("code",this.code);//存储密码
 						}else if(res.data.Code==-2){
 							this.wrongCode=true
 							this.wrocode=true

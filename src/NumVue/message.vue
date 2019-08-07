@@ -23,23 +23,23 @@
 				<!-- 消息中心 -->
 				<div v-if="masg">
 					<ul>
-						<li v-for="(msgFont,index) in msgFonts" :class="{'selectMsg':selectmsg==index}" @click="cliMsgF(index)">{{msgFont.name}}</li>
+						<li v-for="(msgFont,index) in msgFonts" :class="{'selectMsg':selectmsg==index}" @click="cliMsgF(index)" :key="'LY01'+index">{{msgFont.name}}</li>
 						
 					</ul>
 					<div v-show="nomsg">
-						<div v-for="msg in msgsno.data" @click="clinoread(msg)">
+						<div v-for="msg in msgsno.data" @click="clinoread(msg)" :key="'LY02'+index">
 							<p>{{msg.Remark}}</p>
 							<p class="time">{{msg.CreateTimeStr}}</p>
 						</div>
 					</div>
 					<div v-show="readmsg">
-						<div v-for="msg in msgsread.data" @click="cliread(msg)">
+						<div v-for="msg in msgsread.data" @click="cliread(msg)" :key="'LY03'+index">
 							<p>{{msg.Remark}}</p>
 							<p class="time">{{msg.UpdateTimeStr}}</p>
 						</div>
 					</div>
 					<div v-show="allmsg">
-						<div v-for="msg in msgsall.data" @click="cliallmsg(msg)">
+						<div v-for="msg in msgsall.data" @click="cliallmsg(msg)" :key="'LY04'+index">
 							<p>{{msg.Remark}}</p>
 							<p class="time" v-if="msg.ReadType==0">{{msg.CreateTimeStr}}</p>
 							<p class="time" v-if="msg.ReadType==1">{{msg.UpdateTimeStr}}</p>
@@ -62,7 +62,7 @@
 			<div class="right setDiv" v-else>
 				
 				<ul>
-					<li v-for="(setFont,index) in setFonts" :class="{'selectMsg':selectset==index}" @click="clisetF(index)">{{setFont.name}}</li>	
+					<li v-for="(setFont,index) in setFonts" :class="{'selectMsg':selectset==index}" @click="clisetF(index)" :key="'LY05'+index">{{setFont.name}}</li>	
 				</ul>
 				<!-- 账号设置 -->
 				<div v-if="shownum">
@@ -315,12 +315,14 @@
 			getMsg(){
 				let tel=window.localStorage.getItem('tel')
 				let code=window.localStorage.getItem('code')
-				console.log(tel)
-				console.log(code)
 				this.code=code
 				let userId=localStorage.getItem("userId")//获取userId
 				this.uid=userId
-				this.telnow=this.$route.query.tel//当前手机号
+				this.telnow=tel//当前手机号
+				if(localStorage.getItem('touxiang')!=null){
+					this.touxiang=localStorage.getItem('touxiang')
+				}
+				
 				this.$axios({
 					method:"get",
 					url:'GetMessage?AccountId='+this.uid
@@ -463,6 +465,8 @@
 	                    that.touxiang=this.result
 	                    // 调用上传头像接口
 	                    that.changeTou(that.touxiang)
+	                    localStorage.setItem("touxiang",this.result);//存储密码
+	                    console.log(localStorage.getItem('touxiang'))
 	                }
 	                
 	                
@@ -681,6 +685,7 @@
 		        	})
 		        	.then(res=>{
 		        		console.log(res.data)
+		        		this.$router.push({path:'/index'})
 		        	})
 		        	.catch(error=>{
 		        		console.log(error)
@@ -773,7 +778,7 @@
 		},
 		created(){
 			this.getMsg()
-
+			console.log(localStorage.getItem("tel"))
 		}	
 	}
 </script>

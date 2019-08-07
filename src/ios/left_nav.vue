@@ -19,14 +19,29 @@
         <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
       </div>
-      <router-link to="ranking_compare" tag="div" class="nav_content" active-class="active">竞品对比</router-link>
-      <router-link to="nothing" tag="div" class="nav_content" active-class="active">竞对报告</router-link>
-      <router-link to="nothing" tag="div" class="nav_content" active-class="active">竞品当前优化</router-link>
+      <router-link to="goods_show" tag="div" class="nav_content" active-class="active">竞品对比</router-link>
+      <!-- <router-link
+        to="nothing"
+        tag="div"
+        class="nav_content"
+        active-class="active"
+      >竞对报告</router-link>-->
+      <!-- <router-link
+        to="nothing"
+        tag="div"
+        class="nav_content"
+        active-class="active"
+      >竞品当前优化</router-link>-->
       <div class="nav_title">
         <img src="../assets/ios/left_nav04.png" alt />
         <div>ASM</div>
       </div>
-      <router-link to="nothing" tag="div" class="nav_content" active-class="active">ASM竞价词</router-link>
+      <!-- <router-link
+        to="nothing"
+        tag="div"
+        class="nav_content"
+        active-class="active"
+      >ASM竞价词</router-link>-->
     </div>
   </div>
 </template>
@@ -36,7 +51,8 @@ export default {
   name: 'left_nav',
   data() {
     return {}
-  }
+  },
+  created: function() {}
 }
 </script>
 <style scoped>

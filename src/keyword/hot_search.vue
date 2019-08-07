@@ -87,12 +87,12 @@
                       <img
                         :src="item_for_popover.icon_url"
                         class="pointer"
-                        @click="go_to_page02(item_for_popover.app_id)"
+                        @click="go_to_page02(item_for_popover.app_id,item_for_popover.app_name)"
                         alt
                       />
                       <div
                         class="hide_font pointer"
-                        @click="go_to_page02(item_for_popover.app_id)"
+                        @click="go_to_page02(item_for_popover.app_id,item_for_popover.app_name)"
                       >{{item_for_popover.app_name}}</div>
                     </div>
                   </div>
@@ -174,7 +174,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -194,7 +194,7 @@ export default {
             let day1 = new Date()
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 7)
             url =
-              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              '/Word/HotSearch?deviceType=' +
               deviceType +
               '&countryId=' +
               country_id +
@@ -206,7 +206,7 @@ export default {
             let day1 = new Date()
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
             url =
-              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              '/Word/HotSearch?deviceType=' +
               deviceType +
               '&countryId=' +
               country_id +
@@ -216,7 +216,7 @@ export default {
               formatDate(day1, 'yyyy-MM-dd')
           } else {
             url =
-              'http://39.97.234.11:8080/Word/HotSearch?deviceType=' +
+              '/Word/HotSearch?deviceType=' +
               deviceType +
               '&countryId=' +
               country_id +
@@ -243,7 +243,7 @@ export default {
     // 请求鼠标悬浮的框框数据
     get_data_for_popover(word, time) {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -258,7 +258,7 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let url =
-            'http://39.97.234.11:8080/Word/HotSearchApps?deviceType=' +
+            '/Word/HotSearchApps?deviceType=' +
             deviceType +
             '&countryId=' +
             country_id +
@@ -308,19 +308,25 @@ export default {
     },
     go_to_page01(parm) {
       this.$router.push({
-        path: '/hot_history?word=' + parm
+        path: '/hot_history'
       })
+      this.$store.state.now_app_name = parm
     },
-    go_to_page02(parm) {
+    go_to_page02(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking?appId=' + parm
+        path: '/now_ranking'
       })
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
     }
   }
 }
 </script>
 
 <style scoped>
+#hot_search {
+  min-height: 700px;
+}
 .hide_font {
   -webkit-line-clamp: 1;
   display: -webkit-box;

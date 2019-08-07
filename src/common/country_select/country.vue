@@ -230,7 +230,7 @@ export default {
   methods: {
     click: function() {
       let temp = $('.fastbannerform__country option:selected').text() //选中的值
-      // console.log()
+      console.log(temp)
       this.$emit('childFn', temp)
     }
   }

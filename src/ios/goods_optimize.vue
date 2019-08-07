@@ -1,14 +1,12 @@
 <template>
   <div id="goods_optimize" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
-    <ios_header />
+    <ios_header
+      @childFn="parentFn"
+    />
     <div class="left_and_right">
       <div class="left">
-        <left_nav />
+         <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">竞品优化方案</div>

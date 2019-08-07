@@ -1,9 +1,5 @@
 <template>
   <div id="data_table" class="content">
-    <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>学习强国</span>
-    </div>
     <!-- 自定义组件 -->
     <ios_header @childFn="parentFn" />
     <div class="left_and_right">
@@ -364,7 +360,6 @@
                         />
                       </div>
 
-                      <div class="import_data" v-show="is_show_myChart_and_table">导出数据</div>
                       <div class="import_data_for_table" v-show="!is_show_myChart_and_table">导出数据</div>
                       <div class="clear_float"></div>
                     </div>
@@ -640,7 +635,7 @@ export default {
     // 请求第一部分评分统计的数据
     get_data_for_first_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -662,9 +657,9 @@ export default {
           // console.log(timestamp(this.dateCompare_for_top / 1000, 'Y-M-D'))
           let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
           let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
-          let appId = this.$route.query.appId
+          let appId = this.$store.state.now_app_id
           let url =
-            ' http://39.97.234.11:8080/GetKeyWordSynopsis?' +
+            '/GetKeyWordSynopsis?' +
             // 'appId=112' +
             'appId=' +
             appId +
@@ -713,7 +708,7 @@ export default {
     // ===========================第二部分数据=================================
     get_data_for_second_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -735,9 +730,9 @@ export default {
             this.dateCompare_for_middle / 1000,
             'Y-M-D'
           )
-          let url = ' http://39.97.234.11:8080/GetKeyWordDetail'
+          let url = '/GetKeyWordDetail'
           let that = this
-          let appId = this.$route.query.appId
+          let appId = this.$store.state.now_app_id
           // console.log(country_id)
           // console.log(deviceType)
           // console.log(system)
@@ -853,7 +848,7 @@ export default {
     // 请求数据
     get_data_for_third_part() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -868,7 +863,7 @@ export default {
           })
           // console.log('国家' + country_id)
           // 请求数据
-          let url = 'http://39.97.234.11:8080/GetKeyWordApp'
+          let url = '/GetKeyWordApp'
           let time, sdate, edate
           if (this.middle_time01) {
             sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
@@ -1052,18 +1047,21 @@ export default {
     },
     go_to_page01(parm) {
       this.$router.push({
-        path: '/trend_one?word=' + parm
+        path: '/trend_one'
       })
+      this.$store.state.now_app_name = parm
     },
-    go_to_page02(parm) {
+    go_to_page01(parm) {
       this.$router.push({
-        path: '/trend_many?word=' + parm
+        path: '/trend_many'
       })
+      this.$store.state.now_app_name = parm
     },
     go_to_page03(parm) {
       this.$router.push({
-        path: '/result?word=' + parm
+        path: '/result'
       })
+      this.$store.state.now_app_id = parm
     }
   }
 }
@@ -1421,6 +1419,7 @@ table {
 }
 .right {
   padding-left: 57px;
+  min-height: 800px;
 }
 .line {
   width: 985px;

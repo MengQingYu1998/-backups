@@ -1,6 +1,6 @@
 <template>
   <div id="trend_one" class="content">
-    <div class="title">「{{this.$route.query.word}}」搜索结果数排名走势</div>
+    <div class="title">「{{this.$store.state.now_app_id}}」搜索结果数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="table_title">【{{this.$route.query.word}}】搜索指数走势</div>
+    <div class="table_title">【{{this.$store.state.now_app_id}}】搜索指数走势</div>
     <div ref="myChart_trend_one" class="myChart" v-show="is_show_table_myChart_myChart"></div>
 
     <div class="bottom_image" v-show="is_show_table_myChart_myChart">
@@ -192,7 +192,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           // console.log('获取国家ID')
@@ -207,7 +207,7 @@ export default {
           })
           // console.log('国家' + country_id)
           // 请求数据
-          let url = 'http://39.97.234.11:8080/Word/FindSearchNumber'
+          let url = '/Word/FindSearchNumber'
           let sdate, edate
           if (this.dateValue) {
             sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
@@ -239,7 +239,7 @@ export default {
           // console.log(deviceType)
           // console.log(country_id)
           // console.log(iosType)
-          let word = this.$route.query.word
+          let word = this.$store.state.now_app_name
           let data = {
             deviceType: deviceType,
             countryId: country_id,

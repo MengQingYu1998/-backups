@@ -1,5 +1,9 @@
 <template>
   <div id="ios_header">
+    <div class="breadcrumb">
+      <span>iOS应用</span> >
+      <span>{{this.$store.state.now_app_name}}</span>
+    </div>
     <div class="wrap">
       <img v-if="response_data" :src="response_data.icon" alt />
       <div class="app_description">
@@ -56,6 +60,7 @@ export default {
       time: ''
     }
   },
+
   created: function() {
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
@@ -67,7 +72,7 @@ export default {
     // 请求数据
     get_data() {
       this.$axios
-        .get('http://39.97.234.11:8080/GetCountry')
+        .get('/GetCountry')
         .then(response => {
           // 获取国家ID
           let country_id
@@ -82,16 +87,18 @@ export default {
           // 1:iPhone 2:ipad
 
           let url =
-            'http://39.97.234.11:8080/GetAppSynopsis?countryId=' +
+            '/GetAppSynopsis?countryId=' +
             country_id +
-            '&appId=281736535'
+            // '&appId=281736535'
+            '&appId=' +
+            this.$store.state.now_app_id
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(this.response_data)
+              console.log(this.response_data)
               this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false
               // this.$nextTick(() => {
@@ -170,6 +177,12 @@ export default {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 200px;
+  /* background-color: red;   */
 }
 .app_description div:last-child {
   font-family: SourceHanSansCN-Normal;
@@ -183,6 +196,11 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 200px;
 }
 .app_description {
   display: inline-block;
@@ -197,5 +215,24 @@ export default {
 .wrap {
   display: flex;
   align-items: center;
+}
+
+.breadcrumb span:last-child {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #888888;
+}
+.breadcrumb span:first-child {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+.breadcrumb {
+  margin: 20px 0;
 }
 </style>
