@@ -1,40 +1,30 @@
 <template>
   <div id="app">
+    <!-- <navv /> -->
     <router-view></router-view>
+    <!-- <foot /> -->
   </div>
 </template>
 
 <script>
+import Navv from './NumVue/navv'
+import Foot from './NumVue/foot'
+
 export default {
   name: 'App',
-  components: {}
+  components: {
+    Navv,
+    Foot
+  }
 }
 </script>
 
 <style>
-/*榜单页面*/
-/*设备*/
-.bangdan .el-input__inner {
-  height: 26px;
-  width: 75px;
-  padding: 0;
-  padding-left: 5px;
-}
-.bangdan .el-input__icon {
-  width: 10px;
-  line-height: 26px;
-}
-/*日期*/
-.bangdan .date .el-date-editor.el-input,
-.el-date-editor.el-input__inner,
-.bangdan .date .el-input__inner {
-  width: 120px;
-}
-.bangdan .date .el-input__inner {
-  padding-left: 25px;
-}
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
+.pointer {
+  cursor: pointer;
+}
 /* 修改element的单选框 */
 .el-radio-button {
   margin-left: 10px;
@@ -96,6 +86,7 @@ table tbody tr:hover {
   /* width: 320px !important ; */
   box-sizing: border-box;
   /* transition-duration: 0ms !important; */
+  overflow: hidden;
 }
 
 /* 进度条组件element */
@@ -147,6 +138,7 @@ table tbody tr:hover {
 }
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 
+#grade_start .el-date-editor .el-range-separator,
 #result .el-date-editor .el-range-separator,
 #data_table .el-date-editor .el-range-separator,
 #trend_one .el-date-editor .el-range-separator,
@@ -156,6 +148,7 @@ table tbody tr:hover {
   line-height: 21px !important;
   color: #444444 !important;
 }
+#grade_start .el-input__icon,
 #result .el-input__icon,
 #data_table .el-input__icon,
 #trend_one .el-input__icon,

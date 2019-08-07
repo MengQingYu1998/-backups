@@ -1,6 +1,6 @@
 <template>
   <div id="result" class="content">
-    <div class="title">「网易云音乐」搜索结果</div>
+    <div class="title">「{{this.$route.query.word}}」搜索结果</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -60,20 +60,28 @@
               {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
-                @click="$router.push('/trend_many')"
+                class="pointer"
+                @click="go_to_page02(data_for_top_table02.Word)"
                 alt
               />
             </td>
             <td v-show="activeName=='first'">
               <span>{{data_for_top_table02.SearchCount12}}</span>
-              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+              <img
+                src="../assets/keyword/keyword01.png"
+                class="pointer"
+                @click="go_to_page03(data_for_top_table02.Word)"
+                alt
+              />
             </td>
             <td v-show="activeName=='first'" class="data_for_top_table_span">
               <span
+                class="pointer"
+                @click="go_to_page04(data_for_top_table02.Word)"
                 v-for="(item_son, index_son) in data_for_top_table"
                 :key="'data_for_top_tablesss'+index_son"
               >{{item_son.keyword}}</span>
-              <span>查看更多>></span>
+              <span @click="go_to_page01(data_for_top_table02.Word)" class="pointer">查看更多>></span>
             </td>
             <!-- ============ ios11============ -->
             <!-- ============ ios11============ -->
@@ -82,20 +90,28 @@
               {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
-                @click="$router.push('/trend_many')"
+                @click="go_to_page02(data_for_top_table02.Word)"
+                class="pointer"
                 alt
               />
             </td>
             <td v-show="activeName=='second'">
               <span>{{data_for_top_table02.SearchCount11}}</span>
-              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+              <img
+                src="../assets/keyword/keyword01.png"
+                class="pointer"
+                @click="go_to_page03(data_for_top_table02.Word)"
+                alt
+              />
             </td>
             <td v-show="activeName=='second'" class="data_for_top_table_span">
               <span
+                class="pointer"
+                @click="go_to_page04(data_for_top_table02.Word)"
                 v-for="(item_son, index_son) in data_for_top_table"
                 :key="'data_for_top_tablesss'+index_son"
               >{{item_son.keyword}}</span>
-              <span>查看更多>></span>
+              <span @click="go_to_page01(data_for_top_table02.Word)" class="pointer">查看更多>></span>
             </td>
             <!-- ============ 搜索结果对比============ -->
             <!-- ============ 搜索结果对比============ -->
@@ -104,17 +120,28 @@
               {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
-                @click="$router.push('/trend_many')"
+                class="pointer"
+                @click="go_to_page02(data_for_top_table02.Word)"
                 alt
               />
             </td>
             <td v-show="activeName=='third'">
               <span>{{data_for_top_table02.SearchCount12}}</span>
-              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+              <img
+                src="../assets/keyword/keyword01.png"
+                class="pointer"
+                @click="go_to_page03(data_for_top_table02.Word)"
+                alt
+              />
             </td>
             <td v-show="activeName=='third'">
               <span>{{data_for_top_table02.SearchCount11}}</span>
-              <img src="../assets/keyword/keyword01.png" @click="$router.push('/trend_one')" alt />
+              <img
+                src="../assets/keyword/keyword01.png"
+                class="pointer"
+                @click="go_to_page03(data_for_top_table02.Word)"
+                alt
+              />
             </td>
           </tr>
         </tbody>
@@ -146,14 +173,14 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
+                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
                         </div>
                         <div class="third_div">
                           <div
-                            class="app_name"
-                            @click="$router.push('/now_ranking')"
+                            class="app_name pointer"
+                            @click="go_to_page05(item.AppStoreId)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
+                          <div class="app_subtitle rankingChangeFontColor">{{item.AppStoreId}}</div>
                         </div>
                       </div>
                     </td>
@@ -180,6 +207,7 @@
                         <div>{{item.Change}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
+                          class="pointer"
                           @click="show_dialog(item.app_name,item.AppStoreId)"
                           alt
                         />
@@ -195,7 +223,7 @@
                       <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.price}}</div>
                     </td>
-                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
+                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
                   </tr>
                 </tbody>
@@ -239,12 +267,12 @@
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" alt @click="$router.push('/now_ranking')" />
+                          <img :src="item.icon_url" alt @click="go_to_page05(item.AppStoreId)" />
                         </div>
                         <div class="third_div">
                           <div
-                            class="app_name"
-                            @click="$router.push('/now_ranking')"
+                            class="app_name pointer"
+                            @click="go_to_page05(item.AppStoreId)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -274,6 +302,7 @@
                         <img
                           src="../assets/keyword/keyword01.png"
                           alt
+                          class="pointer"
                           @click="show_dialog(item.app_name,item.AppStoreId)"
                         />
                       </div>
@@ -288,7 +317,7 @@
                       <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.price}}</div>
                     </td>
-                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
+                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
                   </tr>
                 </tbody>
@@ -325,12 +354,12 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
+                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
                         </div>
                         <div class="third_div">
                           <div
-                            class="app_name"
-                            @click="$router.push('/now_ranking')"
+                            class="app_name pointer"
+                            @click="go_to_page05(item.AppStoreId)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -366,11 +395,12 @@
                         <img
                           src="../assets/keyword/keyword01.png"
                           alt
+                          class="pointer"
                           @click="show_dialog(item.app_name,item.AppStoreId)"
                         />
                       </div>
                     </td>
-                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
+                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.rating_count}}</td>
                   </tr>
                 </tbody>
@@ -402,12 +432,12 @@
                       <div class="use">
                         <div class>{{item.rowid}}</div>
                         <div class="second_div">
-                          <img :src="item.icon_url" @click="$router.push('/now_ranking')" alt />
+                          <img :src="item.icon_url" @click="go_to_page05(item.AppStoreId)" alt />
                         </div>
                         <div class="third_div">
                           <div
-                            class="app_name"
-                            @click="$router.push('/now_ranking')"
+                            class="app_name pointer"
+                            @click="go_to_page05(item.AppStoreId)"
                           >{{item.app_name}}</div>
                           <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
@@ -442,12 +472,13 @@
                         <div>{{item.Change}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
+                          class="pointer"
                           @click="show_dialog(item.app_name,item.AppStoreId)"
                           alt
                         />
                       </div>
                     </td>
-                    <td class="pointer" @click="$router.push('/data_table')">{{item.Cover}}</td>
+                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.rating_count}}</td>
                   </tr>
                 </tbody>
@@ -657,20 +688,21 @@ export default {
           }
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let url = 'http://39.97.234.11:8080/Word/FindTodayJoinWord'
+          let word = this.$route.query.word
           let data = {
             deviceType: deviceType,
             countryId: country_id,
             sdate: time,
-            word: 'qq',
+            word: word,
             iosType: iosType
           }
-          console.log(iosType)
+          // console.log(iosType)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.data_for_top_table = response.data.Data
-              console.log(this.data_for_top_table)
+              // console.log(this.data_for_top_table)
             })
             .catch(error => {
               console.log(error)
@@ -683,7 +715,7 @@ export default {
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              console.log(this.data_for_top_table02)
+              // console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -715,13 +747,15 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let word = this.$route.query.word
           let url =
             'http://39.97.234.11:8080/Word/FindSearch?page=1' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
             country_id +
-            '&word=qq' +
+            '&word=' +
+            word +
             '&time=' +
             time +
             '&iosType=12'
@@ -758,13 +792,15 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let word = this.$route.query.word
           let url =
             'http://39.97.234.11:8080/Word/FindSearch?page=1' +
             '&deviceType=' +
             deviceType +
             '&countryId=' +
             country_id +
-            '&word=qq' +
+            '&word' +
+            word +
             '&time=' +
             time +
             '&iosType=11'
@@ -774,7 +810,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_for_ios11 = response.data
-              // console.log(this.response_data_for_ios11)
+              console.log(this.response_data_for_ios11)
             })
             .catch(error => {
               console.log(error)
@@ -921,7 +957,7 @@ export default {
           // let system = this.systemValue == 'ios11' ? 11 : 12
           let sdate, edate
           if (this.time_dialog) {
-            console.log('--')
+            // console.log('--')
             sdate = formatDate(this.time_dialog[0], 'yyyy-MM-dd')
             edate = formatDate(this.time_dialog[1], 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '近24小时') {
@@ -935,13 +971,13 @@ export default {
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
             sdate = formatDate(time02, 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '30天') {
-            console.log('30天')
+            // console.log('30天')
             edate = formatDate(new Date(), 'yyyy-MM-dd')
             let time02 = new Date()
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
             sdate = formatDate(time02, 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '昨日') {
-            console.log('昨日')
+            // console.log('昨日')
             edate = formatDate(new Date(), 'yyyy-MM-dd')
             let time02 = new Date()
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 1)
@@ -986,7 +1022,7 @@ export default {
               this.keyword_data_value = []
               this.xAxis_data = []
               this.response_data_for_dialog = response.data
-              // console.log(this.response_data_for_dialog.Data)
+              console.log(this.response_data_for_dialog)
               this.keyword_data_value.push(this.response_data_for_dialog.Yvalue)
               this.xAxis_data = this.response_data_for_dialog.Xvalue
               this.keyword_data.push(this.word)
@@ -1090,6 +1126,36 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log(this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/think_word?Word=' + parm
+      })
+    },
+    go_to_page02(parm) {
+      this.$router.push({
+        path: '/trend_many?Word=' + parm
+      })
+    },
+    go_to_page03(parm) {
+      this.$router.push({
+        path: '/trend_one?Word=' + parm
+      })
+    },
+    go_to_page04(parm) {
+      this.$router.push({
+        path: '/result?Word=' + parm
+      })
+    },
+    go_to_page05(parm) {
+      this.$router.push({
+        path: '/now_ranking?appId=' + parm
+      })
+    },
+    go_to_page06(parm) {
+      this.$router.push({
+        path: '/data_table?appId=' + parm
+      })
     }
   }
 }
@@ -1112,9 +1178,7 @@ export default {
 .app_name {
   cursor: pointer;
 }
-.pointer {
-  cursor: pointer;
-}
+
 .keywordContentTable img {
   vertical-align: 0px;
 }

@@ -5,28 +5,28 @@
         <img src="../assets/ios/left_nav01.png" alt />
         <div>应用信息</div>
       </div>
-      <router-link to="app_message" tag="div" class="nav_content">应用信息</router-link>
-      <router-link to="version_message" tag="div" class="nav_content">版本记录</router-link>
-      <router-link to="same_dev_app" tag="div" class="nav_content">同开发者应用</router-link>
+      <router-link to="app_message" tag="div" class="nav_content" active-class="active">应用信息</router-link>
+      <router-link to="version_message" tag="div" class="nav_content" active-class="active">版本记录</router-link>
+      <router-link to="same_dev_app" tag="div" class="nav_content" active-class="active">同开发者应用</router-link>
       <div class="nav_title">
         <img src="../assets/ios/left_nav03.png" alt />
         <div>ASO数据</div>
       </div>
-      <router-link to="now_ranking" tag="div" class="nav_content">榜单实时排名</router-link>
-      <router-link to="data_table" tag="div" class="nav_content">ASO关键词</router-link>
-      <router-link to="grade_start" tag="div" class="nav_content">评分评论</router-link>
+      <router-link to="now_ranking" tag="div" class="nav_content" active-class="active">榜单实时排名</router-link>
+      <router-link to="data_table" tag="div" class="nav_content" active-class="active">ASO关键词</router-link>
+      <router-link to="grade_start" tag="div" class="nav_content" active-class="active">评分评论</router-link>
       <div class="nav_title">
         <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
       </div>
-      <router-link to="ranking_compare" tag="div" class="nav_content">竞品对比</router-link>
-      <router-link to tag="div" class="nav_content">竞对报告</router-link>
-      <router-link to tag="div" class="nav_content">竞品当前优化</router-link>
+      <router-link to="ranking_compare" tag="div" class="nav_content" active-class="active">竞品对比</router-link>
+      <router-link to="nothing" tag="div" class="nav_content" active-class="active">竞对报告</router-link>
+      <router-link to="nothing" tag="div" class="nav_content" active-class="active">竞品当前优化</router-link>
       <div class="nav_title">
         <img src="../assets/ios/left_nav04.png" alt />
         <div>ASM</div>
       </div>
-      <router-link to tag="div" class="nav_content">ASM竞价词</router-link>
+      <router-link to="nothing" tag="div" class="nav_content" active-class="active">ASM竞价词</router-link>
     </div>
   </div>
 </template>
@@ -40,6 +40,9 @@ export default {
 }
 </script>
 <style scoped>
+.active {
+  color: #009bef !important;
+}
 .nav_content:hover {
   color: #009bef;
   cursor: pointer;

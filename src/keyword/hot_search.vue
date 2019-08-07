@@ -75,7 +75,7 @@
                 >
                   <div class="table_hover_title">
                     <span v-if="response_datafor_popover">搜索指数 {{response_datafor_popover.Hint}}</span>
-                    <span>热搜历史</span>
+                    <span class="pointer" @click="go_to_page01(item_list.word)">热搜历史</span>
                   </div>
                   <div class="table_hover_line"></div>
                   <div>热词搜索前5名搜索结果</div>
@@ -84,11 +84,23 @@
                       v-for="(item_for_popover ,index_for_popover) in response_datafor_popover.Appinfo"
                       :key="index_for_popover"
                     >
-                      <img :src="item_for_popover.icon_url" alt />
-                      <div class="hide_font">{{item_for_popover.app_name}}</div>
+                      <img
+                        :src="item_for_popover.icon_url"
+                        class="pointer"
+                        @click="go_to_page02(item_for_popover.app_id)"
+                        alt
+                      />
+                      <div
+                        class="hide_font pointer"
+                        @click="go_to_page02(item_for_popover.app_id)"
+                      >{{item_for_popover.app_name}}</div>
                     </div>
                   </div>
-                  <div slot="reference">{{item_list.word}}</div>
+                  <div
+                    slot="reference"
+                    class="pointer"
+                    @click="go_to_page01(item_list.word)"
+                  >{{item_list.word}}</div>
                 </el-popover>
               </div>
             </div>
@@ -254,7 +266,7 @@ export default {
             word +
             '&time=' +
             time
-          // console.log(url)
+          console.log(url)
 
           // 请求数据
           this.$axios
@@ -293,6 +305,16 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       console.log(this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/hot_history?word=' + parm
+      })
+    },
+    go_to_page02(parm) {
+      this.$router.push({
+        path: '/now_ranking?appId=' + parm
+      })
     }
   }
 }

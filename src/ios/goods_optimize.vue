@@ -5,10 +5,10 @@
       <span>学习强国</span>
     </div>
     <!-- 自定义组件 -->
-    <ios_header/>
+    <ios_header />
     <div class="left_and_right">
       <div class="left">
-        <left_nav/>
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">竞品优化方案</div>
@@ -17,7 +17,7 @@
           <div>您暂时还未登录，请先登录后查看</div>
           <div>登录</div>
         </div>
-        <table v-show="fasle">
+        <table v-show="false">
           <thead>
             <tr>
               <th>应用</th>
@@ -34,7 +34,7 @@
               <td>
                 <div class="use">
                   <div>
-                    <img src="../assets/keyword/test.png" alt>
+                    <img src="../assets/keyword/test.png" alt />
                   </div>
                   <div>
                     <div>好几家军军军...</div>

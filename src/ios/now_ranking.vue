@@ -25,7 +25,7 @@
                 <th>总榜（免费）</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="response_data_first">
               <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
                 <td>
                   <div class="rankingChangeFontColor">{{item[0]}}</div>
@@ -394,13 +394,21 @@ export default {
 
           let url = 'http://39.97.234.11:8080/PostRealTimeRank'
           // console.log(url)
-          let data = { appId: 472208016, countryId: country_id }
+          // let appId = 472208016
+          let appId = this.$route.query.appId
+          let data = { appId: appId, countryId: country_id }
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              this.response_data_first = response.data.Data
-              // console.log(this.response_data_first)
+              if (
+                response.data.Data.rank_0 != null &&
+                response.data.Data.rank_1 != null &&
+                response.data.Data.rank_2 != null
+              ) {
+                this.response_data_first = response.data.Data
+              }
+              console.log(this.response_data_first)
             })
             .catch(error => {
               console.log(error)
@@ -487,6 +495,8 @@ export default {
           } else if (this.middle_top_radio1 == '按天') {
             timeType = 3
           }
+          // let appId = 472208016
+          let appId = this.$route.query.appId
           console.log(endDate)
           console.log(startDate)
           console.log('country_id' + country_id)
@@ -494,7 +504,7 @@ export default {
           console.log('timeType' + timeType)
           let url = 'http://39.97.234.11:8080/PostRandTrend'
           let data = {
-            appids: 600273928,
+            appids: appId,
             countryId: country_id,
             startDate: startDate,
             endDate: endDate,
@@ -649,9 +659,12 @@ export default {
 
           // 设备选择
           let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
-
+          // let appId = 472208016
+          let appId = this.$route.query.appId
           let url =
-            'http://39.97.234.11:8080/GetGlobalRank?appid=1410120498&device=' +
+            'http://39.97.234.11:8080/GetGlobalRank?appid=' +
+            appId +
+            '&device=' +
             deviceType
 
           // 请求数据
@@ -659,8 +672,11 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              // console.log(this.response_data_third)
-              this.radio3 = this.response_data_third.data_1.genreList[0].genreName
+              console.log(this.response_data_third)
+              if (this.response_data_third.data_1.genreList.length > 0) {
+                this.radio3 = this.response_data_third.data_1.genreList[0].genreName
+              }
+
               // 向世界地图传递数据
 
               this.send_data_to_world_map()

@@ -135,6 +135,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
             </div>
@@ -147,6 +148,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
             </div>
@@ -207,7 +209,7 @@
             <tbody v-if="request_data_second">
               <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
-                  <div>{{item.Word}}</div>
+                  <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -222,10 +224,16 @@
                   </div>
                 </td>
                 <td>
-                  <div class="table_font">{{item.WordIdHint}}</div>
+                  <div
+                    class="table_font pointer"
+                    @click="go_to_page02(item.Word)"
+                  >{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div class="table_font">{{item.SearchCount}}</div>
+                  <div
+                    class="table_font pointer"
+                    @click="go_to_page01(item.Word)"
+                  >{{item.SearchCount}}</div>
                 </td>
                 <td>
                   <div
@@ -369,7 +377,7 @@
 
               <tr v-for="(item ,index) in temp_request_data_second" :key="'tasbleasdf'+index">
                 <td>
-                  <div>{{item.Word}}</div>
+                  <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -384,10 +392,16 @@
                   </div>
                 </td>
                 <td>
-                  <div class="table_font">{{item.WordIdHint}}</div>
+                  <div
+                    class="table_font pointer"
+                    @click="go_to_page02(item.Word)"
+                  >{{item.WordIdHint}}</div>
                 </td>
                 <td>
-                  <div class="table_font">{{item.SearchCount}}</div>
+                  <div
+                    class="table_font pointer"
+                    @click="go_to_page01(item.Word)"
+                  >{{item.SearchCount}}</div>
                 </td>
                 <td>
                   <div
@@ -648,9 +662,12 @@ export default {
           // console.log(timestamp(this.dateCompare_for_top / 1000, 'Y-M-D'))
           let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
           let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
+          let appId = this.$route.query.appId
           let url =
             ' http://39.97.234.11:8080/GetKeyWordSynopsis?' +
-            'appId=112' +
+            // 'appId=112' +
+            'appId=' +
+            appId +
             '&countryId=' +
             country_id +
             '&device=' +
@@ -720,6 +737,7 @@ export default {
           )
           let url = ' http://39.97.234.11:8080/GetKeyWordDetail'
           let that = this
+          let appId = this.$route.query.appId
           // console.log(country_id)
           // console.log(deviceType)
           // console.log(system)
@@ -732,8 +750,9 @@ export default {
           // console.log(that.result_min_input03)
           // console.log(that.result_max_input03)
           let data = {
-            appId: 112,
-            // appId: 444934666,
+            // appId: 112,
+            appId: appId,
+
             countryId: country_id,
             device: deviceType,
             system: system,
@@ -1030,6 +1049,21 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log(this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/trend_one?word=' + parm
+      })
+    },
+    go_to_page02(parm) {
+      this.$router.push({
+        path: '/trend_many?word=' + parm
+      })
+    },
+    go_to_page03(parm) {
+      this.$router.push({
+        path: '/result?word=' + parm
+      })
     }
   }
 }

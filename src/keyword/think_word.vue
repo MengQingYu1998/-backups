@@ -45,7 +45,7 @@
           <tr v-for="(item,index) in response_data.Yvalue[0]" :key="'table253'+index">
             <td class="td_first">{{index+1}}</td>
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -61,7 +61,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[1]" :key="'table2538'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -76,7 +76,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[2]" :key="'table25382'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -91,7 +91,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[3]" :key="'table253823'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -106,7 +106,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[4]" :key="'table2538234'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -121,7 +121,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[5]" :key="'table25382345'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -136,7 +136,7 @@
         <tbody v-if="response_data!=null">
           <tr v-for="(item,index) in response_data.Yvalue[6]" :key="'table253823456'+index">
             <td class="table_font">
-              <div class="pointer" @click="$router.push('/result')">{{item.keyword}}</div>
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
               <div>{{item.hint}}</div>
             </td>
           </tr>
@@ -244,14 +244,17 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
+    },
+
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/result?word=' + parm
+      })
     }
   }
 }
 </script>
 <style scoped>
-.pointer {
-  cursor: pointer;
-}
 .td_first {
   border-right: 1px solid #f2f2f2;
 }

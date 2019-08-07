@@ -6,12 +6,12 @@
 		</div>
 		<div class="content">
 			<ul>
-				<li v-for="(li,index) in lis" :class="{'select':isSelect==index}"  @click="selectLei(index)">{{li.name}}</li>
+				<li v-for="(li,index) in lis" :key="index" :class="{'select':isSelect==index}"  @click="selectLei(index)">{{li.name}}</li>
 			</ul>
 			<div class="lei">
 				<div>
 					<p class="fenlei">榜单分类</p>
-					<p class="font" v-for="(genre,index) in genres" :class="{'selectFont':selefont==index}" @click="cligenre(index)">{{genre.name}}</p>
+					<p class="font" v-for="(genre,index) in genres" :key="index" :class="{'selectFont':selefont==index}" @click="cligenre(index)">{{genre.name}}</p>
 				</div>
 				<div>
 					<p class="category">类别</p>
@@ -35,14 +35,14 @@
 				<div class="ying" v-if="showApplication" >
 					<img src="../assets/NumImg/jiao.png" class="jiao" />
 					<div class="lie">
-						<span v-for="Application in Applications.Data"v-html="Application.name" @click="cliLie(Application)"></span>
+						<span v-for="Application in Applications.Data" :key="Application.id"  v-html="Application.name" @click="cliLie(Application)"></span>
 					</div>
 				</div>
 				<!-- 游戏下拉框 -->
 				<div class="game" v-show="showGame">
 					<img src="../assets/NumImg/jiao.png" class="jiao" />
 					<div class="lie">
-						<span v-for="game in games.Data" v-html="game.name" @click="cliGame(game)"></span>
+						<span v-for="game in games.Data" :key="game.id" v-html="game.name" @click="cliGame(game)"></span>
 					</div>
 				</div>
 			</div>
@@ -50,15 +50,13 @@
 			<div class="country">
 				<div>
 					<p>国家/地区</p>
-					<p>
-						<span>中国</span>
-						<img src="../assets/NumImg/down.png" class="down"/>
-					</p>
+					<!-- 选择国家 -->
+          			<country @childFn="parentFn"></country>
 				</div>
 				<div>
 					<p>设备</p>
 					<el-select v-model="equipmentValue">
-				        <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
+				        <el-option v-for="item in  equipment" :key="item.index"  :value="item.value"></el-option>
 				    </el-select>
 
 				</div>
@@ -77,7 +75,7 @@
 			<div class="kuaizhao">
 				<p>榜单快照</p>
 				<div>
-					<div v-for="tim in timezs.Data">
+					<div v-for="tim in timezs.Data" :key="tim.index">
 						<el-popover  trigger="hover" placement="bottom">
 
 							<div>
@@ -97,7 +95,7 @@
 			<div class="zongbang">
 				<div class="tit">
 					<p class="line"></p>
-					<p class="font">总榜</p>
+					<p class="font" v-html="fenFont"></p>
 				</div>
 				<div>
 					<table>
@@ -112,9 +110,9 @@
 								<th class="company">公司名称</th>
 							</tr>
 						</thead>
-						<tbody v-if="hasNum">
-							<tr v-for="tr in zongs.Data">
-								<th class="yingyong">
+						<tbody>
+							<tr v-for="(tr,index) in zongsData" :key="index">
+								<th class="yingyong" @click="goDetail()">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
@@ -123,21 +121,21 @@
 									</div>
 								</th>
 								<th class="zongrank">
-									<span v-if="tr.rank_a.rankID">{{tr.rank_a.rankID}}</span>
+									<span v-if="tr.rank_a">{{tr.rank_a.rankID}}</span>
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_a.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_a.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_a.rankChange<0"/>
 									<span v-if='tr.rank_a.rankChange>=0'>{{tr.rank_a.rankChange}}</span>
 									<span v-if='tr.rank_a.rankChange<0'>{{-(tr.rank_a.rankChange)}}</span>
 								</th>
-								<th>
-									<div class="now">
-										<p v-if="tr.rank_b.rankID">{{tr.rank_b.rankID}}</p>
-										<p class="shejiao">{{tr.rank_b.genreName}}</p>
+								<th v-if="tr.rank_b">
+									<div class="now" v-if="tr.rank_b">
+										<p>{{tr.rank_b.rankID}}</p>
+										<p class="shejiao" >{{tr.rank_b.genreName}}</p>
 									</div>
-									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_a.rankChange==0"/>
-									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_a.rankChange>0"/>
-									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_a.rankChange<0"/>
+									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_b.rankChange==0"/>
+									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_b.rankChange>0"/>
+									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_b.rankChange<0"/>
 									<span class="before" v-if='tr.rank_a.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
 									<span class="before" v-if='tr.rank_a.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span>
 								</th>
@@ -147,8 +145,14 @@
 								<th class="company">{{tr.company.name}}</th>
 							</tr>
 						</tbody>
-						<tbody v-else>暂无数据</tbody>
 					</table>
+					<!-- scroll -->
+			        <div v-show="contentShow" infinite-scroll-distance="10">
+			            <div>
+			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
+			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
+			            </div>
+			        </div>
 				</div>
 			</div>
 			
@@ -160,11 +164,14 @@
 
 
 <script>
+	// 引入国家选择组件
+	import country from '../common/country_select/country'
 	import { formatDate } from '../common/util.js'
 	export default{
+		components: { country },
 		data(){
+			
 			return{
-				
 				showApplication:false,
 				showGame:false,
 				valueY:'应用',
@@ -184,6 +191,7 @@
 				hasNum:true,//是否有数据
 				timnow:'',//最接近当前时间榜单快照
 				kuaizTim:'',//点击的榜单快照时间
+				fenFont:'总榜',//总分类文字
 				// 当前选中日期
 				dateV: new Date(),
 			    pickerOptions2: {
@@ -195,6 +203,8 @@
 			    // 当前选中类别
 			    now_Application:'应用',
 			    equipmentValue: 'iPhone',
+			    // 获取当前选中的国家
+      			now_country: '中国',
 			    // 设备选择
 			   	equipment: [
 			        {
@@ -205,9 +215,11 @@
 			        }
 			    ],
 			    // table数据
-				zongs:{
-					Data:[]
-				},
+				zongsData:[],
+				page:1,
+				pageSize:20,
+				contentShow:false,
+				infiniteMsgShow:false,
 				// 总分类
 				lis:[
 					{name:'总榜'},{name:'应用榜'},{name:'游戏榜'}
@@ -234,7 +246,37 @@
 				timFont:'当前时间'
 			}
 		},
+		mounted(){
+			window.addEventListener('scroll',this.handleScroll,true)
+		},
 		methods:{
+			//当页面滚动的时候  加载  滚动加载
+		    handleScroll(){
+		    	//变量scrollTop是滚动条滚动时，距离顶部的距离
+				var scrollTop =
+				document.documentElement.scrollTop || document.body.scrollTop
+				//变量windowHeight是可视区的高度
+				var windowHeight =
+				document.documentElement.clientHeight || document.body.clientHeight
+				//变量scrollHeight是滚动条的总高度
+				var scrollHeight =
+				document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+				if (scrollTop + windowHeight == scrollHeight) {
+					// 需要执行的代码
+					this.page++;  //滚动之后加载第二页
+			    	this.getData();	
+				}
+
+		    },  
+		    // 获取当前选中的国家
+			parentFn(payload) {
+				this.now_country = payload
+
+				console.log(this.now_country)
+			},
+			goDetail(){
+				// 跳转至榜单实时排名页面
+			},
 			// 获取数据
 			getData(){
 				
@@ -266,6 +308,29 @@
 
 				// 传给后台的device值
 				let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+
+				//传给后台的countryid值
+				let country_id=1
+				this.$axios({
+					method:"get",
+					url:'GetCountry'
+						
+				})
+				.then(res=>{
+					if(res.data.Code==0){
+				        let arr_country = res.data.Data
+				        arr_country.forEach(element => {
+				            if (element.name == this.now_country) {
+				              country_id = element.id
+				              return false
+				            }
+				        })
+				        
+					}
+				})
+				.catch(error=>{
+					console.log(error)
+				})
 
 				// 传给后台的genreid
 				let geid=36
@@ -317,7 +382,6 @@
 					            }else{
 					            	tim=this.kuaizTim.slice(11,19)
 					            }
-					          
 					            // 获取榜单数据
 							    this.$axios({
 									method:"post",
@@ -325,27 +389,44 @@
 									data: {
 										brand:brandV,
 										device:deviceType,
-										countryid:1,
+										countryid:country_id,
 										snapshot:tim,
 										date:newDataB +' '+ tim,
 										genreid:geid,
 										pid:pidV,
-										pageIndex:1,
-										pageSize:10
+										pageIndex:this.page,
+										pageSize:this.pageSize
 										
 									}
 								})
 								.then(res=>{
-									this.zongs=res.data
-									if(res.data.Data==""){
-										this.hasNum=false
-									}else{
-										this.hasNum=true
-									}
-											
+									let onlinFont=res.data.pageCount
+									if(onlinFont>0){
+										this.contentShow = true
+							        } else {
+							            this.contentShow = false
+							        }
+
+							        
+							        this.zongsData=this.zongsData.concat(res.data.Data)
+							        let DownloadTotal=(this.pageSize+1)*this.page
+							        let total=res.data.pageCount
+							        if(total>=0){
+							        	this.contentShow = true
+							        }else{
+							        	this.contentShow = false
+							        }
+							        if(DownloadTotal>=total){
+							            this.page = 0 // 页数变为0
+							            this.infiniteMsgShow = false // 切换底部提示信息
+							        }else{
+	            						this.infiniteMsgShow = true
+							        }
+
 								})
 								.catch(error=>{
 									console.log(error)
+									this.contentShow = false
 								})
 
 
@@ -377,6 +458,8 @@
 			//点击时间快照
 			clitim(tim){
 				this.kuaizTim=tim.AddTime
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击总榜
@@ -392,6 +475,8 @@
 				this.upWL=false
 				this.showApplication = false
 				this.showGame=false;
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击应用榜
@@ -407,6 +492,7 @@
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
+				this.page=1
 				this.getData()
 			},
 			// 点击游戏榜
@@ -422,6 +508,7 @@
 				this.upWG=true
 				this.downG=false
 				this.downWG=false
+				this.page=1
 				this.getData()
 			},
 			// 点击应用option
@@ -431,6 +518,8 @@
 				this.upWL=false
 				this.downWL=true
 				this.now_Application=Application.name
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击游戏option
@@ -440,12 +529,15 @@
 				this.upWG=false
 				this.downWG=true
 				this.now_Application=game.name
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击总分类
 			selectLei(index){
 				this.isSelect=index
 				if(this.isSelect==0){
+					this.fenFont='总榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=true//总榜按钮被选中
 					this.isFontG=false//游戏榜按钮取消选中
@@ -456,6 +548,7 @@
 					this.downG=false
 					this.downWG=false
 				}else if(this.isSelect==1){
+					this.fenFont='应用榜'
 					this.isFont=true//应用按钮被选中
 					this.isFontZ=false//总榜按钮取消选中
 					this.isFontG=false//游戏榜按钮取消选中
@@ -466,6 +559,7 @@
 					this.downG=true
 					this.downWG=false
 				}else{
+					this.fenFont='游戏榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=false//总榜按钮取消选中
 					this.isFontG=true//游戏榜按钮被选中
@@ -476,11 +570,15 @@
 					this.downL=true
 					this.downWL=false
 				}
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击榜单分类
 			cligenre(index){
 				this.selefont=index
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			}
 		},
@@ -489,11 +587,21 @@
 			this.$watch('dateV',function(Value, oldValue) {
 		      // 当前日期发生变化，重新请求数据
 		      this.kuaizTim='';
+		      this.zongsData.length=0
+			  this.page=1
 		      this.getData()
 		    })
 		    this.$watch('equipmentValue',function(Value, oldValue) {
 		    	// 设备
-		      this.getData()
+		    	this.zongsData.length=0
+				this.page=1
+		        this.getData()
+		    })
+		    this.$watch('now_country', function(newValue, oldValue) {
+		      // 当前国家发生变化，重新请求数据...
+		        this.zongsData.length=0
+				this.page=1
+		        this.getData()
 		    })
 		}
 	}
@@ -610,7 +718,9 @@
 	margin-top: 16px;
 	clear: both;
 }
-
+.content > div.kuaizhao{
+	margin-top: -210px;
+}
 .content .lei>div,
 .content .country>div{
 	display: inline-block;

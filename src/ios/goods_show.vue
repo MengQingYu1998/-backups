@@ -31,10 +31,13 @@
                 <div class="use">
                   <div>{{index+1}}</div>
                   <div>
-                    <img :src="item.icon" alt />
+                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
                   </div>
                   <div>
-                    <div class="app_name">{{item.appName}}</div>
+                    <div
+                      class="app_name pointer"
+                      @click="go_to_page01(item.appId)"
+                    >{{item.appName}}>{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
@@ -65,8 +68,8 @@
               <td class="operation">
                 <div>
                   <div v-show="index==0">添加应用</div>
-                  <div v-show="index!=0">实时排名</div>
-                  <div v-show="index!=0">关键词</div>
+                  <div v-show="index!=0" class="pointer" @click="go_to_page03(item.appId)">实时排名</div>
+                  <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
                 </div>
                 <img
                   v-show="index!=0"
@@ -98,10 +101,10 @@
                 <div class="use">
                   <div>{{index+1}}</div>
                   <div>
-                    <img :src="item.icon" alt />
+                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
                   </div>
                   <div>
-                    <div class="app_name">{{item.appName}}</div>
+                    <div class="app_name pointer" @click="go_to_page01(item.appId)">{{item.appName}}</div>
                     <div class="now_app">当前应用</div>
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
@@ -147,7 +150,7 @@ export default {
   name: 'goods_show',
   components: { ios_header, left_nav },
   data() {
-    return { response_data: null }
+    return { response_data: null, receive_appid: 1308838221 }
   },
   created: function() {
     this.get_data()
@@ -175,7 +178,8 @@ export default {
           // 请求数据
 
           let url =
-            'http://39.97.234.11:8080/GetCompetingProducts?appId=1308838221'
+            'http://39.97.234.11:8080/GetCompetingProducts?appId=' +
+            this.receive_appid
           // 请求数据
           this.$axios
             .get(url)
@@ -197,6 +201,24 @@ export default {
     },
     remove_date(index) {
       this.response_data.data_0.splice(index, 1)
+    },
+    go_to_page01(parm) {
+      // console.log(parm)
+      this.$router.push({
+        path: '/now_ranking?appId=' + parm
+      })
+    },
+    go_to_page02(parm) {
+      this.$router.push({
+        path: '/cover_compare?appId=' + parm
+      })
+    },
+    go_to_page03(parm) {
+      let that = this
+      this.$router.push({
+        path:
+          '/ranking_compare?appId=' + parm + '&appId02=' + that.receive_appid
+      })
     }
   }
 }

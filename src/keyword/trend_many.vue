@@ -1,6 +1,6 @@
 <template>
   <div id="trend_many" class="content">
-    <div class="title">「网易云音乐」搜索结果数排名走势</div>
+    <div class="title">「{{this.$route.query.word}}」搜索结果数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -55,7 +55,7 @@
         <el-button type="primary">添加</el-button>
       </div>
     </div>
-    <div class="table_title">【抖音】搜索指数走势</div>
+    <div class="table_title">【{{this.$route.query.word}}】搜索指数走势</div>
     <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
     <div class="bottom_image" v-show="is_show_myChart_and_table">
@@ -154,7 +154,7 @@ export default {
       // 控制折线图显示所有
       canvas_is_show_all: true,
       //canvas 关键词data数组
-      keyword_data: ['王者荣耀', '抖音'],
+      keyword_data: [],
       // 数据
       keyword_data_value: [],
       // X轴文本
@@ -165,6 +165,8 @@ export default {
   },
 
   created: function() {
+    this.keyword_data.length = 0
+    this.keyword_data.push(this.$route.query.word)
     // 请求数据
     this.get_data()
 

@@ -42,12 +42,17 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
+              <tr>
+                <td>关键词</td>
+                <td>搜索指数</td>
+                <td>排名</td>
+              </tr>
               <tr v-for="(item,index) in response_data.myOwn" :key="'table01'+index">
                 <td>
-                  <div>{{item.Word}}</div>
+                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>{{item.WordIdHint}}</div>
+                  <div class="pointer" @click="go_to_page02()">{{item.WordIdHint}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -62,12 +67,17 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
+              <tr>
+                <td>关键词</td>
+                <td>搜索指数</td>
+                <td>排名</td>
+              </tr>
               <tr v-for="(item,index) in response_data.common" :key="'table02'+index">
                 <td>
-                  <div>{{item.Word}}</div>
+                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>{{item.WordIdHint}}</div>
+                  <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -82,12 +92,17 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
+              <tr>
+                <td>关键词</td>
+                <td>搜索指数</td>
+                <td>排名</td>
+              </tr>
               <tr v-for="(item,index) in response_data.comOwn" :key="'table03'+index">
                 <td>
-                  <div>{{item.Word}}</div>
+                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
-                  <div>{{item.WordIdHint}}</div>
+                  <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -159,10 +174,12 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // let system = this.systemValue == 'ios11' ? 11 : 12
           let system = 11
+          let appid = this.$route.query.appId
           let url =
             'http://39.97.234.11:8080/GetKeyWordCompare?countryId=' +
             country_id +
-            '&appId=281736535' +
+            '&appId=' +
+            appid +
             '&comappId=' +
             comappId +
             '&system=' +
@@ -189,6 +206,14 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/result?word=' + parm
+      })
+    },
+    go_to_page02() {
+      this.$router.push('ranking')
     }
   }
 }

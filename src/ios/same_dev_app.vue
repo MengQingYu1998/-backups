@@ -33,10 +33,10 @@
               <td class="second_td">
                 <div class="use">
                   <div>
-                    <img :src="item.icon" alt />
+                    <img :src="item.icon" class="pointer" @click="go_to_page01(item.appId)" alt />
                   </div>
                   <div>
-                    <div>{{item.appName}}</div>
+                    <div class="pointer" @click="go_to_page01(item.appId)">{{item.appName}}</div>
                     <div class="rankingChangeFontColor">{{item.subtitle}}</div>
                   </div>
                 </div>
@@ -133,6 +133,11 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log(this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/now_ranking?appId=' + parm
+      })
     }
   }
 }

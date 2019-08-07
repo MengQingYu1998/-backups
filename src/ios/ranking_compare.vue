@@ -259,8 +259,12 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let url = 'http://39.97.234.11:8080/PostRandTrend'
+
+          let appid = this.$route.query.appId + ',' + this.$route.query.appId02
+          console.log(appid)
           let data = {
-            appids: '600273928,951391381',
+            // appids: '600273928,951391381',
+            appids: appid,
             countryId: country_id,
             startDate: startDate,
             endDate: endDate,

@@ -87,6 +87,7 @@ export default {
     }
   },
   created: function() {
+    this.search_input = this.$route.query.word
     this.get_data()
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')

@@ -4,12 +4,64 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  linkActiveClass: 'active',
   routes: [
+    {
+      path: '/',
+      name: 'index',
+      component: () => import('../NumVue/index')
+    },
+    {
+      path: '/index',
+      name: 'index2',
+      component: () => import('../NumVue/index')
+    },
     {
       path: '/bangdan',
       name: 'bangdan',
       component: () => import('../NumVue/bangdan')
     },
+    {
+      path: '/application',
+      name: 'application',
+      component: () => import('../NumVue/application')
+    },
+    {
+      path: '/monitor',
+      name: 'monitor',
+      component: () => import('../NumVue/monitor')
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: () => import('../NumVue/rank')
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: () => import('../NumVue/message')
+    },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: () => import('../NumVue/login')
+    // },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../NumVue/register')
+    },
+    {
+      path: '/code',
+      name: 'code',
+      component: () => import('../NumVue/code')
+    },
+    {
+      path: '/setEcode',
+      name: 'setEcode',
+      component: () => import('../NumVue/setEcode')
+    },
+
     // =============================上面是芦的=============================
     // =============================下面是孟的=============================
     {

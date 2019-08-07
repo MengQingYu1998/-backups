@@ -131,35 +131,23 @@
     </table>
     <div class="act_not">
       <table>
-        <!-- <thead>
-          <tr>
-            <th>排名</th>
-            <th>关键词</th>
-            <th>搜索指数</th>
-            <th>搜索结果数</th>
-            <th>搜索结果排名第 1 的应用</th>
-          </tr>
-        </thead>-->
         <tbody v-if="data_for_table">
           <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
             <td>
               <div>{{item.rowid}}</div>
             </td>
             <td class="table_font pointer">
-              <div @click="$router.push('/result')">{{item.Word}}</div>
+              <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
             </td>
             <td class="table_font pointer">
-              <div @click="$router.push('/trend_many')">{{item.WordIdHint}}</div>
+              <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
             </td>
             <!-- 给下一个页面传递参数 -->
-            <td
-              class="table_font pointer"
-              @click="$router.push({path: '/trend_one?Word=' + item.Word+'&WordId=' + item.WordId});"
-            >
+            <td class="table_font pointer" @click="go_to_page03(item.Word)">
               <div>{{item.SearchCount}}</div>
             </td>
             <td class="table_font pointer">
-              <div @click="$router.push('/now_ranking')">{{item.app_name}}</div>
+              <div class="pointer" @click="go_to_page04(item.AppStoreId)">{{item.app_name}}</div>
             </td>
           </tr>
         </tbody>
@@ -178,6 +166,7 @@ export default {
   components: { country },
   data() {
     return {
+      can_excute: false,
       // 请求分页
       page: 1,
       // 请求的分类数据
@@ -223,8 +212,11 @@ export default {
       }
     }
   },
+
   created: function() {
     // 请求悬浮框的数据
+
+    console.log('=======created=======')
     this.get_data_classify()
     this.get_data_table()
     // this.$watch('page', function(newValue, oldValue) {
@@ -266,9 +258,12 @@ export default {
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
-          that.page += 1
-          that.get_data_table()
-          console.log('yes')
+
+          if (that.can_excute) {
+            that.page += 1
+            that.get_data_table()
+            console.log('yes')
+          }
         }
       }
     })
@@ -340,7 +335,7 @@ export default {
             .get(url)
             .then(response => {
               console.log(response.data.Data)
-
+              this.can_excute = true //是否可以执行滚动条到达底部事件
               this.data_for_table = this.data_for_table.concat(
                 response.data.Data
               )
@@ -428,6 +423,26 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log(this.now_country)
+    },
+    go_to_page01(parm) {
+      this.$router.push({
+        path: '/result?word=' + parm
+      })
+    },
+    go_to_page02(parm) {
+      this.$router.push({
+        path: '/trend_many?word=' + parm
+      })
+    },
+    go_to_page03(parm) {
+      this.$router.push({
+        path: '/trend_one?word=' + parm
+      })
+    },
+    go_to_page04(parm) {
+      this.$router.push({
+        path: '/now_ranking?appId=' + parm
+      })
     }
   }
 }
@@ -478,9 +493,7 @@ tbody td:nth-child(5) {
   margin-bottom: 38px; */
   margin-bottom: 38px;
 }
-.pointer {
-  cursor: pointer;
-}
+
 .selected_popover > div {
   width: 65px;
   -webkit-line-clamp: 1;
