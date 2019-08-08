@@ -1,7 +1,7 @@
 <template>
   <div id="navv">
     <div class="nav">
-      <img src="../assets/NumImg/logo.png" class="logo" />
+      <img src="../assets/NumImg/logo.png" class="logo pointer" @click="$router.push('index')" />
       <ul>
         <li>
           <router-link :to="{path:'/index'}">首页</router-link>
@@ -59,7 +59,11 @@
         <div class="aso" v-show="aso" @mouseover="showAso()" @mouseout="hideAso()">
           <img src="../assets/NumImg/jiao.png" class="jiao" />
           <div class="lie">
-            <p v-for="(aso,index) in asos" :key="index">{{aso.name}}</p>
+            <p
+              v-for="(aso,index) in asos"
+              :key="index"
+              @click="aso.name=='搜索指数排名'?$router.push('ranking'):$router.push('hot_search')"
+            >{{aso.name}}</p>
           </div>
         </div>
         <!-- 个人中心下拉框 -->
@@ -122,10 +126,7 @@ export default {
       console.log(this.now_country)
     },
     fun(teval, coval) {
-      console.log(teval)
-      console.log(coval)
       this.telnow = teval
-      console.log(this.telnow)
     },
     // 显示app store监控下拉框
     showAppstore() {
@@ -146,7 +147,6 @@ export default {
     // 显示个人中心下拉框
     showMine() {
       this.mine = true
-      // console.log(this.telnow)
     },
     // 隐藏个人中心下拉框
     hideMine() {
@@ -159,11 +159,7 @@ export default {
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
       } else if (index == 2) {
-        // this.uid=""
-        // this.unlogin=true
         this.$router.push({ path: '/index' })
-        // console.log(this.uid)
-        // console.log(this.unlogin)
       }
     }
   },
@@ -179,10 +175,11 @@ export default {
     console.log(this.touxiang)
     this.telnow = tel
     this.uid = userId
-    if (this.uid != '') {
-      this.unlogin = false
-    } else {
+    console.log(this.uid)
+    if (this.uid == ''||this.uid == null)  {
       this.unlogin = true
+    } else {
+      this.unlogin = false
     }
   }
 }

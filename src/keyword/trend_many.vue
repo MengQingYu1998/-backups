@@ -166,7 +166,7 @@ export default {
 
   created: function() {
     this.keyword_data.length = 0
-    this.keyword_data.push(this.$store.state.now_app_id)
+    this.keyword_data.push(this.$store.state.now_app_name)
     // 请求数据
     this.get_data()
 

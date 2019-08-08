@@ -50,7 +50,7 @@ export default {
   color: #444444;
   margin-left: 17px;
 }
-.el-button.is-plain:focus,
+/* .el-button.is-plain:focus,
 .el-button.is-plain:hover {
   background-color: transparent;
   border: none;
@@ -59,7 +59,7 @@ export default {
 .el-button:hover {
   background-color: transparent;
   border: none;
-}
+} */
 
 .block,
 .el-date-editor.el-input,
@@ -71,21 +71,21 @@ export default {
   font-size: 13px;
   color: #444444;
 }
-.el-button {
+.bangdan .el-button {
   padding: 7px 9px;
   font-family: SourceHanSansCN-Regular;
   font-size: 12px;
   color: #888888;
   border: solid 1px #dfdfdf;
 }
-.el-button:focus,
+.bangdan .el-button:focus,
 .el-button:hover,
 .el-button:active {
   color: #888888 !important;
   border: solid 1px #dfdfdf;
 }
 /*榜单快照悬浮框*/
-.el-popover {
+.bangdan .el-popover {
   min-width: 128px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
@@ -93,11 +93,11 @@ export default {
   line-height: 1.8;
   padding: 12px 0;
 }
-.el-popover > div {
+.bangdan .el-popover > div {
   width: 90px;
   margin: 0 auto;
 }
-.el-popover > div span {
+.bangdan .el-popover > div span {
   float: right;
   color: #009bef;
 }

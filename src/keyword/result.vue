@@ -1189,6 +1189,9 @@ export default {
 }
 </script>
 <style scoped>
+#result {
+  min-height: 800px;
+}
 .data_for_top_table_span {
   width: 524px;
   padding: 0 66px;

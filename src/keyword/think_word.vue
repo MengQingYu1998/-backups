@@ -257,6 +257,9 @@ export default {
 }
 </script>
 <style scoped>
+#think_word {
+  min-height: 800px;
+}
 .td_first {
   border-right: 1px solid #f2f2f2;
 }

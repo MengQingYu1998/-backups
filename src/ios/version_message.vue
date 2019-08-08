@@ -134,6 +134,9 @@ export default {
 }
 </script>
 <style scoped>
+#version_message {
+  min-height: 800px;
+}
 .time_line_item_content {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;

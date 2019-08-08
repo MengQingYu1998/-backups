@@ -155,7 +155,7 @@ export default {
 
 <style scoped>
 #hot_history {
-  min-height: 700px;
+  min-height: 800px;
 }
 .change_bg {
   color: #ffffff !important;

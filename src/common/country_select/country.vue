@@ -229,8 +229,15 @@ export default {
 
   methods: {
     click: function() {
-      let temp = $('.fastbannerform__country option:selected').text() //选中的值
-      console.log(temp)
+      let temp
+      if ($('.fastbannerform__country option:selected').length > 1) {
+        temp = $($('.fastbannerform__country option:selected')[1]).text()
+      } else {
+        temp = $($('.fastbannerform__country option:selected')[0]).text()
+      }
+
+      // console.log(temp)
+
       this.$emit('childFn', temp)
     }
   }

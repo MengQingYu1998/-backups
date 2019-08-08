@@ -1,12 +1,10 @@
 <template>
   <div id="grade_start" class="content">
     <!-- 自定义组件 -->
-    <ios_header
-      @childFn="parentFn"
-    />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-         <left_nav />
+        <left_nav />
       </div>
       <div class="right">
         <!-- 第一部分 -->
@@ -952,7 +950,7 @@ export default {
           // 请求数据
           // console.log(555555555555555555)
           // console.log(country_id)
-          let url = ' /GetPageCommentInfo'
+          let url = '/GetPageCommentInfo'
           // console.log(this.bottom_radio01)
           let commentType
           if (this.bottom_radio01 == '全部') {
@@ -1052,7 +1050,7 @@ export default {
           // 请求数据
           // console.log(country_id)
           let appId = this.$store.state.now_app_id
-          let url = ' /GetRating?countryId=' + country_id + '&appId=' + appId
+          let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
           // console.log(url)
 
           // 请求数据

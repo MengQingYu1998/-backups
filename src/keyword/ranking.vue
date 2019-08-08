@@ -431,24 +431,26 @@ export default {
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_id=parm
+      this.$store.state.now_app_id = parm
     },
-     go_to_page01(parm) {this.$router.push({
+    go_to_page02(parm) {
+      this.$router.push({
         path: '/trend_many'
       })
-      this.$store.state.now_app_name = parm},
+      this.$store.state.now_app_name = parm
+    },
     go_to_page03(parm) {
       this.$router.push({
-path: '/trend_one'
-})
-this.$store.state.now_app_name=parm
+        path: '/trend_one'
+      })
+      this.$store.state.now_app_name = parm
     },
     go_to_page04(parm, parm02) {
       this.$router.push({
         path: '/now_ranking'
       })
-      this.$store.state.now_app_id=parm
-      this.$store.state.now_app_name=parm02
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
     }
   }
 }
