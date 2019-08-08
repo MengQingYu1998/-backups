@@ -1,6 +1,6 @@
 <template>
   <div id="result" class="content">
-    <div class="title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+    <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -165,10 +165,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="response_data_for_ios12">
-                  <tr
-                    v-for="(item,index) in response_data_for_ios12.AppInfoList"
-                    :key="'table'+index"
-                  >
+                  <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
                     <td>
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
@@ -184,7 +181,7 @@
                             class="app_name pointer"
                             @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.AppStoreId}}</div>
+                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
                         </div>
                       </div>
                     </td>
@@ -218,14 +215,12 @@
                       </div>
                     </td>
                     <td>
-                      <div>{{item.ranking.rank_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.rank_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
                     </td>
                     <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.genre_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
                     </td>
                     <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
@@ -316,14 +311,12 @@
                       </div>
                     </td>
                     <td>
-                      <div>{{item.ranking.rank_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.rank_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
                     </td>
                     <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.genre_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
                     </td>
                     <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
@@ -354,10 +347,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="response_data_for_ios12">
-                  <tr
-                    v-for="(item,index) in response_data_for_ios12.AppInfoList"
-                    :key="'tablesss'+index"
-                  >
+                  <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
                     <td>
                       <div class="use">
                         <div class>{{item.rowid}}</div>
@@ -379,9 +369,8 @@
                     </td>
 
                     <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.genre_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
                     </td>
                     <td>
                       <div class="rankingChange">
@@ -461,9 +450,8 @@
                     </td>
 
                     <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.price}}</div>
+                      <div>{{item.ranking.genre_class}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
                     </td>
                     <td>
                       <div class="rankingChange">
@@ -509,7 +497,7 @@
     <div class="my_dialog_wraper" v-show="dialogVisible">
       <div class="my_dialog">
         <img src="../assets/keyword/dialog_02.png" alt @click="dialogVisible=false" />
-        <div class="title">【{{word}}】在【抖音】搜索结果中排名趋势</div>
+        <div class="result_title">【{{word}}】在【抖音】搜索结果中排名趋势</div>
         <div class="btn_group">
           <div class="classify">
             <div></div>
@@ -576,6 +564,9 @@ export default {
   },
   data() {
     return {
+      can_excute: false,
+      // 请求分页
+      page: 1,
       // ===================顶部table================
       // ===================顶部table================
       // ===================顶部table================
@@ -601,8 +592,8 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
-      response_data_for_ios12: null,
-      response_data_for_ios11: null,
+      response_data_for_ios12: [],
+      response_data_for_ios11: [],
       // 获取当前选中的国家
       now_country: '中国',
       // 设备选择
@@ -676,6 +667,32 @@ export default {
       this.get_data_dialog()
     })
   },
+  mounted() {
+    this.$nextTick(() => {
+      let that = this
+      window.onscroll = function() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          // 需要执行的代码
+
+          if (that.can_excute) {
+            that.page += 1
+            that.get_data_11()
+            that.get_data_12()
+            console.log('yes')
+          }
+        }
+      }
+    })
+  },
   methods: {
     // =============================顶部table============================
     // =============================顶部table============================
@@ -731,7 +748,7 @@ export default {
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              console.log(this.data_for_top_table02)
+              // console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -765,9 +782,11 @@ export default {
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name
           let url =
-            '/Word/FindSearch?page=1' +
-            '&deviceType=' +
+            '/Word/FindSearch?' +
+            'deviceType=' +
             deviceType +
+            '&page=' +
+            this.page +
             '&countryId=' +
             country_id +
             '&word=' +
@@ -775,12 +794,16 @@ export default {
             '&time=' +
             time +
             '&iosType=12'
-          // console.log(url)
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data_for_ios12 = response.data
+              // console.log(response.data.AppInfoList)
+              this.can_excute = true //是否可以执行滚动条到达底部事件
+              this.response_data_for_ios12 = this.response_data_for_ios12.concat(
+                response.data.AppInfoList
+              )
               console.log(this.response_data_for_ios12)
             })
             .catch(error => {
@@ -810,9 +833,11 @@ export default {
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name
           let url =
-            '/Word/FindSearch?page=1' +
-            '&deviceType=' +
+            '/Word/FindSearch?' +
+            'deviceType=' +
             deviceType +
+            '&page=' +
+            this.page +
             '&countryId=' +
             country_id +
             '&word=' +
@@ -825,7 +850,11 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data_for_ios11 = response.data
+              // console.log(response.data)
+              this.can_excute = true //是否可以执行滚动条到达底部事件
+              this.response_data_for_ios11 = this.response_data_for_ios11.concat(
+                response.data.AppInfoList
+              )
               console.log(this.response_data_for_ios11)
             })
             .catch(error => {
@@ -1086,7 +1115,7 @@ export default {
         toolbox: {
           feature: {
             saveAsImage: {
-              title: '保存',
+              result_title: '保存',
               iconStyle: {
                 opacity: 1,
                 borderWidth: 2,
@@ -1190,7 +1219,7 @@ export default {
 </script>
 <style scoped>
 #result {
-  min-height: 800px;
+  padding-bottom: 52px;
 }
 .data_for_top_table_span {
   width: 524px;
@@ -1518,7 +1547,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.result_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

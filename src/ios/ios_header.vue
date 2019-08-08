@@ -27,7 +27,7 @@
       <div class="line"></div>
       <div class="app_field">
         <div>APPID</div>
-        <div v-if="response_data">{{response_data.genreId}}</div>
+        <div v-if="response_data">{{response_data.appId}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field country" @mousemove="click">

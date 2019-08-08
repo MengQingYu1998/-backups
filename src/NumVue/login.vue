@@ -164,19 +164,26 @@
 					})
 					.then(res=>{
 						if(res.data.Code==0){
+							let that = this
 							//登录成功弹窗
-							this.$message({
-						        message: '登录成功',
-						        type: 'success',
-						        iconClass:'successicon',
-						        duration:1500,
-						    });
-						    this.$router.push({path:'/index',query:{tel:this.tel,code:this.code}})
-						    let userid=res.data.Data
-						    console.log(userid)
-						    localStorage.setItem("userId",userid);//存储userId(用户id)
-							localStorage.setItem("tel",this.tel);//存储手机号
-							localStorage.setItem("code",this.code);//存储密码
+								this.$message({
+							        message: '登录成功',
+							        type: 'success',
+							        iconClass:'successicon',
+							        duration:1500,
+							    });
+							setTimeout(function(){
+								
+							    
+							    let userid=res.data.Data
+							    console.log(userid)
+							    localStorage.setItem("userId",userid);//存储userId(用户id)
+								localStorage.setItem("tel",that.tel);//存储手机号
+								localStorage.setItem("code",that.code);//存储密码
+								that.$router.push({path:'/index'})
+								location.reload()
+							},1000)
+							
 						}else if(res.data.Code==-2){
 							this.wrongCode=true
 							this.wrocode=true

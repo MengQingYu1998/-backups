@@ -119,13 +119,14 @@ export default {
             '&appId=' +
             appId
           // &appId=291322250
-          // console.log(url)
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(this.response_data)
+              console.log(55555555555555555)
+              console.log(response)
             })
             .catch(error => {
               console.log(error)
@@ -145,8 +146,8 @@ export default {
       this.$router.push({
         path: '/now_ranking'
       })
-      this.$store.state.now_app_id=parm
-      this.$store.state.now_app_name=parm02
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
     }
   }
 }
@@ -283,7 +284,6 @@ table {
 .right {
   padding-left: 57px;
   position: relative;
-  min-height: 800px;
 }
 .line {
   width: 985px;

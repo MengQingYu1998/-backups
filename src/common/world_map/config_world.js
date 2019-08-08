@@ -531,7 +531,7 @@ let  map_config= {
   'hover': '圣多美和普林西比','upColor':'#eff9ff','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
 'map_158':{
-  'hover': '中华民国','upColor':'#eff9ff','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
+  'hover': '中国','upColor':'#eff9ff','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
 'map_159':{
   'hover': '塔吉克斯坦','upColor':'#eff9ff','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,

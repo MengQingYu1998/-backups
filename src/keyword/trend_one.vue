@@ -1,6 +1,6 @@
 <template>
   <div id="trend_one" class="content">
-    <div class="title">「{{this.$store.state.now_app_id}}」搜索结果数排名走势</div>
+    <div class="trend_one_title">「{{this.$store.state.now_app_id}}」搜索结果数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -297,7 +297,7 @@ export default {
         toolbox: {
           feature: {
             saveAsImage: {
-              title: '保存',
+              trend_one_title: '保存',
               iconStyle: {
                 opacity: 1,
                 borderWidth: 2,
@@ -496,7 +496,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.trend_one_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

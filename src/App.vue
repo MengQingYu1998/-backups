@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navv />
-    <router-view></router-view>
+    <div class="app_div">
+      <router-view></router-view>
+    </div>
     <foot />
   </div>
 </template>
@@ -20,6 +22,14 @@ export default {
 </script>
 
 <style>
+/*滑动加载样式*/
+#Application .scrollDiv,
+.bangdan .scrollDiv,
+.rank .scrollDiv {
+  text-align: center;
+  font-size: 20px;
+  line-height: 40px;
+}
 #Application .select2-container--default .select2-selection--single {
   border: 1px solid #dfdfdf;
 }
@@ -49,27 +59,6 @@ export default {
   font-size: 15px;
   color: #444444;
   margin-left: 17px;
-}
-/* .el-button.is-plain:focus,
-.el-button.is-plain:hover {
-  background-color: transparent;
-  border: none;
-}
-.el-button:focus,
-.el-button:hover {
-  background-color: transparent;
-  border: none;
-} */
-
-.block,
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  display: inline-block;
-}
-.el-input__inner::placeholder {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
-  color: #444444;
 }
 .bangdan .el-button {
   padding: 7px 9px;
@@ -138,7 +127,7 @@ export default {
 }
 /*新修改样式*/
 .bangdan #country .select2-container {
-  width: 130px !important;
+  width: 150px !important;
 }
 .bangdan
   #country
@@ -153,7 +142,7 @@ export default {
   background-color: transparent;
 }
 #navv #country .select2 {
-  width: 103px !important;
+  width: 140px !important;
   margin-top: 2px;
 }
 /* =============================上面是芦的============================= */
@@ -305,5 +294,8 @@ table tbody tr:hover {
 .el-date-editor--timerange.el-input,
 .el-date-editor--timerange.el-input__inner {
   width: 250px !important;
+}
+.app_div {
+  min-height: 100vh;
 }
 </style>

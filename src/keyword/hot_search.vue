@@ -1,6 +1,6 @@
 <template>
   <div id="hot_search" class="content">
-    <div class="title">实时热搜</div>
+    <div class="hot_search_title">实时热搜</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -45,6 +45,7 @@
         <div class="search">
           <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
         </div>
+        <div class="search_confirm pointer" @click="go_to_page01_son">搜索</div>
       </div>
     </div>
     <table>
@@ -231,6 +232,7 @@ export default {
             .then(response => {
               this.response_data = response.data.Data
               console.log(this.response_data)
+              // console.log(555555555555555555555555)
             })
             .catch(error => {
               console.log(error)
@@ -306,6 +308,12 @@ export default {
       this.now_country = payload
       console.log(this.now_country)
     },
+    go_to_page01_son() {
+      this.$router.push({
+        path: '/hot_history'
+      })
+      this.$store.state.now_app_name = this.search_input
+    },
     go_to_page01(parm) {
       this.$router.push({
         path: '/hot_history'
@@ -324,15 +332,28 @@ export default {
 </script>
 
 <style scoped>
-#hot_search {
-  min-height: 700px;
+.search_confirm {
+  width: 48px !important;
+  height: 24px;
+  background-color: #009bef;
+  border-radius: 4px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 3px;
 }
 .hide_font {
+  width: 45px;
+  height: 18px;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  width: 45px;
 }
 .change_bg {
   color: #ffffff !important;
@@ -509,7 +530,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.hot_search_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

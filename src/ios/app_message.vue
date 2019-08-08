@@ -2,10 +2,7 @@
   <div id="version_message" class="content">
     <!-- 自定义组件 -->
     <!-- <keep-alive> -->
-    <ios_header
-      @childFn="parentFn"
-    
-    />
+    <ios_header @childFn="parentFn" />
     <!-- </keep-alive> -->
     <div class="left_and_right">
       <div class="left">
@@ -320,15 +317,16 @@ export default {
             // '&appId=281736535'
             '&appId=' +
             appId
-
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              // console.log(5555555)
+              console.log(response)
               // 获取数据并且设置到视频插件的配置项
               this.onPlayerPlay(this.response_data.videoUrl.iphone)
-              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)

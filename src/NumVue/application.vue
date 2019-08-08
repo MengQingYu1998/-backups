@@ -99,12 +99,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<div v-show="contentShow">
-			            <div>
-			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
-			            </div>
-			        </div>
+					
 					<!-- 清榜应用table -->
 					<table class="qingbang" v-show="qingbangF" >
 						<thead>
@@ -151,13 +146,7 @@
 						</tbody>
 						<!-- <tbody v-else>暂无数据 </tbody> -->
 					</table>
-					<!-- scroll -->
-			        <div v-show="contentShow2">
-			            <div>
-			            <p v-show="infiniteMsgShow2" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow2" class="tips"> 没有更多数据</p>
-			            </div>
-			        </div>
+					
 			        <!-- scroll -->
 
 					<!-- 清词应用table -->
@@ -205,7 +194,19 @@
 							</tr>
 						</tbody>
 					</table>
-
+					<div class="scrollDiv" v-show="contentShow">
+			            <div>
+			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
+			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
+			            </div>
+			        </div>
+					<!-- scroll -->
+			        <div class="scrollDiv" v-show="contentShow2">
+			            <div>
+			            <p v-show="infiniteMsgShow2" class="tips">加载更多ing</p>
+			            <p v-show="!infiniteMsgShow2" class="tips"> 没有更多数据</p>
+			            </div>
+			        </div>
 				</div>
 			</div>
 			
@@ -388,6 +389,10 @@
 						    }
 
 					    }
+					    console.log(country_id)
+					    console.log(geid)
+					    console.log(newData)
+					    console.log(IsOnlineV)
 					    // 获取应用接口
 					  	this.$axios({
 							method:"post",
@@ -408,19 +413,17 @@
 								if(this.onlinFont>0){
 									this.contentShow = true
 									this.infiniteMsgShow = true
+									this.contentShow2 = false
 								}else{
+									console.log(this.onlinFont)
 									this.contentShow = true
 									this.infiniteMsgShow = false
+									this.contentShow2 = false
 								}
 
 						        this.zongsdataList=this.zongsdataList.concat(res.data.Data)
 						        let DownloadTotal=(this.pageSize+1)*this.page
-						        let total=res.data.pageCount
-						        if(total>0){
-									this.contentShow = true
-						        } else {
-						            this.contentShow = false
-						        }
+						        
 						       
 							}
 							
@@ -539,9 +542,13 @@
 							if(res.data.Code==0){
 								this.onlinFontB=res.data.pageCount
 								if(this.onlinFontB>0){
+									this.contentShow = false
 									this.contentShow2 = true
+									this.infiniteMsgShow2 = true
 						        } else {
+						        	this.contentShow = false
 						            this.contentShow2 = false
+						            this.infiniteMsgShow2 = false
 						        }
 
 						        this.zongsBList=this.zongsBList.concat(res.data.Data)
@@ -738,9 +745,12 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
+
+					this.contentShow2=false,//清榜的滑动加载
+
 					this.zongsdataList.length=0
 		      		this.page=1
-					this.getData()
+		      		this.getData()
 				}else if(this.isSelect==1){
 					//下架应用
 					this.shangjiatF=false//上架标题
@@ -750,6 +760,9 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
+
+					this.contentShow2=false,//清榜的滑动加载
+
 					this.zongsdataList.length=0
 		      		this.page=1
 					this.getData()
@@ -762,6 +775,9 @@
 					this.shangjiaF=false//上下架表格
 					this.qingbangF=true//清榜标题
 					this.qingciF=false//清词标题
+
+					this.contentShow2=true,//清榜的滑动加载
+
 					this.zongsBList.length=0
 				    this.page2=1
 					this.getDataB()
@@ -855,7 +871,8 @@
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-  line-height: 86px;
+	line-height: 86px;
+	text-align: center;
 }
 .down{
   width: 8px;

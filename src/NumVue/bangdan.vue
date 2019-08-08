@@ -120,8 +120,8 @@
 										<p class="company">{{tr.publisher}}</p>
 									</div>
 								</th>
-								<th class="zongrank">
-									<span v-if="tr.rank_a">{{tr.rank_a.rankID}}</span>
+								<th class="zongrank" v-if="tr.rank_a">
+									<span >{{tr.rank_a.rankID}}</span>
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_a.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_a.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_a.rankChange<0"/>
@@ -136,8 +136,8 @@
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_b.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_b.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_b.rankChange<0"/>
-									<span class="before" v-if='tr.rank_a.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
-									<span class="before" v-if='tr.rank_a.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span>
+									<span class="before" v-if='tr.rank_b.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
+									<span class="before" v-if='tr.rank_b.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span>
 								</th>
 								<th>{{tr.keywordCover}}</th>
 								<th>{{tr.comment.num}}</th>
@@ -147,7 +147,7 @@
 						</tbody>
 					</table>
 					<!-- scroll -->
-			        <div v-show="contentShow" infinite-scroll-distance="10">
+			        <div class="scrollDiv" v-show="contentShow" infinite-scroll-distance="10">
 			            <div>
 			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
 			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
@@ -246,7 +246,7 @@
 				timFont:'当前时间'
 			}
 		},
-			created(){
+		created(){
 			this.getData()
 			this.$watch('dateV',function(Value, oldValue) {
 		      // 当前日期发生变化，重新请求数据
@@ -267,6 +267,7 @@
 				this.page=1
 		        this.getData()
 		    })
+
 		},
 		mounted(){
 			window.addEventListener('scroll',this.handleScroll,true)
@@ -293,8 +294,6 @@
 		    // 获取当前选中的国家
 			parentFn(payload) {
 				this.now_country = payload
-
-				console.log(this.now_country)
 			},
 	
 			// 获取数据
@@ -312,6 +311,7 @@
 
 				// 传给后台的pid
 				let pidV=36
+				let geid=36
 				if(this.isFontZ==true){
 					pidV=36
 					this.valueY='应用'
@@ -321,6 +321,7 @@
 					this.valueG='游戏'
 				}else if(this.isFontG==true){
 					pidV=6014
+					geid=6014
 					this.valueY='应用'
 				}
 				// 传给后台的date值
@@ -353,7 +354,7 @@
 				})
 
 				// 传给后台的genreid
-				let geid=36
+				// let geid=36
 				this.$axios({
 					method:"get",
 					url:'/GetGenre?genreID='+pidV
@@ -381,7 +382,7 @@
 							data: {
 								brand:brandV,
 								device:deviceType,
-								countryid:1,
+								countryid:country_id,
 								date:newDataB,
 								genreid:geid,
 											
@@ -402,6 +403,7 @@
 					            }else{
 					            	tim=this.kuaizTim.slice(11,19)
 					            }
+					            
 					            // 获取榜单数据
 							    this.$axios({
 									method:"post",
@@ -579,6 +581,7 @@
 					this.downG=true
 					this.downWG=false
 				}else{
+					console.log(2)
 					this.fenFont='游戏榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=false//总榜按钮取消选中
@@ -602,12 +605,12 @@
 				this.getData()
 			},
 			go_to_page01(parm,parm02) {
-			this.$router.push({
-        path: '/now_ranking'
-      })
-      this.$store.state.now_app_id=parm
-      this.$store.state.now_app_name=parm02
-}
+				this.$router.push({
+			        path: '/now_ranking'
+			    })
+			      this.$store.state.now_app_id=parm
+			      this.$store.state.now_app_name=parm02
+			}
 		}
 	
 	}
@@ -679,7 +682,8 @@
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-  line-height: 86px;
+	line-height: 86px;
+	text-align: center;
 }
 .down{
   width: 8px;

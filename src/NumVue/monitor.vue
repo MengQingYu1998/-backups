@@ -1,6 +1,6 @@
 <template>
-	<div class="box">
-		<div class="title">App Store榜单更新监测</span>
+	<div class="box" id="monitor">
+		<div class="title">App Store榜单更新监测
 		</div>
 		<div class="content">
 			<div class="lei">
@@ -542,7 +542,7 @@
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-  /*text-align: center;*/
+  text-align: center;
   line-height: 86px;
 }
 .down{

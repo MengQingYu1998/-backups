@@ -1,6 +1,6 @@
 <template>
   <div id="trend_many" class="content">
-    <div class="title">「{{this.$store.state.now_app_id}}」搜索结果数排名走势</div>
+    <div class="trend_many_title">「{{this.$store.state.now_app_name}}」搜索结果数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -52,10 +52,10 @@
         <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
       </div>
       <div @click="add_can_del_div">
-        <el-button type="primary">添加</el-button>
+        <div class="search_confirm pointer">添加</div>
       </div>
     </div>
-    <div class="table_title">【{{this.$store.state.now_app_id}}】搜索指数走势</div>
+    <div class="table_title">【{{this.$store.state.now_app_name}}】搜索指数走势</div>
     <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
     <div class="bottom_image" v-show="is_show_myChart_and_table">
@@ -165,6 +165,7 @@ export default {
   },
 
   created: function() {
+    console.log(this.dateValue)
     this.keyword_data.length = 0
     this.keyword_data.push(this.$store.state.now_app_name)
     // 请求数据
@@ -227,6 +228,10 @@ export default {
           }
           console.log(sdate)
           console.log(edate)
+          if (sdate == undefined && edate == undefined) {
+            console.log('时间未定义')
+            return false
+          }
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
 
@@ -288,7 +293,7 @@ export default {
         toolbox: {
           feature: {
             saveAsImage: {
-              title: '保存',
+              trend_many_title: '保存',
               iconStyle: {
                 opacity: 1,
                 borderWidth: 2,
@@ -368,6 +373,7 @@ export default {
     },
 
     change_radio02() {
+      console.log(this.dateValue)
       this.radio02 = ''
     },
     change_time01() {
@@ -382,6 +388,21 @@ export default {
 }
 </script>
 <style scoped>
+.search_confirm {
+  width: 48px !important;
+  height: 24px;
+  background-color: #009bef;
+  border-radius: 4px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 3px;
+}
 .date {
   margin-top: 2px !important;
 }
@@ -589,7 +610,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.trend_many_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

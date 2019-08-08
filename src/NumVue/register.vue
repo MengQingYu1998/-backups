@@ -95,10 +95,11 @@
           <img src="../assets/NumImg/closeMask.png" @click="closeEmail()" />
         </p>
         <p>
-          <input type="text" placeholder="请输入您的邮箱" />
+          <input :class="{'focInp':focemail,'wroInp':wroemail}" type="text" placeholder="请输入您的邮箱" @blur="bluremail(emailval)" @focus="focusemail()" v-model="emailval"/>
         </p>
+        <p class="wrongemail" v-show="wrongemail" v-html="emailFont"></p>
         <p class="des">确认绑定邮箱后将收到激活邮件，点击激活邮件里的链接验证邮箱成功。</p>
-        <p class="sureBtn">确认绑定</p>
+        <p class="sureBtn" @click="sureBind()">确认绑定</p>
       </div>
     </div>
   </div>
@@ -113,20 +114,24 @@ export default {
       focveri: false, //验证码输入框获取焦点边框变色
       focCode: false, //密码输入框获取焦点边框变色
       focsCode: false, //确认密码输入框获取焦点边框变色
+      focemail:false, //邮箱输入框获取焦点边框变色
       ishas: false, //注册按钮变色
       telhas: false, //获取验证码按钮变色
       wrongTel: false, //是否提示账号错误
       wrongVeri: false, //是否提示验证码错误
       wrongCode: false, //是否提示密码错误
       wrongsCode: false, //是否提示确认密码错误
+      wrongemail:false,//是否提示邮箱错误
       telFont: '手机号不能为空', //手机号提示内容
       veriFont: '验证码不能为空', //验证码提示内容
       codeFont: '密码不能为空', //密码提示内容
       scodeFont: '确认密码不能为空', //确认密码提示内容
+      emailFont:'邮箱不可以为空',//邮箱提示内容
       wroinp: false, //账号错误边框颜色
       wroveri: false, //验证码错误边框颜色
       wrocode: false, //密码错误边框变色
       wroscode: false, //确认密码错误边框变色
+      wroemail:false,//邮箱错误边框变色
       tel: '', //手机号
       veri: '', //验证码
       code: '', //获取密码
@@ -138,7 +143,9 @@ export default {
       telval: '',
       codeval: '',
       codesval: '',
-      verival: ''
+      verival: '',
+      emailval:'',
+      emailV:'',
     }
   },
   methods: {
@@ -271,7 +278,7 @@ export default {
           .then(res => {
             console.log(res.data.Code)
             this.veri = res.data.Data
-            alert(this.veri)
+            // alert(this.veri)
             //倒计时
             let time = 60
             let timer = setInterval(() => {
@@ -321,10 +328,48 @@ export default {
           })
       }
     },
+    // 点击绑定邮箱
+    focusemail(){
+      this.focemail=true
+    },
+    bluremail(emailval){
+      this.focemail=false
+      this.emailV=this.emailval
+      console.log(this.emailval)
+      var reg=/^[1-9]\d{5,11}@qq\.com$/;
+        if(this.emailval==undefined){
+          this.wrongemail=true
+          this.wroemail=true
+          return false;
+        }else if(!reg.test(this.emailval)){
+          this.wrongemail=true
+          this.wroemail=true
+          this.emailFont="邮箱输入错误"
+          return false;
+        }
+    },
+    sureBind(){
+      console.log(this.tel)
+      console.log(this.emailV)
+      this.$axios({
+            method:"post",
+            url:"/BindEmail",
+            data:{
+              phone:this.tel,
+              email:this.emailV
+            }
+      })
+      .then(res=>{
+            console.log(res.data)
+           this.emailMask = false
+      })
+      .catch(error=>{
+            console.log(error)
+      })
+    },
     //点击绑定邮箱
-    toEmail() {
+    toEmail(){
       this.emailMask = true
-
       this.reSus = false
     },
     //关闭绑定邮箱弹窗
@@ -616,6 +661,9 @@ export default {
   color: #ffffff;
   margin: 0 auto;
   margin-top: 30px;
+}
+.mask .aDiv p.sureBtn:hover{
+  cursor: pointer;
 }
 .mask .aDiv p span.codeBtn {
   font-family: SourceHanSansCN-Normal;

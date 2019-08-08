@@ -128,7 +128,7 @@
             </tbody>
           </table>
           <!-- scroll -->
-          <div v-show="contentShow">
+          <div v-show="contentShow" class="scrollDiv">
             <div>
               <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
               <p v-show="!infiniteMsgShow" class="tips">没有更多数据</p>
@@ -539,6 +539,7 @@ export default {
   font-size: 22px;
   color: #ffffff;
   line-height: 86px;
+  text-align: center;
 }
 .down {
   width: 8px;

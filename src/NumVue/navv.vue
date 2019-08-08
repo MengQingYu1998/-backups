@@ -80,6 +80,8 @@
         </div>
       </div>
     </div>
+    <P class="line"></P>
+
   </div>
 </template>
 
@@ -125,8 +127,25 @@ export default {
       this.now_country = payload
       console.log(this.now_country)
     },
-    fun(teval, coval) {
-      this.telnow = teval
+    fun() {
+        console.log(this.touxiang)
+	    let userId = localStorage.getItem('userId') //获取userId
+	    let tel = window.localStorage.getItem('tel')
+	    console.log(localStorage.getItem('touxiang'))
+	    if (localStorage.getItem('touxiang') != null) {
+	      this.touxiang = localStorage.getItem('touxiang')
+	    }
+	    console.log(tel)
+	    console.log(this.touxiang)
+	    this.telnow = tel
+	    this.uid = userId
+	    console.log(this.uid)
+	    if (this.uid == ''||this.uid == null)  {
+	      this.unlogin = true
+	    } else {
+	      this.unlogin = false
+	    }
+	    console.log(this.unlogin)
     },
     // 显示app store监控下拉框
     showAppstore() {
@@ -159,28 +178,17 @@ export default {
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
       } else if (index == 2) {
+      	// this.uid =null
+      	this.unlogin = true
+      	localStorage.clear();
         this.$router.push({ path: '/index' })
       }
     }
   },
+  // props:['msg'],
   created() {
-    console.log(this.touxiang)
-    let userId = localStorage.getItem('userId') //获取userId
-    let tel = window.localStorage.getItem('tel')
-    console.log(localStorage.getItem('touxiang'))
-    if (localStorage.getItem('touxiang') != null) {
-      this.touxiang = localStorage.getItem('touxiang')
-    }
-
-    console.log(this.touxiang)
-    this.telnow = tel
-    this.uid = userId
-    console.log(this.uid)
-    if (this.uid == ''||this.uid == null)  {
-      this.unlogin = true
-    } else {
-      this.unlogin = false
-    }
+  	this.fun()
+    
   }
 }
 </script>
@@ -192,6 +200,9 @@ export default {
   list-style: none;
   text-decoration: none;
 }
+#navv>.line{
+	border-bottom: 1px solid #efefef;
+}
 .down {
   width: 8px;
   height: 8px;
@@ -200,12 +211,14 @@ export default {
   width: 1200px;
   height: 66px;
   margin: 0 auto;
+  
 }
 .nav .logo {
   width: 124px;
   height: 34px;
   float: left;
   margin-top: 16px;
+  
 }
 .nav ul li {
   float: left;

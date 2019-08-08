@@ -209,7 +209,7 @@ export default {
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm
     },
     go_to_page02() {
       this.$router.push('ranking')

@@ -1061,7 +1061,7 @@ export default {
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm
     }
   }
 }
@@ -1419,7 +1419,6 @@ table {
 }
 .right {
   padding-left: 57px;
-  min-height: 800px;
 }
 .line {
   width: 985px;

@@ -1,6 +1,6 @@
  <template>
   <div id="ranking" class="content">
-    <div class="title">搜索指数排名</div>
+    <div class="ranking_title">搜索指数排名</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -86,11 +86,11 @@
         >全部</div>
         <div class="min_max" @click="change_bg_result_function">
           <div>
-            <el-input v-model="result_min_input" placeholder="最小值" type="number" @blur="blur"></el-input>
+            <el-input v-model="result_min_input" placeholder="最小值" type="number"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="result_max_input" placeholder="最大值" type="number" @blur="blur"></el-input>
+            <el-input v-model="result_max_input" placeholder="最大值" type="number"></el-input>
           </div>
         </div>
       </div>
@@ -103,18 +103,18 @@
         >>4605</div>
         <div class="min_max" @click="change_bg_index_function">
           <div>
-            <el-input v-model="index_min_input" placeholder="最小值" type="number" @blur="blur"></el-input>
+            <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="index_max_input" placeholder="最大值" type="number" @blur="blur"></el-input>
+            <el-input v-model="index_max_input" placeholder="最大值" type="number"></el-input>
           </div>
         </div>
       </div>
       <div class="options_03 option">
         <div>搜索</div>
         <div class="keyword_input">
-          <el-input v-model="keyword_input" placeholder="请输入搜索关键词" @blur="blur"></el-input>
+          <el-input v-model="keyword_input" placeholder="请输入搜索关键词"></el-input>
         </div>
       </div>
     </div>
@@ -169,6 +169,7 @@ export default {
   components: { country },
   data() {
     return {
+      db_number_is_same: 0, //修复用户输入过快的bug
       can_excute: false,
       // 请求分页
       page: 1,
@@ -219,7 +220,6 @@ export default {
   created: function() {
     // 请求悬浮框的数据
 
-    console.log('=======created=======')
     this.get_data_classify()
     this.get_data_table()
     // this.$watch('page', function(newValue, oldValue) {
@@ -244,6 +244,24 @@ export default {
       this.data_for_table.length = 0
       this.page = 1
       this.get_data_table()
+    })
+    this.$watch('keyword_input', function(newValue, oldValue) {
+      this.get_data_classify()
+      this.data_for_table.length = 0
+      this.page = 1
+      this.get_data_table()
+    })
+    this.$watch('result_min_input', function(newValue, oldValue) {
+      this.blur()
+    })
+    this.$watch('result_max_input', function(newValue, oldValue) {
+      this.blur()
+    })
+    this.$watch('index_min_input', function(newValue, oldValue) {
+      this.blur()
+    })
+    this.$watch('index_max_input', function(newValue, oldValue) {
+      this.blur()
     })
   },
   mounted() {
@@ -299,6 +317,11 @@ export default {
     },
     // 请求表格数据
     get_data_table() {
+      this.db_number_is_same++
+      let is_excute_function = this.db_number_is_same
+      console.log('is_excute_function=' + is_excute_function)
+      console.log('db_number_is_same=' + this.db_number_is_same)
+      console.log('=======请求表格数据=======')
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -337,13 +360,16 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response.data.Data)
+              // console.log(response.data.Data)
               this.can_excute = true //是否可以执行滚动条到达底部事件
-              this.data_for_table = this.data_for_table.concat(
-                response.data.Data
-              )
+              if (is_excute_function == this.db_number_is_same) {
+                console.log('数组拼接成功')
+                this.data_for_table = this.data_for_table.concat(
+                  response.data.Data
+                )
+              }
 
-              // console.log(this.data_for_table)
+              console.log(this.data_for_table)
             })
             .catch(error => {
               console.log(error)
@@ -431,7 +457,7 @@ export default {
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm
     },
     go_to_page02(parm) {
       this.$router.push({
@@ -696,7 +722,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.ranking_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

@@ -1,6 +1,6 @@
 <template>
   <div id="think_word" class="content">
-    <div class="title">「{{this.$store.state.now_app_name}}」关键词搜索联想词</div>
+    <div class="think_word_title">「{{this.$store.state.now_app_name}}」关键词搜索联想词</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -257,9 +257,7 @@ export default {
 }
 </script>
 <style scoped>
-#think_word {
-  min-height: 800px;
-}
+
 .td_first {
   border-right: 1px solid #f2f2f2;
 }
@@ -387,7 +385,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.think_word_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

@@ -1,6 +1,6 @@
 <template>
   <div id="hot_history" class="content">
-    <div class="title">实时热搜</div>
+    <div class="hot_history_title">实时热搜</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -154,9 +154,6 @@ export default {
 </script>
 
 <style scoped>
-#hot_history {
-  min-height: 800px;
-}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
@@ -287,7 +284,7 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
-.title {
+.hot_history_title {
   font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;

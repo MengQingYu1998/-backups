@@ -243,9 +243,6 @@ export default {
 }
 </script>
 <style scoped>
-#goods_show {
-  min-height: 800px;
-}
 .app_subtitle {
   -webkit-line-clamp: 1;
   display: -webkit-box;
