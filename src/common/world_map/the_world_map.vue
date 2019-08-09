@@ -1163,7 +1163,7 @@ export default {
         } else if (this.isInArray(this.country_temp04, map[key].hover)) {
           map[key].upColor = '#027fc3'
         } else {
-          map[key].upColor = '#eff9ff'
+          map[key].upColor = '#eeeeee'
         }
       }
       start01()
@@ -1185,4 +1185,6 @@ export default {
 }
 </script>
 <style scoped>
+/* #map_base {
+} */
 </style>

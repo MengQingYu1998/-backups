@@ -540,6 +540,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.grade_start_one)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -698,6 +710,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.common_one)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -707,7 +731,7 @@ export default {
         },
         legend: {
           y: 'bottom',
-          data: ['在线评论', '以删除评论']
+          data: ['在线评论', '已删除评论']
         },
         grid: {
           left: '0%',
@@ -733,7 +757,7 @@ export default {
             data: this.online_data
           },
           {
-            name: '以删除评论',
+            name: '已删除评论',
             stack: 'start',
             type: 'bar',
             barWidth: 30, //宽度
@@ -751,6 +775,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.grade_start_three)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -1022,7 +1058,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log('=========分数评论================')
+              console.log('=========评论================')
               console.log(response)
               this.response_data_fourth_part = response.data.Data
             })

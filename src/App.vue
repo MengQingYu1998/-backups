@@ -147,6 +147,9 @@ export default {
 }
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
+#map_points {
+  display: none;
+}
 .pointer {
   cursor: pointer;
 }
@@ -297,5 +300,11 @@ table tbody tr:hover {
 }
 .app_div {
   min-height: 100vh;
+}
+table thead tr th {
+  font-family: SourceHanSansCN-Medium !important;
+  font-size: 13px;
+  color: #222222;
+  font-weight: normal;
 }
 </style>

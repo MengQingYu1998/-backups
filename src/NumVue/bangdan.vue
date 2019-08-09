@@ -147,7 +147,7 @@
 						</tbody>
 					</table>
 					<!-- scroll -->
-			        <div class="scrollDiv" v-show="contentShow" infinite-scroll-distance="10">
+			        <div v-show="contentShow" class="scrollDiv">
 			            <div>
 			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
 			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
@@ -262,6 +262,7 @@
 		        this.getData()
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
+
 		      // 当前国家发生变化，重新请求数据...
 		        this.zongsData.length=0
 				this.page=1
@@ -298,7 +299,6 @@
 	
 			// 获取数据
 			getData(){
-				
 				// 传给后台的brand值
 				let brandV=1
 				if(this.selefont==0){
@@ -329,30 +329,6 @@
 
 				// 传给后台的device值
 				let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-
-				//传给后台的countryid值
-				let country_id=1
-				this.$axios({
-					method:"get",
-					url:'GetCountry'
-						
-				})
-				.then(res=>{
-					if(res.data.Code==0){
-				        let arr_country = res.data.Data
-				        arr_country.forEach(element => {
-				            if (element.name == this.now_country) {
-				              country_id = element.id
-				              return false
-				            }
-				        })
-				        
-					}
-				})
-				.catch(error=>{
-					console.log(error)
-				})
-
 				// 传给后台的genreid
 				// let geid=36
 				this.$axios({
@@ -366,7 +342,6 @@
 						this.games=res.data
 						if(pidV==36){
 					        geid=36	
-					       	
 					    }else{
 					        for(var i=0;i<res.data.Data.length;i++){
 						        if(this.now_Application==res.data.Data[i].name){
@@ -375,85 +350,108 @@
 						    }
 
 					    }
-					    // 榜单快照数据
-					    this.$axios({
-							method:"post",
-							url:"/PostRankSnapshot",
-							data: {
-								brand:brandV,
-								device:deviceType,
-								countryid:country_id,
-								date:newDataB,
-								genreid:geid,
-											
-							}
+					    //传给后台的countryid值
+						let country_id=1
+						this.$axios({
+							method:"get",
+							url:'GetCountry'
+								
 						})
 						.then(res=>{
-							if (res.data.Code == 0){
-								this.timezs=res.data
-					            for(var i=0;i<this.timezs.Data.length;i++){
-					              	var miao=this.timezs.Data[this.timezs.Data.length-1].AddTime
-					              	this.timnow=miao.slice(11,19)
-					              	
-					            }
-					            // 传给后台的snapshot值
-					           	let tim=''
-					            if(this.kuaizTim==""){
-					            	tim=this.timnow
-					            }else{
-					            	tim=this.kuaizTim.slice(11,19)
-					            }
-					            
-					            // 获取榜单数据
+							if(res.data.Code==0){
+								for(var i=0;i<res.data.Data.length;i++){
+									if (res.data.Data[i].name == this.now_country) {
+						              country_id = res.data.Data[i].id
+						              // return false
+						            }
+								}
+								console.log("国家id:"+country_id)
+							    // 榜单快照数据
 							    this.$axios({
 									method:"post",
-									url:"/PostAppRank",
+									url:"/PostRankSnapshot",
 									data: {
 										brand:brandV,
 										device:deviceType,
 										countryid:country_id,
-										snapshot:tim,
-										date:newDataB +' '+ tim,
+										date:newDataB,
 										genreid:geid,
-										pid:pidV,
-										pageIndex:this.page,
-										pageSize:this.pageSize
-										
+													
 									}
 								})
 								.then(res=>{
-									let onlinFont=res.data.pageCount
-									if(onlinFont>0){
-										this.contentShow = true
-							        } else {
-							            this.contentShow = false
-							        }
+									if (res.data.Code == 0){
+										this.timezs=res.data
+							            for(var i=0;i<this.timezs.Data.length;i++){
+							              	var miao=this.timezs.Data[this.timezs.Data.length-1].AddTime
+							              	this.timnow=miao.slice(11,19)
+							            }
+							            // 传给后台的snapshot值
+							           	let tim=''
+							            if(this.kuaizTim==""){
+							            	tim=this.timnow
+							            }else{
+							            	tim=this.kuaizTim.slice(11,19)
+							            }
+							          	console.log("brandV:"+brandV)
+							          	console.log("deviceType:"+deviceType)
+							          	console.log("country_id:"+country_id)
+							          	console.log("tim:"+tim)
+							          	console.log("newDataB:"+newDataB)
+							          	console.log("geid:"+geid)
+							          	console.log("pidV:"+pidV)
 
-							        
-							        this.zongsData=this.zongsData.concat(res.data.Data)
-							        let DownloadTotal=(this.pageSize+1)*this.page
-							        let total=res.data.pageCount
-							        if(total>=0){
-							        	this.contentShow = true
-							        }else{
-							        	this.contentShow = false
-							        }
-							        if(DownloadTotal>=total){
-							            this.page = 0 // 页数变为0
-							            this.infiniteMsgShow = false // 切换底部提示信息
-							        }else{
-	            						this.infiniteMsgShow = true
-							        }
+							            // 获取榜单数据
+									    this.$axios({
+											method:"post",
+											url:"/PostAppRank",
+											data: {
+												brand:brandV,
+												device:deviceType,
+												countryid:country_id,
+												snapshot:tim,
+												date:newDataB +' '+ tim,
+												genreid:geid,
+												pid:pidV,
+												pageIndex:this.page,
+												pageSize:this.pageSize
+												
+											}
+										})
+										.then(res=>{
+											let onlinFont=res.data.pageCount
+											if(onlinFont>0){
+												this.contentShow = true
+												this.infiniteMsgShow = true // 加载更多
+									        } else {
+									            this.contentShow = true
+									            this.infiniteMsgShow = false // 没有更多数据
+									        }
+									        this.zongsData=this.zongsData.concat(res.data.Data)
+									        let DownloadTotal=(this.pageSize+1)*this.page
+									        let pageC=Math.ceil(onlinFont/this.pageSize)
+									        if(this.page==pageC){
+									        	this.contentShow = true
+									            this.infiniteMsgShow = false // 没有更多数据
+									        }
+									       
 
+										})
+										.catch(error=>{
+											console.log(error)
+											this.contentShow = false
+										})
+
+
+									}
+														
 								})
 								.catch(error=>{
 									console.log(error)
-									this.contentShow = false
 								})
 
-
+						        
 							}
-												
 						})
 						.catch(error=>{
 							console.log(error)
@@ -514,7 +512,7 @@
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
-				this.page=1
+				// this.page=1
 				this.getData()
 			},
 			// 点击游戏榜
@@ -530,7 +528,7 @@
 				this.upWG=true
 				this.downG=false
 				this.downWG=false
-				this.page=1
+				// this.page=1
 				this.getData()
 			},
 			// 点击应用option
@@ -581,7 +579,6 @@
 					this.downG=true
 					this.downWG=false
 				}else{
-					console.log(2)
 					this.fenFont='游戏榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=false//总榜按钮取消选中
@@ -682,8 +679,8 @@
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-	line-height: 86px;
-	text-align: center;
+  text-align: center;
+  line-height: 86px;
 }
 .down{
   width: 8px;

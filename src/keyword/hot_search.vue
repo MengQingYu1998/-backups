@@ -72,7 +72,7 @@
                   width="320"
                   trigger="hover"
                   :open-delay="300"
-                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                  :visible-arrow="true"
                 >
                   <div class="table_hover_title">
                     <span v-if="response_datafor_popover">搜索指数 {{response_datafor_popover.Hint}}</span>

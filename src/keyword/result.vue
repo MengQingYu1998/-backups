@@ -49,7 +49,7 @@
             <th v-show="activeName=='third'">ios11搜索结果数</th>
           </tr>
         </thead>
-        <tbody v-if="data_for_top_table02&&data_for_top_table">
+        <tbody v-if="data_for_top_table02">
           <tr>
             <!-- 关键词 -->
             <td>{{data_for_top_table02.Word}}</td>
@@ -738,7 +738,8 @@ export default {
             .post(url, data)
             .then(response => {
               this.data_for_top_table = response.data.Data
-              // console.log(this.data_for_top_table)
+              console.log('88888888888888888888888888888')
+              console.log(this.data_for_top_table)
             })
             .catch(error => {
               console.log(error)
@@ -751,7 +752,8 @@ export default {
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              // console.log(this.data_for_top_table02)
+              console.log('88888888888888888888888888888')
+              console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -930,6 +932,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_result12)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         color: ['#3398DB'],
         tooltip: {
           trigger: 'axis',
@@ -978,7 +992,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'bar'
-        this.stack = '总量'
+        // this.stack = '总量'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -1108,6 +1122,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis'
         },
@@ -1151,7 +1177,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        this.stack = '总量'
+        // this.stack = '总量'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据

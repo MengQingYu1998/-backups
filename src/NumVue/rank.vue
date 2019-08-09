@@ -538,8 +538,8 @@ export default {
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-  line-height: 86px;
   text-align: center;
+  line-height: 86px;
 }
 .down {
   width: 8px;

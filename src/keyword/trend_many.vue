@@ -272,6 +272,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis'
         },
@@ -335,7 +347,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        this.stack = '总量'
+        // this.stack = '总量'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据

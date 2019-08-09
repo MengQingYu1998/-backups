@@ -125,27 +125,20 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      console.log(this.now_country)
     },
     fun() {
-        console.log(this.touxiang)
 	    let userId = localStorage.getItem('userId') //获取userId
 	    let tel = window.localStorage.getItem('tel')
-	    console.log(localStorage.getItem('touxiang'))
 	    if (localStorage.getItem('touxiang') != null) {
 	      this.touxiang = localStorage.getItem('touxiang')
 	    }
-	    console.log(tel)
-	    console.log(this.touxiang)
 	    this.telnow = tel
 	    this.uid = userId
-	    console.log(this.uid)
 	    if (this.uid == ''||this.uid == null)  {
 	      this.unlogin = true
 	    } else {
 	      this.unlogin = false
 	    }
-	    console.log(this.unlogin)
     },
     // 显示app store监控下拉框
     showAppstore() {

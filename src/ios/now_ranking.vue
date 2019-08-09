@@ -11,14 +11,14 @@
         <!-- 第一部分 -->
         <!-- 第一部分 -->
         <section class="top">
-          <div class="section_title">实施排名</div>
+          <div class="section_title">实时排名</div>
           <table>
-            <thead>
+            <thead v-if="response_data_first_title">
               <tr>
-                <th></th>
-                <th>应用总榜（免费）</th>
-                <th>摄影与录像（免费）</th>
-                <th>总榜（免费）</th>
+                <th>{{response_data_first_title[0]}}</th>
+                <th>{{response_data_first_title[1]}}</th>
+                <th>{{response_data_first_title[2]}}</th>
+                <th>{{response_data_first_title[3]}}</th>
               </tr>
             </thead>
             <tbody v-if="response_data_first">
@@ -159,14 +159,14 @@
             </div>
           </div>
           <div class="world_map">
-            <!-- <div v-if="is_show_map"> -->
-            <world_map
-              :country_temp01="country_temp01"
-              :country_temp02="country_temp02"
-              :country_temp03="country_temp03"
-              :country_temp04="country_temp04"
-            />
-            <!-- </div> -->
+            <div>
+              <world_map
+                :country_temp01="country_temp01"
+                :country_temp02="country_temp02"
+                :country_temp03="country_temp03"
+                :country_temp04="country_temp04"
+              />
+            </div>
             <div class="level">
               <div class="one_level">
                 <div></div>
@@ -290,6 +290,7 @@ export default {
       // 第一部分图表的数据
       now_country: '中国',
       response_data_first: null,
+      response_data_first_title: null,
       // 第二部分折线图数据
       // 第二部分折线图数据
       // 第二部分折线图数据
@@ -402,8 +403,13 @@ export default {
                 response.data.Data.rank_1 != null &&
                 response.data.Data.rank_2 != null
               ) {
+                console.log(response.data.Data)
                 this.response_data_first = response.data.Data
+                this.response_data_first_title = response.data.Data.rank_0
+                // this.response_data_first.splice(0, 1)
+                delete this.response_data_first.rank_0
               }
+              console.log('==================第一部分====================')
               console.log(this.response_data_first)
             })
             .catch(error => {
@@ -515,7 +521,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log('========================')
+              console.log('===========删除评论=============')
               console.log(response.data)
               // console.log(response.data.Data.length)
               this.is_show_mychart = false
@@ -538,7 +544,7 @@ export default {
 
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
-                  return timestamp(element, 'Y/M/D h:m:s')
+                  return timestamp(element, 'Y/M/D')
                 })
                 console.log('========================')
                 console.log(this.keyword_data_value)
@@ -582,13 +588,14 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        this.stack = '总量'
+        // this.stack = '总量'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
       this.keyword_data.forEach((element, index) => {
         series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
+      // console.log('66666666666666666666666')
       // console.log(series_data_arr)
       return series_data_arr
     },
@@ -601,6 +608,18 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         legend: {
           data: that.keyword_data,
           y: 'bottom',
@@ -634,6 +653,7 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
+          minInterval: 1,
           type: 'value',
           inverse: true
         },
@@ -777,6 +797,13 @@ export default {
 }
 .world_map {
   position: relative;
+  width: 80%;
+  margin: 0 auto;
+}
+.world_map > div:first-child {
+  /* transform: scale(0.8); */
+  /* height: 800px; */
+  /* background-color: red; */
 }
 .one_level {
   width: 18px;
@@ -815,6 +842,7 @@ export default {
   width: 100px;
   position: absolute;
   bottom: 86px;
+  left: -93px;
   font-family: SourceHanSansCN-Medium;
   font-size: 12px;
   font-weight: normal;
@@ -901,6 +929,7 @@ export default {
 .btn_group {
   display: flex;
   align-items: center;
+  z-index: 999 !important;
 }
 section:first-child {
   margin-top: 0;

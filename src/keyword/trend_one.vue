@@ -1,6 +1,6 @@
 <template>
   <div id="trend_one" class="content">
-    <div class="trend_one_title">「{{this.$store.state.now_app_id}}」搜索结果数排名走势</div>
+    <div class="trend_one_title">「{{this.$store.state.now_app_name}}」搜索结果数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="table_title">【{{this.$store.state.now_app_id}}】搜索指数走势</div>
+    <div class="table_title">【{{this.$store.state.now_app_name}}】搜索指数走势</div>
     <div ref="myChart_trend_one" class="myChart" v-show="is_show_table_myChart_myChart"></div>
 
     <div class="bottom_image" v-show="is_show_table_myChart_myChart">
@@ -179,7 +179,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        this.stack = '总量'
+        // this.stack = '总量'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -285,6 +285,18 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_trend_one)
       // 绘制图表
       myChart.setOption({
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
         tooltip: {
           trigger: 'axis'
         },

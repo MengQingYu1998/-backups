@@ -325,28 +325,7 @@
 		
 			// 上下架应用接口
 			getData(){
-				//传给后台的countryid值
-				let country_id=1
-				this.$axios({
-					method:"get",
-					url:'GetCountry'
-						
-				})
-				.then(res=>{
-					if(res.data.Code==0){
-				        let arr_country = res.data.Data
-				        arr_country.forEach(element => {
-				            if (element.name == this.now_country) {
-				              country_id = element.id
-				              return false
-				            }
-				        })
-				        
-					}
-				})
-				.catch(error=>{
-					console.log(error)
-				})
+				
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -367,76 +346,106 @@
 
 				// 传给后台的日期值
 				let newData=formatDate(this.dateV, 'yyyy-MM-dd')
-				// 获取genreid
-				let geid=36
+
+
+				//传给后台的countryid值
+				let country_id=1
 				this.$axios({
 					method:"get",
-					url:'/GetGenre?genreID='+pidV
+					url:'GetCountry'
 						
 				})
-				.then(res => {
-					if (res.data.Code == 0) {
-						this.Applications=res.data
-						this.games=res.data
-						if(pidV==36){
-					        geid=36	
-					       	
-					    }else{
-					        for(var i=0;i<res.data.Data.length;i++){
-						        if(this.now_Application==res.data.Data[i].name){
-									geid = res.data.Data[i].id
-						 		}
-						    }
-
-					    }
-					    console.log(country_id)
-					    console.log(geid)
-					    console.log(newData)
-					    console.log(IsOnlineV)
-					    // 获取应用接口
-					  	this.$axios({
-							method:"post",
-							url:"/PostAppIsOnline",
-							data: {
-								countryid:country_id,
-								genreid:geid,
-								date:newData,
-								IsOnline:IsOnlineV,
-								appKey:"",
-								pageIndex:this.page,
-								pageSize:this.pageSize
-							}
+				.then(res=>{
+					if(res.data.Code==0){
+				        let arr_country = res.data.Data
+				        arr_country.forEach(element => {
+				            if (element.name == this.now_country) {
+				              country_id = element.id
+				              return false
+				            }
+				        })
+				        // 获取genreid
+						let geid=36
+						this.$axios({
+							method:"get",
+							url:'/GetGenre?genreID='+pidV
+								
 						})
-						.then(res=>{
-							if(res.data.Code==0){
-								this.onlinFont=res.data.pageCount
-								if(this.onlinFont>0){
-									this.contentShow = true
-									this.infiniteMsgShow = true
-									this.contentShow2 = false
-								}else{
-									console.log(this.onlinFont)
-									this.contentShow = true
-									this.infiniteMsgShow = false
-									this.contentShow2 = false
-								}
+						.then(res => {
+							if (res.data.Code == 0) {
+								this.Applications=res.data
+								this.games=res.data
+								if(pidV==36){
+							        geid=36	
+							       	
+							    }else{
+							        for(var i=0;i<res.data.Data.length;i++){
+								        if(this.now_Application==res.data.Data[i].name){
+											geid = res.data.Data[i].id
+								 		}
+								    }
 
-						        this.zongsdataList=this.zongsdataList.concat(res.data.Data)
-						        let DownloadTotal=(this.pageSize+1)*this.page
-						        
-						       
-							}
-							
+							    }
+							  
+							    // 获取应用接口
+							  	this.$axios({
+									method:"post",
+									url:"/PostAppIsOnline",
+									data: {
+										countryid:country_id,
+										genreid:geid,
+										date:newData,
+										IsOnline:IsOnlineV,
+										appKey:"",
+										pageIndex:this.page,
+										pageSize:this.pageSize
+									}
+								})
+								.then(res=>{
+									if(res.data.Code==0){
+										// console.log(res.data.Data)
+										this.onlinFont=res.data.pageCount
+										// console.log("总条数："+res.data.pageCount)
+										if(this.onlinFont>0){
+											this.contentShow = true
+											this.infiniteMsgShow = true
+											this.contentShow2 = false
+										}else{
+											// console.log(this.onlinFont)
+											this.contentShow = true
+											this.infiniteMsgShow = false
+											this.contentShow2 = false
+										}
+
+								        this.zongsdataList=this.zongsdataList.concat(res.data.Data)
+								        let DownloadTotal=(this.pageSize+1)*this.page
+								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
+									        if(this.page==pageC){
+									        	this.contentShow = true
+									            this.infiniteMsgShow = false // 没有更多数据
+									        }
+								       
+									}
+									
+								})
+								.catch(error=>{
+									console.log(error)
+									this.contentShow = false
+								})
+							} 
 						})
-						.catch(error=>{
+						.catch(error => {
 							console.log(error)
-							this.contentShow = false
 						})
-					} 
+
+
+
+					}
 				})
-				.catch(error => {
+				.catch(error=>{
 					console.log(error)
 				})
+
 
 			},
 			// 获取当前选中的国家
@@ -474,6 +483,9 @@
 				}else if(this.isFontG==true){
 					pidV=6014
 				}
+				// console.log("shouci111Pid"+pidV)
+				// 传给后台的日期值
+				let newDataB=formatDate(this.dateV, 'yyyy-MM-dd')
 
 				//传给后台的countryid值
 				let country_id=1
@@ -492,82 +504,83 @@
 				              return false
 				            }
 				        })
-				        
+				        // 获取genreid
+						let geid=36
+						this.$axios({
+							method:"get",
+							url:'/GetGenre?genreID='+pidV
+								
+						})
+						.then(res => {
+							if (res.data.Code == 0) {
+								this.Applications=res.data
+								this.games=res.data
+								if(pidV==36){
+							        geid=36	
+							       	
+							    }else{
+							        for(var i=0;i<res.data.Data.length;i++){
+								        if(this.now_Application==res.data.Data[i].name){
+											geid = res.data.Data[i].id
+								 		}
+								    }
+
+							    }
+							    // console.log("country_id:"+country_id)
+							    // console.log("geid:"+geid)
+							    // console.log("pidV:"+pidV)
+							    // console.log("newDataB:"+newDataB)
+							    // 获取清榜接口
+							  	this.$axios({
+									method:"post",
+									url:"/PostRankClear",
+									data: {
+										device:1,
+										countryid:country_id,
+										genreid:geid,
+										pid:pidV,
+										date:newDataB,
+										appKey:"",
+										pageIndex:this.page2,
+										pageSize:this.pageSize2
+									}
+								})
+								.then(res=>{
+									if(res.data.Code==0){
+										this.onlinFontB=res.data.pageCount
+										if(this.onlinFontB>0){
+											this.contentShow = false
+											this.contentShow2 = true
+											this.infiniteMsgShow2 = true
+								        } else {
+								        	this.contentShow = false
+								            this.contentShow2 = false
+								            this.infiniteMsgShow2 = false
+								        }
+
+								        this.zongsBList=this.zongsBList.concat(res.data.Data)
+								        let DownloadTotal=(this.pageSize2+1)*this.page2
+								        let total=res.data.pageCount
+								        
+									}
+									
+									
+								})
+								.catch(error=>{
+									console.log(error)
+									this.contentShow2 = false
+								})
+							} 
+						})
+						.catch(error => {
+							console.log(error)
+						})
 					}
 				})
 				.catch(error=>{
 					console.log(error)
 				})
-				// 传给后台的日期值
-				let newDataB=formatDate(this.dateV, 'yyyy-MM-dd')
-				// 获取genreid
-				let geid=36
-				this.$axios({
-					method:"get",
-					url:'/GetGenre?genreID='+pidV
-						
-				})
-				.then(res => {
-					if (res.data.Code == 0) {
-						this.Applications=res.data
-						this.games=res.data
-						if(pidV==36){
-					        geid=36	
-					       	
-					    }else{
-					        for(var i=0;i<res.data.Data.length;i++){
-						        if(this.now_Application==res.data.Data[i].name){
-									geid = res.data.Data[i].id
-						 		}
-						    }
-
-					    }
-
-					    // 获取清榜接口
-					  	this.$axios({
-							method:"post",
-							url:"/PostRankClear",
-							data: {
-								device:1,
-								countryid:country_id,
-								genreid:geid,
-								pid:pidV,
-								date:newDataB,
-								appKey:"",
-								pageIndex:this.page2,
-								pageSize:this.pageSize2
-							}
-						})
-						.then(res=>{
-							if(res.data.Code==0){
-								this.onlinFontB=res.data.pageCount
-								if(this.onlinFontB>0){
-									this.contentShow = false
-									this.contentShow2 = true
-									this.infiniteMsgShow2 = true
-						        } else {
-						        	this.contentShow = false
-						            this.contentShow2 = false
-						            this.infiniteMsgShow2 = false
-						        }
-
-						        this.zongsBList=this.zongsBList.concat(res.data.Data)
-						        let DownloadTotal=(this.pageSize2+1)*this.page2
-						        let total=res.data.pageCount
-						        
-							}
-							
-							
-						})
-						.catch(error=>{
-							console.log(error)
-							this.contentShow2 = false
-						})
-					} 
-				})
-				.catch(error => {
-					console.log(error)
-				})
+				
 
 			},
 			   
@@ -676,6 +689,8 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.getData()
+				this.getDataB()
+				this.getDataci()
 			},
 			// 点击应用榜
 			showY(){
@@ -691,7 +706,8 @@
 				this.downWG=false
 				this.upWG=false
 				this.getData()
-				
+				this.getDataB()
+				this.getDataci()
 			},
 			// 点击游戏榜
 			showG(){
@@ -707,6 +723,8 @@
 				this.downG=false
 				this.downWG=false
 				this.getData()
+				this.getDataB()
+				this.getDataci()
 			},
 			// 点击应用option
 			cliLie(Application){
@@ -720,6 +738,8 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.getData()
+				this.getDataB()
+				this.getDataci()
 			},
 			cliGame(game){
 				this.valueG=game.name
@@ -732,6 +752,8 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.getData()
+				this.getDataB()
+				this.getDataci()
 			},
 			// 判断显示上架应用还是下架应用
 			selectLei(index){
@@ -871,8 +893,8 @@
   font-family: SourceHanSansCN-Medium;
   font-size: 22px;
   color: #ffffff;
-	line-height: 86px;
-	text-align: center;
+  line-height: 86px;
+  text-align: center;
 }
 .down{
   width: 8px;
