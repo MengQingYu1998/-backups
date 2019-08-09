@@ -258,10 +258,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="response_data_for_ios11">
-                  <tr
-                    v-for="(item,index) in response_data_for_ios11.AppInfoList"
-                    :key="'table'+index"
-                  >
+                  <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
                     <td>
                       <div class="use">
                         <div class="first_div">{{item.rowid}}</div>
@@ -425,10 +422,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="response_data_for_ios11">
-                  <tr
-                    v-for="(item,index) in response_data_for_ios11.AppInfoList"
-                    :key="'tablesss'+index"
-                  >
+                  <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
                     <td>
                       <div class="use">
                         <div class>{{item.rowid}}</div>
@@ -639,11 +633,17 @@ export default {
     })
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page = 1
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page = 1
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -652,6 +652,9 @@ export default {
       this.get_data_column()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page = 1
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_12()
       this.get_data_11()
@@ -804,6 +807,9 @@ export default {
               this.response_data_for_ios12 = this.response_data_for_ios12.concat(
                 response.data.AppInfoList
               )
+              console.log(
+                'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
+              )
               console.log(this.response_data_for_ios12)
             })
             .catch(error => {
@@ -854,6 +860,9 @@ export default {
               this.can_excute = true //是否可以执行滚动条到达底部事件
               this.response_data_for_ios11 = this.response_data_for_ios11.concat(
                 response.data.AppInfoList
+              )
+              console.log(
+                'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
               )
               console.log(this.response_data_for_ios11)
             })
@@ -1173,6 +1182,8 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
+      this.get_data_12()
+      this.get_data_11()
       this.$router.push({
         path: '/think_word'
       })

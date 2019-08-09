@@ -5,7 +5,7 @@
       <span>{{this.$store.state.now_app_name}}</span>
     </div>
     <div class="wrap">
-      <img v-if="response_data" :src="response_data.icon" alt />
+      <img class="header_img" v-if="response_data" :src="response_data.icon" alt />
       <div class="app_description">
         <div v-if="response_data">{{response_data.appName}}</div>
         <div v-if="response_data">{{response_data.subtitle}}</div>
@@ -127,6 +127,9 @@ export default {
 }
 </script>
 <style scoped>
+.header_img {
+  border-radius: 10px;
+}
 .country {
   /* background-color: red; */
   height: 65px;
@@ -177,12 +180,14 @@ export default {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
+
+  width: 200px;
+  height: 30px;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  width: 200px;
   /* background-color: red;   */
+  overflow: hidden;
 }
 .app_description div:last-child {
   font-family: SourceHanSansCN-Normal;

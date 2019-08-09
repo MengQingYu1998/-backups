@@ -1008,9 +1008,10 @@ export default {
             time = arr.join('-')
           }
           // console.log(time)
-
+          let appId = this.$store.state.now_app_id
+          console.log(appId)
           let data = {
-            appId: 1113268900,
+            appId: appId,
             countryId: country_id,
             commentType: commentType,
             starLevel: starLevel,
@@ -1021,6 +1022,8 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              console.log('=========分数评论================')
+              console.log(response)
               this.response_data_fourth_part = response.data.Data
             })
             .catch(error => {
@@ -1031,6 +1034,9 @@ export default {
           console.log(error)
         })
     },
+    // 请求第一部分评分统计的数据
+    // 请求第一部分评分统计的数据
+    // 请求第一部分评分统计的数据
     // 请求第一部分评分统计的数据
     get_data_for_first_part() {
       this.$axios
@@ -1051,12 +1057,15 @@ export default {
           // console.log(country_id)
           let appId = this.$store.state.now_app_id
           let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
-          // console.log(url)
+          console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
+              console.log('==========分数======')
+              console.log(response)
+
               this.response_data_first_part = response.data.Data
               // 设置左边的五评分五角星
               this.start_left = this.response_data_first_part.current.ratingAverage

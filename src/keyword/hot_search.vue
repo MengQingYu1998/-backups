@@ -71,7 +71,7 @@
                   placement="bottom"
                   width="320"
                   trigger="hover"
-                  :open-delay="500"
+                  :open-delay="300"
                   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
                 >
                   <div class="table_hover_title">
@@ -99,7 +99,7 @@
                   </div>
                   <div
                     slot="reference"
-                    class="pointer"
+                    class="pointer font_word"
                     @click="go_to_page01(item_list.word)"
                   >{{item_list.word}}</div>
                 </el-popover>
@@ -427,7 +427,6 @@ th {
 }
 .table_font {
   display: flex;
-  line-height: 80px;
   padding-left: 50px;
   flex-wrap: wrap;
 }
@@ -438,6 +437,7 @@ tbody > tr > td:first-child {
   width: 325px;
 }
 tbody tr {
+  height: 80px;
   border-bottom: 1px solid #f2f2f2;
 }
 

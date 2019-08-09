@@ -113,7 +113,7 @@
           <div
             class="table_title"
             v-if="response_data_second"
-          >【{{response_data_second.appName}}】搜索指数走势</div>
+          >【{{response_data_second.appName}}】排名走势</div>
           <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
           <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
           <div
@@ -493,11 +493,13 @@ export default {
           }
           // let appId = 472208016
           let appId = this.$store.state.now_app_id
-          console.log(endDate)
-          console.log(startDate)
-          console.log('country_id' + country_id)
-          console.log('brand' + brand)
-          console.log('timeType' + timeType)
+          console.log('endDate=' + endDate)
+          console.log('startDate=' + startDate)
+          console.log('country_id=' + country_id)
+          console.log('brand=' + brand)
+          console.log('timeType=' + timeType)
+          console.log('appId=' + appId)
+          console.log('device=' + 1)
           let url = '/PostRandTrend'
           let data = {
             appids: appId,
@@ -513,6 +515,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              console.log('========================')
               console.log(response.data)
               // console.log(response.data.Data.length)
               this.is_show_mychart = false
@@ -522,6 +525,8 @@ export default {
                 this.keyword_data_value.length = 0
                 this.xAxis_data.length = 0
                 this.keyword_data.length = 0
+                console.log('========================')
+                console.log(this.keyword_data_value)
                 this.response_data_second = response.data.Data[0]
                 // 都谁？ 抖音 快手 内涵
                 this.keyword_data = this.response_data_second.rankTrendInfo.RankList
@@ -535,6 +540,8 @@ export default {
                 this.xAxis_data = temp02.map(element => {
                   return timestamp(element, 'Y/M/D h:m:s')
                 })
+                console.log('========================')
+                console.log(this.keyword_data_value)
                 this.drawLine()
               } else {
                 console.log('无数据')
@@ -627,7 +634,8 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          inverse: true
         },
         series: that.series_data()
       })

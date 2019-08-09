@@ -173,6 +173,7 @@ export default {
   width: 40px;
   height: 40px;
   margin-right: 10px;
+  border-radius: 10px;
 }
 .img_description {
   display: flex;

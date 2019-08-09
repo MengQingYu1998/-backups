@@ -180,8 +180,11 @@
 							    localStorage.setItem("userId",userid);//存储userId(用户id)
 								localStorage.setItem("tel",that.tel);//存储手机号
 								localStorage.setItem("code",that.code);//存储密码
-								that.$router.push({path:'/index'})
-								location.reload()
+								let routerUrl=that.$router.resolve({
+									path:'/index'
+								})
+								window.open(routerUrl .href,'_blank')
+								
 							},1000)
 							
 						}else if(res.data.Code==-2){

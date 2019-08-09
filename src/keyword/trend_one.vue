@@ -230,6 +230,10 @@ export default {
           }
           // console.log(sdate)
           // console.log(edate)
+          if (sdate == undefined && edate == undefined) {
+            console.log('时间未定义')
+            return false
+          }
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
