@@ -40,8 +40,8 @@
       <option value="CHE" title="CH">瑞士</option>
       <option value="CHL" title="CL">智利</option>
       <option value="CMR" title="CM">喀麦隆</option>
-      <option value="CHN" title="CN" selected="selected">中国</option>
-      <option value="COL" title="CO">哥伦比亚</option>
+      <option value="CHN" title="CN">中国</option>
+      <option value="COL" title="CO" selected="selected">哥伦比亚</option>
       <option value="CRI" title="CR">哥斯达黎加</option>
       <option value="CUB" title="CU">古巴</option>
       <option value="CPV" title="CV">佛得角</option>
