@@ -489,6 +489,7 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      db_number_is_same: 0, //修复用户输入过快的bug
       total: 0,
       request_data_second: null,
       temp_request_data_second: null,
@@ -728,6 +729,8 @@ export default {
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     get_data_for_second_part() {
+      this.db_number_is_same++
+      let is_excute_function = this.db_number_is_same
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -790,23 +793,25 @@ export default {
             .then(response => {
               console.log('=================明细=====')
               console.log(response)
-              this.total = response.data.Data.length //底部显示总共
-              this.request_data_second = response.data.Data
-              // console.log(this.request_data_second)
-              // this.currentPage = Math.ceil(
-              //   this.request_data_second.length / 100
-              // )
+              if (is_excute_function == this.db_number_is_same) {
+                this.total = response.data.Data.length //底部显示总共
+                this.request_data_second = response.data.Data
+                // console.log(this.request_data_second)
+                // this.currentPage = Math.ceil(
+                //   this.request_data_second.length / 100
+                // )
 
-              // console.log(this.currentPage * 100 + 101)
-              // 先把数组置空，不然会出现页面渲染问题
-              this.temp_request_data_second = null //折线图下面的tr
-              this.temp01_request_data_second = null //折线图上面的tr
-              this.is_show_bottom = false //折线图隐藏
+                // console.log(this.currentPage * 100 + 101)
+                // 先把数组置空，不然会出现页面渲染问题
+                this.temp_request_data_second = null //折线图下面的tr
+                this.temp01_request_data_second = null //折线图上面的tr
+                this.is_show_bottom = false //折线图隐藏
 
-              this.temp01_request_data_second = response.data.Data.slice(
-                (this.currentPage - 1) * 100,
-                this.currentPage * 100 + 1
-              )
+                this.temp01_request_data_second = response.data.Data.slice(
+                  (this.currentPage - 1) * 100,
+                  this.currentPage * 100 + 1
+                )
+              }
             })
             .catch(error => {
               console.log(error)

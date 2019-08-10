@@ -504,7 +504,7 @@ tbody td {
 }
 tbody td:nth-child(1) {
   width: 199px;
-}
+} 
 tbody td:nth-child(2) {
   width: 223px;
 }

@@ -114,19 +114,45 @@
             class="table_title"
             v-if="response_data_second"
           >【{{response_data_second.appName}}】排名走势</div>
-          <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
-          <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
           <div
-            class="show_all"
-            v-show="!canvas_is_show_all"
-            @click="selected_data_function(true)"
-          >显示所有</div>
+            ref="EChart_now_ranking"
+            class="myChart"
+            v-show="is_show_mychart&&middle_top_radio2!='全部'"
+          ></div>
+
+          <div class="myChart" v-if="!is_show_mychart&&!is_show_mychart01">暂无数据</div>
+
           <div
-            class="show_all"
-            v-show="canvas_is_show_all"
-            @click="selected_data_function(false)"
-          >隐藏所有</div>
+            ref="EChart_now_ranking01"
+            class="myChart"
+            v-show="is_show_mychart01&&middle_top_radio2=='全部'"
+          ></div>
+          <div v-if="middle_top_radio2!='全部'">
+            <div
+              class="show_all"
+              v-show="!canvas_is_show_all"
+              @click="selected_data_function(true)"
+            >显示所有</div>
+            <div
+              class="show_all"
+              v-show="canvas_is_show_all"
+              @click="selected_data_function(false)"
+            >隐藏所有</div>
+          </div>
+          <div v-if="middle_top_radio2=='全部'">
+            <div
+              class="show_all"
+              v-show="!canvas_is_show_all"
+              @click="selected_data_function01(true)"
+            >显示所有</div>
+            <div
+              class="show_all"
+              v-show="canvas_is_show_all"
+              @click="selected_data_function01(false)"
+            >隐藏所有</div>
+          </div>
         </section>
+
         <!-- 第三部分 -->
         <!-- 第三部分 -->
         <!-- 第三部分 -->
@@ -295,6 +321,7 @@ export default {
       // 第二部分折线图数据
       // 第二部分折线图数据
       is_show_mychart: false,
+      is_show_mychart01: false,
       response_data_second: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
@@ -318,6 +345,19 @@ export default {
       selected_data: {},
       // can_inverse: true, //X轴位置问题
       yAxis_max: 5, //Y轴值的问题
+      // ==========全部==============
+      // ==========全部==============
+      // ==========全部==============
+      //canvas 关键词data数组
+      keyword_data01: [],
+      // 数据
+      keyword_data_value01: null,
+      // X轴文本
+      xAxis_data01: [],
+      // 控制折线显隐
+      selected_data01: {},
+      // can_inverse: true, //X轴位置问题
+      yAxis_max01: 5, //Y轴值的问题
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
@@ -344,8 +384,8 @@ export default {
   },
 
   created: function() {
-    console.log(this.$route.query.now_app_id)
-    console.log(this.$route.query.now_app_name)
+    // console.log(this.$route.query.now_app_id)
+    // console.log(this.$route.query.now_app_name)
     if (this.$route.query.now_app_id && this.$route.query.now_app_name) {
       this.$store.state.now_app_id = this.$route.query.now_app_id
       this.$store.state.now_app_name = this.$route.query.now_app_name
@@ -412,14 +452,14 @@ export default {
                 response.data.Data.rank_1 != null &&
                 response.data.Data.rank_2 != null
               ) {
-                console.log(response.data.Data)
+                // console.log(response.data.Data)
                 this.response_data_first = response.data.Data
                 this.response_data_first_title = response.data.Data.rank_0
                 // this.response_data_first.splice(0, 1)
                 delete this.response_data_first.rank_0
               }
-              console.log('==================第一部分====================')
-              console.log(this.response_data_first)
+              // console.log('==================第一部分====================')
+              // console.log(this.response_data_first)
             })
             .catch(error => {
               console.log(error)
@@ -508,14 +548,14 @@ export default {
           }
           // let appId = 472208016
           let appId = this.$store.state.now_app_id
-          console.log('999999999999999999999')
-          console.log('endDate=' + endDate)
-          console.log('startDate=' + startDate)
-          console.log('country_id=' + country_id)
-          console.log('brand=' + brand)
-          console.log('timeType=' + timeType)
-          console.log('appId=' + appId)
-          console.log('device=' + 1)
+          // console.log('999999999999999999999')
+          // console.log('endDate=' + endDate)
+          // console.log('startDate=' + startDate)
+          // console.log('country_id=' + country_id)
+          // console.log('brand=' + brand)
+          // console.log('timeType=' + timeType)
+          // console.log('appId=' + appId)
+          // console.log('device=' + 1)
           let url = '/PostRandTrend'
           let data = {
             appids: appId,
@@ -534,9 +574,10 @@ export default {
               console.log(response.data)
 
               this.is_show_mychart = false
+              this.is_show_mychart01 = false
               if (
                 response.data.Data.length > 0 &&
-                this.middle_top_radio2 == '全部'
+                this.middle_top_radio2 != '全部'
               ) {
                 console.log('有数据')
                 this.response_data_second = response.data.Data[0]
@@ -596,9 +637,72 @@ export default {
                 // ==================找数组最大值====================
 
                 this.drawLine()
+              } else if (
+                response.data.Data.length > 0 &&
+                this.middle_top_radio2 == '全部'
+              ) {
+                console.log('有数据')
+                this.response_data_second = response.data.Data[0]
+                this.is_show_mychart01 = true
+                this.xAxis_data01.length = 0
+                console.log('==========X轴赋值==============')
+                console.log('==========X轴赋值==============')
+                let temp02 = this.response_data_second.rankTrendInfo.r2.data
+                this.xAxis_data01 = temp02.map(element => {
+                  // return timestamp(element, 'Y/M/D')
+                  if (this.middle_top_radio1 == '按天') {
+                    return timestamp(element, 'Y/M/D')
+                  } else if (this.middle_top_radio1 == '按小时') {
+                    return timestamp(element, 'Y/M/D h')
+                  } else if (this.middle_top_radio1 == '按分钟') {
+                    return timestamp(element, 'Y/M/D h:s')
+                  }
+                })
+
+                console.log('==========X轴赋值==============')
+                console.log('==========X轴赋值==============')
+                // this.keyword_data.length = 0
+                // 都谁？ 抖音 快手 内涵
+                this.keyword_data01 = this.response_data_second.rankTrendInfo.RankList
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                this.keyword_data_value01 =
+                  response.data.Data[0].rankTrendInfo.r3
+                console.log(this.keyword_data_value01)
+                console.log(this.keyword_data01)
+
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+
+                // console.log(this.keyword_data_value)
+                // ==================找数组最大值====================
+                let max_value_arr = []
+                this.keyword_data_value01.forEach(element => {
+                  max_value_arr.push(element.slice(0))
+                })
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                // console.log('???????????????????????')
+                this.yAxis_max01 = max_value + 5
+                // ==================找数组最大值====================
+                this.drawLine01()
               } else {
                 console.log('无数据')
                 this.is_show_mychart = false
+                this.is_show_mychart01 = false
               }
             })
             .catch(error => {
@@ -628,7 +732,6 @@ export default {
 
       this.drawLine()
       this.canvas_is_show_all = !this.canvas_is_show_all
-      // console.log(this.selected_data)
       // this.can_inverse = true
     },
     // 便利keyword_data生成canvas的series数据
@@ -729,7 +832,118 @@ export default {
         series: that.series_data()
       })
     },
+    // ====================================
+    // 控制全部数据隐藏
+    selected_data_function01: function(bol) {
+      let obj = {}
+      this.keyword_data01.forEach(element => {
+        obj[element] = bol
+      })
+      this.selected_data01 = obj
+      // this.can_inverse = bol
 
+      this.drawLine01()
+      this.canvas_is_show_all = !this.canvas_is_show_all
+      // this.can_inverse = true
+    },
+    // 便利keyword_data生成canvas的series数据
+    series_data01: function() {
+      let series_data_arr = []
+      //声明对象
+      function Obj(name, data) {
+        this.name = name
+        this.type = 'line'
+        // this.stack = '总量'
+        this.data = data
+      }
+      //通过便利关键词数组从而创建canvas的series数据
+      this.keyword_data01.forEach((element, index) => {
+        series_data_arr.push(new Obj(element, this.keyword_data_value01[index]))
+      })
+      // console.log('66666666666666666666666')
+      // console.log(series_data_arr)
+      return series_data_arr
+    },
+
+    drawLine01: function() {
+      let that = this
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(this.$refs.EChart_now_ranking01)
+      // 绘制图表
+      myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
+
+        color: [
+          '#009bef',
+          '#ff6969',
+          '#6277ff',
+          '#ff5c7c',
+          '#7546fd',
+          '#ff6946',
+          '#0ec597',
+          '#e8ed55',
+          '#a6ff70',
+          '#e13eff'
+        ],
+        legend: {
+          data: that.keyword_data01,
+          y: 'bottom',
+          // 控制显示隐藏哪一个折线
+          // selected: {
+          //   邮件营销: false
+          // }
+          selected: that.selected_data01
+        },
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
+        grid: {
+          left: '4%',
+          right: '4%',
+          bottom: '13%',
+          containLabel: true
+        },
+
+        toolbox: {
+          feature: {
+            saveAsImage: {
+              title: '保存',
+              iconStyle: {
+                opacity: 1,
+                borderWidth: 2,
+                borderColor: '#555'
+              }
+            }
+          }
+        },
+        xAxis: {
+          position: 'bottom',
+          type: 'category',
+          data: that.xAxis_data01,
+          // alignWithLabel: false
+          boundaryGap: false
+          // show: this.xAxis_is_show
+          // gridIndex: 0
+          // axisLine: { show: false }
+        },
+        yAxis: {
+          minInterval: 1,
+          type: 'value',
+          inverse: true,
+          min: 1,
+          max: that.yAxis_max01
+        },
+        series: that.series_data01()
+      })
+    },
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
@@ -761,7 +975,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              console.log(this.response_data_third)
+              // console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }
