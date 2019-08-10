@@ -94,5 +94,6 @@ export default {
   width: 157px;
   border-right: 1px solid #efefef;
   padding-bottom: 150px;
+  min-height: 500px;
 }
 </style>

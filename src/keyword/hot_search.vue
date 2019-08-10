@@ -379,6 +379,7 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 15px;
+  overflow: hidden;
 }
 .table_hover_app_group img {
   width: 40px;

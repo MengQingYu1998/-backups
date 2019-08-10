@@ -540,6 +540,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.grade_start_one)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -564,8 +570,8 @@ export default {
           data: ['一星', '二星', '三星', '四星', '五星']
         },
         grid: {
-          left: '0%',
-          right: '0%',
+          left: '3%',
+          right: '3%',
           bottom: '12%',
           top: '7%',
           containLabel: true
@@ -710,6 +716,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.common_one)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -734,8 +746,8 @@ export default {
           data: ['在线评论', '已删除评论']
         },
         grid: {
-          left: '0%',
-          right: '0%',
+          left: '3%',
+          right: '3%',
           bottom: '12%',
           top: '7%',
           containLabel: true
@@ -775,6 +787,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.grade_start_three)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -799,8 +817,8 @@ export default {
           data: ['一星', '二星', '三星', '四星', '五星']
         },
         grid: {
-          left: '0%',
-          right: '0%',
+          left: '3%',
+          right: '3%',
           bottom: '12%',
           top: '7%',
           containLabel: true

@@ -38,7 +38,7 @@
                   </div>
                   <div>
                     <div
-                      class="pointer"
+                      class="pointer appName"
                       @click="go_to_page01(item.appId,item.appName)"
                     >{{item.appName}}</div>
                     <div class="rankingChangeFontColor">{{item.subtitle}}</div>
@@ -212,6 +212,14 @@ export default {
 }
 .use .rankingChangeFontColor {
   width: 180px;
+  height: 23px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.appName {
+  height: 23px;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -232,6 +240,7 @@ export default {
   border-radius: 10px;
   /* margin-left: 16px; */
   margin-right: 9px;
+  border: solid 1px #f2f2f2;
 }
 .use {
   display: flex;

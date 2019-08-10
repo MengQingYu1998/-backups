@@ -365,7 +365,6 @@
 						              // return false
 						            }
 								}
-								console.log("国家id:"+country_id)
 							    // 榜单快照数据
 							    this.$axios({
 									method:"post",
@@ -393,14 +392,7 @@
 							            }else{
 							            	tim=this.kuaizTim.slice(11,19)
 							            }
-							          	console.log("brandV:"+brandV)
-							          	console.log("deviceType:"+deviceType)
-							          	console.log("country_id:"+country_id)
-							          	console.log("tim:"+tim)
-							          	console.log("newDataB:"+newDataB)
-							          	console.log("geid:"+geid)
-							          	console.log("pidV:"+pidV)
-
+							          	
 							            // 获取榜单数据
 									    this.$axios({
 											method:"post",
@@ -602,6 +594,11 @@
 				this.getData()
 			},
 			go_to_page01(parm,parm02) {
+				console.log('+++++++++++++++++++++')
+				console.log(parm)
+				console.log(parm02)
+
+				console.log('+++++++++++++++++++++')
 				this.$router.push({
 			        path: '/now_ranking'
 			    })

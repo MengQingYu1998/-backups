@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="table_title">【{{this.$store.state.now_app_name}}】搜索指数走势</div>
+    <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div>
     <div ref="myChart_trend_one" class="myChart" v-show="is_show_table_myChart_myChart"></div>
 
     <div class="bottom_image" v-show="is_show_table_myChart_myChart">
@@ -263,7 +263,7 @@ export default {
               this.keyword_data_value.push(this.response_data.Yvalue)
               this.xAxis_data = this.response_data.Xtime
 
-              this.keyword_data.push(this.response_data.name)
+              this.keyword_data.push(this.$store.state.now_app_name)
               this.drawLine()
             })
             .catch(error => {
@@ -285,6 +285,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_trend_one)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -305,8 +311,8 @@ export default {
           y: 'bottom'
         },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           bottom: '13%',
           containLabel: true
         },

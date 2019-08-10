@@ -253,12 +253,16 @@ export default {
   height: 18px;
 }
 .app_name {
+  overflow: hidden;
+  height: 23px;
+  width: 122px;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   text-align: left;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  width: 122px;
+}
+.use img {
+  border: solid 1px #f2f2f2;
 }
 .use > div:nth-child(1) {
   font-family: SourceHanSansCN-Bold;

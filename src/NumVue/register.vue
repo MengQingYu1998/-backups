@@ -157,7 +157,6 @@ export default {
     },
     blurState(telval) {
       this.focinp = false
-      console.log('账号：' + this.telval)
       this.tel = telval
       var reg = /^1(3|4|5|6|7|8|9)\d{9}$/
       if (this.telval == undefined || this.telval == '') {
@@ -240,7 +239,6 @@ export default {
       }
     },
     nullInput() {
-      console.log(this.ishas)
       if (
         this.telval.length >= 1 &&
         this.verival.length >= 1 &&
@@ -248,7 +246,6 @@ export default {
         this.codesval.length >= 1
       ) {
         this.ishas = true
-        console.log(this.ishas)
       }
       if (this.telval.length == 11) {
         this.telhas = true
@@ -276,7 +273,6 @@ export default {
           url: '/GetAuthCode?phone=' + this.tel
         })
           .then(res => {
-            console.log(res.data.Code)
             this.veri = res.data.Data
             // alert(this.veri)
             //倒计时
@@ -310,7 +306,6 @@ export default {
           }
         })
           .then(res => {
-            console.log(res.data.Code)
             if (res.data.Code == 1) {
               // 注册成功弹窗
               this.reSus = true
@@ -335,7 +330,6 @@ export default {
     bluremail(emailval){
       this.focemail=false
       this.emailV=this.emailval
-      console.log(this.emailval)
       var reg=/^[1-9]\d{5,11}@qq\.com$/;
         if(this.emailval==undefined){
           this.wrongemail=true
@@ -349,8 +343,6 @@ export default {
         }
     },
     sureBind(){
-      console.log(this.tel)
-      console.log(this.emailV)
       this.$axios({
             method:"post",
             url:"/BindEmail",
@@ -360,7 +352,6 @@ export default {
             }
       })
       .then(res=>{
-            console.log(res.data)
            this.emailMask = false
       })
       .catch(error=>{

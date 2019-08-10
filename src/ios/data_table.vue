@@ -680,7 +680,8 @@ export default {
             .get(url)
             .then(response => {
               this.request_data_first = response.data.Data
-              // console.log(response)
+              console.log('=================概述=====')
+              console.log(response)
               // console.log(this.request_data_first)
             })
             .catch(error => {
@@ -733,21 +734,21 @@ export default {
           let url = '/GetKeyWordDetail'
           let that = this
           let appId = this.$store.state.now_app_id
-          // console.log(country_id)
-          // console.log(deviceType)
-          // console.log(system)
-          // console.log(nowDate)
-          // console.log(compareDate)
-          // console.log(that.result_min_input01)
-          // console.log(that.result_max_input01)
-          // console.log(that.result_min_input02)
-          // console.log(that.result_max_input02)
-          // console.log(that.result_min_input03)
-          // console.log(that.result_max_input03)
+          console.log('appId=' + appId)
+          console.log('countryId=' + country_id)
+          console.log('device=' + deviceType)
+          console.log('system=' + system)
+          console.log('nowDate=' + nowDate)
+          console.log('compareDate=' + compareDate)
+          console.log('minHint=' + that.result_min_input01)
+          console.log('maxHint=' + that.result_max_input01)
+          console.log('minRank=' + that.result_min_input02)
+          console.log('maxRank=' + that.result_max_input02)
+          console.log('minResult=' + that.result_min_input03)
+          console.log('maxResult=' + that.result_max_input03)
           let data = {
             // appId: 112,
             appId: appId,
-
             countryId: country_id,
             device: deviceType,
             system: system,
@@ -767,6 +768,8 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              console.log('=================明细=====')
+              console.log(response)
               this.request_data_second = response.data.Data
               console.log(this.request_data_second)
               this.currentPage = Math.ceil(
@@ -1003,6 +1006,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_data_table)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -1041,8 +1050,8 @@ export default {
           }
         },
         xAxis: {
-          type: 'category',
-          boundaryGap: false,
+          type: 'category',boundaryGap: false,
+          // boundaryGap: false,
           data: that.xAxis_data
         },
         yAxis: {

@@ -172,7 +172,11 @@ export default {
           let system = 11
           let appid = this.$store.state.now_app_id
           let comappId = this.$store.state.now_app_id02
-          console.log(appid + '----' + comappId)
+          // console.log('appid' + '----' + appid)
+          // console.log('country_id' + '----' + country_id)
+          // console.log('comappId' + '----' + comappId)
+          // console.log('system' + '----' + system)
+          // console.log('device' + '----' + device)
           let url =
             '/GetKeyWordCompare?countryId=' +
             country_id +
@@ -184,6 +188,7 @@ export default {
             system +
             '&device=' +
             deviceType
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)

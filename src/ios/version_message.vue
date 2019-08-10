@@ -174,6 +174,7 @@ export default {
   height: 40px;
   margin-right: 10px;
   border-radius: 10px;
+  border: solid 1px #f2f2f2;
 }
 .img_description {
   display: flex;

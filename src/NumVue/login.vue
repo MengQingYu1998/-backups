@@ -95,7 +95,6 @@
 			blurState(telval){
 				this.tel=telval
 				this.focinp=false
-				console.log("账号："+this.telval)
 				// var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}|[1-9]\d{5,11}@qq\.com$/;
 				if(this.telval==undefined||this.telval==""){
@@ -119,7 +118,6 @@
 			blurCode(codeval){
 				this.code=codeval
 				this.focCode=false
-				console.log(codeval)
 				var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
 				if(this.codeval==undefined||this.codeval==""){
 					this.wrongCode=true
@@ -176,7 +174,6 @@
 								
 							    
 							    let userid=res.data.Data
-							    console.log(userid)
 							    localStorage.setItem("userId",userid);//存储userId(用户id)
 								localStorage.setItem("tel",that.tel);//存储手机号
 								localStorage.setItem("code",that.code);//存储密码
@@ -229,7 +226,6 @@
 	                  this.randomNum(0, this.identifyCodes.length)
 	                ];
 	            }
-	            console.log(this.identifyCode);
 	        },
 		},
 		created(){

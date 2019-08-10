@@ -79,7 +79,7 @@
                     label="180天"
                     v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
                   ></el-radio-button>
-                  <el-radio-button label="380天" v-show="middle_top_radio1=='按天'"></el-radio-button>
+                  <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
                 </el-radio-group>
               </div>
             </div>
@@ -316,6 +316,7 @@ export default {
       xAxis_data: [],
       // 控制折线显隐
       selected_data: {},
+      // xAxis_is_show: true, //是否显示X轴
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
@@ -342,6 +343,7 @@ export default {
   },
 
   created: function() {
+    console.log(this.$store.state.now_app_id)
     this.get_data_first()
     this.get_data_second()
     this.get_data_third()
@@ -466,7 +468,7 @@ export default {
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 180)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '380天') {
+          } else if (this.middle_top_radio3 == '360天') {
             let yesterday = new Date()
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 380)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
@@ -499,6 +501,7 @@ export default {
           }
           // let appId = 472208016
           let appId = this.$store.state.now_app_id
+          console.log('999999999999999999999')
           console.log('endDate=' + endDate)
           console.log('startDate=' + startDate)
           console.log('country_id=' + country_id)
@@ -521,7 +524,6 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log('===========删除评论=============')
               console.log(response.data)
               // console.log(response.data.Data.length)
               this.is_show_mychart = false
@@ -531,7 +533,7 @@ export default {
                 this.keyword_data_value.length = 0
                 this.xAxis_data.length = 0
                 this.keyword_data.length = 0
-                console.log('========================')
+                console.log('==========折线图==============')
                 console.log(this.keyword_data_value)
                 this.response_data_second = response.data.Data[0]
                 // 都谁？ 抖音 快手 内涵
@@ -544,7 +546,14 @@ export default {
 
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
-                  return timestamp(element, 'Y/M/D')
+                  // return timestamp(element, 'Y/M/D')
+                  if (this.middle_top_radio1 == '按天') {
+                    return timestamp(element, 'Y/M/D')
+                  } else if (this.middle_top_radio1 == '按小时') {
+                    return timestamp(element, 'Y/M/D h')
+                  } else if (this.middle_top_radio1 == '按分钟') {
+                    return timestamp(element, 'Y/M/D h:s')
+                  }
                 })
                 console.log('========================')
                 console.log(this.keyword_data_value)
@@ -606,6 +615,12 @@ export default {
       // 绘制图表
       myChart.setOption({
         tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
+        tooltip: {
           trigger: 'axis'
         },
         color: [
@@ -629,12 +644,19 @@ export default {
           // }
           selected: that.selected_data
         },
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '4%',
+          right: '4%',
           bottom: '13%',
           containLabel: true
         },
+
         toolbox: {
           feature: {
             saveAsImage: {
@@ -648,14 +670,20 @@ export default {
           }
         },
         xAxis: {
+          position: 'bottom',
           type: 'category',
-          boundaryGap: false,
-          data: that.xAxis_data
+          data: that.xAxis_data,
+          // alignWithLabel: false
+          boundaryGap: false
+          // show: this.xAxis_is_show
+          // gridIndex: 0
+          // axisLine: { show: false }
         },
         yAxis: {
           minInterval: 1,
           type: 'value',
-          inverse: true
+          inverse: true,
+          min: 1
         },
         series: that.series_data()
       })

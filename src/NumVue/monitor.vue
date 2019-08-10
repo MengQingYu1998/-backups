@@ -386,9 +386,9 @@
 								this.trs6=res.data.Data[1]
 								this.trs7=res.data.Data[0]
 								var a=this.trs2.RankMonitorList.length
-								for(var j=0;j<a;j++){
-									console.log(this.trs2[j].UpNum)
-								}
+								// for(var j=0;j<a;j++){
+								// 	console.log(this.trs2[j].UpNum)
+								// }
 							}
 						})
 						.catch(error => {

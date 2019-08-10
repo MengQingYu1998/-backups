@@ -403,15 +403,12 @@
 								})
 								.then(res=>{
 									if(res.data.Code==0){
-										// console.log(res.data.Data)
 										this.onlinFont=res.data.pageCount
-										// console.log("总条数："+res.data.pageCount)
 										if(this.onlinFont>0){
 											this.contentShow = true
 											this.infiniteMsgShow = true
 											this.contentShow2 = false
 										}else{
-											// console.log(this.onlinFont)
 											this.contentShow = true
 											this.infiniteMsgShow = false
 											this.contentShow2 = false
@@ -483,7 +480,6 @@
 				}else if(this.isFontG==true){
 					pidV=6014
 				}
-				// console.log("shouci111Pid"+pidV)
 				// 传给后台的日期值
 				let newDataB=formatDate(this.dateV, 'yyyy-MM-dd')
 
@@ -526,10 +522,7 @@
 								    }
 
 							    }
-							    // console.log("country_id:"+country_id)
-							    // console.log("geid:"+geid)
-							    // console.log("pidV:"+pidV)
-							    // console.log("newDataB:"+newDataB)
+							    
 							    // 获取清榜接口
 							  	this.$axios({
 									method:"post",

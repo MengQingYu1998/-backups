@@ -27,7 +27,7 @@
       <div class="line"></div>
       <div class="app_field">
         <div>APPID</div>
-        <div v-if="response_data">{{response_data.appId}}</div>
+        <div>{{this.$store.state.now_app_id}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field country" @mousemove="click">
@@ -92,6 +92,8 @@ export default {
             // '&appId=281736535'
             '&appId=' +
             this.$store.state.now_app_id
+          console.log(this.$store.state.now_app_id)
+          console.log(url)
 
           // 请求数据
           this.$axios
@@ -197,14 +199,13 @@ export default {
   line-height: 30px;
   letter-spacing: 0px;
   color: #888888;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+
+  height: 23px;
   overflow: hidden;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+
   width: 200px;
 }
 .app_description {

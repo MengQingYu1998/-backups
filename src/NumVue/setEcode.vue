@@ -60,7 +60,6 @@
 			},
 			blurCode(codeval){
 				this.focCode=false
-				console.log(codeval)
 				this.code=codeval
 				var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
 				if(this.codeval==undefined){
@@ -95,8 +94,6 @@
 			},
 			// 点击确认
 			cliSure(){
-				console.log(this.tel)
-				console.log(this.code)
 				if(this.ishas==true){
 					// 设置新密码接口
 					this.$axios({

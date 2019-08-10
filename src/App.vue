@@ -14,6 +14,23 @@ import Foot from './NumVue/foot'
 
 export default {
   name: 'App',
+  created() {
+    //在页面加载时读取sessionStorage里的状态信息
+    if (sessionStorage.getItem('store')) {
+      this.$store.replaceState(
+        Object.assign(
+          {},
+          this.$store.state,
+          JSON.parse(sessionStorage.getItem('store'))
+        )
+      )
+    }
+
+    //在页面刷新时将vuex里的信息保存到sessionStorage里
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('store', JSON.stringify(this.$store.state))
+    })
+  },
   components: {
     Navv,
     Foot
@@ -109,8 +126,12 @@ export default {
 .bangdan .date .el-input__inner {
   width: 120px;
 }
+.bangdan .date .el-input__icon  {
+  margin-top: -2px;
+}
 .bangdan .date .el-input__inner {
   padding-left: 25px;
+  padding-right: 12px;
 }
 #navv #country .select2-container--default .select2-selection--single {
   background-color: transparent;
@@ -128,6 +149,7 @@ export default {
 /*新修改样式*/
 .bangdan #country .select2-container {
   width: 150px !important;
+  margin-top: -12px;
 }
 .bangdan
   #country
@@ -153,17 +175,7 @@ export default {
 .pointer {
   cursor: pointer;
 }
-/* 修改element的单选框 */
-.el-radio-button {
-  margin-left: 10px;
-}
-.el-radio-button__inner {
-  border: solid 1px #dfdfdf;
-  border-radius: 4px !important;
-}
-.el-radio-group .el-radio-button:first-child {
-  margin-left: 0 !important;
-}
+
 /* video视频插件  */
 #version_message .video-js.vjs-fluid,
 .video-js.vjs-16-9,
@@ -214,7 +226,7 @@ table tbody tr:hover {
   /* width: 320px !important ; */
   box-sizing: border-box;
   /* transition-duration: 0ms !important; */
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* 进度条组件element */
@@ -298,6 +310,18 @@ table tbody tr:hover {
 .el-date-editor--timerange.el-input__inner {
   width: 250px !important;
 }
+/* 修改element的单选框 */
+.el-radio-button {
+  margin-left: 10px;
+}
+.el-radio-button__inner {
+  border: solid 1px #dfdfdf;
+  border-radius: 4px !important;
+  /* border-left: 1 !important; */
+}
+.el-radio-group .el-radio-button:first-child {
+  margin-left: 0 !important;
+}
 .app_div {
   min-height: 100vh;
 }
@@ -306,5 +330,8 @@ table thead tr th {
   font-size: 13px;
   color: #222222;
   font-weight: normal;
+}
+.f32 {
+  transform: scale(0.9);
 }
 </style>

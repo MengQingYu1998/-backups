@@ -214,7 +214,7 @@ export default {
       } else {
         sortV = 'asc'
       }
-      console.log(sortV)
+      
       // 传给后台的pid值
       let pidV = 36
       if (this.isFontZ == true) {
@@ -340,7 +340,6 @@ export default {
         // 需要执行的代码
         this.page++ //滚动之后加载第二页
         this.getData()
-        console.log('yes')
       }
     },
     // 点击总榜
@@ -373,7 +372,6 @@ export default {
       this.downG = true
       this.downWG = false
       this.upWG = false
-      console.log(this.now_Application)
       this.getData()
     },
     // 点击游戏榜
@@ -426,7 +424,7 @@ export default {
       this.zongsData.length = 0
       this.page = 1
 
-      console.log(this.zongsData)
+      
       this.getData()
     },
     //点击榜单分类

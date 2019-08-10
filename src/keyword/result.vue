@@ -519,7 +519,7 @@
                 ></el-radio-button>
                 <el-radio-button label="30天" v-show="radio01_dialog=='按小时'||radio01_dialog=='按天'"></el-radio-button>
                 <el-radio-button label="180天" v-show="radio01_dialog=='按天'||radio01_dialog=='按天'"></el-radio-button>
-                <el-radio-button label="380天" v-show="radio01_dialog=='按天'"></el-radio-button>
+                <el-radio-button label="360天" v-show="radio01_dialog=='按天'"></el-radio-button>
               </el-radio-group>
             </div>
           </div>
@@ -932,6 +932,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_result12)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -1122,6 +1128,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -1142,8 +1154,8 @@ export default {
           y: 'bottom'
         },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           bottom: '13%',
           containLabel: true
         },
@@ -1236,6 +1248,9 @@ export default {
       this.$router.push({
         path: '/result'
       })
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page = 1
       this.$store.state.now_app_name = parm
     },
     go_to_page05(parm, parm02) {
@@ -1360,12 +1375,16 @@ export default {
 .second_div {
   width: 55px;
 }
+.second_div img {
+  border: solid 1px #f2f2f2;
+}
 .third_div > div {
   width: 130px !important;
   text-align: left !important;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  height: 23px;
   overflow: hidden;
 }
 .first_div {

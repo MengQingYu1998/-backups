@@ -329,7 +329,6 @@
 						
 				})
 				.then(res=>{
-					console.log(res.data.Data)
 					if(res.data.Code==0){
 						this.msgsno.data=res.data.Data.noReadMessage
 						this.msgsread.data=res.data.Data.readedMessage
@@ -361,7 +360,6 @@
 					url:'GetMessageById?id='+m
 				})
 				.then(res=>{
-					console.log(res.data.Data)
 					this.msgDes=res.data.Data
 				})
 				.catch(error=>{
@@ -370,7 +368,6 @@
 			},
 			// 点击未读消息
 			clinoread(msg){
-				console.log(msg.id)
 				// 修改消息状态接口
 				this.$axios({
 					method:"get",
@@ -378,7 +375,6 @@
 						
 				})
 				.then(res=>{
-					console.log(res.data.Code)
 					if(res.data.Code==1){
 						// 已读成功
 						this.masg=false
@@ -392,7 +388,6 @@
 			// 点击已读
 			cliread(msg){
 				this.masg=false
-				console.log(msg.id)
 				this.getMsgdes(msg.id)
 			},
 			// 点击全部消息
@@ -435,7 +430,6 @@
 			},
 			// 修改头像接口
 			changeTou(touX){
-				console.log(touX)
 				this.$axios({
 	                method:'post',
 	                url:'/UptAvatar',
@@ -466,7 +460,7 @@
 	                    // 调用上传头像接口
 	                    that.changeTou(that.touxiang)
 	                    localStorage.setItem("touxiang",this.result);//存储密码
-	                    console.log(localStorage.getItem('touxiang'))
+	                    
 	                }
 	                
 	                
@@ -481,7 +475,7 @@
 			blurState(telval){
 				this.focinp=false
 				this.tel=this.telval
-				console.log("账号："+this.telval)
+				
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
 				if(this.telval==undefined){
 					this.wrongTel=true
@@ -578,7 +572,6 @@
 	        		}
 	        	})
 	        	.then(res=>{
-	        		console.log(res.data)
 	        		this.telnow=this.tel
 	        		this.telMask=true
 	        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:fixed; width:100%;')
@@ -635,7 +628,6 @@
 	        		}
 	        	})
 	        	.then(res=>{
-	        		console.log(res.data)
 	        		this.emailMask=false
 	        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:relative;')
 	        		this.unemail=false
@@ -668,7 +660,6 @@
 	        // 产品名称失去焦点
 	        blurpro(proval){
 	        	this.product=proval
-	        	console.log(proval)
 	        },
 	        // 账号设置的保存按钮
 	        setsave(){
@@ -684,7 +675,6 @@
 		        		}
 		        	})
 		        	.then(res=>{
-		        		console.log(res.data)
 		        		this.$router.push({path:'/index'})
 		        	})
 		        	.catch(error=>{

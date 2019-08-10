@@ -146,7 +146,6 @@
 			blurState(telval){
 				this.focinp=false
 				this.tel=this.telval
-				console.log("账号："+this.telval)
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
 				if(this.telval==undefined){
 					this.wrongTel=true
@@ -246,7 +245,6 @@
 						
 					})
 					.then(res=>{
-						console.log(res.data)
 						if(res.data.Code==0){
 							this.reSus=true
 							document.getElementsByTagName('body')[0].setAttribute('style', 'position:fixed; width:100%;')
@@ -276,7 +274,6 @@
 						url:"/VerifyPhone?phone="+this.tel,
 					})
 					.then(res=>{
-						console.log(res.data)
 						if(res.data.Code==-1){
 							// 手机号不存在
 							this.wrongTel=true

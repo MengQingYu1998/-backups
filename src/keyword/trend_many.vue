@@ -1,6 +1,6 @@
 <template>
   <div id="trend_many" class="content">
-    <div class="trend_many_title">「{{this.$store.state.now_app_name}}」搜索结果数排名走势</div>
+    <div class="trend_many_title">「{{this.$store.state.now_app_name}}」搜索指数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -272,6 +272,12 @@ export default {
       let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
       // 绘制图表
       myChart.setOption({
+        tooltip: {
+          textStyle: {
+            align: 'left'
+          },
+          trigger: 'axis'
+        },
         color: [
           '#009bef',
           '#ff6969',
@@ -297,8 +303,8 @@ export default {
           selected: that.selected_data
         },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           bottom: '13%',
           containLabel: true
         },

@@ -171,14 +171,12 @@ export default {
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
       } else if (index == 2) {
-      	// this.uid =null
       	this.unlogin = true
       	localStorage.clear();
         this.$router.push({ path: '/index' })
       }
     }
   },
-  // props:['msg'],
   created() {
   	this.fun()
     

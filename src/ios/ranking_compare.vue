@@ -66,7 +66,7 @@
                   label="180天"
                   v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
                 ></el-radio-button>
-                <el-radio-button label="380天" v-show="middle_top_radio1=='按天'"></el-radio-button>
+                <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
               </el-radio-group>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default {
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 180)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '380天') {
+          } else if (this.middle_top_radio3 == '360天') {
             let yesterday = new Date()
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 380)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
@@ -258,7 +258,13 @@ export default {
 
           let appid =
             this.$store.state.now_app_id + ',' + this.$store.state.now_app_id02
-          console.log(appid)
+          console.log('appid=' + appid)
+          console.log('countryId=' + country_id)
+          console.log('startDate=' + startDate)
+          console.log('endDate=' + endDate)
+          console.log('brand=' + brand)
+          console.log('timeType=' + timeType)
+          console.log('device=' + deviceType)
           let data = {
             // appids: '600273928,951391381',
             appids: appid,
@@ -313,7 +319,13 @@ export default {
                 // x轴数据
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
-                  return timestamp(element, 'Y/M/D h:m:s')
+                  if (this.middle_top_radio1 == '按天') {
+                    return timestamp(element, 'Y/M/D')
+                  } else if (this.middle_top_radio1 == '按小时') {
+                    return timestamp(element, 'Y/M/D h')
+                  } else if (this.middle_top_radio1 == '按分钟') {
+                    return timestamp(element, 'Y/M/D h:s')
+                  }
                 })
 
                 this.drawLine()
@@ -389,6 +401,9 @@ export default {
           '#e13eff'
         ],
         tooltip: {
+          textStyle: {
+            align: 'left'
+          },
           trigger: 'axis'
         },
         legend: {
@@ -401,8 +416,8 @@ export default {
           selected: that.selected_data
         },
         grid: {
-          left: '0%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           bottom: '23%',
           containLabel: true
         },
@@ -424,7 +439,10 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          minInterval: 1,
+          type: 'value',
+          inverse: true,
+          min: 1
         },
         series: that.series_data()
       })
