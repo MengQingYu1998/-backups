@@ -364,7 +364,15 @@
                       v-if="response_data_fourth_part_item.isDelete"
                     >该条评论已被删除</span>
                   </div>
-                  <div class="table_description">{{response_data_fourth_part_item.commentContent}}</div>
+                  <div
+                    :id="'show_more'+index"
+                    class="table_description"
+                  >{{response_data_fourth_part_item.commentContent}}</div>
+                  <div
+                    class="show_all"
+                    :id="'show_hide'+index"
+                    @click="show_more_function('show_more'+index,'show_hide'+index)"
+                  >展开更多</div>
                   <div class="table_author">
                     作者：
                     <span>{{response_data_fourth_part_item.authorName}}</span>
@@ -420,11 +428,11 @@ export default {
           data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
         }
       ],
-      one_start_data: [-320, 332, 301, 334, 390, 330, 320],
-      two_start_data: [-320, 332, 301, 334, 390, 330, 320],
-      three_start_data: [-320, 332, 301, 334, 390, 330, 320],
-      four_start_data: [-320, 332, 301, 334, 390, 330, 320],
-      five_start_data: [-320, 332, 301, 334, 390, 330, 320],
+      one_start_data: [],
+      two_start_data: [],
+      three_start_data: [],
+      four_start_data: [],
+      five_start_data: [],
       //  第三部分参数
       //  第三部分参数
       //  第三部分参数
@@ -446,16 +454,17 @@ export default {
       ],
       grade_start_three: false, //五星图表默认隐藏
       common_one: true, //在线删除图表默认隐藏
-      online_data: [-320, 332, 301, 334, 390, 330, 320],
-      delete_data: [-320, 332, 301, 334, 390, 330, 320],
-      one_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
-      two_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
-      three_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
-      four_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
-      five_start_data_third: [-320, 332, 301, 334, 390, 330, 320],
+      online_data: [],
+      delete_data: [],
+      one_start_data_third: [],
+      two_start_data_third: [],
+      three_start_data_third: [],
+      four_start_data_third: [],
+      five_start_data_third: [],
       // 第四部分的参数
       // 第四部分的参数
       // 第四部分的参数
+      show_more_less: true, //展开 收起
       response_data_fourth_part: null,
       bottom_radio01: '全部',
       bottom_radio02: '全部',
@@ -530,6 +539,63 @@ export default {
     })
   },
   methods: {
+    // ==========================请求第一部分评分统计的数据==============================
+    // ==========================请求第一部分评分统计的数据==============================
+    // ==========================请求第一部分评分统计的数据==============================
+    get_data_for_first_part() {
+      this.$axios
+        .get('/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          // console.log('获取国家ID')
+
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // console.log(country_id)
+          let appId = this.$store.state.now_app_id
+          let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
+          console.log(url)
+
+          // 请求数据
+          this.$axios
+            .get(url)
+            .then(response => {
+              console.log('==========分数======')
+              console.log(response)
+
+              this.response_data_first_part = response.data.Data
+              // 设置左边的五评分五角星
+              this.start_left = this.response_data_first_part.current.ratingAverage
+              // 设置右边的五评分五角星
+              this.start_right = this.response_data_first_part.all.ratingAverage
+              // console.log(
+              //   this.
+              // )
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 当点击第四部分的时间的时候，把和时间一起的单选框置空
+    change_bottom_radio04: function() {
+      this.bottom_radio04 = ''
+    },
+    // 当点击第四部分的单选框的时候，把和单选框一起的时间置空
+    change_bottom_time01: function() {
+      this.bottom_time01 = ''
+    },
+
     // ====================第二部分=========================
     // ===================第二部分==========================
     // ====================第二部分=========================
@@ -579,7 +645,8 @@ export default {
         xAxis: this.middle_top_xAxis,
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            minInterval: 1
           }
         ],
         series: [
@@ -755,7 +822,8 @@ export default {
         xAxis: this.middle_bottom_xAxis,
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            minInterval: 1
           }
         ],
         series: [
@@ -826,7 +894,8 @@ export default {
         xAxis: this.middle_bottom_xAxis,
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            minInterval: 1
           }
         ],
         series: [
@@ -1088,64 +1157,24 @@ export default {
           console.log(error)
         })
     },
-    // 请求第一部分评分统计的数据
-    // 请求第一部分评分统计的数据
-    // 请求第一部分评分统计的数据
-    // 请求第一部分评分统计的数据
-    get_data_for_first_part() {
-      this.$axios
-        .get('/GetCountry')
-        .then(response => {
-          // 获取国家ID
-          // console.log('获取国家ID')
-
-          let country_id
-          let arr_country = response.data.Data
-          arr_country.forEach(element => {
-            if (element.name == this.now_country) {
-              country_id = element.id
-              return false
-            }
-          })
-          // 请求数据
-          // console.log(country_id)
-          let appId = this.$store.state.now_app_id
-          let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
-          console.log(url)
-
-          // 请求数据
-          this.$axios
-            .get(url)
-            .then(response => {
-              console.log('==========分数======')
-              console.log(response)
-
-              this.response_data_first_part = response.data.Data
-              // 设置左边的五评分五角星
-              this.start_left = this.response_data_first_part.current.ratingAverage
-              // 设置右边的五评分五角星
-              this.start_right = this.response_data_first_part.all.ratingAverage
-              // console.log(
-              //   this.
-              // )
-            })
-            .catch(error => {
-              console.log(error)
-            })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    show_more_function(parm, parm02) {
+      let this_div02 = document.getElementById(parm02) //展开收起
+      let this_div = document.getElementById(parm) //内容
+      console.log(this_div02.innerHTML)
+      if (this_div02.innerHTML == '展开更多') {
+        this_div.style.height = 'auto'
+        this_div.style.display = 'block'
+        this_div02.innerHTML = '收起'
+      } else if (this_div02.innerHTML == '收起') {
+        this_div.style.height = '63px'
+        this_div.style.display = '-webkit-box '
+        this_div02.innerHTML = '展开更多'
+      }
     },
-    // 当点击第四部分的时间的时候，把和时间一起的单选框置空
-    change_bottom_radio04: function() {
-      this.bottom_radio04 = ''
-    },
-    // 当点击第四部分的单选框的时候，把和单选框一起的时间置空
-    change_bottom_time01: function() {
-      this.bottom_time01 = ''
-    },
-
+    // hide_more_function(parm) {
+    //   let this_div = document.getElementById(parm)
+    //   this_div.style.height = '62px'
+    // },
     // =================通用============================
     // =================通用============================
     // =================通用============================
@@ -1163,6 +1192,19 @@ export default {
 }
 </script>
 <style scoped>
+.show_all {
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 3px;
+  /* background-color: #ffffff; */
+  position: absolute;
+  right: 13px;
+  bottom: 85px;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
@@ -1201,6 +1243,7 @@ export default {
   width: 480px !important;
   padding: 30px;
   box-sizing: border-box;
+  position: relative;
 }
 
 table .table_author span {
@@ -1210,6 +1253,7 @@ table .table_author span {
   letter-spacing: 0px;
   color: #009bef;
 }
+
 table .table_description,
 table .table_author {
   font-family: SourceHanSansCN-Normal;
@@ -1217,6 +1261,12 @@ table .table_author {
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
+  margin-top: 15px;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 62px;
 }
 table .table_title {
   font-family: SourceHanSansCN-Medium;

@@ -43,7 +43,8 @@
 				</div>
 				<div>
 					<p>搜索</p>
-					<input type="text" placeholder="请输入搜索应用名称">
+					<input type="text" placeholder="请输入搜索应用名称" v-model="searval" @keyup="getsearchVal(searval)"/>
+					<button class="search" @click="search()">搜索</button>
 				</div>
 			</div>
 			<div class="Leibox">
@@ -194,14 +195,14 @@
 							</tr>
 						</tbody>
 					</table>
-					<div class="scrollDiv" v-show="contentShow">
+					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
 			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
 			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
 			            </div>
 			        </div>
 					<!-- scroll -->
-			        <div class="scrollDiv" v-show="contentShow2">
+			        <div class="scrollDiv bbbbb" v-show="contentShow2">
 			            <div>
 			            <p v-show="infiniteMsgShow2" class="tips">加载更多ing</p>
 			            <p v-show="!infiniteMsgShow2" class="tips"> 没有更多数据</p>
@@ -249,9 +250,9 @@
 				now_Application:'',//当前选中类别
 				// hasNum:true,//是否有数据
 				hasNumB:true,//清榜是否有数据
-				onlinFont:'100',//上下架应用数
-				onlinFontB:'100',//清榜应用数
-				onlinFontC:'100',//清词应用数
+				onlinFont:'0',//上下架应用数
+				onlinFontB:'0',//清榜应用数
+				onlinFontC:'0',//清词应用数
 				// showci:true,//清词div
 				// 获取当前选中的国家
       			now_country: '中国',
@@ -289,7 +290,8 @@
 				games:{
 					Data:[]
 				},
-				
+				searval:'',//v-model搜索词
+				searchval:''// 搜索关键词
 			}
 		},
 		mounted(){
@@ -306,9 +308,11 @@
 		      this.zongsBList.length=0
 		      this.page=1
 		      this.page2=1
-		      this.getData()
-		      this.getDataB()
 		      this.getDataci()
+		      this.getDataB()
+		      this.getData()
+		      
+		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
 		      // 当前国家发生变化，重新请求数据...
@@ -317,12 +321,25 @@
 		      this.getData()
 		      this.zongsBList.length=0
 		      this.page2=1
-		      this.getDataB()
 		      this.getDataci()
+		      this.getDataB()
+		      
 		    })
 		},
 		methods:{
-		
+			// 获取搜索关键词
+			getsearchVal(searval){
+				this.searchval=searval
+				// this.getData()
+			},
+			// 点击搜索
+			search(){
+				this.getDataci()
+				this.getDataB()
+				this.getData()
+				
+				
+			},
 			// 上下架应用接口
 			getData(){
 				
@@ -386,7 +403,6 @@
 								    }
 
 							    }
-							  
 							    // 获取应用接口
 							  	this.$axios({
 									method:"post",
@@ -396,38 +412,55 @@
 										genreid:geid,
 										date:newData,
 										IsOnline:IsOnlineV,
-										appKey:"",
+										appKey:this.searchval,
 										pageIndex:this.page,
 										pageSize:this.pageSize
 									}
 								})
 								.then(res=>{
+									// console.log(res.data)
 									if(res.data.Code==0){
+										// console.log(res.data.Data)
 										this.onlinFont=res.data.pageCount
+										this.contentShow2 = false
 										if(this.onlinFont>0){
 											this.contentShow = true
-											this.infiniteMsgShow = true
-											this.contentShow2 = false
+											this.infiniteMsgShow = true//加载更多
+											
 										}else{
+											
 											this.contentShow = true
-											this.infiniteMsgShow = false
-											this.contentShow2 = false
+											this.infiniteMsgShow = false//没有更多
+											
 										}
-
+										if(res.data.Data==""){
+											this.contentShow2 = false
+											this.contentShow = true
+											this.infiniteMsgShow = false//没有更多
+										}
 								        this.zongsdataList=this.zongsdataList.concat(res.data.Data)
 								        let DownloadTotal=(this.pageSize+1)*this.page
 								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
-									        if(this.page==pageC){
+								        // console.log(this.page)
+								        // console.log(pageC)
+									        if(this.page>=pageC){
+									        	this.contentShow2 = false
 									        	this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
 								       
+									}else{
+										this.contentShow2 = false
+										this.contentShow = true
+									    this.infiniteMsgShow = false//没有更多
 									}
 									
 								})
 								.catch(error=>{
 									console.log(error)
-									this.contentShow = false
+									this.contentShow2 = false
+									this.contentShow = true
+									this.infiniteMsgShow = false
 								})
 							} 
 						})
@@ -464,8 +497,9 @@
 					// 需要执行的代码
 					this.page++;  //滚动之后加载第二页
 					this.page2++;  //滚动之后加载第二页
+					this.getDataB();
 					this.getData();	
-			    	this.getDataB();
+			    	
 				}
 				
 		    },  
@@ -522,7 +556,6 @@
 								    }
 
 							    }
-							    
 							    // 获取清榜接口
 							  	this.$axios({
 									method:"post",
@@ -533,7 +566,7 @@
 										genreid:geid,
 										pid:pidV,
 										date:newDataB,
-										appKey:"",
+										appKey:this.searchval,
 										pageIndex:this.page2,
 										pageSize:this.pageSize2
 									}
@@ -541,14 +574,13 @@
 								.then(res=>{
 									if(res.data.Code==0){
 										this.onlinFontB=res.data.pageCount
+										this.contentShow = false
 										if(this.onlinFontB>0){
-											this.contentShow = false
 											this.contentShow2 = true
-											this.infiniteMsgShow2 = true
+											this.infiniteMsgShow2 = true//加载更多
 								        } else {
-								        	this.contentShow = false
-								            this.contentShow2 = false
-								            this.infiniteMsgShow2 = false
+								            this.contentShow2 = true
+								            this.infiniteMsgShow2 = false//没有更多
 								        }
 
 								        this.zongsBList=this.zongsBList.concat(res.data.Data)
@@ -561,6 +593,8 @@
 								})
 								.catch(error=>{
 									console.log(error)
+									this.contentShow = false
+									this.contentShow2 = true
 									this.contentShow2 = false
 								})
 							} 
@@ -645,13 +679,19 @@
 								date:newDataB,
 								genreid:geid,
 								pid:pidV,
-								appname:''
+								appname:this.searchval
 							}
 						})
 						.then(res => {
+							// console.log(res.data.Data)
+							if(res.data.Data==""){
+								this.onlinFontC=0
+								this.contentShow = false
+								this.contentShow2 = true
+								this.infiniteMsgShow2 = false//没有更多
+							}
 							this.onlinFontC=res.data.pageCount
-
-						        this.cidataList=res.data.Data
+							this.cidataList=res.data.Data
 						 
 						})
 						.catch(error=>{
@@ -761,7 +801,7 @@
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
 
-					this.contentShow2=false,//清榜的滑动加载
+					this.contentShow2=false//清榜的滑动加载
 
 					this.zongsdataList.length=0
 		      		this.page=1
@@ -776,7 +816,7 @@
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
 
-					this.contentShow2=false,//清榜的滑动加载
+					this.contentShow2=false//清榜的滑动加载
 
 					this.zongsdataList.length=0
 		      		this.page=1
@@ -791,7 +831,7 @@
 					this.qingbangF=true//清榜标题
 					this.qingciF=false//清词标题
 
-					this.contentShow2=true,//清榜的滑动加载
+					this.contentShow2=true//清榜的滑动加载
 
 					this.zongsBList.length=0
 				    this.page2=1
@@ -806,13 +846,18 @@
 					this.getDataci()
 				}
 			},
-		go_to_page01(parm,parm02) {
-			this.$router.push({
-        path: '/now_ranking'
-      })
-      this.$store.state.now_app_id=parm
-      this.$store.state.now_app_name=parm02
-}
+			go_to_page01(parm,parm02) {
+				sessionStorage.setItem("appid", parm); 
+				sessionStorage.setItem("appname", parm02); 
+				sessionStorage.setItem("countryname", this.now_country); 
+				let routerUrl=this.$router.resolve({
+					path:'/now_ranking'
+				})
+				window.open(routerUrl .href,'_blank')
+			   
+			      this.$store.state.now_app_id=parm
+			      this.$store.state.now_app_name=parm02
+			}
 		}
 	}
 
@@ -948,6 +993,38 @@
 }
 .content .country>div:nth-child(3){
 	margin-left: 21px;
+}
+.content .lei>div:last-child input{
+	width: 145px;
+	height: 24px;
+	border-radius: 4px;
+	border: solid 1px #dfdfdf;
+}
+.content .lei>div:last-child input::placeholder{
+	font-family: SourceHanSansCN-Normal;
+	font-size: 13px;
+	color: #bfbfbf;
+}
+.content .lei>div:last-child input{
+	font-family: SourceHanSansCN-Normal;
+	font-size: 13px;
+	color: #444444;
+	padding-left: 10px;
+}
+.content .lei>div:last-child button{
+	width: 48px!important;
+    height: 24px;
+    background-color: #009bef;
+    border-radius: 4px;
+    font-family: SourceHanSansCN-Normal;
+    font-size: 13px;
+    font-weight: 400;
+    font-stretch: normal;
+    line-height: 24px;
+    letter-spacing: 0;
+    color: #fff;
+    text-align: center;
+    border:none;
 }
 .content .lei>div p,
 .content .country>div p{

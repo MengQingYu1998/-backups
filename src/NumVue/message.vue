@@ -458,9 +458,8 @@
 	                    // 这里的this 指向reader
 	                    that.touxiang=this.result
 	                    // 调用上传头像接口
-	                    that.changeTou(that.touxiang)
+	                    that.changeTou(this.result)
 	                    localStorage.setItem("touxiang",this.result);//存储密码
-	                    
 	                }
 	                
 	                
@@ -562,7 +561,6 @@
 			},
 	        // 修改手机号接口
 	        changetel(){
-	        	alert(this.uid)
 	        	this.$axios({
 	        		method:'post',
 	        		url:'/UptPhone',
@@ -675,7 +673,10 @@
 		        		}
 		        	})
 		        	.then(res=>{
-		        		this.$router.push({path:'/index'})
+		        		let routerUrl=this.$router.resolve({
+									path:'/index'
+						})
+						window.open(routerUrl .href,'_blank')
 		        	})
 		        	.catch(error=>{
 		        		console.log(error)
@@ -756,11 +757,9 @@
 	        		}
 	        	})
 	        	.then(res=>{
-	        		alert(res.data)
 	        		console.log(res.data)
 	        	})
 	        	.catch(error=>{
-	        		alert(error)
 	        		console.log(error)
 	        	})
 	        }
@@ -768,7 +767,6 @@
 		},
 		created(){
 			this.getMsg()
-			console.log(localStorage.getItem("tel"))
 		}	
 	}
 </script>

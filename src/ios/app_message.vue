@@ -15,6 +15,7 @@
         <section class="app_description" v-if="response_data&&response_data.description!='无'">
           <div class="section_title">应用描述</div>
           <div class="section_content" v-if="response_data" v-html="response_data.description"></div>
+          <!-- <div class="show_all" @click="show_more_function()">展开更多</div> -->
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
@@ -319,7 +320,19 @@ export default {
           console.log(error)
         })
     },
-
+    // show_more_function() {
+    //   let this_div02 = document.getElementsByClassName('.show_all') //展开收起
+    //   let this_div = document.getElementById('#section_content') //内容
+    //   if (this_div02.innerHTML == '展开更多') {
+    //     this_div.style.height = 'auto'
+    //     this_div.style.display = 'block'
+    //     this_div02.innerHTML = '收起'
+    //   } else if (this_div02.innerHTML == '收起') {
+    //     this_div.style.height = '125px'
+    //     this_div.style.display = '-webkit-box '
+    //     this_div02.innerHTML = '展开更多'
+    //   }
+    // },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -329,6 +342,26 @@ export default {
 }
 </script>
 <style scoped>
+#section_content {
+  height: 125px;
+  -webkit-line-clamp: 6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.show_all {
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 3px;
+  /* background-color: #ffffff; */
+  position: absolute;
+  right: 13px;
+  bottom: 85px;
+}
 .app_description {
   margin-bottom: 50px;
 }

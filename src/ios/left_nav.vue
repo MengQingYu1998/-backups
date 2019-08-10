@@ -72,6 +72,7 @@ export default {
   color: #888888;
   margin: 30px 0;
   margin-left: 32px;
+  cursor: pointer;
 }
 .nav_title div {
   margin-left: 15px;

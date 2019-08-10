@@ -499,6 +499,9 @@ thead th:nth-child(5) {
   width: 327px;
 }
 
+tbody td {
+  padding: 16px 0 !important;
+}
 tbody td:nth-child(1) {
   width: 199px;
 }

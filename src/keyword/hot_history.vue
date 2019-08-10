@@ -22,8 +22,9 @@
       <div class="options_04 option">
         <div>搜索</div>
         <div class="search">
-          <el-input v-model="search_input" @blur="blur" placeholder="请输入搜索关键词"></el-input>
+          <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
         </div>
+        <div class="search_confirm pointer" @click="blur">搜索</div>
       </div>
     </div>
     <div class="table01" v-for="(item,index) in response_data" :key="'table01'+index">
@@ -154,6 +155,21 @@ export default {
 </script>
 
 <style scoped>
+.search_confirm {
+  width: 48px !important;
+  height: 24px;
+  background-color: #009bef;
+  border-radius: 4px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 3px;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;

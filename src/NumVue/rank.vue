@@ -83,7 +83,7 @@
       <div class="zongbang">
         <div class="tit">
           <p class="line"></p>
-          <p class="font" v-html="upfont"></p>
+          <p class="font" v-html="upfontval"></p>
         </div>
         <div>
           <table>
@@ -118,7 +118,7 @@
                 <th class="change">
                   <div>
                     <img src="../assets/NumImg/up.png" class="down" v-if="tr.rankChange>=0" />
-                    <img src="../assets/NumImg/xia.png" class="down" v-if="tr.rankChange<0" />
+                    <img src="../assets/NumImg/downred.png" class="down" v-if="tr.rankChange<0" />
                     <span v-if="tr.rankChange>=0">{{tr.rankChange}}</span>
                     <span v-if="tr.rankChange<0">{{-(tr.rankChange)}}</span>
                   </div>
@@ -161,13 +161,13 @@ export default {
       upWG: false,
       index: 0,
       isSelect: '', //排名上升下降加样式
-      upfont: '24小时内上升榜',
+      upfontval: '24小时内上升榜',
       upfont: true,
       isSelectfont: '', //榜单分类加样式
       index: 0, //榜单分类index
       now_Application: '应用',
       showdate: false, //是否显示日期下拉框
-      datefont: '1天内', //日期html
+      datefont: '24小时内', //日期html
       zongsData: [],
       page: 1,
       pageSize: 20,
@@ -183,7 +183,7 @@ export default {
       },
       // 日期
       timDs: [
-        { name: '1天内' },
+        { name: '24小时内' },
         { name: '3天内' },
         { name: '7天内' },
         { name: '30天内' }
@@ -235,7 +235,7 @@ export default {
       }
       // 传给后台的dayNum值
       let dayNumV = 1
-      if (this.datefont == '1天内') {
+      if (this.datefont == '24小时内') {
         dayNumV = 1
       } else if (this.datefont == '3天内') {
         dayNumV = 3
@@ -246,22 +246,22 @@ export default {
       }
 
       // 判断标题显示html
-      if (this.isSelect == 0 && this.datefont == '1天内') {
-        this.upfont = '24小时内上升榜'
+      if (this.isSelect == 0 && this.datefont == '24小时内') {
+        this.upfontval = '24小时内上升榜'
       } else if (this.isSelect == 0 && this.datefont == '3天内') {
-        this.upfont = '3天内上升榜'
+        this.upfontval = '3天内上升榜'
       } else if (this.isSelect == 0 && this.datefont == '7天内') {
-        this.upfont = '7天内上升榜'
+        this.upfontval = '7天内上升榜'
       } else if (this.isSelect == 0 && this.datefont == '30天内') {
-        this.upfont = '30天内上升榜'
-      } else if (this.isSelect == 1 && this.datefont == '1天内') {
-        this.upfont = '24小时内下降榜'
+        this.upfontval = '30天内上升榜'
+      } else if (this.isSelect == 1 && this.datefont == '24小时内') {
+        this.upfontval = '24小时内下降榜'
       } else if (this.isSelect == 1 && this.datefont == '3天内') {
-        this.upfont = '3天内下降榜'
+        this.upfontval = '3天内下降榜'
       } else if (this.isSelect == 1 && this.datefont == '7天内') {
-        this.upfont = '7天内下降榜'
+        this.upfontval = '7天内下降榜'
       } else if (this.isSelect == 1 && this.datefont == '30天内') {
-        this.upfont = '30天内下降榜'
+        this.upfontval = '30天内下降榜'
       }
 
       // 获取分类id
@@ -283,6 +283,12 @@ export default {
                 }
               }
             }
+//             console.log("brandV:"+brandV)
+//             console.log("dayNumV:"+dayNumV)
+//             console.log("sortV:"+sortV)
+//             console.log("apliId:"+apliId)
+//             console.log("pidV:"+pidV)
+// console.log(111111111111111111111)
             this.$axios({
               method: 'post',
               url: '/PostAppRankChanage',
@@ -300,18 +306,21 @@ export default {
             })
               .then(res => {
                 if (res.data.Code == 0) {
+                  // console.log(res.data.Data)
                   this.zongsData = this.zongsData.concat(res.data.Data)
                   let DownloadTotal = (this.pageSize + 1) * this.page
                   let total = res.data.pageCount
                   if (total > 0) {
                     this.contentShow = true
+                    this.infiniteMsgShow = false
                   } else {
-                    this.contentShow = false
+                    this.contentShow = true
+                    this.infiniteMsgShow = true
                   }
                   if (DownloadTotal >= total) {
-                    this.infiniteMsgShow = false // 切换底部提示信息
+                    this.infiniteMsgShow = false // 加载更多
                   } else {
-                    this.infiniteMsgShow = true
+                    this.infiniteMsgShow = true //没有更多
                   }
                 }
               })
@@ -414,6 +423,8 @@ export default {
     //点击排名上升/下降
     selectLei(index) {
       this.isSelect = index
+      this.showApplication = false
+      this.showGame = false
       // this.zongsData.length=0
       if (this.isSelect == 0) {
         this.upfont = true
@@ -430,18 +441,22 @@ export default {
     //点击榜单分类
     clibLei(index) {
       this.isSelectfont = index
+      this.showApplication = false
+      this.showGame = false
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
     // 点击日期
     cliDate() {
+      this.showApplication = false
+      this.showGame = false
       this.showdate = true
     },
     // 点击日期option
     clitime(index) {
       if (index == 0) {
-        this.datefont = '1天内'
+        this.datefont = '24小时内'
       } else if (index == 1) {
         this.datefont = '3天内'
       } else if (index == 2) {
@@ -454,12 +469,11 @@ export default {
       this.page = 1
       this.getData()
     },
-    go_to_page01(parm, parm02) {
-      this.$router.push({
-        path: '/now_ranking'
-      })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
+    go_to_page01(parm,parm02) {
+          let routerUrl=this.$router.resolve({
+              path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
+            })
+            window.open(routerUrl .href,'_blank')
     }
   }
 }
@@ -501,14 +515,13 @@ export default {
   border-radius: 4px;
   border-top: 0.013rem solid transparent;
   text-align: left;
-  margin-top: -4px;
 }
 .Leibox > div > div.lie {
   width: 168px;
   padding: 7px 0;
 }
 .Leibox > div.date > div.lie {
-  width: 70px;
+  width: 80px;
   padding: 7px 0;
 }
 .Leibox > div > div span {
@@ -546,6 +559,7 @@ export default {
 .content {
   width: 1200px;
   margin: 0 auto;
+  min-height: 500px;
 }
 .content ul {
   width: 100%;

@@ -39,10 +39,10 @@
 			<div class="loginBtn" :class="{'nokong':ishas}" >
 				<el-button  :plain="true" @click="loginBtn()">登录</el-button>
 			</div>
-			<div class="weixinLogin">
+			<!-- <div class="weixinLogin">
 				<p><img src="../assets/NumImg/otherLogin.png"/></p>
 				<p><img src="../assets/NumImg/WeChat.png"></p>
-			</div>
+			</div> -->
 
 		</div>
 

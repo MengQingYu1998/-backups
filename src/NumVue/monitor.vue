@@ -410,6 +410,8 @@
 				this.isFontZ=true
 				this.isFont=false
 				this.isFontG=false
+				this.showApplication = false;
+				this.showGame=false;
 				this.getData()
 			},
 			// 点击应用榜
@@ -460,10 +462,9 @@
 			//点击榜单分类
 			clibLei(index){
 				this.isSelectfont=index
+				this.showApplication = false;
+				this.showGame=false;
 				this.getData()
-			},
-			showTim(item){
-				
 			}
 		},
 		created(){
@@ -511,7 +512,6 @@
 	border-radius: 4px;
 	border-top: 0.013rem solid transparent;
 	text-align: left;
-	margin-top: -4px;
 }
 .Leibox >div >div.lie{
 	width: 168px;

@@ -32,7 +32,14 @@
                       <div>{{item.subtitle}}</div>
                     </div>
                   </div>
-                  <div class="time_line_item_content">{{item.updateLog}}</div>
+                  <div class="time_line_item_content">
+                    <div v-html="item.updateLog" :id="'show_more'+index"></div>
+                  </div>
+                  <div
+                    class="show_all"
+                    :id="'show_hide'+index"
+                    @click="show_more_function('show_more'+index,'show_hide'+index)"
+                  >展开更多</div>
                 </div>
               </el-timeline-item>
             </el-timeline>
@@ -120,7 +127,20 @@ export default {
           console.log(error)
         })
     },
-
+    show_more_function(parm, parm02) {
+      let this_div02 = document.getElementById(parm02) //展开收起
+      let this_div = document.getElementById(parm) //内容
+      console.log(this_div02.innerHTML)
+      if (this_div02.innerHTML == '展开更多') {
+        this_div.style.height = 'auto'
+        this_div.style.display = 'block'
+        this_div02.innerHTML = '收起'
+      } else if (this_div02.innerHTML == '收起') {
+        this_div.style.height = '63px'
+        this_div.style.display = '-webkit-box '
+        this_div02.innerHTML = '展开更多'
+      }
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -134,6 +154,26 @@ export default {
 }
 </script>
 <style scoped>
+.show_all {
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #009bef;
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 3px;
+  /* background-color: #ffffff; */
+  position: absolute;
+  right: 3px;
+  bottom: 19px;
+}
+.time_line_item_content div {
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 62px;
+}
 .time_line_item_content {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -144,7 +184,7 @@ export default {
   color: #444444;
   width: 789px;
   background-color: #f7f7f7;
-  padding: 21px 16px 19px 15px;
+  padding: 21px 16px 40px 15px;
   margin-top: 20px;
   word-wrap: break-word;
   word-break: normal;

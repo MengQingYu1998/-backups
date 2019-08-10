@@ -7,7 +7,7 @@
         <left_nav />
       </div>
       <div class="right">
-        <div class="right_nav">榜单排名对比</div>
+        <div class="right_nav">关键词覆盖对比</div>
         <div class="line"></div>
         <div class="btn_group">
           <div class="option">
@@ -194,6 +194,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              console.log(response)
               console.log(this.response_data)
             })
             .catch(error => {

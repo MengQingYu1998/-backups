@@ -15,7 +15,6 @@ import Foot from './NumVue/foot'
 export default {
   name: 'App',
   created() {
-    //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem('store')) {
       this.$store.replaceState(
         Object.assign(
@@ -25,8 +24,6 @@ export default {
         )
       )
     }
-
-    //在页面刷新时将vuex里的信息保存到sessionStorage里
     window.addEventListener('beforeunload', () => {
       sessionStorage.setItem('store', JSON.stringify(this.$store.state))
     })
@@ -42,11 +39,12 @@ export default {
 /*滑动加载样式*/
 #Application .scrollDiv,
 .bangdan .scrollDiv,
-.rank .scrollDiv {
+#rank .scrollDiv {
   text-align: center;
   font-size: 20px;
   line-height: 40px;
 }
+
 #Application .select2-container--default .select2-selection--single {
   border: 1px solid #dfdfdf;
 }
@@ -91,7 +89,7 @@ export default {
   border: solid 1px #dfdfdf;
 }
 /*榜单快照悬浮框*/
-.bangdan .el-popover {
+#bangdan .el-popover {
   min-width: 128px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
@@ -99,13 +97,19 @@ export default {
   line-height: 1.8;
   padding: 12px 0;
 }
-.bangdan .el-popover > div {
+#bangdan .el-popover > div {
   width: 90px;
   margin: 0 auto;
+  border: 1px solid red;
 }
-.bangdan .el-popover > div span {
+#bangdan .el-popover > div p {
+  border: 1px solid red;
+}
+#bangdan .el-popover > div span {
   float: right;
   color: #009bef;
+  margin-left: 40px;
+  border: 1px solid red;
 }
 
 /*榜单页面*/
@@ -123,13 +127,25 @@ export default {
 /*日期*/
 .bangdan .date .el-date-editor.el-input,
 .el-date-editor.el-input__inner,
-.bangdan .date .el-input__inner {
+.bangdan .date .el-input__inner,
+#Application .el-date-editor.el-input,
+.el-date-editor.el-input__inner,
+#Application .el-input__inner,
+#monitor .el-date-editor.el-input,
+.el-date-editor.el-input__inner,
+#monitor .el-input__inner {
   width: 120px;
+  margin-left: 5px;
 }
-.bangdan .date .el-input__icon  {
-  margin-top: -2px;
+#Application .el-date-editor.el-input,
+#Application .el-input__inner,
+#monitor .el-date-editor.el-input,
+#monitor .el-input__inner {
+  height: 27px;
 }
-.bangdan .date .el-input__inner {
+.bangdan .date .el-input__inner,
+#Application .el-input__inner,
+#monitor .el-input__inner {
   padding-left: 25px;
   padding-right: 12px;
 }
@@ -146,11 +162,24 @@ export default {
   margin-top: 10px;
   margin-left: 4px;
 }
+#Application .el-input__prefix,
+#monitor .el-input__prefix {
+  top: -2px;
+}
+#Application .el-input__suffix,
+#monitor .el-input__suffix {
+  display: none;
+}
 /*新修改样式*/
 .bangdan #country .select2-container {
   width: 150px !important;
   margin-top: -12px;
 }
+.bangdan .date .el-input__icon {
+  margin-top: -2px;
+  margin-left: 6px;
+}
+
 .bangdan
   #country
   .select2-container--default
@@ -166,6 +195,16 @@ export default {
 #navv #country .select2 {
   width: 140px !important;
   margin-top: 2px;
+}
+
+/*08-09*/
+/*index页banner图*/
+#index .el-carousel__container {
+  height: 500px;
+}
+#index .el-carousel__container img {
+  width: 100%;
+  height: 500px;
 }
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
@@ -317,7 +356,7 @@ table tbody tr:hover {
 .el-radio-button__inner {
   border: solid 1px #dfdfdf;
   border-radius: 4px !important;
-  /* border-left: 1 !important; */
+  border-left: 1;
 }
 .el-radio-group .el-radio-button:first-child {
   margin-left: 0 !important;

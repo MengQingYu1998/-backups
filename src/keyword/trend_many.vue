@@ -342,10 +342,6 @@ export default {
       this.canvas_is_show_all = !this.canvas_is_show_all
       // console.log(this.selected_data)
     },
-    // 控制显示echarts还是table
-    is_show_myChart_and_table_function: function() {
-      this.is_show_myChart_and_table = !this.is_show_myChart_and_table
-    },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = []
@@ -363,6 +359,11 @@ export default {
       // console.log(series_data_arr)
       return series_data_arr
     },
+    // 控制显示echarts还是table
+    is_show_myChart_and_table_function: function() {
+      this.is_show_myChart_and_table = !this.is_show_myChart_and_table
+    },
+
     // 删除keyword_data数组里面数据，从而删除can_del_div，canvas随之改变
     remove_keyword_data: function(index) {
       this.selected_data[this.keyword_data[index]] = false

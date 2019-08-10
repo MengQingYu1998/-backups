@@ -196,10 +196,10 @@
             </thead>
             <tbody v-if="response_data_third">
               <tr v-for="(item, index) in response_data_third.data_0" :key="'table01'+index">
-                <td>
+                <td class="td_width01">
                   <div class="rankingChangeFontColor">{{item.RankingInterval}}</div>
                 </td>
-                <td>
+                <td class="td_width02">
                   <div
                     v-for="(item_td, index_td) in item.GenreCountryList"
                     :key="'table01_td'+index_td"
@@ -209,7 +209,7 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                <td class="td_width03">
                   <div
                     v-for="(item_td, index_td) in item.GenreCountryList"
                     :key="'table01_td'+index_td"
@@ -311,12 +311,13 @@ export default {
       //canvas 关键词data数组
       keyword_data: [],
       // 数据
-      keyword_data_value: [],
+      keyword_data_value: null,
       // X轴文本
       xAxis_data: [],
       // 控制折线显隐
       selected_data: {},
-      // xAxis_is_show: true, //是否显示X轴
+      // can_inverse: true, //X轴位置问题
+      yAxis_max: 5, //Y轴值的问题
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
@@ -343,7 +344,13 @@ export default {
   },
 
   created: function() {
-    console.log(this.$store.state.now_app_id)
+    console.log(this.$route.query.now_app_id)
+    console.log(this.$route.query.now_app_name)
+    if (this.$route.query.now_app_id && this.$route.query.now_app_name) {
+      this.$store.state.now_app_id = this.$route.query.now_app_id
+      this.$store.state.now_app_name = this.$route.query.now_app_name
+    }
+
     this.get_data_first()
     this.get_data_second()
     this.get_data_third()
@@ -525,25 +532,18 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data)
-              // console.log(response.data.Data.length)
+
               this.is_show_mychart = false
-              if (response.data.Data.length > 0) {
+              if (
+                response.data.Data.length > 0 &&
+                this.middle_top_radio2 == '全部'
+              ) {
                 console.log('有数据')
-                this.is_show_mychart = true
-                this.keyword_data_value.length = 0
-                this.xAxis_data.length = 0
-                this.keyword_data.length = 0
-                console.log('==========折线图==============')
-                console.log(this.keyword_data_value)
                 this.response_data_second = response.data.Data[0]
-                // 都谁？ 抖音 快手 内涵
-                this.keyword_data = this.response_data_second.rankTrendInfo.RankList
-
-                let temp01 = this.response_data_second.rankTrendInfo.r1
-                temp01.forEach(element => {
-                  this.keyword_data_value.push(element.data)
-                })
-
+                this.is_show_mychart = true
+                this.xAxis_data.length = 0
+                console.log('==========X轴赋值==============')
+                console.log('==========X轴赋值==============')
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
                   // return timestamp(element, 'Y/M/D')
@@ -555,8 +555,46 @@ export default {
                     return timestamp(element, 'Y/M/D h:s')
                   }
                 })
-                console.log('========================')
+
+                console.log('==========X轴赋值==============')
+                console.log('==========X轴赋值==============')
+                // this.keyword_data.length = 0
+                // 都谁？ 抖音 快手 内涵
+                this.keyword_data = this.response_data_second.rankTrendInfo.RankList
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                this.keyword_data_value = response.data.Data[0].rankTrendInfo.r3
                 console.log(this.keyword_data_value)
+                console.log(this.keyword_data)
+
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+                console.log('==========折线图==============')
+
+                // console.log(this.keyword_data_value)
+                // ==================找数组最大值====================
+                let max_value_arr = []
+                this.keyword_data_value.forEach(element => {
+                  max_value_arr.push(element.slice(0))
+                })
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                // console.log(max_value)
+                this.yAxis_max = max_value + 5
+                // ==================找数组最大值====================
+
                 this.drawLine()
               } else {
                 console.log('无数据')
@@ -586,9 +624,12 @@ export default {
         obj[element] = bol
       })
       this.selected_data = obj
+      // this.can_inverse = bol
+
       this.drawLine()
       this.canvas_is_show_all = !this.canvas_is_show_all
       // console.log(this.selected_data)
+      // this.can_inverse = true
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
@@ -608,6 +649,7 @@ export default {
       // console.log(series_data_arr)
       return series_data_arr
     },
+
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
@@ -620,9 +662,7 @@ export default {
           },
           trigger: 'axis'
         },
-        tooltip: {
-          trigger: 'axis'
-        },
+
         color: [
           '#009bef',
           '#ff6969',
@@ -683,7 +723,8 @@ export default {
           minInterval: 1,
           type: 'value',
           inverse: true,
-          min: 1
+          min: 1,
+          max: that.yAxis_max
         },
         series: that.series_data()
       })
@@ -807,6 +848,12 @@ export default {
 }
 </script>
 <style scoped>
+.td_width01 {
+  width: 144px;
+}
+.td_width02 {
+  width: 124px;
+}
 .middle_top_time {
   margin-left: 20px !important;
 }

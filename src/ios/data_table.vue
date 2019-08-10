@@ -7,7 +7,7 @@
         <left_nav />
       </div>
       <div class="right">
-        <div class="right_nav">榜单排名对比</div>
+        <div class="right_nav">关键词明细</div>
         <div class="line"></div>
         <!-- 顶部 关键词概述 -->
         <!-- 顶部 关键词概述 -->
@@ -73,7 +73,7 @@
                 <th>Top10关键词</th>
               </tr>
             </thead>
-            <tbody v-if="request_data_first">
+            <tbody v-if="request_data_first" class="tr_height">
               <tr
                 v-for="(item, index) in request_data_first.detailKeyWord"
                 :key="'detailKeyWord'+index"
@@ -194,7 +194,7 @@
           <table>
             <thead>
               <tr>
-                <th>关键词</th>
+                <th class="table_width01">关键词</th>
                 <th>排名</th>
                 <th>变动</th>
                 <th>搜索指数</th>
@@ -205,7 +205,7 @@
             <tbody v-if="request_data_second">
               <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
-                  <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
+                  <div class="pointer table_width01" @click="go_to_page03(item.Word)">{{item.Word}}</div>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -213,9 +213,24 @@
 
                 <td>
                   <div>
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="item.Change=0" />
-                    <img src="../assets/keyword/arrows (2).png" alt v-show="item.Change>0" />
-                    <img src="../assets/keyword/arrows (3).png" alt v-show="item.Change<0" />
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (1).png"
+                      alt
+                      v-show="item.Change==0"
+                    />
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (2).png"
+                      alt
+                      v-show="item.Change>0"
+                    />
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (3).png"
+                      alt
+                      v-show="item.Change<0"
+                    />
                     {{item.Change}}
                   </div>
                 </td>
@@ -410,12 +425,12 @@
         </section>
 
         <div class="paging" v-if="request_data_second">
-          <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{temp01_request_data_second.length}} 项</div>
+          <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
           <div>
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="temp01_request_data_second.length"
+              :total="total/10"
               :current-page.sync="currentPage"
             ></el-pagination>
           </div>
@@ -474,6 +489,7 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      total: 0,
       request_data_second: null,
       temp_request_data_second: null,
       temp01_request_data_second: null,
@@ -509,6 +525,9 @@ export default {
       // 第三部分参数
       // 第三部分参数
       // 第三部分参数
+      yAxis_max: 5,
+      echart_function_body_can_excute: 'ss',
+      echart_function_body_can_excute02: 'ss',
       word: '',
       wordId: null,
       request_data_third: null,
@@ -537,6 +556,7 @@ export default {
   created: function() {
     // 分页
     this.$watch('currentPage', function(newValue, oldValue) {
+      console.log(333333333333333333333333333)
       console.log(newValue, oldValue)
       this.get_data_for_second_part()
     })
@@ -770,19 +790,22 @@ export default {
             .then(response => {
               console.log('=================明细=====')
               console.log(response)
+              this.total = response.data.Data.length //底部显示总共
               this.request_data_second = response.data.Data
-              console.log(this.request_data_second)
-              this.currentPage = Math.ceil(
-                this.request_data_second.length / 100
-              )
+              // console.log(this.request_data_second)
+              // this.currentPage = Math.ceil(
+              //   this.request_data_second.length / 100
+              // )
+
               // console.log(this.currentPage * 100 + 101)
               // 先把数组置空，不然会出现页面渲染问题
               this.temp_request_data_second = null //折线图下面的tr
               this.temp01_request_data_second = null //折线图上面的tr
               this.is_show_bottom = false //折线图隐藏
-              this.temp01_request_data_second = this.request_data_second.slice(
+
+              this.temp01_request_data_second = response.data.Data.slice(
                 (this.currentPage - 1) * 100,
-                this.currentPage * 100 + 101
+                this.currentPage * 100 + 1
               )
             })
             .catch(error => {
@@ -819,8 +842,13 @@ export default {
     middle_table_first(index, wordId, word) {
       // temp01是一个tr        temp是第三个tr
 
-      this.temp01_request_data_second = this.request_data_second
+      // if (this.echart_function_body_can_excute != index) {
+      // console.log('第一个方法执行了')
 
+      this.temp01_request_data_second = this.request_data_second.slice(
+        (this.currentPage - 1) * 100,
+        this.currentPage * 100 + 1
+      )
       this.temp_request_data_second = this.temp01_request_data_second.slice(
         index + 1
       )
@@ -832,8 +860,13 @@ export default {
       this.word = word
       this.is_show_bottom = true
       this.get_data_for_third_part()
+      // }
+
+      // this.echart_function_body_can_excute = index
     },
     middle_table_second(index, wordId, word) {
+      // if (this.echart_function_body_can_excute02 != index) {
+      // console.log('第二个方法执行了')
       this.temp01_request_data_second = this.temp01_request_data_second.concat(
         this.temp_request_data_second.slice(0, index + 1)
       )
@@ -844,6 +877,8 @@ export default {
       this.word = word
       this.is_show_bottom = true
       this.get_data_for_third_part()
+      // }
+      // this.echart_function_body_can_excute02 = index
     },
     // ============================第三部分数据================================
     // ============================第三部分数据================================
@@ -951,6 +986,24 @@ export default {
                 this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
                 this.xAxis_data = this.request_data_third.timeList
                 this.keyword_data_value.push(this.request_data_third.rankList)
+                // ==================找数组最大值====================
+                let max_value_arr = []
+                this.keyword_data_value.forEach(element => {
+                  max_value_arr.push(element.slice(0))
+                })
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                // console.log(max_value)
+                this.yAxis_max = max_value + 5
+                // ==================找数组最大值====================
                 this.drawLine()
               } else if (response.data.Data == null) {
                 this.keyword_data_value = []
@@ -1050,12 +1103,17 @@ export default {
           }
         },
         xAxis: {
-          type: 'category',boundaryGap: false,
+          type: 'category',
+          boundaryGap: false,
           // boundaryGap: false,
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          minInterval: 1,
+          type: 'value',
+          inverse: true,
+          min: 1,
+          max: that.yAxis_max
         },
         series: that.series_data()
       })
@@ -1088,6 +1146,15 @@ export default {
 }
 </script>
 <style scoped>
+.img_left {
+  margin-right: 8px;
+}
+.tr_height td {
+  padding: 14px 0 !important;
+}
+.table_width01 {
+  width: 200px;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
@@ -1290,9 +1357,6 @@ th {
 }
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
-}
-tbody tr td:first-child {
-  width: 50%;
 }
 tbody {
   font-family: SourceHanSansCN-Normal;

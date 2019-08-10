@@ -32,7 +32,8 @@
               @keyup="nullInput()"
               maxlength="6"
             />
-            <span :class="{'nokong':telhas}" v-html="codeBtn" @click="huoqu()"></span>
+            <!-- <span :class="{'nokong':telhas}" v-html="codeBtn" @click="huoqu()" :disabled="disabled"></span> -->
+            <button :class="{'nokong':telhas}" v-html="codeBtn" @click="huoqu()" :disabled="disabled"></button>
           </p>
           <p class="wrongVeri" v-show="wrongVeri" v-html="veriFont"></p>
         </div>
@@ -139,6 +140,7 @@ export default {
       codeBtn: '获取验证码', //获取验证码按钮
       reSus: false, //注册成功弹窗
       emailMask: false, //绑定邮箱弹窗
+      disabled:false,//倒计时禁用
       // input value
       telval: '',
       codeval: '',
@@ -274,16 +276,17 @@ export default {
         })
           .then(res => {
             this.veri = res.data.Data
-            // alert(this.veri)
             //倒计时
             let time = 60
             let timer = setInterval(() => {
               if (time == 0) {
                 clearInterval(timer)
                 this.codeBtn = '重新获取'
+                this.disabled=true
               } else {
                 this.codeBtn = time + '秒'
                 time--
+                this.disabled=true
               }
             }, 1000)
           })
@@ -484,9 +487,10 @@ export default {
 .right .inpDiv .veriInp input {
   width: 210px;
 }
-.right .inpDiv .veriInp span {
+.right .inpDiv .veriInp button {
   width: 84px;
   height: 42px;
+  border: none;
   background-color: #dfdfdf;
   border-radius: 0px 4px 4px 0px;
   display: inline-block;

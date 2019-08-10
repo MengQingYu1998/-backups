@@ -92,15 +92,15 @@ export default {
             // '&appId=281736535'
             '&appId=' +
             this.$store.state.now_app_id
-          console.log(this.$store.state.now_app_id)
-          console.log(url)
+          // console.log(this.$store.state.now_app_id)
+          // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(this.response_data)
+              // console.log(this.response_data)
               this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false
               // this.$nextTick(() => {

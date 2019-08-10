@@ -1,8 +1,8 @@
 <template>
-	<div class="bangdan" >
+	<div class="bangdan" id="bangdan">
 		
 		<div class="title">
-			ios榜单实时排名—<span>中国</span>
+			ios榜单实时排名—<span v-html="countryname"></span>
 		</div>
 		<div class="content">
 			<ul>
@@ -172,6 +172,7 @@
 		data(){
 			
 			return{
+				countryname:'中国',//导航条上面的国家
 				showApplication:false,
 				showGame:false,
 				valueY:'应用',
@@ -272,6 +273,8 @@
 		},
 		mounted(){
 			window.addEventListener('scroll',this.handleScroll,true)
+
+
 		},
 		methods:{
 			//当页面滚动的时候  加载  滚动加载
@@ -359,6 +362,9 @@
 						})
 						.then(res=>{
 							if(res.data.Code==0){
+								this.countryname=this.now_country
+								// console.log(this.now_country)
+								// console.log(this.countryname)
 								for(var i=0;i<res.data.Data.length;i++){
 									if (res.data.Data[i].name == this.now_country) {
 						              country_id = res.data.Data[i].id
@@ -485,8 +491,8 @@
 				this.isFontG=false
 				this.upWG=false
 				this.upWL=false
-				this.showApplication = false
-				this.showGame=false;
+				this.showApplication = false//应用榜
+				this.showGame=false//游戏榜
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -494,7 +500,7 @@
 			// 点击应用榜
 			showY(){
 				this.showApplication = true;
-				this.showGame=false;
+				this.showGame=false
 				this.isFont=true
 				this.upWL=true
 				this.downL=false
@@ -547,6 +553,8 @@
 			},
 			// 点击总分类
 			selectLei(index){
+				this.showGame=false
+				this.showApplication=false
 				this.isSelect=index
 				if(this.isSelect==0){
 					this.fenFont='总榜'
@@ -589,22 +597,18 @@
 			// 点击榜单分类
 			cligenre(index){
 				this.selefont=index
+				this.showGame=false
+				this.showApplication=false
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
 			},
 			go_to_page01(parm,parm02) {
-				console.log('+++++++++++++++++++++')
-				console.log(parm)
-				console.log(parm02)
-
-				console.log('+++++++++++++++++++++')
-				this.$router.push({
-			        path: '/now_ranking'
-			    })
-			      this.$store.state.now_app_id=parm
-			      this.$store.state.now_app_name=parm02
-			}
+		      let routerUrl=this.$router.resolve({
+		          path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
+		        })
+		        window.open(routerUrl .href,'_blank')
+		    }
 		}
 	
 	}
@@ -645,7 +649,6 @@
 	border-radius: 4px;
 	border-top: 0.013rem solid transparent;
 	text-align: left;
-	margin-top: -4px;
 }
 .Leibox >div >div.lie{
 	width: 168px;

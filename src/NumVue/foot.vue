@@ -12,11 +12,11 @@
 					<p>品牌合作：hgeug@adzshd.com</p>
 				</div>
 				<div class="erO">
-					<img src=""/>
+					<img src="../assets/NumImg/mitan.png"/>
 					<p>掌上密探</p>
 				</div>
 				<div class="erT">
-					<img src=""/>
+					<img src="../assets/NumImg/chuanmei.png"/>
 					<p>掌上互动传媒</p>
 				</div>
 			</div>
