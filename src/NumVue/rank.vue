@@ -191,20 +191,44 @@ export default {
       // 游戏
       games: {
         Data: []
-      }
+      },
+      scrollHeight:0,
+      canscroll:false
     }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll, true)
   },
   created() {
     this.getData()
-    // this.$watch('now_Application',function(Value, oldValue) {
-    //      // 当前应用发生变化，重新请求数据
-    //      this.getData()
-    //    })
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let that = this
+      //当页面滚动的时候  加载  滚动加载
+      window.onscroll = function() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        //变量scrollHeight是滚动条的总高度
+        that.scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+        var int=Math.round(scrollTop + windowHeight)
+        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
+          // 需要执行的代码
+          if(that.canscroll){
+            that.page++ //滚动之后加载第二页
+            that.getData()
+          }
+            
+          
+        }
+      }
+    })
+   
   },
   methods: {
+    
     //请求数据
     getData() {
       //传给后台的sort值
@@ -306,7 +330,7 @@ export default {
             })
               .then(res => {
                 if (res.data.Code == 0) {
-                  // console.log(res.data.Data)
+                  this.canscroll=true
                   this.zongsData = this.zongsData.concat(res.data.Data)
                   let DownloadTotal = (this.pageSize + 1) * this.page
                   let total = res.data.pageCount
@@ -333,23 +357,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-    //当页面滚动的时候  加载  滚动加载
-    handleScroll() {
-      //变量scrollTop是滚动条滚动时，距离顶部的距离
-      var scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop
-      //变量windowHeight是可视区的高度
-      var windowHeight =
-        document.documentElement.clientHeight || document.body.clientHeight
-      //变量scrollHeight是滚动条的总高度
-      var scrollHeight =
-        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-      if (scrollTop + windowHeight == scrollHeight) {
-        // 需要执行的代码
-        this.page++ //滚动之后加载第二页
-        this.getData()
-      }
     },
     // 点击总榜
     showZ() {
@@ -431,11 +438,10 @@ export default {
       } else {
         this.upfont = false
       }
-
-      this.zongsData.length = 0
       this.page = 1
+      this.zongsData.length = 0
+      this.canscroll=false
 
-      
       this.getData()
     },
     //点击榜单分类
@@ -470,11 +476,11 @@ export default {
       this.getData()
     },
     go_to_page01(parm,parm02) {
-          let routerUrl=this.$router.resolve({
-              path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
-            })
-            window.open(routerUrl .href,'_blank')
-    }
+      let routerUrl=this.$router.resolve({
+          path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
+        })
+        window.open(routerUrl .href,'_blank')
+    }
   }
 }
 </script>

@@ -22,7 +22,27 @@
         <img src="../assets/NumImg/pingguo.png" class="ios" />
 
         <country @childFn="parentFn"></country>
-        <input type="text" placeholder="应用名称或APPID" />
+        <el-popover
+          width="230"
+          placement="bottom"
+          :visible-arrow="false"
+          v-model="is_show_nav_popover"
+        >
+          <div
+            class="pointer popver_for_input"
+            v-for="(item,index) in response_data"
+            :key="'nav_input'+index"
+            @click="go_to_page01(item.keyword)"
+          >{{item.keyword}}</div>
+          <input
+            slot="reference"
+            @blur="is_show_nav_popover=true"
+            type="text"
+            placeholder="应用名称或APPID"
+            v-model="nav_input_value"
+          />
+        </el-popover>
+
         <p>
           <img src="../assets/NumImg/search.png" />
         </p>
@@ -81,17 +101,21 @@
       </div>
     </div>
     <P class="line"></P>
-
   </div>
 </template>
 
 <script>
 // 引入国家选择组件
 import country from '../common/country_select/country'
+// 引入工具类
+import { formatDate } from '../common/util.js'
 export default {
   components: { country },
   data() {
     return {
+      nav_input_value: '',
+      is_show_nav_popover: false,
+      response_data: null,
       unlogin: true, //未登录
       telnow: '', //当前手机号
       codnow: '', //当前密码
@@ -127,18 +151,18 @@ export default {
       this.now_country = payload
     },
     fun() {
-	    let userId = localStorage.getItem('userId') //获取userId
-	    let tel = window.localStorage.getItem('tel')
-	    if (localStorage.getItem('touxiang') != null) {
-	      this.touxiang = localStorage.getItem('touxiang')
-	    }
-	    this.telnow = tel
-	    this.uid = userId
-	    if (this.uid == ''||this.uid == null)  {
-	      this.unlogin = true
-	    } else {
-	      this.unlogin = false
-	    }
+      let userId = localStorage.getItem('userId') //获取userId
+      let tel = window.localStorage.getItem('tel')
+      if (localStorage.getItem('touxiang') != null) {
+        this.touxiang = localStorage.getItem('touxiang')
+      }
+      this.telnow = tel
+      this.uid = userId
+      if (this.uid == '' || this.uid == null) {
+        this.unlogin = true
+      } else {
+        this.unlogin = false
+      }
     },
     // 显示app store监控下拉框
     showAppstore() {
@@ -171,15 +195,72 @@ export default {
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
       } else if (index == 2) {
-      	this.unlogin = true
-      	localStorage.clear();
+        this.unlogin = true
+        localStorage.clear()
         this.$router.push({ path: '/index' })
       }
+    },
+    get_data_for_nav_input() {
+      this.$axios
+        .get('/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          let deviceType = 1
+          let iosType = 11
+          let time = formatDate(new Date(), 'yyyy-MM-dd')
+          let word = this.nav_input_value
+          let url = '/Word/FindTodayJoinWord'
+
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            sdate: time,
+            word: word,
+            iosType: iosType
+          }
+          console.log(deviceType)
+          console.log(country_id)
+          console.log(word)
+          console.log(time)
+          console.log(iosType)
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.response_data = response.data.Data
+              console.log(this.response_data)
+              console.log('88888888888888888888888888888')
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    go_to_page01(parm) {
+      this.is_show_nav_popover = false
+      this.nav_input_value = parm
+      this.$router.push({
+        path: '/result'
+      })
+      this.$store.state.now_app_name = parm
     }
   },
   created() {
-  	this.fun()
-    
+    this.fun()
+    this.$watch('nav_input_value', function(newValue, oldValue) {
+      this.get_data_for_nav_input()
+    })
   }
 }
 </script>
@@ -191,8 +272,8 @@ export default {
   list-style: none;
   text-decoration: none;
 }
-#navv>.line{
-	border-bottom: 1px solid #efefef;
+#navv > .line {
+  border-bottom: 1px solid #efefef;
 }
 .down {
   width: 8px;
@@ -202,14 +283,12 @@ export default {
   width: 1200px;
   height: 66px;
   margin: 0 auto;
-  
 }
 .nav .logo {
   width: 124px;
   height: 34px;
   float: left;
   margin-top: 16px;
-  
 }
 .nav ul li {
   float: left;
@@ -390,5 +469,25 @@ export default {
 }
 .Combox > div > div p:last-child {
   margin-bottom: 15px;
+}
+.popver_for_input {
+  height: 26px;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #222222;
+}
+.popver_for_input:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #009bef !important;
 }
 </style>

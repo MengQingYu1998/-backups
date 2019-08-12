@@ -197,17 +197,17 @@
 					</table>
 					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
-			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
+			            <p v-show="infiniteMsgShow" class="tips"><!-- 加载更多ing --></p>
+			            <p v-show="!infiniteMsgShow" class="tips"> <!-- 没有更多数据 --></p>
 			            </div>
 			        </div>
 					<!-- scroll -->
-			        <div class="scrollDiv bbbbb" v-show="contentShow2">
+			       <!--  <div class="scrollDiv bbbbb" v-show="contentShow2">
 			            <div>
 			            <p v-show="infiniteMsgShow2" class="tips">加载更多ing</p>
 			            <p v-show="!infiniteMsgShow2" class="tips"> 没有更多数据</p>
 			            </div>
-			        </div>
+			        </div> -->
 				</div>
 			</div>
 			
@@ -274,8 +274,8 @@
 				zongsBList:[],
 				page2:1,
 				pageSize2:20,
-				contentShow2:false,
-				infiniteMsgShow2:false,
+				// contentShow2:false,
+				// infiniteMsgShow2:false,
 				// 清词tbody
 				cidataList:[],
 				// 总分类
@@ -291,11 +291,38 @@
 					Data:[]
 				},
 				searval:'',//v-model搜索词
-				searchval:''// 搜索关键词
+				searchval:'',// 搜索关键词
+				canscroll:false
 			}
 		},
 		mounted(){
-			window.addEventListener('scroll',this.handleScroll,true)
+			this.$nextTick(() => {
+		      let that = this
+		      //当页面滚动的时候  加载  滚动加载
+		      window.onscroll = function() {
+		        //变量scrollTop是滚动条滚动时，距离顶部的距离
+		        var scrollTop =
+		          document.documentElement.scrollTop || document.body.scrollTop
+		        //变量windowHeight是可视区的高度
+		        var windowHeight =
+		          document.documentElement.clientHeight || document.body.clientHeight
+		        //变量scrollHeight是滚动条的总高度
+		        that.scrollHeight =
+		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+		        var int=Math.round(scrollTop + windowHeight)
+		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
+		          // 需要执行的代码
+		          if(that.canscroll){
+		            that.page++;  //滚动之后加载第二页
+					that.page2++;  //滚动之后加载第二页
+					that.getDataB();
+					that.getData();
+		          }
+		            
+		          
+		        }
+		      }
+		    })
 		},
 		
 		created(){
@@ -421,20 +448,23 @@
 									// console.log(res.data)
 									if(res.data.Code==0){
 										// console.log(res.data.Data)
+										this.canscroll=true
 										this.onlinFont=res.data.pageCount
-										this.contentShow2 = false
+										// this.contentShow2 = false
+										// console.log("上下架："+this.infiniteMsgShow)
 										if(this.onlinFont>0){
 											this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
 											
 										}else{
-											
+											// console.log("上下架："+this.infiniteMsgShow)
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
 											
 										}
 										if(res.data.Data==""){
-											this.contentShow2 = false
+											// this.contentShow2 = false
+											// console.log("上下架："+this.infiniteMsgShow)
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
 										}
@@ -444,13 +474,15 @@
 								        // console.log(this.page)
 								        // console.log(pageC)
 									        if(this.page>=pageC){
+									        	// console.log("上下架："+this.infiniteMsgShow)
 									        	this.contentShow2 = false
 									        	this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
 								       
 									}else{
-										this.contentShow2 = false
+										// this.contentShow2 = false
+										// console.log("上下架："+this.infiniteMsgShow)
 										this.contentShow = true
 									    this.infiniteMsgShow = false//没有更多
 									}
@@ -458,7 +490,8 @@
 								})
 								.catch(error=>{
 									console.log(error)
-									this.contentShow2 = false
+									// this.contentShow2 = false
+									// console.log("上下架："+this.infiniteMsgShow)
 									this.contentShow = true
 									this.infiniteMsgShow = false
 								})
@@ -482,27 +515,7 @@
 			parentFn(payload) {
 				this.now_country = payload
 			},
-			//当页面滚动的时候  加载  滚动加载
-		    handleScroll(){
-		    	//变量scrollTop是滚动条滚动时，距离顶部的距离
-				var scrollTop =
-				document.documentElement.scrollTop || document.body.scrollTop
-				//变量windowHeight是可视区的高度
-				var windowHeight =
-				document.documentElement.clientHeight || document.body.clientHeight
-				//变量scrollHeight是滚动条的总高度
-				var scrollHeight =
-				document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-				if (scrollTop + windowHeight == scrollHeight) {
-					// 需要执行的代码
-					this.page++;  //滚动之后加载第二页
-					this.page2++;  //滚动之后加载第二页
-					this.getDataB();
-					this.getData();	
-			    	
-				}
-				
-		    },  
+			  
 			// 清榜应用接口
 			getDataB(){
 				//传给后台的pid值
@@ -573,14 +586,17 @@
 								})
 								.then(res=>{
 									if(res.data.Code==0){
+										this.canscroll=true
 										this.onlinFontB=res.data.pageCount
-										this.contentShow = false
+										// this.contentShow = false
 										if(this.onlinFontB>0){
-											this.contentShow2 = true
-											this.infiniteMsgShow2 = true//加载更多
+											// console.log("清榜："+this.infiniteMsgShow)
+											this.contentShow = true
+											this.infiniteMsgShow = true//加载更多
 								        } else {
-								            this.contentShow2 = true
-								            this.infiniteMsgShow2 = false//没有更多
+								        	// console.log("清榜："+this.infiniteMsgShow)
+								            this.contentShow = true
+								            this.infiniteMsgShow = false//没有更多
 								        }
 
 								        this.zongsBList=this.zongsBList.concat(res.data.Data)
@@ -593,9 +609,10 @@
 								})
 								.catch(error=>{
 									console.log(error)
-									this.contentShow = false
-									this.contentShow2 = true
-									this.contentShow2 = false
+									// this.contentShow = false
+									// console.log("清榜："+this.infiniteMsgShow)
+									this.contentShow = true
+									this.infiniteMsgShow = false
 								})
 							} 
 						})
@@ -685,17 +702,22 @@
 						.then(res => {
 							// console.log(res.data.Data)
 							if(res.data.Data==""){
+								this.canscroll=true
 								this.onlinFontC=0
-								this.contentShow = false
-								this.contentShow2 = true
-								this.infiniteMsgShow2 = false//没有更多
+								// console.log("清词："+this.infiniteMsgShow)
+								this.contentShow = true
+								this.infiniteMsgShow = false//没有更多
 							}
-							this.onlinFontC=res.data.pageCount
-							this.cidataList=res.data.Data
+
+							//有用的 this.onlinFontC=res.data.pageCount
+							// this.cidataList=res.data.Data
 						 
 						})
 						.catch(error=>{
 							console.log(error)
+							// console.log("清词："+this.infiniteMsgShow)
+								this.contentShow = true
+								this.infiniteMsgShow = false//没有更多
 						})
 					} 
 				})
@@ -801,7 +823,7 @@
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
 
-					this.contentShow2=false//清榜的滑动加载
+					// this.contentShow2=false//清榜的滑动加载
 
 					this.zongsdataList.length=0
 		      		this.page=1
@@ -816,7 +838,7 @@
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
 
-					this.contentShow2=false//清榜的滑动加载
+					// this.contentShow2=false//清榜的滑动加载
 
 					this.zongsdataList.length=0
 		      		this.page=1
@@ -831,7 +853,7 @@
 					this.qingbangF=true//清榜标题
 					this.qingciF=false//清词标题
 
-					this.contentShow2=true//清榜的滑动加载
+					// this.contentShow2=true//清榜的滑动加载
 
 					this.zongsBList.length=0
 				    this.page2=1
@@ -847,17 +869,11 @@
 				}
 			},
 			go_to_page01(parm,parm02) {
-				sessionStorage.setItem("appid", parm); 
-				sessionStorage.setItem("appname", parm02); 
-				sessionStorage.setItem("countryname", this.now_country); 
-				let routerUrl=this.$router.resolve({
-					path:'/now_ranking'
-				})
-				window.open(routerUrl .href,'_blank')
-			   
-			      this.$store.state.now_app_id=parm
-			      this.$store.state.now_app_name=parm02
-			}
+		      let routerUrl=this.$router.resolve({
+		          path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
+		        })
+		        window.open(routerUrl .href,'_blank')
+		    }
 		}
 	}
 

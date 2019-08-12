@@ -640,6 +640,16 @@ export default {
       this.get_data_11()
       this.get_data_column()
     })
+    this.$watch('$store.state.now_app_name', function(newValue, oldValue) {
+      // console.log('当前国家发生变化，重新请求数据...')
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page = 1
+      this.get_data_12()
+      this.get_data_11()
+      this.get_data_column()
+    })
+
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0

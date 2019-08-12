@@ -29,7 +29,7 @@
         <div>搜索</div>
         <div>
           <!-- 饿了么的input组件 -->
-          <el-input v-model="input" @blur="blur" placeholder="请输入关键词查询联想词"></el-input>
+          <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
         </div>
       </div>
     </div>
@@ -38,106 +38,19 @@
         <thead>
           <tr>
             <th></th>
-            <th v-if="response_data!=null">{{response_data.Xtime[0]}}</th>
+            <th v-for="(item,index) in response_data.Xtime" :key="'Xtime'+index">{{item}}</th>
           </tr>
         </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[0]" :key="'table253'+index">
+        <tbody>
+          <tr v-for="(item,index) in response_data.Yvalue" :key="'Yvalue'+index">
             <td class="td_first">{{index+1}}</td>
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[1]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[1]" :key="'table2538'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[2]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[2]" :key="'table25382'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[3]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[3]" :key="'table253823'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[4]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[4]" :key="'table2538234'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[5]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[5]" :key="'table25382345'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th v-if="response_data!=null">{{response_data.Xtime[6]}}</th>
-          </tr>
-        </thead>
-        <tbody v-if="response_data!=null">
-          <tr v-for="(item,index) in response_data.Yvalue[6]" :key="'table253823456'+index">
-            <td class="table_font">
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item.keyword}}</div>
-              <div>{{item.hint}}</div>
+            <td
+              class="table_font"
+              v-for="(item_son,index_son) in item"
+              :key="'Yvalue_son'+index_son"
+            >
+              <div class="pointer" @click="go_to_page01(item.keyword)">{{item_son.keyword}}</div>
+              <div>{{item_son.hint}}</div>
             </td>
           </tr>
         </tbody>
@@ -186,6 +99,9 @@ export default {
       this.get_data()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('input', function(newValue, oldValue) {
       this.get_data()
     })
   },
@@ -237,10 +153,7 @@ export default {
           console.log(error)
         })
     },
-    // 输入框失去焦点
-    blur: function() {
-      this.get_data()
-    },
+
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -257,7 +170,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .td_first {
   border-right: 1px solid #f2f2f2;
 }

@@ -735,7 +735,7 @@ export default {
         .get('/GetCountry')
         .then(response => {
           // 获取国家ID
-          // console.log('获取国家ID')
+          console.log(response)
 
           let country_id
           let arr_country = response.data.Data
@@ -1007,7 +1007,16 @@ export default {
                   })
                 })
                 // console.log(max_value)
-                this.yAxis_max = max_value + 5
+                // this.yAxis_max = max_value + 5
+                if (max_value <= 5) {
+                  this.yAxis_max = 5
+                } else if (max_value <= 20) {
+                  this.yAxis_max = 20
+                } else if (max_value <= 100) {
+                  this.yAxis_max = 100
+                } else if (max_value <= 500) {
+                  this.yAxis_max = 500
+                }
                 // ==================找数组最大值====================
                 this.drawLine()
               } else if (response.data.Data == null) {
@@ -1118,7 +1127,8 @@ export default {
           type: 'value',
           inverse: true,
           min: 1,
-          max: that.yAxis_max
+          max: that.yAxis_max,
+          interval: that.yAxis_max / 4
         },
         series: that.series_data()
       })

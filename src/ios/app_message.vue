@@ -14,21 +14,26 @@
         <!-- 第一部分 -->
         <section class="app_description" v-if="response_data&&response_data.description!='无'">
           <div class="section_title">应用描述</div>
-          <div class="section_content" v-if="response_data" v-html="response_data.description"></div>
-          <!-- <div class="show_all" @click="show_more_function()">展开更多</div> -->
+          <div
+            class="section_content"
+            id="section_content"
+            v-if="response_data"
+            v-html="response_data.description"
+          ></div>
+          <div id="show_all" @click="show_more_function()">展开更多</div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
         <!-- 第二部分 -->
 
-        <section class="video" v-if="response_data">
+        <section class="video" v-if="false&&response_data">
           <div
             class="section_title"
-            v-if="response_data.videoUrl.iphone!='无'&&response_data.videoUrl.ipad!='无'&&response_data.videoUrl.watch!='无'"
+            v-if="response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
           >应用视频</div>
           <div
             class="section_video"
-            v-if="response_data.videoUrl.iphone!='无'&&response_data.videoUrl.ipad!='无'&&response_data.videoUrl.watch!='无'"
+            v-if="response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
           >
             <div class="btn_group">
               <div class="btn_item_02">
@@ -46,15 +51,13 @@
               <!-- iphone 的video -->
               <video-player
                 v-show="response_data.videoUrl.iphone!='无'"
-                v-for="(videoUrl_item,index) in response_data.videoUrl.iphone"
-                :key="'videoUrl_item_iphone'+index"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
               ></video-player>
               <!-- iPad 的video -->
-              <video-player
+              <!-- <video-player
                 v-show="response_data.videoUrl.ipad!='无'"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.ipad"
                 :key="'videoUrl_item_ipad'+index"
@@ -62,9 +65,9 @@
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
-              ></video-player>
+              ></video-player>-->
               <!-- watch 的video -->
-              <video-player
+              <!-- <video-player
                 v-show="response_data.videoUrl.watch!='无'"
                 v-for="(videoUrl_item,index) in response_data.videoUrl.watch"
                 :key="'videoUrl_item_watch'+index"
@@ -72,7 +75,7 @@
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
-              ></video-player>
+              ></video-player>-->
             </div>
           </div>
         </section>
@@ -214,10 +217,7 @@
 <script>
 import ios_header from './ios_header'
 import left_nav from './left_nav'
-// import $ from 'jquery'
-// import '../common/country_select/select_gj.css'
-// import '../common/country_select/select_gj.min.js'
-// import '../common/country_select/select2_1.js'
+
 // 引入播放m3u8格式的视频插件
 import { videoPlayer } from 'vue-video-player'
 
@@ -236,7 +236,13 @@ export default {
         language: 'zh-CN',
         aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-        sources: [],
+        sources: [
+          // {
+          //   type: 'video/mp4',
+          //   src:
+          //     'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+          // }
+        ],
         poster: '', //你的封面地址
         notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
         controlBar: {
@@ -247,8 +253,8 @@ export default {
         }
       },
       //单选按钮
-      radio01: 'iPhone', //第二部分
-      radio02: 'iPhone', //第三部分
+      radio01: 'iPhone', //第二部分 视频
+      radio02: 'iPhone', //第三部分 截图
       // 请求的数据
       response_data: null,
       now_country: '中国'
@@ -265,16 +271,17 @@ export default {
   methods: {
     // 获取数据并且设置到视频插件的配置项
     onPlayerPlay(videoUrl_item) {
-      let arr = []
+      let arr = new Array()
       function NewObj(videoSrc) {
         this.src = videoSrc
         this.type = 'application/x-mpegURL'
+        // this.type = 'video/mp4'
       }
       videoUrl_item.forEach(element => {
         arr.push(new NewObj(element.video))
       })
       this.playerOptions.sources = arr
-      // console.log(this.playerOptions.sources)
+      console.log(this.playerOptions)
     },
     // 请求数据
     get_data() {
@@ -310,7 +317,13 @@ export default {
               console.log(5555555)
               console.log(response)
               // 获取数据并且设置到视频插件的配置项
-              this.onPlayerPlay(this.response_data.videoUrl.iphone)
+              // if (this.radio01 == 'iPhone') {
+              //   this.onPlayerPlay(this.response_data.videoUrl.iphone)
+              // } else if (this.radio01 == 'iPad') {
+              //   this.onPlayerPlay(this.response_data.videoUrl.ipad)
+              // } else if (this.radio01 == 'watch') {
+              //   this.onPlayerPlay(this.response_data.videoUrl.watch)
+              // }
             })
             .catch(error => {
               console.log(error)
@@ -320,19 +333,21 @@ export default {
           console.log(error)
         })
     },
-    // show_more_function() {
-    //   let this_div02 = document.getElementsByClassName('.show_all') //展开收起
-    //   let this_div = document.getElementById('#section_content') //内容
-    //   if (this_div02.innerHTML == '展开更多') {
-    //     this_div.style.height = 'auto'
-    //     this_div.style.display = 'block'
-    //     this_div02.innerHTML = '收起'
-    //   } else if (this_div02.innerHTML == '收起') {
-    //     this_div.style.height = '125px'
-    //     this_div.style.display = '-webkit-box '
-    //     this_div02.innerHTML = '展开更多'
-    //   }
-    // },
+    show_more_function() {
+      let this_div02 = document.getElementById('show_all') //展开收起
+      let this_div = document.getElementById('section_content') //内容
+      // console.log(this_div)
+      // console.log(this_div02)
+      if (this_div02.innerHTML == '展开更多') {
+        this_div.style.height = 'auto'
+        this_div.style.display = 'block'
+        this_div02.innerHTML = '收起'
+      } else if (this_div02.innerHTML == '收起') {
+        this_div.style.height = '125px'
+        this_div.style.display = '-webkit-box '
+        this_div02.innerHTML = '展开更多'
+      }
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -343,13 +358,13 @@ export default {
 </script>
 <style scoped>
 #section_content {
-  height: 125px;
+  min-height: 125px;
   -webkit-line-clamp: 6;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.show_all {
+#show_all {
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0px;
@@ -359,11 +374,12 @@ export default {
   margin-top: 3px;
   /* background-color: #ffffff; */
   position: absolute;
-  right: 13px;
-  bottom: 85px;
+  /* right: 13px; */
+  bottom: -22px;
 }
 .app_description {
   margin-bottom: 50px;
+  position: relative;
 }
 .video_iPad {
   width: 332px;
@@ -443,19 +459,19 @@ export default {
   margin-top: 40px;
 }
 .img_group_img_iPhone {
-  width: 225px;
+  /* width: 225px; */
   height: 399px;
   margin-right: 19px;
   object-fit: cover;
 }
 .img_group_img_iPad {
-  width: 297px;
+  /* width: 297px; */
   height: 223px;
   margin-right: 19px;
   object-fit: cover;
 }
 .img_group_img_watch {
-  width: 283px;
+  /* width: 283px; */
   height: 227px;
   margin-right: 19px;
   object-fit: cover;

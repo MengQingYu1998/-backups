@@ -429,6 +429,7 @@
     line-height: 42px;
     text-align: center;
     border:none;
+    padding: 0;
 }
 .right .emailDiv .emailInp input::placeholder,
 .right .telDiv>div p input::placeholder{

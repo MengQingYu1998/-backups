@@ -40,8 +40,8 @@
       <option value="CHE" title="CH">瑞士</option>
       <option value="CHL" title="CL">智利</option>
       <option value="CMR" title="CM">喀麦隆</option>
-      <option value="CHN" title="CN">中国</option>
-      <option value="COL" title="CO" selected="selected">哥伦比亚</option>
+      <option value="CHN" title="CN" selected="selected">中国</option>
+      <option value="COL" title="CO">哥伦比亚</option>
       <option value="CRI" title="CR">哥斯达黎加</option>
       <option value="CUB" title="CU">古巴</option>
       <option value="CPV" title="CV">佛得角</option>
@@ -78,7 +78,7 @@
       <option value="GTM" title="GT">危地马拉</option>
       <option value="GNB" title="GW">几内亚比绍</option>
       <option value="GUY" title="GY">圭亚那</option>
-      <option value="HKG" title="HK">香港</option>
+      <option value="HKG" title="HK">中国香港</option>
       <option value="HND" title="HN">洪都拉斯</option>
       <option value="HRV" title="HR">克罗地亚</option>
       <option value="HTI" title="HT">海地</option>
@@ -187,7 +187,7 @@
       <option value="TUR" title="TR">土耳其</option>
       <option value="TTO" title="TT">特立尼达和多巴哥</option>
       <option value="TUV" title="TV">图瓦卢</option>
-      <option value="TWN" title="TW">台湾</option>
+      <option value="TWN" title="TW">中国台湾</option>
       <option value="TZA" title="TZ">坦桑尼亚</option>
       <option value="UKR" title="UA">乌克兰</option>
       <option value="UGA" title="UG">乌干达</option>

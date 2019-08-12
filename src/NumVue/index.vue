@@ -12,19 +12,19 @@
 				<p>每日快讯</p>
 				<div>
 					<img src="../assets/NumImg/5.jpg"/>
-					<p class="title">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
+					<p class="titindex">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
 					<p class="des">CNBC报道称，瑞银分析师认为苹果公司的第一款可
 折叠产品最快可能会在明年问世，不过2021年更...</p>
 				</div>
 				<div>
 					<img src="../assets/NumImg/5.jpg"/>
-					<p class="title">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
+					<p class="titindex">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
 					<p class="des">CNBC报道称，瑞银分析师认为苹果公司的第一款可
 折叠产品最快可能会在明年问世，不过2021年更...</p>
 				</div>
 				<div>
 					<img src="../assets/NumImg/5.jpg"/>
-					<p class="title">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
+					<p class="titindex">最前线 | 可折叠iPhone或将在2021年发布的哈哈哈哈哈哈</p>
 					<p class="des">CNBC报道称，瑞银分析师认为苹果公司的第一款可
 折叠产品最快可能会在明年问世，不过2021年更...</p>
 				</div>
@@ -112,7 +112,7 @@
 	height: 174px;
 	border-radius: 10px 10px 0px 0px;
 }
-.content>.des>div p.title{
+.content>.des>div p.titindex{
 	width: 323px;
 	font-family: SourceHanSansCN-Medium;
 	font-size: 16px;

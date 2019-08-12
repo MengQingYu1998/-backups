@@ -6,12 +6,12 @@
 		</div>
 		<div class="content">
 			<ul>
-				<li v-for="(li,index) in lis" :key="index" :class="{'select':isSelect==index}"  @click="selectLei(index)">{{li.name}}</li>
+				<li v-for="(li,index) in lis" :key="'LY06'+index" :class="{'select':isSelect==index}"  @click="selectLei(index)">{{li.name}}</li>
 			</ul>
 			<div class="lei">
 				<div>
 					<p class="fenlei">榜单分类</p>
-					<p class="font" v-for="(genre,index) in genres" :key="index" :class="{'selectFont':selefont==index}" @click="cligenre(index)">{{genre.name}}</p>
+					<p class="font" v-for="(genre,index) in genres" :key="'LY07'+index" :class="{'selectFont':selefont==index}" @click="cligenre(index)">{{genre.name}}</p>
 				</div>
 				<div>
 					<p class="category">类别</p>
@@ -111,7 +111,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(tr,index) in zongsData" :key="index">
+							<tr v-for="tr in zongsData" :key="'ab88'+tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -244,10 +244,13 @@
 					Data:[]
 				},
 			    //当前时间font
-				timFont:'当前时间'
+				timFont:'当前时间',
+				scrollHeight:0,
+				canscroll:false,
 			}
 		},
 		created(){
+			this.scrollHeight=0
 			this.getData()
 			this.$watch('dateV',function(Value, oldValue) {
 		      // 当前日期发生变化，重新请求数据
@@ -271,30 +274,36 @@
 		    })
 
 		},
-		mounted(){
-			window.addEventListener('scroll',this.handleScroll,true)
-
-
+		mounted() {
+		    this.$nextTick(() => {
+		      let that = this
+		      //当页面滚动的时候  加载  滚动加载
+		      window.onscroll = function() {
+		        //变量scrollTop是滚动条滚动时，距离顶部的距离
+		        var scrollTop =
+		          document.documentElement.scrollTop || document.body.scrollTop
+		        //变量windowHeight是可视区的高度
+		        var windowHeight =
+		          document.documentElement.clientHeight || document.body.clientHeight
+		        //变量scrollHeight是滚动条的总高度
+		        that.scrollHeight =
+		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+		        var int=Math.round(scrollTop + windowHeight)
+		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
+		          // 需要执行的代码
+		          if(that.canscroll){
+		            that.page++ //滚动之后加载第二页
+		            that.getData()
+		          }
+		            
+		          
+		        }
+		      }
+		    })
+		   
 		},
 		methods:{
-			//当页面滚动的时候  加载  滚动加载
-		    handleScroll(){
-		    	//变量scrollTop是滚动条滚动时，距离顶部的距离
-				var scrollTop =
-				document.documentElement.scrollTop || document.body.scrollTop
-				//变量windowHeight是可视区的高度
-				var windowHeight =
-				document.documentElement.clientHeight || document.body.clientHeight
-				//变量scrollHeight是滚动条的总高度
-				var scrollHeight =
-				document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-				if (scrollTop + windowHeight == scrollHeight) {
-					// 需要执行的代码
-					this.page++;  //滚动之后加载第二页
-			    	this.getData();	
-				}
-
-		    },  
+			 
 		    // 获取当前选中的国家
 			parentFn(payload) {
 				this.now_country = payload
@@ -363,8 +372,7 @@
 						.then(res=>{
 							if(res.data.Code==0){
 								this.countryname=this.now_country
-								// console.log(this.now_country)
-								// console.log(this.countryname)
+								
 								for(var i=0;i<res.data.Data.length;i++){
 									if (res.data.Data[i].name == this.now_country) {
 						              country_id = res.data.Data[i].id
@@ -398,7 +406,15 @@
 							            }else{
 							            	tim=this.kuaizTim.slice(11,19)
 							            }
-							          	
+							          	// console.log("brandV:"+brandV)
+							          	// console.log("deviceType:"+deviceType)
+							          	// console.log("country_id:"+country_id)
+							          	// console.log("tim:"+tim)
+							          	// console.log("newDataB:"+newDataB)
+							          	// console.log("geid:"+geid)
+							          	// console.log("pidV:"+pidV)
+							          	// console.log("pageindex:"+this.page)
+							          	// console.log("pagesize:"+this.pageSize)
 							            // 获取榜单数据
 									    this.$axios({
 											method:"post",
@@ -417,6 +433,7 @@
 											}
 										})
 										.then(res=>{
+											this.canscroll=true
 											let onlinFont=res.data.pageCount
 											if(onlinFont>0){
 												this.contentShow = true
@@ -425,6 +442,7 @@
 									            this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
+									       
 									        this.zongsData=this.zongsData.concat(res.data.Data)
 									        let DownloadTotal=(this.pageSize+1)*this.page
 									        let pageC=Math.ceil(onlinFont/this.pageSize)
@@ -511,6 +529,7 @@
 				this.downWG=false
 				this.upWG=false
 				// this.page=1
+				// this.zongsData.length=0
 				this.getData()
 			},
 			// 点击游戏榜

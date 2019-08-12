@@ -29,9 +29,14 @@
           >总榜</div>
         </div>
         <!-- 选择应用 -->
-        <el-popover placement="bottom" trigger="click" width="168">
+        <el-popover placement="bottom" trigger="click" width="168" v-model="visible01">
           <div class="selected_popover">
-            <div v-for="(item,index) in data_for_classify" :key="'classify'+index">{{item.name}}</div>
+            <div
+              class="pointer"
+              v-for="(item,index) in data_for_classify"
+              :key="'classify'+index"
+              @click="my_genreId=item.id;visible01=false"
+            >{{item.name}}</div>
           </div>
           <div slot="reference">
             <div
@@ -46,9 +51,14 @@
           </div>
         </el-popover>
         <!-- 选择游戏 -->
-        <el-popover placement="bottom" trigger="click">
+        <el-popover placement="bottom" trigger="click" v-model="visible">
           <div class="selected_popover">
-            <div v-for="(item,index) in data_for_classify" :key="'classify'+index">{{item.name}}</div>
+            <div
+              v-for="(item,index) in data_for_classify"
+              class="pointer"
+              :key="'classify'+index"
+              @click="my_genreId=item.id;visible=false"
+            >{{item.name}}</div>
           </div>
           <div slot="reference">
             <div
@@ -169,12 +179,15 @@ export default {
   components: { country },
   data() {
     return {
+      visible: false, //悬浮框是否隐藏
+      visible01: false, //悬浮框是否隐藏
       db_number_is_same: 0, //修复用户输入过快的bug
       can_excute: false,
       // 请求分页
       page: 1,
       // 请求的分类数据
       data_for_classify: null,
+      my_genreId: null,
       // 请求的表格数据
       data_for_table: [],
       //以下几个变量模仿单选框
@@ -226,6 +239,12 @@ export default {
     //   this.get_data_classify()
     //   this.get_data_table()
     // })
+
+    this.$watch('my_genreId', function(newValue, oldValue) {
+      this.data_for_table.length = 0
+      this.page = 1
+      this.get_data_table()
+    })
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_classify()
       this.data_for_table.length = 0
@@ -308,8 +327,10 @@ export default {
         .get(url)
         .then(response => {
           this.data_for_classify = response.data.Data
+          // console.log(555555555555555555555555555)
 
-          // console.log(this.data_for_classify)
+          // console.log(response)
+          console.log(this.data_for_classify)
         })
         .catch(error => {
           console.log(error)
@@ -354,7 +375,10 @@ export default {
             '&word=' +
             this.keyword_input +
             '&time=' +
-            formatDate(this.dateValue, 'yyyy-MM-dd')
+            formatDate(this.dateValue, 'yyyy-MM-dd') +
+            '&GenreId=' +
+            this.my_genreId
+
           console.log(url)
           // 请求数据
           this.$axios
@@ -385,6 +409,7 @@ export default {
       this.change_bg_all = true
       this.change_bg_app = false
       this.change_bg_game = false
+      this.my_genreId = 36
       // 请求悬浮框的数据
       this.get_data_classify()
     },
@@ -393,6 +418,7 @@ export default {
       this.change_bg_all = false
       this.change_bg_app = true
       this.change_bg_game = false
+      // this.my_genreId = 5000
       // 请求悬浮框的数据
       this.get_data_classify()
     },
@@ -401,6 +427,7 @@ export default {
       this.change_bg_all = false
       this.change_bg_app = false
       this.change_bg_game = true
+      // this.my_genreId = 6014
       // 请求悬浮框的数据
       this.get_data_classify()
     },
@@ -504,7 +531,7 @@ tbody td {
 }
 tbody td:nth-child(1) {
   width: 199px;
-} 
+}
 tbody td:nth-child(2) {
   width: 223px;
 }
@@ -648,6 +675,10 @@ table {
 .options_04 {
   margin-left: 70px !important;
 }
+
+/* .options_03 {
+  margin-left: 70px !important;
+} */
 .options_03 .date div {
   width: 114px !important;
 }

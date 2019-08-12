@@ -353,10 +353,15 @@ table tbody tr:hover {
 .el-radio-button {
   margin-left: 10px;
 }
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  border: none !important;
+}
 .el-radio-button__inner {
-  border: solid 1px #dfdfdf;
+  /* border-left: none; */
+
+  border: solid 1px #dfdfdf !important;
   border-radius: 4px !important;
-  border-left: 1;
+  box-sizing: border-box;
 }
 .el-radio-group .el-radio-button:first-child {
   margin-left: 0 !important;
