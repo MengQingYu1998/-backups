@@ -40,7 +40,7 @@
       <option value="CHE" title="CH">瑞士</option>
       <option value="CHL" title="CL">智利</option>
       <option value="CMR" title="CM">喀麦隆</option>
-      <option value="CHN" title="CN" selected="selected">中国</option>
+      <option value="CHN" title="CN">中国</option>
       <option value="COL" title="CO">哥伦比亚</option>
       <option value="CRI" title="CR">哥斯达黎加</option>
       <option value="CUB" title="CU">古巴</option>
@@ -219,8 +219,26 @@ export default {
   data() {
     return {}
   },
+  props: ['which_country'],
   mounted() {
-    // console.log(111)
+    console.log('============国家组件内部============')
+    if (sessionStorage.getItem('now_country_name') == null) {
+      sessionStorage.setItem('now_country_name', '中国')
+    }
+    console.log(sessionStorage.getItem('now_country_name'))
+
+    // 根据sessionStorage的值去改变国家组件选中状态
+    let temp = $('.fastbannerform__country option')
+    // console.log(temp)
+    for (let index = 0; index < temp.length; index++) {
+      const element = temp[index]
+      if ($(element).text() === sessionStorage.getItem('now_country_name')) {
+        $(element).attr('selected', 'selected')
+      } else {
+        $(element).removeAttr('selected')
+      }
+    }
+
     start_first(start_second)
     start()
     start02()

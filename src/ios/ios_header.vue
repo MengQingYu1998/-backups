@@ -8,7 +8,7 @@
       <img class="header_img" v-if="response_data" :src="response_data.icon" alt />
       <div class="app_description">
         <div v-if="response_data">{{response_data.appName}}</div>
-        <div v-if="response_data">{{response_data.subtitle}}</div>
+        <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
         <div>版本更新时间</div>
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       // is_show_header: true,
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       response_data: null,
       time: ''
     }

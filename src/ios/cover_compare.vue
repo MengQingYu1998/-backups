@@ -130,7 +130,7 @@ export default {
         }
       ],
       equipmentValue: 'iPhone',
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       response_data: null
     }
   },

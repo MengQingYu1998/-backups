@@ -55,10 +55,6 @@ import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
 import { myTime } from '../common/util.js'
-// import $ from 'jquery'
-// import '../common/country_select/select_gj.css'
-// import '../common/country_select/select_gj.min.js'
-// import '../common/country_select/select2_1.js'
 export default {
   name: 'version_message',
   components: { ios_header, left_nav },
@@ -68,7 +64,7 @@ export default {
       input1: '',
 
       response_data: null,
-      now_country: '中国'
+      now_country: sessionStorage.getItem('now_country_name')
     }
   },
   created: function() {

@@ -6,6 +6,9 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 //全局配置
 axios.defaults.baseURL = 'http://39.97.234.11:8080'
+// axios.defaults.headers = {
+//   'Access-Control-Allow-Headers': '*'
+// }
 // axios.defaults.baseURL = 'www.zshddata.com'
 import router from './router'
 import { store } from './store/store'

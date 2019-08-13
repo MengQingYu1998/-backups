@@ -456,7 +456,7 @@ export default {
       // 第一部分的参数
       // 第一部分的参数
       // 第一部分的参数
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       request_data_first: null,
       date_Now_for_top: new Date(), //top section的日期选择 当前日期or对比日期
       dateCompare_for_top: new Date(),

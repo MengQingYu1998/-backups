@@ -205,7 +205,7 @@
 			    now_Application:'应用',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
-      			now_country: '中国',
+      			now_country: sessionStorage.getItem('now_country_name'),
 			    // 设备选择
 			   	equipment: [
 			        {
@@ -266,7 +266,7 @@
 		        this.getData()
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
-
+sessionStorage.setItem('now_country_name', this.now_country)
 		      // 当前国家发生变化，重新请求数据...
 		        this.zongsData.length=0
 				this.page=1

@@ -133,7 +133,7 @@ export default {
         }
       ],
       systemValue: 'ios12',
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
 
       //日期选择
       pickerOptions: {

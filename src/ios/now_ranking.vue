@@ -225,6 +225,7 @@
                 <td class="td_width01">
                   <div class="rankingChangeFontColor">{{item.RankingInterval}}</div>
                 </td>
+
                 <td class="td_width02">
                   <div
                     v-for="(item_td, index_td) in item.GenreCountryList"
@@ -246,7 +247,10 @@
                         v-for="(item_div, index_div) in item_td.data"
                         :key="'table01_div'+index_div"
                       >
-                        <div>{{item_div.CountryName}}</div>
+                        <div>
+                          {{item_div.CountryName}}
+                          <!-- <img :src="'../assets/flag/'+item_div.CountryName+'.svg'" alt /> -->
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -314,7 +318,7 @@ export default {
       // 第一部分图表的数据
       // 第一部分图表的数据
       // 第一部分图表的数据
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       response_data_first: null,
       response_data_first_title: null,
       // 第二部分折线图数据
@@ -997,7 +1001,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              // console.log(this.response_data_third)
+              console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }

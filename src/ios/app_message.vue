@@ -257,7 +257,7 @@ export default {
       radio02: 'iPhone', //第三部分 截图
       // 请求的数据
       response_data: null,
-      now_country: '中国'
+      now_country: sessionStorage.getItem('now_country_name')
     }
   },
   created: function() {
@@ -317,13 +317,13 @@ export default {
               console.log(5555555)
               console.log(response)
               // 获取数据并且设置到视频插件的配置项
-              // if (this.radio01 == 'iPhone') {
-              //   this.onPlayerPlay(this.response_data.videoUrl.iphone)
-              // } else if (this.radio01 == 'iPad') {
-              //   this.onPlayerPlay(this.response_data.videoUrl.ipad)
-              // } else if (this.radio01 == 'watch') {
-              //   this.onPlayerPlay(this.response_data.videoUrl.watch)
-              // }
+              if (this.radio01 == 'iPhone') {
+                this.onPlayerPlay(this.response_data.videoUrl.iphone)
+              } else if (this.radio01 == 'iPad') {
+                this.onPlayerPlay(this.response_data.videoUrl.ipad)
+              } else if (this.radio01 == 'watch') {
+                this.onPlayerPlay(this.response_data.videoUrl.watch)
+              }
             })
             .catch(error => {
               console.log(error)

@@ -125,7 +125,7 @@ export default {
       response_data: null,
       response_datafor_popover: null,
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       // 请输入搜索关键词
       search_input: '',
       // 设备选择

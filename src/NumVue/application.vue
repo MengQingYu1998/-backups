@@ -255,7 +255,7 @@
 				onlinFontC:'0',//清词应用数
 				// showci:true,//清词div
 				// 获取当前选中的国家
-      			now_country: '中国',
+      			now_country: sessionStorage.getItem('now_country_name'),
 				// 当前选中日期
 				dateV: new Date(),
 			    pickerOptions2: {
@@ -342,6 +342,7 @@
 		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
+					sessionStorage.setItem('now_country_name', this.now_country)
 		      // 当前国家发生变化，重新请求数据...
 		      this.zongsdataList.length=0
 		      this.page=1

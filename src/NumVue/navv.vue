@@ -43,7 +43,7 @@
           />
         </el-popover>
 
-        <p>
+        <p @click="go_to_page01(nav_input_value)" class="pointer">
           <img src="../assets/NumImg/search.png" />
         </p>
       </div>
@@ -141,13 +141,14 @@ export default {
       // 个人中心
       mines: [{ name: '消息中心' }, { name: '账号设置' }, { name: '退出' }],
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       touxiang: require('../assets/NumImg/touxiang.png')
     }
   },
   methods: {
     // 获取当前选中的国家
     parentFn(payload) {
+      // console.log(payload)
       this.now_country = payload
     },
     fun() {
@@ -261,6 +262,10 @@ export default {
     this.$watch('nav_input_value', function(newValue, oldValue) {
       this.get_data_for_nav_input()
     })
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch('now_country', function(newValue, oldValue) {
+      sessionStorage.setItem('now_country_name', this.now_country)
+    })
   }
 }
 </script>
@@ -339,12 +344,41 @@ export default {
   border: none;
   outline: none;
   background-color: transparent;
+  vertical-align: middle;
+  margin-top: 3px;
+  margin-left: 5px;
+
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #222222;
+}
+.nav ::-webkit-input-placeholder {
+  /* WebKit browsers */
   font-family: SourceHanSansCN-Regular;
   font-size: 15px;
   color: #bfbfbf;
-  vertical-align: top;
-  margin-top: 7px;
-  margin-left: 5px;
+}
+.nav :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  font-family: SourceHanSansCN-Regular;
+  font-size: 15px;
+  color: #bfbfbf;
+}
+.nav ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  font-family: SourceHanSansCN-Regular;
+  font-size: 15px;
+  color: #bfbfbf;
+}
+.nav :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  font-family: SourceHanSansCN-Regular;
+  font-size: 15px;
+  color: #bfbfbf;
 }
 .nav .searchDiv > p {
   width: 50px;

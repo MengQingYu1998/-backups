@@ -161,7 +161,7 @@ export default {
   data() {
     return {
       response_data: null,
-      now_country: '中国'
+      now_country: sessionStorage.getItem('now_country_name')
     }
   },
   created: function() {

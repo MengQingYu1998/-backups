@@ -115,7 +115,7 @@ export default {
   data() {
     return {
       is_show_mychart: false,
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       response_data_second: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',

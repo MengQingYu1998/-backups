@@ -490,7 +490,7 @@ export default {
       // 顶部搜索框
       input1: '',
 
-      now_country: '中国'
+      now_country: sessionStorage.getItem('now_country_name')
     }
   },
 

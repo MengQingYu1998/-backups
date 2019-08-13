@@ -110,7 +110,7 @@
         <div
           :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true}"
           @click="index_number()"
-        >>4605</div>
+        >≥4605</div>
         <div class="min_max" @click="change_bg_index_function">
           <div>
             <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
@@ -199,7 +199,8 @@ export default {
       change_bg_result: true,
       change_bg_index: true,
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
+      // which_country: null,
       //请输入搜索关键词
       keyword_input: '',
       // 搜索结果数最小值和最大值
@@ -252,6 +253,7 @@ export default {
       this.get_data_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
+      sessionStorage.setItem('now_country_name', this.now_country)
       this.get_data_classify()
       this.data_for_table.length = 0
       this.page = 1
@@ -302,7 +304,7 @@ export default {
           if (that.can_excute) {
             that.page += 1
             that.get_data_table()
-            console.log('yes')
+            // console.log('yes')
           }
         }
       }
@@ -330,7 +332,7 @@ export default {
           // console.log(555555555555555555555555555)
 
           // console.log(response)
-          console.log(this.data_for_classify)
+          // console.log(this.data_for_classify)
         })
         .catch(error => {
           console.log(error)
@@ -340,9 +342,9 @@ export default {
     get_data_table() {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
-      console.log('is_excute_function=' + is_excute_function)
-      console.log('db_number_is_same=' + this.db_number_is_same)
-      console.log('=======请求表格数据=======')
+      // console.log('is_excute_function=' + is_excute_function)
+      // console.log('db_number_is_same=' + this.db_number_is_same)
+      // console.log('=======请求表格数据=======')
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -379,7 +381,7 @@ export default {
             '&GenreId=' +
             this.my_genreId
 
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -387,13 +389,13 @@ export default {
               // console.log(response.data.Data)
               this.can_excute = true //是否可以执行滚动条到达底部事件
               if (is_excute_function == this.db_number_is_same) {
-                console.log('数组拼接成功')
+                // console.log('数组拼接成功')
                 this.data_for_table = this.data_for_table.concat(
                   response.data.Data
                 )
               }
 
-              console.log(this.data_for_table)
+              // console.log(this.data_for_table)
             })
             .catch(error => {
               console.log(error)

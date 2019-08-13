@@ -84,7 +84,7 @@ export default {
   name: 'same_dev_app',
   components: { ios_header, left_nav },
   data() {
-    return { now_country: '中国', response_data: null }
+    return { now_country: sessionStorage.getItem('now_country_name'), response_data: null }
   },
   created: function() {
     this.get_data()

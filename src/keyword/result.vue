@@ -589,7 +589,7 @@ export default {
       response_data_for_ios12: [],
       response_data_for_ios11: [],
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: sessionStorage.getItem('now_country_name'),
       // 设备选择
       equipment: [
         {

@@ -301,6 +301,7 @@ table tbody tr:hover {
   width: 118px !important;
   border: solid 1px #dfdfdf !important;
   color: #444444 !important;
+  outline: none;
 }
 .select2-dropdown {
   width: 130px !important;
