@@ -221,11 +221,11 @@ export default {
   },
   props: ['which_country'],
   mounted() {
-    console.log('============国家组件内部============')
+    // console.log('============国家组件内部============')
     if (sessionStorage.getItem('now_country_name') == null) {
       sessionStorage.setItem('now_country_name', '中国')
     }
-    console.log(sessionStorage.getItem('now_country_name'))
+    // console.log(sessionStorage.getItem('now_country_name'))
 
     // 根据sessionStorage的值去改变国家组件选中状态
     let temp = $('.fastbannerform__country option')

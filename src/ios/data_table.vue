@@ -253,7 +253,7 @@
                   >排名趋势</div>
                 </td>
               </tr>
-              <tr v-show="is_show_bottom">
+              <tr v-show="is_show_bottom" class="echarts_middle">
                 <td colspan="6">
                   <!-- 底部 类型模块 -->
                   <!-- 底部 类型模块 -->
@@ -320,23 +320,24 @@
                         class="myChart"
                         v-show="is_show_myChart_and_table"
                       ></div>
-                      <div class="bottom_image" v-show="is_show_myChart_and_table">
-                        <!-- <img class="float_right" src="../assets/keyword/down.png" alt> -->
-                        <!-- <img
-                      v-on:click="is_show_myChart_and_table_function"
-                      class="float_right"
-                      src="../assets/keyword/three.png"
-                      alt
-                    />
-                    <img
-                      v-on:click="is_show_myChart_and_table_function"
-                      class="float_right"
-                      src="../assets/keyword/calculator.png"
-                      alt
-                        />-->
+                      <div class="myChart" v-if="!is_show_myChart_and_table">暂无数据</div>
+                      <div class="bottom_image" v-show="false">
+                        <img class="float_right" src="../assets/keyword/down.png" alt />
+                        <img
+                          v-on:click="is_show_myChart_and_table_function"
+                          class="float_right"
+                          src="../assets/keyword/three.png"
+                          alt
+                        />
+                        <img
+                          v-on:click="is_show_myChart_and_table_function"
+                          class="float_right"
+                          src="../assets/keyword/calculator.png"
+                          alt
+                        />
                       </div>
 
-                      <table v-show="!is_show_myChart_and_table">
+                      <table v-show="false">
                         <thead>
                           <tr>
                             <th>时间</th>
@@ -354,7 +355,7 @@
                           </tr>
                         </tbody>
                       </table>
-                      <div class="bottom_image_for_table" v-show="!is_show_myChart_and_table">
+                      <div class="bottom_image_for_table" v-show="false">
                         <img
                           class="float_right"
                           src="../assets/keyword/down.png"
@@ -375,7 +376,7 @@
                         />
                       </div>
 
-                      <div class="import_data_for_table" v-show="!is_show_myChart_and_table">导出数据</div>
+                      <div class="import_data_for_table" v-show="false">导出数据</div>
                       <div class="clear_float"></div>
                     </div>
                   </section>
@@ -394,7 +395,9 @@
                 </td>
 
                 <td>
-                  <div>
+                  <div
+                    :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                  >
                     <img src="../assets/keyword/arrows (1).png" alt v-show="item.Change=0" />
                     <img src="../assets/keyword/arrows (2).png" alt v-show="item.Change>0" />
                     <img src="../assets/keyword/arrows (3).png" alt v-show="item.Change<0" />
@@ -544,7 +547,7 @@ export default {
       },
 
       // true显示myChart  false显示table表格
-      is_show_myChart_and_table: true,
+      is_show_myChart_and_table: false,
 
       //canvas 关键词data数组
       keyword_data: [],
@@ -953,22 +956,24 @@ export default {
             showType = 3
           }
           let wordId = this.wordId
+          let appId = this.$store.state.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
-          // console.log(time)
-          // console.log(wordId)
-          // console.log(deviceType)
-          // console.log(country_id)
-          // console.log(iosType)
-          // console.log(showType)
-          // console.log(wordId)
+          console.log(time)
+          console.log(wordId)
+          console.log(deviceType)
+          console.log(country_id)
+          console.log(iosType)
+          console.log(showType)
+          console.log(appId)
+
           let data = {
             countryId: country_id,
             wordId: wordId,
-            appId: 112,
+            appId: appId,
             system: iosType,
             device: deviceType,
-            showType: 2,
+            showType: showType,
             date: time
           }
           // console.log('==============')
@@ -977,16 +982,16 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response.data.Data)
+              console.log(response)
               // console.log(this.word)
               this.keyword_data = []
               this.keyword_data.push(this.word)
               if (response.data.Data != null) {
+                this.is_show_myChart_and_table = true
                 this.request_data_third = response.data.Data
-
-                this.keyword_data_value = []
-                this.xAxis_data = []
-                this.keyword_data = []
+                this.keyword_data = new Array()
+                this.keyword_data_value = new Array()
+                this.xAxis_data = new Array()
                 console.log(this.word)
                 this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
                 this.xAxis_data = this.request_data_third.timeList
@@ -1012,14 +1017,23 @@ export default {
                   this.yAxis_max = 5
                 } else if (max_value <= 20) {
                   this.yAxis_max = 20
+                } else if (max_value <= 50) {
+                  this.yAxis_max = 50
                 } else if (max_value <= 100) {
                   this.yAxis_max = 100
                 } else if (max_value <= 500) {
                   this.yAxis_max = 500
+                } else if (max_value <= 1000) {
+                  this.yAxis_max = 1000
+                } else if (max_value <= 1500) {
+                  this.yAxis_max = 1500
+                } else {
+                  this.yAxis_max = max_value + 100
                 }
                 // ==================找数组最大值====================
                 this.drawLine()
               } else if (response.data.Data == null) {
+                this.is_show_myChart_and_table = false
                 this.keyword_data_value = []
                 this.xAxis_data = []
                 this.keyword_data.push(this.word)
@@ -1045,7 +1059,7 @@ export default {
 
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name
@@ -1128,8 +1142,9 @@ export default {
           inverse: true,
           min: 1,
           max: that.yAxis_max,
-          interval: that.yAxis_max / 4
+          interval: that.yAxis_max / 5
         },
+
         series: that.series_data()
       })
     },
@@ -1161,6 +1176,18 @@ export default {
 }
 </script>
 <style scoped>
+.echarts_middle:hover {
+  background-color: #fff;
+}
+.gray {
+  color: #888888;
+}
+.red {
+  color: #f50202;
+}
+.blue {
+  color: #009bef;
+}
 .img_left {
   margin-right: 8px;
 }
@@ -1451,6 +1478,10 @@ table {
   width: 979px;
   height: 300px;
   z-index: 1;
+  text-align: center;
+  color: #666;
+  line-height: 300px;
+  font-size: 50px;
 }
 
 .table_title {

@@ -1097,7 +1097,9 @@
       </div>
     </div>
     <!--end map-preview-->
-    <span id="map-tip"></span>
+    <span id="map-tip">
+      <!-- <img src="../../../static/flag/AD.svg" alt /> -->
+    </span>
     <span id="scroll-top">
       <a class="scrollup"></a>
     </span>
@@ -1132,18 +1134,33 @@ export default {
     this.$watch('country_temp01', function(newValue, oldValue) {
       this.demo()
     })
-    // this.$watch('country_temp02', function(newValue, oldValue) {
-    //   this.demo()
-    // })
-    // this.$watch('country_temp03', function(newValue, oldValue) {
-    //   this.demo()
-    // })
-    // this.$watch('country_temp04', function(newValue, oldValue) {
-    //   this.demo()
-    // })
   },
   methods: {
     demo() {
+      this.country_temp01.forEach((element, index) => {
+        if (element == '中国澳门') {
+          this.country_temp01[index] = '中国'
+        }
+      })
+
+      this.country_temp02.forEach((element, index) => {
+        if (element == '中国澳门') {
+          this.country_temp01[index] = '中国'
+        }
+      })
+
+      this.country_temp03.forEach((element, index) => {
+        if (element == '中国澳门') {
+          this.country_temp01[index] = '中国'
+        }
+      })
+
+      this.country_temp04.forEach((element, index) => {
+        if (element == '中国澳门') {
+          this.country_temp01[index] = '中国'
+        }
+      })
+
       // console.log('=============地图组件内部====================')
       // console.log(this.country_temp01)
       // console.log(this.country_temp02)
@@ -1185,6 +1202,7 @@ export default {
 }
 </script>
 <style scoped>
-/* #map_base {
-} */
+#map-tip {
+  display: none;
+}
 </style>

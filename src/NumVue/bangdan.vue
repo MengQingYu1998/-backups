@@ -56,7 +56,7 @@
 				<div>
 					<p>设备</p>
 					<el-select v-model="equipmentValue">
-				        <el-option v-for="item in  equipment" :key="item.index"  :value="item.value"></el-option>
+				        <el-option v-for="(item,B) in  equipment" :key="item.B"  :value="item.value"></el-option>
 				    </el-select>
 
 				</div>
@@ -111,9 +111,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="tr in zongsData" :key="'ab88'+tr.index">
+							<tr v-for="tr in zongsData" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" >{{tr.index}}</p>
+									<p class="ranking">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
@@ -128,6 +128,7 @@
 									<span v-if='tr.rank_a.rankChange>=0'>{{tr.rank_a.rankChange}}</span>
 									<span v-if='tr.rank_a.rankChange<0'>{{-(tr.rank_a.rankChange)}}</span>
 								</th>
+								<th v-else>
 								<th v-if="tr.rank_b">
 									<div class="now" v-if="tr.rank_b">
 										<p>{{tr.rank_b.rankID}}</p>
@@ -139,6 +140,7 @@
 									<span class="before" v-if='tr.rank_b.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
 									<span class="before" v-if='tr.rank_b.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span>
 								</th>
+								<th v-else></th>
 								<th>{{tr.keywordCover}}</th>
 								<th>{{tr.comment.num}}</th>
 								<th>{{tr.LastReleaseDate}}</th>
@@ -172,6 +174,7 @@
 		data(){
 			
 			return{
+				total_number:0,
 				countryname:'中国',//导航条上面的国家
 				showApplication:false,
 				showGame:false,
@@ -202,7 +205,7 @@
 			        }
 			    },
 			    // 当前选中类别
-			    now_Application:'应用',
+			    now_Application:'全部应用',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
       			now_country: sessionStorage.getItem('now_country_name'),
@@ -247,6 +250,7 @@
 				timFont:'当前时间',
 				scrollHeight:0,
 				canscroll:false,
+
 			}
 		},
 		created(){
@@ -266,8 +270,9 @@
 		        this.getData()
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
-sessionStorage.setItem('now_country_name', this.now_country)
+
 		      // 当前国家发生变化，重新请求数据...
+		      sessionStorage.setItem('now_country_name', this.now_country)
 		        this.zongsData.length=0
 				this.page=1
 		        this.getData()
@@ -291,10 +296,16 @@ sessionStorage.setItem('now_country_name', this.now_country)
 		        var int=Math.round(scrollTop + windowHeight)
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
 		          // 需要执行的代码
-		          if(that.canscroll){
-		            that.page++ //滚动之后加载第二页
-		            that.getData()
-		          }
+		          // console.log("是否滚动"+that.canscroll)
+		          // if(that.canscroll){
+		          	
+		          		that.getData()
+		            	// that.page++ //滚动之后加载第二页
+		            
+		            	// console.log("当前页数："+that.page)
+		          	
+		          	
+		          // }
 		            
 		          
 		        }
@@ -310,7 +321,11 @@ sessionStorage.setItem('now_country_name', this.now_country)
 			},
 	
 			// 获取数据
-			getData(){
+			getData(){this.total_number+=1
+				let number=this.total_number
+
+				this.bangdanNum++
+				let concat_function=this.bangdanNum
 				// 传给后台的brand值
 				let brandV=1
 				if(this.selefont==0){
@@ -323,17 +338,19 @@ sessionStorage.setItem('now_country_name', this.now_country)
 
 				// 传给后台的pid
 				let pidV=36
-				let geid=36
+				let geid=""
 				if(this.isFontZ==true){
+					// 点击总榜
 					pidV=36
 					this.valueY='应用'
 					this.valueG='游戏'
 				}else if(this.isFont==true){
+					// 点击应用榜
 					pidV=5000
 					this.valueG='游戏'
 				}else if(this.isFontG==true){
+					// 点击游戏榜
 					pidV=6014
-					geid=6014
 					this.valueY='应用'
 				}
 				// 传给后台的date值
@@ -346,7 +363,6 @@ sessionStorage.setItem('now_country_name', this.now_country)
 				this.$axios({
 					method:"get",
 					url:'/GetGenre?genreID='+pidV
-						
 				})
 				.then(res => {
 					if (res.data.Code == 0) {
@@ -356,12 +372,12 @@ sessionStorage.setItem('now_country_name', this.now_country)
 					        geid=36	
 					    }else{
 					        for(var i=0;i<res.data.Data.length;i++){
-						        if(this.now_Application==res.data.Data[i].name){
+								if(this.now_Application==res.data.Data[i].name){
 									geid = res.data.Data[i].id
 						 		}
 						    }
-
 					    }
+
 					    //传给后台的countryid值
 						let country_id=1
 						this.$axios({
@@ -379,6 +395,11 @@ sessionStorage.setItem('now_country_name', this.now_country)
 						              // return false
 						            }
 								}
+								// console.log("brandV:"+brandV)
+								// console.log("deviceType:"+deviceType)
+								// console.log("country_id:"+country_id)
+								// console.log("newDataB:"+newDataB)
+								// console.log("geid:"+geid)
 							    // 榜单快照数据
 							    this.$axios({
 									method:"post",
@@ -415,6 +436,7 @@ sessionStorage.setItem('now_country_name', this.now_country)
 							          	// console.log("pidV:"+pidV)
 							          	// console.log("pageindex:"+this.page)
 							          	// console.log("pagesize:"+this.pageSize)
+							          	
 							            // 获取榜单数据
 									    this.$axios({
 											method:"post",
@@ -433,23 +455,48 @@ sessionStorage.setItem('now_country_name', this.now_country)
 											}
 										})
 										.then(res=>{
-											this.canscroll=true
-											let onlinFont=res.data.pageCount
-											if(onlinFont>0){
+											if(res.data.Code==0){
+												// this.canscroll=true
+												// console.log("榜单数据："+res.data.Data)
+												// this.bangnum=res.data.Data
+												console.log(typeof(res.data.Data))
+												if(typeof(res.data.Data)=="object"){
+													console.log(66)
+													this.canscroll=true
+												}
+												let onlinFont=res.data.pageCount
+												if(onlinFont>0){
+													this.contentShow = true
+													this.infiniteMsgShow = true // 加载更多
+													
+										        } else {
+										            this.contentShow = true
+										            this.infiniteMsgShow = false // 没有更多数据
+										        }
+										       if(res.data.Data==""){
+										       		this.contentShow = true
+										            this.infiniteMsgShow = false // 没有更多数据
+										            this.canscroll=false
+										       }else{
+											       	if(this.total_number==number){
+											       		this.zongsData=this.zongsData.concat(res.data.Data)
+											       		this.page+=1
+											       	}
+										       }
+										       
+										      
+										        
+										        let DownloadTotal=(this.pageSize+1)*this.page
+										        let pageC=Math.ceil(onlinFont/this.pageSize)
+										        if(this.page==pageC){
+										        	this.contentShow = true
+										            this.infiniteMsgShow = false // 没有更多数据
+										        }
+											}else{
 												this.contentShow = true
-												this.infiniteMsgShow = true // 加载更多
-									        } else {
-									            this.contentShow = true
-									            this.infiniteMsgShow = false // 没有更多数据
-									        }
-									       
-									        this.zongsData=this.zongsData.concat(res.data.Data)
-									        let DownloadTotal=(this.pageSize+1)*this.page
-									        let pageC=Math.ceil(onlinFont/this.pageSize)
-									        if(this.page==pageC){
-									        	this.contentShow = true
-									            this.infiniteMsgShow = false // 没有更多数据
-									        }
+										        this.infiniteMsgShow = false // 没有更多数据
+											}
+											
 									       
 
 										})
@@ -528,8 +575,6 @@ sessionStorage.setItem('now_country_name', this.now_country)
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
-				// this.page=1
-				// this.zongsData.length=0
 				this.getData()
 			},
 			// 点击游戏榜
@@ -586,6 +631,9 @@ sessionStorage.setItem('now_country_name', this.now_country)
 					this.upWG=false
 					this.downG=false
 					this.downWG=false
+					this.zongsData.length=0
+					this.page=1
+					this.getData()
 				}else if(this.isSelect==1){
 					this.fenFont='应用榜'
 					this.isFont=true//应用按钮被选中
@@ -597,6 +645,10 @@ sessionStorage.setItem('now_country_name', this.now_country)
 					this.upWG=false
 					this.downG=true
 					this.downWG=false
+					this.now_Application="全部应用"
+					this.zongsData.length=0
+					this.page=1
+					this.getData()
 				}else{
 					this.fenFont='游戏榜'
 					this.isFont=false//应用按钮取消选中
@@ -608,10 +660,12 @@ sessionStorage.setItem('now_country_name', this.now_country)
 					this.upWL=false
 					this.downL=true
 					this.downWL=false
+					this.now_Application="全部游戏"
+					this.zongsData.length=0
+					this.page=1
+					this.getData()
 				}
-				this.zongsData.length=0
-				this.page=1
-				this.getData()
+				
 			},
 			// 点击榜单分类
 			cligenre(index){

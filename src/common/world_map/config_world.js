@@ -59,544 +59,544 @@ let pin_config= {
 }
 let  map_config= {
   'default':{'borderColor':'#eeeeee','mapShadow':'#fff','shadowOpacity':'35','hoverShadow':'#666666','lakesColor':'#66CCFF','namesColor':'#919191',},
-'map_1':{
+'map_1':{'code':'AF',
   'hover': '阿富汗','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_2':{
+'map_2':{'code':'AL',
   'hover': '阿尔巴尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_3':{
+'map_3':{'code':'DZ',
   'hover': '阿尔及利亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_4':{
+'map_4':{'code':'AD',
   'hover': '安道尔共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_5':{
+'map_5':{'code':'AO',
   'hover': '安哥拉','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_6':{
+'map_6':{'code':'AR',
   'hover': '阿根廷','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_7':{
+'map_7':{'code':'AM',
   'hover': '亚美尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_8':{
+'map_8':{'code':'AU',
   'hover': '澳大利亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_9':{
+'map_9':{'code':'AT',
   'hover': '奥地利','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_10':{
+'map_10':{'code':'AZ',
   'hover': '阿塞拜疆','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_11':{
+'map_11':{'code':'BS',
   'hover': '巴哈马群岛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_12':{
+'map_12':{'code':'BH',
   'hover': '巴林岛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_13':{
+'map_13':{'code':'BD',
   'hover': '孟加拉国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_14':{
+'map_14':{'code':'BY',
   'hover': '白俄罗斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_15':{
+'map_15':{'code':'BE',
   'hover': '比利时','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_16':{
+'map_16':{'code':'BZ',
   'hover': '伯利兹','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_17':{
+'map_17':{'code':'BJ',
   'hover': '贝宁','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_18':{
+'map_18':{'code':'',
   'hover': '不丹','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_19':{
+'map_19':{'code':'BO',
   'hover': '玻利维亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_20':{
+'map_20':{'code':'BA',
   'hover': '波斯尼亚和黑塞哥维那','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_21':{
+'map_21':{'code':'BW',
   'hover': '博茨瓦纳','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_22':{
+'map_22':{'code':'BR',
   'hover': '巴西','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_23':{
+'map_23':{'code':'BN',
   'hover': '文莱','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_24':{
+'map_24':{'code':'BG',
   'hover': '保加利亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_25':{
+'map_25':{'code':'BF',
   'hover': '布基纳法索','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_26':{
-  'hover': '蒲隆地','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
+'map_26':{'code':'BI',
+  'hover': '布隆迪','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_27':{
+'map_27':{'code':'KH',
   'hover': '柬埔寨','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_28':{
+'map_28':{'code':'CM',
   'hover': '喀麦隆','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_29':{
+'map_29':{'code':'CA',
   'hover': '加拿大','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_30':{
+'map_30':{'code':'CF',
   'hover': '中非共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_31':{
+'map_31':{'code':'TD',
   'hover': '乍得','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_32':{
+'map_32':{'code':'CL',
   'hover': '智利','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_33':{
+'map_33':{'code':'CN',
   'hover': '中国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_34':{
+'map_34':{'code':'CO',
   'hover': '哥伦比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_35':{
+'map_35':{'code':'COM',
   'hover': '科摩罗','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_36':{
+'map_36':{'code':'CG',
   'hover': '刚果','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_37':{
+'map_37':{'code':'CR',
   'hover': '哥斯达黎加','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_38':{
+'map_38':{'code':'HR',
   'hover': '克罗地亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_39':{
+'map_39':{'code':'CU',
   'hover': '古巴','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_40':{
+'map_40':{'code':'CY',
   'hover': '塞浦路斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_41':{
+'map_41':{'code':'CZ',
   'hover': '捷克共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_42':{
+'map_42':{'code':'CI',
   'hover': '科特迪瓦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_43':{
+'map_43':{'code':'CD',
   'hover': '刚果民主共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_44':{
+'map_44':{'code':'DK',
   'hover': '丹麦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_45':{
+'map_45':{'code':'DJ',
   'hover': '吉布提','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_46':{
+'map_46':{'code':'DO',
   'hover': '多米尼加共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_47':{
+'map_47':{'code':'EC',
   'hover': '厄瓜多尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_48':{
+'map_48':{'code':'EG',
   'hover': '埃及','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_49':{
+'map_49':{'code':'SV',
   'hover': ' 萨尔瓦多','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_50':{
+'map_50':{'code':'GQ',
   'hover': '赤道几内亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_51':{
+'map_51':{'code':'ER',
   'hover': '厄立特里亚国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_52':{
+'map_52':{'code':'EE',
   'hover': '爱沙尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_53':{
+'map_53':{'code':'ET',
   'hover': '埃塞俄比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_54':{
+'map_54':{'code':'FJ',
   'hover': '斐济','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_55':{
+'map_55':{'code':'FI',
   'hover': '芬兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_56':{
+'map_56':{'code':'FR',
   'hover': '法国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_57':{
+'map_57':{'code':'GF',
   'hover': '法属圭亚那','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_58':{
+'map_58':{'code':'GA',
   'hover': '加蓬','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_59':{
+'map_59':{'code':'GE',
   'hover': '格鲁吉亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_60':{
+'map_60':{'code':'DE',
   'hover': '德国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_61':{
+'map_61':{'code':'GH',
   'hover': '加纳','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_62':{
+'map_62':{'code':'GR',
   'hover': '希腊','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_63':{
+'map_63':{'code':'GL',
   'hover': '格陵兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_64':{
+'map_64':{'code':'GT',
   'hover': '危地马拉','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_65':{
+'map_65':{'code':'GN',
   'hover': '几内亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_66':{
+'map_66':{'code':'GW',
   'hover': '几内亚比绍','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_67':{
+'map_67':{'code':'GY',
   'hover': '圭亚那','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_68':{
+'map_68':{'code':'HT',
   'hover': '海地','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_69':{
+'map_69':{'code':'HN',
   'hover': '洪都拉斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_70':{
+'map_70':{'code':'HU',
   'hover': '匈牙利','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_71':{
+'map_71':{'code':'IS',
   'hover': '冰岛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_72':{
+'map_72':{'code':'IN',
   'hover': '印度','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_73':{
+'map_73':{'code':'ID',
   'hover': '印度尼西亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_74':{
+'map_74':{'code':'IR',
   'hover': '伊朗','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_75':{
+'map_75':{'code':'IQ',
   'hover': '伊拉克','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_76':{
+'map_76':{'code':'IE',
   'hover': '爱尔兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_77':{
+'map_77':{'code':'IL',
   'hover': '以色列','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_78':{
+'map_78':{'code':'IT',
   'hover': '意大利','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_79':{
+'map_79':{'code':'JM',
   'hover': '牙买加','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_80':{
+'map_80':{'code':'JP',
   'hover': '日本','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_81':{
+'map_81':{'code':'JO',
   'hover': '约旦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_82':{
+'map_82':{'code':'KZ',
   'hover': '哈萨克斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_83':{
+'map_83':{'code':'KE',
   'hover': '肯尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_84':{
+'map_84':{'code':'KV',
   'hover': '科索沃','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_85':{
+'map_85':{'code':'KW',
   'hover': '科威特','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_86':{
+'map_86':{'code':'KG',
   'hover': '吉尔吉斯斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_87':{
+'map_87':{'code':'LA',
   'hover': '老挝','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_88':{
+'map_88':{'code':'LV',
   'hover': '拉脱维亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_89':{
+'map_89':{'code':'LB',
   'hover': '黎巴嫩','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_90':{
+'map_90':{'code':'LS',
   'hover': '莱索托','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_91':{
+'map_91':{'code':'LR',
   'hover': '利比里亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_92':{
+'map_92':{'code':'LY',
   'hover': '利比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_93':{
+'map_93':{'code':'LI',
   'hover': '列支敦斯登','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_94':{
+'map_94':{'code':'LT',
   'hover': '立陶宛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_95':{
+'map_95':{'code':'LU',
   'hover': '卢森堡','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_96':{
+'map_96':{'code':'MK',
   'hover': '马其顿','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_97':{
+'map_97':{'code':'MG',
   'hover': '马达加斯加岛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_98':{
+'map_98':{'code':'MW',
   'hover': '马拉维','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_99':{
+'map_99':{'code':'MY',
   'hover': '马来西亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_100':{
+'map_100':{'code':'MV',
   'hover': '马尔代夫','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_101':{
-  'hover': '园丁','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
+'map_101':{'code':'ML',
+  'hover': '马里','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_102':{
+'map_102':{'code':'MT',
   'hover': '马尔他','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_103':{
+'map_103':{'code':'MR',
   'hover': '毛里塔尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_104':{
+'map_104':{'code':'MU',
   'hover': '毛里求斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_105':{
+'map_105':{'code':'MX',
   'hover': '墨西哥','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_106':{
+'map_106':{'code':'MD',
   'hover': '摩尔多瓦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_107':{
+'map_107':{'code':'MN',
   'hover': '蒙古国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_108':{
+'map_108':{'code':'',
   'hover': '蒙特内哥罗','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_109':{
+'map_109':{'code':'MA',
   'hover': '摩洛哥','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_110':{
+'map_110':{'code':'MZ',
   'hover': '莫桑比克','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_111':{
+'map_111':{'code':'MM',
   'hover': '缅甸','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_112':{
+'map_112':{'code':'NA',
   'hover': '纳米比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_113':{
+'map_113':{'code':'NP',
   'hover': '尼泊尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_114':{
+'map_114':{'code':'AN',
   'hover': '荷兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_115':{
+'map_115':{'code':'NZ',
   'hover': '新西兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_116':{
+'map_116':{'code':'NI',
   'hover': '尼加拉瓜','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_117':{
+'map_117':{'code':'NE',
   'hover': '尼日尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_118':{
+'map_118':{'code':'NG',
   'hover': '尼日利亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_119':{
+'map_119':{'code':'KP',
   'hover': '朝鲜','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_120':{
+'map_120':{'code':'NO',
   'hover': '挪威','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_121':{
+'map_121':{'code':'OM',
   'hover': '阿曼','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_122':{
+'map_122':{'code':'PK',
   'hover': '巴基斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_123':{
+'map_123':{'code':'PS',
   'hover': '巴勒斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_124':{
+'map_124':{'code':'PA',
   'hover': '巴拿马','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_125':{
+'map_125':{'code':'PG',
   'hover': '巴布亚新几内亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_126':{
+'map_126':{'code':'PY',
   'hover': '巴拉圭','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_127':{
+'map_127':{'code':'PE',
   'hover': '秘鲁','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_128':{
+'map_128':{'code':'PH',
   'hover': '菲律宾','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_129':{
+'map_129':{'code':'PL',
   'hover': '波兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_130':{
+'map_130':{'code':'PT',
   'hover': '葡萄牙','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_131':{
+'map_131':{'code':'PR',
   'hover': '波多黎各','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_132':{
+'map_132':{'code':'QA',
   'hover': '卡塔尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_133':{
+'map_133':{'code':'RO',
   'hover': '罗马尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_134':{
+'map_134':{'code':'RU',
   'hover': '俄罗斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_135':{
+'map_135':{'code':'RW',
   'hover': '卢旺达','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_136':{
+'map_136':{'code':'SA',
   'hover': '沙特阿拉伯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_137':{
+'map_137':{'code':'SN',
   'hover': '塞内加尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_138':{
+'map_138':{'code':'RS',
   'hover': '塞尔维亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_139':{
+'map_139':{'code':'SC',
   'hover': '塞舌尔','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_140':{
+'map_140':{'code':'SL',
   'hover': '塞拉利昂','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_141':{
+'map_141':{'code':'SG',
   'hover': '新加坡','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_142':{
+'map_142':{'code':'LO',
   'hover': '斯洛伐克','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_143':{
+'map_143':{'code':'SI',
   'hover': '斯洛文尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_144':{
+'map_144':{'code':'SB',
   'hover': '所罗门群岛','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_145':{
+'map_145':{'code':'SO',
   'hover': '索马里','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_146':{
+'map_146':{'code':'ZA',
   'hover': '南非','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_147':{
-  'hover': '大韩民国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
+'map_147':{'code':'KR',
+  'hover': '韩国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_148':{
+'map_148':{'code':'OD',
   'hover': '南苏丹','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_149':{
+'map_149':{'code':'SP',
   'hover': '西班牙','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_150':{
+'map_150':{'code':'CE',
   'hover': '斯里兰卡','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_151':{
-  'hover': '苏丹共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
+'map_151':{'code':'SD',
+  'hover': '苏丹','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_152':{
+'map_152':{'code':'NS',
   'hover': '苏利南','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_153':{
+'map_153':{'code':'WZ',
   'hover': '威士','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_154':{
+'map_154':{'code':'SE',
   'hover': '瑞典','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_155':{
+'map_155':{'code':'CH',
   'hover': '瑞士','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_156':{
+'map_156':{'code':'SY',
   'hover': '叙利亚共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_157':{
+'map_157':{'code':'ST',
   'hover': '圣多美和普林西比','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_158':{
+'map_158':{'code':'CN',
   'hover': '中国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_159':{
+'map_159':{'code':'TI',
   'hover': '塔吉克斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_160':{
+'map_160':{'code':'TZ',
   'hover': '坦桑尼亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_161':{
+'map_161':{'code':'TH',
   'hover': '泰国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_162':{
+'map_162':{'code':'GM',
   'hover': '冈比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_163':{
+'map_163':{'code':'TT',
   'hover': '东帝汶民主共和国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_164':{
+'map_164':{'code':'TG',
   'hover': '多哥','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_165':{
+'map_165':{'code':'TN',
   'hover': '突尼斯','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_166':{
+'map_166':{'code':'TR',
   'hover': '土耳其','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_167':{
+'map_167':{'code':'TM',
   'hover': '土库曼斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_168':{
+'map_168':{'code':'UG',
   'hover': '乌干达','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_169':{
+'map_169':{'code':'UA',
   'hover': '乌克兰','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_170':{
+'map_170':{'code':'AE',
   'hover': '阿拉伯联合酋长国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_171':{
+'map_171':{'code':'UK',
   'hover': '英国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_172':{
+'map_172':{'code':'US',
   'hover': '美国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_173':{
+'map_173':{'code':'UY',
   'hover': '乌拉圭','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_174':{
+'map_174':{'code':'UZ',
   'hover': '乌兹别克斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_175':{
+'map_175':{'code':'VE',
   'hover': '委内瑞拉','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_176':{
+'map_176':{'code':'VN',
   'hover': '越南','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_177':{
+'map_177':{'code':'EH',
   'hover': '西撒哈拉','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_178':{
+'map_178':{'code':'YE',
   'hover': '也门','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_179':{
+'map_179':{'code':'ZM',
   'hover': '赞比亚','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_180':{
+'map_180':{'code':'ZW',
   'hover': '津巴布韦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
 }

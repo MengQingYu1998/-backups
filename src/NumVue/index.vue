@@ -65,7 +65,7 @@
 	text-decoration: none;
 }
 .content{
-	/*width: 1200px;*/
+	width: 100%!important;
 	margin:0 auto;
 	min-height: 600px;
 }

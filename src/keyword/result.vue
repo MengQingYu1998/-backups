@@ -205,11 +205,13 @@
                           src="../assets/keyword/arrows (3).png"
                           alt
                         />
-                        <div>{{item.Change}}</div>
+                        <div
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{item.Change}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId)"
+                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                           alt
                         />
                       </div>
@@ -536,7 +538,10 @@
             </div>
           </div>
         </div>
-        <div ref="myChart_result_dialog" class="myChart_dialog" v-show="true"></div>
+
+        <div ref="myChart_result_dialog" class="myChart_dialog" v-show="is_show_dialog"></div>
+        <div class="myChart" v-show="!is_show_dialog">暂无数据</div>
+
         <div class="footer__dialog">
           <img src="../assets/keyword/dialog_01.png" alt />iOS12与iOS11版本的排名不同
         </div>
@@ -558,9 +563,13 @@ export default {
   },
   data() {
     return {
-      can_excute: false,
+      // can_excute12: false,
+      // can_excute11: false,
       // 请求分页
-      page: 1,
+      page11: 1,
+      page12: 1,
+      db_number_is_same12: 0,
+      db_number_is_same11: 0,
       // ===================顶部table================
       // ===================顶部table================
       // ===================顶部table================
@@ -571,18 +580,20 @@ export default {
       // ===================element的弹窗================
       word: '',
       appid: '',
+      WordId: '',
       radio01_dialog: '按天',
       radio02_dialog: '30天',
       dialogVisible: false,
       time_dialog: '',
       // true显示myChart false显示table表格
-      is_show_table_myChart: true,
+      is_show_dialog: false,
       response_data_for_dialog: null,
       //canvas 关键词data数组
       keyword_data: [],
       xAxis_data: [],
       // 数据
       keyword_data_value: [],
+      yAxis_max: 5,
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
@@ -635,7 +646,8 @@ export default {
       // console.log('当前国家发生变化，重新请求数据...')
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
-      this.page = 1
+      this.page11 = 1
+      this.page12 = 1
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -644,7 +656,8 @@ export default {
       // console.log('当前国家发生变化，重新请求数据...')
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
-      this.page = 1
+      this.page11 = 1
+      this.page12 = 1
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -653,7 +666,8 @@ export default {
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
-      this.page = 1
+      this.page11 = 1
+      this.page12 = 1
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -664,7 +678,8 @@ export default {
     this.$watch('dateValue', function(newValue, oldValue) {
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
-      this.page = 1
+      this.page11 = 1
+      this.page12 = 1
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_12()
       this.get_data_11()
@@ -696,12 +711,10 @@ export default {
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
 
-          if (that.can_excute) {
-            that.page += 1
-            that.get_data_11()
-            that.get_data_12()
-            console.log('yes')
-          }
+          that.get_data_11()
+          console.log('yes11')
+          that.get_data_12()
+          console.log('yes12')
         }
       }
     })
@@ -748,8 +761,8 @@ export default {
             .post(url, data)
             .then(response => {
               this.data_for_top_table = response.data.Data
-              console.log('88888888888888888888888888888')
-              console.log(this.data_for_top_table)
+              // console.log('88888888888888888888888888888')
+              // console.log(this.data_for_top_table)
             })
             .catch(error => {
               console.log(error)
@@ -762,8 +775,8 @@ export default {
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              console.log('88888888888888888888888888888')
-              console.log(this.data_for_top_table02)
+              // console.log('88888888888888888888888888888')
+              // console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -779,6 +792,8 @@ export default {
     // =============================tab可切换部分============================
     // 请求数据  ios12 ios12 ios12
     get_data_12() {
+      this.db_number_is_same12++
+      let is_excute_function = this.db_number_is_same12
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -801,7 +816,7 @@ export default {
             'deviceType=' +
             deviceType +
             '&page=' +
-            this.page +
+            this.page12 +
             '&countryId=' +
             country_id +
             '&word=' +
@@ -814,14 +829,16 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response.data.AppInfoList)
-              this.can_excute = true //是否可以执行滚动条到达底部事件
-              this.response_data_for_ios12 = this.response_data_for_ios12.concat(
-                response.data.AppInfoList
-              )
+              if (is_excute_function == this.db_number_is_same12) {
+                this.response_data_for_ios12 = this.response_data_for_ios12.concat(
+                  response.data.AppInfoList
+                )
+                this.page12 += 1
+              }
               console.log(
                 'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
               )
+              console.log(response.data.AppInfoList)
               console.log(this.response_data_for_ios12)
             })
             .catch(error => {
@@ -833,6 +850,8 @@ export default {
         })
     },
     get_data_11() {
+      this.db_number_is_same11++
+      let is_excute_function = this.db_number_is_same11
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -855,7 +874,7 @@ export default {
             'deviceType=' +
             deviceType +
             '&page=' +
-            this.page +
+            this.page11 +
             '&countryId=' +
             country_id +
             '&word=' +
@@ -868,14 +887,16 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response.data)
-              this.can_excute = true //是否可以执行滚动条到达底部事件
-              this.response_data_for_ios11 = this.response_data_for_ios11.concat(
-                response.data.AppInfoList
-              )
+              if (is_excute_function == this.db_number_is_same11) {
+                this.response_data_for_ios11 = this.response_data_for_ios11.concat(
+                  response.data.AppInfoList
+                )
+                this.page11 += 1
+              }
               console.log(
                 'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
               )
+              console.log(response.data.AppInfoList)
               console.log(this.response_data_for_ios11)
             })
             .catch(error => {
@@ -1003,7 +1024,7 @@ export default {
     },
     // 便利keyword_data生成canvas的series数据
     series_data01: function() {
-      let series_data_arr = []
+    let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name
@@ -1077,7 +1098,7 @@ export default {
           }
           let Word = this.word
           let appid = this.appid
-          let wordid = 5
+          let wordid = this.WordId
           let url =
             '/Word/FindHistory?page=1' +
             '&deviceType=' +
@@ -1102,16 +1123,61 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.keyword_data = []
-              this.keyword_data_value = []
-              this.xAxis_data = []
-              this.response_data_for_dialog = response.data
-              console.log(this.response_data_for_dialog)
-              this.keyword_data_value.push(this.response_data_for_dialog.Yvalue)
-              this.xAxis_data = this.response_data_for_dialog.Xvalue
-              this.keyword_data.push(this.word)
+              console.log(response)
+              if (response.data.Code == 0) {
+                this.is_show_dialog = true
+                this.response_data_for_dialog = response.data
+                console.log(response)
 
-              this.drawLine_dialog()
+                this.keyword_data = new Array()
+                this.keyword_data_value = new Array()
+                this.xAxis_data = new Array()
+
+                this.keyword_data_value.push(
+                  this.response_data_for_dialog.Yvalue
+                )
+                this.xAxis_data = this.response_data_for_dialog.Xvalue
+                this.keyword_data.push(this.word)
+                // ==================找数组最大值====================
+                let max_value_arr = []
+                this.keyword_data_value.forEach(element => {
+                  max_value_arr.push(element.slice(0))
+                })
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                // console.log(max_value)
+                // this.yAxis_max = max_value + 5
+                if (max_value <= 5) {
+                  this.yAxis_max = 5
+                } else if (max_value <= 20) {
+                  this.yAxis_max = 20
+                } else if (max_value <= 50) {
+                  this.yAxis_max = 50
+                } else if (max_value <= 100) {
+                  this.yAxis_max = 100
+                } else if (max_value <= 500) {
+                  this.yAxis_max = 500
+                } else if (max_value <= 1000) {
+                  this.yAxis_max = 1000
+                } else if (max_value <= 1500) {
+                  this.yAxis_max = 1500
+                } else {
+                  this.yAxis_max = max_value + 100
+                }
+                // ==================找数组最大值====================
+                this.drawLine_dialog()
+              } else {
+                this.is_show_dialog = false
+              }
+              console.log(this.is_show_dialog)
             })
             .catch(error => {
               console.log(error)
@@ -1121,16 +1187,18 @@ export default {
           console.log(error)
         })
     },
-    show_dialog(word, appid) {
+    show_dialog(word, appid, WordId) {
       this.dialogVisible = true
       this.word = word
       this.appid = appid
+      this.WordId = WordId
+
       this.get_data_dialog()
     },
     //控制canvas和table的显示
-    is_show_table_myChart_function: function() {
-      this.is_show_table_myChart = !this.is_show_table_myChart
-    },
+    // is_show_table_myChart_function: function() {
+    //   this.is_show_dialog = !this.is_show_dialog
+    // },
     // 画canvas
     drawLine_dialog: function() {
       let that = this
@@ -1187,14 +1255,19 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          minInterval: 1,
+          type: 'value',
+          inverse: true,
+          min: 1,
+          max: that.yAxis_max,
+          interval: that.yAxis_max / 5
         },
         series: that.series_data()
       })
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name
@@ -1260,15 +1333,15 @@ export default {
       })
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
-      this.page = 1
+      this.page11 = 1
+      this.page12 = 1
       this.$store.state.now_app_name = parm
     },
     go_to_page05(parm, parm02) {
-      this.$router.push({
-        path: '/now_ranking'
+      let routerUrl = this.$router.resolve({
+        path: '/now_ranking?now_app_id=' + parm + '&now_app_name=' + parm02
       })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page06(parm) {
       this.$router.push({
@@ -1280,6 +1353,15 @@ export default {
 }
 </script>
 <style scoped>
+.gray {
+  color: #888888;
+}
+.red {
+  color: #f50202;
+}
+.blue {
+  color: #009bef;
+}
 #result {
   padding-bottom: 52px;
 }
@@ -1405,6 +1487,10 @@ export default {
 .myChart {
   width: 341px;
   height: 278px;
+  text-align: center;
+  color: #666;
+  line-height: 300px;
+  font-size: 50px;
 }
 .flex-row {
   display: flex;

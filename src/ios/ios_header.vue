@@ -100,6 +100,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              // console.log(22222222222222222222222)
               // console.log(this.response_data)
               this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false

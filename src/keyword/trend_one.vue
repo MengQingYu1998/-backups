@@ -174,7 +174,7 @@ export default {
   methods: {
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name

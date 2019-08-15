@@ -26,7 +26,7 @@
         <!-- 第二部分 -->
         <!-- 第二部分 -->
 
-        <section class="video" v-if="false&&response_data">
+        <section class="video" v-if="true&&response_data">
           <div
             class="section_title"
             v-if="response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
@@ -50,32 +50,28 @@
             <div v-if="response_data" class="section_video_flex">
               <!-- iphone 的video -->
               <video-player
-                v-show="response_data.videoUrl.iphone!='无'"
+                v-if="response_data.videoUrl.iphone!='无'&&radio01=='iPhone'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
               ></video-player>
               <!-- iPad 的video -->
-              <!-- <video-player
-                v-show="response_data.videoUrl.ipad!='无'"
-                v-for="(videoUrl_item,index) in response_data.videoUrl.ipad"
-                :key="'videoUrl_item_ipad'+index"
+              <video-player
+                v-else-if="response_data.videoUrl.ipad!='无'&&radio01=='iPad'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
-              ></video-player>-->
+              ></video-player>
               <!-- watch 的video -->
-              <!-- <video-player
-                v-show="response_data.videoUrl.watch!='无'"
-                v-for="(videoUrl_item,index) in response_data.videoUrl.watch"
-                :key="'videoUrl_item_watch'+index"
+              <video-player
+                v-else-if="response_data.videoUrl.watch!='无'&&radio01=='watch'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
-              ></video-player>-->
+              ></video-player>
             </div>
           </div>
         </section>
@@ -137,24 +133,24 @@
         <!-- 第五部分 -->
         <section class="message" v-if="response_data">
           <div class="section_title">基础信息</div>
-          <div class="section_content" v-if="response_data&&response_data.developerName!=''">
+          <div class="section_content" v-if="response_data&&response_data.developerName!='无'">
             <div>
               <span>开发者</span>
               <span>{{response_data.developerName}}</span>
             </div>
-            <div v-if="response_data&&response_data.appUpdateTime!=''">
+            <div v-if="response_data&&response_data.appUpdateTime!='无'">
               <span>更新日期</span>
               <span>{{response_data.appUpdateTime}}</span>
             </div>
-            <div v-if="response_data&&response_data.bundleId!=''">
+            <div v-if="response_data&&response_data.bundleId!='无'">
               <span>Bundle ID</span>
               <span>{{response_data.bundleId}}</span>
             </div>
-            <div v-if="response_data&&response_data.latestVersion!=''">
+            <div v-if="response_data&&response_data.latestVersion!='无'">
               <span>版本</span>
               <span>{{response_data.latestVersion}}</span>
             </div>
-            <div v-if="response_data&&response_data.appSize!=''">
+            <div v-if="response_data&&response_data.appSize!='无'">
               <span>大小</span>
               <span>{{response_data.appSize}}</span>
             </div>
@@ -162,31 +158,31 @@
               <span>是否支持Watch</span>
               <span v-if="response_data">{{response_data.detailInfo.is_support_iwatch?'支持':'不支持'}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.family_share!=''">
+            <div v-if="response_data&&response_data.detailInfo.family_share!='无'">
               <span>家人共享</span>
               <span>{{response_data.detailInfo.family_share}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.support_url!=''">
+            <div v-if="response_data&&response_data.detailInfo.support_url!='无'">
               <span>支持网站</span>
               <span>{{response_data.detailInfo.support_url}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.developer_url!=''">
+            <div v-if="response_data&&response_data.detailInfo.developer_url!='无'">
               <span>开发者网站</span>
               <span>{{response_data.detailInfo.developer_url}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.compatibility_ios!=''">
+            <div v-if="response_data&&response_data.detailInfo.compatibility_ios!='无'">
               <span>兼容性</span>
               <span>{{response_data.detailInfo.compatibility_ios}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.support_language!=''">
+            <div v-if="response_data&&response_data.detailInfo.support_language!='无'">
               <span>支持语言</span>
               <span>{{response_data.detailInfo.support_language}}</span>
             </div>
-            <div v-if="response_data&&response_data.publishCountries!=''">
+            <div v-if="response_data&&response_data.publishCountries!='无'">
               <span>发行国家/地区</span>
               <span>{{response_data.publishCountries}}</span>
             </div>
-            <div v-if="response_data&&response_data.detailInfo.content_grade!=''">
+            <div v-if="response_data&&response_data.detailInfo.content_grade!='无'">
               <span>内容评级</span>
               <span>{{response_data.detailInfo.content_grade}}</span>
             </div>
@@ -199,7 +195,8 @@
           <div class="section_title">你可能还喜欢</div>
           <div class="section_content">
             <div
-              class="block"
+              @click="go_to_page01(mayLoveApp_item.appId,mayLoveApp_item.appName)"
+              class="block pointer"
               v-for="(mayLoveApp_item,index) in response_data.mayLoveApp"
               :key="'mayLoveApp'+index"
             >
@@ -263,7 +260,11 @@ export default {
   created: function() {
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
+
     this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data()
+    })
+    this.$watch('radio01', function(newValue, oldValue) {
       this.get_data()
     })
   },
@@ -352,13 +353,24 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
+    },
+    go_to_page01(parm, parm02) {
+      this.$router.push({
+        path: '/now_ranking'
+      })
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
     }
   }
 }
 </script>
 <style scoped>
+#version_message {
+  padding-bottom: 53px;
+}
 #section_content {
   min-height: 125px;
+  height: 125px;
   -webkit-line-clamp: 6;
   display: -webkit-box;
   -webkit-box-orient: vertical;

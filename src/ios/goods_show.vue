@@ -39,7 +39,7 @@
                       class="app_name pointer"
                       @click="go_to_page01(item.appId,item.appName)"
                     >{{item.appName}}>{{item.appName}}</div>
-                    <div class="now_app">当前应用</div>
+                    <div class="now_app" v-show="index==0">当前应用</div>
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
                 </div>
@@ -69,7 +69,11 @@
               <td class="operation">
                 <div>
                   <div v-show="index==0">当前应用</div>
-                  <div v-show="index!=0" class="pointer" @click="go_to_page03(item.appId)">实时排名</div>
+                  <div
+                    v-show="index!=0"
+                    class="pointer"
+                    @click="go_to_page03(item.appId,item.appName)"
+                  >实时排名</div>
                   <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
                 </div>
                 <img
@@ -153,6 +157,8 @@
 </template>
 
 <script>
+// 引入工具类
+import { formatDate } from '../common/util.js'
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 export default {
@@ -190,13 +196,23 @@ export default {
           // 请求数据
 
           let url =
-            '/GetCompetingProducts?appId=' + this.$store.state.now_app_id
+            '/GetCompetingProducts?appId=' +
+            this.$store.state.now_app_id +
+            '&countryID=' +
+            country_id +
+            '&device=' +
+            1 +
+            '&date=' +
+            formatDate(new Date(), 'yyyy-MM-dd')
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              console.log(99999999999999999999999999)
               console.log(this.response_data)
+              console.log(response)
             })
             .catch(error => {
               console.log(error)
@@ -232,9 +248,9 @@ export default {
       this.$store.state.now_app_id02 = parm
       this.$store.state.now_app_id = this.$store.state.now_app_id
     },
-    go_to_page03(parm) {
+    go_to_page03(parm, parm02) {
       this.$router.push({
-        path: '/ranking_compare'
+        path: '/ranking_compare?app_name02=' + parm02
       })
       this.$store.state.now_app_id02 = parm
       this.$store.state.now_app_id = this.$store.state.now_app_id
@@ -243,6 +259,10 @@ export default {
 }
 </script>
 <style scoped>
+td {
+  height: 100px;
+  box-sizing: border-box;
+}
 .app_subtitle {
   -webkit-line-clamp: 1;
   display: -webkit-box;
@@ -396,6 +416,7 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
+  margin-bottom: 50px;
 }
 .right {
   padding-left: 57px;

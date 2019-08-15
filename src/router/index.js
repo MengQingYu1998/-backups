@@ -175,6 +175,11 @@ export default new Router({
       path: '/hot_search',
       name: 'hot_search',
       component: () => import('../keyword/hot_search')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../common/test')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

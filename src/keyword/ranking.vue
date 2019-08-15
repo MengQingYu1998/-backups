@@ -182,7 +182,7 @@ export default {
       visible: false, //悬浮框是否隐藏
       visible01: false, //悬浮框是否隐藏
       db_number_is_same: 0, //修复用户输入过快的bug
-      can_excute: false,
+      // can_excute: false,
       // 请求分页
       page: 1,
       // 请求的分类数据
@@ -301,11 +301,10 @@ export default {
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
 
-          if (that.can_excute) {
-            that.page += 1
-            that.get_data_table()
-            // console.log('yes')
-          }
+          // if (that.can_excute) {
+          that.get_data_table()
+          // console.log('yes')
+          // }
         }
       }
     })
@@ -342,8 +341,6 @@ export default {
     get_data_table() {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
-      // console.log('is_excute_function=' + is_excute_function)
-      // console.log('db_number_is_same=' + this.db_number_is_same)
       // console.log('=======请求表格数据=======')
       this.$axios
         .get('/GetCountry')
@@ -381,20 +378,21 @@ export default {
             '&GenreId=' +
             this.my_genreId
 
-          // console.log(url)
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response.data.Data)
-              this.can_excute = true //是否可以执行滚动条到达底部事件
+              console.log(response.data.Data)
+              // this.can_excute = true //是否可以执行滚动条到达底部事件
               if (is_excute_function == this.db_number_is_same) {
                 // console.log('数组拼接成功')
                 this.data_for_table = this.data_for_table.concat(
                   response.data.Data
                 )
+                this.page += 1
               }
-
+              // this.can_excute = false //是否可以执行滚动条到达底部事件
               // console.log(this.data_for_table)
             })
             .catch(error => {

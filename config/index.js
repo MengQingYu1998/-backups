@@ -9,7 +9,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    // proxyTable: {
+    //   'http://localhost:8080/': {
+    //     target: 'https://zanmende-ssl.itunes.apple.com/itunes-assets/',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/http://localhost:8080/': '/'
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

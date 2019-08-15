@@ -40,6 +40,7 @@
             type="text"
             placeholder="应用名称或APPID"
             v-model="nav_input_value"
+            @keyup.enter="go_to_page01(nav_input_value)"
           />
         </el-popover>
 
@@ -227,18 +228,18 @@ export default {
             word: word,
             iosType: iosType
           }
-          console.log(deviceType)
-          console.log(country_id)
-          console.log(word)
-          console.log(time)
-          console.log(iosType)
+          // console.log(deviceType)
+          // console.log(country_id)
+          // console.log(word)
+          // console.log(time)
+          // console.log(iosType)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(this.response_data)
-              console.log('88888888888888888888888888888')
+              // console.log(this.response_data)
+              // console.log('88888888888888888888888888888')
             })
             .catch(error => {
               console.log(error)
@@ -254,6 +255,8 @@ export default {
       this.$router.push({
         path: '/result'
       })
+      this.nav_input_value = ''
+
       this.$store.state.now_app_name = parm
     }
   },

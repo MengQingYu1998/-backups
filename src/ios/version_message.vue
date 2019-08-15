@@ -168,6 +168,7 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-height: 62px;
   height: 62px;
 }
 .time_line_item_content {

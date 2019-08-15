@@ -37,7 +37,9 @@
 				<p><router-link :to="{path: '/code'}">忘记密码</router-link></p>
 			</div>
 			<div class="loginBtn" :class="{'nokong':ishas}" >
-				<el-button  :plain="true" @click="loginBtn()">登录</el-button>
+				
+					<el-button :plain="true" @click="loginBtn()">登录</el-button>
+				
 			</div>
 			<!-- <div class="weixinLogin">
 				<p><img src="../assets/NumImg/otherLogin.png"/></p>
@@ -163,6 +165,7 @@
 					.then(res=>{
 						if(res.data.Code==0){
 							let that = this
+
 							//登录成功弹窗
 								this.$message({
 							        message: '登录成功',
@@ -177,11 +180,14 @@
 							    localStorage.setItem("userId",userid);//存储userId(用户id)
 								localStorage.setItem("tel",that.tel);//存储手机号
 								localStorage.setItem("code",that.code);//存储密码
+
+								// that.$router.go(0)
 								let routerUrl=that.$router.resolve({
 									path:'/index'
 								})
 								window.open(routerUrl .href,'_blank')
-								
+								window.close();
+
 							},1000)
 							
 						}else if(res.data.Code==-2){

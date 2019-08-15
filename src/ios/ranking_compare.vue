@@ -84,21 +84,22 @@
             </div>
           </div>
         </div>
-        <div class="right_title">蘑菇街与趣多多排名对比</div>
-        <div class="table_title">【今日】榜单排名走势</div>
-        <div ref="myChart_ranking_compare" class="myChart" v-show="is_show_mychart"></div>
+        <div ref="ranking_compare" class="myChart" v-show="is_show_mychart"></div>
+
         <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
 
-        <div
-          class="show_all"
-          v-show="!canvas_is_show_all"
-          @click="selected_data_function(true)"
-        >显示所有</div>
-        <div
-          class="show_all"
-          v-show="canvas_is_show_all"
-          @click="selected_data_function(false)"
-        >隐藏所有</div>
+        <div>
+          <div
+            class="show_all"
+            v-show="!canvas_is_show_all"
+            @click="selected_data_function(true)"
+          >显示所有</div>
+          <div
+            class="show_all"
+            v-show="canvas_is_show_all"
+            @click="selected_data_function(false)"
+          >隐藏所有</div>
+        </div>
       </div>
     </div>
   </div>
@@ -117,6 +118,7 @@ export default {
       is_show_mychart: false,
       now_country: sessionStorage.getItem('now_country_name'),
       response_data_second: null,
+      response_data_second02: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
       middle_top_radio3: '7天',
@@ -137,6 +139,9 @@ export default {
       xAxis_data: [],
       // 控制折线显隐
       selected_data: {},
+      yAxis_max: 5, //Y轴值的问题
+      // grid_bottom: '13%',
+
       // 设备选择
       equipment: [
         {
@@ -284,11 +289,12 @@ export default {
               // console.log(response.data.Data.length)
               this.is_show_mychart = false
               if (response.data.Data != null && response.data.Data.length > 0) {
+                this.selected_data_function(false)
                 this.is_show_mychart = true
                 console.log('有数据')
-                this.keyword_data_value.length = 0
-                this.xAxis_data.length = 0
-                this.keyword_data.length = 0
+                this.keyword_data_value = new Array()
+                this.xAxis_data.length = new Array()
+                this.keyword_data.length = new Array()
 
                 this.response_data_second = response.data.Data[0]
                 let temp = response.data.Data[1]
@@ -328,14 +334,69 @@ export default {
                   }
                 })
 
+                // ==================找数组最大值====================
+                let max_value_arr = []
+                this.keyword_data_value.forEach(element => {
+                  max_value_arr.push(element.slice(0))
+                })
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                // console.log(max_value)
+                // this.yAxis_max = max_value + 5
+                if (max_value <= 5) {
+                  this.yAxis_max = 5
+                } else if (max_value <= 20) {
+                  this.yAxis_max = 20
+                } else if (max_value <= 50) {
+                  this.yAxis_max = 50
+                } else if (max_value <= 100) {
+                  this.yAxis_max = 100
+                } else if (max_value <= 500) {
+                  this.yAxis_max = 500
+                } else if (max_value <= 1000) {
+                  this.yAxis_max = 1000
+                } else if (max_value <= 1500) {
+                  this.yAxis_max = 1500
+                } else {
+                  this.yAxis_max = max_value + 100
+                }
+                // ==================找数组最大值====================
+                let str_length = this.keyword_data.join(',').length
+                console.log(str_length)
+                // if (str_length < 50) {
+                //   this.grid_bottom = '13%'
+                // } else if (str_length < 100) {
+                //   this.grid_bottom = '17%'
+                // } else if (str_length < 150) {
+                //   this.grid_bottom = '21%'
+                // } else if (str_length < 200) {
+                //   this.grid_bottom = '24%'
+                // } else if (str_length < 250) {
+                //   this.grid_bottom = '27%'
+                // } else if (str_length < 300) {
+                //   this.grid_bottom = '30%'
+                // } else if (str_length < 350) {
+                //   this.grid_bottom = '33%'
+                // } else if (str_length < 400) {
+                //   this.grid_bottom = '36%'
+                // } else if (str_length < 450) {
+                //   this.grid_bottom = '39%'
+                // } else if (str_length < 500) {
+                //   this.grid_bottom = '42%'
+                // }
+                this.selected_data_function(true)
                 this.drawLine()
               } else {
                 console.log('无数据')
                 this.is_show_mychart = false
-                // this.keyword_data_value.length = 0
-                // this.xAxis_data.length = 0
-                // this.keyword_data = ['无数据']
-                // this.drawLine()
               }
             })
             .catch(error => {
@@ -356,7 +417,7 @@ export default {
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
-      let obj = {}
+      let obj = new Object()
       this.keyword_data.forEach(element => {
         obj[element] = bol
       })
@@ -367,7 +428,7 @@ export default {
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name
@@ -385,7 +446,7 @@ export default {
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_ranking_compare)
+      let myChart = this.$echarts.init(this.$refs.ranking_compare)
       // 绘制图表
       myChart.setOption({
         color: [
@@ -407,6 +468,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
+          height: '10',
           data: that.keyword_data,
           y: 'bottom',
           // 控制显示隐藏哪一个折线
@@ -416,9 +478,10 @@ export default {
           selected: that.selected_data
         },
         grid: {
+          height: '250px',
           left: '3%',
           right: '3%',
-          bottom: '23%',
+          // bottom: that.grid_bottom,
           containLabel: true
         },
         toolbox: {
@@ -434,19 +497,27 @@ export default {
           }
         },
         xAxis: {
+          position: 'bottom',
           type: 'category',
-          boundaryGap: false,
-          data: that.xAxis_data
+          data: that.xAxis_data,
+          // alignWithLabel: false
+          boundaryGap: false
+          // show: this.xAxis_is_show
+          // gridIndex: 0
+          // axisLine: { show: false }
         },
         yAxis: {
           minInterval: 1,
           type: 'value',
           inverse: true,
-          min: 1
+          min: 1,
+          max: that.yAxis_max,
+          interval: that.yAxis_max / 5
         },
         series: that.series_data()
       })
     },
+
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -462,7 +533,7 @@ export default {
 .time {
   margin-left: 5px !important;
 }
-.type {
+.type:hover {
   z-index: 100;
 }
 .right_title {
@@ -570,8 +641,8 @@ table {
 }
 .myChart {
   width: 965px;
-  height: 300px;
-  z-index: 1;
+  height: 400px;
+  z-index: 999;
   text-align: center;
   color: #666;
   line-height: 300px;

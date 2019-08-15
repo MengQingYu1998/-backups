@@ -357,6 +357,7 @@ function addEvent(id, relationId) {
         $('#map-tip')
           .show()
           .html(map_config[id]['hover'])
+        // .html('addEvent')
         $('#map-tip').css({ left: x, top: y })
       })
       _Textobj.on('touchend', function() {
@@ -374,7 +375,38 @@ function addEvent(id, relationId) {
         //moving in/out effect
         $('#map-tip')
           .show()
-          .html(map_config[id]['hover'])
+
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // ===================
+          // .html(map_config[id]['hover'])
+          .html(
+            '<span>' +
+              map_config[id]['hover'] +
+              '</span>' +
+              '<img src="../../../static/flag/' +
+              map_config[id]['code'] +
+              '.svg" alt />'
+          )
+
         _obj.css({ fill: map_config[id]['overColor'] })
       },
       function() {
@@ -395,8 +427,8 @@ function addEvent(id, relationId) {
       }
     })
     _Textobj.mousemove(function(e) {
-      var x = e.pageX - 400,
-        y = e.pageY - $('#the_world_map').offset().top + 50
+      var x = e.pageX - 500,
+        y = e.pageY - $('#the_world_map').offset().top + 90
       $('#map-tip').css({ left: x, top: y })
     })
   }
@@ -568,80 +600,81 @@ export function start05() {
 }
 
 function dynamicAddEvent(id) {
-  var obj = $('#map_points_' + id)
-
-  if (pin_config['points'][id]['enable'] == true) {
-    if (isTouchEnabled()) {
-      obj.on('touchstart', function(e) {
-        var touch = e.originalEvent.touches[0]
-        var x = touch.pageX + 10,
-          y = touch.pageY + 15
-        var tipw = $('#map-tip').outerWidth(),
-          tiph = $('#map-tip').outerHeight(),
-          x =
-            x + tipw > $(document).scrollLeft() + $(window).width()
-              ? x - tipw - 20 * 2
-              : x
-        y =
-          y + tiph > $(document).scrollTop() + $(window).height()
-            ? $(document).scrollTop() + $(window).height() - tiph - 10
-            : y
-        $('#' + id).css({ fill: pin_config['points'][id]['downColor'] })
-        $('#map-tip')
-          .show()
-          .html(pin_config['points'][id]['hover'])
-        $('#map-tip')
-          .css$('#map-tip')
-          .css({ left: x, top: y })
-      })
-      obj.on('touchend', function() {
-        $('#' + id).css({ fill: pin_config['points'][id]['upColor'] })
-        if (pin_config['points'][id]['target'] == 'new_window') {
-          window.open(pin_config['points'][id]['url'])
-        } else if (pin_config['points'][id]['target'] == 'same_window') {
-          window.location.href = pin_config['points'][id]['url']
-        }
-      })
-    }
-    obj.attr({ cursor: 'pointer' })
-    obj.hover(
-      function() {
-        $('#map-tip')
-          .show()
-          .html(pin_config['points'][id]['hover'])
-        obj.css({ fill: pin_config['points'][id]['overColor'] })
-      },
-      function() {
-        $('#map-tip').hide()
-        obj.css({ fill: pin_config['points'][id]['upColor'] })
-      }
-    )
-    //clicking effect
-    obj.mousedown(function() {
-      obj.css({ fill: pin_config['points'][id]['downColor'] })
-    })
-    obj.mouseup(function() {
-      obj.css({ fill: pin_config['points'][id]['overColor'] })
-      if (pin_config['points'][id]['target'] == 'new_window') {
-        window.open(pin_config['points'][id]['url'])
-      } else if (pin_config['points'][id]['target'] == 'same_window') {
-        window.location.href = pin_config['points'][id]['url']
-      }
-    })
-    obj.mousemove(function(e) {
-      var x = e.pageX + 10,
-        y = e.pageY + 15
-      var tipw = $('#map-tip').outerWidth(),
-        tiph = $('#map-tip').outerHeight(),
-        x =
-          x + tipw > $(document).scrollLeft() + $(window).width()
-            ? x - tipw - 20 * 2
-            : x
-      y =
-        y + tiph > $(document).scrollTop() + $(window).height()
-          ? $(document).scrollTop() + $(window).height() - tiph - 10
-          : y
-      $('#map-tip').css({ left: x, top: y })
-    })
-  }
+  // var obj = $('#map_points_' + id)
+  // if (pin_config['points'][id]['enable'] == true) {
+  //   if (isTouchEnabled()) {
+  //     obj.on('touchstart', function(e) {
+  //       var touch = e.originalEvent.touches[0]
+  //       var x = touch.pageX + 10,
+  //         y = touch.pageY + 15
+  //       var tipw = $('#map-tip').outerWidth(),
+  //         tiph = $('#map-tip').outerHeight(),
+  //         x =
+  //           x + tipw > $(document).scrollLeft() + $(window).width()
+  //             ? x - tipw - 20 * 2
+  //             : x
+  //       y =
+  //         y + tiph > $(document).scrollTop() + $(window).height()
+  //           ? $(document).scrollTop() + $(window).height() - tiph - 10
+  //           : y
+  //       $('#' + id).css({ fill: pin_config['points'][id]['downColor'] })
+  //       $('#map-tip')
+  //         .show()
+  //         .html(pin_config['points'][id]['hover'])
+  //       // .html('ss')
+  //       $('#map-tip')
+  //         .css$('#map-tip')
+  //         .css({ left: x, top: y })
+  //     })
+  //     obj.on('touchend', function() {
+  //       $('#' + id).css({ fill: pin_config['points'][id]['upColor'] })
+  //       if (pin_config['points'][id]['target'] == 'new_window') {
+  //         window.open(pin_config['points'][id]['url'])
+  //       } else if (pin_config['points'][id]['target'] == 'same_window') {
+  //         window.location.href = pin_config['points'][id]['url']
+  //       }
+  //     })
+  //   }
+  //   obj.attr({ cursor: 'pointer' })
+  //   obj.hover(
+  //     function() {
+  //       $('#map-tip')
+  //         .show()
+  //         .html(pin_config['points'][id]['hover'])
+  //       // .html('ssssss')
+  //       obj.css({ fill: pin_config['points'][id]['overColor'] })
+  //     },
+  //     function() {
+  //       $('#map-tip').hide()
+  //       obj.css({ fill: pin_config['points'][id]['upColor'] })
+  //     }
+  //   )
+  //   //clicking effect
+  //   obj.mousedown(function() {
+  //     obj.css({ fill: pin_config['points'][id]['downColor'] })
+  //   })
+  //   obj.mouseup(function() {
+  //     obj.css({ fill: pin_config['points'][id]['overColor'] })
+  //     if (pin_config['points'][id]['target'] == 'new_window') {
+  //       window.open(pin_config['points'][id]['url'])
+  //     } else if (pin_config['points'][id]['target'] == 'same_window') {
+  //       window.location.href = pin_config['points'][id]['url']
+  //     }
+  //   })
+  //   obj.mousemove(function(e) {
+  //     var x = e.pageX + 10,
+  //       y = e.pageY + 15
+  //     var tipw = $('#map-tip').outerWidth(),
+  //       tiph = $('#map-tip').outerHeight(),
+  //       x =
+  //         x + tipw > $(document).scrollLeft() + $(window).width()
+  //           ? x - tipw - 20 * 2
+  //           : x
+  //     y =
+  //       y + tiph > $(document).scrollTop() + $(window).height()
+  //         ? $(document).scrollTop() + $(window).height() - tiph - 10
+  //         : y
+  //     $('#map-tip').css({ left: x, top: y })
+  //   })
+  // }
 }

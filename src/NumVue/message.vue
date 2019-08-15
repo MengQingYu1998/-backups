@@ -677,6 +677,7 @@
 									path:'/index'
 						})
 						window.open(routerUrl .href,'_blank')
+						window.close();
 		        	})
 		        	.catch(error=>{
 		        		console.log(error)

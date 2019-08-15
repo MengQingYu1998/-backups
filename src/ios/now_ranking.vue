@@ -114,20 +114,12 @@
             class="table_title"
             v-if="response_data_second"
           >【{{response_data_second.appName}}】排名走势</div>
-          <div
-            ref="EChart_now_ranking"
-            class="myChart"
-            v-show="is_show_mychart&&middle_top_radio2!='全部'"
-          ></div>
 
-          <div class="myChart" v-if="!is_show_mychart&&!is_show_mychart01">暂无数据</div>
+          <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
 
-          <div
-            ref="EChart_now_ranking01"
-            class="myChart"
-            v-show="is_show_mychart01&&middle_top_radio2=='全部'"
-          ></div>
-          <div v-if="middle_top_radio2!='全部'">
+          <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
+
+          <div>
             <div
               class="show_all"
               v-show="!canvas_is_show_all"
@@ -137,18 +129,6 @@
               class="show_all"
               v-show="canvas_is_show_all"
               @click="selected_data_function(false)"
-            >隐藏所有</div>
-          </div>
-          <div v-if="middle_top_radio2=='全部'">
-            <div
-              class="show_all"
-              v-show="!canvas_is_show_all"
-              @click="selected_data_function01(true)"
-            >显示所有</div>
-            <div
-              class="show_all"
-              v-show="canvas_is_show_all"
-              @click="selected_data_function01(false)"
             >隐藏所有</div>
           </div>
         </section>
@@ -187,6 +167,7 @@
           <div class="world_map">
             <div>
               <world_map
+                v-if="is_show_map"
                 :country_temp01="country_temp01"
                 :country_temp02="country_temp02"
                 :country_temp03="country_temp03"
@@ -241,15 +222,16 @@
                     v-for="(item_td, index_td) in item.GenreCountryList"
                     :key="'table01_td'+index_td"
                   >
-                    <div v-if="item_td.genreName==radio3">
+                    <div v-if="item_td.genreName==radio3" class="flex_div">
                       <div
                         class="rankingChangeFontColor"
                         v-for="(item_div, index_div) in item_td.data"
                         :key="'table01_div'+index_div"
                       >
-                        <div>
+                        <div class="font_img">
+                          <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
+                          <!-- <img src="../../static/flag/HK.svg" /> -->
                           {{item_div.CountryName}}
-                          <!-- <img :src="'../assets/flag/'+item_div.CountryName+'.svg'" alt /> -->
                         </div>
                       </div>
                     </div>
@@ -289,8 +271,14 @@
                 v-for="(item, index) in response_data_third.data_1.list"
                 :key="'table06785'+index"
               >
-                <td>
-                  <div class="rankingChangeFontColor">{{item.CountryName}}</div>
+                <td class="table_width01">
+                  <!-- <img src="../assets/flag/HK.svg" /> -->
+                  <!-- {{'../assets/flag/'+item.CountryCode+'.svg'}} -->
+
+                  <div class="rankingChangeFontColor font_and_img">
+                    <img :src="'../../static/flag/'+item.CountryCode+'.svg'" />
+                    {{item.CountryName}}
+                  </div>
                 </td>
                 <td v-for="(item_son, index) in item.list" :key="'table06sss785'+index">
                   <div class="rankingChangeFontColor">{{item_son.rankID}}</div>
@@ -325,7 +313,7 @@ export default {
       // 第二部分折线图数据
       // 第二部分折线图数据
       is_show_mychart: false,
-      is_show_mychart01: false,
+
       response_data_second: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
@@ -349,25 +337,13 @@ export default {
       selected_data: {},
       // can_inverse: true, //X轴位置问题
       yAxis_max: 5, //Y轴值的问题
-      // ==========全部==============
-      // ==========全部==============
-      // ==========全部==============
-      //canvas 关键词data数组
-      keyword_data01: [],
-      // 数据
-      keyword_data_value01: null,
-      // X轴文本
-      xAxis_data01: [],
-      // 控制折线显隐
-      selected_data01: {},
-      // can_inverse: true, //X轴位置问题
-      yAxis_max01: 5, //Y轴值的问题
+
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       response_data_third: null,
       // 世界地图数据
-      // is_show_map: false,
+      is_show_map: true,
       country_temp01: [], //第一
       country_temp02: [], //第2-500
       country_temp03: [], //第501-1000
@@ -419,6 +395,7 @@ export default {
     })
     this.$watch('radio3', function(newValue, oldValue) {
       this.send_data_to_world_map()
+      this.draw_world_map()
     })
   },
   methods: {
@@ -576,19 +553,13 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data)
-
-              this.is_show_mychart = false
-              this.is_show_mychart01 = false
-              if (
-                response.data.Data.length > 0 &&
-                this.middle_top_radio2 != '全部'
-              ) {
+              if (response.data.Data.length > 0) {
+                this.selected_data_function(false)
                 console.log('有数据')
-                this.response_data_second = response.data.Data[0]
                 this.is_show_mychart = true
+                this.response_data_second = response.data.Data[0]
                 this.xAxis_data.length = 0
-                console.log('==========X轴赋值==============')
-                console.log('==========X轴赋值==============')
+
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
                   // return timestamp(element, 'Y/M/D')
@@ -601,24 +572,10 @@ export default {
                   }
                 })
 
-                console.log('==========X轴赋值==============')
-                console.log('==========X轴赋值==============')
-                // this.keyword_data.length = 0
                 // 都谁？ 抖音 快手 内涵
                 this.keyword_data = this.response_data_second.rankTrendInfo.RankList
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                this.keyword_data_value = response.data.Data[0].rankTrendInfo.r3
-                console.log(this.keyword_data_value)
-                console.log(this.keyword_data)
 
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
+                this.keyword_data_value = response.data.Data[0].rankTrendInfo.r3
 
                 // console.log(this.keyword_data_value)
                 // ==================找数组最大值====================
@@ -642,91 +599,25 @@ export default {
                   this.yAxis_max = 5
                 } else if (max_value <= 20) {
                   this.yAxis_max = 20
+                } else if (max_value <= 50) {
+                  this.yAxis_max = 50
                 } else if (max_value <= 100) {
                   this.yAxis_max = 100
                 } else if (max_value <= 500) {
                   this.yAxis_max = 500
+                } else if (max_value <= 1000) {
+                  this.yAxis_max = 1000
+                } else if (max_value <= 1500) {
+                  this.yAxis_max = 1500
+                } else {
+                  this.yAxis_max = max_value + 100
                 }
                 // ==================找数组最大值====================
-
+                this.selected_data_function(true)
                 this.drawLine()
-              } else if (
-                response.data.Data.length > 0 &&
-                this.middle_top_radio2 == '全部'
-              ) {
-                console.log('有数据')
-                this.response_data_second = response.data.Data[0]
-                this.is_show_mychart01 = true
-                this.xAxis_data01.length = 0
-                console.log('==========X轴赋值==============')
-                console.log('==========X轴赋值==============')
-                let temp02 = this.response_data_second.rankTrendInfo.r2.data
-                this.xAxis_data01 = temp02.map(element => {
-                  // return timestamp(element, 'Y/M/D')
-                  if (this.middle_top_radio1 == '按天') {
-                    return timestamp(element, 'Y/M/D')
-                  } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'Y/M/D h')
-                  } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'Y/M/D h:s')
-                  }
-                })
-
-                console.log('==========X轴赋值==============')
-                console.log('==========X轴赋值==============')
-                // this.keyword_data.length = 0
-                // 都谁？ 抖音 快手 内涵
-                this.keyword_data01 = this.response_data_second.rankTrendInfo.RankList
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                this.keyword_data_value01 =
-                  response.data.Data[0].rankTrendInfo.r3
-                console.log(this.keyword_data_value01)
-                console.log(this.keyword_data01)
-
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-                console.log('==========折线图==============')
-
-                // console.log(this.keyword_data_value)
-                // ==================找数组最大值====================
-                let max_value_arr = []
-                this.keyword_data_value01.forEach(element => {
-                  max_value_arr.push(element.slice(0))
-                })
-                let max_value = 0
-                max_value_arr.forEach(element => {
-                  element.forEach(element_son => {
-                    // console.log(element_son)
-                    element_son = parseInt(element_son)
-                    if (max_value <= element_son) {
-                      max_value = element_son
-                    }
-                  })
-                })
-                // console.log('???????????????????????')
-                // this.yAxis_max01 = max_value + 5
-                // console.log(max_value)
-                if (max_value <= 5) {
-                  this.yAxis_max01 = 5
-                } else if (max_value <= 20) {
-                  this.yAxis_max01 = 20
-                } else if (max_value <= 100) {
-                  this.yAxis_max01 = 100
-                } else if (max_value <= 500) {
-                  this.yAxis_max01 = 500
-                }
-                // console.log(this.yAxis_max01)
-                // ==================找数组最大值====================
-                this.drawLine01()
               } else {
                 console.log('无数据')
                 this.is_show_mychart = false
-                this.is_show_mychart01 = false
               }
             })
             .catch(error => {
@@ -747,7 +638,7 @@ export default {
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
-      let obj = {}
+      let obj = new Object()
       this.keyword_data.forEach(element => {
         obj[element] = bol
       })
@@ -760,7 +651,7 @@ export default {
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name
@@ -857,119 +748,7 @@ export default {
         series: that.series_data()
       })
     },
-    // ====================================
-    // 控制全部数据隐藏
-    selected_data_function01: function(bol) {
-      let obj = {}
-      this.keyword_data01.forEach(element => {
-        obj[element] = bol
-      })
-      this.selected_data01 = obj
-      // this.can_inverse = bol
 
-      this.drawLine01()
-      this.canvas_is_show_all = !this.canvas_is_show_all
-      // this.can_inverse = true
-    },
-    // 便利keyword_data生成canvas的series数据
-    series_data01: function() {
-      let series_data_arr = []
-      //声明对象
-      function Obj(name, data) {
-        this.name = name
-        this.type = 'line'
-        // this.stack = '总量'
-        this.data = data
-      }
-      //通过便利关键词数组从而创建canvas的series数据
-      this.keyword_data01.forEach((element, index) => {
-        series_data_arr.push(new Obj(element, this.keyword_data_value01[index]))
-      })
-      // console.log('66666666666666666666666')
-      // console.log(series_data_arr)
-      return series_data_arr
-    },
-
-    drawLine01: function() {
-      let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.EChart_now_ranking01)
-      // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
-          },
-          trigger: 'axis'
-        },
-
-        color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
-        ],
-        legend: {
-          data: that.keyword_data01,
-          y: 'bottom',
-          // 控制显示隐藏哪一个折线
-          // selected: {
-          //   邮件营销: false
-          // }
-          selected: that.selected_data01
-        },
-        tooltip: {
-          textStyle: {
-            align: 'left'
-          },
-          trigger: 'axis'
-        },
-        grid: {
-          left: '4%',
-          right: '4%',
-          bottom: '13%',
-          containLabel: true
-        },
-
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
-              }
-            }
-          }
-        },
-        xAxis: {
-          position: 'bottom',
-          type: 'category',
-          data: that.xAxis_data01,
-          // alignWithLabel: false
-          boundaryGap: false
-          // show: this.xAxis_is_show
-          // gridIndex: 0
-          // axisLine: { show: false }
-        },
-        yAxis: {
-          minInterval: 1,
-          type: 'value',
-          inverse: true,
-          min: 1,
-          max: that.yAxis_max01,
-          interval: that.yAxis_max01 / 5
-        },
-        series: that.series_data01()
-      })
-    },
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
@@ -1001,6 +780,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
+              console.log('8888888888888888888888888')
               console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
@@ -1079,6 +859,14 @@ export default {
       // console.log(this.country_temp03)
       // console.log(this.country_temp04)
     },
+    // 绘制世界地图
+    draw_world_map() {
+      // console.log('999999999999999999')
+      this.is_show_map = false
+      setTimeout(() => {
+        this.is_show_map = true
+      })
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -1088,6 +876,23 @@ export default {
 }
 </script>
 <style scoped>
+.flex_div > div {
+  margin-left: 41px;
+}
+.flex_div {
+  display: flex;
+}
+.font_img img {
+  margin-right: 11px;
+  vertical-align: -2px;
+}
+.table_width01 {
+  width: 259px;
+}
+.font_and_img img {
+  margin-right: 11px;
+  vertical-align: -2px;
+}
 .td_width01 {
   width: 144px;
 }
@@ -1110,16 +915,17 @@ export default {
   color: #222222;
   margin-right: 10px;
 }
+
+.world_map:hover {
+  z-index: 999 !important;
+}
 .world_map {
   position: relative;
-  width: 80%;
   margin: 0 auto;
+  padding-top: 50px;
+  height: 500px;
 }
-.world_map > div:first-child {
-  /* transform: scale(0.8); */
-  /* height: 800px; */
-  /* background-color: red; */
-}
+
 .one_level {
   width: 18px;
   height: 18px;
@@ -1157,7 +963,7 @@ export default {
   width: 100px;
   position: absolute;
   bottom: 86px;
-  left: -93px;
+  left: 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 12px;
   font-weight: normal;
@@ -1241,10 +1047,12 @@ export default {
 .middle_top > .btn_group {
   margin-top: 16px !important;
 }
+/* .middle_bottom .btn_group {
+  z-index: 9999 !important;
+} */
 .btn_group {
   display: flex;
   align-items: center;
-  z-index: 999 !important;
 }
 section:first-child {
   margin-top: 0;

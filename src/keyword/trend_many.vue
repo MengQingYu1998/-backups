@@ -333,7 +333,7 @@ export default {
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
-      let obj = {}
+      let obj = new Object()
       this.keyword_data.forEach(element => {
         obj[element] = bol
       })
@@ -344,7 +344,7 @@ export default {
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
-      let series_data_arr = []
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name

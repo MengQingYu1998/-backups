@@ -379,4 +379,21 @@ table thead tr th {
 .f32 {
   transform: scale(0.9);
 }
+/* 世界地图的样式 */
+#map-tip span {
+  vertical-align: -2px;
+}
+#map-tip {
+  background: #f6f6f6 !important;
+  color: #000000;
+  border: 1px solid #c6c6c6;
+  display: flex;
+  align-items: center;
+  width: auto;
+  /* padding: 6px 3px; */
+}
+#map_base {
+  width: 80%;
+  margin: 0 auto;
+}
 </style>
