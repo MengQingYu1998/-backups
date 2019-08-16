@@ -43,7 +43,7 @@
         </div>
         <div class="btn_group">
           <div class="classify middle_top_time">
-            <div>时间</div>
+            <div class="time_width">时间</div>
             <div @click="click_second_el_radio" class="time">
               <el-radio-group v-model="middle_top_radio3" size="mini">
                 <el-radio-button
@@ -168,12 +168,28 @@ export default {
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
+
+      // 2.解决切换之后380天消失了的bug
+      if (this.middle_top_radio1 == '按分钟') {
+        this.middle_top_radio3 = '今日'
+      } else if (this.middle_top_radio1 == '按小时') {
+        this.middle_top_radio3 = '今日'
+      } else if (this.middle_top_radio1 == '按天') {
+        this.middle_top_radio3 = '7天'
+      }
+
       this.get_data_second()
     })
     this.$watch('middle_top_radio2', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
     this.$watch('middle_top_radio3', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
   },
@@ -423,7 +439,8 @@ export default {
       })
       this.selected_data = obj
       this.drawLine()
-      this.canvas_is_show_all = !this.canvas_is_show_all
+      this.canvas_is_show_all = bol
+      this.canvas_is_show_all = bol
       // console.log(this.selected_data)
     },
     // 便利keyword_data生成canvas的series数据
@@ -468,17 +485,14 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          height: '10',
           data: that.keyword_data,
           y: 'bottom',
-          // 控制显示隐藏哪一个折线
-          // selected: {
-          //   邮件营销: false
-          // }
+          type: 'scroll',
+          orient: 'horizontal',
           selected: that.selected_data
         },
         grid: {
-          height: '250px',
+          // height: '250px',
           left: '3%',
           right: '3%',
           // bottom: that.grid_bottom,
@@ -527,13 +541,16 @@ export default {
 }
 </script>
 <style scoped>
+.time_width {
+  width: 30px;
+}
 .middle_top_time {
   margin-left: 10px !important;
 }
 .time {
   margin-left: 5px !important;
 }
-.type:hover {
+.type {
   z-index: 100;
 }
 .right_title {
@@ -641,7 +658,7 @@ table {
 }
 .myChart {
   width: 965px;
-  height: 400px;
+  height: 300px;
   z-index: 999;
   text-align: center;
   color: #666;

@@ -292,7 +292,8 @@
 				},
 				searval:'',//v-model搜索词
 				searchval:'',// 搜索关键词
-				canscroll:false
+				total_number:0,//修改上下架排序错乱
+				total_numberB:0,//修改清榜排序错乱
 			}
 		},
 		mounted(){
@@ -311,13 +312,9 @@
 		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
 		        var int=Math.round(scrollTop + windowHeight)
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
-		          // 需要执行的代码
-		          if(that.canscroll){
-		            that.page++;  //滚动之后加载第二页
-					that.page2++;  //滚动之后加载第二页
+		          //  请求数据 
 					that.getDataB();
 					that.getData();
-		          }
 		            
 		          
 		        }
@@ -342,8 +339,8 @@
 		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
-					sessionStorage.setItem('now_country_name', this.now_country)
 		      // 当前国家发生变化，重新请求数据...
+		      sessionStorage.setItem('now_country_name', this.now_country)
 		      this.zongsdataList.length=0
 		      this.page=1
 		      this.getData()
@@ -358,7 +355,6 @@
 			// 获取搜索关键词
 			getsearchVal(searval){
 				this.searchval=searval
-				// this.getData()
 			},
 			// 点击搜索
 			search(){
@@ -370,7 +366,8 @@
 			},
 			// 上下架应用接口
 			getData(){
-				
+				this.total_number+=1
+				let number=this.total_number
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -446,44 +443,40 @@
 									}
 								})
 								.then(res=>{
-									// console.log(res.data)
 									if(res.data.Code==0){
-										// console.log(res.data.Data)
-										this.canscroll=true
 										this.onlinFont=res.data.pageCount
-										// this.contentShow2 = false
-										// console.log("上下架："+this.infiniteMsgShow)
 										if(this.onlinFont>0){
 											this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
 											
 										}else{
-											// console.log("上下架："+this.infiniteMsgShow)
+											
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
 											
 										}
 										if(res.data.Data==""){
-											// this.contentShow2 = false
-											// console.log("上下架："+this.infiniteMsgShow)
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
+										}else{
+											if(this.total_number==number){
+											    this.zongsdataList=this.zongsdataList.concat(res.data.Data)
+											    this.page+=1
+											}
+											this.contentShow = true
+											this.infiniteMsgShow = true//加载更多       	
 										}
-								        this.zongsdataList=this.zongsdataList.concat(res.data.Data)
+								        
 								        let DownloadTotal=(this.pageSize+1)*this.page
 								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
-								        // console.log(this.page)
-								        // console.log(pageC)
+								        
 									        if(this.page>=pageC){
-									        	// console.log("上下架："+this.infiniteMsgShow)
-									        	this.contentShow2 = false
+									    		this.contentShow2 = false
 									        	this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
 								       
 									}else{
-										// this.contentShow2 = false
-										// console.log("上下架："+this.infiniteMsgShow)
 										this.contentShow = true
 									    this.infiniteMsgShow = false//没有更多
 									}
@@ -491,8 +484,6 @@
 								})
 								.catch(error=>{
 									console.log(error)
-									// this.contentShow2 = false
-									// console.log("上下架："+this.infiniteMsgShow)
 									this.contentShow = true
 									this.infiniteMsgShow = false
 								})
@@ -519,6 +510,8 @@
 			  
 			// 清榜应用接口
 			getDataB(){
+				this.total_numberB+=1
+				let number=this.total_numberB
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -587,20 +580,19 @@
 								})
 								.then(res=>{
 									if(res.data.Code==0){
-										this.canscroll=true
 										this.onlinFontB=res.data.pageCount
-										// this.contentShow = false
 										if(this.onlinFontB>0){
-											// console.log("清榜："+this.infiniteMsgShow)
 											this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
 								        } else {
-								        	// console.log("清榜："+this.infiniteMsgShow)
 								            this.contentShow = true
 								            this.infiniteMsgShow = false//没有更多
 								        }
-
-								        this.zongsBList=this.zongsBList.concat(res.data.Data)
+								        if(this.total_number==number){
+											this.zongsBList=this.zongsBList.concat(res.data.Data)
+											this.page2+=1
+										}
+								        
 								        let DownloadTotal=(this.pageSize2+1)*this.page2
 								        let total=res.data.pageCount
 								        
@@ -610,10 +602,8 @@
 								})
 								.catch(error=>{
 									console.log(error)
-									// this.contentShow = false
-									// console.log("清榜："+this.infiniteMsgShow)
 									this.contentShow = true
-									this.infiniteMsgShow = false
+									this.infiniteMsgShow = false//没有更多
 								})
 							} 
 						})

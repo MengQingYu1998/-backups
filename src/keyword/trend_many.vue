@@ -339,7 +339,7 @@ export default {
       })
       this.selected_data = obj
       this.drawLine()
-      this.canvas_is_show_all = !this.canvas_is_show_all
+      this.canvas_is_show_all = bol
       // console.log(this.selected_data)
     },
     // 便利keyword_data生成canvas的series数据

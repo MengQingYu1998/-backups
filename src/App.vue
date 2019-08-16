@@ -385,7 +385,7 @@ table thead tr th {
 }
 #map-tip {
   background: #f6f6f6 !important;
-  color: #000000;
+  color: #000000 !important;
   border: 1px solid #c6c6c6;
   display: flex;
   align-items: center;

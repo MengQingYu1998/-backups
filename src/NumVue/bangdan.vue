@@ -174,7 +174,6 @@
 		data(){
 			
 			return{
-				total_number:0,
 				countryname:'中国',//导航条上面的国家
 				showApplication:false,
 				showGame:false,
@@ -249,8 +248,8 @@
 			    //当前时间font
 				timFont:'当前时间',
 				scrollHeight:0,
-				canscroll:false,
-
+				// canscroll:false,
+				total_number:0,//修改排序错乱
 			}
 		},
 		created(){
@@ -295,18 +294,8 @@
 		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
 		        var int=Math.round(scrollTop + windowHeight)
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
-		          // 需要执行的代码
-		          // console.log("是否滚动"+that.canscroll)
-		          // if(that.canscroll){
-		          	
-		          		that.getData()
-		            	// that.page++ //滚动之后加载第二页
-		            
-		            	// console.log("当前页数："+that.page)
-		          	
-		          	
-		          // }
-		            
+		          // 调用请求数据接口
+		          	that.getData()
 		          
 		        }
 		      }
@@ -321,11 +310,10 @@
 			},
 	
 			// 获取数据
-			getData(){this.total_number+=1
+			getData(){
+				this.total_number+=1
 				let number=this.total_number
 
-				this.bangdanNum++
-				let concat_function=this.bangdanNum
 				// 传给后台的brand值
 				let brandV=1
 				if(this.selefont==0){
@@ -456,14 +444,7 @@
 										})
 										.then(res=>{
 											if(res.data.Code==0){
-												// this.canscroll=true
-												// console.log("榜单数据："+res.data.Data)
-												// this.bangnum=res.data.Data
-												console.log(typeof(res.data.Data))
-												if(typeof(res.data.Data)=="object"){
-													console.log(66)
-													this.canscroll=true
-												}
+												
 												let onlinFont=res.data.pageCount
 												if(onlinFont>0){
 													this.contentShow = true

@@ -413,6 +413,7 @@ export default {
       //  第二部分参数
       //  第二部分参数
       //  第二部分参数
+      yAxis_max: 5,
       click_near_month: true,
       response_data_second_part: null,
       middle_top_time01: '',
@@ -436,6 +437,7 @@ export default {
       //  第三部分参数
       //  第三部分参数
       //  第三部分参数
+
       response_data_third_part: null,
       middle_bottom_radio02: '近一个月', //今日 昨日 近一个月
       middle_bottom_radio01: '全部', //全部 删除 在线
@@ -454,8 +456,10 @@ export default {
       ],
       grade_start_three: false, //五星图表默认隐藏
       common_one: true, //在线删除图表默认隐藏
+      yAxis_max01: 5,
       online_data: [],
       delete_data: [],
+      yAxis_max03: 5,
       one_start_data_third: [],
       two_start_data_third: [],
       three_start_data_third: [],
@@ -646,7 +650,9 @@ export default {
         yAxis: [
           {
             type: 'value',
-            minInterval: 1
+            minInterval: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
           }
         ],
         series: [
@@ -763,6 +769,43 @@ export default {
               this.four_start_data = this.response_data_second_part.fourStar
               this.five_start_data = this.response_data_second_part.fiveStar
               this.middle_top_xAxis[0].data = this.response_data_second_part.publishTime
+              // ==================找数组最大值====================
+              let max_value_arr = new Array()
+              max_value_arr.push(this.one_start_data)
+              max_value_arr.push(this.two_start_data)
+              max_value_arr.push(this.three_start_data)
+              max_value_arr.push(this.four_start_data)
+              max_value_arr.push(this.five_start_data)
+              let max_value = 0
+              max_value_arr.forEach(element => {
+                element.forEach(element_son => {
+                  // console.log(element_son)
+                  element_son = parseInt(element_son)
+                  if (max_value <= element_son) {
+                    max_value = element_son
+                  }
+                })
+              })
+              // console.log(max_value)
+              // this.yAxis_max = max_value + 5
+              if (max_value <= 5) {
+                this.yAxis_max = 5
+              } else if (max_value <= 20) {
+                this.yAxis_max = 20
+              } else if (max_value <= 50) {
+                this.yAxis_max = 50
+              } else if (max_value <= 100) {
+                this.yAxis_max = 100
+              } else if (max_value <= 500) {
+                this.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                this.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                this.yAxis_max = 1500
+              } else {
+                this.yAxis_max = max_value + 100
+              }
+              // ==================找数组最大值====================
               this.drawLine()
             })
             .catch(error => {
@@ -823,7 +866,9 @@ export default {
         yAxis: [
           {
             type: 'value',
-            minInterval: 1
+            minInterval: 1,
+            max: that.yAxis_max01,
+            interval: that.yAxis_max01 / 5
           }
         ],
         series: [
@@ -895,7 +940,9 @@ export default {
         yAxis: [
           {
             type: 'value',
-            minInterval: 1
+            minInterval: 1,
+            max: that.yAxis_max03,
+            interval: that.yAxis_max03 / 5
           }
         ],
         series: [
@@ -1040,6 +1087,88 @@ export default {
               this.online_data = this.response_data_third_part.onLine
               this.delete_data = this.response_data_third_part.haveDeleted
               this.middle_bottom_xAxis[0].data = this.response_data_third_part.publishTime
+              if (
+                (this.one_start_data_third != undefined,
+                this.two_start_data_third != undefined,
+                this.three_start_data_third != undefined,
+                this.four_start_data_third != undefined,
+                this.five_start_data_third != undefined)
+              ) {
+                // ==================drawLine01找数组最大值====================
+                let max_value_arr = new Array()
+                max_value_arr.push(this.one_start_data_third)
+                max_value_arr.push(this.two_start_data_third)
+                max_value_arr.push(this.three_start_data_third)
+                max_value_arr.push(this.four_start_data_third)
+                max_value_arr.push(this.five_start_data_third)
+                let max_value = 0
+                max_value_arr.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value <= element_son) {
+                      max_value = element_son
+                    }
+                  })
+                })
+                if (max_value <= 5) {
+                  this.yAxis_max01 = 5
+                } else if (max_value <= 20) {
+                  this.yAxis_max01 = 20
+                } else if (max_value <= 50) {
+                  this.yAxis_max01 = 50
+                } else if (max_value <= 100) {
+                  this.yAxis_max01 = 100
+                } else if (max_value <= 500) {
+                  this.yAxis_max01 = 500
+                } else if (max_value <= 1000) {
+                  this.yAxis_max01 = 1000
+                } else if (max_value <= 1500) {
+                  this.yAxis_max01 = 1500
+                } else {
+                  this.yAxis_max01 = max_value + 100
+                }
+                // ==================drawLine01找数组最大值====================
+              } else if (
+                (this.online_data != undefined, this.delete_data != undefined)
+              ) {
+                // ==================drawLine03找数组最大值====================
+                let max_value_arr03 = new Array()
+                max_value_arr03.push(this.online_data)
+                max_value_arr03.push(this.delete_data)
+
+                let max_value03 = 0
+                max_value_arr03.forEach(element => {
+                  element.forEach(element_son => {
+                    // console.log(element_son)
+                    element_son = parseInt(element_son)
+                    if (max_value03 <= element_son) {
+                      max_value03 = element_son
+                    }
+                  })
+                })
+                // console.log(max_value)
+                // this.yAxis_max = max_value + 5
+                if (max_value03 <= 5) {
+                  this.yAxis_max03 = 5
+                } else if (max_value03 <= 20) {
+                  this.yAxis_max03 = 20
+                } else if (max_value03 <= 50) {
+                  this.yAxis_max03 = 50
+                } else if (max_value03 <= 100) {
+                  this.yAxis_max03 = 100
+                } else if (max_value03 <= 500) {
+                  this.yAxis_max03 = 500
+                } else if (max_value03 <= 1000) {
+                  this.yAxis_max03 = 1000
+                } else if (max_value03 <= 1500) {
+                  this.yAxis_max03 = 1500
+                } else {
+                  this.yAxis_max03 = max_value03 + 100
+                }
+                // ==================drawLine03找数组最大值====================
+              }
+
               this.drawLine01()
               this.drawLine03()
             })
@@ -1171,13 +1300,7 @@ export default {
         this_div02.innerHTML = '展开更多'
       }
     },
-    // hide_more_function(parm) {
-    //   let this_div = document.getElementById(parm)
-    //   this_div.style.height = '62px'
-    // },
-    // =================通用============================
-    // =================通用============================
-    // =================通用============================
+
     // 格式化时间
     format(parm) {
       // console.log(parm)

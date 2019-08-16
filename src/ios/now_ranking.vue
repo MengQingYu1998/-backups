@@ -382,12 +382,27 @@ export default {
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
+
+      // 2.解决切换之后380天消失了的bug
+      if (this.middle_top_radio1 == '按分钟') {
+        this.middle_top_radio3 = '今日'
+      } else if (this.middle_top_radio1 == '按小时') {
+        this.middle_top_radio3 = '今日'
+      } else if (this.middle_top_radio1 == '按天') {
+        this.middle_top_radio3 = '7天'
+      }
       this.get_data_second()
     })
     this.$watch('middle_top_radio2', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
     this.$watch('middle_top_radio3', function(newValue, oldValue) {
+      // 1.解决切换隐藏所有的bug
+      this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
     this.$watch('equipmentValue01', function(newValue, oldValue) {
@@ -646,7 +661,7 @@ export default {
       // this.can_inverse = bol
 
       this.drawLine()
-      this.canvas_is_show_all = !this.canvas_is_show_all
+      this.canvas_is_show_all = bol
       // this.can_inverse = true
     },
     // 便利keyword_data生成canvas的series数据

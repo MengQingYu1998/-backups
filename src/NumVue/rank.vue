@@ -193,7 +193,7 @@ export default {
         Data: []
       },
       scrollHeight:0,
-      canscroll:false
+      total_number:0,//修改排序错乱
     }
   },
   created() {
@@ -215,11 +215,8 @@ export default {
         document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         var int=Math.round(scrollTop + windowHeight)
         if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
-          // 需要执行的代码
-          if(that.canscroll){
-            that.page++ //滚动之后加载第二页
+          // 请求数据
             that.getData()
-          }
             
           
         }
@@ -231,6 +228,8 @@ export default {
     
     //请求数据
     getData() {
+      this.total_number+=1
+      let number=this.total_number
       //传给后台的sort值
       let sortV = 'desc'
       if (this.upfont == true) {
@@ -330,8 +329,11 @@ export default {
             })
               .then(res => {
                 if (res.data.Code == 0) {
-                  this.canscroll=true
-                  this.zongsData = this.zongsData.concat(res.data.Data)
+                  if(this.total_number==number){
+                    this.zongsData = this.zongsData.concat(res.data.Data)
+                    this.page++
+                  }
+                  
                   let DownloadTotal = (this.pageSize + 1) * this.page
                   let total = res.data.pageCount
                   if (total > 0) {

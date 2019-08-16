@@ -118,7 +118,7 @@
                       class="app_name pointer"
                       @click="go_to_page01(item.appId,item.appName)"
                     >{{item.appName}}</div>
-                    <div class="now_app">当前应用</div>
+                    <!-- <div class="now_app">当前应用</div> -->
                     <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                   </div>
                 </div>
@@ -252,8 +252,8 @@ export default {
       this.$router.push({
         path: '/ranking_compare?app_name02=' + parm02
       })
-      this.$store.state.now_app_id02 = parm
       this.$store.state.now_app_id = this.$store.state.now_app_id
+      this.$store.state.now_app_id02 = parm
     }
   }
 }

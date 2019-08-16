@@ -114,6 +114,7 @@ export default {
             .then(response => {
               this.response_data = response.data.Data
               console.log(this.response_data)
+              console.log(response)
             })
             .catch(error => {
               console.log(error)

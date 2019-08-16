@@ -643,6 +643,14 @@ export default {
     // ==================第三部分===========================
     this.get_data_for_third_part()
     this.$watch('bottom_radio1', function(newValue, oldValue) {
+      // 2.解决切换之后380天消失了的bug
+      if (this.bottom_radio1 == '按分钟') {
+        this.bottom_radio3 = '近24小时'
+      } else if (this.bottom_radio1 == '按小时') {
+        this.bottom_radio3 = '昨日'
+      } else if (this.bottom_radio1 == '按天') {
+        this.bottom_radio3 = '7天'
+      }
       this.get_data_for_third_part()
     })
     this.$watch('bottom_radio3', function(newValue, oldValue) {
@@ -656,7 +664,7 @@ export default {
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
-    // 请求第一部分评分统计的数据
+    // 关键词概述
     get_data_for_first_part() {
       this.$axios
         .get('/GetCountry')
@@ -697,7 +705,7 @@ export default {
             nowDate +
             '&compareDate=' +
             compareDate
-          // console.log(url)
+          console.log(url)
 
           // 请求数据
           this.$axios

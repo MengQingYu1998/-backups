@@ -686,6 +686,14 @@ export default {
     })
     // ===============弹出框=====================
     this.$watch('radio01_dialog', function(newValue, oldValue) {
+      // 2.解决切换之后380天消失了的bug
+      if (this.radio01_dialog == '按分钟') {
+        this.radio02_dialog = '近24小时'
+      } else if (this.radio01_dialog == '按小时') {
+        this.radio02_dialog = '昨日'
+      } else if (this.radio01_dialog == '按天') {
+        this.radio02_dialog = '7天'
+      }
       this.get_data_dialog()
     })
     this.$watch('radio02_dialog', function(newValue, oldValue) {
@@ -1024,7 +1032,7 @@ export default {
     },
     // 便利keyword_data生成canvas的series数据
     series_data01: function() {
-    let series_data_arr = new Array()
+      let series_data_arr = new Array()
       //声明对象
       function Obj(name, data) {
         this.name = name

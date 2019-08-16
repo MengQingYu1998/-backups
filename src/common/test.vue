@@ -61,7 +61,7 @@ export default {
       // this.can_inverse = bol
 
       this.drawLine()
-      this.canvas_is_show_all = !this.canvas_is_show_all
+      this.canvas_is_show_all = bol
       // this.can_inverse = true
     },
     series_data: function() {
