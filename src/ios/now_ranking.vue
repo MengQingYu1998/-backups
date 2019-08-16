@@ -386,6 +386,7 @@ export default {
       this.selected_data_function(this.canvas_is_show_all)
 
       // 2.解决切换之后380天消失了的bug
+      this.middle_top_time01 = ''
       if (this.middle_top_radio1 == '按分钟') {
         this.middle_top_radio3 = '今日'
       } else if (this.middle_top_radio1 == '按小时') {

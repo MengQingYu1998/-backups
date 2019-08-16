@@ -120,6 +120,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      page: 1,
       // 设备选择
       equipment: [
         {
@@ -142,6 +143,26 @@ export default {
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data()
+    })
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let that = this
+      window.onscroll = function() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          // 需要执行的代码
+          that.get_data()
+        }
+      }
     })
   },
   methods: {
@@ -196,6 +217,19 @@ export default {
               this.response_data = response.data.Data
               console.log(response)
               console.log(this.response_data)
+              this.response_data.comOwn = this.response_data.comOwn.slice(
+                0,
+                this.page * 20
+              )
+              this.response_data.common = this.response_data.common.slice(
+                0,
+                this.page * 20
+              )
+              this.response_data.myOwn = this.response_data.myOwn.slice(
+                0,
+                this.page * 20
+              )
+              this.page += 1
             })
             .catch(error => {
               console.log(error)

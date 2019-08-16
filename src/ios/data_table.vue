@@ -644,6 +644,7 @@ export default {
     this.get_data_for_third_part()
     this.$watch('bottom_radio1', function(newValue, oldValue) {
       // 2.解决切换之后380天消失了的bug
+      this.middle_time01=''
       if (this.bottom_radio1 == '按分钟') {
         this.bottom_radio3 = '近24小时'
       } else if (this.bottom_radio1 == '按小时') {

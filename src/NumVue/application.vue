@@ -6,7 +6,7 @@
 		</div>
 		<div class="content">
 			<ul>
-				<li v-for="(li,index) in lis" :class="{'select':isSelect==index}"  @click="selectLei(index)" :key="index">{{li.name}}</li>
+				<li v-for="(li,i) in lis" :class="{'select':isSelect==i}"  @click="selectLei(i)" :key="li.id">{{li.name}}</li>
 			</ul>
 			<div class="lei">
 				<div>
@@ -69,7 +69,7 @@
 					<p class="font" v-show="shangjiatF">共<span v-html="onlinFont"></span>个上架应用</p>
 					<p class="font" v-show="xiajiatF">共<span v-html="onlinFont"></span>个下架应用</p>
 					<p class="font" v-show="qingbangF">共<span v-html="onlinFontB"></span>个清榜应用</p>
-					<p class="font" v-show="qingciF">共<span v-html="onlinFontC">9</span>个清词应用</p>
+					<p class="font" v-show="qingciF">共<span v-html="onlinFontC"></span>个清词应用</p>
 				</div>
 				<div>
 					<!-- 上下架应用table -->
@@ -84,7 +84,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(tr,index) in zongsdataList" :key="index">
+							<tr v-for="tr in zongsdataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -98,6 +98,7 @@
 								<th>{{tr.date}}</th>
 								
 							</tr>
+							<tr v-else>暂无数据</tr>
 						</tbody>
 					</table>
 					
@@ -115,7 +116,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(tr,index) in zongsBList" :key="index">
+							<tr v-for="tr in zongsBList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -141,8 +142,8 @@
 								<th>{{tr.clearTime}}时</th>
 								<th>{{tr.isOnlineTime}}</th>
 							</tr>
-							<tr>
-								
+							<tr v-else>
+								暂无数据
 							</tr>
 						</tbody>
 						<!-- <tbody v-else>暂无数据 </tbody> -->
@@ -166,7 +167,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(tr,index) in cidataList" :key="index">
+							<tr v-for="tr in cidataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" >{{tr.num}}</p>
 									<img src="../assets/NumImg/testIcon.png" class="logo" />
@@ -193,6 +194,7 @@
 								<th>2019-02-01 11时</th>
 								<th>2019-02-01</th>
 							</tr>
+							<tr v-else>暂无数据</tr>
 						</tbody>
 					</table>
 					<div class="scrollDiv aaaaa" v-show="contentShow">
@@ -239,8 +241,8 @@
 				downG:true,
 				downWG:false,
 				upWG:false,
-				index:0,//选中应用index
-				isSelect:'',//选中应用字体样式
+				// index:0,//选中应用index
+				isSelect:0,//选中应用字体样式
 				shangjiatF:true,//上架标题
 				xiajiatF:false,//下架标题
 				shangjiaF:true,//上下架表格
@@ -280,7 +282,10 @@
 				cidataList:[],
 				// 总分类
 				lis:[
-					{name:'上架应用'},{name:'下架应用'},{name:'清榜应用'},{name:'清词应用'}
+					{name:'上架应用',id:1},
+					{name:'下架应用',id:2},
+					{name:'清榜应用',id:3},
+					{name:'清词应用',id:4}
 				],
 				// 应用
 				Applications:{
@@ -332,6 +337,7 @@
 		      this.zongsBList.length=0
 		      this.page=1
 		      this.page2=1
+		      this.cidataList.length=0
 		      this.getDataci()
 		      this.getDataB()
 		      this.getData()
@@ -346,6 +352,7 @@
 		      this.getData()
 		      this.zongsBList.length=0
 		      this.page2=1
+		      this.cidataList.length=0
 		      this.getDataci()
 		      this.getDataB()
 		      
@@ -428,6 +435,13 @@
 								    }
 
 							    }
+							    // console.log("country_id:"+country_id)
+							    // console.log("geid:"+geid)
+							    // console.log("newData:"+newData)
+							    // console.log("IsOnlineV:"+IsOnlineV)
+							    // console.log("searchval:"+this.searchval)
+							    // console.log("page:"+this.page)
+							    // console.log("pageSize:"+this.pageSize)
 							    // 获取应用接口
 							  	this.$axios({
 									method:"post",
@@ -443,6 +457,7 @@
 									}
 								})
 								.then(res=>{
+									console.log(res.data)
 									if(res.data.Code==0){
 										this.onlinFont=res.data.pageCount
 										if(this.onlinFont>0){
@@ -477,6 +492,8 @@
 									        }
 								       
 									}else{
+										console.log(1)
+										this.onlinFont=0
 										this.contentShow = true
 									    this.infiniteMsgShow = false//没有更多
 									}
@@ -579,6 +596,7 @@
 									}
 								})
 								.then(res=>{
+
 									if(res.data.Code==0){
 										this.onlinFontB=res.data.pageCount
 										if(this.onlinFontB>0){
@@ -596,6 +614,10 @@
 								        let DownloadTotal=(this.pageSize2+1)*this.page2
 								        let total=res.data.pageCount
 								        
+									}else{
+										this.onlinFontB=0
+										this.contentShow = true
+								        this.infiniteMsgShow = false//没有更多
 									}
 									
 									
@@ -691,17 +713,24 @@
 							}
 						})
 						.then(res => {
-							// console.log(res.data.Data)
-							if(res.data.Data==""){
-								this.canscroll=true
-								this.onlinFontC=0
-								// console.log("清词："+this.infiniteMsgShow)
-								this.contentShow = true
-								this.infiniteMsgShow = false//没有更多
+							console.log(res.data)
+							if(res.data.Code==0){
+								console.log(res.data.Data.length)
+								if(res.data.Data==""){
+									this.onlinFontC=0
+									this.contentShow = true
+									this.infiniteMsgShow = false//没有更多
+								}else{
+									//有用的 
+									this.onlinFontC=res.data.Data.length
+									this.cidataList=res.data.Data
+								}
+
+
+								
 							}
 
-							//有用的 this.onlinFontC=res.data.pageCount
-							// this.cidataList=res.data.Data
+							
 						 
 						})
 						.catch(error=>{
@@ -734,6 +763,7 @@
 		        this.page=1
 		      	this.zongsBList.length=0
 				this.page2=1
+				this.cidataList.length=0
 				this.getData()
 				this.getDataB()
 				this.getDataci()
@@ -783,6 +813,7 @@
 		      	this.page=1
 		      	this.zongsBList.length=0
 				this.page2=1
+				this.cidataList.length=0
 				this.getData()
 				this.getDataB()
 				this.getDataci()
@@ -797,13 +828,15 @@
 		        this.page=1
 		      	this.zongsBList.length=0
 				this.page2=1
+				this.cidataList.length=0
 				this.getData()
 				this.getDataB()
 				this.getDataci()
 			},
 			// 判断显示上架应用还是下架应用
-			selectLei(index){
-				this.isSelect=index
+			selectLei(i){
+				this.isSelect=i
+				console.log(i)
 				if(this.isSelect==0){
 					// 上架应用
 					this.shangjiatF=true//上架标题
@@ -814,7 +847,6 @@
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
 
-					// this.contentShow2=false//清榜的滑动加载
 
 					this.zongsdataList.length=0
 		      		this.page=1
@@ -834,9 +866,7 @@
 					this.zongsdataList.length=0
 		      		this.page=1
 					this.getData()
-				}
-				
-				else if(this.isSelect==2){
+				}else if(this.isSelect==2){
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=false//下架标题
 					
@@ -856,6 +886,8 @@
 					this.shangjiaF=false//上下架表格
 					this.qingbangF=false//清榜标题
 					this.qingciF=true//清词标题
+
+					this.cidataList.length=0
 					this.getDataci()
 				}
 			},

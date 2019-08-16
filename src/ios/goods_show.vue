@@ -17,7 +17,7 @@
               <th>分类排名</th>
               <th>关键词覆盖数</th>
               <th>当前版本评分</th>
-              <th>所有版本评</th>
+              <th>所有版本评分</th>
               <th>竞品对比</th>
             </tr>
           </thead>
@@ -79,7 +79,7 @@
                 <img
                   v-show="index!=0"
                   src="../assets/ios/compare_del.png"
-                  @click="remove_date(index)"
+                  @click="remove_data(index)"
                   alt
                 />
               </td>
@@ -146,7 +146,7 @@
                 <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
               </td>
               <td>
-                <img src="../assets/ios/ios_add_blue.png" @click="add_date(index)" alt />
+                <img src="../assets/ios/ios_add_blue.png" @click="add_data(index)" alt />
               </td>
             </tr>
           </tbody>
@@ -222,11 +222,12 @@ export default {
           console.log(error)
         })
     },
-    add_date(index) {
+    add_data(index) {
       this.response_data.data_0.push(this.response_data.data_1[index])
       this.response_data.data_1.splice(index, 1)
     },
-    remove_date(index) {
+    remove_data(index) {
+      this.response_data.data_1.unshift(this.response_data.data_0[index])
       this.response_data.data_0.splice(index, 1)
     },
     // 获取当前选中的国家

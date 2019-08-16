@@ -648,6 +648,8 @@ export default {
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
+      this.get_data_for_top_table()
+
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -658,6 +660,7 @@ export default {
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
+      this.get_data_for_top_table()
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -670,6 +673,7 @@ export default {
       this.page12 = 1
       this.get_data_12()
       this.get_data_11()
+      this.get_data_for_top_table()
       this.get_data_column()
     })
     this.$watch('radio1', function(newValue, oldValue) {
@@ -681,12 +685,14 @@ export default {
       this.page11 = 1
       this.page12 = 1
       // console.log('当前国家发生变化，重新请求数据...')
+      this.get_data_for_top_table()
       this.get_data_12()
       this.get_data_11()
     })
     // ===============弹出框=====================
     this.$watch('radio01_dialog', function(newValue, oldValue) {
       // 2.解决切换之后380天消失了的bug
+      this.middle_time01 = ''
       if (this.radio01_dialog == '按分钟') {
         this.radio02_dialog = '近24小时'
       } else if (this.radio01_dialog == '按小时') {

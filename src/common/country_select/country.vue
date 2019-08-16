@@ -1,5 +1,5 @@
 <template>
-  <div id="country" @mousemove="click">
+  <div id="country" class="my_country" @mousemove="click" @mouseup="click" @mouseover="click">
     <!-- 选择国家 -->
     <select name="country" class="fastbannerform__country">
       <option value="AMC" title="AC">美国</option>
@@ -217,10 +217,30 @@ import { start_first, start_second } from './demo.js' //入口文件
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      css_change: undefined,
+      ss: 0
+    }
   },
   props: ['which_country'],
+  created() {
+    this.$watch('css_change', function(newValue, oldValue) {
+      console.log('length改变了')
+    })
+  },
   mounted() {
+    // let that = this
+    // $('.my_country').on('click', function() {
+    //   console.log(88888888888888888888888888888)
+    // })
+
+    // that.css_change = $('.select2-dropdown').css('display')
+    //   $('.select2-dropdown').on('click', function() {
+    //     // that.css_change = $('.select2-dropdown').css('display')
+    //     console.log('监听到了，success')
+    //   })
+    // })
+
     // console.log('============国家组件内部============')
     if (sessionStorage.getItem('now_country_name') == null) {
       sessionStorage.setItem('now_country_name', '中国')
