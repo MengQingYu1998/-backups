@@ -353,9 +353,13 @@ table tbody tr:hover {
 /* 修改element的单选框 */
 .el-radio-button {
   margin-left: 10px;
+  font-family: SourceHanSansCN-Normal !important;
 }
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
   border: none !important;
+  box-shadow: -1px 0 0 0 #009bef;
+  background-color: #009bef;
+  font-family: SourceHanSansCN-Normal !important;
 }
 .el-radio-button__inner {
   /* border-left: none; */
@@ -395,5 +399,9 @@ table thead tr th {
 #map_base {
   width: 80%;
   margin: 0 auto;
+}
+/* 搜索结果的切换 */
+#result .el-tabs__active-bar {
+  height: 1px !important;
 }
 </style>

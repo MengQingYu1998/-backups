@@ -45,7 +45,7 @@
         <section class="middle_top">
           <div class="section_title">排名走势</div>
           <div class="btn_group">
-            <div class="classify">
+            <div class="classify" @click="clear_time">
               <div>类型</div>
               <div>
                 <el-radio-group v-model="middle_top_radio1" size="mini">
@@ -87,7 +87,7 @@
               <!-- <div>时间</div> -->
               <div @click="click_second_el_date_picker">
                 <el-date-picker
-                  v-model="middle_top_time01"
+                  v-model="now_ranking_time"
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
@@ -318,7 +318,7 @@ export default {
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
       middle_top_radio3: '7天',
-      middle_top_time01: '',
+      now_ranking_time: '',
       middle_top_pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
@@ -378,7 +378,7 @@ export default {
       this.get_data_first()
       this.get_data_second()
     })
-    this.$watch('middle_top_time01', function(newValue, oldValue) {
+    this.$watch('now_ranking_time', function(newValue, oldValue) {
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
@@ -386,7 +386,7 @@ export default {
       this.selected_data_function(this.canvas_is_show_all)
 
       // 2.解决切换之后380天消失了的bug
-      this.middle_top_time01 = ''
+      this.now_ranking_time = ''
       if (this.middle_top_radio1 == '按分钟') {
         this.middle_top_radio3 = '今日'
       } else if (this.middle_top_radio1 == '按小时') {
@@ -514,13 +514,13 @@ export default {
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.middle_top_radio3 == '360天') {
             let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 380)
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 360)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.middle_top_radio3 == '') {
-            let middle_top_time01 = this.middle_top_time01
-            startDate = formatDate(middle_top_time01[0], 'yyyy-MM-dd')
-            endDate = formatDate(middle_top_time01[1], 'yyyy-MM-dd')
+            let now_ranking_time = this.now_ranking_time
+            startDate = formatDate(now_ranking_time[0], 'yyyy-MM-dd')
+            endDate = formatDate(now_ranking_time[1], 'yyyy-MM-dd')
           }
           // console.log(endDate)
           // console.log('=================')
@@ -650,7 +650,7 @@ export default {
     },
     // 点击单选按钮组件组件
     click_second_el_radio: function() {
-      this.middle_top_time01 = ''
+      this.now_ranking_time = ''
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
@@ -764,7 +764,10 @@ export default {
         series: that.series_data()
       })
     },
-
+    clear_time() {
+      console.log('清空时间')
+      this.now_ranking_time = ''
+    },
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================
     // =============================请求第三部分数据=============================

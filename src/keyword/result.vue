@@ -181,7 +181,9 @@
                             class="app_name pointer"
                             @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
+                          <div
+                            class="app_subtitle rankingChangeFontColor"
+                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
                         </div>
                       </div>
                     </td>
@@ -276,7 +278,9 @@
                             class="app_name pointer"
                             @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
+                          <div
+                            class="app_subtitle rankingChangeFontColor"
+                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
                         </div>
                       </div>
                     </td>
@@ -362,7 +366,9 @@
                             class="app_name pointer"
                             @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
+                          <div
+                            class="app_subtitle rankingChangeFontColor"
+                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
                         </div>
                       </div>
                     </td>
@@ -440,7 +446,9 @@
                             class="app_name pointer"
                             @click="go_to_page05(item.AppStoreId,item.app_name)"
                           >{{item.app_name}}</div>
-                          <div class="app_subtitle rankingChangeFontColor">{{item.subtitle}}</div>
+                          <div
+                            class="app_subtitle rankingChangeFontColor"
+                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
                         </div>
                       </div>
                     </td>
@@ -692,7 +700,7 @@ export default {
     // ===============弹出框=====================
     this.$watch('radio01_dialog', function(newValue, oldValue) {
       // 2.解决切换之后380天消失了的bug
-      this.middle_time01 = ''
+      this.time_dialog = ''
       if (this.radio01_dialog == '按分钟') {
         this.radio02_dialog = '近24小时'
       } else if (this.radio01_dialog == '按小时') {
@@ -939,6 +947,7 @@ export default {
           })
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let type = this.radio1 == 'all' ? 1 : 0
+          let word = this.$store.state.now_app_name
           let url =
             '/Word/FindSearchRate?' +
             '&deviceType=' +
@@ -946,12 +955,15 @@ export default {
             '&countryId=' +
             country_id +
             '&type=' +
-            type
-          // console.log(url)
+            type +
+            '&word=' +
+            word
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
+              console.log(response)
               this.keyword_data01 = []
               this.keyword_data_value01 = []
               this.xAxis_data01 = []
@@ -959,6 +971,7 @@ export default {
               // console.log(temp)
               this.keyword_data_value01.push(temp.Yvalue)
               this.xAxis_data01 = temp.Xvalue
+
               this.keyword_data01.push('ios12')
 
               this.drawLine12()

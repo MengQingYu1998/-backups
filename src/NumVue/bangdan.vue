@@ -56,7 +56,8 @@
 				<div>
 					<p>设备</p>
 					<el-select v-model="equipmentValue">
-				        <el-option v-for="(item,B) in  equipment" :key="item.B"  :value="item.value"></el-option>
+				        <el-option v-for="(item,B) in  equipment" :key="item.B"  :value="item.value">
+				        </el-option>
 				    </el-select>
 
 				</div>
@@ -539,6 +540,7 @@
 				this.upWL=false
 				this.showApplication = false//应用榜
 				this.showGame=false//游戏榜
+				this.isSelect=0
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -556,6 +558,7 @@
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
+				this.isSelect=1
 				this.getData()
 			},
 			// 点击游戏榜
@@ -571,6 +574,7 @@
 				this.upWG=true
 				this.downG=false
 				this.downWG=false
+				this.isSelect=2
 				// this.page=1
 				this.getData()
 			},
@@ -581,6 +585,7 @@
 				this.upWL=false
 				this.downWL=true
 				this.now_Application=Application.name
+				
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -921,7 +926,7 @@
 	vertical-align: top;
 	margin-top: 12px;
 	margin-left: -2px;
-	margin-right: -3px;
+	/*margin-right: -3px;*/
 }
 .content .zongbang .tit>p{
 	display: inline-block;

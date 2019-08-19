@@ -240,7 +240,7 @@ export default {
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.middle_top_radio3 == '360天') {
             let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 380)
+            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 360)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
             endDate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.middle_top_radio3 == '') {

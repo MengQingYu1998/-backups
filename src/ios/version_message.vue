@@ -28,8 +28,8 @@
                   <div class="img_description">
                     <img :src="item.Icon" alt />
                     <div class="img_description_child">
-                      <div>{{item.appName}}</div>
-                      <div>{{item.subtitle}}</div>
+                      <div>{{item.appName!='无'?item.appName:''}}</div>
+                      <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
                     </div>
                   </div>
                   <div class="time_line_item_content">
@@ -38,6 +38,7 @@
                   <div
                     class="show_all"
                     :id="'show_hide'+index"
+                    v-if="item.updateLog.length>100"
                     @click="show_more_function('show_more'+index,'show_hide'+index)"
                   >展开更多</div>
                 </div>

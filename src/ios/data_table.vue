@@ -59,8 +59,10 @@
             </div>
           </div>
           <div class="table_top_green">
-            2019年2月20日，关键词总覆盖数：
-            <span v-if="request_data_first">{{request_data_first.totalCount}}</span> 前三关键词：
+            {{timestamp_wrap(date_Now_for_top / 1000, 'Y年M月D日')}}，关键词总覆盖数：
+            <span
+              v-if="request_data_first"
+            >{{request_data_first.totalCount}}</span> 前三关键词：
             <span v-if="request_data_first">{{request_data_first.top3Count}}</span> 前十关键词：
             <span v-if="request_data_first">{{request_data_first.top10Count}}</span>
           </div>
@@ -582,7 +584,7 @@ export default {
       this.get_data_for_first_part()
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
-      this.change_time()
+      this.change_time_Compare()
       this.get_data_for_first_part()
     })
     // 下拉框，系统 第一部分
@@ -605,7 +607,7 @@ export default {
     })
 
     this.$watch('dateCompare_for_middle', function(newValue, oldValue) {
-      this.change_time01()
+      this.change_time_Compare01()
       this.get_data_for_second_part()
     })
 
@@ -644,7 +646,7 @@ export default {
     this.get_data_for_third_part()
     this.$watch('bottom_radio1', function(newValue, oldValue) {
       // 2.解决切换之后380天消失了的bug
-      this.middle_time01=''
+      this.middle_time01 = ''
       if (this.bottom_radio1 == '按分钟') {
         this.bottom_radio3 = '近24小时'
       } else if (this.bottom_radio1 == '按小时') {
@@ -727,16 +729,25 @@ export default {
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
-      // console.log(this.date_Now_for_top)
-      //     console.log(this.dateCompare_for_top)
+      console.log(new Date(this.dateCompare_for_top).getTime())
+      console.log(new Date(this.date_Now_for_top).getTime())
+
+      this.dateCompare_for_top =
+        new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
+    },
+    change_time_Compare() {
       if (
-        new Date(this.date_Now_for_top).getTime() <=
-        new Date(this.dateCompare_for_top).getTime()
+        new Date(this.dateCompare_for_top).getTime() >=
+        new Date(this.date_Now_for_top).getTime()
       ) {
         this.dateCompare_for_top =
           new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
       }
     },
+    timestamp_wrap(parm01, parm02) {
+      return timestamp(parm01, parm02)
+    },
+
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
@@ -847,9 +858,18 @@ export default {
     change_time01() {
       // console.log(this.date_Now_for_middle)
       // console.log(this.dateCompare_for_middle)
+      // if (
+      //   new Date(this.date_Now_for_middle).getTime() <=
+      //   new Date(this.dateCompare_for_middle).getTime()
+      // ) {
+      this.dateCompare_for_middle =
+        new Date(this.date_Now_for_middle).getTime() - 24 * 60 * 60 * 1000
+      // }
+    },
+    change_time_Compare01() {
       if (
-        new Date(this.date_Now_for_middle).getTime() <=
-        new Date(this.dateCompare_for_middle).getTime()
+        new Date(this.dateCompare_for_middle).getTime() >=
+        new Date(this.date_Now_for_middle).getTime()
       ) {
         this.dateCompare_for_middle =
           new Date(this.date_Now_for_middle).getTime() - 24 * 60 * 60 * 1000

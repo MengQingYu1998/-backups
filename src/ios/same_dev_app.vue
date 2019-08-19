@@ -41,7 +41,7 @@
                       class="pointer appName"
                       @click="go_to_page01(item.appId,item.appName)"
                     >{{item.appName}}</div>
-                    <div class="rankingChangeFontColor">{{item.subtitle}}</div>
+                    <div class="rankingChangeFontColor">{{item.subtitle!='无'?item.subtitle:''}}</div>
                   </div>
                 </div>
               </td>
@@ -84,7 +84,10 @@ export default {
   name: 'same_dev_app',
   components: { ios_header, left_nav },
   data() {
-    return { now_country: sessionStorage.getItem('now_country_name'), response_data: null }
+    return {
+      now_country: sessionStorage.getItem('now_country_name'),
+      response_data: null
+    }
   },
   created: function() {
     this.get_data()

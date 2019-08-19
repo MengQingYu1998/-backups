@@ -250,6 +250,9 @@ export default {
         })
     },
     go_to_page01(parm) {
+      if (this.nav_input_value == '') {
+        return false
+      }
       this.is_show_nav_popover = false
       this.nav_input_value = parm
       this.$router.push({

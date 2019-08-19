@@ -41,7 +41,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.current.gradeList[0].count}}</div>
+                    >{{response_data_first_part.current.gradeList[4].count}}</div>
                   </section>
                   <section>
                     <div>4星</div>
@@ -56,7 +56,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.current.gradeList[1].count}}</div>
+                    >{{response_data_first_part.current.gradeList[3].count}}</div>
                   </section>
                   <section>
                     <div>3星</div>
@@ -86,7 +86,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.current.gradeList[3].count}}</div>
+                    >{{response_data_first_part.current.gradeList[1].count}}</div>
                   </section>
                   <section>
                     <div>1星</div>
@@ -101,7 +101,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.current.gradeList[4].count}}</div>
+                    >{{response_data_first_part.current.gradeList[0].count}}</div>
                   </section>
                 </div>
               </div>
@@ -134,7 +134,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.all.gradeList[0].count}}</div>
+                    >{{response_data_first_part.all.gradeList[4].count}}</div>
                   </section>
                   <section>
                     <div>4星</div>
@@ -149,7 +149,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.all.gradeList[1].count}}</div>
+                    >{{response_data_first_part.all.gradeList[3].count}}</div>
                   </section>
                   <section>
                     <div>3星</div>
@@ -179,7 +179,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.all.gradeList[3].count}}</div>
+                    >{{response_data_first_part.all.gradeList[1].count}}</div>
                   </section>
                   <section>
                     <div>1星</div>
@@ -194,7 +194,7 @@
                     </div>
                     <div
                       v-if="response_data_first_part"
-                    >{{response_data_first_part.all.gradeList[4].count}}</div>
+                    >{{response_data_first_part.all.gradeList[0].count}}</div>
                   </section>
                 </div>
               </div>
@@ -369,6 +369,7 @@
                     class="table_description"
                   >{{response_data_fourth_part_item.commentContent}}</div>
                   <div
+                    v-if="response_data_fourth_part_item.commentContent.length>90"
                     class="show_all"
                     :id="'show_hide'+index"
                     @click="show_more_function('show_more'+index,'show_hide'+index)"
@@ -572,9 +573,10 @@ export default {
             .get(url)
             .then(response => {
               console.log('==========分数======')
-              console.log(response)
 
               this.response_data_first_part = response.data.Data
+              console.log(this.response_data_first_part)
+
               // 设置左边的五评分五角星
               this.start_left = this.response_data_first_part.current.ratingAverage
               // 设置右边的五评分五角星
@@ -1261,7 +1263,7 @@ export default {
           }
           // console.log(time)
           let appId = this.$store.state.now_app_id
-          console.log(appId)
+
           let data = {
             appId: appId,
             countryId: country_id,
@@ -1377,6 +1379,9 @@ table .table_author span {
   color: #009bef;
 }
 
+table .table_description {
+  width: 480px !important;
+}
 table .table_description,
 table .table_author {
   font-family: SourceHanSansCN-Normal;

@@ -255,6 +255,7 @@ export default {
 
               this.xAxis_data = this.response_data.Xtime
               this.keyword_data_value = this.response_data.Yvalue
+
               this.drawLine()
             })
             .catch(error => {
@@ -366,6 +367,9 @@ export default {
 
     // 删除keyword_data数组里面数据，从而删除can_del_div，canvas随之改变
     remove_keyword_data: function(index) {
+      if (index == 0) {
+        return false
+      }
       this.selected_data[this.keyword_data[index]] = false
       this.keyword_data.splice(index, 1)
       this.drawLine()
@@ -388,6 +392,7 @@ export default {
       // this.selected_data[this.keyword_data[this.input]] = true
       this.input = ''
       this.get_data()
+      this.selected_data_function(true)
       this.drawLine()
     },
 

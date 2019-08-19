@@ -170,9 +170,6 @@ export default {
 }
 </script>
 <style scoped>
-.td_first {
-  border-right: 1px solid #f2f2f2;
-}
 .table_group {
   margin-bottom: 38px;
   display: flex;
@@ -202,6 +199,7 @@ thead tr {
 }
 td {
   padding: 24px 0;
+  border-right: 1px solid #f2f2f2;
 }
 th {
   border-right: 1px solid #f2f2f2;
