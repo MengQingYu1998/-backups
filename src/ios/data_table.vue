@@ -111,7 +111,7 @@
             <div class="option">
               <div>设备</div>
               <div>
-                <el-select v-model="equipmentValue01">
+                <el-select v-model="equipmentValue">
                   <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
@@ -119,7 +119,7 @@
             <div class="option">
               <div>系统</div>
               <div>
-                <el-select v-model="systemValue01">
+                <el-select v-model="systemValue">
                   <el-option v-for="item in system01 " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
@@ -129,7 +129,7 @@
               <div class="date">
                 <!-- 饿了么的日期选择组件 -->
                 <el-date-picker
-                  v-model="date_Now_for_middle"
+                  v-model="date_Now_for_top"
                   type="date"
                   placeholder="选择日期"
                   clear-icon
@@ -142,7 +142,7 @@
               <div class="date">
                 <!-- 饿了么的日期选择组件 -->
                 <el-date-picker
-                  v-model="dateCompare_for_middle"
+                  v-model="dateCompare_for_top"
                   type="date"
                   placeholder="选择日期"
                   clear-icon
@@ -500,8 +500,7 @@ export default {
       temp_request_data_second: null,
       temp01_request_data_second: null,
       is_show_bottom: false, //默认设置底部折线图隐藏
-      date_Now_for_middle: new Date(), //top section的日期选择 当前日期or对比日期
-      dateCompare_for_middle: new Date(),
+
       change_bg_result: true,
       result_min_input01: '',
       result_max_input01: '',
@@ -509,25 +508,7 @@ export default {
       result_max_input02: '',
       result_min_input03: '',
       result_max_input03: '',
-      equipment01: [
-        // 设备选择
-        {
-          value: 'iPhone'
-        },
-        {
-          value: 'iPad'
-        }
-      ],
-      equipmentValue01: 'iPhone',
-      system01: [
-        // 系统选择
-        {
-          value: 'ios11'
-        },
-        {
-          value: 'ios12'
-        }
-      ],
+
       // 第三部分参数
       // 第三部分参数
       // 第三部分参数
@@ -537,7 +518,7 @@ export default {
       word: '',
       wordId: null,
       request_data_third: null,
-      systemValue01: 'ios12',
+      systemValue: 'ios12',
       bottom_radio1: '按天',
       bottom_radio3: '7天',
       middle_time01: '',
@@ -560,6 +541,10 @@ export default {
   },
 
   created: function() {
+    if (this.$route.query.now_app_id && this.$route.query.now_app_name) {
+      this.$store.state.now_app_id = this.$route.query.now_app_id
+      this.$store.state.now_app_name = this.$route.query.now_app_name
+    }
     // 分页
     this.$watch('currentPage', function(newValue, oldValue) {
       console.log(333333333333333333333333333)
@@ -571,6 +556,7 @@ export default {
     // ==================第一部分===========================
     // ==================第一部分===========================
     this.get_data_for_first_part()
+    this.get_data_for_second_part()
     this.change_time()
 
     //'当前国家发生变化，重新请求数据...'
@@ -582,45 +568,29 @@ export default {
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
       this.change_time()
       this.get_data_for_first_part()
+      this.get_data_for_second_part()
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
       this.change_time_Compare()
       this.get_data_for_first_part()
+      this.get_data_for_second_part()
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
+      this.get_data_for_second_part()
+      this.get_data_for_third_part()
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
+      this.get_data_for_second_part()
+      this.get_data_for_third_part()
     })
     // ==================第二部分===========================
     // ==================第二 部分===========================
     // ==================第二部分===========================
-    this.get_data_for_second_part()
-    this.change_time01()
-    // 对日期做限制 第二部分
-    this.$watch('date_Now_for_middle', function(newValue, oldValue) {
-      this.change_time01()
-      this.get_data_for_second_part()
-    })
 
-    this.$watch('dateCompare_for_middle', function(newValue, oldValue) {
-      this.change_time_Compare01()
-      this.get_data_for_second_part()
-    })
-
-    // 下拉框，系统 第二部分
-    this.$watch('systemValue01', function(newValue, oldValue) {
-      this.get_data_for_second_part()
-      this.get_data_for_third_part()
-    })
-    //  下拉框，设备 第二部分
-    this.$watch('equipmentValue01', function(newValue, oldValue) {
-      this.get_data_for_second_part()
-      this.get_data_for_third_part()
-    })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
       this.get_data_for_second_part()
@@ -770,13 +740,10 @@ export default {
           })
           // 请求数据
           // 设备选择
-          let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
-          let system = this.systemValue01 == 'ios11' ? 11 : 12
-          let nowDate = formatDate(this.date_Now_for_middle, 'yyyy-MM-dd')
-          let compareDate = timestamp(
-            this.dateCompare_for_middle / 1000,
-            'Y-M-D'
-          )
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let system = this.systemValue == 'ios11' ? 11 : 12
+          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
+          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
           let url = '/GetKeyWordDetail'
           let that = this
           let appId = this.$store.state.now_app_id
@@ -856,23 +823,23 @@ export default {
     },
     // 设置对比日期永远比当前日期小一天 第二部分
     change_time01() {
-      // console.log(this.date_Now_for_middle)
-      // console.log(this.dateCompare_for_middle)
+      // console.log(this.date_Now_for_top)
+      // console.log(this.dateCompare_for_top)
       // if (
-      //   new Date(this.date_Now_for_middle).getTime() <=
-      //   new Date(this.dateCompare_for_middle).getTime()
+      //   new Date(this.date_Now_for_top).getTime() <=
+      //   new Date(this.dateCompare_for_top).getTime()
       // ) {
-      this.dateCompare_for_middle =
-        new Date(this.date_Now_for_middle).getTime() - 24 * 60 * 60 * 1000
+      this.dateCompare_for_top =
+        new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
       // }
     },
     change_time_Compare01() {
       if (
-        new Date(this.dateCompare_for_middle).getTime() >=
-        new Date(this.date_Now_for_middle).getTime()
+        new Date(this.dateCompare_for_top).getTime() >=
+        new Date(this.date_Now_for_top).getTime()
       ) {
-        this.dateCompare_for_middle =
-          new Date(this.date_Now_for_middle).getTime() - 24 * 60 * 60 * 1000
+        this.dateCompare_for_top =
+          new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
       }
     },
     // 控制折线图在表格的中间显示
@@ -972,9 +939,9 @@ export default {
             time = sdate + '-' + edate
           }
           // 设备选择
-          let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
-          let iosType = this.systemValue01 == 'ios11' ? 11 : 12
+          let iosType = this.systemValue == 'ios11' ? 11 : 12
 
           let showType
           if (this.bottom_radio1 == '按分钟') {

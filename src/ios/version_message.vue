@@ -32,7 +32,9 @@
                       <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
                     </div>
                   </div>
-                  <div class="time_line_item_content">
+                  <div
+                    :class="{'time_line_item_content':true,'time_line_item_content_height':item.updateLog.length<100}"
+                  >
                     <div v-html="item.updateLog" :id="'show_more'+index"></div>
                   </div>
                   <div
@@ -183,10 +185,17 @@ export default {
   color: #444444;
   width: 789px;
   background-color: #f7f7f7;
-  padding: 21px 16px 40px 15px;
+  padding: 10px 16px 30px 15px;
   margin-top: 20px;
   word-wrap: break-word;
   word-break: normal;
+}
+.time_line_item_content_height {
+  padding: 10px 16px 10px 15px !important;
+}
+.time_line_item_content_height div {
+  min-height: 0 !important;
+  height: auto !important;
 }
 .img_description_child div:first-child {
   font-family: SourceHanSansCN-Medium;

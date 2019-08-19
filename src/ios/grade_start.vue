@@ -366,7 +366,7 @@
                   </div>
                   <div
                     :id="'show_more'+index"
-                    class="table_description"
+                    :class="{'table_description':true,'table_description_height':response_data_fourth_part_item.commentContent.length<90} "
                   >{{response_data_fourth_part_item.commentContent}}</div>
                   <div
                     v-if="response_data_fourth_part_item.commentContent.length>90"
@@ -380,7 +380,7 @@
                   </div>
                 </td>
                 <td class="bottom_table_td03">
-                  <div>{{format(response_data_fourth_part_item.publishTime)}}</div>
+                  <div>{{(response_data_fourth_part_item.publishTime).replace('T',' ').slice(0,-3)}}</div>
                 </td>
               </tr>
             </tbody>
@@ -395,12 +395,13 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { myTime, formatDate } from '../common/util.js'
+import { formatDate } from '../common/util.js'
 export default {
   name: 'grade_start',
   components: { ios_header, left_nav },
   data() {
     return {
+      page: 1,
       // 第一部分参数
       // 第一部分参数
       // 第一部分参数
@@ -541,6 +542,26 @@ export default {
     })
     this.$watch('bottom_radio04', function(newValue, oldValue) {
       this.get_data_for_fourth_part()
+    })
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let that = this
+      window.onscroll = function() {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          // 需要执行的代码
+          that.get_data_for_fourth_part()
+        }
+      }
     })
   },
   methods: {
@@ -1277,8 +1298,13 @@ export default {
             .post(url, data)
             .then(response => {
               console.log('=========评论================')
-              console.log(response)
-              this.response_data_fourth_part = response.data.Data
+
+              this.response_data_fourth_part = response.data.Data.slice(
+                0,
+                this.page * 20
+              )
+              console.log(this.response_data_fourth_part)
+              this.page += 1
             })
             .catch(error => {
               console.log(error)
@@ -1304,10 +1330,10 @@ export default {
     },
 
     // 格式化时间
-    format(parm) {
-      // console.log(parm)
-      return myTime(parm)
-    },
+    // format(parm) {
+    //   // console.log(parm)
+    //   return myTime(parm)
+    // },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -1328,7 +1354,7 @@ export default {
   /* background-color: #ffffff; */
   position: absolute;
   right: 13px;
-  bottom: 85px;
+  bottom: 18px;
 }
 .change_bg {
   color: #ffffff !important;
@@ -1364,9 +1390,9 @@ export default {
   margin-left: 5px;
 }
 .bottom_table_td02 {
+  padding: 0 30px;
   text-align: left;
   width: 480px !important;
-  padding: 30px;
   box-sizing: border-box;
   position: relative;
 }
@@ -1378,24 +1404,34 @@ table .table_author span {
   letter-spacing: 0px;
   color: #009bef;
 }
-
-table .table_description {
-  width: 480px !important;
-}
-table .table_description,
 table .table_author {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
-  margin-top: 15px;
+  margin-top: 7px;
+  margin-bottom: 17px;
+}
+table .table_description {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  color: #888888;
+  margin-top: 7px;
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 62px;
   height: 62px;
+  width: 100% !important;
+}
+
+.table_description_height {
+  height: auto !important;
+  min-height: 0px !important;
 }
 table .table_title {
   font-family: SourceHanSansCN-Medium;
@@ -1404,11 +1440,12 @@ table .table_title {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #444444;
+  margin-top: 17px;
 }
 thead tr {
   height: 40px;
 }
-td,
+
 th {
   border: 1px solid #f2f2f2;
 }

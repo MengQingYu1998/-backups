@@ -250,7 +250,7 @@ export default {
         })
     },
     go_to_page01(parm) {
-      if (this.nav_input_value == '') {
+      if (this.nav_input_value.trim() == '') {
         return false
       }
       this.is_show_nav_popover = false

@@ -143,7 +143,11 @@ export default new Router({
     {
       path: '/result',
       name: 'result',
-      component: () => import('../keyword/result')
+      component: () => import('../keyword/result'),
+      meta: {
+        isBack: false, //true表明当前页面不需要刷新获取新数据，直接用之前缓存的数据即可
+        keepAlive: true //true此组件需要被缓存
+      }
     },
 
     {
@@ -163,7 +167,7 @@ export default new Router({
     },
     {
       path: '/trend_one',
-      name: 'trend_ones',
+      name: 'trend_one',
       component: () => import('../keyword/trend_one')
     },
     {

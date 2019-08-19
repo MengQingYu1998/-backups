@@ -226,7 +226,10 @@
                       <div>{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
                     </td>
-                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                    <td
+                      class="pointer"
+                      @click="go_to_page06(item.AppStoreId,item.app_name)"
+                    >{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
                   </tr>
                 </tbody>
@@ -569,8 +572,23 @@ export default {
   components: {
     country
   },
+  beforeRouteEnter(to, from, next) {
+    // alert(from.name)
+    if (
+      from.name == 'think_word' ||
+      from.name == 'trend_many' ||
+      from.name == 'trend_one'
+    ) {
+      to.meta.isBack = true
+      //判断是从哪个路由过来的，
+      //如果是page2过来的，表明当前页面不需要刷新获取新数据，直接用之前缓存的数据即可
+    }
+    // alert(to.meta.isBack)
+    next()
+  },
   data() {
     return {
+      isFirstEnter: false, // 是否第一次进入，默认false
       // can_excute12: false,
       // can_excute11: false,
       // 请求分页
@@ -643,10 +661,15 @@ export default {
   },
 
   created: function() {
-    this.get_data_for_top_table()
-    this.get_data_12()
-    this.get_data_11()
-    this.get_data_column()
+    // alert('执行了created')
+    this.isFirstEnter = true
+    // 只有第一次进入或者刷新页面后才会执行此钩子函数
+    // 使用keep-alive后（2+次）进入不会再执行此钩子函数
+    // this.get_data_for_top_table()
+    // this.get_data_12()
+    // this.get_data_11()
+    // this.get_data_column()
+
     this.$watch('activeName', function(newValue, oldValue) {
       this.get_data_for_top_table()
     })
@@ -717,6 +740,23 @@ export default {
       this.get_data_dialog()
     })
   },
+  activated() {
+    if (!this.$route.meta.isBack || this.isFirstEnter) {
+      // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
+      // 如果isFirstEnter是true，表明是第一次进入此页面或用户刷新了页面，需获取新数据
+
+      this.equipmentValue = 'iPhone'
+      this.dateValue = new Date()
+      this.get_data_for_top_table()
+      this.get_data_12()
+      this.get_data_11()
+      this.get_data_column()
+    }
+    // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
+    this.$route.meta.isBack = false
+    // 恢复成默认的false，避免isBack一直是true，导致每次都获取新数据
+    this.isFirstEnter = false
+  },
   mounted() {
     this.$nextTick(() => {
       let that = this
@@ -741,6 +781,7 @@ export default {
       }
     })
   },
+
   methods: {
     // =============================顶部table============================
     // =============================顶部table============================
@@ -783,8 +824,10 @@ export default {
             .post(url, data)
             .then(response => {
               this.data_for_top_table = response.data.Data
-              // console.log('88888888888888888888888888888')
-              // console.log(this.data_for_top_table)
+              console.log(
+                'FindTodayJoinWord,it is me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+              )
+              console.log(this.data_for_top_table)
             })
             .catch(error => {
               console.log(error)
@@ -792,13 +835,14 @@ export default {
           // 请求数据02==============================================
           // 请求数据02==============================================
           let url02 = '/Word/FindWordInfo'
-
           this.$axios
             .post(url02, data)
             .then(response => {
               this.data_for_top_table02 = response.data.Data
-              // console.log('88888888888888888888888888888')
-              // console.log(this.data_for_top_table02)
+              console.log(
+                'FindWordInfo,it is me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+              )
+              console.log(this.data_for_top_table02)
             })
             .catch(error => {
               console.log(error)
@@ -1370,11 +1414,11 @@ export default {
       })
       window.open(routerUrl.href, '_blank')
     },
-    go_to_page06(parm) {
-      this.$router.push({
-        path: '/data_table'
+    go_to_page06(parm, parm02) {
+      let routerUrl = this.$router.resolve({
+        path: '/data_table?now_app_id=' + parm + '&now_app_name=' + parm02
       })
-      this.$store.state.now_app_id = parm
+      window.open(routerUrl.href, '_blank')
     }
   }
 }
