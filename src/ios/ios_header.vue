@@ -33,10 +33,7 @@
       <div class="app_field country" @mousemove="click">
         <div>国家/地区</div>
         <!-- 选择国家 -->
-        <!-- <keep-alive> -->
         <country @childFn="parentFn"></country>
-        <!-- <country @childFn="parentFn" v-if="is_show_header"></country> -->
-        <!-- </keep-alive> -->
       </div>
     </div>
     <div class="border"></div>
@@ -44,7 +41,6 @@
 </template>
 
 <script>
-import '../common/country_select/select2_1.js'
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
@@ -55,7 +51,7 @@ export default {
   data() {
     return {
       // is_show_header: true,
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       response_data: null,
       time: ''
     }
@@ -134,25 +130,21 @@ export default {
   border-radius: 10px;
 }
 .country {
-  /* background-color: red; */
   height: 65px;
-  margin-left: -10px;
-  z-index: 100;
+  width: 168px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-.country > div:last-child {
-  margin-left: 10px;
-}
-.border {
-  margin-top: 30px;
-  width: 1198px;
-  height: 1px;
-  background-color: #efefef;
-}
+
 .line {
   width: 1px;
   height: 20px;
   background-color: #f2f2f2;
   margin: 0 30px;
+}
+.app_field {
+  padding: 0 9px;
 }
 .app_field div:last-child {
   font-family: SourceHanSansCN-Normal;

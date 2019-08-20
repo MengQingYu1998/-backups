@@ -86,7 +86,7 @@
 						<tbody>
 							<tr v-for="tr in zongsdataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" >{{tr.index}}</p>
+									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
@@ -118,7 +118,7 @@
 						<tbody>
 							<tr v-for="tr in zongsBList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" >{{tr.index}}</p>
+									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
@@ -169,7 +169,7 @@
 						<tbody>
 							<tr v-for="tr in cidataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" >{{tr.num}}</p>
+									<p class="ranking" :class="[tr.num<4?'weit':'']">{{tr.num}}</p>
 									<img src="../assets/NumImg/testIcon.png" class="logo" />
 									<div class="msg">
 										<p class="appname">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
@@ -257,7 +257,7 @@
 				onlinFontC:'0',//清词应用数
 				// showci:true,//清词div
 				// 获取当前选中的国家
-      			now_country: sessionStorage.getItem('now_country_name'),
+      			now_country: '中国',
 				// 当前选中日期
 				dateV: new Date(),
 			    pickerOptions2: {
@@ -905,6 +905,10 @@
 
 
 <style scoped>
+.weit{
+	font-family: SourceHanSansCN-Bold!important;
+	color: #222222!important;
+}
 .content{
 	min-height: 600px;
 }
@@ -1016,7 +1020,7 @@
 	margin-top: 28px;
 }
 .content > div.zongbang {
-	margin-top: -225px;
+	/*margin-top: -225px;*/
 }
 .content .lei>div,
 .content .country>div{

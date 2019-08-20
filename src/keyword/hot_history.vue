@@ -69,7 +69,7 @@ export default {
     return {
       response_data: null,
       // 获取当前选中的国家
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       // 请输入搜索关键词
       search_input: null,
       // 设备选择
@@ -91,7 +91,6 @@ export default {
     this.search_input = this.$store.state.now_app_name
     this.get_data()
     this.$watch('now_country', function(newValue, oldValue) {
-      sessionStorage.setItem('now_country_name', this.now_country)
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data()
     })

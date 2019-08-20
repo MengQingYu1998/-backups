@@ -143,7 +143,7 @@ export default {
       ],
       equipmentValue: 'iPhone',
 
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       //日期选择
       pickerOptions: {
         disabledDate(time) {

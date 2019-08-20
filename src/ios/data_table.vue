@@ -68,7 +68,7 @@
           </div>
           <table>
             <thead>
-              <tr>
+              <tr class="th_width01">
                 <th>搜索指数</th>
                 <th>关键词数量</th>
                 <th>Top3关键词</th>
@@ -112,7 +112,7 @@
               <div>设备</div>
               <div>
                 <el-select v-model="equipmentValue">
-                  <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
+                  <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
             </div>
@@ -120,7 +120,7 @@
               <div>系统</div>
               <div>
                 <el-select v-model="systemValue">
-                  <el-option v-for="item in system01 " :key="item.value" :value="item.value"></el-option>
+                  <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </div>
             </div>
@@ -195,7 +195,7 @@
           </div>
           <table>
             <thead>
-              <tr>
+              <tr class="tr_width">
                 <th class="table_width01">关键词</th>
                 <th>排名</th>
                 <th>变动</th>
@@ -204,7 +204,7 @@
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody v-if="request_data_second">
+            <tbody v-if="request_data_second" class="td_width">
               <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
                   <div class="pointer table_width01" @click="go_to_page03(item.Word)">{{item.Word}}</div>
@@ -233,7 +233,7 @@
                       alt
                       v-show="item.Change<0"
                     />
-                    {{item.Change}}
+                    {{Math.abs(item.Change)}}
                   </div>
                 </td>
                 <td>
@@ -316,7 +316,7 @@
                     </div>
 
                     <div class="position_relative">
-                      <div class="table_title">【今日】榜单排名走势</div>
+                      <div class="table_title">【{{keyword_data[0]}}】榜单排名走势</div>
                       <div
                         ref="myChart_data_table"
                         class="myChart"
@@ -461,7 +461,7 @@ export default {
       // 第一部分的参数
       // 第一部分的参数
       // 第一部分的参数
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       request_data_first: null,
       date_Now_for_top: new Date(), //top section的日期选择 当前日期or对比日期
       dateCompare_for_top: new Date(),
@@ -1189,6 +1189,10 @@ export default {
 }
 .tr_height td {
   padding: 14px 0 !important;
+  width: 25%;
+}
+.th_width01 {
+  width: 25%;
 }
 .table_width01 {
   width: 200px;
@@ -1214,6 +1218,10 @@ export default {
   margin-right: 10px;
   margin-top: 2px;
   display: inline-block;
+}
+.tr_width th,
+.td_width td {
+  width: 16.667%;
 }
 .paging {
   font-family: SourceHanSansCN-Normal;

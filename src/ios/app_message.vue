@@ -192,7 +192,7 @@
         <!-- 第六部分 -->
         <!-- 第六部分 -->
         <section class="like" v-if="response_data&&response_data.mayLoveApp.length!=0">
-          <div class="section_title">你可能还喜欢</div>
+          <div class="section_title">您可能还喜欢</div>
           <div class="section_content">
             <div
               @click="go_to_page01(mayLoveApp_item.appId,mayLoveApp_item.appName)"
@@ -254,7 +254,7 @@ export default {
       radio02: 'iPhone', //第三部分 截图
       // 请求的数据
       response_data: null,
-      now_country: sessionStorage.getItem('now_country_name')
+     now_country: '中国',
     }
   },
   created: function() {
@@ -352,7 +352,7 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      // console.log('version_message' + this.now_country)
+      console.log('app_message' + this.now_country)
     },
     go_to_page01(parm, parm02) {
       this.$router.push({
@@ -423,6 +423,8 @@ export default {
 .block img {
   width: 68px;
   height: 68px;
+  border-radius: 10px;
+  border: solid 1px #f7f7f7;
 }
 
 .message .section_content {

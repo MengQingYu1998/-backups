@@ -496,7 +496,7 @@ export default {
       // 顶部搜索框
       input1: '',
 
-      now_country: sessionStorage.getItem('now_country_name')
+     now_country: '中国',
     }
   },
 
@@ -1592,7 +1592,9 @@ table {
   display: flex;
   align-items: center;
 }
-.top {
+.top,
+.middle_bottom,
+.middle_top {
   margin-bottom: 50px;
 }
 .start_left_bottom_child_right section > div {

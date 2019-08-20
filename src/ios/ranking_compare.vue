@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       is_show_mychart: false,
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       response_data_second: null,
       response_data_second02: null,
       middle_top_radio1: '按天',
@@ -495,7 +495,7 @@ export default {
         grid: {
           // height: '250px',
           left: '3%',
-          right: '3%',
+          right: '4%',
           // bottom: that.grid_bottom,
           containLabel: true
         },
@@ -660,7 +660,6 @@ table {
 .myChart {
   width: 965px;
   height: 300px;
-  z-index: 999;
   text-align: center;
   color: #666;
   line-height: 300px;

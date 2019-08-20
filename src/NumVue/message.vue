@@ -898,7 +898,7 @@
 		font-size: 15px;
 		color: #ffffff;
 		margin-top: 50px;
-		margin-left: 90px;
+		margin-left: 98px;
 	}
 	.message .setDiv>div>div.preserve:hover,
 	.mask .aDiv .tit img:hover,

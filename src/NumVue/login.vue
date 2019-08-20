@@ -1,51 +1,53 @@
 <template>
-	<div class="box">
+	<div class="box" id="login">
 		<div class="left">
 			<img src="../assets/NumImg/loginImg.png"/>
 		</div>
 		<div class="right">
-			<p class="logintit">登录</p>
-			<div class="inpDiv">
-				<div>
-					<p class="tel">手机号/邮箱</p>
-					<p class="telInp" :class="{'focInp':focinp,'wroInp':wroinp}">
-						<input type="text" placeholder="请输入账号" @blur="blurState(telval)"  @focus="focusState()" v-model="telval" @keyup="nullInput()"/>
-					</p>
-					<p class="wrongTel" v-show="wrongTel" v-html="telFont"></p>
-				</div>
-				<div>
-					<p class="code">密码</p>
-					<p class="codeInp" :class="{'focInp':focCode,'wroInp':wrocode}">
-						<input type="password" placeholder="请输入密码" @blur="blurCode(codeval)"  @focus="focusCode()"  v-model="codeval" @keyup="nullInput()" />
-					</p>
-					<p class="wrongCode" v-show="wrongCode" v-html="codeFont"></p>
-				</div>
-				<div class="veri" v-show="veri">
-                    <p>验证码</p>
-                    <div class="VeriInp" :class="{'focInp':focveri,'wroInp':wroVeri}">
-                        <input type="text" @blur="blurVeri(verival)"  @focus="focusVeri()" v-model="verival"  placeholder="请输入您的验证码" maxlength="4" />
-                        <div class="login-code" @click="refreshCode">
-				            <!--验证码组件-->
-				            <s-identify :identifyCode="identifyCode"></s-identify>
-			            </div>
+			<p class="loginlogo">LOGIN</p>
+			<div class="logindiv">
+				<p class="logintit">登录</p>
+				<div class="inpDiv">
+					<div>
+						<p class="tel">手机号/邮箱</p>
+						<p class="telInp" :class="{'focInp':focinp,'wroInp':wroinp}">
+							<input type="text" placeholder="请输入账号" @blur="blurState(telval)"  @focus="focusState()" v-model="telval" @keyup="nullInput()"/>
+						</p>
+						<p class="wrongTel" v-show="wrongTel" v-html="telFont"></p>
 					</div>
-                    <p class="wrongVeri" v-show="wrongVeri" v-html="VeriFont"></p>
-                </div>
+					<div>
+						<p class="code">密码</p>
+						<p class="codeInp" :class="{'focInp':focCode,'wroInp':wrocode}">
+							<input type="password" placeholder="请输入密码" @blur="blurCode(codeval)"  @focus="focusCode()"  v-model="codeval" @keyup="nullInput()" />
+						</p>
+						<p class="wrongCode" v-show="wrongCode" v-html="codeFont"></p>
+					</div>
+					<div class="veri" v-show="veri">
+	                    <p>验证码</p>
+	                    <div class="VeriInp" :class="{'focInp':focveri,'wroInp':wroVeri}">
+	                        <input type="text" @blur="blurVeri(verival)"  @focus="focusVeri()" v-model="verival"  placeholder="请输入您的验证码" maxlength="4" />
+	                        <div class="login-code" @click="refreshCode">
+					            <!--验证码组件-->
+					            <s-identify :identifyCode="identifyCode"></s-identify>
+				            </div>
+						</div>
+	                    <p class="wrongVeri" v-show="wrongVeri" v-html="VeriFont"></p>
+	                </div>
+				</div>
+				<div class="goRegiste">
+					<p>还没有账号，<span><router-link :to="{ path: '/register'}">立即注册</router-link></span></p>
+					<p><router-link :to="{path: '/code'}">忘记密码</router-link></p>
+				</div>
+				<div class="loginBtn" :class="{'nokong':ishas}" >
+					
+						<el-button :plain="true" @click="loginBtn()">登录</el-button>
+					
+				</div>
+				<!-- <div class="weixinLogin">
+					<p><img src="../assets/NumImg/otherLogin.png"/></p>
+					<p><img src="../assets/NumImg/WeChat.png"></p>
+				</div> -->
 			</div>
-			<div class="goRegiste">
-				<p>还没有账号，<span><router-link :to="{ path: '/register'}">立即注册</router-link></span></p>
-				<p><router-link :to="{path: '/code'}">忘记密码</router-link></p>
-			</div>
-			<div class="loginBtn" :class="{'nokong':ishas}" >
-				
-					<el-button :plain="true" @click="loginBtn()">登录</el-button>
-				
-			</div>
-			<!-- <div class="weixinLogin">
-				<p><img src="../assets/NumImg/otherLogin.png"/></p>
-				<p><img src="../assets/NumImg/WeChat.png"></p>
-			</div> -->
-
 		</div>
 
 
@@ -234,6 +236,14 @@
 	            }
 	        },
 		},
+		//创建前设置
+		beforeCreate () {
+		      document.querySelector('body').setAttribute('style', 'background-color:#fafafa')
+		},
+		//销毁前清除
+		beforeDestroy () {
+		      document.querySelector('body').removeAttribute('style')
+		},
 		created(){
 			//初始化验证码
         	this.refreshCode()
@@ -254,6 +264,7 @@
 	list-style: none;
 	text-decoration: none;
 }
+
 .box{
 	width: 1200px;
 	margin:0 auto;
@@ -284,16 +295,29 @@
 	right: 165px;
 	border-top: 1px solid transparent;
 }
+.right .loginlogo{
+	font-family: SourceHanSansCN-Heavy;
+	font-size: 44px;
+	color: #f5fbff;
+	text-align: center;
+	margin-top: 30px;
+}
+.right .logindiv{
+	position: relative;
+	bottom: 28px;
+}
 .right .logintit{
 	font-family: SourceHanSansCN-Medium;
 	font-size: 18px;
 	color: #222222;
 	text-align: center;
-	margin-top: 44px;
+	
+	/*margin-top: 44px;*/
 }
 .inpDiv, .goRegiste, .loginBtn, .weixinLogin{
 	width: 306px;
 	margin:0 auto;
+
 }
 
 .right .inpDiv>div{

@@ -38,7 +38,7 @@
             slot="reference"
             @blur="is_show_nav_popover=true"
             type="text"
-            placeholder="应用名称或APPID"
+            placeholder="应用名称"
             v-model="nav_input_value"
             @keyup.enter="go_to_page01(nav_input_value)"
           />
@@ -142,7 +142,7 @@ export default {
       // 个人中心
       mines: [{ name: '消息中心' }, { name: '账号设置' }, { name: '退出' }],
       // 获取当前选中的国家
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       touxiang: require('../assets/NumImg/touxiang.png')
     }
   },
@@ -190,10 +190,8 @@ export default {
     hideMine() {
       this.mine = false
     },
-
     climsg(index) {
       this.mine = false
-
       if (index == 0 || index == 1) {
         this.$router.push({ path: '/message' })
       } else if (index == 2) {
@@ -220,7 +218,6 @@ export default {
           let time = formatDate(new Date(), 'yyyy-MM-dd')
           let word = this.nav_input_value
           let url = '/Word/FindTodayJoinWord'
-
           let data = {
             deviceType: deviceType,
             countryId: country_id,
@@ -259,7 +256,6 @@ export default {
         path: '/result'
       })
       this.nav_input_value = ''
-
       this.$store.state.now_app_name = parm
     }
   },
@@ -267,10 +263,6 @@ export default {
     this.fun()
     this.$watch('nav_input_value', function(newValue, oldValue) {
       this.get_data_for_nav_input()
-    })
-    //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      sessionStorage.setItem('now_country_name', this.now_country)
     })
   }
 }
@@ -282,6 +274,9 @@ export default {
   padding: 0;
   list-style: none;
   text-decoration: none;
+}
+#navv {
+  background-color: #fff;
 }
 #navv > .line {
   border-bottom: 1px solid #efefef;
@@ -344,47 +339,20 @@ export default {
   width: 18px;
   height: 20px;
   margin-left: 10px;
+  vertical-align: top;
+  margin-top: 7px;
 }
 .nav .searchDiv input {
   width: 134px;
   border: none;
   outline: none;
   background-color: transparent;
-  vertical-align: middle;
-  margin-top: 3px;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 15px;
+  color: #bfbfbf;
+  vertical-align: top;
+  margin-top: 7px;
   margin-left: 5px;
-
-  font-family: SourceHanSansCN-Regular;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 26px;
-  letter-spacing: 0px;
-  color: #222222;
-}
-.nav ::-webkit-input-placeholder {
-  /* WebKit browsers */
-  font-family: SourceHanSansCN-Regular;
-  font-size: 15px;
-  color: #bfbfbf;
-}
-.nav :-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-family: SourceHanSansCN-Regular;
-  font-size: 15px;
-  color: #bfbfbf;
-}
-.nav ::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-family: SourceHanSansCN-Regular;
-  font-size: 15px;
-  color: #bfbfbf;
-}
-.nav :-ms-input-placeholder {
-  /* Internet Explorer 10+ */
-  font-family: SourceHanSansCN-Regular;
-  font-size: 15px;
-  color: #bfbfbf;
 }
 .nav .searchDiv > p {
   width: 50px;
@@ -449,7 +417,7 @@ export default {
 .Combox {
   position: absolute;
   top: 41px;
-  z-index: 99;
+  z-index: 1001;
 }
 .Combox > div .jiao {
   width: 23px;
@@ -510,6 +478,7 @@ export default {
 .Combox > div > div p:last-child {
   margin-bottom: 15px;
 }
+
 .popver_for_input {
   height: 26px;
   font-family: SourceHanSansCN-Regular;

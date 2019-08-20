@@ -67,7 +67,7 @@ export default {
       input1: '',
 
       response_data: null,
-      now_country: sessionStorage.getItem('now_country_name')
+     now_country: '中国',
     }
   },
   created: function() {

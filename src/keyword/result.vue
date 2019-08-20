@@ -37,16 +37,16 @@
       <table>
         <thead>
           <tr>
-            <th>关键词</th>
+            <th class="keywordContentTable_th">关键词</th>
             <th v-show="activeName=='first'">搜索指数</th>
             <th v-show="activeName=='first'">搜索结果数</th>
             <th v-show="activeName=='first'">搜索联想词</th>
             <th v-show="activeName=='second'">搜索指数</th>
             <th v-show="activeName=='second'">搜索结果数</th>
             <th v-show="activeName=='second'">搜索联想词</th>
-            <th v-show="activeName=='third'">搜索指数</th>
-            <th v-show="activeName=='third'">ios12搜索结果数</th>
-            <th v-show="activeName=='third'">ios11搜索结果数</th>
+            <th v-show="activeName=='third'" class="keywordContentTable_th">搜索指数</th>
+            <th v-show="activeName=='third'" class="keywordContentTable_th">ios12搜索结果数</th>
+            <th v-show="activeName=='third'" class="keywordContentTable_th">ios11搜索结果数</th>
           </tr>
         </thead>
         <tbody v-if="data_for_top_table02">
@@ -209,7 +209,7 @@
                         />
                         <div
                           :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                        >{{item.Change}}</div>
+                        >{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           class="pointer"
@@ -264,7 +264,7 @@
                     <th>top3关键词数</th>
                   </tr>
                 </thead>
-                <tbody v-if="response_data_for_ios11">
+                <tbody v-if="response_data_for_ios11" class="use_father">
                   <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
                     <td>
                       <div class="use">
@@ -307,7 +307,7 @@
                           src="../assets/keyword/arrows (3).png"
                           alt
                         />
-                        <div>{{item.Change}}</div>
+                        <div>{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           alt
@@ -400,7 +400,7 @@
                           src="../assets/keyword/arrows (3).png"
                           alt
                         />
-                        <div>{{item.Change}}</div>
+                        <div>{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           alt
@@ -480,7 +480,7 @@
                           src="../assets/keyword/arrows (3).png"
                           alt
                         />
-                        <div>{{item.Change}}</div>
+                        <div>{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           class="pointer"
@@ -626,7 +626,7 @@ export default {
       response_data_for_ios12: [],
       response_data_for_ios11: [],
       // 获取当前选中的国家
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       // 设备选择
       equipment: [
         {
@@ -661,7 +661,9 @@ export default {
   },
 
   created: function() {
-    // alert('执行了created')
+    if (this.$route.query.now_app_name) {
+      this.$store.state.now_app_name = this.$route.query.now_app_name
+    }
     this.isFirstEnter = true
     // 只有第一次进入或者刷新页面后才会执行此钩子函数
     // 使用keep-alive后（2+次）进入不会再执行此钩子函数
@@ -1424,6 +1426,14 @@ export default {
 }
 </script>
 <style scoped>
+/* .use_father > tr:nth-child(1) .use .first_div,
+.use_father > tr:nth-child(2) .use .first_div,
+.use_father > tr:nth-child(3) .use .first_div {
+
+} */
+.keywordContentTable_th {
+  width: 25%;
+}
 .gray {
   color: #888888;
 }

@@ -85,7 +85,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       response_data: null
     }
   },

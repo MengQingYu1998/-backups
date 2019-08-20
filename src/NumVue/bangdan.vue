@@ -76,7 +76,7 @@
 			<div class="kuaizhao">
 				<p>榜单快照</p>
 				<div>
-					<div v-for="tim in timezs.Data" :key="tim.index">
+					<div v-for="tim in timezs.Data" :key="tim.index" >
 						<el-popover  trigger="hover" placement="bottom">
 
 							<div>
@@ -86,9 +86,9 @@
 								<p>落榜应用<span>{{tim.DropNum}}</span></p>
 							</div>
 
-					    <el-button slot="reference" v-html="gettim(tim.AddTime)" :class="{'has':tim.UpNum!=0||tim.DownNum!=0||tim.NewNum!=0||tim.DropNum!=0}" @click="clitim(tim)"></el-button>
-					  </el-popover>
-					  <img src="../assets/NumImg/dash.png"/>
+						    <el-button slot="reference" v-html="gettim(tim.AddTime)" :class="{'has':tim.UpNum!=0||tim.DownNum!=0||tim.NewNum!=0||tim.DropNum!=0}" @click="clitim(tim)"></el-button>
+						</el-popover>
+					  	<img src="../assets/NumImg/dash.png"/>
 					</div>
 				</div>
 				
@@ -114,7 +114,7 @@
 						<tbody>
 							<tr v-for="tr in zongsData" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking">{{tr.index}}</p>
+									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
@@ -126,8 +126,9 @@
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_a.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_a.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_a.rankChange<0"/>
-									<span v-if='tr.rank_a.rankChange>=0'>{{tr.rank_a.rankChange}}</span>
-									<span v-if='tr.rank_a.rankChange<0'>{{-(tr.rank_a.rankChange)}}</span>
+									<span v-if='tr.rank_a.rankChange>0' class="redB">{{tr.rank_a.rankChange}}</span>
+									<span v-if='tr.rank_a.rankChange==0'>{{tr.rank_a.rankChange}}</span>
+									<span v-if='tr.rank_a.rankChange<0' class="blueB">{{-(tr.rank_a.rankChange)}}</span>
 								</th>
 								<th v-else>
 								<th v-if="tr.rank_b">
@@ -138,8 +139,12 @@
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_b.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_b.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_b.rankChange<0"/>
-									<span class="before" v-if='tr.rank_b.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
-									<span class="before" v-if='tr.rank_b.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span>
+									<!-- <span class="before" v-if='tr.rank_b.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
+									<span class="before" v-if='tr.rank_b.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span> -->
+
+									<span v-if='tr.rank_b.rankChange>0' class="before redB">{{tr.rank_b.rankChange}}</span>
+									<span v-if='tr.rank_b.rankChange==0' class="before">{{tr.rank_b.rankChange}}</span>
+									<span v-if='tr.rank_b.rankChange<0' class="before blueB">{{-(tr.rank_b.rankChange)}}</span>
 								</th>
 								<th v-else></th>
 								<th>{{tr.keywordCover}}</th>
@@ -208,7 +213,7 @@
 			    now_Application:'全部应用',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
-      			now_country: sessionStorage.getItem('now_country_name'),
+      			now_country: '中国',
 			    // 设备选择
 			   	equipment: [
 			        {
@@ -418,7 +423,7 @@
 							            }
 							          	// console.log("brandV:"+brandV)
 							          	// console.log("deviceType:"+deviceType)
-							          	// console.log("country_id:"+country_id)
+							          	console.log("country_id:"+country_id)
 							          	// console.log("tim:"+tim)
 							          	// console.log("newDataB:"+newDataB)
 							          	// console.log("geid:"+geid)
@@ -677,6 +682,28 @@
 
 
 <style scoped>
+.weit{
+	font-family: SourceHanSansCN-Bold!important;
+	color: #222222!important;
+}
+.el-popover>div{
+	width: 120px;
+	margin:0 auto;
+}
+.el-popover p{
+  line-height: 30px;
+}
+.el-popover p span{
+  float: right;
+  color: #009bef;
+}
+
+.blueB{
+	color: #009bef;
+}
+.redB{
+	color: #f50202;
+}
 .Leibox{
 	position: absolute;
 	top:41px;
@@ -785,7 +812,7 @@
 	clear: both;
 }
 .content > div.kuaizhao{
-	margin-top: -210px;
+	/*margin-top: -210px;*/
 }
 .content .lei>div,
 .content .country>div{
@@ -940,7 +967,11 @@
 	font-family: SourceHanSansCN-Medium;
 	font-size: 18px;
 	color: #222222;
+	vertical-align: top;
+    margin-top: -4px;
+    margin-left: 3px;
 }
+
 .content .zongbang>div table{
 	width: 1200px;
 	height: 100%;

@@ -8,7 +8,6 @@ export const store = new Vuex.Store({
     now_app_id: null,
     now_app_id02: null,
     now_app_name: null
-    // now_country_name: '中国' 在单独的sessionStorage里面
   },
   mutations: {
     // 处理状态

@@ -1,290 +1,333 @@
 <template>
-  <div id="country" class="my_country" @mousemove="click" @mouseup="click" @mouseover="click">
-    <!-- 选择国家 -->
-    <select name="country" class="fastbannerform__country">
-      <option value="AMC" title="AC">美国</option>
-      <option value="AND" title="AD">安道尔</option>
-      <option value="ARE" title="AE">阿拉伯联合酋长国</option>
-      <option value="AFG" title="AF">阿富汗</option>
-      <option value="ATG" title="AG">安提瓜和巴布达</option>
-      <option value="ALB" title="AL">阿尔巴尼亚</option>
-      <option value="ARM" title="AM">亚美</option>
-      <option value="AGO" title="AO">安哥拉</option>
-      <option value="ARG" title="AR">阿根廷</option>
-      <option value="AUT" title="AT">奥地利</option>
-      <option value="AUS" title="AU">澳大利亚</option>
-      <option value="ABW" title="AW">阿鲁巴</option>
-      <option value="AZE" title="AZ">阿塞拜疆</option>
-      <option value="BIH" title="BA">波斯尼亚和黑塞哥维那</option>
-      <option value="BRB" title="BB">巴巴多斯</option>
-      <option value="BGD" title="BD">孟加拉</option>
-      <option value="BEL" title="BE">比利时</option>
-      <option value="BFA" title="BF">布基纳法索</option>
-      <option value="BGR" title="BG">保加利亚</option>
-      <option value="BHR" title="BH">巴林</option>
-      <option value="BDI" title="BI">布隆迪</option>
-      <option value="BEN" title="BJ">贝宁</option>
-      <option value="BMU" title="BM">百慕大</option>
-      <option value="BRN" title="BN">文莱</option>
-      <option value="BOL" title="BO">玻利维亚</option>
-      <option value="BRA" title="BR">巴西</option>
-      <option value="BHS" title="BS">巴哈马</option>
-      <option value="BTN" title="BT">不丹</option>
-      <option value="BWA" title="BW">博茨瓦纳</option>
-      <option value="BLR" title="BY">白俄罗斯</option>
-      <option value="BLZ" title="BZ">伯利兹</option>
-      <option value="CAN" title="CA">加拿大</option>
-      <option value="COD" title="CD">刚果共和国</option>
-      <option value="CAF" title="CF">中非</option>
-      <option value="COG" title="CG">刚果共和国</option>
-      <option value="CHE" title="CH">瑞士</option>
-      <option value="CHL" title="CL">智利</option>
-      <option value="CMR" title="CM">喀麦隆</option>
-      <option value="CHN" title="CN">中国</option>
-      <option value="COL" title="CO">哥伦比亚</option>
-      <option value="CRI" title="CR">哥斯达黎加</option>
-      <option value="CUB" title="CU">古巴</option>
-      <option value="CPV" title="CV">佛得角</option>
-      <option value="CYP" title="CY">塞浦路斯</option>
-      <option value="CZE" title="CZ">捷克共和国</option>
-      <option value="DEU" title="DE">德国</option>
-      <option value="DJI" title="DJ">吉布提</option>
-      <option value="DNK" title="DK">丹麦</option>
-      <option value="DMA" title="DM">多米尼加</option>
-      <option value="DOM" title="DO">多米尼加共和国</option>
-      <option value="DZA" title="DZ">阿尔及利亚</option>
-      <option value="ECU" title="EC">厄瓜多尔</option>
-      <option value="EST" title="EE">爱沙尼亚</option>
-      <option value="EGY" title="EG">埃及</option>
-      <option value="ERI" title="ER">厄立特里亚</option>
-      <option value="ESP" title="ES">西班牙</option>
-      <option value="ETH" title="ET">埃塞俄比亚</option>
-      <option value="FIN" title="FI">芬兰</option>
-      <option value="FJI" title="FJ">斐济</option>
-      <option value="FLK" title="FK">法罗群岛</option>
-      <option value="FSM" title="FM">马来西亚</option>
-      <option value="FRO" title="FO">法罗群岛</option>
-      <option value="FRA" title="FR">法国</option>
-      <option value="GAB" title="GA">加蓬</option>
-      <option value="GBR" title="GB">英国</option>
-      <option value="GRD" title="GD">格林纳达</option>
-      <option value="GEO" title="GE">格鲁吉亚</option>
-      <option value="GHA" title="GH">加纳</option>
-      <option value="GIB" title="GI">直布罗陀</option>
-      <option value="GMB" title="GM">冈比亚</option>
-      <option value="GIN" title="GN">几内亚</option>
-      <option value="GNQ" title="GQ">赤道几内亚</option>
-      <option value="GRC" title="GR">希腊</option>
-      <option value="GTM" title="GT">危地马拉</option>
-      <option value="GNB" title="GW">几内亚比绍</option>
-      <option value="GUY" title="GY">圭亚那</option>
-      <option value="HKG" title="HK">中国香港</option>
-      <option value="HND" title="HN">洪都拉斯</option>
-      <option value="HRV" title="HR">克罗地亚</option>
-      <option value="HTI" title="HT">海地</option>
-      <option value="HUN" title="HU">匈牙利</option>
-      <option value="IDN" title="ID">印度尼西亚</option>
-      <option value="IRL" title="IE">爱尔兰</option>
-      <option value="ISR" title="IL">以色列</option>
-      <option value="IND" title="IN">印度</option>
-      <option value="IRQ" title="IQ">伊拉克</option>
-      <option value="IRN" title="IR">伊朗</option>
-      <option value="ISL" title="IS">冰岛</option>
-      <option value="ITA" title="IT">意大利</option>
-      <option value="JAM" title="JM">牙买加</option>
-      <option value="JOR" title="JO">约旦</option>
-      <option value="JPN" title="JP">日本</option>
-      <option value="KEN" title="KE">肯尼亚</option>
-      <option value="KGZ" title="KG">吉尔吉斯斯坦</option>
-      <option value="KHM" title="KH">柬埔寨</option>
-      <option value="KIR" title="KI">基里巴斯</option>
-      <option value="COM" title="KM">科摩罗</option>
-      <option value="KNA" title="KN">圣基茨和尼维斯</option>
-      <option value="PRK" title="KP">朝鲜</option>
-      <option value="KOR" title="KR">韩国</option>
-      <option value="KWT" title="KW">科威特</option>
-      <option value="CYM" title="KY">开曼群岛</option>
-      <option value="KAZ" title="KZ">哈萨克斯坦</option>
-      <option value="LAO" title="LA">老挝</option>
-      <option value="LBN" title="LB">黎巴嫩</option>
-      <option value="LCA" title="LC">圣卢西亚</option>
-      <option value="LIE" title="LI">列支敦士登</option>
-      <option value="LKA" title="LK">斯里兰卡</option>
-      <option value="LBR" title="LR">利比里亚</option>
-      <option value="LSO" title="LS">莱索托</option>
-      <option value="LTU" title="LT">立陶宛</option>
-      <option value="LUX" title="LU">卢森堡</option>
-      <option value="LVA" title="LV">拉脱维亚</option>
-      <option value="LBY" title="LY">利比亚</option>
-      <option value="MAR" title="MA">摩洛哥</option>
-      <option value="MCO" title="MC">摩纳哥</option>
-      <option value="MDA" title="MD">摩尔多瓦</option>
-      <option value="MNE" title="ME">黑山</option>
-      <option value="MDG" title="MG">马达加斯加</option>
-      <option value="MKD" title="MK">马其顿</option>
-      <option value="MLI" title="ML">马里</option>
-      <option value="MMR" title="MM">缅甸</option>
-      <option value="MNG" title="MN">蒙古</option>
-      <option value="MAC" title="MO">澳门</option>
-      <option value="MRT" title="MR">毛里塔尼亚</option>
-      <option value="MLT" title="MT">马耳他</option>
-      <option value="MUS" title="MU">毛里求斯</option>
-      <option value="MDV" title="MV">马尔代夫</option>
-      <option value="MWI" title="MW">马拉维</option>
-      <option value="MEX" title="MX">墨西哥</option>
-      <option value="MYS" title="MY">马来西亚</option>
-      <option value="MOZ" title="MZ">莫桑比克</option>
-      <option value="NAM" title="NA">纳米比亚</option>
-      <option value="NER" title="NE">尼日尔</option>
-      <option value="NGA" title="NG">尼日利亚</option>
-      <option value="NIC" title="NI">尼加拉瓜</option>
-      <option value="NLD" title="NL">荷兰</option>
-      <option value="NOR" title="NO">挪威</option>
-      <option value="NPL" title="NP">尼泊尔</option>
-      <option value="NRU" title="NR">瑙鲁</option>
-      <option value="NZL" title="NZ">新西兰</option>
-      <option value="OMN" title="OM">阿曼</option>
-      <option value="PAN" title="PA">巴拿马</option>
-      <option value="PER" title="PE">秘鲁</option>
-      <option value="PNG" title="PG">巴布亚新几内亚</option>
-      <option value="PHL" title="PH">菲律宾</option>
-      <option value="PAK" title="PK">巴基斯坦</option>
-      <option value="POL" title="PL">波兰</option>
-      <option value="PRI" title="PR">波多黎各</option>
-      <option value="PSE" title="PS">巴勒斯坦</option>
-      <option value="PRT" title="PT">葡萄牙</option>
-      <option value="PLW" title="PW">帕劳</option>
-      <option value="PRY" title="PY">巴拉圭</option>
-      <option value="QAT" title="QA">卡塔尔</option>
-      <option value="ROU" title="RO">罗马尼亚</option>
-      <option value="SRB" title="RS">塞尔维亚</option>
-      <option value="RUS" title="RU">俄罗斯</option>
-      <option value="RWA" title="RW">卢旺达</option>
-      <option value="SAU" title="SA">沙特阿拉伯</option>
-      <option value="SLB" title="SB">所罗门群岛</option>
-      <option value="SYC" title="SC">塞舌尔</option>
-      <option value="SDN" title="SD">苏丹</option>
-      <option value="SWE" title="SE">瑞典</option>
-      <option value="SGP" title="SG">新加坡</option>
-      <option value="SVN" title="SI">斯洛文尼亚</option>
-      <option value="SVK" title="SK">斯洛伐克共和国</option>
-      <option value="SLE" title="SL">塞拉利昂</option>
-      <option value="SMR" title="SM">圣马力诺</option>
-      <option value="SEN" title="SN">塞内加尔</option>
-      <option value="SOM" title="SO">索马里</option>
-      <option value="SUR" title="SR">苏里南</option>
-      <option value="STP" title="ST">圣多美和普林西比</option>
-      <option value="SLV" title="SV">萨尔瓦多</option>
-      <option value="SYR" title="SY">叙利亚</option>
-      <option value="SWZ" title="SZ">斯威士兰</option>
-      <option value="TCD" title="TD">乍得</option>
-      <option value="TGO" title="TG">多哥</option>
-      <option value="THA" title="TH">泰国</option>
-      <option value="TJK" title="TJ">塔吉克斯坦</option>
-      <option value="TKM" title="TM">土库曼斯坦</option>
-      <option value="TUN" title="TN">突尼斯</option>
-      <option value="TON" title="TO">汤加</option>
-      <option value="TUR" title="TR">土耳其</option>
-      <option value="TTO" title="TT">特立尼达和多巴哥</option>
-      <option value="TUV" title="TV">图瓦卢</option>
-      <option value="TWN" title="TW">中国台湾</option>
-      <option value="TZA" title="TZ">坦桑尼亚</option>
-      <option value="UKR" title="UA">乌克兰</option>
-      <option value="UGA" title="UG">乌干达</option>
-      <option value="URY" title="UY">乌拉圭</option>
-      <option value="UZB" title="UZ">乌兹别克斯坦</option>
-      <option value="VCT" title="VC">圣文森特和格林纳丁</option>
-      <option value="VEN" title="VE">委内瑞拉</option>
-      <option value="VGB" title="VG">英属维尔京群岛</option>
-      <option value="VNM" title="VN">越南</option>
-      <option value="VUT" title="VU">瓦努阿图</option>
-      <option value="WLF" title="WF">瓦利斯和富图纳</option>
-      <option value="WSM" title="WS">西萨摩亚</option>
-      <option value="YEM" title="YE">也门</option>
-      <option value="ZAF" title="ZA">南非</option>
-      <option value="ZMB" title="ZM">赞比亚</option>
-      <option value="ZWE" title="ZW">津巴布韦</option>
-    </select>
+  <div id="country_select">
+    <div class="country_name" @click="country_show_hidden=!country_show_hidden">
+      <img :src="'../../../static/flag/'+country_code+'.svg'" alt />
+      <span>{{country_name}}</span>
+      <img src="./arrows.png" alt class="arrows" />
+    </div>
+    <div class="country_wrap" v-show="country_show_hidden">
+      <div class="country_header">
+        <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
+        <img src="./search.png" alt />
+      </div>
+      <div class="country_content" v-if="arr_country!=null">
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">热门国家</div>
+          <div class="item" @click="change_country_name('中国','CN')">
+            <img :src="'../../../static/flag/CN.svg'" alt />
+            中国
+          </div>
+          <div class="item" @click="change_country_name('美国','US')">
+            <img :src="'../../../static/flag/US.svg'" alt />
+            美国
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()!=''">
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[0]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">亚洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[0]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">北美洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[1]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">南美洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[2]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">欧洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[3]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">大洋洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[4]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+        <div class="list" v-show="input.trim()==''">
+          <div class="list_header">非洲</div>
+          <div
+            class="item"
+            v-for="(item,index) in arr_country[5]"
+            :key="'arr_country'+index"
+            @click="change_country_name(item.name,item.code)"
+          >
+            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+            {{item.name}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
-import './select_gj.css'
-// import './select_gj.min.js'
-import { start, start02, start03 } from './select2_1.js'
-import { start_first, start_second } from './demo.js' //入口文件
 export default {
-  name: '',
+  name: 'country_select',
+  components: {},
+
   data() {
     return {
-      css_change: undefined,
-      ss: 0
+      arr_country: null,
+      input: '',
+      country_show_hidden: false,
+      country_name: '中国',
+      country_code: 'CN'
     }
   },
-  props: ['which_country'],
+
   created() {
-    this.$watch('css_change', function(newValue, oldValue) {
-      console.log('length改变了')
+    this.get_data()
+    this.$watch('country_name', function(newValue, oldValue) {
+      this.$emit('childFn', this.country_name)
     })
-  },
-  mounted() {
-    // let that = this
-    // $('.my_country').on('click', function() {
-    //   console.log(88888888888888888888888888888)
-    // })
-
-    // that.css_change = $('.select2-dropdown').css('display')
-    //   $('.select2-dropdown').on('click', function() {
-    //     // that.css_change = $('.select2-dropdown').css('display')
-    //     console.log('监听到了，success')
-    //   })
-    // })
-
-    // console.log('============国家组件内部============')
-    if (sessionStorage.getItem('now_country_name') == null) {
-      sessionStorage.setItem('now_country_name', '中国')
-    }
-    // console.log(sessionStorage.getItem('now_country_name'))
-
-    // 根据sessionStorage的值去改变国家组件选中状态
-    let temp = $('.fastbannerform__country option')
-    // console.log(temp)
-    for (let index = 0; index < temp.length; index++) {
-      const element = temp[index]
-      if ($(element).text() === sessionStorage.getItem('now_country_name')) {
-        $(element).attr('selected', 'selected')
-      } else {
-        $(element).removeAttr('selected')
-      }
-    }
-
-    start_first(start_second)
-    start()
-    start02()
-    start03()
   },
 
   methods: {
-    click: function() {
-      let temp
-      if ($('.fastbannerform__country option:selected').length > 1) {
-        temp = $($('.fastbannerform__country option:selected')[1]).text()
-      } else {
-        temp = $($('.fastbannerform__country option:selected')[0]).text()
-      }
-
-      // console.log(temp)
-
-      this.$emit('childFn', temp)
+    get_data() {
+      // 亚洲是1 Asia
+      // 欧洲是4 Europe
+      // 南美洲是3 South_America
+      // 大洋洲是5 Oceania
+      // 北美洲是2  North_America
+      // 非洲是6 Africa
+      this.$axios
+        .get('/GetCountry')
+        .then(response => {
+          // 获取国家ID
+          console.log(response.data.Data)
+          this.arr_country = new Array()
+          if (this.input.trim() == '') {
+            // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia
+            let Asia = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 1) {
+                Asia.push(element)
+              }
+            })
+            this.arr_country.push(Asia)
+            // 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America
+            let North_America = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 2) {
+                North_America.push(element)
+              }
+            })
+            this.arr_country.push(North_America)
+            // 南美洲是3 South_America// 南美洲是3 South_America// 南美洲是3 South_America// 南美洲是3 South_America
+            let South_America = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 3) {
+                South_America.push(element)
+              }
+            })
+            this.arr_country.push(South_America)
+            // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe
+            let Europe = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 4) {
+                Europe.push(element)
+              }
+            })
+            this.arr_country.push(Europe)
+            // 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania
+            let Oceania = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 5) {
+                Oceania.push(element)
+              }
+            })
+            this.arr_country.push(Oceania)
+            // 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa
+            let Africa = new Array()
+            response.data.Data.forEach(element => {
+              if (element.areaid == 6) {
+                Africa.push(element)
+              }
+            })
+            this.arr_country.push(Africa)
+          } else if (this.input.trim() != '') {
+            let nothing = new Array()
+            response.data.Data.forEach(element => {
+              if (element.name.indexOf(this.input) != -1) {
+                nothing.push(element)
+              }
+            })
+            this.arr_country.push(nothing)
+          }
+          console.log(this.arr_country)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    inputChange() {
+      this.get_data()
+    },
+    change_country_name(parm, parm1) {
+      this.country_name = parm
+      this.country_code = parm1
+      this.country_show_hidden = false
     }
   }
 }
 </script>
 <style scoped>
-#country {
-  /* background-color: red; */
-  height: 269px;
-  width: 130px;
+.list {
+  border-top: 1px solid #d6d6d6;
+  margin-top: 10px;
+  width: 95%;
+  padding-top: 4px;
+}
+.list_header {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  cursor: pointer;
+  letter-spacing: 0px;
+  color: #666;
+  font-family: SourceHanSansCN-Normal;
+}
+.arrows {
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+}
+.country_name span {
+  width: 27px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.country_name {
+  width: 81px;
+  height: 28px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 25px;
+  cursor: pointer;
+  letter-spacing: 0px;
+  color: #444444;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 9px;
+  box-sizing: border-box;
+}
+.item {
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  display: flex;
+  align-items: center;
+  margin-top: 9px;
+  cursor: pointer;
+}
+.item img {
+  font-size: 24px;
+  background-color: #00bcfc;
+  border: solid 1px #dfdfdf;
+  margin-right: 9px;
+}
+.country_content {
+  padding-left: 24px;
+  height: 300px;
+  overflow-y: scroll;
+  background-color: #fff;
+}
+.country_wrap {
+  width: 276px;
+  margin-top: 6px;
+
+  border-radius: 4px;
+  padding-bottom: 14px;
+  border: solid 1px #dfdfdf;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: #fff;
+}
+.country_header input {
+  width: 242px;
+  height: 34px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  padding-left: 11px;
+  padding-right: 40px;
+  box-sizing: border-box;
+  outline: none;
+  margin-top: 14px;
+}
+.country_header img {
+  position: absolute;
+  right: 40px;
+  top: 24px;
+}
+.country_header {
+  padding-left: 14px;
+  position: relative;
+  background-color: #fff;
+}
+#country_select {
+  z-index: 999 !important;
+  position: relative;
 }
 </style>

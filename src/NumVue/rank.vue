@@ -99,7 +99,7 @@
             <tbody>
               <tr v-for="(tr,index) in zongsData" :key="index">
                 <th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-                  <p class="ranking">{{tr.index}}</p>
+                  <p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
                   <img :src="tr.icon" class="logo" />
                   <div class="msg">
                     <p class="appname">{{tr.appName}}</p>
@@ -490,6 +490,10 @@ export default {
 
 
 <style scoped>
+.weit{
+  font-family: SourceHanSansCN-Bold!important;
+  color: #222222!important;
+}
 .Leibox {
   position: absolute;
   top: 41px;
@@ -703,6 +707,9 @@ export default {
   font-family: SourceHanSansCN-Medium;
   font-size: 18px;
   color: #222222;
+  vertical-align: top;
+  margin-top: -4px;
+  margin-left: 3px;
 }
 .content .zongbang > div table {
   width: 1200px;

@@ -74,11 +74,6 @@ export default new Router({
       name: 'the_world_map',
       component: () => import('../common/world_map/the_world_map')
     },
-    {
-      path: '/country',
-      name: 'country',
-      component: () => import('../common/country_select/country')
-    },
 
     {
       path: '/now_ranking',
@@ -184,6 +179,11 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: () => import('../common/test')
+    },
+    {
+      path: '/country_select',
+      name: 'country_select',
+      component: () => import('../common/country_select/country')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

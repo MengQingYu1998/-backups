@@ -125,7 +125,7 @@ export default {
       response_data: null,
       response_datafor_popover: null,
       // 获取当前选中的国家
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       // 请输入搜索关键词
       search_input: '',
       // 设备选择
@@ -341,7 +341,7 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 24px;
+  line-height: 261px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -389,6 +389,8 @@ export default {
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px;
+  border-radius: 10px;
+  border: solid 1px #f2f2f2;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -421,10 +423,6 @@ export default {
 }
 thead tr {
   height: 40px;
-}
-td,
-th {
-  border: 1px solid #f2f2f2;
 }
 .table_font {
   display: flex;
@@ -500,7 +498,7 @@ table {
 }
 .option div:last-child {
   width: 87px;
-  height: 24px;
+  height: 24.5px;
 }
 
 .option {

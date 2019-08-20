@@ -199,7 +199,7 @@ export default {
       change_bg_result: true,
       change_bg_index: true,
       // 获取当前选中的国家
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       // which_country: null,
       //请输入搜索关键词
       keyword_input: '',
@@ -253,7 +253,6 @@ export default {
       this.get_data_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
-      sessionStorage.setItem('now_country_name', this.now_country)
       this.get_data_classify()
       this.data_for_table.length = 0
       this.page = 1
@@ -481,10 +480,10 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
-      this.$router.push({
-        path: '/result'
+      let routerUrl = this.$router.resolve({
+        path: '/result?now_app_name=' + parm
       })
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page02(parm) {
       this.$router.push({
@@ -499,11 +498,10 @@ export default {
       this.$store.state.now_app_name = parm
     },
     go_to_page04(parm, parm02) {
-      this.$router.push({
-        path: '/now_ranking'
+      let routerUrl = this.$router.resolve({
+        path: '/now_ranking?now_app_id=' + parm + '&now_app_name=' + parm02
       })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
+      window.open(routerUrl.href, '_blank')
     }
   }
 }
@@ -697,6 +695,7 @@ table {
   margin-left: 10px;
   display: flex;
   width: auto !important;
+  /* z-index: 1; */
 }
 .options_02 .tow {
   margin-left: 10px;

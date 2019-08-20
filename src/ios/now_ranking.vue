@@ -204,10 +204,10 @@
             <tbody v-if="response_data_third">
               <tr v-for="(item, index) in response_data_third.data_0" :key="'table01'+index">
                 <td class="td_width01">
-                  <div class="rankingChangeFontColor">{{item.RankingInterval}}</div>
+                  <div class="third_table_td">{{item.RankingInterval}}</div>
                 </td>
 
-                <td class="td_width02">
+                <td class="td_width02 third_table_td">
                   <div
                     v-for="(item_td, index_td) in item.GenreCountryList"
                     :key="'table01_td'+index_td"
@@ -306,7 +306,7 @@ export default {
       // 第一部分图表的数据
       // 第一部分图表的数据
       // 第一部分图表的数据
-      now_country: sessionStorage.getItem('now_country_name'),
+      now_country: '中国',
       response_data_first: null,
       response_data_first_title: null,
       // 第二部分折线图数据
@@ -895,11 +895,25 @@ export default {
 }
 </script>
 <style scoped>
+.third_table_td {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  padding: 34px 0;
+}
 .flex_div > div {
   margin-left: 41px;
 }
 .flex_div {
   display: flex;
+}
+.font_img {
+  font-family: SourceHanSansCN-Normal !important;
+  font-size: 14px !important;
+  color: #222222 !important;
 }
 .font_img img {
   margin-right: 11px;

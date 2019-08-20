@@ -44,6 +44,16 @@ export default {
 </script>
 
 <style>
+/*message*/
+#msg .bangdan .el-button:focus,
+#msg .el-button:hover,
+#msg .el-button:active {
+  border: none;
+}
+#msg .el-button {
+  border: none;
+  color: #009bef;
+}
 /*滑动加载样式*/
 #Application .scrollDiv,
 .bangdan .scrollDiv,
@@ -214,6 +224,21 @@ export default {
   width: 100%;
   height: 500px;
 }
+.bangdan #country_select,
+#Application #country_select {
+  display: inline-block;
+  margin-left: 5px;
+}
+#navv #country_select {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 5px;
+}
+#navv #country_select .country_name {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+}
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
 #map_points {
@@ -302,35 +327,6 @@ table tbody tr:hover {
   letter-spacing: 0px;
   color: #888888;
 }
-/* 选择国家组件的自定义下拉样式 */
-
-#ios_header #country .select2-container .select2-selection--single,
-#country .select2-container .select2-selection--single {
-  width: 118px !important;
-  border: solid 1px #dfdfdf !important;
-  color: #444444 !important;
-  outline: none;
-}
-.select2-dropdown {
-  width: 130px !important;
-}
-#ios_header
-  .select2-container--default
-  .select2-selection--single
-  .select2-selection__arrow,
-#country
-  .select2-container--default
-  .select2-selection--single
-  .select2-selection__arrow {
-  right: 43px !important;
-}
-
-#ios_header .select2,
-#country .select2 {
-  -moz-transform: scale(0.91);
-  -webkit-transform: scale(0.91);
-  -o-transform: scale(0.91);
-}
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 
 #grade_start .el-date-editor .el-range-separator,
@@ -362,6 +358,10 @@ table tbody tr:hover {
 .el-radio-button {
   margin-left: 10px;
   font-family: SourceHanSansCN-Normal !important;
+  outline: none !important;
+}
+.el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
+  box-shadow: none;
 }
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
   border: none !important;
@@ -411,5 +411,30 @@ table thead tr th {
 /* 搜索结果的切换 */
 #result .el-tabs__active-bar {
   height: 1px !important;
+}
+/* 应用信息的视频插件 */
+.vjs-custom-skin > .video-js .vjs-big-play-button {
+  background-color: #655e5c;
+  font-size: 2em;
+  height: 2.8em !important;
+  line-height: 2.8em !important;
+  margin-top: -1em !important;
+  border-radius: 50%;
+}
+#version_message .video-js.vjs-fluid,
+.video-js.vjs-16-9,
+.video-js.vjs-4-3 {
+  border-radius: 4px;
+  border: solid 1px #f2f2f2;
+}
+.vjs-icon-play:before,
+.video-js .vjs-big-play-button .vjs-icon-placeholder:before,
+.video-js .vjs-play-control .vjs-icon-placeholder:before {
+  content: '\F101';
+  font-size: 1.8em;
+}
+.video-js .vjs-big-play-button {
+  border: none;
+  outline: none;
 }
 </style>
