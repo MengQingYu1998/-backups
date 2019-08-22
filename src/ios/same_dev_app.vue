@@ -47,18 +47,19 @@
               </td>
 
               <td>
+                <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
                 <div
                   class="rankingChangeFontColor"
                   v-if="item.totalGenreName!=null"
                 >{{item.totalGenreName}}</div>
                 <div class="rankingChangeFontColor" v-if="item.totalGenreName==null">--</div>
-                <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
               </td>
               <td>
+                <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
                 <div class="rankingChangeFontColor" v-if="item.genreName!=null">{{item.genreName}}</div>
                 <div class="rankingChangeFontColor" v-if="item.genreName==null">--</div>
-                <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
               </td>
+
               <td class="rankingChangeFontColor">{{item.keyWordHide}}</td>
               <td>
                 <div class="rankingChangeFontColor">{{item.onLineTime}}</div>
@@ -234,6 +235,7 @@ export default {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
+  line-height: 24px;
   color: #888888;
 }
 
@@ -264,8 +266,10 @@ tbody tr td:last-child {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #009bef;
-  padding: 50px 0;
+  padding: 38px 0;
   width: 108px;
+  height: 100px;
+  box-sizing: border-box;
 }
 tbody {
   font-family: SourceHanSansCN-Normal;

@@ -25,7 +25,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country @childFn="parentFn"></country>
+          <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
       <div class="btn_item_03" @click="change_radio02">
@@ -146,7 +146,8 @@ export default {
       keyword_data: [],
       xAxis_data: [],
       // 数据
-      keyword_data_value: []
+      keyword_data_value: [],
+      yAxis_max: 5
     }
   },
   created: function() {
@@ -210,6 +211,8 @@ export default {
           let url = '/Word/FindSearchNumber'
           let sdate, edate
           if (this.dateValue) {
+            // alert(this.dateValue[0])
+
             sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
             edate = formatDate(this.dateValue[1], 'yyyy-MM-dd')
           } else if (this.radio02 == '7天') {
@@ -264,6 +267,41 @@ export default {
               this.xAxis_data = this.response_data.Xtime
 
               this.keyword_data.push(this.$store.state.now_app_name)
+              // ==================找数组最大值====================
+              let max_value_arr = new Array()
+              this.keyword_data_value.forEach(element => {
+                max_value_arr.push(element.slice(0))
+              })
+              let max_value = 0
+              max_value_arr.forEach(element => {
+                element.forEach(element_son => {
+                  // console.log(element_son)
+                  element_son = parseInt(element_son)
+                  if (max_value <= element_son) {
+                    max_value = element_son
+                  }
+                })
+              })
+              // console.log(max_value)
+              // this.yAxis_max = max_value + 5
+              if (max_value <= 5) {
+                this.yAxis_max = 5
+              } else if (max_value <= 20) {
+                this.yAxis_max = 20
+              } else if (max_value <= 50) {
+                this.yAxis_max = 50
+              } else if (max_value <= 100) {
+                this.yAxis_max = 100
+              } else if (max_value <= 500) {
+                this.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                this.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                this.yAxis_max = 1500
+              } else {
+                this.yAxis_max = max_value + 100
+              }
+              // ==================找数组最大值====================
               this.drawLine()
             })
             .catch(error => {
@@ -292,16 +330,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis'
@@ -334,7 +372,11 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          min: 0,
+          minInterval: 1,
+          max: that.yAxis_max,
+          interval: that.yAxis_max / 5
         },
         series: that.series_data()
       })

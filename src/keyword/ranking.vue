@@ -73,7 +73,7 @@
           </div>
         </el-popover>
       </div>
-      <div class="options_03 option">
+      <div class="options_03 option options_03_ml">
         <div>日期</div>
         <div class="date">
           <!-- 饿了么的日期选择组件 -->
@@ -138,34 +138,30 @@
           <th>搜索结果排名第 1 的应用</th>
         </tr>
       </thead>
+      <tbody v-if="data_for_table">
+        <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
+          <td>
+            <div class="rowid">{{item.rowid}}</div>
+          </td>
+          <td class="table_font pointer">
+            <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+          </td>
+          <td class="table_font pointer">
+            <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
+          </td>
+          <!-- 给下一个页面传递参数 -->
+          <td class="table_font pointer" @click="go_to_page03(item.Word)">
+            <div>{{item.SearchCount}}</div>
+          </td>
+          <td class="table_font pointer">
+            <div
+              class="pointer"
+              @click="go_to_page04(item.AppStoreId,item.app_name)"
+            >{{item.app_name}}</div>
+          </td>
+        </tr>
+      </tbody>
     </table>
-    <div class="act_not">
-      <table>
-        <tbody v-if="data_for_table">
-          <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
-            <td>
-              <div>{{item.rowid}}</div>
-            </td>
-            <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-            </td>
-            <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
-            </td>
-            <!-- 给下一个页面传递参数 -->
-            <td class="table_font pointer" @click="go_to_page03(item.Word)">
-              <div>{{item.SearchCount}}</div>
-            </td>
-            <td class="table_font pointer">
-              <div
-                class="pointer"
-                @click="go_to_page04(item.AppStoreId,item.app_name)"
-              >{{item.app_name}}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </template>
 
@@ -233,7 +229,6 @@ export default {
 
   created: function() {
     // 请求悬浮框的数据
-
     this.get_data_classify()
     this.get_data_table()
     // this.$watch('page', function(newValue, oldValue) {
@@ -253,6 +248,7 @@ export default {
       this.get_data_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
+      // alert(this.$store.state.now_country_name)
       this.get_data_classify()
       this.data_for_table.length = 0
       this.page = 1
@@ -480,26 +476,41 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm
+      this.hand_save_vuex(this)
+
       let routerUrl = this.$router.resolve({
-        path: '/result?now_app_name=' + parm
+        path: '/result'
       })
       window.open(routerUrl.href, '_blank')
     },
     go_to_page02(parm) {
-      this.$router.push({
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm
+      this.hand_save_vuex(this)
+      let routerUrl = this.$router.resolve({
         path: '/trend_many'
       })
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page03(parm) {
-      this.$router.push({
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm
+
+      this.hand_save_vuex(this)
+      let routerUrl = this.$router.resolve({
         path: '/trend_one'
       })
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page04(parm, parm02) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm02
+      this.$store.state.now_app_id = parm
+      this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path: '/now_ranking?now_app_id=' + parm + '&now_app_name=' + parm02
+        path: '/now_ranking'
       })
       window.open(routerUrl.href, '_blank')
     }
@@ -507,6 +518,18 @@ export default {
 }
 </script>
 <style scoped>
+tbody tr:nth-child(1) .rowid {
+  color: #222222;
+  font-weight: bold;
+}
+tbody tr:nth-child(2) .rowid {
+  color: #222222;
+  font-weight: bold;
+}
+tbody tr:nth-child(3) .rowid {
+  color: #222222;
+  font-weight: bold;
+}
 thead th:nth-child(1) {
   width: 199px;
 }
@@ -524,22 +547,19 @@ thead th:nth-child(5) {
   width: 327px;
 }
 
-tbody td {
-  padding: 16px 0 !important;
-}
-tbody td:nth-child(1) {
+tbody th:nth-child(1) {
   width: 199px;
 }
-tbody td:nth-child(2) {
+tbody th:nth-child(2) {
   width: 223px;
 }
-tbody td:nth-child(3) {
+tbody th:nth-child(3) {
   width: 214px;
 }
-tbody td:nth-child(4) {
+tbody th:nth-child(4) {
   width: 234px;
 }
-tbody td:nth-child(5) {
+tbody th:nth-child(5) {
   width: 327px;
 }
 .min_max > div:nth-child(1) div,
@@ -580,11 +600,11 @@ tbody td:nth-child(5) {
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
-  border: solid 1px #ffffff !important;
+  border: solid 1px #009bef !important;
 }
 .radio_one {
   text-align: center;
-  line-height: 24px;
+  line-height: 26px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
@@ -609,7 +629,6 @@ tbody td:nth-child(5) {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  padding: 35px 0;
   color: #009bef;
 }
 
@@ -617,8 +636,8 @@ thead tr {
   height: 40px;
 }
 
-th {
-  border: 1px solid #f2f2f2;
+td {
+  height: 54px !important;
 }
 
 tbody tr {
@@ -642,41 +661,24 @@ thead {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  /* position: absolute;
-  left: 0;
-  top: 0; */
 }
 table {
   width: 100%;
-  height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
   /* margin-bottom: 78px; */
 }
-.table_title {
-  font-family: SourceHanSansCN-Medium;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #222222;
-  text-align: center;
-  margin-top: 60px;
-  margin-bottom: 40px;
-}
+
 .options_04 > div:nth-child(1) {
   margin-right: 20px !important;
 }
 .options_04 img {
   width: 8px;
 }
-.options_04 {
-  margin-left: 70px !important;
-}
 
-/* .options_03 {
-  margin-left: 70px !important;
-} */
+.options_03_ml {
+  margin-left: 7px !important;
+}
 .options_03 .date div {
   width: 114px !important;
 }
@@ -736,6 +738,7 @@ option:first-child {
 }
 .options .option:first-child {
   margin-left: 0 !important;
+  margin-top: -3px;
 }
 .options {
   height: 24px;

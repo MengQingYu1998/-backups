@@ -38,7 +38,7 @@
             slot="reference"
             @blur="is_show_nav_popover=true"
             type="text"
-            placeholder="应用名称"
+            placeholder="应用名称或APPID"
             v-model="nav_input_value"
             @keyup.enter="go_to_page01(nav_input_value)"
           />
@@ -250,13 +250,29 @@ export default {
       if (this.nav_input_value.trim() == '') {
         return false
       }
+      if (
+        parseInt(this.nav_input_value) >= 10000 &&
+        parseInt(this.nav_input_value) <= 999999999999
+      ) {
+        this.$store.state.now_country_name = this.now_country
+        this.$store.state.now_app_id = parseInt(this.nav_input_value)
+        this.hand_save_vuex(this)
+        let routerUrl = this.$router.resolve({
+          path: '/now_ranking'
+        })
+        window.open(routerUrl.href, '_blank')
+        return false
+      }
       this.is_show_nav_popover = false
-      this.nav_input_value = parm
-      this.$router.push({
-        path: '/result'
-      })
       this.nav_input_value = ''
       this.$store.state.now_app_name = parm
+      this.$store.state.now_country_name = this.now_country
+
+      this.hand_save_vuex(this)
+      let routerUrl = this.$router.resolve({
+        path: '/result'
+      })
+      window.open(routerUrl.href, '_blank')
     }
   },
   created() {
@@ -349,7 +365,7 @@ export default {
   background-color: transparent;
   font-family: SourceHanSansCN-Regular;
   font-size: 15px;
-  color: #bfbfbf;
+  color: #222222;
   vertical-align: top;
   margin-top: 7px;
   margin-left: 5px;
@@ -480,7 +496,7 @@ export default {
 }
 
 .popver_for_input {
-  height: 26px;
+  height: 30px;
   font-family: SourceHanSansCN-Regular;
   font-size: 13px;
   font-weight: normal;

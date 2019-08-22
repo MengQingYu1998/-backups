@@ -334,10 +334,7 @@
             </div>
           </div>
           <div class="table_top_green">
-            2019年2月20日，关键词总覆盖数：
-            <span>63254</span> 前三关键词：
-            <span>1244</span> 前十关键词：
-            <span>6546</span>
+            <span>置顶的评论是指在 App Store 应用详情页面直接显示的评论。其他评论需在 App Store 点击“查看全部”才能查看。</span>
           </div>
           <table>
             <thead>
@@ -496,7 +493,7 @@ export default {
       // 顶部搜索框
       input1: '',
 
-     now_country: '中国',
+      now_country: '中国'
     }
   },
 
@@ -640,16 +637,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis',
@@ -683,7 +680,7 @@ export default {
             name: '一星',
             stack: 'start',
             type: 'bar',
-            barWidth: 30, //宽度
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#ef8189'
             },
@@ -693,6 +690,7 @@ export default {
             name: '二星',
             type: 'bar',
             stack: 'start',
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#ef81d4'
             },
@@ -702,6 +700,7 @@ export default {
             name: '三星',
             type: 'bar',
             stack: 'start',
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#81e1ef'
             },
@@ -710,6 +709,7 @@ export default {
           {
             name: '四星',
             stack: 'start',
+            barWidth: 27, //宽度
             type: 'bar',
             itemStyle: {
               color: '#81ef8e'
@@ -719,6 +719,8 @@ export default {
           {
             name: '五星',
             stack: 'start',
+            barWidth: 27, //宽度
+
             type: 'bar',
             itemStyle: {
               color: '#efd581'
@@ -799,18 +801,49 @@ export default {
               max_value_arr.push(this.three_start_data)
               max_value_arr.push(this.four_start_data)
               max_value_arr.push(this.five_start_data)
-              let max_value = 0
-              max_value_arr.forEach(element => {
-                element.forEach(element_son => {
-                  // console.log(element_son)
-                  element_son = parseInt(element_son)
-                  if (max_value <= element_son) {
-                    max_value = element_son
-                  }
-                })
+              let max_value00 = 0
+              max_value_arr[0].forEach(element => {
+                element = parseInt(element)
+                if (max_value00 <= element) {
+                  max_value00 = element
+                }
+              })
+              let max_value01 = 0
+              max_value_arr[1].forEach(element => {
+                element = parseInt(element)
+                if (max_value01 <= element) {
+                  max_value01 = element
+                }
+              })
+              let max_value02 = 0
+              max_value_arr[2].forEach(element => {
+                element = parseInt(element)
+                if (max_value02 <= element) {
+                  max_value02 = element
+                }
+              })
+              let max_value03 = 0
+              max_value_arr[3].forEach(element => {
+                element = parseInt(element)
+                if (max_value03 <= element) {
+                  max_value03 = element
+                }
+              })
+              let max_value04 = 0
+              max_value_arr[4].forEach(element => {
+                element = parseInt(element)
+                if (max_value04 <= element) {
+                  max_value04 = element
+                }
               })
               // console.log(max_value)
               // this.yAxis_max = max_value + 5
+              let max_value =
+                max_value00 +
+                max_value01 +
+                max_value02 +
+                max_value03 +
+                max_value04
               if (max_value <= 5) {
                 this.yAxis_max = 5
               } else if (max_value <= 20) {
@@ -856,16 +889,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis',
@@ -890,8 +923,8 @@ export default {
           {
             type: 'value',
             minInterval: 1,
-            max: that.yAxis_max01,
-            interval: that.yAxis_max01 / 5
+            max: that.yAxis_max03,
+            interval: that.yAxis_max03 / 5
           }
         ],
         series: [
@@ -899,6 +932,7 @@ export default {
             name: '在线评论',
             type: 'bar',
             stack: 'start',
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#009bef'
             },
@@ -908,7 +942,7 @@ export default {
             name: '已删除评论',
             stack: 'start',
             type: 'bar',
-            barWidth: 30, //宽度
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#d3f0ff'
             },
@@ -930,16 +964,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis',
@@ -964,8 +998,8 @@ export default {
           {
             type: 'value',
             minInterval: 1,
-            max: that.yAxis_max03,
-            interval: that.yAxis_max03 / 5
+            max: that.yAxis_max01,
+            interval: that.yAxis_max01 / 5
           }
         ],
         series: [
@@ -973,7 +1007,7 @@ export default {
             name: '一星',
             stack: 'start',
             type: 'bar',
-            barWidth: 30, //宽度
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#ef8189'
             },
@@ -983,6 +1017,7 @@ export default {
             name: '二星',
             type: 'bar',
             stack: 'start',
+            barWidth: 27, //宽度
             itemStyle: {
               color: '#ef81d4'
             },
@@ -991,6 +1026,7 @@ export default {
           {
             name: '三星',
             type: 'bar',
+            barWidth: 27, //宽度
             stack: 'start',
             itemStyle: {
               color: '#81e1ef'
@@ -1000,6 +1036,7 @@ export default {
           {
             name: '四星',
             stack: 'start',
+            barWidth: 27, //宽度
             type: 'bar',
             itemStyle: {
               color: '#81ef8e'
@@ -1008,6 +1045,7 @@ export default {
           },
           {
             name: '五星',
+            barWidth: 27, //宽度
             stack: 'start',
             type: 'bar',
             itemStyle: {
@@ -1124,16 +1162,49 @@ export default {
                 max_value_arr.push(this.three_start_data_third)
                 max_value_arr.push(this.four_start_data_third)
                 max_value_arr.push(this.five_start_data_third)
-                let max_value = 0
-                max_value_arr.forEach(element => {
-                  element.forEach(element_son => {
-                    // console.log(element_son)
-                    element_son = parseInt(element_son)
-                    if (max_value <= element_son) {
-                      max_value = element_son
-                    }
-                  })
+                let max_value00 = 0
+                max_value_arr[0].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value00 <= element) {
+                    max_value00 = element
+                  }
                 })
+                let max_value01 = 0
+                max_value_arr[1].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value01 <= element) {
+                    max_value01 = element
+                  }
+                })
+                let max_value02 = 0
+                max_value_arr[2].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value02 <= element) {
+                    max_value02 = element
+                  }
+                })
+                let max_value03 = 0
+                max_value_arr[3].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value03 <= element) {
+                    max_value03 = element
+                  }
+                })
+                let max_value04 = 0
+                max_value_arr[4].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value04 <= element) {
+                    max_value04 = element
+                  }
+                })
+                // console.log(max_value)
+                // this.yAxis_max = max_value + 5
+                let max_value =
+                  max_value00 +
+                  max_value01 +
+                  max_value02 +
+                  max_value03 +
+                  max_value04
                 if (max_value <= 5) {
                   this.yAxis_max01 = 5
                 } else if (max_value <= 20) {
@@ -1160,16 +1231,25 @@ export default {
                 max_value_arr03.push(this.online_data)
                 max_value_arr03.push(this.delete_data)
 
-                let max_value03 = 0
-                max_value_arr03.forEach(element => {
-                  element.forEach(element_son => {
-                    // console.log(element_son)
-                    element_son = parseInt(element_son)
-                    if (max_value03 <= element_son) {
-                      max_value03 = element_son
-                    }
-                  })
+                let max_value0300 = 0
+                max_value_arr03[0].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value0300 <= element) {
+                    max_value0300 = element
+                  }
                 })
+                let max_value0301 = 0
+                max_value_arr03[1].forEach(element => {
+                  element = parseInt(element)
+                  if (max_value0301 <= element) {
+                    max_value0301 = element
+                  }
+                })
+
+                // console.log(max_value)
+                // this.yAxis_max = max_value + 5
+
+                let max_value03 = max_value0300 + max_value0301
                 // console.log(max_value)
                 // this.yAxis_max = max_value + 5
                 if (max_value03 <= 5) {
@@ -1415,9 +1495,9 @@ table .table_author {
 }
 table .table_description {
   font-family: SourceHanSansCN-Normal;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 0.3px !important;
   font-weight: normal;
-  letter-spacing: 0px;
   color: #888888;
   margin-top: 7px;
   -webkit-line-clamp: 3;

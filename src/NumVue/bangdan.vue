@@ -213,7 +213,7 @@
 			    now_Application:'全部应用',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
-      			now_country: '中国',
+      			 now_country: '中国',
 			    // 设备选择
 			   	equipment: [
 			        {
@@ -277,7 +277,6 @@
 		    this.$watch('now_country', function(newValue, oldValue) {
 
 		      // 当前国家发生变化，重新请求数据...
-		      sessionStorage.setItem('now_country_name', this.now_country)
 		        this.zongsData.length=0
 				this.page=1
 		        this.getData()
@@ -668,10 +667,14 @@
 				this.getData()
 			},
 			go_to_page01(parm,parm02) {
-		      let routerUrl=this.$router.resolve({
-		          path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
-		        })
-		        window.open(routerUrl .href,'_blank')
+		      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm02
+      this.$store.state.now_app_id = parm
+      this.hand_save_vuex(this)
+      let routerUrl = this.$router.resolve({
+        path: '/now_ranking'
+      })
+      window.open(routerUrl.href, '_blank')
 		    }
 		}
 	

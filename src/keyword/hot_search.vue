@@ -159,7 +159,7 @@ export default {
     this.endDate = formatDate(this.dateValue, 'yyyy-MM-dd')
     this.get_data()
     this.$watch('dateValue', function(newValue, oldValue) {
-      // console.log('当前日期发生变化，重新请求数据...')
+      console.log('当前日期发生变化，重新请求数据...')
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -174,6 +174,7 @@ export default {
   methods: {
     // 请求数据
     get_data() {
+      // alert('444444444444')
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -189,11 +190,15 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
+          console.log(555)
+          // alert(this.dateValue)
+
           let url
           if (this.change_bg_week) {
             let day1 = new Date()
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 7)
+            // console.log(day1)
+            // console.log(formatDate(new Date(), 'yyyy-MM-dd'))
             url =
               '/Word/HotSearch?deviceType=' +
               deviceType +
@@ -216,6 +221,7 @@ export default {
               '&endDate=' +
               formatDate(day1, 'yyyy-MM-dd')
           } else {
+            let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
             url =
               '/Word/HotSearch?deviceType=' +
               deviceType +
@@ -226,6 +232,7 @@ export default {
               '&endDate=' +
               startDate
           }
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -292,12 +299,14 @@ export default {
     },
     //点击昨日按钮
     change_day_dateValue() {
+      this.dateValue = ''
       this.change_bg_week = false
       this.change_bg_day = true
       this.get_data()
     },
     //点击本周按钮
     change_week_dateValue() {
+      this.dateValue = ''
       this.change_bg_week = true
       this.change_bg_day = false
       this.get_data()
@@ -309,6 +318,9 @@ export default {
       console.log(this.now_country)
     },
     go_to_page01_son() {
+      if (this.search_input.trim() == '') {
+        return false
+      }
       this.$router.push({
         path: '/hot_history'
       })
@@ -332,6 +344,9 @@ export default {
 </script>
 
 <style scoped>
+.options_02 {
+  margin-top: 1px;
+}
 .search_confirm {
   width: 48px !important;
   height: 24px;
@@ -341,7 +356,7 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 261px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -488,7 +503,7 @@ table {
   width: 145px !important;
 }
 .options_03 {
-  margin-left: 70px !important;
+  margin-left: 22px !important;
 }
 .options_03 .date div {
   width: 114px !important;

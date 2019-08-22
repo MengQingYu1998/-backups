@@ -347,7 +347,7 @@ export default {
                   } else if (this.middle_top_radio1 == '按小时') {
                     return timestamp(element, 'Y/M/D h')
                   } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'Y/M/D h:s')
+                    return timestamp(element, 'Y/M/D h:m')
                   }
                 })
 
@@ -468,16 +468,56 @@ export default {
       // 绘制图表
       myChart.setOption({
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323',
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323',
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323',
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323',
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           textStyle: {

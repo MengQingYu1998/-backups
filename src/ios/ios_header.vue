@@ -33,7 +33,7 @@
       <div class="app_field country" @mousemove="click">
         <div>国家/地区</div>
         <!-- 选择国家 -->
-        <country @childFn="parentFn"></country>
+        <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
       </div>
     </div>
     <div class="border"></div>
@@ -58,6 +58,7 @@ export default {
   },
 
   created: function() {
+    this.$store.state.now_app_name = ''
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
@@ -96,8 +97,9 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(22222222222222222222222)
-              // console.log(this.response_data)
+              console.log(22222222222222222222222)
+              console.log(this.response_data)
+              this.$store.state.now_app_name = this.response_data.appName
               this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false
               // this.$nextTick(() => {
@@ -154,7 +156,7 @@ export default {
   line-height: 30px;
   letter-spacing: 0px;
   color: #444444;
-  text-align: center;
+  /* text-align: center; */
 }
 .app_field div:first-child {
   font-family: SourceHanSansCN-Normal;

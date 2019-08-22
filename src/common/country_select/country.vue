@@ -1,12 +1,12 @@
 <template>
   <div id="country_select">
-    <div class="country_name" @click="country_show_hidden=!country_show_hidden">
-      <img :src="'../../../static/flag/'+country_code+'.svg'" alt />
+    <div class="country_name" @click.stop="country_show_hidden=!country_show_hidden">
+      <!-- <img :src="'../../../static/flag/'+country_code+'.svg'" alt /> -->
       <span>{{country_name}}</span>
       <img src="./arrows.png" alt class="arrows" />
     </div>
     <div class="country_wrap" v-show="country_show_hidden">
-      <div class="country_header">
+      <div class="country_header" @click.stop>
         <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
         <img src="./search.png" alt />
       </div>
@@ -124,14 +124,22 @@ export default {
       country_code: 'CN'
     }
   },
-
+  props: ['custom_country'],
   created() {
+    if (this.custom_country) {
+      this.country_name = this.custom_country
+    }
     this.get_data()
+    this.$emit('childFn', this.country_name)
     this.$watch('country_name', function(newValue, oldValue) {
       this.$emit('childFn', this.country_name)
     })
   },
-
+  mounted: function() {
+    this.globalClick(() => {
+      this.country_show_hidden = false
+    })
+  },
   methods: {
     get_data() {
       // 亚洲是1 Asia
@@ -222,6 +230,9 @@ export default {
 }
 </script>
 <style scoped>
+.item:hover {
+  background-color: #f7f7f7;
+}
 .list {
   border-top: 1px solid #d6d6d6;
   margin-top: 10px;
@@ -245,7 +256,7 @@ export default {
   -o-transform: rotate(90deg);
 }
 .country_name span {
-  width: 27px;
+  width: 60px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -279,7 +290,7 @@ export default {
   color: #222222;
   display: flex;
   align-items: center;
-  margin-top: 9px;
+  padding: 4.5px 0;
   cursor: pointer;
 }
 .item img {

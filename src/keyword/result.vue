@@ -16,7 +16,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country @childFn="parentFn"></country>
+          <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
       <div class="options_03 option">
@@ -156,7 +156,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>应用</th>
+                    <th class="th_width">应用</th>
                     <th>搜索排名变动</th>
                     <th>总榜排名</th>
                     <th>分类榜排名</th>
@@ -221,10 +221,12 @@
                     <td>
                       <div>{{item.ranking.rank_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
                     </td>
                     <td>
                       <div>{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
                     </td>
                     <td
                       class="pointer"
@@ -235,7 +237,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="right">
+            <div class="right" v-if="now_country=='中国'">
               <div class="right_title">关键词搜索结果变化率</div>
               <div class="right_btn">
                 <div>
@@ -256,7 +258,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>应用</th>
+                    <th class="th_width">应用</th>
                     <th>搜索排名变动</th>
                     <th>总榜排名</th>
                     <th>分类榜排名</th>
@@ -319,10 +321,12 @@
                     <td>
                       <div>{{item.ranking.rank_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
                     </td>
                     <td>
                       <div>{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
                     </td>
                     <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                     <td>{{item.Top3}}</td>
@@ -345,7 +349,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>应用</th>
+                    <th class="th_width">应用</th>
                     <th>排名/分类</th>
                     <th>排名变动</th>
                     <th>关键词覆盖</th>
@@ -356,7 +360,7 @@
                   <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
                     <td>
                       <div class="use">
-                        <div class>{{item.rowid}}</div>
+                        <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
                           <img
                             :src="item.icon_url"
@@ -379,6 +383,7 @@
                     <td>
                       <div>{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
                     </td>
                     <td>
                       <div class="rankingChange">
@@ -425,7 +430,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>应用</th>
+                    <th class="th_width">应用</th>
                     <th>排名/分类</th>
                     <th>排名变动</th>
                     <th>关键词覆盖</th>
@@ -436,7 +441,7 @@
                   <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
                     <td>
                       <div class="use">
-                        <div class>{{item.rowid}}</div>
+                        <div class="first_div">{{item.rowid}}</div>
                         <div class="second_div">
                           <img
                             :src="item.icon_url"
@@ -459,6 +464,7 @@
                     <td>
                       <div>{{item.ranking.genre_class}}</div>
                       <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
                     </td>
                     <td>
                       <div class="rankingChange">
@@ -504,7 +510,7 @@
     <div class="my_dialog_wraper" v-show="dialogVisible">
       <div class="my_dialog">
         <img src="../assets/keyword/dialog_02.png" alt @click="dialogVisible=false" />
-        <div class="result_title">【{{word}}】在【抖音】搜索结果中排名趋势</div>
+        <div class="result_title">【{{word}}】在【{{this.$store.state.now_app_name}}】搜索结果中排名趋势</div>
         <div class="btn_group">
           <div class="classify">
             <div></div>
@@ -588,6 +594,7 @@ export default {
   },
   data() {
     return {
+      custom_country: null, //自定义显示国家
       isFirstEnter: false, // 是否第一次进入，默认false
       // can_excute12: false,
       // can_excute11: false,
@@ -607,8 +614,8 @@ export default {
       word: '',
       appid: '',
       WordId: '',
-      radio01_dialog: '按天',
-      radio02_dialog: '30天',
+      radio01_dialog: '按小时',
+      radio02_dialog: '近24小时',
       dialogVisible: false,
       time_dialog: '',
       // true显示myChart false显示table表格
@@ -651,6 +658,8 @@ export default {
       // =======================柱形图============================
       // =======================柱形图============================
       // =======================柱形图============================
+      column_max: 100,
+      column_min: -100,
       radio1: 'all',
       //canvas 关键词data数组
       keyword_data01: [],
@@ -659,11 +668,7 @@ export default {
       keyword_data_value01: []
     }
   },
-
   created: function() {
-    if (this.$route.query.now_app_name) {
-      this.$store.state.now_app_name = this.$route.query.now_app_name
-    }
     this.isFirstEnter = true
     // 只有第一次进入或者刷新页面后才会执行此钩子函数
     // 使用keep-alive后（2+次）进入不会再执行此钩子函数
@@ -1010,16 +1015,58 @@ export default {
             .get(url)
             .then(response => {
               console.log(response)
-              this.keyword_data01 = []
-              this.keyword_data_value01 = []
-              this.xAxis_data01 = []
+              this.keyword_data01 = new Array()
+              this.keyword_data_value01 = new Array()
+              this.xAxis_data01 = new Array()
               let temp = response.data
-              // console.log(temp)
               this.keyword_data_value01.push(temp.Yvalue)
               this.xAxis_data01 = temp.Xvalue
-
               this.keyword_data01.push('ios12')
+              console.log(this.keyword_data_value01[0])
+              // max: that.column_max,
+              //           min: that.column_min,
+              // ==================找数组最大值====================
+              let max_value_arr = new Array()
 
+              let max_value = 0
+              this.keyword_data_value01[0].forEach(element_son => {
+                element_son = parseInt(element_son)
+                if (max_value <= element_son) {
+                  max_value = element_son
+                }
+              })
+              if (max_value >= 0 && max_value <= 9) {
+                this.column_max = 10
+              } else if (max_value >= 10 && max_value <= 19) {
+                this.column_max = 20
+              } else if (max_value >= 20 && max_value <= 49) {
+                this.column_max = 50
+              } else if (max_value >= 50 && max_value <= 99) {
+                this.column_max = 100
+              } else if (max_value >= 100) {
+                this.column_max = max_value + 20
+              }
+              // ==================找数组最大值====================
+              // ==================找数组最小值====================
+              let min_value = 0
+              this.keyword_data_value01[0].forEach(element_son => {
+                element_son = parseInt(element_son)
+                if (min_value >= element_son) {
+                  min_value = element_son
+                }
+              })
+              if (min_value < 0 && min_value >= -9) {
+                this.column_min = -10
+              } else if (min_value <= -10 && min_value >= -19) {
+                this.column_min = -20
+              } else if (min_value <= -20 && min_value >= -49) {
+                this.column_min = -50
+              } else if (min_value <= -50 && min_value >= -99) {
+                this.column_min = -100
+              } else if (min_value >= -100) {
+                this.column_min = min_value - 20
+              }
+              // ==================找数组最小值====================
               this.drawLine12()
             })
             .catch(error => {
@@ -1043,16 +1090,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         color: ['#3398DB'],
         tooltip: {
@@ -1060,6 +1107,19 @@ export default {
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function(data) {
+            // console.log(data)
+            return (
+              data[0].axisValue +
+              '<br/>' +
+              data[0].marker +
+              data[0].seriesName +
+              '：' +
+              data[0].value +
+              '%'
+            )
+            //将小数转化为百分数显示
           }
         },
         legend: {
@@ -1084,6 +1144,8 @@ export default {
         yAxis: [
           {
             type: 'value',
+            max: that.column_max,
+            min: that.column_min,
             //设置Y轴百分比显示
             axisLabel: {
               show: true,
@@ -1286,16 +1348,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis'
@@ -1306,7 +1368,7 @@ export default {
         },
         grid: {
           left: '3%',
-          right: '3%',
+          right: '5%',
           bottom: '13%',
           containLabel: true
         },
@@ -1373,7 +1435,6 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      // console.log(this.now_country)
     },
     go_to_page01(parm) {
       this.get_data_12()
@@ -1387,12 +1448,14 @@ export default {
       this.$router.push({
         path: '/trend_many'
       })
+      this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
     },
     go_to_page03(parm) {
       this.$router.push({
         path: '/trend_one'
       })
+      this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
     },
     go_to_page04(parm) {
@@ -1401,24 +1464,32 @@ export default {
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
-      this.$router.push({
-        path: '/result'
-      })
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
+      this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
+      this.$router.push({
+        path: '/result'
+      })
     },
     go_to_page05(parm, parm02) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_id = parm
+      this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path: '/now_ranking?now_app_id=' + parm + '&now_app_name=' + parm02
+        path: '/now_ranking'
       })
       window.open(routerUrl.href, '_blank')
     },
     go_to_page06(parm, parm02) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm02
+      this.$store.state.now_app_id = parm
+      this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path: '/data_table?now_app_id=' + parm + '&now_app_name=' + parm02
+        path: '/data_table'
       })
       window.open(routerUrl.href, '_blank')
     }
@@ -1546,7 +1617,8 @@ export default {
   color: #222222 !important;
 }
 .second_div {
-  width: 55px;
+  width: 52px;
+  text-align: left;
 }
 .second_div img {
   border: solid 1px #f2f2f2;
@@ -1561,7 +1633,7 @@ export default {
   overflow: hidden;
 }
 .first_div {
-  width: 50px;
+  width: 40px;
   text-align: center;
 }
 
@@ -1657,8 +1729,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  margin-right: 9px;
-  margin-left: 9px;
+
   cursor: pointer;
 }
 .tabsContentTable .use {
@@ -1757,10 +1828,11 @@ option:first-child {
   margin-left: 0 !important;
 }
 .options_03 {
-  margin-left: 70px;
+  margin-left: 22px;
 }
 .options_02 {
   margin-left: 30px;
+  margin-top: 2px;
 }
 .options {
   height: 24px;
@@ -1795,5 +1867,20 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.tabs tbody tr:nth-child(1) .use .first_div {
+  color: #222222;
+  font-weight: bold;
+}
+.tabs tbody tr:nth-child(2) .use .first_div {
+  color: #222222;
+  font-weight: bold;
+}
+.tabs tbody tr:nth-child(3) .use .first_div {
+  color: #222222;
+  font-weight: bold;
+}
+.th_width {
+  width: 233px;
 }
 </style>

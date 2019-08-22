@@ -167,7 +167,7 @@ export default {
   data() {
     return {
       response_data: null,
-     now_country: '中国',
+      now_country: '中国'
     }
   },
   created: function() {
@@ -352,8 +352,8 @@ td {
   letter-spacing: 0px;
   color: #009bef;
   position: absolute;
-  right: -118px;
-  top: 0;
+  right: -126px;
+  top: 1px;
 }
 .rankingChangeFontColor {
   font-family: SourceHanSansCN-Normal;

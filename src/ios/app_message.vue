@@ -254,7 +254,7 @@ export default {
       radio02: 'iPhone', //第三部分 截图
       // 请求的数据
       response_data: null,
-     now_country: '中国',
+      now_country: '中国'
     }
   },
   created: function() {
@@ -355,11 +355,11 @@ export default {
       console.log('app_message' + this.now_country)
     },
     go_to_page01(parm, parm02) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_id = parm
       this.$router.push({
         path: '/now_ranking'
       })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
     }
   }
 }
@@ -494,6 +494,7 @@ export default {
   width: 995px;
   overflow-x: auto;
   white-space: nowrap;
+  padding-bottom: 15px;
 }
 .btn_group {
   display: flex;

@@ -43,6 +43,38 @@ import 'videojs-contrib-hls'
 
 Vue.prototype.pin_config = world.pin_config
 Vue.prototype.map_config = world.map_config
+Vue.prototype.globalClick = function(callback) {
+  document.getElementById('body').onclick = function() {
+    callback()
+  }
+}
+
+Vue.prototype.refresh_save_vuex = function(parm) {
+  if (sessionStorage.getItem('store')) {
+    parm.$store.replaceState(
+      Object.assign(
+        {},
+        parm.$store.state,
+        JSON.parse(sessionStorage.getItem('store'))
+      )
+    )
+  }
+  window.addEventListener('beforeunload', () => {
+    sessionStorage.setItem('store', JSON.stringify(parm.$store.state))
+  })
+}
+Vue.prototype.hand_save_vuex = function(parm) {
+  sessionStorage.setItem('store', JSON.stringify(parm.$store.state))
+  if (sessionStorage.getItem('store')) {
+    parm.$store.replaceState(
+      Object.assign(
+        {},
+        parm.$store.state,
+        JSON.parse(sessionStorage.getItem('store'))
+      )
+    )
+  }
+}
 
 /* eslint-disable no-new */
 new Vue({

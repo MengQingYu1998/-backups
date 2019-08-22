@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
     // 初始化状态
     now_app_id: null,
     now_app_id02: null,
-    now_app_name: null
+    now_app_name: null,
+    now_country_name: null
   },
   mutations: {
     // 处理状态

@@ -96,17 +96,17 @@ export default {
           trigger: 'axis'
         },
 
-        color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+      color: [
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         legend: {
           data: that.keyword_data,
@@ -159,8 +159,7 @@ export default {
         series: that.series_data()
       })
     }
-  },
-  components: {}
+  }
 }
 </script>
 

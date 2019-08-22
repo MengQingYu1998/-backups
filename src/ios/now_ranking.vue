@@ -364,13 +364,6 @@ export default {
   },
 
   created: function() {
-    // console.log(this.$route.query.now_app_id)
-    // console.log(this.$route.query.now_app_name)
-    if (this.$route.query.now_app_id && this.$route.query.now_app_name) {
-      this.$store.state.now_app_id = this.$route.query.now_app_id
-      this.$store.state.now_app_name = this.$route.query.now_app_name
-    }
-
     this.get_data_first()
     this.get_data_second()
     this.get_data_third()
@@ -584,7 +577,7 @@ export default {
                   } else if (this.middle_top_radio1 == '按小时') {
                     return timestamp(element, 'Y/M/D h')
                   } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'Y/M/D h:s')
+                    return timestamp(element, 'Y/M/D h:m')
                   }
                 })
 
@@ -698,16 +691,16 @@ export default {
         },
 
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         legend: {
           data: that.keyword_data,
@@ -949,13 +942,10 @@ export default {
   margin-right: 10px;
 }
 
-.world_map:hover {
-  z-index: 999 !important;
-}
 .world_map {
   position: relative;
   margin: 0 auto;
-  padding-top: 50px;
+  margin-top: 50px;
   height: 500px;
 }
 
@@ -1110,7 +1100,7 @@ section {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  color: #888888;
+  color: #444;
   padding: 30px 0;
 }
 

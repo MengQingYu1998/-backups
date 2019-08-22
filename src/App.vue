@@ -23,18 +23,7 @@ import Foot from './NumVue/foot'
 export default {
   name: 'App',
   created() {
-    if (sessionStorage.getItem('store')) {
-      this.$store.replaceState(
-        Object.assign(
-          {},
-          this.$store.state,
-          JSON.parse(sessionStorage.getItem('store'))
-        )
-      )
-    }
-    window.addEventListener('beforeunload', () => {
-      sessionStorage.setItem('store', JSON.stringify(this.$store.state))
-    })
+    this.refresh_save_vuex(this)
   },
   components: {
     Navv,
@@ -265,6 +254,7 @@ export default {
 }
 .el-input__inner {
   height: 27px !important;
+  line-height: 27px !important;
 }
 #data_table .min_max .el-input__inner,
 #ranking .min_max .el-input__inner {
@@ -310,22 +300,6 @@ table tbody tr:hover {
 }
 #grade_start .el-progress-bar__outer {
   border-radius: 0 !important;
-}
-/* timeline 时间轴组件的icon */
-#version_message .el-timeline-item__icon {
-  color: #009bef !important;
-  font-size: 20px;
-}
-
-/* timeline 时间轴组件 */
-#version_message .el-timeline-item__timestamp.is-top {
-  margin-left: -130px;
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #888888;
 }
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 
@@ -405,12 +379,20 @@ table thead tr th {
   /* padding: 6px 3px; */
 }
 #map_base {
-  width: 80%;
   margin: 0 auto;
 }
 /* 搜索结果的切换 */
 #result .el-tabs__active-bar {
   height: 1px !important;
+}
+#result .el-tabs__nav-wrap::after {
+  height: 1px !important;
+}
+#result .el-tabs__item {
+  color: #888888;
+}
+#result .el-tabs__item.is-active {
+  color: #009bef;
 }
 /* 应用信息的视频插件 */
 .vjs-custom-skin > .video-js .vjs-big-play-button {
@@ -421,7 +403,7 @@ table thead tr th {
   margin-top: -1em !important;
   border-radius: 50%;
 }
-#version_message .video-js.vjs-fluid,
+.video-js.vjs-fluid,
 .video-js.vjs-16-9,
 .video-js.vjs-4-3 {
   border-radius: 4px;
@@ -436,5 +418,35 @@ table thead tr th {
 .video-js .vjs-big-play-button {
   border: none;
   outline: none;
+}
+
+/* timeline 时间轴组件的icon */
+#version_message .timeline > li:first-child .el-timeline-item__icon {
+  color: #009bef !important;
+  font-size: 20px;
+}
+#version_message .el-timeline-item__icon {
+  color: #009bef !important;
+  font-size: 9px;
+}
+#version_message .el-timeline-item__timestamp.is-top {
+  margin-left: -130px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #888888;
+}
+#version_message .el-timeline-item__tail {
+  left: 1.5;
+  margin-top: 14px;
+}
+#version_message .el-timeline-item__node--large:not(:first-child) {
+  width: 9px;
+  height: 9px;
+}
+#version_message .timeline > li:not(:first-child) .el-timeline-item__node {
+  background-color: #009bef !important;
 }
 </style>

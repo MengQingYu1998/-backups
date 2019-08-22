@@ -16,7 +16,7 @@
         <div>地区</div>
         <div>
           <!-- 选择国家 -->
-          <country @childFn="parentFn"></country>
+          <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
       <div class="btn_item_03" @click="change_radio02">
@@ -159,6 +159,8 @@ export default {
       keyword_data_value: [],
       // X轴文本
       xAxis_data: [],
+      yAxis_max: 5,
+      yAxis_min: 0,
       // 控制折线显隐
       selected_data: {}
     }
@@ -256,6 +258,167 @@ export default {
               this.xAxis_data = this.response_data.Xtime
               this.keyword_data_value = this.response_data.Yvalue
 
+              // ==================找数组最小值====================
+              // this.yAxis_min = 5
+              // let min_value_arr = new Array()
+              // this.keyword_data_value.forEach(element => {
+              //   min_value_arr.push(element.slice(0))
+              // })
+              // let min_value = 0
+              // min_value_arr.forEach(element => {
+              //   element.forEach(element_son => {
+              //     element_son = parseInt(element_son)
+              //     if (min_value <= element_son) {
+              //       min_value = element_son
+              //     }
+              //   })
+              // })
+              // // alert(this.yAxis_min)
+              // if (min_value <= 5) {
+              //   this.yAxis_min = 0
+              // } else if (min_value <= 20) {
+              //   this.yAxis_min = 5
+              // } else if (min_value <= 50) {
+              //   this.yAxis_min = 20
+              // } else if (min_value <= 100) {
+              //   this.yAxis_min = 50
+              // } else if (min_value <= 500) {
+              //   this.yAxis_min = 100
+              // } else if (min_value <= 1000) {
+              //   this.yAxis_min = 500
+              // } else if (min_value <= 1500) {
+              //   this.yAxis_min = 1000
+              // } else if (min_value <= 2000) {
+              //   this.yAxis_min = 1500
+              // } else if (min_value <= 2500) {
+              //   this.yAxis_min = 2000
+              // } else if (min_value <= 3000) {
+              //   this.yAxis_min = 2500
+              // } else if (min_value <= 3500) {
+              //   this.yAxis_min = 3000
+              // } else if (min_value <= 4000) {
+              //   this.yAxis_min = 3500
+              // } else if (min_value <= 4500) {
+              //   this.yAxis_min = 4000
+              // } else if (min_value <= 5000) {
+              //   this.yAxis_min = 4500
+              // } else if (min_value <= 5500) {
+              //   this.yAxis_min = 5000
+              // } else if (min_value <= 6000) {
+              //   this.yAxis_min = 5500
+              // } else if (min_value <= 6500) {
+              //   this.yAxis_min = 6000
+              // } else if (min_value <= 7000) {
+              //   this.yAxis_min = 6500
+              // } else if (min_value <= 7500) {
+              //   this.yAxis_min = 7000
+              // } else if (min_value <= 8000) {
+              //   this.yAxis_min = 7500
+              // } else if (min_value <= 8500) {
+              //   this.yAxis_min = 8000
+              // } else if (min_value <= 9000) {
+              //   this.yAxis_min = 8500
+              // } else if (min_value <= 9500) {
+              //   this.yAxis_min = 9000
+              // } else if (min_value <= 10000) {
+              //   this.yAxis_min = 9500
+              // } else if (min_value <= 10500) {
+              //   this.yAxis_min = 10000
+              // } else if (min_value <= 11000) {
+              //   this.yAxis_min = 10500
+              // } else if (min_value <= 11500) {
+              //   this.yAxis_min = 11000
+              // } else if (min_value <= 12000) {
+              //   this.yAxis_min = 11500
+              // } else if (min_value <= 12500) {
+              //   this.yAxis_min = 12000
+              // } else if (min_value <= 13000) {
+              //   this.yAxis_min = 12500
+              // } else {
+              //   this.yAxis_min = min_value - 100
+              // }
+              // this.yAxis_min = min_value
+              // ==================找数组最小值====================
+              // ==================找数组最大值====================
+              let max_value_arr = new Array()
+              this.keyword_data_value.forEach(element => {
+                max_value_arr.push(element.slice(0))
+              })
+              let max_value = 0
+              max_value_arr.forEach(element => {
+                element.forEach(element_son => {
+                  // console.log(element_son)
+                  element_son = parseInt(element_son)
+                  if (max_value <= element_son) {
+                    max_value = element_son
+                  }
+                })
+              })
+              // console.log(max_value)
+              if (max_value <= 5) {
+                this.yAxis_max = 5
+              } else if (max_value <= 20) {
+                this.yAxis_max = 20
+              } else if (max_value <= 50) {
+                this.yAxis_max = 50
+              } else if (max_value <= 100) {
+                this.yAxis_max = 100
+              } else if (max_value <= 500) {
+                this.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                this.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                this.yAxis_max = 1500
+              } else if (max_value <= 2000) {
+                this.yAxis_max = 2000
+              } else if (max_value <= 2500) {
+                this.yAxis_max = 2500
+              } else if (max_value <= 3000) {
+                this.yAxis_max = 3000
+              } else if (max_value <= 3500) {
+                this.yAxis_max = 3500
+              } else if (max_value <= 4000) {
+                this.yAxis_max = 4000
+              } else if (max_value <= 4500) {
+                this.yAxis_max = 4500
+              } else if (max_value <= 5000) {
+                this.yAxis_max = 5000
+              } else if (max_value <= 5500) {
+                this.yAxis_max = 5500
+              } else if (max_value <= 6000) {
+                this.yAxis_max = 6000
+              } else if (max_value <= 6500) {
+                this.yAxis_max = 6500
+              } else if (max_value <= 7000) {
+                this.yAxis_max = 7000
+              } else if (max_value <= 7500) {
+                this.yAxis_max = 7500
+              } else if (max_value <= 8000) {
+                this.yAxis_max = 8000
+              } else if (max_value <= 8500) {
+                this.yAxis_max = 8500
+              } else if (max_value <= 9000) {
+                this.yAxis_max = 9000
+              } else if (max_value <= 9500) {
+                this.yAxis_max = 9500
+              } else if (max_value <= 10000) {
+                this.yAxis_max = 10000
+              } else if (max_value <= 10500) {
+                this.yAxis_max = 10500
+              } else if (max_value <= 11000) {
+                this.yAxis_max = 11000
+              } else if (max_value <= 11500) {
+                this.yAxis_max = 11500
+              } else if (max_value <= 12000) {
+                this.yAxis_max = 12000
+              } else if (max_value <= 12500) {
+                this.yAxis_max = 12500
+              } else if (max_value <= 13000) {
+                this.yAxis_max = 13000
+              } else {
+                this.yAxis_max = max_value + 100
+              }
+              // ==================找数组最大值====================
               this.drawLine()
             })
             .catch(error => {
@@ -280,16 +443,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis'
@@ -327,7 +490,11 @@ export default {
           data: that.xAxis_data
         },
         yAxis: {
-          type: 'value'
+          min: that.yAxis_min,
+          max: that.yAxis_max,
+          type: 'value',
+          interval: parseInt((that.yAxis_max - that.yAxis_min) / 5),
+          minInterval: 1
         },
         series: that.series_data()
       })
@@ -412,20 +579,22 @@ export default {
 }
 </script>
 <style scoped>
+.options_02 {
+  margin-top: 1px;
+}
 .search_confirm {
   width: 48px !important;
-  height: 24px;
+  height: 25px;
   background-color: #009bef;
   border-radius: 4px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 24px;
+  line-height: 25px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  margin-top: 3px;
 }
 .date {
   margin-top: 2px !important;
@@ -436,7 +605,7 @@ export default {
 .btn_item_03 {
   display: flex;
   align-items: center;
-  margin-left: 70px;
+  margin-left: 22px;
   margin-top: 10px;
 }
 .btn_item_03 > div {

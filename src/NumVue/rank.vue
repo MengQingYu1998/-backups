@@ -192,8 +192,8 @@ export default {
       games: {
         Data: []
       },
-      scrollHeight:0,
-      total_number:0,//修改排序错乱
+      scrollHeight: 0,
+      total_number: 0 //修改排序错乱
     }
   },
   created() {
@@ -212,24 +212,24 @@ export default {
           document.documentElement.clientHeight || document.body.clientHeight
         //变量scrollHeight是滚动条的总高度
         that.scrollHeight =
-        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        var int=Math.round(scrollTop + windowHeight)
-        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
+          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
+        var int = Math.round(scrollTop + windowHeight)
+        if (
+          int == that.scrollHeight ||
+          int + 1 == that.scrollHeight ||
+          int - 1 == that.scrollHeight
+        ) {
           // 请求数据
-            that.getData()
-            
-          
+          that.getData()
         }
       }
     })
-   
   },
   methods: {
-    
     //请求数据
     getData() {
-      this.total_number+=1
-      let number=this.total_number
+      this.total_number += 1
+      let number = this.total_number
       //传给后台的sort值
       let sortV = 'desc'
       if (this.upfont == true) {
@@ -237,7 +237,7 @@ export default {
       } else {
         sortV = 'asc'
       }
-      
+
       // 传给后台的pid值
       let pidV = 36
       if (this.isFontZ == true) {
@@ -306,12 +306,12 @@ export default {
                 }
               }
             }
-//             console.log("brandV:"+brandV)
-//             console.log("dayNumV:"+dayNumV)
-//             console.log("sortV:"+sortV)
-//             console.log("apliId:"+apliId)
-//             console.log("pidV:"+pidV)
-// console.log(111111111111111111111)
+            //             console.log("brandV:"+brandV)
+            //             console.log("dayNumV:"+dayNumV)
+            //             console.log("sortV:"+sortV)
+            //             console.log("apliId:"+apliId)
+            //             console.log("pidV:"+pidV)
+            // console.log(111111111111111111111)
             this.$axios({
               method: 'post',
               url: '/PostAppRankChanage',
@@ -329,11 +329,11 @@ export default {
             })
               .then(res => {
                 if (res.data.Code == 0) {
-                  if(this.total_number==number){
+                  if (this.total_number == number) {
                     this.zongsData = this.zongsData.concat(res.data.Data)
                     this.page++
                   }
-                  
+
                   let DownloadTotal = (this.pageSize + 1) * this.page
                   let total = res.data.pageCount
                   if (total > 0) {
@@ -442,7 +442,7 @@ export default {
       }
       this.page = 1
       this.zongsData.length = 0
-      this.canscroll=false
+      this.canscroll = false
 
       this.getData()
     },
@@ -477,12 +477,16 @@ export default {
       this.page = 1
       this.getData()
     },
-    go_to_page01(parm,parm02) {
-      let routerUrl=this.$router.resolve({
-          path:'/now_ranking?now_app_id='+parm+'&now_app_name='+parm02
-        })
-        window.open(routerUrl .href,'_blank')
-    }
+    go_to_page01(parm, parm02) {
+      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm02
+      this.$store.state.now_app_id = parm
+      this.hand_save_vuex(this)
+      let routerUrl = this.$router.resolve({
+        path: '/now_ranking'
+      })
+      window.open(routerUrl.href, '_blank')
+    }
   }
 }
 </script>
@@ -490,9 +494,9 @@ export default {
 
 
 <style scoped>
-.weit{
-  font-family: SourceHanSansCN-Bold!important;
-  color: #222222!important;
+.weit {
+  font-family: SourceHanSansCN-Bold !important;
+  color: #222222 !important;
 }
 .Leibox {
   position: absolute;

@@ -397,13 +397,26 @@
                 </td>
 
                 <td>
-                  <div
-                    :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                  >
-                    <img src="../assets/keyword/arrows (1).png" alt v-show="item.Change=0" />
-                    <img src="../assets/keyword/arrows (2).png" alt v-show="item.Change>0" />
-                    <img src="../assets/keyword/arrows (3).png" alt v-show="item.Change<0" />
-                    {{item.Change}}
+                  <div>
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (1).png"
+                      alt
+                      v-show="item.Change==0"
+                    />
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (2).png"
+                      alt
+                      v-show="item.Change>0"
+                    />
+                    <img
+                      class="img_left"
+                      src="../assets/keyword/arrows (3).png"
+                      alt
+                      v-show="item.Change<0"
+                    />
+                    {{Math.abs(item.Change)}}
                   </div>
                 </td>
                 <td>
@@ -494,6 +507,7 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      stop_click_many_times: null,
       db_number_is_same: 0, //修复用户输入过快的bug
       total: 0,
       request_data_second: null,
@@ -844,6 +858,13 @@ export default {
     },
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word) {
+      // 防止多次点击
+      if (this.stop_click_many_times == wordId + word) {
+        this.is_show_bottom = !this.is_show_bottom
+        this.stop_click_many_times = wordId + word
+        return false
+      }
+      this.stop_click_many_times = wordId + word
       // temp01是一个tr        temp是第三个tr
 
       // if (this.echart_function_body_can_excute != index) {
@@ -869,6 +890,13 @@ export default {
       // this.echart_function_body_can_excute = index
     },
     middle_table_second(index, wordId, word) {
+      // 防止多次点击
+      if (this.stop_click_many_times == wordId + word) {
+        this.is_show_bottom = !this.is_show_bottom
+        this.stop_click_many_times = wordId + word
+        return false
+      }
+      this.stop_click_many_times = wordId + word
       // if (this.echart_function_body_can_excute02 != index) {
       // console.log('第二个方法执行了')
       this.temp01_request_data_second = this.temp01_request_data_second.concat(
@@ -1090,16 +1118,16 @@ export default {
           trigger: 'axis'
         },
         color: [
-          '#009bef',
-          '#ff6969',
-          '#6277ff',
-          '#ff5c7c',
-          '#7546fd',
-          '#ff6946',
-          '#0ec597',
-          '#e8ed55',
-          '#a6ff70',
-          '#e13eff'
+          '#62c8ff',
+          '#216aff',
+          '#4209a2',
+          '#a000d2',
+          '#ec066d',
+          '#f24d3e',
+          '#ff9731',
+          '#ffd800',
+          '#c3df00',
+          '#529323'
         ],
         tooltip: {
           trigger: 'axis'
@@ -1109,8 +1137,8 @@ export default {
           y: 'bottom'
         },
         grid: {
-          left: '3%',
-          right: '3%',
+          left: '4%',
+          right: '4%',
           bottom: '13%',
           containLabel: true
         },
@@ -1396,7 +1424,7 @@ thead tr {
   height: 40px;
 }
 td {
-  padding: 36px 0;
+  padding: 14px 0;
 }
 th {
   border: 1px solid #f2f2f2;
@@ -1480,12 +1508,13 @@ table {
 }
 .myChart {
   width: 979px;
-  height: 300px;
+  height: 320px;
   z-index: 1;
   text-align: center;
   color: #666;
   line-height: 300px;
   font-size: 50px;
+  margin-top: -24px;
 }
 
 .table_title {
