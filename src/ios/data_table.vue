@@ -255,139 +255,144 @@
                   >排名趋势</div>
                 </td>
               </tr>
-              <tr v-show="is_show_bottom" class="echarts_middle">
-                <td colspan="6">
-                  <!-- 底部 类型模块 -->
-                  <!-- 底部 类型模块 -->
-                  <!-- 底部 类型模块 -->
-                  <section class="bottom">
-                    <div class="btn_group">
-                      <div class="classify">
-                        <div>类型</div>
-                        <div>
-                          <el-radio-group v-model="bottom_radio1" size="mini">
-                            <el-radio-button label="按分钟"></el-radio-button>
-                            <el-radio-button label="按小时"></el-radio-button>
-                            <el-radio-button label="按天"></el-radio-button>
-                          </el-radio-group>
+              <transition name="fade">
+                <tr v-show="is_show_bottom" class="echarts_middle">
+                  <td colspan="6">
+                    <!-- 底部 类型模块 -->
+                    <!-- 底部 类型模块 -->
+                    <!-- 底部 类型模块 -->
+
+                    <section class="bottom">
+                      <div class="btn_group">
+                        <div class="classify">
+                          <div>类型</div>
+                          <div>
+                            <el-radio-group v-model="bottom_radio1" size="mini">
+                              <el-radio-button label="按分钟"></el-radio-button>
+                              <el-radio-button label="按小时"></el-radio-button>
+                              <el-radio-button label="按天"></el-radio-button>
+                            </el-radio-group>
+                          </div>
+                        </div>
+                        <div class="classify bottom_time">
+                          <div>时间</div>
+                          <div @click="click_second_el_radio">
+                            <el-radio-group v-model="bottom_radio3" size="mini">
+                              <el-radio-button
+                                label="近24小时"
+                                v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                              ></el-radio-button>
+                              <el-radio-button
+                                label="昨日"
+                                v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                              ></el-radio-button>
+                              <el-radio-button
+                                label="7天"
+                                v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'||bottom_radio1=='按天'"
+                              ></el-radio-button>
+                              <el-radio-button
+                                label="30天"
+                                v-show="bottom_radio1=='按小时'||bottom_radio1=='按天'"
+                              ></el-radio-button>
+                              <el-radio-button
+                                label="180天"
+                                v-show="bottom_radio1=='按天'||bottom_radio1=='按天'"
+                              ></el-radio-button>
+                              <!-- <el-radio-button label="380天" v-show="bottom_radio1=='按天'"></el-radio-button> -->
+                            </el-radio-group>
+                          </div>
+                        </div>
+                        <div class="btn_item_01">
+                          <!-- <div>时间</div> -->
+                          <div @click="click_second_el_date_picker">
+                            <el-date-picker
+                              v-model="middle_time01"
+                              type="daterange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              :picker-options="middle_pickerOptions"
+                            ></el-date-picker>
+                          </div>
                         </div>
                       </div>
-                      <div class="classify bottom_time">
-                        <div>时间</div>
-                        <div @click="click_second_el_radio">
-                          <el-radio-group v-model="bottom_radio3" size="mini">
-                            <el-radio-button
-                              label="近24小时"
-                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
-                            ></el-radio-button>
-                            <el-radio-button
-                              label="昨日"
-                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
-                            ></el-radio-button>
-                            <el-radio-button
-                              label="7天"
-                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'||bottom_radio1=='按天'"
-                            ></el-radio-button>
-                            <el-radio-button
-                              label="30天"
-                              v-show="bottom_radio1=='按小时'||bottom_radio1=='按天'"
-                            ></el-radio-button>
-                            <el-radio-button
-                              label="180天"
-                              v-show="bottom_radio1=='按天'||bottom_radio1=='按天'"
-                            ></el-radio-button>
-                            <!-- <el-radio-button label="380天" v-show="bottom_radio1=='按天'"></el-radio-button> -->
-                          </el-radio-group>
+
+                      <div class="position_relative">
+                        <div class="table_title">【{{keyword_data[0]}}】榜单排名走势</div>
+                        <div
+                          ref="myChart_data_table"
+                          class="myChart"
+                          v-show="is_show_myChart_and_table&&!no_data"
+                        ></div>
+                        <div class="myChart" v-show="no_data">暂无数据</div>
+                        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+                          <img
+                            v-on:click="is_show_myChart_function"
+                            class="float_right"
+                            src="../assets/keyword/three.png"
+                            alt
+                          />
+                          <img
+                            v-on:click="is_show_table_function"
+                            class="float_right"
+                            src="../assets/keyword/calculator.png"
+                            alt
+                          />
                         </div>
-                      </div>
-                      <div class="btn_item_01">
-                        <!-- <div>时间</div> -->
-                        <div @click="click_second_el_date_picker">
-                          <el-date-picker
-                            v-model="middle_time01"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="middle_pickerOptions"
-                          ></el-date-picker>
+
+                        <table v-show="!no_data&&!is_show_myChart_and_table">
+                          <thead>
+                            <tr>
+                              <th>
+                                <span>时间</span>
+                              </th>
+                              <th>
+                                <span>{{this.$store.state.now_app_name}}</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="request_data_third">
+                            <tr
+                              v-for="(item ,index) in request_data_third.timeList.length"
+                              :key="'trend_one_table02'+index"
+                            >
+                              <td>
+                                <div>{{request_data_third.timeList[index]}}</div>
+                              </td>
+                              <td>
+                                <div>{{request_data_third.rankList[index]}}</div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div
+                          class="bottom_image_table pointer"
+                          v-show="!no_data&&!is_show_myChart_and_table"
+                        >
+                          <img
+                            v-on:click="is_show_myChart_function"
+                            class="float_right"
+                            src="../assets/keyword/three.png"
+                            alt
+                          />
+                          <img
+                            v-on:click="is_show_table_function"
+                            class="float_right"
+                            src="../assets/keyword/calculator.png"
+                            alt
+                          />
                         </div>
+                        <div class="import_data_for_table" v-show="false">导出数据</div>
+                        <div class="clear_float"></div>
                       </div>
-                    </div>
+                    </section>
 
-                    <div class="position_relative">
-                      <div class="table_title">【{{keyword_data[0]}}】榜单排名走势</div>
-                      <div
-                        ref="myChart_data_table"
-                        class="myChart"
-                        v-show="is_show_myChart_and_table"
-                      ></div>
-                      <div class="myChart" v-if="!is_show_myChart_and_table">暂无数据</div>
-                      <div class="bottom_image" v-show="false">
-                        <img class="float_right" src="../assets/keyword/down.png" alt />
-                        <img
-                          v-on:click="is_show_myChart_and_table_function"
-                          class="float_right"
-                          src="../assets/keyword/three.png"
-                          alt
-                        />
-                        <img
-                          v-on:click="is_show_myChart_and_table_function"
-                          class="float_right"
-                          src="../assets/keyword/calculator.png"
-                          alt
-                        />
-                      </div>
-
-                      <table v-show="false">
-                        <thead>
-                          <tr>
-                            <th>时间</th>
-                            <th>排名</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div>2019-02-20 12:56</div>
-                            </td>
-                            <td>
-                              <div>1</div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="bottom_image_for_table" v-show="false">
-                        <img
-                          class="float_right"
-                          src="../assets/keyword/down.png"
-                          alt
-                          v-show="false"
-                        />
-                        <img
-                          v-on:click="is_show_myChart_and_table_function"
-                          class="float_right"
-                          src="../assets/keyword/three.png"
-                          alt
-                        />
-                        <img
-                          v-on:click="is_show_myChart_and_table_function"
-                          class="float_right"
-                          src="../assets/keyword/calculator.png"
-                          alt
-                        />
-                      </div>
-
-                      <div class="import_data_for_table" v-show="false">导出数据</div>
-                      <div class="clear_float"></div>
-                    </div>
-                  </section>
-                  <!-- 底部 类型模块 -->
-                  <!-- 底部 类型模块 -->
-                  <!-- 底部 类型模块 -->
-                </td>
-              </tr>
-
+                    <!-- 底部 类型模块 -->
+                    <!-- 底部 类型模块 -->
+                    <!-- 底部 类型模块 -->
+                  </td>
+                </tr>
+              </transition>
               <tr v-for="(item ,index) in temp_request_data_second" :key="'tasbleasdf'+index">
                 <td>
                   <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
@@ -545,6 +550,7 @@ export default {
 
       // true显示myChart  false显示table表格
       is_show_myChart_and_table: false,
+      no_data: false,
 
       //canvas 关键词data数组
       keyword_data: [],
@@ -1011,8 +1017,9 @@ export default {
               this.keyword_data = []
               this.keyword_data.push(this.word)
               if (response.data.Data != null) {
-                this.is_show_myChart_and_table = true
+                this.no_data = false
                 this.request_data_third = response.data.Data
+                console.log(this.request_data_third)
                 this.keyword_data = new Array()
                 this.keyword_data_value = new Array()
                 this.xAxis_data = new Array()
@@ -1057,10 +1064,8 @@ export default {
                 // ==================找数组最大值====================
                 this.drawLine()
               } else if (response.data.Data == null) {
-                this.is_show_myChart_and_table = false
-                this.keyword_data_value = []
-                this.xAxis_data = []
-                this.keyword_data.push(this.word)
+                this.no_data = true
+
                 this.drawLine()
               }
             })
@@ -1100,8 +1105,11 @@ export default {
     },
 
     // 控制显示echarts还是table
-    is_show_myChart_and_table_function: function() {
-      this.is_show_myChart_and_table = !this.is_show_myChart_and_table
+    is_show_myChart_function() {
+      this.is_show_myChart_and_table = true
+    },
+    is_show_table_function() {
+      this.is_show_myChart_and_table = false
     },
 
     // 画canvas
@@ -1110,67 +1118,109 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.myChart_data_table)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              align: 'left',
+              color: '#222222;',
+              fontSize: 13
+            },
+
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom'
-        },
-        grid: {
-          left: '4%',
-          right: '4%',
-          bottom: '13%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+          tooltip: {
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+
+            trigger: 'axis'
+          },
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom'
+          },
+          grid: {
+            left: '4%',
+            right: '4%',
+            bottom: '13%',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                title: '保存',
+                iconStyle: {
+                  opacity: 1,
+                  borderWidth: 2,
+                  borderColor: '#555'
+                }
               }
             }
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          // boundaryGap: false,
-          data: that.xAxis_data
-        },
-        yAxis: {
-          minInterval: 1,
-          type: 'value',
-          inverse: true,
-          min: 1,
-          max: that.yAxis_max,
-          interval: that.yAxis_max / 5
-        },
+          },
+          xAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            type: 'category',
+            boundaryGap: false,
+            // boundaryGap: false,
+            data: that.xAxis_data
+          },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            minInterval: 1,
+            type: 'value',
+            inverse: true,
+            min: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
+          },
 
-        series: that.series_data()
-      })
+          series: that.series_data()
+        },
+        true
+      )
     },
 
     // 获取当前选中的国家
@@ -1200,6 +1250,14 @@ export default {
 }
 </script>
 <style scoped>
+.bottom_image_table img {
+  margin-left: 5px;
+}
+.bottom_image_table {
+  float: right;
+  margin-top: -10px;
+  margin-right: 20px;
+}
 .echarts_middle:hover {
   background-color: #fff;
 }
@@ -1232,19 +1290,18 @@ export default {
 }
 .radio_one {
   text-align: center;
-  line-height: 24px;
+  line-height: 28px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   width: 48px !important;
-  height: 24px;
+  height: 26px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
   color: #444444;
   margin-right: 10px;
-  margin-top: 2px;
   display: inline-block;
 }
 .tr_width th,
@@ -1475,11 +1532,15 @@ table {
   margin-right: 107px;
   float: right;
 }
+.bottom_image img {
+  margin-left: 5px;
+}
 .bottom_image {
   float: right;
   position: absolute;
-  top: 31px;
-  right: -40px;
+  top: 9px;
+  right: 67px;
+  z-index: 9999;
 }
 .myChart_tips .float_right {
   float: right;
@@ -1627,5 +1688,12 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

@@ -84,11 +84,61 @@
             </div>
           </div>
         </div>
-        <div ref="ranking_compare" class="myChart" v-show="is_show_mychart"></div>
-
-        <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
-
-        <div>
+        <div ref="ranking_compare" class="myChart" v-show="is_show_myChart_and_table&&!no_data"></div>
+        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+          <img
+            v-on:click="is_show_myChart_function"
+            class="float_right"
+            src="../assets/keyword/three.png"
+            alt
+          />
+          <img
+            v-on:click="is_show_table_function"
+            class="float_right"
+            src="../assets/keyword/calculator.png"
+            alt
+          />
+        </div>
+        <div class="table_wraper" v-show="!no_data&&!is_show_myChart_and_table">
+          <table>
+            <thead v-if="response_data_second">
+              <tr>
+                <th>
+                  <span>时间</span>
+                </th>
+                <th v-for="(item ,index) in keyword_data" :key="'tableasdfwe'+index">
+                  <span>{{item}}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody v-if="response_data_second">
+              <tr v-for="(item ,index) in xAxis_data.length" :key="'table03wergfsdarw'+index">
+                <td>
+                  <div>{{xAxis_data[index]}}</div>
+                </td>
+                <td v-for="(item_son ,index_son) in keyword_data" :key="'table03wergf'+index_son">
+                  <div>{{keyword_data_value[index_son][index]}}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
+          <img
+            v-on:click="is_show_myChart_function"
+            class="float_right"
+            src="../assets/keyword/three.png"
+            alt
+          />
+          <img
+            v-on:click="is_show_table_function"
+            class="float_right"
+            src="../assets/keyword/calculator.png"
+            alt
+          />
+        </div>
+        <div class="myChart" v-show="no_data">暂无数据</div>
+        <div v-show="is_show_myChart_and_table">
           <div
             class="show_all"
             v-show="!canvas_is_show_all"
@@ -115,7 +165,8 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
-      is_show_mychart: false,
+      no_data: false,
+      is_show_myChart_and_table: false,
       now_country: '中国',
       response_data_second: null,
       response_data_second02: null,
@@ -304,16 +355,18 @@ export default {
             .then(response => {
               console.log(response.data)
               // console.log(response.data.Data.length)
-              this.is_show_mychart = false
+              this.is_show_myChart_and_table = false
               if (response.data.Data != null && response.data.Data.length > 0) {
-                this.selected_data_function(false)
-                this.is_show_mychart = true
+                this.no_data = false
+                // this.selected_data_function(false)
+                this.is_show_myChart_and_table = true
                 console.log('有数据')
                 this.keyword_data_value = new Array()
                 this.xAxis_data.length = new Array()
                 this.keyword_data.length = new Array()
 
                 this.response_data_second = response.data.Data[0]
+                console.log(this.response_data_second)
                 let temp = response.data.Data[1]
                 // 都谁？ 抖音 快手 内涵
                 let name_group01 = this.response_data_second.rankTrendInfo
@@ -352,7 +405,7 @@ export default {
                 })
 
                 // ==================找数组最大值====================
-                let max_value_arr = []
+                let max_value_arr = new Array()
                 this.keyword_data_value.forEach(element => {
                   max_value_arr.push(element.slice(0))
                 })
@@ -409,11 +462,12 @@ export default {
                 // } else if (str_length < 500) {
                 //   this.grid_bottom = '42%'
                 // }
-                this.selected_data_function(true)
+                // this.selected_data_function(true)
                 this.drawLine()
               } else {
                 console.log('无数据')
-                this.is_show_mychart = false
+                this.no_data = true
+                this.is_show_myChart_and_table = false
               }
             })
             .catch(error => {
@@ -424,6 +478,14 @@ export default {
           console.log(error)
         })
     },
+    // 控制显示echarts还是table
+    is_show_myChart_function() {
+      this.is_show_myChart_and_table = true
+    },
+    is_show_table_function() {
+      this.is_show_myChart_and_table = false
+    },
+
     // 点击日历组件
     click_second_el_date_picker: function() {
       this.middle_top_radio3 = ''
@@ -466,111 +528,149 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.ranking_compare)
       // 绘制图表
-      myChart.setOption({
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323',
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323',
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323',
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323',
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323',
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323',
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323',
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323',
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom',
-          type: 'scroll',
-          orient: 'horizontal',
-          selected: that.selected_data
-        },
-        grid: {
-          // height: '250px',
-          left: '3%',
-          right: '4%',
-          // bottom: that.grid_bottom,
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom',
+            type: 'scroll',
+            orient: 'horizontal',
+            selected: that.selected_data
+          },
+          grid: {
+            // height: '250px',
+            left: '3%',
+            right: '4%',
+            // bottom: that.grid_bottom,
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                title: '保存',
+                iconStyle: {
+                  opacity: 1,
+                  borderWidth: 2,
+                  borderColor: '#555'
+                }
               }
             }
-          }
+          },
+          xAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            position: 'bottom',
+            type: 'category',
+            data: that.xAxis_data,
+            // alignWithLabel: false
+            boundaryGap: false
+            // show: this.xAxis_is_show
+            // gridIndex: 0
+            // axisLine: { show: false }
+          },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            minInterval: 1,
+            type: 'value',
+            inverse: true,
+            min: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
+          },
+          series: that.series_data()
         },
-        xAxis: {
-          position: 'bottom',
-          type: 'category',
-          data: that.xAxis_data,
-          // alignWithLabel: false
-          boundaryGap: false
-          // show: this.xAxis_is_show
-          // gridIndex: 0
-          // axisLine: { show: false }
-        },
-        yAxis: {
-          minInterval: 1,
-          type: 'value',
-          inverse: true,
-          min: 1,
-          max: that.yAxis_max,
-          interval: that.yAxis_max / 5
-        },
-        series: that.series_data()
-      })
+        true
+      )
     },
 
     // 获取当前选中的国家
@@ -622,15 +722,12 @@ export default {
 thead tr {
   height: 40px;
 }
-td,
 th {
-  border: 1px solid #f2f2f2;
+  width: 200px;
 }
-tbody tr {
-  border-bottom: 1px solid #f2f2f2;
-}
-tbody tr td:first-child {
-  width: 50%;
+td {
+  height: 60px;
+  width: 200px;
 }
 tbody {
   font-family: SourceHanSansCN-Normal;
@@ -639,7 +736,12 @@ tbody {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  vertical-align: middle;
+  display: block;
+  max-height: 609px;
+  overflow-y: scroll;
+}
+thead tr span {
+  margin-left: -26px;
 }
 thead {
   width: 100%;
@@ -650,26 +752,37 @@ thead {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 table {
-  width: 100%;
-  height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
-  margin-top: 40px;
+  width: 100%;
+}
+.table_wraper {
+  width: 984px;
+  overflow-x: scroll;
+  border-right: solid 1px #f2f2f2;
 }
 .bottom_image img:first-child {
   z-index: 9999 !important;
 }
-.bottom_image_for_table {
-  position: static !important;
-  margin-top: 40px;
+.bottom_image_table img {
+  margin-left: 5px;
+}
+.bottom_image_table {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-right: 30px;
 }
 .bottom_image {
   float: right;
   position: absolute;
-  top: 206px;
-  right: -40px;
+  top: 149.5px;
+  right: -21px;
 }
 .myChart_tips .float_right {
   float: right;

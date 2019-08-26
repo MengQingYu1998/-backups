@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
-        <div>系统</div>
+        <div class="margin_top_font">系统</div>
         <div>
           <!-- 饿了么的select组件 -->
           <el-select v-model="systemValue">
@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="options_01 option">
-        <div>设备</div>
+        <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
           <el-select v-model="equipmentValue">
@@ -22,14 +22,14 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>地区</div>
+        <div class="margin_top_font">地区</div>
         <div>
           <!-- 选择国家 -->
           <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
       <div class="btn_item_03" @click="change_radio02">
-        <div>时间</div>
+        <div class="margin_top_font">时间</div>
         <div class="date">
           <el-date-picker
             v-model="dateValue"
@@ -52,41 +52,53 @@
     </div>
 
     <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div>
-    <div ref="myChart_trend_one" class="myChart" v-show="is_show_table_myChart_myChart"></div>
+    <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <div class="bottom_image" v-show="is_show_table_myChart_myChart">
-      <!-- <img src="../assets/keyword/down.png" alt> -->
-      <!-- <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/three.png" alt />
-      <img v-on:click="is_show_table_myChart_function" src="../assets/keyword/calculator.png" alt />-->
-    </div>
-    <table v-show="!is_show_table_myChart_myChart">
-      <thead>
-        <tr>
-          <th>时间</th>
-          <th>排名</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="table_font">2019-02-20 12:56</div>
-          </td>
-          <td>
-            <div class="table_font">1</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="bottom_image bottom_image_for_table" v-show="!is_show_table_myChart_myChart">
-      <img class="float_right" src="../assets/keyword/down.png" alt v-show="false" />
+    <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
       <img
-        v-on:click="is_show_table_myChart_function"
+        v-on:click="is_show_myChart_function"
         class="float_right"
         src="../assets/keyword/three.png"
         alt
       />
       <img
-        v-on:click="is_show_table_myChart_function"
+        v-on:click="is_show_table_function"
+        class="float_right"
+        src="../assets/keyword/calculator.png"
+        alt
+      />
+    </div>
+    <table v-show="!is_show_myChart_and_table">
+      <thead>
+        <tr>
+          <th>
+            <span>时间</span>
+          </th>
+          <th>
+            <span>{{this.$store.state.now_app_name}}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody v-if="response_data">
+        <tr v-for="(item ,index) in response_data.Xtime.length" :key="'trend_one_table02'+index">
+          <td>
+            <div>{{response_data.Xtime[index]}}</div>
+          </td>
+          <td>
+            <div>{{response_data.Yvalue[index]}}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="bottom_image bottom_image_for_table pointer" v-show="!is_show_myChart_and_table">
+      <img
+        v-on:click="is_show_myChart_function"
+        class="float_right"
+        src="../assets/keyword/three.png"
+        alt
+      />
+      <img
+        v-on:click="is_show_table_function"
         class="float_right"
         src="../assets/keyword/calculator.png"
         alt
@@ -108,6 +120,8 @@ export default {
   },
   data() {
     return {
+      response_data: null,
+      is_show_myChart_and_table: true,
       // 多选按钮
       radio02: '7天',
       // true显示myChart false显示table表格
@@ -312,9 +326,12 @@ export default {
           console.log(error)
         })
     },
-    //控制canvas和table的显示
-    is_show_table_myChart_function: function() {
-      this.is_show_table_myChart_myChart = !this.is_show_table_myChart_myChart
+    // 控制显示echarts还是table
+    is_show_myChart_function() {
+      this.is_show_myChart_and_table = true
+    },
+    is_show_table_function() {
+      this.is_show_myChart_and_table = false
     },
     // 画canvas
     drawLine: function() {
@@ -322,64 +339,99 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.myChart_trend_one)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom'
-        },
-        grid: {
-          left: '3%',
-          right: '3%',
-          bottom: '13%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              trend_one_title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom'
+          },
+          grid: {
+            left: '3%',
+            right: '3%',
+            bottom: '13%',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                title: '保存',
+                iconStyle: {
+                  opacity: 1,
+                  borderWidth: 2,
+                  borderColor: '#555'
+                }
               }
             }
-          }
+          },
+          xAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            type: 'category',
+            boundaryGap: false,
+            data: that.xAxis_data
+          },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            type: 'value',
+            min: 0,
+            minInterval: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
+          },
+          series: that.series_data()
         },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: that.xAxis_data
-        },
-        yAxis: {
-          type: 'value',
-          min: 0,
-          minInterval: 1,
-          max: that.yAxis_max,
-          interval: that.yAxis_max / 5
-        },
-        series: that.series_data()
-      })
+        true
+      )
     },
     change_radio02() {
       this.radio02 = ''
@@ -406,7 +458,6 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 70px;
-  margin-top: 10px;
 }
 .btn_item_03 > div {
   font-family: SourceHanSansCN-Medium;
@@ -436,15 +487,13 @@ export default {
 thead tr {
   height: 40px;
 }
-td,
-th {
-  border: 1px solid #f2f2f2;
+
+td {
+  height: 60px;
+  width: 600px;
 }
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
-}
-tbody tr td:first-child {
-  width: 50%;
 }
 tbody {
   font-family: SourceHanSansCN-Normal;
@@ -453,7 +502,12 @@ tbody {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  vertical-align: middle;
+  display: block;
+  max-height: 609px;
+  overflow-y: scroll;
+}
+thead tr span {
+  margin-left: -26px;
 }
 thead {
   width: 100%;
@@ -464,13 +518,14 @@ thead {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 table {
-  width: 100%;
-  height: 121px;
   border: solid 1px #f2f2f2;
+  table-layout: fixed;
   text-align: center;
-  margin-top: 40px;
 }
 .bottom_image img:first-child {
   z-index: 9999 !important;
@@ -482,8 +537,9 @@ table {
 .bottom_image {
   float: right;
   position: absolute;
-  top: 226px;
+  top: 271.5px;
   right: -41px;
+  margin-bottom: 50px;
 }
 
 .myChart {
@@ -500,6 +556,7 @@ table {
   color: #222222;
   text-align: center;
   margin-top: 110px;
+  margin-bottom: 40px;
 }
 .options_div_margin {
   margin-left: 10px;
@@ -542,16 +599,19 @@ option:first-child {
 .options .option:first-child {
   margin-left: 0 !important;
 }
+.margin_top_font {
+  margin-top: 4px;
+}
 .options {
-  height: 24px;
   margin: 22px 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  /* line-height: 30px; */
   letter-spacing: 0px;
   color: #222222;
+  align-items: center;
   display: flex;
 }
 

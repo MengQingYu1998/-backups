@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
-        <div>日期</div>
+        <div class="margin_top_font">日期</div>
         <div class="days">7天</div>
         <div>
           <!-- 饿了么的日期选择组件 -->
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>系统</div>
+        <div class="margin_top_font">系统</div>
         <div>
           <el-select v-model="systemValue">
             <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="options_03 option">
-        <div>搜索</div>
+        <div class="margin_top_font">搜索</div>
         <div>
           <!-- 饿了么的input组件 -->
           <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
@@ -240,8 +240,8 @@ table {
 }
 .option .days {
   width: 48px;
-  line-height: 24px;
-  height: 24px;
+  line-height: 24.5px;
+  height: 24.5px;
   background-color: #f2f2f2;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
@@ -252,7 +252,6 @@ table {
   letter-spacing: 0px;
   color: #444444;
   text-align: center;
-  margin-top: 2px;
   margin-right: 9px;
 }
 .options_01 div:last-child {
@@ -278,14 +277,16 @@ option:first-child {
 .options .option:first-child {
   margin-left: 0 !important;
 }
+.margin_top_font {
+  margin-top: 4px;
+}
 .options {
-  height: 24px;
   margin: 22px 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  /* line-height: 30px; */
   letter-spacing: 0px;
   color: #222222;
   display: flex;

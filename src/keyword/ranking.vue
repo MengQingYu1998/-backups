@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
-        <div>设备</div>
+        <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
           <el-select v-model="equipmentValue">
@@ -13,14 +13,14 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>国家/地区</div>
+        <div class="margin_top_font">国家/地区</div>
         <div>
           <!-- 选择国家 -->
           <country @childFn="parentFn"></country>
         </div>
       </div>
       <div class="options_04 option">
-        <div>类别</div>
+        <div class="margin_top_font">类别</div>
         <!-- 选择总榜 -->
         <div>
           <div
@@ -74,7 +74,7 @@
         </el-popover>
       </div>
       <div class="options_03 option options_03_ml">
-        <div>日期</div>
+        <div class="margin_top_font">日期</div>
         <div class="date">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
@@ -89,7 +89,7 @@
     </div>
     <div class="options">
       <div class="options_01 option">
-        <div>搜索结果数</div>
+        <div class="margin_top_font">搜索结果数</div>
         <div
           :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true}"
           @click="result_all()"
@@ -105,7 +105,7 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>搜索指数</div>
+        <div class="margin_top_font">搜索指数</div>
         <div :class=" {'change_bg':change_bg_index_all,'radio_one':true }" @click="index_all()">全部</div>
         <div
           :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true}"
@@ -122,7 +122,7 @@
         </div>
       </div>
       <div class="options_03 option">
-        <div>搜索</div>
+        <div class="margin_top_font">搜索</div>
         <div class="keyword_input">
           <el-input v-model="keyword_input" placeholder="请输入搜索关键词"></el-input>
         </div>
@@ -518,6 +518,9 @@ export default {
 }
 </script>
 <style scoped>
+.margin_top_font {
+  margin-top: 4px;
+}
 tbody tr:nth-child(1) .rowid {
   color: #222222;
   font-weight: bold;
@@ -617,7 +620,6 @@ tbody th:nth-child(5) {
   color: #444444;
   margin-right: 15px;
   margin-left: -6px;
-  margin-top: 2px;
   display: inline-block;
 }
 .keyword_input div {
@@ -691,6 +693,7 @@ table {
   margin-left: 2px;
   margin-right: 2px;
   color: #dfdfdf;
+  margin-top: 3px;
 }
 
 .options .min_max {
@@ -738,16 +741,14 @@ option:first-child {
 }
 .options .option:first-child {
   margin-left: 0 !important;
-  margin-top: -3px;
 }
 .options {
-  height: 24px;
   margin: 22px 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  /* line-height: 30px; */
   letter-spacing: 0px;
   color: #222222;
   display: flex;

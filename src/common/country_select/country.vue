@@ -3,110 +3,112 @@
     <div class="country_name" @click.stop="country_show_hidden=!country_show_hidden">
       <!-- <img :src="'../../../static/flag/'+country_code+'.svg'" alt /> -->
       <span>{{country_name}}</span>
-      <img src="./arrows.png" alt class="arrows" />
+      <img src="./arrows.png" alt :class="{'arrows':true,'arrows_active':country_show_hidden}" />
     </div>
-    <div class="country_wrap" v-show="country_show_hidden">
-      <div class="country_header" @click.stop>
-        <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
-        <img src="./search.png" alt />
+    <transition name="fade">
+      <div class="country_wrap" v-show="country_show_hidden">
+        <div class="country_header" @click.stop>
+          <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
+          <img src="./search.png" alt />
+        </div>
+        <div class="country_content" v-if="arr_country!=null">
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">热门国家</div>
+            <div class="item" @click="change_country_name('中国','CN')">
+              <img :src="'../../../static/flag/CN.svg'" alt />
+              中国
+            </div>
+            <div class="item" @click="change_country_name('美国','US')">
+              <img :src="'../../../static/flag/US.svg'" alt />
+              美国
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()!=''">
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[0]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">亚洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[0]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">北美洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[1]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">南美洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[2]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">欧洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[3]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">大洋洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[4]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+          <div class="list" v-show="input.trim()==''">
+            <div class="list_header">非洲</div>
+            <div
+              class="item"
+              v-for="(item,index) in arr_country[5]"
+              :key="'arr_country'+index"
+              @click="change_country_name(item.name,item.code)"
+            >
+              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
+              {{item.name}}
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="country_content" v-if="arr_country!=null">
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">热门国家</div>
-          <div class="item" @click="change_country_name('中国','CN')">
-            <img :src="'../../../static/flag/CN.svg'" alt />
-            中国
-          </div>
-          <div class="item" @click="change_country_name('美国','US')">
-            <img :src="'../../../static/flag/US.svg'" alt />
-            美国
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()!=''">
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[0]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">亚洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[0]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">北美洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[1]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">南美洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[2]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">欧洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[3]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">大洋洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[4]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-        <div class="list" v-show="input.trim()==''">
-          <div class="list_header">非洲</div>
-          <div
-            class="item"
-            v-for="(item,index) in arr_country[5]"
-            :key="'arr_country'+index"
-            @click="change_country_name(item.name,item.code)"
-          >
-            <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-            {{item.name}}
-          </div>
-        </div>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -152,7 +154,7 @@ export default {
         .get('/GetCountry')
         .then(response => {
           // 获取国家ID
-          console.log(response.data.Data)
+          // console.log(response.data.Data)
           this.arr_country = new Array()
           if (this.input.trim() == '') {
             // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia
@@ -212,7 +214,7 @@ export default {
             })
             this.arr_country.push(nothing)
           }
-          console.log(this.arr_country)
+          // console.log(this.arr_country)
         })
         .catch(error => {
           console.log(error)
@@ -248,12 +250,21 @@ export default {
   color: #666;
   font-family: SourceHanSansCN-Normal;
 }
+.arrows_active {
+  transform: rotate(-90deg) !important;
+  -ms-transform: rotate(-90deg) !important;
+  -moz-transform: rotate(-90deg) !important;
+  -webkit-transform: rotate(-90deg) !important;
+  -o-transform: rotate(-90deg) !important;
+  transition-duration: 0.3s;
+}
 .arrows {
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   -o-transform: rotate(90deg);
+  transition-duration: 0.3s;
 }
 .country_name span {
   width: 60px;
@@ -340,5 +351,12 @@ export default {
 #country_select {
   z-index: 999 !important;
   position: relative;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

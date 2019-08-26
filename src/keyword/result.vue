@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
-        <div>设备</div>
+        <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
           <el-select v-model="equipmentValue">
@@ -13,14 +13,14 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>地区</div>
+        <div class="margin_top_font">地区</div>
         <div>
           <!-- 选择国家 -->
           <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
       <div class="options_03 option">
-        <div>日期</div>
+        <div class="margin_top_font">日期</div>
         <div>
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
@@ -556,11 +556,69 @@
           </div>
         </div>
 
-        <div ref="myChart_result_dialog" class="myChart_dialog" v-show="is_show_dialog"></div>
-        <div class="myChart" v-show="!is_show_dialog">暂无数据</div>
+        <div
+          ref="myChart_result_dialog"
+          class="myChart_dialog"
+          v-show="is_show_myChart_and_table&&!no_data"
+        ></div>
+        <div class="myChart" v-show="no_data">暂无数据</div>
+        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+          <img
+            v-on:click="is_show_myChart_function"
+            class="float_right"
+            src="../assets/keyword/three.png"
+            alt
+          />
+          <img
+            v-on:click="is_show_table_function"
+            class="float_right"
+            src="../assets/keyword/calculator.png"
+            alt
+          />
+        </div>
+        <table v-show="!no_data&&!is_show_myChart_and_table">
+          <thead>
+            <tr>
+              <th>
+                <span>时间</span>
+              </th>
+              <th>
+                <span>{{this.$store.state.now_app_name}}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody v-if="response_data_for_dialog">
+            <tr
+              v-for="(item ,index) in response_data_for_dialog.Xvalue.length"
+              :key="'trend_one_table02'+index"
+            >
+              <td>
+                <div class="table_font">{{response_data_for_dialog.Xvalue[index]}}</div>
+              </td>
+              <td>
+                <div class="table_font">{{response_data_for_dialog.Yvalue[index]}}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <div class="footer__dialog">
-          <img src="../assets/keyword/dialog_01.png" alt />iOS12与iOS11版本的排名不同
+          <img src="../assets/keyword/dialog_01.png" alt />
+          iOS12与iOS11版本的排名不同
+          <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
+            <img
+              v-on:click="is_show_myChart_function"
+              class="float_right"
+              src="../assets/keyword/three.png"
+              alt
+            />
+            <img
+              v-on:click="is_show_table_function"
+              class="float_right"
+              src="../assets/keyword/calculator.png"
+              alt
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -611,6 +669,7 @@ export default {
       // ===================element的弹窗================
       // ===================element的弹窗================
       // ===================element的弹窗================
+      no_data: false,
       word: '',
       appid: '',
       WordId: '',
@@ -619,7 +678,7 @@ export default {
       dialogVisible: false,
       time_dialog: '',
       // true显示myChart false显示table表格
-      is_show_dialog: false,
+      is_show_myChart_and_table: true,
       response_data_for_dialog: null,
       //canvas 关键词data数组
       keyword_data: [],
@@ -1082,67 +1141,101 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.myChart_result12)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+            trigger: 'axis',
+            formatter: function(data) {
+              // console.log(data)
+              return (
+                data[0].axisValue +
+                '<br/>' +
+                data[0].marker +
+                data[0].seriesName +
+                '：' +
+                data[0].value +
+                '%'
+              )
+              //将小数转化为百分数显示
+            }
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        color: ['#3398DB'],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+          color: ['#3398DB'],
+
+          legend: {
+            data: that.keyword_data01,
+            y: 'bottom'
           },
-          formatter: function(data) {
-            // console.log(data)
-            return (
-              data[0].axisValue +
-              '<br/>' +
-              data[0].marker +
-              data[0].seriesName +
-              '：' +
-              data[0].value +
-              '%'
-            )
-            //将小数转化为百分数显示
-          }
-        },
-        legend: {
-          data: that.keyword_data01,
-          y: 'bottom'
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '13%',
-          containLabel: true
-        },
-        xAxis: [
-          {
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '13%',
+            containLabel: true
+          },
+          xAxis: {
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: ['#666'],
+                opacity: 0.5
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
             type: 'category',
             data: that.xAxis_data01,
             axisTick: {
               alignWithLabel: true
             }
-          }
-        ],
-        yAxis: [
-          {
+          },
+          yAxis: {
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: ['#666'],
+                opacity: 0.5
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
             type: 'value',
             max: that.column_max,
             min: that.column_min,
@@ -1152,10 +1245,11 @@ export default {
               interval: 'auto',
               formatter: '{value} %'
             }
-          }
-        ],
-        series: that.series_data01()
-      })
+          },
+          series: that.series_data01()
+        },
+        true
+      )
     },
     // 便利keyword_data生成canvas的series数据
     series_data01: function() {
@@ -1260,9 +1354,9 @@ export default {
             .then(response => {
               console.log(response)
               if (response.data.Code == 0) {
-                this.is_show_dialog = true
+                this.no_data = false
                 this.response_data_for_dialog = response.data
-                console.log(response)
+                console.log(this.response_data_for_dialog)
 
                 this.keyword_data = new Array()
                 this.keyword_data_value = new Array()
@@ -1310,9 +1404,9 @@ export default {
                 // ==================找数组最大值====================
                 this.drawLine_dialog()
               } else {
-                this.is_show_dialog = false
+                this.no_data = true
               }
-              console.log(this.is_show_dialog)
+              // console.log(this.is_show_myChart_and_table)
             })
             .catch(error => {
               console.log(error)
@@ -1330,75 +1424,113 @@ export default {
 
       this.get_data_dialog()
     },
-    //控制canvas和table的显示
-    // is_show_table_myChart_function: function() {
-    //   this.is_show_dialog = !this.is_show_dialog
-    // },
+    // 控制显示echarts还是table
+    is_show_myChart_function() {
+      this.is_show_myChart_and_table = true
+    },
+    is_show_table_function() {
+      this.is_show_myChart_and_table = false
+    },
     // 画canvas
     drawLine_dialog: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom'
-        },
-        grid: {
-          left: '3%',
-          right: '5%',
-          bottom: '13%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              result_title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom'
+          },
+          grid: {
+            left: '3%',
+            right: '5%',
+            bottom: '13%',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                title: '保存',
+                iconStyle: {
+                  opacity: 1,
+                  borderWidth: 2,
+                  borderColor: '#555'
+                }
               }
             }
-          }
+          },
+          xAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            type: 'category',
+            boundaryGap: false,
+            data: that.xAxis_data
+          },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            minInterval: 1,
+            type: 'value',
+            inverse: true,
+            min: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
+          },
+          series: that.series_data()
         },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: that.xAxis_data
-        },
-        yAxis: {
-          minInterval: 1,
-          type: 'value',
-          inverse: true,
-          min: 1,
-          max: that.yAxis_max,
-          interval: that.yAxis_max / 5
-        },
-        series: that.series_data()
-      })
+        true
+      )
     },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
@@ -1497,11 +1629,63 @@ export default {
 }
 </script>
 <style scoped>
-/* .use_father > tr:nth-child(1) .use .first_div,
-.use_father > tr:nth-child(2) .use .first_div,
-.use_father > tr:nth-child(3) .use .first_div {
-
-} */
+.my_dialog tbody tr {
+  border: solid 1px #f2f2f2;
+}
+.my_dialog tbody {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  display: block;
+  max-height: 366px;
+  overflow-y: scroll;
+}
+.my_dialog thead tr {
+  height: 40px;
+}
+.my_dialog thead tr span {
+  margin-left: -26px;
+}
+.my_dialog td {
+  width: 450px;
+}
+.my_dialog thead {
+  width: 100%;
+  background-color: #f7f7f7;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.my_dialog table {
+  border: solid 1px #f2f2f2;
+  table-layout: fixed;
+  text-align: center;
+  width: 900px;
+  margin: 0 auto;
+}
+.my_dialog .bottom_image_table img {
+  margin-left: 5px;
+}
+.my_dialog .bottom_image_table {
+  position: absolute;
+  top: 20px;
+  right: 66px;
+}
+.my_dialog .bottom_image {
+  float: right;
+  position: absolute;
+  top: 169.5px;
+  right: 66px;
+}
 .keywordContentTable_th {
   width: 25%;
 }
@@ -1555,14 +1739,15 @@ export default {
   top: 16px;
   right: 16px;
 }
-.footer__dialog img {
+.footer__dialog > img {
   margin-right: 7px;
   vertical-align: -2px;
   margin-left: 46px;
-  margin-top: 58px;
+  margin-top: 20px;
 }
 
 .footer__dialog {
+  position: relative;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
@@ -1834,14 +2019,16 @@ option:first-child {
   margin-left: 30px;
   margin-top: 2px;
 }
+.margin_top_font {
+  margin-top: 4px;
+}
 .options {
-  height: 24px;
   margin: 22px 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  /* line-height: 30px; */
   letter-spacing: 0px;
   color: #222222;
   display: flex;

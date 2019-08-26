@@ -339,7 +339,7 @@
           <table>
             <thead>
               <tr>
-                <th>评级</th>
+                <th class="bottom_table_td01">评级</th>
                 <th>内容</th>
                 <th>时间</th>
               </tr>
@@ -424,6 +424,23 @@ export default {
       },
       middle_top_xAxis: [
         {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: ['#666'],
+              opacity: 0.5
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          //网格样式
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: ['#f2f2f2']
+            }
+          },
           type: 'category',
           data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
         }
@@ -447,12 +464,27 @@ export default {
           // 这里就是设置当天后的日期不能被点击
         }
       },
-      middle_bottom_xAxis: [
-        {
-          type: 'category',
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        }
-      ],
+      middle_bottom_xAxis: {
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: ['#666'],
+            opacity: 0.5
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        //网格样式
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: ['#f2f2f2']
+          }
+        },
+        type: 'category',
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      },
       grade_start_three: false, //五星图表默认隐藏
       common_one: true, //在线删除图表默认隐藏
       yAxis_max01: 5,
@@ -629,106 +661,127 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.grade_start_one)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          y: 'bottom',
-          data: ['一星', '二星', '三星', '四星', '五星']
-        },
-        grid: {
-          left: '3%',
-          right: '3%',
-          bottom: '12%',
-          top: '7%',
-          containLabel: true
-        },
-        xAxis: this.middle_top_xAxis,
-        yAxis: [
-          {
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+
+          legend: {
+            y: 'bottom',
+            data: ['一星', '二星', '三星', '四星', '五星']
+          },
+          grid: {
+            left: '3%',
+            right: '3%',
+            bottom: '12%',
+            top: '7%',
+            containLabel: true
+          },
+          xAxis: this.middle_top_xAxis,
+          yAxis: {
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: ['#666'],
+                opacity: 0.5
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
             type: 'value',
             minInterval: 1,
             max: that.yAxis_max,
             interval: that.yAxis_max / 5
-          }
-        ],
-        series: [
-          {
-            name: '一星',
-            stack: 'start',
-            type: 'bar',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#ef8189'
-            },
-            data: this.one_start_data
           },
-          {
-            name: '二星',
-            type: 'bar',
-            stack: 'start',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#ef81d4'
+          series: [
+            {
+              name: '一星',
+              stack: 'start',
+              type: 'bar',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#ef8189'
+              },
+              data: this.one_start_data
             },
-            data: this.two_start_data
-          },
-          {
-            name: '三星',
-            type: 'bar',
-            stack: 'start',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#81e1ef'
+            {
+              name: '二星',
+              type: 'bar',
+              stack: 'start',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#ef81d4'
+              },
+              data: this.two_start_data
             },
-            data: this.three_start_data
-          },
-          {
-            name: '四星',
-            stack: 'start',
-            barWidth: 27, //宽度
-            type: 'bar',
-            itemStyle: {
-              color: '#81ef8e'
+            {
+              name: '三星',
+              type: 'bar',
+              stack: 'start',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#81e1ef'
+              },
+              data: this.three_start_data
             },
-            data: this.four_start_data
-          },
-          {
-            name: '五星',
-            stack: 'start',
-            barWidth: 27, //宽度
+            {
+              name: '四星',
+              stack: 'start',
+              barWidth: 27, //宽度
+              type: 'bar',
+              itemStyle: {
+                color: '#81ef8e'
+              },
+              data: this.four_start_data
+            },
+            {
+              name: '五星',
+              stack: 'start',
+              barWidth: 27, //宽度
 
-            type: 'bar',
-            itemStyle: {
-              color: '#efd581'
-            },
-            data: this.five_start_data
-          }
-        ]
-      })
+              type: 'bar',
+              itemStyle: {
+                color: '#efd581'
+              },
+              data: this.five_start_data
+            }
+          ]
+        },
+        true
+      )
     },
     click_near_month_function: function() {
       this.click_near_month = true
@@ -787,7 +840,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_second_part = response.data.Data
-              // console.log(this.response_data_second_part)
+              console.log(this.response_data_second_part)
               this.one_start_data = this.response_data_second_part.oneStar
               this.two_start_data = this.response_data_second_part.twoStar
               this.three_start_data = this.response_data_second_part.threeStar
@@ -881,180 +934,222 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.common_one)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          y: 'bottom',
-          data: ['在线评论', '已删除评论']
-        },
-        grid: {
-          left: '3%',
-          right: '3%',
-          bottom: '12%',
-          top: '7%',
-          containLabel: true
-        },
-        xAxis: this.middle_bottom_xAxis,
-        yAxis: [
-          {
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+
+          legend: {
+            y: 'bottom',
+            data: ['在线评论', '已删除评论']
+          },
+          grid: {
+            left: '3%',
+            right: '3%',
+            bottom: '12%',
+            top: '7%',
+            containLabel: true
+          },
+          xAxis: this.middle_bottom_xAxis,
+          yAxis: {
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: ['#666'],
+                opacity: 0.5
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
             type: 'value',
             minInterval: 1,
             max: that.yAxis_max03,
             interval: that.yAxis_max03 / 5
-          }
-        ],
-        series: [
-          {
-            name: '在线评论',
-            type: 'bar',
-            stack: 'start',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#009bef'
-            },
-            data: this.online_data
           },
-          {
-            name: '已删除评论',
-            stack: 'start',
-            type: 'bar',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#d3f0ff'
+          series: [
+            {
+              name: '在线评论',
+              type: 'bar',
+              stack: 'start',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#009bef'
+              },
+              data: this.online_data
             },
-            data: this.delete_data
-          }
-        ]
-      })
+            {
+              name: '已删除评论',
+              stack: 'start',
+              type: 'bar',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#d3f0ff'
+              },
+              data: this.delete_data
+            }
+          ]
+        },
+        true
+      )
     },
     drawLine03: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.grade_start_three)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
+
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          y: 'bottom',
-          data: ['一星', '二星', '三星', '四星', '五星']
-        },
-        grid: {
-          left: '3%',
-          right: '3%',
-          bottom: '12%',
-          top: '7%',
-          containLabel: true
-        },
-        xAxis: this.middle_bottom_xAxis,
-        yAxis: [
-          {
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+
+          legend: {
+            y: 'bottom',
+            data: ['一星', '二星', '三星', '四星', '五星']
+          },
+          grid: {
+            left: '3%',
+            right: '3%',
+            bottom: '12%',
+            top: '7%',
+            containLabel: true
+          },
+          xAxis: this.middle_bottom_xAxis,
+          yAxis: {
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: ['#666'],
+                opacity: 0.5
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
             type: 'value',
             minInterval: 1,
             max: that.yAxis_max01,
             interval: that.yAxis_max01 / 5
-          }
-        ],
-        series: [
-          {
-            name: '一星',
-            stack: 'start',
-            type: 'bar',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#ef8189'
-            },
-            data: this.one_start_data_third
           },
-          {
-            name: '二星',
-            type: 'bar',
-            stack: 'start',
-            barWidth: 27, //宽度
-            itemStyle: {
-              color: '#ef81d4'
+          series: [
+            {
+              name: '一星',
+              stack: 'start',
+              type: 'bar',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#ef8189'
+              },
+              data: this.one_start_data_third
             },
-            data: this.two_start_data_third
-          },
-          {
-            name: '三星',
-            type: 'bar',
-            barWidth: 27, //宽度
-            stack: 'start',
-            itemStyle: {
-              color: '#81e1ef'
+            {
+              name: '二星',
+              type: 'bar',
+              stack: 'start',
+              barWidth: 27, //宽度
+              itemStyle: {
+                color: '#ef81d4'
+              },
+              data: this.two_start_data_third
             },
-            data: this.three_start_data_third
-          },
-          {
-            name: '四星',
-            stack: 'start',
-            barWidth: 27, //宽度
-            type: 'bar',
-            itemStyle: {
-              color: '#81ef8e'
+            {
+              name: '三星',
+              type: 'bar',
+              barWidth: 27, //宽度
+              stack: 'start',
+              itemStyle: {
+                color: '#81e1ef'
+              },
+              data: this.three_start_data_third
             },
-            data: this.four_start_data_third
-          },
-          {
-            name: '五星',
-            barWidth: 27, //宽度
-            stack: 'start',
-            type: 'bar',
-            itemStyle: {
-              color: '#efd581'
+            {
+              name: '四星',
+              stack: 'start',
+              barWidth: 27, //宽度
+              type: 'bar',
+              itemStyle: {
+                color: '#81ef8e'
+              },
+              data: this.four_start_data_third
             },
-            data: this.five_start_data_third
-          }
-        ]
-      })
+            {
+              name: '五星',
+              barWidth: 27, //宽度
+              stack: 'start',
+              type: 'bar',
+              itemStyle: {
+                color: '#efd581'
+              },
+              data: this.five_start_data_third
+            }
+          ]
+        },
+        true
+      )
     },
     change_middle_bottom_radio02() {
       this.middle_bottom_radio02 = ''
@@ -1147,7 +1242,7 @@ export default {
               this.five_start_data_third = this.response_data_third_part.fiveStar
               this.online_data = this.response_data_third_part.onLine
               this.delete_data = this.response_data_third_part.haveDeleted
-              this.middle_bottom_xAxis[0].data = this.response_data_third_part.publishTime
+              this.middle_bottom_xAxis.data = this.response_data_third_part.publishTime
               if (
                 (this.one_start_data_third != undefined,
                 this.two_start_data_third != undefined,
@@ -1492,6 +1587,7 @@ table .table_author {
   color: #888888;
   margin-top: 7px;
   margin-bottom: 17px;
+  width: 100%;
 }
 table .table_description {
   font-family: SourceHanSansCN-Normal;
@@ -1507,6 +1603,7 @@ table .table_description {
   min-height: 62px;
   height: 62px;
   width: 100% !important;
+  word-break: break-all;
 }
 
 .table_description_height {
@@ -1521,20 +1618,16 @@ table .table_title {
   letter-spacing: 0px;
   color: #444444;
   margin-top: 17px;
+  width: 100% !important;
 }
 thead tr {
   height: 40px;
 }
 
-th {
-  border: 1px solid #f2f2f2;
-}
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
-tbody tr td:first-child {
-  width: 50%;
-}
+
 tbody {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -1544,6 +1637,7 @@ tbody {
   color: #222222;
   vertical-align: middle;
 }
+
 thead {
   width: 100%;
   background-color: #f7f7f7;
@@ -1628,7 +1722,7 @@ table {
 }
 .myChart {
   width: 976px;
-  height: 350px;
+  height: 320px;
 }
 .btn_item_01 > div:nth-child(4),
 .btn_item_01 > div:nth-child(5),

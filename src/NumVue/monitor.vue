@@ -33,6 +33,7 @@
 				        v-model="dateV"
 				        type="date"
 				        placeholder="选择日期"
+								clear-icon
 				    ></el-date-picker>
 				</div>
 			</div>

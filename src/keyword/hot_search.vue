@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
-        <div>设备</div>
+        <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
           <el-select v-model="equipmentValue">
@@ -13,14 +13,14 @@
         </div>
       </div>
       <div class="options_02 option">
-        <div>地区</div>
+        <div class="margin_top_font">地区</div>
         <div>
           <!-- 选择国家 -->
           <country @childFn="parentFn"></country>
         </div>
       </div>
       <div class="options_03 option">
-        <div>日期</div>
+        <div class="margin_top_font">日期</div>
         <div class="date" @click="change_prop">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
@@ -41,7 +41,7 @@
         >近七天</div>
       </div>
       <div class="options_04 option">
-        <div>搜索</div>
+        <div class="margin_top_font">搜索</div>
         <div class="search">
           <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
         </div>
@@ -344,8 +344,8 @@ export default {
 </script>
 
 <style scoped>
-.options_02 {
-  margin-top: 1px;
+.margin_top_font {
+  margin-top: 4px;
 }
 .search_confirm {
   width: 48px !important;
@@ -496,7 +496,6 @@ table {
   color: #444444;
   margin-right: 15px;
   margin-left: -6px;
-  margin-top: 2px;
   display: inline-block;
 }
 .options_04 .search div {
@@ -527,13 +526,12 @@ option:first-child {
   margin-left: 0 !important;
 }
 .options {
-  height: 24px;
   margin: 22px 0;
   font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  /* line-height: 30px; */
   letter-spacing: 0px;
   color: #222222;
   display: flex;

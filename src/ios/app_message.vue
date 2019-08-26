@@ -50,6 +50,7 @@
             <div v-if="response_data" class="section_video_flex">
               <!-- iphone 的video -->
               <video-player
+                cross-origin="*"
                 v-if="response_data.videoUrl.iphone!='无'&&radio01=='iPhone'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
@@ -58,6 +59,7 @@
               ></video-player>
               <!-- iPad 的video -->
               <video-player
+                cross-origin="*"
                 v-else-if="response_data.videoUrl.ipad!='无'&&radio01=='iPad'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"
@@ -66,6 +68,7 @@
               ></video-player>
               <!-- watch 的video -->
               <video-player
+                cross-origin="*"
                 v-else-if="response_data.videoUrl.watch!='无'&&radio01=='watch'"
                 class="video_iPhone video-player vjs-custom-skin"
                 ref="videoPlayer"

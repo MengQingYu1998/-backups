@@ -563,7 +563,7 @@ export default {
             .then(response => {
               console.log(response.data)
               if (response.data.Data.length > 0) {
-                this.selected_data_function(false)
+                // this.selected_data_function(false)
                 console.log('有数据')
                 this.is_show_mychart = true
                 this.response_data_second = response.data.Data[0]
@@ -575,9 +575,9 @@ export default {
                   if (this.middle_top_radio1 == '按天') {
                     return timestamp(element, 'Y/M/D')
                   } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'Y/M/D h')
+                    return timestamp(element, 'h点')
                   } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'Y/M/D h:m')
+                    return timestamp(element, 'D日h时m分')
                   }
                 })
 
@@ -667,13 +667,16 @@ export default {
         this.type = 'line'
         // this.stack = '总量'
         this.data = data
+        // this.markLine = {
+        //   symbolSize: 110
+        // }
       }
       //通过便利关键词数组从而创建canvas的series数据
       this.keyword_data.forEach((element, index) => {
         series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
-      // console.log('66666666666666666666666')
-      // console.log(series_data_arr)
+      console.log('66666666666666666666666')
+      console.log(series_data_arr)
       return series_data_arr
     },
 
@@ -682,80 +685,127 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
       // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          textStyle: {
-            align: 'left'
-          },
-          trigger: 'axis'
-        },
+      myChart.setOption(
+        {
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222;',
+              fontSize: 13,
+              align: 'left'
+            },
 
-        color: [
-          '#62c8ff',
-          '#216aff',
-          '#4209a2',
-          '#a000d2',
-          '#ec066d',
-          '#f24d3e',
-          '#ff9731',
-          '#ffd800',
-          '#c3df00',
-          '#529323'
-        ],
-        legend: {
-          data: that.keyword_data,
-          y: 'bottom',
-          // 控制显示隐藏哪一个折线
-          // selected: {
-          //   邮件营销: false
-          // }
-          selected: that.selected_data
-        },
-        tooltip: {
-          textStyle: {
-            align: 'left'
+            trigger: 'axis'
           },
-          trigger: 'axis'
-        },
-        grid: {
-          left: '4%',
-          right: '4%',
-          bottom: '13%',
-          containLabel: true
-        },
+          color: [
+            '#62c8ff',
+            '#216aff',
+            '#4209a2',
+            '#a000d2',
+            '#ec066d',
+            '#f24d3e',
+            '#ff9731',
+            '#ffd800',
+            '#c3df00',
+            '#529323'
+          ],
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom',
+            // 控制显示隐藏哪一个折线
+            // selected: {
+            //   邮件营销: false
+            // }
+            selected: that.selected_data
+          },
+          tooltip: {
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            backgroundColor: '#fff',
+            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            textStyle: {
+              color: '#222222',
+              fontSize: 13,
+              align: 'left',
+              height: 156
+            },
 
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              title: '保存',
-              iconStyle: {
-                opacity: 1,
-                borderWidth: 2,
-                borderColor: '#555'
+            trigger: 'axis'
+          },
+          grid: {
+            left: '4%',
+            right: '4%',
+            bottom: '13%',
+            containLabel: true
+          },
+
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                title: '保存',
+                iconStyle: {
+                  opacity: 1,
+                  borderWidth: 2,
+                  borderColor: '#555'
+                }
               }
             }
-          }
+          },
+          xAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            position: 'bottom',
+            type: 'category',
+            data: that.xAxis_data,
+            // alignWithLabel: false
+            boundaryGap: false
+            // show: this.xAxis_is_show
+            // gridIndex: 0
+            // axisLine: { show: false }
+          },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            //网格样式
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: ['#f2f2f2']
+              }
+            },
+            minInterval: 1,
+            type: 'value',
+            inverse: true,
+            min: 1,
+            max: that.yAxis_max,
+            interval: that.yAxis_max / 5
+          },
+          series: that.series_data()
         },
-        xAxis: {
-          position: 'bottom',
-          type: 'category',
-          data: that.xAxis_data,
-          // alignWithLabel: false
-          boundaryGap: false
-          // show: this.xAxis_is_show
-          // gridIndex: 0
-          // axisLine: { show: false }
-        },
-        yAxis: {
-          minInterval: 1,
-          type: 'value',
-          inverse: true,
-          min: 1,
-          max: that.yAxis_max,
-          interval: that.yAxis_max / 5
-        },
-        series: that.series_data()
-      })
+        true
+      )
     },
     clear_time() {
       console.log('清空时间')
@@ -1020,7 +1070,7 @@ export default {
 }
 .myChart {
   width: 965px;
-  height: 300px;
+  height: 350px;
   z-index: 1;
   text-align: center;
   color: #666;
@@ -1035,7 +1085,7 @@ export default {
   letter-spacing: 0px;
   color: #222222;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 .show_all {
   width: 65px;
