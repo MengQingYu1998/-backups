@@ -669,7 +669,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -723,8 +724,27 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            max: that.yAxis_max,
-            interval: that.yAxis_max / 5
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max = 1500
+              } else {
+                that.yAxis_max = max_value + 100
+              }
+              return that.yAxis_max
+            }
           },
           series: [
             {
@@ -847,74 +867,7 @@ export default {
               this.four_start_data = this.response_data_second_part.fourStar
               this.five_start_data = this.response_data_second_part.fiveStar
               this.middle_top_xAxis[0].data = this.response_data_second_part.publishTime
-              // ==================找数组最大值====================
-              let max_value_arr = new Array()
-              max_value_arr.push(this.one_start_data)
-              max_value_arr.push(this.two_start_data)
-              max_value_arr.push(this.three_start_data)
-              max_value_arr.push(this.four_start_data)
-              max_value_arr.push(this.five_start_data)
-              let max_value00 = 0
-              max_value_arr[0].forEach(element => {
-                element = parseInt(element)
-                if (max_value00 <= element) {
-                  max_value00 = element
-                }
-              })
-              let max_value01 = 0
-              max_value_arr[1].forEach(element => {
-                element = parseInt(element)
-                if (max_value01 <= element) {
-                  max_value01 = element
-                }
-              })
-              let max_value02 = 0
-              max_value_arr[2].forEach(element => {
-                element = parseInt(element)
-                if (max_value02 <= element) {
-                  max_value02 = element
-                }
-              })
-              let max_value03 = 0
-              max_value_arr[3].forEach(element => {
-                element = parseInt(element)
-                if (max_value03 <= element) {
-                  max_value03 = element
-                }
-              })
-              let max_value04 = 0
-              max_value_arr[4].forEach(element => {
-                element = parseInt(element)
-                if (max_value04 <= element) {
-                  max_value04 = element
-                }
-              })
-              // console.log(max_value)
-              // this.yAxis_max = max_value + 5
-              let max_value =
-                max_value00 +
-                max_value01 +
-                max_value02 +
-                max_value03 +
-                max_value04
-              if (max_value <= 5) {
-                this.yAxis_max = 5
-              } else if (max_value <= 20) {
-                this.yAxis_max = 20
-              } else if (max_value <= 50) {
-                this.yAxis_max = 50
-              } else if (max_value <= 100) {
-                this.yAxis_max = 100
-              } else if (max_value <= 500) {
-                this.yAxis_max = 500
-              } else if (max_value <= 1000) {
-                this.yAxis_max = 1000
-              } else if (max_value <= 1500) {
-                this.yAxis_max = 1500
-              } else {
-                this.yAxis_max = max_value + 100
-              }
-              // ==================找数组最大值====================
+
               this.drawLine()
             })
             .catch(error => {
@@ -942,7 +895,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -996,8 +950,27 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            max: that.yAxis_max03,
-            interval: that.yAxis_max03 / 5
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max01 = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max01 = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max01 = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max01 = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max01 = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max01 = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max01 = 1500
+              } else {
+                that.yAxis_max01 = max_value + 100
+              }
+              return that.yAxis_max01
+            }
           },
           series: [
             {
@@ -1038,7 +1011,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -1092,8 +1066,27 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            max: that.yAxis_max01,
-            interval: that.yAxis_max01 / 5
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max03 = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max03 = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max03 = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max03 = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max03 = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max03 = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max03 = 1500
+              } else {
+                that.yAxis_max03 = max_value + 100
+              }
+              return that.yAxis_max03
+            }
           },
           series: [
             {
@@ -1250,121 +1243,9 @@ export default {
                 this.four_start_data_third != undefined,
                 this.five_start_data_third != undefined)
               ) {
-                // ==================drawLine01找数组最大值====================
-                let max_value_arr = new Array()
-                max_value_arr.push(this.one_start_data_third)
-                max_value_arr.push(this.two_start_data_third)
-                max_value_arr.push(this.three_start_data_third)
-                max_value_arr.push(this.four_start_data_third)
-                max_value_arr.push(this.five_start_data_third)
-                let max_value00 = 0
-                max_value_arr[0].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value00 <= element) {
-                    max_value00 = element
-                  }
-                })
-                let max_value01 = 0
-                max_value_arr[1].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value01 <= element) {
-                    max_value01 = element
-                  }
-                })
-                let max_value02 = 0
-                max_value_arr[2].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value02 <= element) {
-                    max_value02 = element
-                  }
-                })
-                let max_value03 = 0
-                max_value_arr[3].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value03 <= element) {
-                    max_value03 = element
-                  }
-                })
-                let max_value04 = 0
-                max_value_arr[4].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value04 <= element) {
-                    max_value04 = element
-                  }
-                })
-                // console.log(max_value)
-                // this.yAxis_max = max_value + 5
-                let max_value =
-                  max_value00 +
-                  max_value01 +
-                  max_value02 +
-                  max_value03 +
-                  max_value04
-                if (max_value <= 5) {
-                  this.yAxis_max01 = 5
-                } else if (max_value <= 20) {
-                  this.yAxis_max01 = 20
-                } else if (max_value <= 50) {
-                  this.yAxis_max01 = 50
-                } else if (max_value <= 100) {
-                  this.yAxis_max01 = 100
-                } else if (max_value <= 500) {
-                  this.yAxis_max01 = 500
-                } else if (max_value <= 1000) {
-                  this.yAxis_max01 = 1000
-                } else if (max_value <= 1500) {
-                  this.yAxis_max01 = 1500
-                } else {
-                  this.yAxis_max01 = max_value + 100
-                }
-                // ==================drawLine01找数组最大值====================
               } else if (
                 (this.online_data != undefined, this.delete_data != undefined)
               ) {
-                // ==================drawLine03找数组最大值====================
-                let max_value_arr03 = new Array()
-                max_value_arr03.push(this.online_data)
-                max_value_arr03.push(this.delete_data)
-
-                let max_value0300 = 0
-                max_value_arr03[0].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value0300 <= element) {
-                    max_value0300 = element
-                  }
-                })
-                let max_value0301 = 0
-                max_value_arr03[1].forEach(element => {
-                  element = parseInt(element)
-                  if (max_value0301 <= element) {
-                    max_value0301 = element
-                  }
-                })
-
-                // console.log(max_value)
-                // this.yAxis_max = max_value + 5
-
-                let max_value03 = max_value0300 + max_value0301
-                // console.log(max_value)
-                // this.yAxis_max = max_value + 5
-                if (max_value03 <= 5) {
-                  this.yAxis_max03 = 5
-                } else if (max_value03 <= 20) {
-                  this.yAxis_max03 = 20
-                } else if (max_value03 <= 50) {
-                  this.yAxis_max03 = 50
-                } else if (max_value03 <= 100) {
-                  this.yAxis_max03 = 100
-                } else if (max_value03 <= 500) {
-                  this.yAxis_max03 = 500
-                } else if (max_value03 <= 1000) {
-                  this.yAxis_max03 = 1000
-                } else if (max_value03 <= 1500) {
-                  this.yAxis_max03 = 1500
-                } else {
-                  this.yAxis_max03 = max_value03 + 100
-                }
-                // ==================drawLine03找数组最大值====================
               }
 
               this.drawLine01()

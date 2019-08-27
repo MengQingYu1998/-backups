@@ -32,9 +32,9 @@ export default {
       this.keyword_data = ['a', 'b', 'c']
       // 数据
       this.keyword_data_value = [
-        ['200', '150', '700'],
-        ['400', '190', '100'],
-        ['5', '10', '30']
+        ['215', '150', '736'],
+        ['403', '190', '108'],
+        ['5', '10', '37']
       ]
       // X轴文本
       this.xAxis_data = ['2018-08-06', '2018-08-07', '2018-08-08']
@@ -114,23 +114,36 @@ export default {
         legend: {
           data: that.keyword_data,
           y: 'bottom',
-          // 控制显示隐藏哪一个折线
-          // selected: {
-          //   邮件营销: false
-          // }
-          selected: that.selected_data
+          selected: that.selected_data,
+          backgroundColor: 'red',
+          textStyle: {
+            width: 100,
+            backgroundColor: 'blue'
+          }
         },
         tooltip: {
-          textStyle: {
-            align: 'left'
-          },
           trigger: 'axis',
           backgroundColor: '#fff',
-          extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+          extraCssText:
+            'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
           textStyle: {
-            color: 'red',
+            align: 'left',
+            color: '#666',
             fontSize: 13
           }
+          // formatter: function(data) {
+          //   // console.log(data)
+          //   return (
+          //     data[0].axisValue +
+          //     '<br/>' +
+          //     '<div style="display:inline-block;"></div>'+
+          //     data[0].marker +
+          //     data[0].seriesName +
+          //     '：' +
+          //     data[0].value +
+          //     '%'
+          //   )
+          // }
         },
         grid: {
           left: '4%',
@@ -190,51 +203,12 @@ export default {
           minInterval: 1,
           type: 'value',
           inverse: true,
-          // splitNumber: 5,
-          min: that.min,
-          max: that.max
+          min: null,
+          max: null
         },
         series: that.series_data()
       }
       myChart.setOption(option, true)
-
-      // myChart.on('click', 'toolbox.feature.saveAsImage', function(params) {
-      //   alert(55)
-      // })
-      // 图例开关的行为只会触发 legendselectchanged 事件
-      myChart.on('legendselectchanged', function(params) {
-        // console.log(params.selected)
-        let selected_key_arr = new Array()
-        for (let a in params.selected) {
-          selected_key_arr.push(params.selected[a])
-        }
-        // console.log(selected_key_arr)
-        let selected_index_arr = new Array()
-        selected_key_arr.forEach((element, index) => {
-          if (element == true) {
-            selected_index_arr.push(index)
-          }
-        })
-        // console.log(selected_index_arr)
-        let max_value_arr = new Array()
-        selected_index_arr.forEach(element => {
-          max_value_arr.push(that.keyword_data_value[element])
-        })
-        // console.log(max_value_arr)
-        let max_value = 0
-        max_value_arr.forEach(element => {
-          element.forEach(element_son => {
-            element_son = parseInt(element_son)
-            if (max_value <= element_son) {
-              max_value = element_son
-            }
-          })
-        })
-        console.log(max_value)
-        that.max = max_value
-        // that.selected_data = params.selected
-        // console.log(that.selected_data)
-      })
     }
   }
 }
@@ -247,7 +221,7 @@ export default {
   z-index: 1;
   text-align: center;
   color: #666;
-  line-height: 300px;
+  height: 300px;
   font-size: 50px;
 }
 </style>

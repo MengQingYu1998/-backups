@@ -263,23 +263,13 @@ table tbody tr:hover {
   color: #009bef;
 }
 /* DatePicker日期组件自定义样式 */
-/* #data_table .el-input--suffix .el-input__inner,
-#trend_many .el-input--suffix .el-input__inner,
-#ranking .el-input--suffix .el-input__inner,
-#trend_one .el-input--suffix .el-input__inner,
-#hot_history .el-input--suffix .el-input__inner,
-#think_word .el-input--suffix .el-input__inner,
-#hot_search .el-input--suffix .el-input__inner,
-#result .el-input--suffix  */
+
 .el-input__inner {
   padding-right: 4px !important;
 }
 /*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
-  /* width: 320px !important ; */
   box-sizing: border-box;
-  /* transition-duration: 0ms !important; */
-  /* overflow: hidden; */
 }
 
 /* 进度条组件element */

@@ -140,12 +140,12 @@
         <div class="myChart" v-show="no_data">暂无数据</div>
         <div v-show="is_show_myChart_and_table">
           <div
-            class="show_all"
+            class="show_all pointer"
             v-show="!canvas_is_show_all"
             @click="selected_data_function(true)"
           >显示所有</div>
           <div
-            class="show_all"
+            class="show_all pointer"
             v-show="canvas_is_show_all"
             @click="selected_data_function(false)"
           >隐藏所有</div>
@@ -404,41 +404,6 @@ export default {
                   }
                 })
 
-                // ==================找数组最大值====================
-                let max_value_arr = new Array()
-                this.keyword_data_value.forEach(element => {
-                  max_value_arr.push(element.slice(0))
-                })
-                let max_value = 0
-                max_value_arr.forEach(element => {
-                  element.forEach(element_son => {
-                    // console.log(element_son)
-                    element_son = parseInt(element_son)
-                    if (max_value <= element_son) {
-                      max_value = element_son
-                    }
-                  })
-                })
-                // console.log(max_value)
-                // this.yAxis_max = max_value + 5
-                if (max_value <= 5) {
-                  this.yAxis_max = 5
-                } else if (max_value <= 20) {
-                  this.yAxis_max = 20
-                } else if (max_value <= 50) {
-                  this.yAxis_max = 50
-                } else if (max_value <= 100) {
-                  this.yAxis_max = 100
-                } else if (max_value <= 500) {
-                  this.yAxis_max = 500
-                } else if (max_value <= 1000) {
-                  this.yAxis_max = 1000
-                } else if (max_value <= 1500) {
-                  this.yAxis_max = 1500
-                } else {
-                  this.yAxis_max = max_value + 100
-                }
-                // ==================找数组最大值====================
                 let str_length = this.keyword_data.join(',').length
                 console.log(str_length)
                 // if (str_length < 50) {
@@ -588,7 +553,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -664,8 +630,27 @@ export default {
             type: 'value',
             inverse: true,
             min: 1,
-            max: that.yAxis_max,
-            interval: that.yAxis_max / 5
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max = 1500
+              } else {
+                that.yAxis_max = max_value + 100
+              }
+              return that.yAxis_max
+            }
           },
           series: that.series_data()
         },

@@ -130,6 +130,7 @@ export default {
 <style scoped>
 .header_img {
   border-radius: 10px;
+  border: solid 1px #f2f2f2;
 }
 .country {
   height: 65px;

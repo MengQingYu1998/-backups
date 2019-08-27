@@ -161,7 +161,8 @@ export default {
       xAxis_data: [],
       // 数据
       keyword_data_value: [],
-      yAxis_max: 5
+      yAxis_max: 5,
+      yAxis_min: 0
     }
   },
   created: function() {
@@ -281,41 +282,7 @@ export default {
               this.xAxis_data = this.response_data.Xtime
 
               this.keyword_data.push(this.$store.state.now_app_name)
-              // ==================找数组最大值====================
-              let max_value_arr = new Array()
-              this.keyword_data_value.forEach(element => {
-                max_value_arr.push(element.slice(0))
-              })
-              let max_value = 0
-              max_value_arr.forEach(element => {
-                element.forEach(element_son => {
-                  // console.log(element_son)
-                  element_son = parseInt(element_son)
-                  if (max_value <= element_son) {
-                    max_value = element_son
-                  }
-                })
-              })
-              // console.log(max_value)
-              // this.yAxis_max = max_value + 5
-              if (max_value <= 5) {
-                this.yAxis_max = 5
-              } else if (max_value <= 20) {
-                this.yAxis_max = 20
-              } else if (max_value <= 50) {
-                this.yAxis_max = 50
-              } else if (max_value <= 100) {
-                this.yAxis_max = 100
-              } else if (max_value <= 500) {
-                this.yAxis_max = 500
-              } else if (max_value <= 1000) {
-                this.yAxis_max = 1000
-              } else if (max_value <= 1500) {
-                this.yAxis_max = 1500
-              } else {
-                this.yAxis_max = max_value + 100
-              }
-              // ==================找数组最大值====================
+
               this.drawLine()
             })
             .catch(error => {
@@ -347,7 +314,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -423,10 +391,142 @@ export default {
               }
             },
             type: 'value',
-            min: 0,
+
             minInterval: 1,
-            max: that.yAxis_max,
-            interval: that.yAxis_max / 5
+            min: function(value) {
+              let min_value = value.min
+              if (min_value <= 5) {
+                that.yAxis_min = 0
+              } else if (min_value <= 20) {
+                that.yAxis_min = 5
+              } else if (min_value <= 50) {
+                that.yAxis_min = 20
+              } else if (min_value <= 100) {
+                that.yAxis_min = 50
+              } else if (min_value <= 500) {
+                that.yAxis_min = 100
+              } else if (min_value <= 1000) {
+                that.yAxis_min = 500
+              } else if (min_value <= 1500) {
+                that.yAxis_min = 1000
+              } else if (min_value <= 2000) {
+                that.yAxis_min = 1500
+              } else if (min_value <= 2500) {
+                that.yAxis_min = 2000
+              } else if (min_value <= 3000) {
+                that.yAxis_min = 2500
+              } else if (min_value <= 3500) {
+                that.yAxis_min = 3000
+              } else if (min_value <= 4000) {
+                that.yAxis_min = 3500
+              } else if (min_value <= 4500) {
+                that.yAxis_min = 4000
+              } else if (min_value <= 5000) {
+                that.yAxis_min = 4500
+              } else if (min_value <= 5500) {
+                that.yAxis_min = 5000
+              } else if (min_value <= 6000) {
+                that.yAxis_min = 5500
+              } else if (min_value <= 6500) {
+                that.yAxis_min = 6000
+              } else if (min_value <= 7000) {
+                that.yAxis_min = 6500
+              } else if (min_value <= 7500) {
+                that.yAxis_min = 7000
+              } else if (min_value <= 8000) {
+                that.yAxis_min = 7500
+              } else if (min_value <= 8500) {
+                that.yAxis_min = 8000
+              } else if (min_value <= 9000) {
+                that.yAxis_min = 8500
+              } else if (min_value <= 9500) {
+                that.yAxis_min = 9000
+              } else if (min_value <= 10000) {
+                that.yAxis_min = 9500
+              } else if (min_value <= 10500) {
+                that.yAxis_min = 10000
+              } else if (min_value <= 11000) {
+                that.yAxis_min = 10500
+              } else if (min_value <= 11500) {
+                that.yAxis_min = 11000
+              } else if (min_value <= 12000) {
+                that.yAxis_min = 11500
+              } else if (min_value <= 12500) {
+                that.yAxis_min = 12000
+              } else if (min_value <= 13000) {
+                that.yAxis_min = 12500
+              } else {
+                that.yAxis_min = min_value - 100
+              }
+              return that.yAxis_min
+            },
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max = 1500
+              } else if (max_value <= 2000) {
+                that.yAxis_max = 2000
+              } else if (max_value <= 2500) {
+                that.yAxis_max = 2500
+              } else if (max_value <= 3000) {
+                that.yAxis_max = 3000
+              } else if (max_value <= 3500) {
+                that.yAxis_max = 3500
+              } else if (max_value <= 4000) {
+                that.yAxis_max = 4000
+              } else if (max_value <= 4500) {
+                that.yAxis_max = 4500
+              } else if (max_value <= 5000) {
+                that.yAxis_max = 5000
+              } else if (max_value <= 5500) {
+                that.yAxis_max = 5500
+              } else if (max_value <= 6000) {
+                that.yAxis_max = 6000
+              } else if (max_value <= 6500) {
+                that.yAxis_max = 6500
+              } else if (max_value <= 7000) {
+                that.yAxis_max = 7000
+              } else if (max_value <= 7500) {
+                that.yAxis_max = 7500
+              } else if (max_value <= 8000) {
+                that.yAxis_max = 8000
+              } else if (max_value <= 8500) {
+                that.yAxis_max = 8500
+              } else if (max_value <= 9000) {
+                that.yAxis_max = 9000
+              } else if (max_value <= 9500) {
+                that.yAxis_max = 9500
+              } else if (max_value <= 10000) {
+                that.yAxis_max = 10000
+              } else if (max_value <= 10500) {
+                that.yAxis_max = 10500
+              } else if (max_value <= 11000) {
+                that.yAxis_max = 11000
+              } else if (max_value <= 11500) {
+                that.yAxis_max = 11500
+              } else if (max_value <= 12000) {
+                that.yAxis_max = 12000
+              } else if (max_value <= 12500) {
+                that.yAxis_max = 12500
+              } else if (max_value <= 13000) {
+                that.yAxis_max = 13000
+              } else {
+                that.yAxis_max = max_value + 100
+              }
+              return that.yAxis_max
+            }
           },
           series: that.series_data()
         },

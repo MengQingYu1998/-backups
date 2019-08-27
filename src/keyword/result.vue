@@ -198,13 +198,13 @@
                         <img
                           v-show="item.Change<0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
+                          src="../assets/keyword/arrows (3).png"
                           alt
                         />
                         <img
                           v-show="item.Change>0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
+                          src="../assets/keyword/arrows (2).png"
                           alt
                         />
                         <div
@@ -300,21 +300,23 @@
                         <img
                           v-show="item.Change<0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
+                          src="../assets/keyword/arrows (3).png"
                           alt
                         />
                         <img
                           v-show="item.Change>0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
+                          src="../assets/keyword/arrows (2).png"
                           alt
                         />
-                        <div>{{Math.abs(item.Change)}}</div>
+                        <div
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
-                          alt
                           class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId)"
+                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                          alt
                         />
                       </div>
                     </td>
@@ -396,21 +398,23 @@
                         <img
                           v-show="item.Change<0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
+                          src="../assets/keyword/arrows (3).png"
                           alt
                         />
                         <img
                           v-show="item.Change>0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
+                          src="../assets/keyword/arrows (2).png"
                           alt
                         />
-                        <div>{{Math.abs(item.Change)}}</div>
+                        <div
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
-                          alt
                           class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId)"
+                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                          alt
                         />
                       </div>
                     </td>
@@ -477,20 +481,22 @@
                         <img
                           v-show="item.Change<0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
+                          src="../assets/keyword/arrows (3).png"
                           alt
                         />
                         <img
                           v-show="item.Change>0"
                           class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
+                          src="../assets/keyword/arrows (2).png"
                           alt
                         />
-                        <div>{{Math.abs(item.Change)}}</div>
+                        <div
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{Math.abs(item.Change)}}</div>
                         <img
                           src="../assets/keyword/keyword01.png"
                           class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId)"
+                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                           alt
                         />
                       </div>
@@ -1082,50 +1088,7 @@ export default {
               this.xAxis_data01 = temp.Xvalue
               this.keyword_data01.push('ios12')
               console.log(this.keyword_data_value01[0])
-              // max: that.column_max,
-              //           min: that.column_min,
-              // ==================找数组最大值====================
-              let max_value_arr = new Array()
 
-              let max_value = 0
-              this.keyword_data_value01[0].forEach(element_son => {
-                element_son = parseInt(element_son)
-                if (max_value <= element_son) {
-                  max_value = element_son
-                }
-              })
-              if (max_value >= 0 && max_value <= 9) {
-                this.column_max = 10
-              } else if (max_value >= 10 && max_value <= 19) {
-                this.column_max = 20
-              } else if (max_value >= 20 && max_value <= 49) {
-                this.column_max = 50
-              } else if (max_value >= 50 && max_value <= 99) {
-                this.column_max = 100
-              } else if (max_value >= 100) {
-                this.column_max = max_value + 20
-              }
-              // ==================找数组最大值====================
-              // ==================找数组最小值====================
-              let min_value = 0
-              this.keyword_data_value01[0].forEach(element_son => {
-                element_son = parseInt(element_son)
-                if (min_value >= element_son) {
-                  min_value = element_son
-                }
-              })
-              if (min_value < 0 && min_value >= -9) {
-                this.column_min = -10
-              } else if (min_value <= -10 && min_value >= -19) {
-                this.column_min = -20
-              } else if (min_value <= -20 && min_value >= -49) {
-                this.column_min = -50
-              } else if (min_value <= -50 && min_value >= -99) {
-                this.column_min = -100
-              } else if (min_value >= -100) {
-                this.column_min = min_value - 20
-              }
-              // ==================找数组最小值====================
               this.drawLine12()
             })
             .catch(error => {
@@ -1149,7 +1112,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -1237,8 +1201,44 @@ export default {
               }
             },
             type: 'value',
-            max: that.column_max,
-            min: that.column_min,
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.column_max = 5
+              } else if (max_value <= 20) {
+                that.column_max = 20
+              } else if (max_value <= 50) {
+                that.column_max = 50
+              } else if (max_value <= 100) {
+                that.column_max = 100
+              } else if (max_value <= 500) {
+                that.column_max = 500
+              } else if (max_value <= 1000) {
+                that.column_max = 1000
+              } else if (max_value <= 1500) {
+                that.column_max = 1500
+              } else {
+                that.column_max = max_value + 100
+              }
+              return that.column_max
+            },
+            min: function(value) {
+              // alert(value.min)
+              let min_value = value.min
+              if (min_value <= 0 && min_value >= -9) {
+                that.column_min = -10
+              } else if (min_value <= -10 && min_value >= -19) {
+                that.column_min = -20
+              } else if (min_value <= -20 && min_value >= -49) {
+                that.column_min = -50
+              } else if (min_value <= -50 && min_value >= -99) {
+                that.column_min = -100
+              } else if (min_value >= -100) {
+                that.column_min = min_value - 20
+              }
+              return that.column_min
+            },
+            // min: that.column_min,
             //设置Y轴百分比显示
             axisLabel: {
               show: true,
@@ -1367,41 +1367,7 @@ export default {
                 )
                 this.xAxis_data = this.response_data_for_dialog.Xvalue
                 this.keyword_data.push(this.word)
-                // ==================找数组最大值====================
-                let max_value_arr = []
-                this.keyword_data_value.forEach(element => {
-                  max_value_arr.push(element.slice(0))
-                })
-                let max_value = 0
-                max_value_arr.forEach(element => {
-                  element.forEach(element_son => {
-                    // console.log(element_son)
-                    element_son = parseInt(element_son)
-                    if (max_value <= element_son) {
-                      max_value = element_son
-                    }
-                  })
-                })
-                // console.log(max_value)
-                // this.yAxis_max = max_value + 5
-                if (max_value <= 5) {
-                  this.yAxis_max = 5
-                } else if (max_value <= 20) {
-                  this.yAxis_max = 20
-                } else if (max_value <= 50) {
-                  this.yAxis_max = 50
-                } else if (max_value <= 100) {
-                  this.yAxis_max = 100
-                } else if (max_value <= 500) {
-                  this.yAxis_max = 500
-                } else if (max_value <= 1000) {
-                  this.yAxis_max = 1000
-                } else if (max_value <= 1500) {
-                  this.yAxis_max = 1500
-                } else {
-                  this.yAxis_max = max_value + 100
-                }
-                // ==================找数组最大值====================
+
                 this.drawLine_dialog()
               } else {
                 this.no_data = true
@@ -1445,7 +1411,8 @@ export default {
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
             },
             backgroundColor: '#fff',
-            extraCssText: 'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);',
+            extraCssText:
+              'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
               fontSize: 13,
@@ -1524,8 +1491,27 @@ export default {
             type: 'value',
             inverse: true,
             min: 1,
-            max: that.yAxis_max,
-            interval: that.yAxis_max / 5
+            max: function(value) {
+              let max_value = value.max
+              if (max_value <= 5) {
+                that.yAxis_max = 5
+              } else if (max_value <= 20) {
+                that.yAxis_max = 20
+              } else if (max_value <= 50) {
+                that.yAxis_max = 50
+              } else if (max_value <= 100) {
+                that.yAxis_max = 100
+              } else if (max_value <= 500) {
+                that.yAxis_max = 500
+              } else if (max_value <= 1000) {
+                that.yAxis_max = 1000
+              } else if (max_value <= 1500) {
+                that.yAxis_max = 1500
+              } else {
+                that.yAxis_max = max_value + 100
+              }
+              return that.yAxis_max
+            }
           },
           series: that.series_data()
         },
@@ -1904,10 +1890,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.tabsContentTable .arrowsImg {
-  width: 4px;
-  height: 8px;
 }
 
 .tabsContentTable .use img {
