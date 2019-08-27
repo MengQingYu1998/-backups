@@ -1088,6 +1088,22 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                                        'width:6px;height:6px;vertical-align:2px;'
+
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
             backgroundColor: '#fff',
             extraCssText:
               'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',

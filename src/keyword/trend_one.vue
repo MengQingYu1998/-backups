@@ -309,6 +309,21 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                    'width:6px;height:6px;vertical-align:2px;'
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
@@ -394,138 +409,10 @@ export default {
 
             minInterval: 1,
             min: function(value) {
-              let min_value = value.min
-              if (min_value <= 5) {
-                that.yAxis_min = 0
-              } else if (min_value <= 20) {
-                that.yAxis_min = 5
-              } else if (min_value <= 50) {
-                that.yAxis_min = 20
-              } else if (min_value <= 100) {
-                that.yAxis_min = 50
-              } else if (min_value <= 500) {
-                that.yAxis_min = 100
-              } else if (min_value <= 1000) {
-                that.yAxis_min = 500
-              } else if (min_value <= 1500) {
-                that.yAxis_min = 1000
-              } else if (min_value <= 2000) {
-                that.yAxis_min = 1500
-              } else if (min_value <= 2500) {
-                that.yAxis_min = 2000
-              } else if (min_value <= 3000) {
-                that.yAxis_min = 2500
-              } else if (min_value <= 3500) {
-                that.yAxis_min = 3000
-              } else if (min_value <= 4000) {
-                that.yAxis_min = 3500
-              } else if (min_value <= 4500) {
-                that.yAxis_min = 4000
-              } else if (min_value <= 5000) {
-                that.yAxis_min = 4500
-              } else if (min_value <= 5500) {
-                that.yAxis_min = 5000
-              } else if (min_value <= 6000) {
-                that.yAxis_min = 5500
-              } else if (min_value <= 6500) {
-                that.yAxis_min = 6000
-              } else if (min_value <= 7000) {
-                that.yAxis_min = 6500
-              } else if (min_value <= 7500) {
-                that.yAxis_min = 7000
-              } else if (min_value <= 8000) {
-                that.yAxis_min = 7500
-              } else if (min_value <= 8500) {
-                that.yAxis_min = 8000
-              } else if (min_value <= 9000) {
-                that.yAxis_min = 8500
-              } else if (min_value <= 9500) {
-                that.yAxis_min = 9000
-              } else if (min_value <= 10000) {
-                that.yAxis_min = 9500
-              } else if (min_value <= 10500) {
-                that.yAxis_min = 10000
-              } else if (min_value <= 11000) {
-                that.yAxis_min = 10500
-              } else if (min_value <= 11500) {
-                that.yAxis_min = 11000
-              } else if (min_value <= 12000) {
-                that.yAxis_min = 11500
-              } else if (min_value <= 12500) {
-                that.yAxis_min = 12000
-              } else if (min_value <= 13000) {
-                that.yAxis_min = 12500
-              } else {
-                that.yAxis_min = min_value - 100
-              }
-              return that.yAxis_min
+              return value.min
             },
             max: function(value) {
-              let max_value = value.max
-              if (max_value <= 5) {
-                that.yAxis_max = 5
-              } else if (max_value <= 20) {
-                that.yAxis_max = 20
-              } else if (max_value <= 50) {
-                that.yAxis_max = 50
-              } else if (max_value <= 100) {
-                that.yAxis_max = 100
-              } else if (max_value <= 500) {
-                that.yAxis_max = 500
-              } else if (max_value <= 1000) {
-                that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
-                that.yAxis_max = 1500
-              } else if (max_value <= 2000) {
-                that.yAxis_max = 2000
-              } else if (max_value <= 2500) {
-                that.yAxis_max = 2500
-              } else if (max_value <= 3000) {
-                that.yAxis_max = 3000
-              } else if (max_value <= 3500) {
-                that.yAxis_max = 3500
-              } else if (max_value <= 4000) {
-                that.yAxis_max = 4000
-              } else if (max_value <= 4500) {
-                that.yAxis_max = 4500
-              } else if (max_value <= 5000) {
-                that.yAxis_max = 5000
-              } else if (max_value <= 5500) {
-                that.yAxis_max = 5500
-              } else if (max_value <= 6000) {
-                that.yAxis_max = 6000
-              } else if (max_value <= 6500) {
-                that.yAxis_max = 6500
-              } else if (max_value <= 7000) {
-                that.yAxis_max = 7000
-              } else if (max_value <= 7500) {
-                that.yAxis_max = 7500
-              } else if (max_value <= 8000) {
-                that.yAxis_max = 8000
-              } else if (max_value <= 8500) {
-                that.yAxis_max = 8500
-              } else if (max_value <= 9000) {
-                that.yAxis_max = 9000
-              } else if (max_value <= 9500) {
-                that.yAxis_max = 9500
-              } else if (max_value <= 10000) {
-                that.yAxis_max = 10000
-              } else if (max_value <= 10500) {
-                that.yAxis_max = 10500
-              } else if (max_value <= 11000) {
-                that.yAxis_max = 11000
-              } else if (max_value <= 11500) {
-                that.yAxis_max = 11500
-              } else if (max_value <= 12000) {
-                that.yAxis_max = 12000
-              } else if (max_value <= 12500) {
-                that.yAxis_max = 12500
-              } else if (max_value <= 13000) {
-                that.yAxis_max = 13000
-              } else {
-                that.yAxis_max = max_value + 100
-              }
-              return that.yAxis_max
+              return value.max
             }
           },
           series: that.series_data()
@@ -644,7 +531,7 @@ table {
 
 .myChart {
   width: 1200px;
-  height: 300px;
+  height: 380px;
 }
 
 .table_title {

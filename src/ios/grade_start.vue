@@ -664,6 +664,22 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                                        'width:6px;height:6px;vertical-align:2px;'
+
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
@@ -890,6 +906,22 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                                        'width:6px;height:6px;vertical-align:2px;'
+
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
@@ -1006,6 +1038,22 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                                        'width:6px;height:6px;vertical-align:2px;'
+
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'

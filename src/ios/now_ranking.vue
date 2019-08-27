@@ -562,7 +562,7 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data)
-              if (response.data.Data.length > 0) {
+              if (response.data.Code == 0) {
                 // this.selected_data_function(false)
                 console.log('有数据')
                 this.is_show_mychart = true
@@ -571,11 +571,10 @@ export default {
 
                 let temp02 = this.response_data_second.rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
-                  // return timestamp(element, 'Y/M/D')
                   if (this.middle_top_radio1 == '按天') {
-                    return timestamp(element, 'Y/M/D')
+                    return timestamp(element, 'Y年M月D日')
                   } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'h点')
+                    return timestamp(element, 'Y年M月D日 h点')
                   } else if (this.middle_top_radio1 == '按分钟') {
                     return timestamp(element, 'D日h时m分')
                   }
@@ -592,6 +591,7 @@ export default {
                 this.drawLine()
               } else {
                 console.log('无数据')
+                // alert('wushuju')
                 this.is_show_mychart = false
               }
             })
@@ -652,6 +652,22 @@ export default {
       myChart.setOption(
         {
           tooltip: {
+            formatter: function(data) {
+              let tr = ''
+              data.forEach(element => {
+                tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                    'width:6px;height:6px;vertical-align:2px;'
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+              })
+              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              return str
+            },
+
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: 'line' // 默认为直线，可选为：'line' | 'shadow'
@@ -709,6 +725,55 @@ export default {
             }
           },
           xAxis: {
+            axisLabel: {
+              formatter: function(value, index) {
+                // console.log(value)
+                // alert(value.slice(0,3))
+                if (that.middle_top_radio1 == '按分钟') {
+                  return value.slice(3, 6)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '今日'
+                ) {
+                  return value.slice(-3)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '昨日'
+                ) {
+                  return value.slice(8)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '180天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '360天'
+                ) {
+                  return value.slice(5, 12)
+                }
+              }
+            },
             axisLine: {
               show: false
             },

@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     get_data() {
-      this.keyword_data = ['a', 'b', 'c']
+      this.keyword_data = ['a发送到发斯蒂芬是', 'b是是', 'c']
       // 数据
       this.keyword_data_value = [
         ['215', '150', '736'],
@@ -114,12 +114,7 @@ export default {
         legend: {
           data: that.keyword_data,
           y: 'bottom',
-          selected: that.selected_data,
-          backgroundColor: 'red',
-          textStyle: {
-            width: 100,
-            backgroundColor: 'blue'
-          }
+          selected: that.selected_data
         },
         tooltip: {
           trigger: 'axis',
@@ -130,20 +125,22 @@ export default {
             align: 'left',
             color: '#666',
             fontSize: 13
+          },
+          formatter: function(data) {
+            let tr = ''
+            data.forEach(element => {
+              tr += `<tr>
+                  <td>${element.marker.replace(
+                    'width:10px;height:10px;',
+                    'width:6px;height:6px;vertical-align:2px;'
+                  )}</td>
+                  <td style="padding-right:10px">${element.seriesName}</td>
+                  <td>${element.value}</td>
+                  </tr>`
+            })
+            let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+            return str
           }
-          // formatter: function(data) {
-          //   // console.log(data)
-          //   return (
-          //     data[0].axisValue +
-          //     '<br/>' +
-          //     '<div style="display:inline-block;"></div>'+
-          //     data[0].marker +
-          //     data[0].seriesName +
-          //     '：' +
-          //     data[0].value +
-          //     '%'
-          //   )
-          // }
         },
         grid: {
           left: '4%',
@@ -167,6 +164,13 @@ export default {
           }
         },
         xAxis: {
+          axisLabel: {
+            formatter: function(value, index) {
+              console.log(value)
+              console.log(index)
+              return 222
+            }
+          },
           axisLine: {
             show: false
           },
