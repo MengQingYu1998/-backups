@@ -32,11 +32,11 @@
           ></el-date-picker>
         </div>
         <div
-          :class=" {'change_bg':change_bg_day,'font_block':true}"
+          :class=" {'change_bg':change_bg_day,'font_block':true,'pointer':true}"
           @click="change_day_dateValue()"
         >昨日</div>
         <div
-          :class=" {'change_bg':change_bg_week,'font_block':true}"
+          :class=" {'change_bg':change_bg_week,'font_block':true,'pointer':true}"
           @click="change_week_dateValue()"
         >近七天</div>
       </div>

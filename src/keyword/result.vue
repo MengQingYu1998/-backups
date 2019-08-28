@@ -555,8 +555,9 @@
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
+                clear-icon
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2"
+                :picker-options="pickerOptions"
               ></el-date-picker>
             </div>
           </div>
@@ -636,7 +637,7 @@
 import country from '../common/country_select/country'
 
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate, timestamp } from '../common/util.js'
 export default {
   name: 'result',
   components: {
@@ -657,6 +658,7 @@ export default {
     next()
   },
   data() {
+    let that = this
     return {
       custom_country: null, //自定义显示国家
       isFirstEnter: false, // 是否第一次进入，默认false
@@ -683,6 +685,24 @@ export default {
       radio02_dialog: '近24小时',
       dialogVisible: false,
       time_dialog: '',
+      pickerOptions: {
+        disabledDate(time) {
+          if (that.radio01_dialog == '按分钟') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 7
+            )
+          } else if (that.radio01_dialog == '按小时') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
+            )
+          } else if (that.radio01_dialog == '按天') {
+            return time.getTime() > Date.now()
+          }
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
       // true显示myChart false显示table表格
       is_show_myChart_and_table: true,
       response_data_for_dialog: null,
@@ -712,6 +732,7 @@ export default {
 
       //当前选中的日期
       dateValue: new Date(),
+
       pickerOptions2: {
         disabledDate(time) {
           return time.getTime() > Date.now()
@@ -1113,8 +1134,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -1383,7 +1403,17 @@ export default {
                 )
                 this.xAxis_data = this.response_data_for_dialog.Xvalue
                 this.keyword_data.push(this.word)
-
+                console.log(this.xAxis_data)
+                this.xAxis_data = this.xAxis_data.map(element => {
+                  // console.log(1)
+                  if (this.radio01_dialog == '按天') {
+                    return timestamp(element, 'Y年M月D日')
+                  } else if (this.radio01_dialog == '按小时') {
+                    return timestamp(element, 'Y年M月D日 h点')
+                  } else if (this.radio01_dialog == '按分钟') {
+                    return timestamp(element, 'M月D日 h点m分')
+                  }
+                })
                 this.drawLine_dialog()
               } else {
                 this.no_data = true
@@ -1428,8 +1458,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -1489,7 +1518,77 @@ export default {
           },
           xAxis: {
             axisLine: {
-              show: false
+              show: true,
+              onZero: false,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
+            },
+            axisLabel: {
+              color: '#222',
+              formatter: function(value, index) {
+                if (
+                  that.radio01_dialog == '按分钟' &&
+                  that.radio02_dialog != '7天'
+                ) {
+                  return '　　' + value.slice(3, 6) + '　　'
+                } else if (
+                  that.radio01_dialog == '按分钟' &&
+                  that.radio02_dialog == '7天'
+                ) {
+                  return '　　' + value.slice(0, 6) + '　　'
+                } else if (
+                  that.radio01_dialog == '按小时' &&
+                  that.radio02_dialog == '近24小时'
+                ) {
+                  return value.slice(-3)
+                } else if (
+                  that.radio01_dialog == '按小时' &&
+                  that.radio02_dialog == '昨日'
+                ) {
+                  return value.slice(8)
+                } else if (
+                  that.radio01_dialog == '按小时' &&
+                  that.radio02_dialog == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按小时' &&
+                  that.radio02_dialog == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按小时' &&
+                  that.radio02_dialog == ''
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按天' &&
+                  that.radio02_dialog == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按天' &&
+                  that.radio02_dialog == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按天' &&
+                  that.radio02_dialog == '180天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按天' &&
+                  that.radio02_dialog == '360天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.radio01_dialog == '按天' &&
+                  that.radio02_dialog == ''
+                ) {
+                  return value.slice(5, 12)
+                }
+              }
             },
             axisTick: {
               show: false
@@ -1506,8 +1605,14 @@ export default {
             data: that.xAxis_data
           },
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
-              show: false
+              show: true,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
             axisTick: {
               show: false
@@ -1747,7 +1852,7 @@ export default {
   background-color: rgb(9, 22, 42, 0.6);
   left: 0;
   top: 0;
-  z-index: 999;
+  z-index: 300;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -2031,7 +2136,6 @@ option:first-child {
 }
 .options_02 {
   margin-left: 30px;
-  margin-top: 2px;
 }
 .margin_top_font {
   margin-top: 4px;

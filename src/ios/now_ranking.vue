@@ -93,6 +93,7 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   :picker-options="middle_top_pickerOptions"
+                  clear-icon
                 ></el-date-picker>
               </div>
             </div>
@@ -302,6 +303,7 @@ export default {
   name: 'now_ranking',
   components: { ios_header, left_nav, world_map },
   data() {
+    let that = this
     return {
       // 第一部分图表的数据
       // 第一部分图表的数据
@@ -321,7 +323,19 @@ export default {
       now_ranking_time: '',
       middle_top_pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          if (that.middle_top_radio1 == '按分钟') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 7
+            )
+          } else if (that.middle_top_radio1 == '按小时') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
+            )
+          } else if (that.middle_top_radio1 == '按天') {
+            return time.getTime() > Date.now()
+          }
           // 这里就是设置当天后的日期不能被点击
         }
       },
@@ -562,7 +576,7 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data)
-              if (response.data.Code == 0) {
+              if (response.data.Code == 0 && response.data.Data.length > 0) {
                 // this.selected_data_function(false)
                 console.log('有数据')
                 this.is_show_mychart = true
@@ -576,7 +590,7 @@ export default {
                   } else if (this.middle_top_radio1 == '按小时') {
                     return timestamp(element, 'Y年M月D日 h点')
                   } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'D日h时m分')
+                    return timestamp(element, 'M月D日 h点m分')
                   }
                 })
 
@@ -605,7 +619,9 @@ export default {
     },
     // 点击日历组件
     click_second_el_date_picker: function() {
+      // if (this.now_ranking_time != '') {
       this.middle_top_radio3 = ''
+      // }
     },
     // 点击单选按钮组件组件
     click_second_el_radio: function() {
@@ -639,8 +655,8 @@ export default {
       this.keyword_data.forEach((element, index) => {
         series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
-      console.log('66666666666666666666666')
-      console.log(series_data_arr)
+      // console.log('66666666666666666666666')
+      // console.log(series_data_arr)
       return series_data_arr
     },
 
@@ -725,12 +741,27 @@ export default {
             }
           },
           xAxis: {
+            axisLine: {
+              show: true,
+              onZero: false,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
+            },
+
             axisLabel: {
+              color: '#222',
               formatter: function(value, index) {
-                // console.log(value)
-                // alert(value.slice(0,3))
-                if (that.middle_top_radio1 == '按分钟') {
-                  return value.slice(3, 6)
+                if (
+                  that.middle_top_radio1 == '按分钟' &&
+                  that.middle_top_radio3 != '7天'
+                ) {
+                  return '　　' + value.slice(3, 6) + '　　'
+                } else if (
+                  that.middle_top_radio1 == '按分钟' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return '　　' + value.slice(0, 6) + '　　'
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '今日'
@@ -749,6 +780,11 @@ export default {
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == ''
                 ) {
                   return value.slice(5, 12)
                 } else if (
@@ -771,12 +807,15 @@ export default {
                   that.middle_top_radio3 == '360天'
                 ) {
                   return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == ''
+                ) {
+                  return value.slice(5, 12)
                 }
               }
             },
-            axisLine: {
-              show: false
-            },
+
             axisTick: {
               show: false
             },
@@ -797,8 +836,14 @@ export default {
             // axisLine: { show: false }
           },
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
-              show: false
+              show: true,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
             axisTick: {
               show: false
@@ -842,7 +887,7 @@ export default {
       )
     },
     clear_time() {
-      console.log('清空时间')
+      // console.log('清空时间')
       this.now_ranking_time = ''
     },
     // =============================请求第三部分数据=============================
@@ -876,8 +921,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              console.log('8888888888888888888888888')
-              console.log(this.response_data_third)
+              // console.log('8888888888888888888888888')
+              // console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }
@@ -1108,7 +1153,7 @@ export default {
 }
 .myChart {
   width: 965px;
-  height: 350px;
+  height: 360px;
   z-index: 1;
   text-align: center;
   color: #666;

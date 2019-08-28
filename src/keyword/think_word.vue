@@ -238,9 +238,12 @@ table {
   border-right: solid 1px #f2f2f2;
   text-align: center;
 }
+.options_03 {
+  margin-left: 39px !important;
+}
 .option .days {
   width: 48px;
-  line-height: 24.5px;
+  line-height: 25.5px;
   height: 24.5px;
   background-color: #f2f2f2;
   border-radius: 4px;

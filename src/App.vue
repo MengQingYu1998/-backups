@@ -52,14 +52,6 @@ export default {
   line-height: 40px;
 }
 
-/* #Application .select2-container--default .select2-selection--single {
-  border: 1px solid #dfdfdf;
-} */
-/* #navv #country,
-.bangdan #country,
-#Application #country {
-  display: inline-block;
-} */
 .el-message {
   min-width: 0;
   height: 50px;
@@ -118,91 +110,6 @@ export default {
   margin-left: 40px;
   border: 1px solid red;
 }
-
-/*榜单页面*/
-/*设备*/
-/* .bangdan .el-input__inner {
-  height: 26px;
-  width: 75px;
-  padding: 0;
-  padding-left: 5px;
-}
-.bangdan .el-input__icon {
-  width: 10px;
-  line-height: 26px;
-} */
-/*日期*/
-/* .bangdan .date .el-date-editor.el-input,
-.el-date-editor.el-input__inner,
-.bangdan .date .el-input__inner,
-#Application .el-date-editor.el-input,
-.el-date-editor.el-input__inner,
-#Application .el-input__inner,
-#monitor .el-date-editor.el-input,
-.el-date-editor.el-input__inner,
-#monitor .el-input__inner {
-  width: 120px;
-  margin-left: 5px;
-} */
-/* #Application .el-date-editor.el-input,
-#Application .el-input__inner,
-#monitor .el-date-editor.el-input,
-#monitor .el-input__inner {
-  height: 27px;
-}
-.bangdan .date .el-input__inner,
-#Application .el-input__inner,
-#monitor .el-input__inner {
-  padding-left: 25px;
-  padding-right: 12px;
-}
-#navv #country .select2-container--default .select2-selection--single {
-  background-color: transparent;
-  border: none;
-} */
-/* #navv #country {
-  width: 97px;
-  display: inline-block;
-} */
-/* .bangdan #country .select2-container--default .select2-selection--single {
-  border: solid 1px #dfdfdf;
-  margin-top: 10px;
-  margin-left: 4px;
-} */
-/* #Application .el-input__prefix,
-#monitor .el-input__prefix {
-  top: -2px;
-}
-#Application .el-input__suffix,
-#monitor .el-input__suffix {
-  display: none;
-} */
-/*新修改样式*/
-/* .bangdan #country .select2-container {
-  width: 150px !important;
-  margin-top: -12px;
-} */
-/* .bangdan .date .el-input__icon {
-  margin-top: -2px;
-  margin-left: 6px;
-} */
-
-/* .bangdan
-  #country
-  .select2-container--default
-  .select2-selection--single
-  .select2-selection__arrow {
-  top: 10px;
-} */
-/* #navv #country .select2-container .select2-selection--single {
-  width: 118px !important;
-  border: none !important;
-  background-color: transparent;
-}
-#navv #country .select2 {
-  width: 140px !important;
-  margin-top: 2px;
-} */
 
 /*08-09*/
 /*index页banner图*/
@@ -376,10 +283,6 @@ table thead tr th {
   content: '\F101';
   font-size: 1.8em;
 }
-.video-js .vjs-big-play-button {
-  border: none;
-  outline: none;
-}
 .vjs-custom-skin > .video-js .vjs-big-play-button {
   background-color: #655e5c !important;
   font-size: 2em !important;
@@ -387,6 +290,12 @@ table thead tr th {
   line-height: 2.8em !important;
   margin-top: -1em !important;
   border-radius: 50% !important;
+  border: none;
+  outline: none;
+}
+.vjs-big-play-button {
+  height: 2.8em !important;
+  line-height: 2.8em !important;
 }
 /* timeline 时间轴组件的icon */
 #version_message .timeline > li:first-child .el-timeline-item__icon {

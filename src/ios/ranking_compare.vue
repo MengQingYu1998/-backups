@@ -34,7 +34,7 @@
             <div>类型</div>
             <div>
               <el-radio-group v-model="middle_top_radio1" size="mini">
-                <el-radio-button label="按分钟"></el-radio-button>
+                <!-- <el-radio-button label="按分钟"></el-radio-button> -->
                 <el-radio-button label="按小时"></el-radio-button>
                 <el-radio-button label="按天"></el-radio-button>
               </el-radio-group>
@@ -58,10 +58,7 @@
                   label="7天"
                   v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
                 ></el-radio-button>
-                <el-radio-button
-                  label="30天"
-                  v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按天'"
-                ></el-radio-button>
+                <el-radio-button label="30天" v-show="middle_top_radio1=='按天'"></el-radio-button>
                 <el-radio-button
                   label="180天"
                   v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
@@ -79,11 +76,18 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                clear-icon
                 :picker-options="middle_top_pickerOptions"
               ></el-date-picker>
             </div>
           </div>
         </div>
+        <div
+          class="table_title"
+          v-if="response_data_second"
+        >【{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}}】排名走势</div>
+        <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
+
         <div ref="ranking_compare" class="myChart" v-show="is_show_myChart_and_table&&!no_data"></div>
         <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
           <img
@@ -137,6 +141,7 @@
             alt
           />
         </div>
+
         <div class="myChart" v-show="no_data">暂无数据</div>
         <div v-show="is_show_myChart_and_table">
           <div
@@ -164,20 +169,31 @@ export default {
   name: 'data_table',
   components: { ios_header, left_nav },
   data() {
+    let that = this
     return {
       no_data: false,
       is_show_myChart_and_table: false,
       now_country: '中国',
       response_data_second: null,
-      response_data_second02: null,
       middle_top_radio1: '按天',
       middle_top_radio2: '全部',
       middle_top_radio3: '7天',
       middle_top_time01: '',
       middle_top_pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
-          // 这里就是设置当天后的日期不能被点击
+          if (that.middle_top_radio1 == '按分钟') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 7
+            )
+          } else if (that.middle_top_radio1 == '按小时') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 7
+            )
+          } else if (that.middle_top_radio1 == '按天') {
+            return time.getTime() > Date.now()
+          }
         }
       },
       // 控制折线图显示所有
@@ -365,16 +381,31 @@ export default {
                 this.xAxis_data.length = new Array()
                 this.keyword_data.length = new Array()
 
-                this.response_data_second = response.data.Data[0]
-                console.log(this.response_data_second)
+                this.response_data_second = response.data.Data
+
                 let temp = response.data.Data[1]
                 // 都谁？ 抖音 快手 内涵
-                let name_group01 = this.response_data_second.rankTrendInfo
+                let name_group01 = this.response_data_second[0].rankTrendInfo
                   .RankList
                 let name_group02 = temp.rankTrendInfo.RankList
+                // alert(this.response_data_second[0].appName.indexOf('-'))
+                // alert(temp.appName.indexOf('-'))
+                if (this.response_data_second[0].appName.indexOf('-') != -1) {
+                  this.response_data_second[0].appName = this.response_data_second[0].appName.slice(
+                    0,
+                    this.response_data_second[0].appName.indexOf('-')
+                  )
+                }
+                if (temp.appName.indexOf('-') != -1) {
+                  temp.appName = temp.appName.slice(
+                    0,
+                    temp.appName.indexOf('-')
+                  )
+                }
+
                 name_group01.forEach(element => {
                   this.keyword_data.push(
-                    this.response_data_second.appName + '-' + element
+                    this.response_data_second[0].appName + '-' + element
                   )
                 })
                 name_group02.forEach(element => {
@@ -384,7 +415,7 @@ export default {
                 //   temp.rankTrendInfo.RankList
                 // )
                 //y轴数值
-                let temp01 = this.response_data_second.rankTrendInfo.r1
+                let temp01 = this.response_data_second[0].rankTrendInfo.r1
                 temp01.forEach(element => {
                   this.keyword_data_value.push(element.data)
                 })
@@ -393,14 +424,14 @@ export default {
                   this.keyword_data_value.push(element.data)
                 })
                 // x轴数据
-                let temp02 = this.response_data_second.rankTrendInfo.r2.data
+                let temp02 = this.response_data_second[0].rankTrendInfo.r2.data
                 this.xAxis_data = temp02.map(element => {
                   if (this.middle_top_radio1 == '按天') {
-                    return timestamp(element, 'Y/M/D')
+                    return timestamp(element, 'Y年M月D日')
                   } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'Y/M/D h')
+                    return timestamp(element, 'Y年M月D日 h点')
                   } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'Y/M/D h:m')
+                    return timestamp(element, 'M月D日 h点m分')
                   }
                 })
 
@@ -554,8 +585,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -581,13 +611,12 @@ export default {
           },
           legend: {
             data: that.keyword_data,
-            y: 'bottom',
-            type: 'scroll',
+            y: '72%',
             orient: 'horizontal',
             selected: that.selected_data
           },
           grid: {
-            // height: '250px',
+            height: '250px',
             left: '3%',
             right: '4%',
             // bottom: that.grid_bottom,
@@ -607,7 +636,78 @@ export default {
           },
           xAxis: {
             axisLine: {
-              show: false
+              show: true,
+              onZero: false,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
+            },
+            axisLabel: {
+              color: '#222',
+              formatter: function(value, index) {
+                console.log(55)
+                if (
+                  that.middle_top_radio1 == '按分钟' &&
+                  that.middle_top_radio3 != '7天'
+                ) {
+                  return '　　' + value.slice(3, 6) + '　　'
+                } else if (
+                  that.middle_top_radio1 == '按分钟' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return '　　' + value.slice(0, 6) + '　　'
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '今日'
+                ) {
+                  return value.slice(-3)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '昨日'
+                ) {
+                  return value.slice(8)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按小时' &&
+                  that.middle_top_radio3 == ''
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '180天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == '360天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.middle_top_radio1 == '按天' &&
+                  that.middle_top_radio3 == ''
+                ) {
+                  return value.slice(5, 12)
+                }
+              }
             },
             axisTick: {
               show: false
@@ -629,8 +729,14 @@ export default {
             // axisLine: { show: false }
           },
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
-              show: false
+              show: true,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
             axisTick: {
               show: false
@@ -766,6 +872,7 @@ table {
   width: 984px;
   overflow-x: scroll;
   border-right: solid 1px #f2f2f2;
+  margin-top: 25px;
 }
 .bottom_image img:first-child {
   z-index: 9999 !important;
@@ -782,7 +889,7 @@ table {
 .bottom_image {
   float: right;
   position: absolute;
-  top: 149.5px;
+  top: 232.5px;
   right: -21px;
 }
 .myChart_tips .float_right {
@@ -813,13 +920,24 @@ table {
 }
 .myChart {
   width: 965px;
-  height: 300px;
+  height: 450px;
   text-align: center;
   color: #666;
   line-height: 300px;
   font-size: 50px;
+  margin-top: -25px;
 }
-
+.table_sub_title {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+  text-align: center;
+  margin-top: 20px;
+}
 .table_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
@@ -828,7 +946,7 @@ table {
   letter-spacing: 0px;
   color: #222222;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .custom {
   width: 59px;

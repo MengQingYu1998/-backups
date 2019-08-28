@@ -165,15 +165,22 @@ export default {
         },
         xAxis: {
           axisLabel: {
-            formatter: function(value, index) {
-              console.log(value)
-              console.log(index)
-              return 222
-            }
+            color: '#222'
           },
           axisLine: {
-            show: false
+            show: true,
+            onZero: false,
+            lineStyle: {
+              color: '#999'
+            }
           },
+          // axisLabel: {
+          //   formatter: function(value, index) {
+          //     console.log(value)
+          //     console.log(index)
+          //     return 222
+          //   }
+          // },
           axisTick: {
             show: false
           },
@@ -191,8 +198,14 @@ export default {
           boundaryGap: false
         },
         yAxis: {
+          axisLabel: {
+            color: '#222'
+          },
           axisLine: {
-            show: false
+            show: true,
+            lineStyle: {
+              color: '#999'
+            }
           },
           axisTick: {
             show: false

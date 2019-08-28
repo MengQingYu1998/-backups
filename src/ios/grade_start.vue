@@ -215,12 +215,13 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
+                  clear-icon
                   end-placeholder="结束日期"
                   :picker-options="middle_top_pickerOptions"
                 ></el-date-picker>
               </div>
               <div
-                :class="{'font_block':true,'change_bg':click_near_month}"
+                :class="{'font_block':true,'change_bg':click_near_month,'pointer':true}"
                 @click="click_near_month_function"
               >近一个月</div>
             </div>
@@ -251,6 +252,7 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
+                  clear-icon
                   end-placeholder="结束日期"
                   :picker-options="middle_bottom_pickerOptions"
                 ></el-date-picker>
@@ -319,6 +321,7 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
+                  clear-icon
                   end-placeholder="结束日期"
                   :picker-options="pickerOptions2"
                 ></el-date-picker>
@@ -367,7 +370,7 @@
                   >{{response_data_fourth_part_item.commentContent}}</div>
                   <div
                     v-if="response_data_fourth_part_item.commentContent.length>90"
-                    class="show_all"
+                    class="show_all pointer"
                     :id="'show_hide'+index"
                     @click="show_more_function('show_more'+index,'show_hide'+index)"
                   >展开更多</div>
@@ -467,10 +470,13 @@ export default {
       middle_bottom_xAxis: {
         axisLine: {
           show: true,
+          onZero: false,
           lineStyle: {
-            color: ['#666'],
-            opacity: 0.5
+            color: '#DCDFE6'
           }
+        },
+        axisLabel: {
+          color: '#222'
         },
         axisTick: {
           show: false
@@ -670,8 +676,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -721,11 +726,13 @@ export default {
           },
           xAxis: this.middle_top_xAxis,
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
               show: true,
               lineStyle: {
-                color: ['#666'],
-                opacity: 0.5
+                color: '#DCDFE6'
               }
             },
             axisTick: {
@@ -912,8 +919,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -963,11 +969,13 @@ export default {
           },
           xAxis: this.middle_bottom_xAxis,
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
               show: true,
               lineStyle: {
-                color: ['#666'],
-                opacity: 0.5
+                color: '#DCDFE6'
               }
             },
             axisTick: {
@@ -1044,8 +1052,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -1095,11 +1102,13 @@ export default {
           },
           xAxis: this.middle_bottom_xAxis,
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
               show: true,
               lineStyle: {
-                color: ['#666'],
-                opacity: 0.5
+                color: '#DCDFE6'
               }
             },
             axisTick: {

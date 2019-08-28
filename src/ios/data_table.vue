@@ -155,7 +155,7 @@
             <div class="option_for_min_max">
               <div>搜索指数</div>
               <div
-                :class=" {'change_bg':change_bg_result,'radio_one':true}"
+                :class=" {'change_bg':change_bg_result,'radio_one':true,'pointer':true}"
                 @click="result_all()"
               >全部</div>
               <div class="min_max" @click="change_bg_result_function">
@@ -312,6 +312,7 @@
                               start-placeholder="开始日期"
                               end-placeholder="结束日期"
                               :picker-options="middle_pickerOptions"
+                              clear-icon
                             ></el-date-picker>
                           </div>
                         </div>
@@ -473,6 +474,7 @@ export default {
   components: { ios_header, left_nav },
 
   data() {
+    let that = this
     return {
       // 分页
       currentPage: 1,
@@ -542,8 +544,19 @@ export default {
       middle_time01: '',
       middle_pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
-          // 这里就是设置当天后的日期不能被点击
+          if (that.bottom_radio1 == '按分钟') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 7
+            )
+          } else if (that.bottom_radio1 == '按小时') {
+            return (
+              time.getTime() > Date.now() ||
+              time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
+            )
+          } else if (that.bottom_radio1 == '按天') {
+            return time.getTime() > Date.now()
+          }
         }
       },
 
@@ -1029,6 +1042,15 @@ export default {
                 this.xAxis_data = this.request_data_third.timeList
                 this.keyword_data_value.push(this.request_data_third.rankList)
 
+                this.xAxis_data = this.xAxis_data.map(element => {
+                  if (this.bottom_radio1 == '按天') {
+                    return timestamp(element, 'Y年M月D日')
+                  } else if (this.bottom_radio1 == '按小时') {
+                    return timestamp(element, 'Y年M月D日 h点')
+                  } else if (this.bottom_radio1 == '按分钟') {
+                    return timestamp(element, 'M月D日 h点m分')
+                  }
+                })
                 this.drawLine()
               } else if (response.data.Data == null) {
                 this.no_data = true
@@ -1094,8 +1116,7 @@ export default {
                 tr += `<tr>
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
-                                        'width:6px;height:6px;vertical-align:2px;'
-
+                    'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
                   <td>${element.value}</td>
@@ -1152,7 +1173,77 @@ export default {
           },
           xAxis: {
             axisLine: {
-              show: false
+              show: true,
+              onZero: false,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
+            },
+            axisLabel: {
+              color: '#222',
+              formatter: function(value, index) {
+                if (
+                  that.bottom_radio1 == '按分钟' &&
+                  that.bottom_radio3 != '7天'
+                ) {
+                  return '　　' + value.slice(3, 6) + '　　'
+                } else if (
+                  that.bottom_radio1 == '按分钟' &&
+                  that.bottom_radio3 == '7天'
+                ) {
+                  return '　　' + value.slice(0, 6) + '　　'
+                } else if (
+                  that.bottom_radio1 == '按小时' &&
+                  that.bottom_radio3 == '近24小时'
+                ) {
+                  return value.slice(-3)
+                } else if (
+                  that.bottom_radio1 == '按小时' &&
+                  that.bottom_radio3 == '昨日'
+                ) {
+                  return value.slice(8)
+                } else if (
+                  that.bottom_radio1 == '按小时' &&
+                  that.bottom_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按小时' &&
+                  that.bottom_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按小时' &&
+                  that.bottom_radio3 == ''
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按天' &&
+                  that.bottom_radio3 == '7天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按天' &&
+                  that.bottom_radio3 == '30天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按天' &&
+                  that.bottom_radio3 == '180天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按天' &&
+                  that.bottom_radio3 == '360天'
+                ) {
+                  return value.slice(5, 12)
+                } else if (
+                  that.bottom_radio1 == '按天' &&
+                  that.bottom_radio3 == ''
+                ) {
+                  return value.slice(5, 12)
+                }
+              }
             },
             axisTick: {
               show: false
@@ -1170,8 +1261,14 @@ export default {
             data: that.xAxis_data
           },
           yAxis: {
+            axisLabel: {
+              color: '#222'
+            },
             axisLine: {
-              show: false
+              show: true,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
             axisTick: {
               show: false
@@ -1354,7 +1451,7 @@ table img {
   letter-spacing: 0px;
   color: #222222;
   text-align: center;
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
 .bottom table {
@@ -1386,7 +1483,7 @@ table img {
   margin-top: 22px;
 }
 .option_date {
-  margin-left: 78px !important;
+  margin-left: 60px !important;
 }
 .date div {
   width: 119px !important;
@@ -1516,9 +1613,6 @@ table {
   text-align: center;
   margin-top: 40px;
 }
-.bottom_image img:first-child {
-  z-index: 9999 !important;
-}
 
 .bottom_image_for_table {
   position: static !important;
@@ -1533,7 +1627,6 @@ table {
   position: absolute;
   top: 9px;
   right: 67px;
-  z-index: 9999;
 }
 .myChart_tips .float_right {
   float: right;
@@ -1633,7 +1726,7 @@ table {
   color: #222222;
   display: flex;
   align-items: center;
-  margin-left: 30px;
+  margin-left: 15px;
 }
 .right {
   padding-left: 57px;

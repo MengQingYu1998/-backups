@@ -5,7 +5,9 @@
       <span>{{this.$store.state.now_app_name}}</span>
     </div>
     <div class="wrap">
-      <img class="header_img" v-if="response_data" :src="response_data.icon" alt />
+      <div class="header_img">
+        <img v-if="response_data" :src="response_data.icon" alt />
+      </div>
       <div class="app_description">
         <div v-if="response_data">{{response_data.appName}}</div>
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
@@ -97,8 +99,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(22222222222222222222222)
-              console.log(this.response_data)
+              // console.log(22222222222222222222222)
+              // console.log(this.response_data)
               this.$store.state.now_app_name = this.response_data.appName
               this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false
@@ -129,8 +131,14 @@ export default {
 </script>
 <style scoped>
 .header_img {
+  width: 68px;
+}
+.header_img img {
   border-radius: 10px;
   border: solid 1px #f2f2f2;
+
+  width: 67px;
+  height: 67px;
 }
 .country {
   height: 65px;
@@ -210,10 +218,7 @@ export default {
   width: 190px;
   margin-right: 88px;
 }
-.wrap img {
-  width: 67px;
-  height: 67px;
-}
+
 .wrap {
   display: flex;
   align-items: center;

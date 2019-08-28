@@ -349,7 +349,7 @@ export default {
   background-color: #fff;
 }
 #country_select {
-  z-index: 999 !important;
+  z-index: 300 !important;
   position: relative;
 }
 .fade-enter-active,

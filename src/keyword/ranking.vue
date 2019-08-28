@@ -24,7 +24,7 @@
         <!-- 选择总榜 -->
         <div>
           <div
-            :class=" {'change_bg':change_bg_all,'radio_one':true}"
+            :class=" {'change_bg':change_bg_all,'radio_one':true,'pointer':true}"
             @click="change_all_dateValue()"
           >总榜</div>
         </div>
@@ -40,7 +40,7 @@
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_app,'radio_one':true}"
+              :class=" {'change_bg':change_bg_app,'radio_one':true,'pointer':true}"
               @click="change_app_dateValue()"
             >
               应用
@@ -62,7 +62,7 @@
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_game,'radio_one':true}"
+              :class=" {'change_bg':change_bg_game,'radio_one':true,'pointer':true}"
               @click="change_game_dateValue()"
             >
               游戏
@@ -91,7 +91,7 @@
       <div class="options_01 option">
         <div class="margin_top_font">搜索结果数</div>
         <div
-          :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true}"
+          :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true,'pointer':true}"
           @click="result_all()"
         >全部</div>
         <div class="min_max" @click="change_bg_result_function">
@@ -106,9 +106,12 @@
       </div>
       <div class="options_02 option">
         <div class="margin_top_font">搜索指数</div>
-        <div :class=" {'change_bg':change_bg_index_all,'radio_one':true }" @click="index_all()">全部</div>
         <div
-          :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true}"
+          :class=" {'change_bg':change_bg_index_all,'radio_one':true,'pointer':true }"
+          @click="index_all()"
+        >全部</div>
+        <div
+          :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true,'pointer':true}"
           @click="index_number()"
         >≥4605</div>
         <div class="min_max" @click="change_bg_index_function">

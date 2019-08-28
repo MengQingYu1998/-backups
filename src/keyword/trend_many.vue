@@ -27,7 +27,7 @@
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            end-placeholder="结束日期" clear-icon
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -359,9 +359,16 @@ export default {
             }
           },
           xAxis: {
-            axisLine: {
-              show: false
+          axisLine: {
+              show: true,
+              onZero: false,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
+            axisLabel: {
+              color: '#222'
+              },
             axisTick: {
               show: false
             },
@@ -377,8 +384,14 @@ export default {
             data: that.xAxis_data
           },
           yAxis: {
+           axisLabel: {
+              color: '#222'
+            },
             axisLine: {
-              show: false
+              show: true,
+              lineStyle: {
+                color: '#DCDFE6'
+              }
             },
             axisTick: {
               show: false
