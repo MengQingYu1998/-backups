@@ -61,7 +61,7 @@
               <video-player
                 cross-origin="*"
                 v-else-if="response_data.videoUrl.ipad!='无'&&radio01=='iPad'"
-                class="video_iPhone video-player vjs-custom-skin"
+                class="video_iPad video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"
@@ -70,7 +70,7 @@
               <video-player
                 cross-origin="*"
                 v-else-if="response_data.videoUrl.watch!='无'&&radio01=='watch'"
-                class="video_iPhone video-player vjs-custom-skin"
+                class="video_watch video-player vjs-custom-skin"
                 ref="videoPlayer"
                 :playsinline="true"
                 :options="playerOptions"

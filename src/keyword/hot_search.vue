@@ -360,7 +360,7 @@ export default {
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  margin-top: 3px;
+  margin-top: 1px;
 }
 .hide_font {
   width: 45px;

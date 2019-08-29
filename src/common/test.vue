@@ -29,15 +29,22 @@ export default {
   },
   methods: {
     get_data() {
-      this.keyword_data = ['a发送到发斯蒂芬是', 'b是是', 'c']
+      this.keyword_data = ['a发送到发斯蒂芬是', '', 'b是是', 'c']
       // 数据
       this.keyword_data_value = [
-        ['215', '150', '736'],
-        ['403', '190', '108'],
-        ['5', '10', '37']
+        ['215', '150', '736', '300'],
+        ['403', '', '108', 200, '300'],
+        ['5', '-', '37', '300']
       ]
       // X轴文本
-      this.xAxis_data = ['2018-08-06', '2018-08-07', '2018-08-08']
+      this.xAxis_data = [
+        '2018-08-06',
+        '2018-08-07',
+
+        '2018-08-08',
+        '2018-08-09',
+        '2018-08-10'
+      ]
 
       let max_value_arr = new Array()
       this.keyword_data_value.forEach(element => {
@@ -143,12 +150,15 @@ export default {
           }
         },
         grid: {
-          left: '4%',
-          right: '4%',
-          bottom: '13%',
-          containLabel: true
+          // left: '4%',
+          // right: '4%',
+          // bottom: '13%',
+          containLabel: true,
+          // width: '',
+          show: true,
+          backgroundColor: 'yellow',
           // show: true,
-          // borderColor: 'red'
+          borderColor: 'red'
         },
 
         toolbox: {
@@ -200,6 +210,17 @@ export default {
         yAxis: {
           axisLabel: {
             color: '#222'
+
+            // formatter: function(value) {
+            //   return '{value|' + value + '}'
+            // },
+            // rich: {
+            //   value: {
+            //     align: 'center',
+            //     backgroundColor: 'red',
+            //     width: 60
+            //   }
+            // }
           },
           axisLine: {
             show: true,

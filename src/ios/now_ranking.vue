@@ -24,16 +24,16 @@
             <tbody v-if="response_data_first">
               <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
                 <td>
-                  <div class="rankingChangeFontColor">{{item[0]}}</div>
+                  <div class="rankingChangeFontColor">{{item[0]==''?'--':item[0]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item[1]}}</div>
+                  <div class="rankingChangeFontColor">{{item[1]==''?'--':item[1]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item[2]}}</div>
+                  <div class="rankingChangeFontColor">{{item[2]==''?'--':item[2]}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item[3]}}</div>
+                  <div class="rankingChangeFontColor">{{item[3]==''?'--':item[3]}}</div>
                 </td>
               </tr>
             </tbody>
@@ -384,6 +384,7 @@ export default {
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_first()
       this.get_data_second()
+      this.get_data_third()
     })
     this.$watch('now_ranking_time', function(newValue, oldValue) {
       this.get_data_second()
@@ -451,16 +452,20 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              console.log(response)
               if (
                 response.data.Data.rank_0 != null &&
                 response.data.Data.rank_1 != null &&
                 response.data.Data.rank_2 != null
               ) {
-                // console.log(response.data.Data)
                 this.response_data_first = response.data.Data
                 this.response_data_first_title = response.data.Data.rank_0
                 // this.response_data_first.splice(0, 1)
                 delete this.response_data_first.rank_0
+              } else {
+                console.log('第一部分没数据')
+                this.response_data_first = new Array()
+                this.response_data_first_title = new Array()
               }
               // console.log('==================第一部分====================')
               // console.log(this.response_data_first)
@@ -776,7 +781,7 @@ export default {
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '7天'
                 ) {
-                  return value.slice(5, 12)
+                  return '　　' + value.slice(5, 12) + '　　'
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '30天'

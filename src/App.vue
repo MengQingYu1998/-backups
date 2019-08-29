@@ -332,7 +332,7 @@ table thead tr th {
 }
 .el-input__inner {
   height: 27px !important;
-  line-height: 27px !important;
+  line-height: 28px !important;
 }
 .el-select {
   width: 86px !important;
@@ -341,7 +341,7 @@ table thead tr th {
   display: none;
 }
 .el-icon-date {
-  line-height: 27px !important;
+  line-height: 28px !important;
 }
 .el-range-editor.el-input__inner {
   padding: 0 10px;
@@ -371,5 +371,9 @@ table thead tr th {
 /* 单选时间的长度 */
 .el-date-editor--date {
   width: 114px !important;
+}
+/* Aso关键词 解决时间下拉框覆盖单选框 */
+.el-picker-panel {
+  z-index: 999 !important;
 }
 </style>

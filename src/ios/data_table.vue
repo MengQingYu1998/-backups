@@ -193,6 +193,15 @@
               </div>
             </div>
           </div>
+          <div class="btn_group">
+            <div class="option option_search">
+              <div class="margin_top_font">搜索</div>
+              <div class="search">
+                <el-input v-model="search_input" placeholder="多个词同时搜索请用“，”隔开"></el-input>
+              </div>
+              <div class="search_confirm pointer" @click="search_input_function">搜索</div>
+            </div>
+          </div>
           <table>
             <thead>
               <tr class="tr_width">
@@ -233,7 +242,9 @@
                       alt
                       v-show="item.Change<0"
                     />
-                    {{Math.abs(item.Change)}}
+                    <span
+                      :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                    >{{Math.abs(item.Change)}}</span>
                   </div>
                 </td>
                 <td>
@@ -341,7 +352,7 @@
                           />
                         </div>
 
-                        <table v-show="!no_data&&!is_show_myChart_and_table">
+                        <table v-show="!no_data&&!is_show_myChart_and_table" class="scroll">
                           <thead>
                             <tr>
                               <th>
@@ -354,14 +365,14 @@
                           </thead>
                           <tbody v-if="request_data_third">
                             <tr
-                              v-for="(item ,index) in request_data_third.timeList.length"
+                              v-for="(item ,index) in xAxis_data.length"
                               :key="'trend_one_table02'+index"
                             >
                               <td>
-                                <div>{{request_data_third.timeList[index]}}</div>
+                                <div>{{xAxis_data[index]}}</div>
                               </td>
                               <td>
-                                <div>{{request_data_third.rankList[index]}}</div>
+                                <div>{{keyword_data_value[0][index]}}</div>
                               </td>
                             </tr>
                           </tbody>
@@ -422,7 +433,9 @@
                       alt
                       v-show="item.Change<0"
                     />
-                    {{Math.abs(item.Change)}}
+                    <span
+                      :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                    >{{Math.abs(item.Change)}}</span>
                   </div>
                 </td>
                 <td>
@@ -514,9 +527,11 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      search_input: '',
       stop_click_many_times: null,
       db_number_is_same: 0, //修复用户输入过快的bug
       total: 0,
+      response_data_Data: null,
       request_data_second: null,
       temp_request_data_second: null,
       temp01_request_data_second: null,
@@ -581,42 +596,42 @@ export default {
     this.$watch('currentPage', function(newValue, oldValue) {
       console.log(333333333333333333333333333)
       console.log(newValue, oldValue)
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
 
     // ==================第一部分===========================
     // ==================第一部分===========================
     // ==================第一部分===========================
     this.get_data_for_first_part()
-    this.get_data_for_second_part()
+    this.get_data_for_second_part(true)
     this.change_time()
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
       this.change_time()
       this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
       this.change_time_Compare()
       this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
       this.get_data_for_third_part()
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
       this.get_data_for_third_part()
     })
     // ==================第二部分===========================
@@ -625,22 +640,22 @@ export default {
 
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
-      this.get_data_for_second_part()
+      this.get_data_for_second_part(true)
     })
     // ==================第三部分===========================
     // ==================第三部分===========================
@@ -753,7 +768,7 @@ export default {
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
-    get_data_for_second_part() {
+    get_data_for_second_part(parm) {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       this.$axios
@@ -792,7 +807,6 @@ export default {
           console.log('minResult=' + that.result_min_input03)
           console.log('maxResult=' + that.result_max_input03)
           let data = {
-            // appId: 112,
             appId: appId,
             countryId: country_id,
             device: deviceType,
@@ -814,25 +828,12 @@ export default {
             .post(url, data)
             .then(response => {
               console.log('=================明细=====')
-              console.log(response)
               if (is_excute_function == this.db_number_is_same) {
-                this.total = response.data.Data.length //底部显示总共
-                this.request_data_second = response.data.Data
-                // console.log(this.request_data_second)
-                // this.currentPage = Math.ceil(
-                //   this.request_data_second.length / 100
-                // )
-
-                // console.log(this.currentPage * 100 + 101)
-                // 先把数组置空，不然会出现页面渲染问题
-                this.temp_request_data_second = null //折线图下面的tr
-                this.temp01_request_data_second = null //折线图上面的tr
-                this.is_show_bottom = false //折线图隐藏
-
-                this.temp01_request_data_second = response.data.Data.slice(
-                  (this.currentPage - 1) * 100,
-                  this.currentPage * 100 + 1
-                )
+                if (parm) {
+                  this.response(response.data.Data)
+                } else {
+                  this.response_data_Data = response.data.Data
+                }
               }
             })
             .catch(error => {
@@ -843,6 +844,46 @@ export default {
           console.log(error)
         })
     },
+    response(response) {
+      this.response_data_Data = response
+      console.log(this.response_data_Data)
+
+      this.total = this.response_data_Data.length //底部显示总共
+      this.request_data_second = this.response_data_Data
+
+      // 先把数组置空，不然会出现页面渲染问题
+      this.temp_request_data_second = null //折线图下面的tr
+      this.temp01_request_data_second = null //折线图上面的tr
+      this.is_show_bottom = false //折线图隐藏
+
+      this.temp01_request_data_second = this.response_data_Data.slice(
+        (this.currentPage - 1) * 100,
+        this.currentPage * 100 + 1
+      )
+    },
+    // 点击搜索按钮
+    search_input_function() {
+      if (this.search_input.trim() != '') {
+        this.get_data_for_second_part(false)
+        let new_array = new Array()
+        this.search_input = this.search_input.trim().replace(/ /g, '，')
+        this.search_input = this.search_input.trim().replace(/,/g, '，')
+        console.log(this.search_input)
+        let search_input_arr = this.search_input.trim().split('，')
+        search_input_arr.forEach((element_father, index_father) => {
+          this.response_data_Data.forEach((element, index) => {
+            // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
+            if (element.Word == search_input_arr[index_father]) {
+              new_array.push(element)
+            }
+          })
+        })
+        this.response(new_array)
+      } else {
+        this.get_data_for_second_part(true)
+      }
+    },
+
     // 点击搜索结果数的min_mix
     change_bg_result_function() {
       this.change_bg_result = false
@@ -1021,15 +1062,15 @@ export default {
             date: time
           }
           // console.log('==============')
-
+          this.keyword_data = new Array()
+          this.keyword_data.push(this.word)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               console.log(response)
               // console.log(this.word)
-              this.keyword_data = []
-              this.keyword_data.push(this.word)
+
               if (response.data.Data != null) {
                 this.no_data = false
                 this.request_data_third = response.data.Data
@@ -1340,6 +1381,68 @@ export default {
 }
 </script>
 <style scoped>
+.search > div {
+  width: 210px !important;
+  margin-right: 10px;
+}
+.search_confirm {
+  width: 48px !important;
+  height: 24.5px;
+  background-color: #009bef;
+  border-radius: 4px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 26.5px;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-align: center;
+}
+.scroll tbody tr {
+  border: solid 1px #f2f2f2;
+}
+.scroll tbody {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  display: block;
+  max-height: 366px;
+  overflow-y: scroll;
+}
+.scroll thead tr {
+  height: 40px;
+}
+.scroll thead tr span {
+  margin-left: -26px;
+}
+.scroll td {
+  width: 489px !important;
+}
+.scroll thead {
+  width: 100%;
+  background-color: #f7f7f7;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222222;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.scroll table {
+  border: solid 1px #f2f2f2;
+  table-layout: fixed;
+  text-align: center;
+  width: 900px;
+  margin: 0 auto;
+}
+
 .bottom_image_table img {
   margin-left: 5px;
 }
@@ -1483,7 +1586,7 @@ table img {
   margin-top: 22px;
 }
 .option_date {
-  margin-left: 60px !important;
+  margin-left: 50px !important;
 }
 .date div {
   width: 119px !important;
@@ -1607,7 +1710,7 @@ thead {
   color: #009bef;
 }
 table {
-  width: 100%;
+  width: 999px !important;
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
@@ -1622,11 +1725,15 @@ table {
 .bottom_image img {
   margin-left: 5px;
 }
+.bottom_image:hover {
+  z-index: 999999999;
+}
 .bottom_image {
   float: right;
   position: absolute;
   top: 9px;
   right: 67px;
+  z-index: 1;
 }
 .myChart_tips .float_right {
   float: right;
@@ -1654,7 +1761,7 @@ table {
   justify-content: center;
 }
 .myChart {
-  width: 979px;
+  /* width: 979px; */
   height: 320px;
   z-index: 1;
   text-align: center;

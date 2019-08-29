@@ -88,7 +88,12 @@
         >【{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}}】排名走势</div>
         <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
 
-        <div ref="ranking_compare" class="myChart" v-show="is_show_myChart_and_table&&!no_data"></div>
+        <div
+          ref="ranking_compare"
+          class="myChart"
+          style="height: 450px;"
+          v-show="is_show_myChart_and_table&&!no_data"
+        ></div>
         <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
           <img
             v-on:click="is_show_myChart_function"
@@ -200,6 +205,8 @@ export default {
       canvas_is_show_all: true,
       //canvas 关键词data数组
       keyword_data: [],
+      // 图例数组。为了四个就换行，拼接''
+      legend_array: [],
       // 数据
       keyword_data_value: [],
       // X轴文本
@@ -434,31 +441,23 @@ export default {
                     return timestamp(element, 'M月D日 h点m分')
                   }
                 })
+                // 重新定义legend的图例数组，为了换行
+                let times = 0
+                this.legend_array = this.keyword_data.slice(0)
+                this.legend_array.forEach((element, index) => {
+                  times += 1
+                  if ((index + 1) % 4 == 0) {
+                    this.legend_array.splice(times, 0, '')
+                    times += 1
+                  }
+                })
+                let legend_height =
+                  Math.ceil(this.keyword_data.length / 4) * 30 + 330 + 'px'
+                document.getElementsByClassName(
+                  'myChart'
+                )[0].style.height = legend_height
+                console.log(this.legend_array)
 
-                let str_length = this.keyword_data.join(',').length
-                console.log(str_length)
-                // if (str_length < 50) {
-                //   this.grid_bottom = '13%'
-                // } else if (str_length < 100) {
-                //   this.grid_bottom = '17%'
-                // } else if (str_length < 150) {
-                //   this.grid_bottom = '21%'
-                // } else if (str_length < 200) {
-                //   this.grid_bottom = '24%'
-                // } else if (str_length < 250) {
-                //   this.grid_bottom = '27%'
-                // } else if (str_length < 300) {
-                //   this.grid_bottom = '30%'
-                // } else if (str_length < 350) {
-                //   this.grid_bottom = '33%'
-                // } else if (str_length < 400) {
-                //   this.grid_bottom = '36%'
-                // } else if (str_length < 450) {
-                //   this.grid_bottom = '39%'
-                // } else if (str_length < 500) {
-                //   this.grid_bottom = '42%'
-                // }
-                // this.selected_data_function(true)
                 this.drawLine()
               } else {
                 console.log('无数据')
@@ -610,8 +609,8 @@ export default {
             trigger: 'axis'
           },
           legend: {
-            data: that.keyword_data,
-            y: '72%',
+            data: that.legend_array,
+            top: '330px',
             orient: 'horizontal',
             selected: that.selected_data
           },
@@ -645,7 +644,7 @@ export default {
             axisLabel: {
               color: '#222',
               formatter: function(value, index) {
-                console.log(55)
+                // console.log(55)
                 if (
                   that.middle_top_radio1 == '按分钟' &&
                   that.middle_top_radio3 != '7天'
@@ -825,6 +824,7 @@ export default {
   letter-spacing: 0px;
   color: #009bef;
   margin: 32px auto;
+  margin-top: 0;
 }
 thead tr {
   height: 40px;
@@ -920,7 +920,7 @@ table {
 }
 .myChart {
   width: 965px;
-  height: 450px;
+  /* height: 450px; */
   text-align: center;
   color: #666;
   line-height: 300px;

@@ -73,7 +73,7 @@
 				    ></el-date-picker>
 				</div>
 			</div>
-			<div class="kuaizhao">
+			<div class="kuaizhao" v-show="kuaizhao">
 				<p>榜单快照</p>
 				<div>
 					<div v-for="tim in timezs.Data" :key="tim.index" >
@@ -256,6 +256,8 @@
 				scrollHeight:0,
 				// canscroll:false,
 				total_number:0,//修改排序错乱
+				// 榜单快照
+				kuaizhao:false,
 			}
 		},
 		created(){
@@ -308,7 +310,7 @@
 		   
 		},
 		methods:{
-			 
+			
 		    // 获取当前选中的国家
 			parentFn(payload) {
 				this.now_country = payload
@@ -316,9 +318,10 @@
 	
 			// 获取数据
 			getData(){
+
 				this.total_number+=1
 				let number=this.total_number
-
+				// this.kuaizhao=true
 				// 传给后台的brand值
 				let brandV=1
 				if(this.selefont==0){
@@ -387,6 +390,12 @@
 						              country_id = res.data.Data[i].id
 						              // return false
 						            }
+								}
+
+								if(country_id==1){
+									this.kuaizhao=true
+								}else{
+									this.kuaizhao=false
 								}
 								// console.log("brandV:"+brandV)
 								// console.log("deviceType:"+deviceType)

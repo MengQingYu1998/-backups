@@ -341,7 +341,7 @@
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
         <el-tab-pane label="搜索结果对比" name="third">
           <div class="flex-row">
-            <div class="compare_iOS tabsContentTable">
+            <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
               <div>
                 <div>ios12</div>
                 <div
@@ -424,7 +424,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="compare_iOS tabsContentTable">
+            <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
               <div>
                 <div>ios11</div>
                 <div
@@ -595,15 +595,12 @@
             </tr>
           </thead>
           <tbody v-if="response_data_for_dialog">
-            <tr
-              v-for="(item ,index) in response_data_for_dialog.Xvalue.length"
-              :key="'trend_one_table02'+index"
-            >
+            <tr v-for="(item ,index) in xAxis_data.length" :key="'trend_one_table02'+index">
               <td>
-                <div class="table_font">{{response_data_for_dialog.Xvalue[index]}}</div>
+                <div class="table_font">{{xAxis_data[index]}}</div>
               </td>
               <td>
-                <div class="table_font">{{response_data_for_dialog.Yvalue[index]}}</div>
+                <div class="table_font">{{keyword_data_value[0][index]}}</div>
               </td>
             </tr>
           </tbody>
@@ -677,6 +674,7 @@ export default {
       // ===================element的弹窗================
       // ===================element的弹窗================
       // ===================element的弹窗================
+      dialog_iosType: '',
       no_data: false,
       word: '',
       appid: '',
@@ -1364,6 +1362,14 @@ export default {
           let Word = this.word
           let appid = this.appid
           let wordid = this.WordId
+          let iosType
+          if (this.activeName == 'first') {
+            iosType = 12
+          } else if (this.activeName == 'second') {
+            iosType = 11
+          } else if (this.activeName == 'third') {
+            iosType = this.dialog_iosType
+          }
           let url =
             '/Word/FindHistory?page=1' +
             '&deviceType=' +
@@ -1382,7 +1388,8 @@ export default {
             showType +
             '&edate=' +
             edate +
-            '&iosType=12'
+            '&iosType=' +
+            iosType
           console.log(url)
           // 请求数据
           this.$axios
@@ -1433,7 +1440,7 @@ export default {
       this.word = word
       this.appid = appid
       this.WordId = WordId
-
+      // alert(this.WordId)
       this.get_data_dialog()
     },
     // 控制显示echarts还是table
@@ -1680,9 +1687,14 @@ export default {
     click_second_el_date_picker: function() {
       this.radio02_dialog = ''
     },
+    result_compare_iosType(parm) {
+      this.dialog_iosType = parm
+      // alert(this.dialog_iosType)
+    },
     // ==================element弹窗==============
     // ==================element弹窗==============
     // ==================element弹窗==============
+
     // tab-pane选择面板
     handleClick(tab, event) {
       // console.log(tab, event)
