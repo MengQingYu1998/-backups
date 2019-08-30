@@ -27,7 +27,8 @@
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期" clear-icon
+            end-placeholder="结束日期"
+            clear-icon
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -182,8 +183,6 @@ export default {
     // console.log(this.dateValue)
     this.keyword_data.length = 0
     this.keyword_data.push(this.$store.state.now_app_name)
-    // 请求数据
-    this.get_data()
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
@@ -200,9 +199,16 @@ export default {
       this.get_data()
     })
   },
+  mounted() {
+    // 请求数据
+    this.get_data()
+  },
   methods: {
     // 请求参数
     get_data() {
+      // 基于准备好的dom，初始化echarts实例
+      this.myChart = this.$echarts.init(this.$refs.myChart_trend_many)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -271,6 +277,8 @@ export default {
               this.keyword_data_value = this.response_data.Yvalue
 
               this.drawLine()
+
+              this.myChart.hideLoading()
             })
             .catch(error => {
               console.log(error)
@@ -283,10 +291,9 @@ export default {
     // 画表格
     drawLine: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_trend_many)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -359,7 +366,7 @@ export default {
             }
           },
           xAxis: {
-          axisLine: {
+            axisLine: {
               show: true,
               onZero: false,
               lineStyle: {
@@ -368,7 +375,7 @@ export default {
             },
             axisLabel: {
               color: '#222'
-              },
+            },
             axisTick: {
               show: false
             },
@@ -384,7 +391,7 @@ export default {
             data: that.xAxis_data
           },
           yAxis: {
-           axisLabel: {
+            axisLabel: {
               color: '#222'
             },
             axisLine: {

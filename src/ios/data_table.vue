@@ -549,7 +549,7 @@ export default {
       // 第三部分参数
       // 第三部分参数
       yAxis_max: 5,
-
+      myChart: null,
       word: '',
       wordId: null,
       request_data_third: null,
@@ -594,8 +594,8 @@ export default {
     }
     // 分页
     this.$watch('currentPage', function(newValue, oldValue) {
-      console.log(333333333333333333333333333)
-      console.log(newValue, oldValue)
+      // console.log(333333333333333333333333333)
+      // console.log(newValue, oldValue)
       this.get_data_for_second_part(true)
     })
 
@@ -660,7 +660,7 @@ export default {
     // ==================第三部分===========================
     // ==================第三部分===========================
     // ==================第三部分===========================
-    this.get_data_for_third_part()
+
     this.$watch('bottom_radio1', function(newValue, oldValue) {
       // 2.解决切换之后380天消失了的bug
       this.middle_time01 = ''
@@ -680,6 +680,7 @@ export default {
       this.get_data_for_third_part()
     })
   },
+
   methods: {
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
@@ -978,6 +979,8 @@ export default {
     // ============================第三部分数据================================
     // 请求数据
     get_data_for_third_part() {
+      this.myChart = this.$echarts.init(this.$refs.myChart_data_table)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1044,13 +1047,13 @@ export default {
           let appId = this.$store.state.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
-          console.log(time)
-          console.log(wordId)
-          console.log(deviceType)
-          console.log(country_id)
-          console.log(iosType)
-          console.log(showType)
-          console.log(appId)
+          // console.log(time)
+          // console.log(wordId)
+          // console.log(deviceType)
+          // console.log(country_id)
+          // console.log(iosType)
+          // console.log(showType)
+          // console.log(appId)
 
           let data = {
             countryId: country_id,
@@ -1075,11 +1078,11 @@ export default {
                 this.no_data = false
                 this.request_data_third = response.data.Data
                 console.log(this.request_data_third)
-                this.keyword_data = new Array()
+                // this.keyword_data = new Array()
                 this.keyword_data_value = new Array()
                 this.xAxis_data = new Array()
-                console.log(this.word)
-                this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
+                // console.log(this.word)
+                // this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
                 this.xAxis_data = this.request_data_third.timeList
                 this.keyword_data_value.push(this.request_data_third.rankList)
 
@@ -1092,7 +1095,11 @@ export default {
                     return timestamp(element, 'M月D日 h点m分')
                   }
                 })
+                // console.log(this.xAxis_data)
+                // console.log(this.keyword_data)
+                // console.log(this.keyword_data_value)
                 this.drawLine()
+                this.myChart.hideLoading()
               } else if (response.data.Data == null) {
                 this.no_data = true
 
@@ -1100,6 +1107,7 @@ export default {
               }
             })
             .catch(error => {
+              this.no_data = true
               console.log(error)
             })
         })
@@ -1146,9 +1154,9 @@ export default {
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_data_table)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -1365,7 +1373,7 @@ export default {
       })
       this.$store.state.now_app_name = parm
     },
-    go_to_page01(parm) {
+    go_to_page02(parm) {
       this.$router.push({
         path: '/trend_many'
       })
@@ -1449,7 +1457,7 @@ export default {
 .bottom_image_table {
   float: right;
   margin-top: -10px;
-  margin-right: 20px;
+  margin-right: 35px;
 }
 .echarts_middle:hover {
   background-color: #fff;
@@ -1732,7 +1740,7 @@ table {
   float: right;
   position: absolute;
   top: 9px;
-  right: 67px;
+  right: 55px;
   z-index: 1;
 }
 .myChart_tips .float_right {
@@ -1761,13 +1769,14 @@ table {
   justify-content: center;
 }
 .myChart {
-  /* width: 979px; */
+  width: 950px;
   height: 320px;
   z-index: 1;
   text-align: center;
   color: #666;
   line-height: 300px;
   font-size: 50px;
+  margin: 0 auto;
   margin-top: -24px;
 }
 

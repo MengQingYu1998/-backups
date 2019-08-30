@@ -1307,6 +1307,9 @@ export default {
     // ==================element弹窗==============
 
     get_data_dialog() {
+      // 基于准备好的dom，初始化echarts实例
+      this.myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1422,6 +1425,8 @@ export default {
                   }
                 })
                 this.drawLine_dialog()
+
+                this.myChart.hideLoading()
               } else {
                 this.no_data = true
               }
@@ -1453,10 +1458,9 @@ export default {
     // 画canvas
     drawLine_dialog: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {

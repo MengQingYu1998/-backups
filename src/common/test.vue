@@ -29,49 +29,28 @@ export default {
   },
   methods: {
     get_data() {
-      this.keyword_data = ['a发送到发斯蒂芬是', '', 'b是是', 'c']
-      // 数据
-      this.keyword_data_value = [
-        ['215', '150', '736', '300'],
-        ['403', '', '108', 200, '300'],
-        ['5', '-', '37', '300']
-      ]
-      // X轴文本
-      this.xAxis_data = [
-        '2018-08-06',
-        '2018-08-07',
+      this.myChart = this.$echarts.init(this.$refs.demo111)
+      this.myChart.showLoading()
+      setTimeout(() => {
+        this.keyword_data = ['a发送到发斯蒂芬是', 'b是是', 'c']
+        // 数据
+        this.keyword_data_value = [
+          ['215', '150', '736', '300'],
+          ['403', '', '108', 200, '300'],
+          ['5', '-', '6', '10']
+        ]
+        // X轴文本
+        this.xAxis_data = [
+          '2018-08-06',
+          '2018-08-07',
 
-        '2018-08-08',
-        '2018-08-09',
-        '2018-08-10'
-      ]
-
-      let max_value_arr = new Array()
-      this.keyword_data_value.forEach(element => {
-        max_value_arr.push(element.slice(0))
-      })
-      let max_value = 0
-      max_value_arr.forEach(element => {
-        element.forEach(element_son => {
-          element_son = parseInt(element_son)
-          if (max_value <= element_son) {
-            max_value = element_son
-          }
-        })
-      })
-      this.max = max_value
-      this.drawLine()
-      // setTimeout(() => {
-      //   this.keyword_data = ['a']
-      //   // 数据
-      //   this.keyword_data_value = [['5', '10', '45']]
-      //   // X轴文本
-      //   this.xAxis_data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-      //   console.log(this.keyword_data)
-      //   console.log(this.keyword_data_value)
-      //   console.log(this.xAxis_data)
-      //   this.drawLine()
-      // }, 2000)
+          '2018-08-08',
+          '2018-08-09',
+          '2018-08-10'
+        ]
+        this.drawLine()
+        this.myChart.hideLoading()
+      }, 3000)
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
@@ -104,7 +83,11 @@ export default {
     drawLine: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
-      let myChart = that.$echarts.init(that.$refs.demo111)
+
+      // this.myChart.showLoading()
+      // setTimeout(() => {
+      //
+      // }, 3000)
       let option = {
         color: [
           '#62c8ff',
@@ -150,11 +133,11 @@ export default {
           }
         },
         grid: {
-          // left: '4%',
+          // left: '0',
           // right: '4%',
           // bottom: '13%',
           containLabel: true,
-          // width: '',
+          // width: '150',
           show: true,
           backgroundColor: 'yellow',
           // show: true,
@@ -209,18 +192,20 @@ export default {
         },
         yAxis: {
           axisLabel: {
-            color: '#222'
+            color: '#222',
 
-            // formatter: function(value) {
-            //   return '{value|' + value + '}'
-            // },
-            // rich: {
-            //   value: {
-            //     align: 'center',
-            //     backgroundColor: 'red',
-            //     width: 60
-            //   }
-            // }
+            formatter: function(value, index) {
+              if (index === 0) {
+                return '{first|' + '00000' + value + '}'
+              }
+              return '{value|' + value + '}'
+            },
+            rich: {
+              value: {
+                align: 'center',
+                backgroundColor: 'red'
+              }
+            }
           },
           axisLine: {
             show: true,
@@ -246,7 +231,8 @@ export default {
         },
         series: that.series_data()
       }
-      myChart.setOption(option, true)
+      this.myChart.setOption(option, true)
+      this.myChart.hideLoading()
     }
   }
 }

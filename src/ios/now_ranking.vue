@@ -351,7 +351,7 @@ export default {
       selected_data: {},
       // can_inverse: true, //X轴位置问题
       yAxis_max: 5, //Y轴值的问题
-
+      myChart: null,
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
       // =============================请求第三部分数据=============================
@@ -379,7 +379,7 @@ export default {
 
   created: function() {
     this.get_data_first()
-    this.get_data_second()
+
     this.get_data_third()
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_first()
@@ -421,6 +421,9 @@ export default {
       this.send_data_to_world_map()
       this.draw_world_map()
     })
+  },
+  mounted: function() {
+    this.get_data_second()
   },
   methods: {
     // =============================请求第一部分数据=============================
@@ -482,6 +485,9 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
+      // 基于准备好的dom，初始化echarts实例
+      this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -608,6 +614,7 @@ export default {
 
                 this.selected_data_function(true)
                 this.drawLine()
+                this.myChart.hideLoading()
               } else {
                 console.log('无数据')
                 // alert('wushuju')
@@ -667,10 +674,9 @@ export default {
 
     drawLine: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {

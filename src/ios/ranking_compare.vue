@@ -231,7 +231,6 @@ export default {
   },
 
   created: function() {
-    this.get_data_second()
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data_second()
     })
@@ -268,8 +267,15 @@ export default {
       this.get_data_second()
     })
   },
+  mounted() {
+    this.get_data_second()
+  },
   methods: {
     get_data_second() {
+      // 基于准备好的dom，初始化echarts实例
+      this.myChart = this.$echarts.init(this.$refs.ranking_compare)
+
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -459,6 +465,8 @@ export default {
                 console.log(this.legend_array)
 
                 this.drawLine()
+
+                this.myChart.hideLoading()
               } else {
                 console.log('无数据')
                 this.no_data = true
@@ -520,10 +528,9 @@ export default {
     },
     drawLine: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.ranking_compare)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           color: [
             '#62c8ff',

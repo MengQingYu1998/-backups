@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-      <div class="options_02 option">
+      <div class="options_02 option options_02_last_one">
         <div class="margin_top_font">搜索指数</div>
         <div
           :class=" {'change_bg':change_bg_index_all,'radio_one':true,'pointer':true }"
@@ -682,7 +682,7 @@ table {
 }
 
 .options_03_ml {
-  margin-left: 7px !important;
+  margin-left: 10px !important;
 }
 .options_03 .date div {
   width: 114px !important;
@@ -704,6 +704,9 @@ table {
   display: flex;
   width: auto !important;
   /* z-index: 1; */
+}
+.options_02_last_one {
+  margin-left: 20px !important;
 }
 .options_02 .tow {
   margin-left: 10px;
@@ -730,11 +733,11 @@ table {
 .options_01 div:last-child {
   width: 85px;
 }
-.options_03 div:last-child,
+/* .options_03 div:last-child,
 .options_02 div:last-child {
   width: 74px;
   height: 24px;
-}
+} */
 .option {
   display: flex;
   margin-left: 29px;

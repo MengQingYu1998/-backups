@@ -538,8 +538,7 @@ export default {
   created: function() {
     // 请求数据
     this.get_data_for_first_part()
-    this.get_data_for_second_part()
-    this.get_data_for_third_part()
+
     this.get_data_for_fourth_part()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
@@ -580,6 +579,8 @@ export default {
     })
   },
   mounted() {
+    this.get_data_for_second_part()
+    this.get_data_for_third_part()
     this.$nextTick(() => {
       let that = this
       window.onscroll = function() {
@@ -664,10 +665,9 @@ export default {
     // 第二部分的画middle_top的canvas
     drawLine: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.grade_start_one)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -828,6 +828,7 @@ export default {
     },
     click_near_month_function: function() {
       this.click_near_month = true
+      this.middle_top_time01 = ''
       this.get_data_for_second_part()
     },
     click_second_el_date_picker: function() {
@@ -835,6 +836,9 @@ export default {
     },
     // 请求第二部分的图标参数
     get_data_for_second_part() {
+      // 基于准备好的dom，初始化echarts实例
+      this.myChart = this.$echarts.init(this.$refs.grade_start_one)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -890,7 +894,7 @@ export default {
               this.four_start_data = this.response_data_second_part.fourStar
               this.five_start_data = this.response_data_second_part.fiveStar
               this.middle_top_xAxis[0].data = this.response_data_second_part.publishTime
-
+              this.myChart.hideLoading()
               this.drawLine()
             })
             .catch(error => {
@@ -907,10 +911,9 @@ export default {
     //  第三部分的画middle_bottom的canvas
     drawLine01: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.common_one)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart01.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -1040,10 +1043,9 @@ export default {
     },
     drawLine03: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.grade_start_three)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart03.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -1208,6 +1210,10 @@ export default {
       this.middle_bottom_time01 = ''
     },
     get_data_for_third_part() {
+      this.myChart03 = this.$echarts.init(this.$refs.grade_start_three)
+      this.myChart01 = this.$echarts.init(this.$refs.common_one)
+      this.myChart03.showLoading()
+      this.myChart01.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1307,6 +1313,8 @@ export default {
 
               this.drawLine01()
               this.drawLine03()
+              this.myChart03.hideLoading()
+              this.myChart01.hideLoading()
             })
             .catch(error => {
               console.log(error)

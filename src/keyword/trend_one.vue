@@ -167,9 +167,6 @@ export default {
     }
   },
   created: function() {
-    // 请求数据
-    this.get_data()
-
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.get_data()
@@ -187,6 +184,10 @@ export default {
     this.$watch('systemValue', function(newValue, oldValue) {
       this.get_data()
     })
+  },
+  mounted() {
+    // 请求数据
+    this.get_data()
   },
   methods: {
     // 便利keyword_data生成canvas的series数据
@@ -208,6 +209,8 @@ export default {
     },
     // 请求数据
     get_data() {
+      this.myChart = this.$echarts.init(this.$refs.myChart_trend_one)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -285,6 +288,8 @@ export default {
               this.keyword_data.push(this.$store.state.now_app_name)
 
               this.drawLine()
+
+              this.myChart.hideLoading()
             })
             .catch(error => {
               console.log(error)
@@ -304,10 +309,9 @@ export default {
     // 画canvas
     drawLine: function() {
       let that = this
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(this.$refs.myChart_trend_one)
+
       // 绘制图表
-      myChart.setOption(
+      this.myChart.setOption(
         {
           tooltip: {
             formatter: function(data) {
@@ -384,7 +388,7 @@ export default {
             },
             axisLabel: {
               color: '#222'
-              },
+            },
             axisTick: {
               show: false
             },
@@ -400,7 +404,7 @@ export default {
             data: that.xAxis_data
           },
           yAxis: {
-          axisLabel: {
+            axisLabel: {
               color: '#222'
             },
             axisLine: {
