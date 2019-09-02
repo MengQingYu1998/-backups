@@ -11,7 +11,7 @@ import './common/world_map/world.css'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 import Vue from 'vue'
-import App from './App'
+
 import axios from 'axios'
 Vue.prototype.$axios = axios
 //全局配置
@@ -20,8 +20,6 @@ axios.defaults.baseURL = 'http://39.97.234.11:8080'
 //   'Access-Control-Allow-Headers': '*'
 // }
 // axios.defaults.baseURL = 'www.zshddata.com'
-import router from './router'
-import { store } from './store/store'
 
 // 引入element-ui
 import ElementUI from 'element-ui'
@@ -74,6 +72,9 @@ Vue.prototype.hand_save_vuex = function(parm) {
     )
   }
 }
+import { store } from './store/store'
+import App from './App'
+import router from './router'
 
 /* eslint-disable no-new */
 new Vue({

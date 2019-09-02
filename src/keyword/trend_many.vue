@@ -19,7 +19,7 @@
           <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
-      <div class="btn_item_03" @click="change_radio02">
+      <div class="btn_item_03">
         <div class="margin_top_font">时间</div>
         <div class="date">
           <el-date-picker
@@ -32,14 +32,13 @@
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
-        <div></div>
-      </div>
-      <div @click="change_time01">
-        <el-radio-group v-model="radio02" size="mini">
-          <el-radio-button label="7天"></el-radio-button>
-          <el-radio-button label="30天"></el-radio-button>
-          <el-radio-button label="90天"></el-radio-button>
-        </el-radio-group>
+        <div @click="change_time01">
+          <el-radio-group v-model="radio02" size="mini">
+            <el-radio-button label="7天"></el-radio-button>
+            <el-radio-button label="30天"></el-radio-button>
+            <el-radio-button label="90天"></el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
     </div>
     <div class="keywords">
@@ -59,7 +58,8 @@
     <div class="table_title">【{{keyword_data.join(',')}}】搜索指数走势</div>
     <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+    <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+    <div class="bottom_image pointer">
       <img
         v-on:click="is_show_myChart_function"
         class="float_right"
@@ -96,7 +96,8 @@
         </tr>
       </tbody>
     </table>
-    <div class="bottom_image pointer bottom_image_for_table" v-show="!is_show_myChart_and_table">
+    <!-- <div class="bottom_image pointer bottom_image_for_table" v-show="!is_show_myChart_and_table"> -->
+    <div class="bottom_image pointer bottom_image_for_table" v-show="false">
       <img
         v-on:click="is_show_myChart_function"
         class="float_right"
@@ -193,6 +194,8 @@ export default {
       this.get_data()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
+      this.radio02 = ''
+
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -490,10 +493,6 @@ export default {
       this.drawLine()
     },
 
-    change_radio02() {
-      console.log(this.dateValue)
-      this.radio02 = ''
-    },
     change_time01() {
       this.dateValue = ''
     },
@@ -510,19 +509,16 @@ td {
   height: 60px;
   width: 600px;
 }
-.options_02 {
-  margin-top: 1px;
-}
 .search_confirm {
   width: 48px !important;
-  height: 25px;
+  height: 27px;
   background-color: #009bef;
   border-radius: 4px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 25px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -536,7 +532,7 @@ td {
 .btn_item_03 {
   display: flex;
   align-items: center;
-  margin-left: 22px;
+  margin-left: 20px;
 }
 .btn_item_03 > div {
   font-family: SourceHanSansCN-Medium;
@@ -546,6 +542,7 @@ td {
   letter-spacing: 0px;
   color: #222222;
   margin-right: 10px;
+  margin-top: 1px;
 }
 .show_all {
   width: 65px;
@@ -598,16 +595,17 @@ table {
   border: solid 1px #f2f2f2;
   table-layout: fixed;
   text-align: center;
-}
-.bottom_image {
-  float: right;
-  position: absolute;
-  top: 270.5px;
-  right: -41px;
+  margin-top: 90px;
   margin-bottom: 50px;
 }
-.bottom_image img:first-child {
-  z-index: 9999 !important;
+.bottom_image img {
+  margin-left: 10px;
+}
+.bottom_image {
+  position: absolute;
+  top: 273px;
+  right: 38px;
+  z-index: 9999999999;
 }
 .bottom_image_for_table {
   position: static !important;
@@ -681,10 +679,10 @@ table {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 24px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #444444;
-  height: 24px;
+  height: 26px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   text-align: center;
@@ -699,13 +697,9 @@ table {
 .option div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
-  width: 87px;
-  height: 24px;
-}
 .option {
   display: flex;
-  margin-left: 29px;
+  margin-left: 20px;
 }
 option:first-child {
   margin: 0;

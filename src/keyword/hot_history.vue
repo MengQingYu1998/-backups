@@ -19,6 +19,26 @@
           <country @childFn="parentFn"></country>
         </div>
       </div>
+      <!-- <div class="options_03 option">
+        <div class="margin_top_font">日期</div>
+        <div class="date" @click="change_prop">
+          <el-date-picker
+            :picker-options="pickerOptions2"
+            v-model="dateValue"
+            type="date"
+            placeholder="选择日期"
+            clear-icon
+          ></el-date-picker>
+        </div>
+        <div
+          :class=" {'change_bg':change_bg_day,'font_block':true,'pointer':true}"
+          @click="change_day_dateValue()"
+        >昨日</div>
+        <div
+          :class=" {'change_bg':change_bg_week,'font_block':true,'pointer':true}"
+          @click="change_week_dateValue()"
+        >近七天</div>
+      </div>-->
       <div class="options_04 option">
         <div class="margin_top_font">搜索</div>
         <div class="search">
@@ -28,7 +48,8 @@
       </div>
     </div>
     <div class="table01" v-for="(item,index) in response_data" :key="'table01'+index">
-      <div>{{item.time}}</div>
+      <!-- <div>{{new Date(item.time).getTime()}}</div> -->
+      <div>{{formatDate_wrap(new Date(item.time).getTime()/1000, 'Y年M月D日')}}</div>
 
       <table>
         <thead>
@@ -62,11 +83,24 @@
 <script>
 // 引入国家选择组件
 import country from '../common/country_select/country'
+// 引入工具类
+import { timestamp } from '../common/util.js'
 export default {
   name: 'hot_history',
   components: { country },
   data() {
     return {
+      // 动态改变本周 昨日的类样式
+      change_bg_week: false,
+      change_bg_day: false,
+      //当前选中的日期
+      dateValue: new Date(),
+      pickerOptions2: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+          // 这里就是设置当天后的日期不能被点击
+        }
+      },
       response_data: null,
       // 获取当前选中的国家
       now_country: '中国',
@@ -141,6 +175,28 @@ export default {
           console.log(error)
         })
     },
+    // 点击日历
+    change_prop() {
+      this.change_bg_week = false
+      this.change_bg_day = false
+    },
+    //点击昨日按钮
+    change_day_dateValue() {
+      this.dateValue = ''
+      this.change_bg_week = false
+      this.change_bg_day = true
+      this.get_data()
+    },
+    //点击本周按钮
+    change_week_dateValue() {
+      this.dateValue = ''
+      this.change_bg_week = true
+      this.change_bg_day = false
+      this.get_data()
+    },
+    formatDate_wrap(parm01, parm02) {
+      return timestamp(parm01, parm02)
+    },
     // 输入框失去焦点
     blur: function() {
       this.get_data()
@@ -160,18 +216,18 @@ export default {
 }
 .search_confirm {
   width: 48px !important;
-  height: 24px;
+  height: 27px;
   background-color: #009bef;
   border-radius: 4px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 24px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  margin-top: 3px;
+  margin-left: -5px;
 }
 .change_bg {
   color: #ffffff !important;
@@ -237,40 +293,39 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
+  table-layout: fixed;
 }
 .font_block {
   text-align: center;
-  line-height: 24px;
+  line-height: 26px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   width: 48px !important;
-  height: 24px;
+  height: 26px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
   color: #444444;
   margin-right: 15px;
   margin-left: -6px;
-  margin-top: 2px;
   display: inline-block;
 }
 .options_04 .search div {
   width: 145px !important;
 }
 .options_04 {
-  margin-left: 70px !important;
+  margin-left: 15px !important;
+}
+.options_03 {
+  margin-left: 15px !important;
 }
 .options_03 .date div {
   width: 114px !important;
 }
 .option div:first-child {
   margin-right: 15px;
-}
-.option div:last-child {
-  width: 72px;
-  height: 24px;
 }
 .options_01 div:last-child {
   width: 87px;
@@ -318,5 +373,8 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+#hot_history {
+  padding-bottom: 50px;
 }
 </style>

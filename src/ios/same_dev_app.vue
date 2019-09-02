@@ -217,17 +217,16 @@ export default {
 .use .rankingChangeFontColor {
   width: 180px;
   height: 23px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .appName {
+  width: 180px;
   height: 23px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .rankingChangeFontColor {
   font-family: SourceHanSansCN-Normal;

@@ -44,7 +44,7 @@
         <div class="btn_group">
           <div class="classify middle_top_time">
             <div class="time_width">时间</div>
-            <div @click="click_second_el_radio" class="time">
+            <div @click="click_second_el_radio" class="btn_group_time">
               <el-radio-group v-model="middle_top_radio3" size="mini">
                 <el-radio-button
                   label="今日"
@@ -69,7 +69,7 @@
           </div>
           <div class="btn_item_01">
             <!-- <div>时间</div> -->
-            <div @click="click_second_el_date_picker">
+            <div>
               <el-date-picker
                 v-model="middle_top_time01"
                 type="daterange"
@@ -85,7 +85,7 @@
         <div
           class="table_title"
           v-if="response_data_second"
-        >【{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}}】排名走势</div>
+        >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名走势</div>
         <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
 
         <div
@@ -94,7 +94,7 @@
           style="height: 450px;"
           v-show="is_show_myChart_and_table&&!no_data"
         ></div>
-        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+        <div class="bottom_image pointer">
           <img
             v-on:click="is_show_myChart_function"
             class="float_right"
@@ -132,7 +132,7 @@
             </tbody>
           </table>
         </div>
-        <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
+        <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
           <img
             v-on:click="is_show_myChart_function"
             class="float_right"
@@ -145,7 +145,7 @@
             src="../assets/keyword/calculator.png"
             alt
           />
-        </div>
+        </div>-->
 
         <div class="myChart" v-show="no_data">暂无数据</div>
         <div v-show="is_show_myChart_and_table">
@@ -169,7 +169,7 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { formatDate, timestamp } from '../common/util.js'
+import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
   name: 'data_table',
   components: { ios_header, left_nav },
@@ -238,6 +238,10 @@ export default {
       this.get_data_second()
     })
     this.$watch('middle_top_time01', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.middle_top_radio3 = ''
+      }
+
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
@@ -401,20 +405,13 @@ export default {
                 let name_group01 = this.response_data_second[0].rankTrendInfo
                   .RankList
                 let name_group02 = temp.rankTrendInfo.RankList
-                // alert(this.response_data_second[0].appName.indexOf('-'))
-                // alert(temp.appName.indexOf('-'))
-                if (this.response_data_second[0].appName.indexOf('-') != -1) {
-                  this.response_data_second[0].appName = this.response_data_second[0].appName.slice(
-                    0,
-                    this.response_data_second[0].appName.indexOf('-')
-                  )
-                }
-                if (temp.appName.indexOf('-') != -1) {
-                  temp.appName = temp.appName.slice(
-                    0,
-                    temp.appName.indexOf('-')
-                  )
-                }
+
+                this.response_data_second[1].appName = replace_some_chart(
+                  this.response_data_second[1].appName
+                )
+                this.response_data_second[0].appName = replace_some_chart(
+                  this.response_data_second[0].appName
+                )
 
                 name_group01.forEach(element => {
                   this.keyword_data.push(
@@ -481,6 +478,7 @@ export default {
           console.log(error)
         })
     },
+
     // 控制显示echarts还是table
     is_show_myChart_function() {
       this.is_show_myChart_and_table = true
@@ -490,9 +488,7 @@ export default {
     },
 
     // 点击日历组件
-    click_second_el_date_picker: function() {
-      this.middle_top_radio3 = ''
-    },
+
     // 点击单选按钮组件组件
     click_second_el_radio: function() {
       this.middle_top_time01 = ''
@@ -666,7 +662,7 @@ export default {
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '今日'
                 ) {
-                  return value.slice(-3)
+                  return '　　' + value.slice(-3) + '　　'
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '昨日'
@@ -760,19 +756,19 @@ export default {
             min: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max = 1500
               } else {
                 that.yAxis_max = max_value + 100
@@ -801,7 +797,7 @@ export default {
 .middle_top_time {
   margin-left: 10px !important;
 }
-.time {
+.btn_group_time {
   margin-left: 5px !important;
 }
 .type {
@@ -818,6 +814,7 @@ export default {
   text-align: center;
 }
 .show_all {
+  position: relative;
   width: 65px;
   height: 24px;
   line-height: 24px;
@@ -880,24 +877,15 @@ table {
   overflow-x: scroll;
   border-right: solid 1px #f2f2f2;
   margin-top: 25px;
-}
-.bottom_image img:first-child {
-  z-index: 9999 !important;
-}
-.bottom_image_table img {
-  margin-left: 5px;
-}
-.bottom_image_table {
-  float: right;
-  margin-top: 20px;
   margin-bottom: 50px;
-  margin-right: 30px;
+}
+.bottom_image img {
+  margin-left: 10px;
 }
 .bottom_image {
-  float: right;
   position: absolute;
-  top: 232.5px;
-  right: -21px;
+  top: 233px;
+  right: 60px;
 }
 .myChart_tips .float_right {
   float: right;

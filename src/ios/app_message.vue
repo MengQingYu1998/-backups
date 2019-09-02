@@ -417,11 +417,11 @@ export default {
   display: flex;
 }
 .like .block span {
+  width: 60px;
   height: 23px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .block img {
   width: 68px;

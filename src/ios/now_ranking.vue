@@ -85,7 +85,7 @@
             </div>
             <div class="btn_item_01">
               <!-- <div>时间</div> -->
-              <div @click="click_second_el_date_picker">
+              <div>
                 <el-date-picker
                   v-model="now_ranking_time"
                   type="daterange"
@@ -114,7 +114,7 @@
           <div
             class="table_title"
             v-if="response_data_second"
-          >【{{response_data_second.appName}}】排名走势</div>
+          >【{{replace_some_chart_wrap(response_data_second.appName)}}】排名走势</div>
 
           <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
 
@@ -232,7 +232,7 @@
                         <div class="font_img">
                           <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
                           <!-- <img src="../../static/flag/HK.svg" /> -->
-                          {{item_div.CountryName}}
+                          {{item_div.CountryName}}({{item_div.Ranking}})
                         </div>
                       </div>
                     </div>
@@ -298,7 +298,7 @@ import ios_header from './ios_header'
 import left_nav from './left_nav'
 import world_map from '../common/world_map/the_world_map'
 // 引入工具类
-import { formatDate, timestamp } from '../common/util.js'
+import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
   name: 'now_ranking',
   components: { ios_header, left_nav, world_map },
@@ -387,6 +387,8 @@ export default {
       this.get_data_third()
     })
     this.$watch('now_ranking_time', function(newValue, oldValue) {
+      this.middle_top_radio3 = ''
+
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
@@ -629,12 +631,7 @@ export default {
           console.log(error)
         })
     },
-    // 点击日历组件
-    click_second_el_date_picker: function() {
-      // if (this.now_ranking_time != '') {
-      this.middle_top_radio3 = ''
-      // }
-    },
+
     // 点击单选按钮组件组件
     click_second_el_radio: function() {
       this.now_ranking_time = ''
@@ -777,7 +774,7 @@ export default {
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '今日'
                 ) {
-                  return value.slice(-3)
+                  return '　　' + value.slice(-3) + '　　'
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '昨日'
@@ -872,19 +869,19 @@ export default {
             min: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max = 1500
               } else {
                 that.yAxis_max = max_value + 100
@@ -932,8 +929,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              // console.log('8888888888888888888888888')
-              // console.log(this.response_data_third)
+              console.log('8888888888888888888888888')
+              console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }
@@ -1019,8 +1016,13 @@ export default {
         this.is_show_map = true
       })
     },
+    replace_some_chart_wrap(parm) {
+      return replace_some_chart(parm)
+    },
     // 获取当前选中的国家
     parentFn(payload) {
+      // alert(this.now_country)
+
       this.now_country = payload
       // console.log(this.now_country)
     }
@@ -1042,6 +1044,7 @@ export default {
 }
 .flex_div {
   display: flex;
+  flex-wrap: wrap;
 }
 .font_img {
   font-family: SourceHanSansCN-Normal !important;

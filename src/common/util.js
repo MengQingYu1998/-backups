@@ -67,3 +67,13 @@ function formatNumber_for_timestamp(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+// 替换特殊字符，获取主标题
+export function replace_some_chart(parm) {
+  parm = parm.trim()
+  let arr = ['_', ' ', '—', '-']
+  arr.forEach(element => {
+    parm =
+      parm.indexOf(element) != -1 ? parm.slice(0, parm.indexOf(element)) : parm
+  })
+  return parm
+}

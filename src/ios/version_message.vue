@@ -13,38 +13,7 @@
             <el-input placeholder="请输入日期或者版本号" suffix-icon="el-icon-search" v-model="input1"></el-input>
           </div>
           <div class="timeline">
-            <!-- <el-timeline>
-              <el-timeline-item
-                v-for="(item ,index) in response_data_first"
-                :key="index"
-                :timestamp="format(item.publishTime)"
-                placement="top"
-                color="#fff"
-                icon="el-icon-time"
-                size="large"
-              >
-                <div class="time_line_item_title">版本{{item.versionNum}}</div>
-                <div class="time_line_item">
-                  <div class="img_description">
-                    <img :src="item.Icon" alt />
-                    <div class="img_description_child">
-                      <div>{{item.appName!='无'?item.appName:''}}</div>
-                      <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
-                    </div>
-                  </div>
-                  <div
-                    :class="{'time_line_item_content':true,'time_line_item_content_height':item.updateLog.length<100}"
-                  >
-                    <div v-html="item.updateLog" :id="'show_more'+index"></div>
-                  </div>
-                  <div
-                    class="show_all"
-                    :id="'show_hide'+index"
-                    v-if="item.updateLog.length>100"
-                    @click="show_more_function('show_more'+index,'show_hide'+index)"
-                  >展开更多</div>
-                </div>
-              </el-timeline-item> -->
+            <el-timeline>
               <el-timeline-item
                 v-for="(item ,index) in response_data"
                 :key="index"
@@ -239,10 +208,6 @@ export default {
   color: #222222;
 }
 .img_description_child div:last-child {
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
@@ -329,10 +294,9 @@ export default {
 }
 .content {
   width: 1200px;
-  margin:
-   0 auto;
+  margin: 0 auto;
 }
-#version_message{
+#version_message {
   padding-bottom: 50px;
 }
 </style>

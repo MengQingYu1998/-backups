@@ -316,22 +316,42 @@ table thead tr th {
   color: #888888;
 }
 #version_message .el-timeline-item__tail {
-  left: 1.5px !important;
-  margin-top: 14px;
+  left: 1px !important;
+  margin-top: 6px;
 }
-#version_message .el-timeline-item__node--large:not(:first-child) {
+
+#version_message .el-timeline li:first-child .el-timeline-item__node-- {
+  width: 17px !important;
+  height: 17px !important;
+  margin-left: -4px;
+}
+#version_message
+  .el-timeline
+  li:first-child
+  .el-timeline-item__node
+  .el-icon-time {
+  font-size: 17px !important;
+}
+#version_message
+  .el-timeline
+  li:not(:first-child)
+  .el-timeline-item__node
+  .el-icon-time {
+  display: none;
+}
+#version_message .el-timeline li:not(:first-child) .el-timeline-item__node {
+  background-color: #009bef !important;
   width: 9px;
   height: 9px;
-}
-#version_message .timeline > li:not(:first-child) .el-timeline-item__node {
-  background-color: #009bef !important;
+  display: flex;
+  align-items: center;
 }
 /* select组件自定义样式 */
 .el-select .el-input__inner {
   padding-right: 22px !important;
 }
 .el-input__inner {
-  height: 27px !important;
+  height: 28px !important;
   line-height: 28px !important;
 }
 .el-select {

@@ -243,8 +243,8 @@ table {
 }
 .option .days {
   width: 48px;
-  line-height: 25.5px;
-  height: 24.5px;
+  line-height: 26px;
+  height: 26px;
   background-color: #f2f2f2;
   border-radius: 4px;
   border: solid 1px #dfdfdf;

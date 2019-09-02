@@ -200,6 +200,10 @@
                 <el-input v-model="search_input" placeholder="多个词同时搜索请用“，”隔开"></el-input>
               </div>
               <div class="search_confirm pointer" @click="search_input_function">搜索</div>
+              <!-- <div
+                class="search_confirm search_confirm_all pointer"
+                @click="search_input_all_function"
+              >全部</div>-->
             </div>
           </div>
           <table>
@@ -315,7 +319,7 @@
                         </div>
                         <div class="btn_item_01">
                           <!-- <div>时间</div> -->
-                          <div @click="click_second_el_date_picker">
+                          <div>
                             <el-date-picker
                               v-model="middle_time01"
                               type="daterange"
@@ -337,7 +341,8 @@
                           v-show="is_show_myChart_and_table&&!no_data"
                         ></div>
                         <div class="myChart" v-show="no_data">暂无数据</div>
-                        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+                        <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+                        <div class="bottom_image pointer">
                           <img
                             v-on:click="is_show_myChart_function"
                             class="float_right"
@@ -377,10 +382,11 @@
                             </tr>
                           </tbody>
                         </table>
-                        <div
+                        <!-- <div
                           class="bottom_image_table pointer"
                           v-show="!no_data&&!is_show_myChart_and_table"
-                        >
+                        >-->
+                        <div class="bottom_image_table pointer" v-show="false">
                           <img
                             v-on:click="is_show_myChart_function"
                             class="float_right"
@@ -554,8 +560,8 @@ export default {
       wordId: null,
       request_data_third: null,
       systemValue: 'ios12',
-      bottom_radio1: '按天',
-      bottom_radio3: '7天',
+      bottom_radio1: '按小时',
+      bottom_radio3: '近24小时',
       middle_time01: '',
       middle_pickerOptions: {
         disabledDate(time) {
@@ -638,6 +644,11 @@ export default {
     // ==================第二 部分===========================
     // ==================第二部分===========================
 
+    this.$watch('search_input', function(newValue, oldValue) {
+      if (this.search_input == '') {
+        this.get_data_for_second_part(true)
+      }
+    })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
       this.get_data_for_second_part(true)
@@ -674,9 +685,16 @@ export default {
       this.get_data_for_third_part()
     })
     this.$watch('bottom_radio3', function(newValue, oldValue) {
+      if (this.bottom_radio3 != '') {
+        this.middle_time01 = ''
+      }
       this.get_data_for_third_part()
     })
     this.$watch('middle_time01', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.bottom_radio3 = ''
+      }
+
       this.get_data_for_third_part()
     })
   },
@@ -862,7 +880,11 @@ export default {
         this.currentPage * 100 + 1
       )
     },
-    // 点击搜索按钮
+    // 点击搜索,全部按钮
+    search_input_all_function() {
+      this.search_input = ''
+      this.get_data_for_second_part(true)
+    },
     search_input_function() {
       if (this.search_input.trim() != '') {
         this.get_data_for_second_part(false)
@@ -918,6 +940,9 @@ export default {
     },
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word) {
+      this.bottom_radio1 = '按小时'
+      this.bottom_radio3 = '近24小时'
+      this.middle_time01 = ''
       // 防止多次点击
       if (this.stop_click_many_times == wordId + word) {
         this.is_show_bottom = !this.is_show_bottom
@@ -951,6 +976,9 @@ export default {
       // this.echart_function_body_can_excute = index
     },
     middle_table_second(index, wordId, word) {
+      this.bottom_radio1 = '按小时'
+      this.bottom_radio3 = '近24小时'
+      this.middle_time01 = ''
       // 防止多次点击
       if (this.stop_click_many_times == wordId + word) {
         this.is_show_bottom = !this.is_show_bottom
@@ -1005,6 +1033,11 @@ export default {
             time = sdate + '-' + edate
           } else if (this.bottom_radio3 == '近24小时') {
             time = 1
+            if (this.middle_time01 != '') {
+              sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
+              edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
+              time = sdate + '-' + edate
+            }
           } else if (this.bottom_radio3 == '昨日') {
             edate = formatDate(new Date(), 'yyyy-MM-dd')
             let time02 = new Date()
@@ -1030,6 +1063,7 @@ export default {
             sdate = formatDate(time02, 'yyyy-MM-dd')
             time = sdate + '-' + edate
           }
+
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
@@ -1047,7 +1081,7 @@ export default {
           let appId = this.$store.state.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
-          // console.log(time)
+          console.log(time)
           // console.log(wordId)
           // console.log(deviceType)
           // console.log(country_id)
@@ -1118,10 +1152,6 @@ export default {
     // 点击单选按钮组件组件
     click_second_el_radio: function() {
       this.middle_time01 = ''
-    },
-    // 点击日历组件
-    click_second_el_date_picker: function() {
-      this.bottom_radio3 = ''
     },
 
     // 便利keyword_data生成canvas的series数据
@@ -1245,7 +1275,7 @@ export default {
                   that.bottom_radio1 == '按小时' &&
                   that.bottom_radio3 == '近24小时'
                 ) {
-                  return value.slice(-3)
+                  return '　　' + value.slice(-3) + '　　'
                 } else if (
                   that.bottom_radio1 == '按小时' &&
                   that.bottom_radio3 == '昨日'
@@ -1335,19 +1365,19 @@ export default {
             min: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max = 1500
               } else {
                 that.yAxis_max = max_value + 100
@@ -1393,16 +1423,19 @@ export default {
   width: 210px !important;
   margin-right: 10px;
 }
+.search_confirm_all {
+  margin-left: 10px;
+}
 .search_confirm {
   width: 48px !important;
-  height: 24.5px;
+  height: 27px;
   background-color: #009bef;
   border-radius: 4px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26.5px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -1566,7 +1599,10 @@ table img {
 }
 
 .bottom table {
+  margin: 0 auto;
+  margin-top: 40px;
   margin-bottom: 50px;
+  border: solid 0px;
 }
 .middle table {
   margin-bottom: 33px;
@@ -1731,16 +1767,15 @@ table {
   float: right;
 }
 .bottom_image img {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 .bottom_image:hover {
   z-index: 999999999;
 }
 .bottom_image {
-  float: right;
   position: absolute;
   top: 9px;
-  right: 55px;
+  right: 60px;
   z-index: 1;
 }
 .myChart_tips .float_right {

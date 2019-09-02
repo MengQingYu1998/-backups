@@ -349,26 +349,25 @@ export default {
 }
 .search_confirm {
   width: 48px !important;
-  height: 24px;
+  height: 27px;
   background-color: #009bef;
   border-radius: 4px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  margin-top: 1px;
+  margin-left: -5px;
 }
 .hide_font {
   width: 45px;
   height: 18px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .change_bg {
   color: #ffffff !important;
@@ -406,10 +405,10 @@ export default {
   line-height: 30px;
   border-radius: 10px;
   border: solid 1px #f2f2f2;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 
   letter-spacing: 0px;
   color: #444444;
@@ -483,13 +482,13 @@ table {
 }
 .font_block {
   text-align: center;
-  line-height: 24px;
+  line-height: 26px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   width: 48px !important;
-  height: 24px;
+  height: 26px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
@@ -498,11 +497,14 @@ table {
   margin-left: -6px;
   display: inline-block;
 }
+.options_04 {
+  margin-left: 15px !important;
+}
 .options_04 .search div {
   width: 145px !important;
 }
 .options_03 {
-  margin-left: 22px !important;
+  margin-left: 15px !important;
 }
 .options_03 .date div {
   width: 114px !important;
@@ -510,14 +512,10 @@ table {
 .option div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
-  width: 87px;
-  height: 24.5px;
-}
 
 .option {
   display: flex;
-  margin-left: 29px;
+  margin-left: 15px;
 }
 option:first-child {
   margin: 0;

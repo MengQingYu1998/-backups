@@ -28,7 +28,7 @@
           <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
-      <div class="btn_item_03" @click="change_radio02">
+      <div class="btn_item_03">
         <div class="margin_top_font">时间</div>
         <div class="date">
           <el-date-picker
@@ -41,21 +41,21 @@
             clear-icon
           ></el-date-picker>
         </div>
-        <div></div>
-      </div>
-      <div @click="change_time01">
-        <el-radio-group v-model="radio02" size="mini">
-          <el-radio-button label="7天"></el-radio-button>
-          <el-radio-button label="30天"></el-radio-button>
-          <el-radio-button label="90天"></el-radio-button>
-        </el-radio-group>
+        <div @click="change_time01">
+          <el-radio-group v-model="radio02" size="mini">
+            <el-radio-button label="7天"></el-radio-button>
+            <el-radio-button label="30天"></el-radio-button>
+            <el-radio-button label="90天"></el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
     </div>
 
     <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div>
     <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+    <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+    <div class="bottom_image pointer">
       <img
         v-on:click="is_show_myChart_function"
         class="float_right"
@@ -91,7 +91,8 @@
         </tr>
       </tbody>
     </table>
-    <div class="bottom_image bottom_image_for_table pointer" v-show="!is_show_myChart_and_table">
+    <!-- <div class="bottom_image bottom_image_for_table pointer" v-show="!is_show_myChart_and_table"> -->
+    <div class="bottom_image bottom_image_for_table pointer" v-show="false">
       <img
         v-on:click="is_show_myChart_function"
         class="float_right"
@@ -176,6 +177,7 @@ export default {
       this.get_data()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
+      this.radio02 = ''
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -438,9 +440,7 @@ export default {
         true
       )
     },
-    change_radio02() {
-      this.radio02 = ''
-    },
+
     change_time01() {
       this.dateValue = ''
     },
@@ -462,7 +462,7 @@ export default {
 .btn_item_03 {
   display: flex;
   align-items: center;
-  margin-left: 70px;
+  margin-left: 20px;
 }
 .btn_item_03 > div {
   font-family: SourceHanSansCN-Medium;
@@ -531,20 +531,22 @@ table {
   border: solid 1px #f2f2f2;
   table-layout: fixed;
   text-align: center;
+  margin-top: 90px;
+  margin-bottom: 50px;
 }
-.bottom_image img:first-child {
-  z-index: 9999 !important;
-}
+
 .bottom_image_for_table {
   position: static !important;
   margin-top: 40px;
 }
+.bottom_image img {
+  margin-left: 10px;
+}
 .bottom_image {
-  float: right;
   position: absolute;
-  top: 271.5px;
-  right: -41px;
-  margin-bottom: 50px;
+  top: 253px;
+  right: 38px;
+  z-index: 9999999999;
 }
 
 .myChart {
@@ -560,7 +562,7 @@ table {
   letter-spacing: 0px;
   color: #222222;
   text-align: center;
-  margin-top: 110px;
+  margin-top: 90px;
   margin-bottom: 40px;
 }
 .options_div_margin {

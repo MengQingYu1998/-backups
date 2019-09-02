@@ -188,16 +188,13 @@ export default {
           position: 'bottom',
           type: 'category',
           data: that.xAxis_data,
-          boundaryGap: false
+          boundaryGap: true
         },
         yAxis: {
           axisLabel: {
             color: '#222',
 
             formatter: function(value, index) {
-              if (index === 0) {
-                return '{first|' + '00000' + value + '}'
-              }
               return '{value|' + value + '}'
             },
             rich: {
@@ -233,6 +230,9 @@ export default {
       }
       this.myChart.setOption(option, true)
       this.myChart.hideLoading()
+      this.myChart.on('click', function(params) {
+        console.log(params)
+      })
     }
   }
 }

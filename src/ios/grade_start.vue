@@ -209,7 +209,7 @@
           <div class="btn_group">
             <div class="btn_item_01">
               <div>时间</div>
-              <div @click="click_second_el_date_picker">
+              <div>
                 <el-date-picker
                   v-model="middle_top_time01"
                   type="daterange"
@@ -220,10 +220,15 @@
                   :picker-options="middle_top_pickerOptions"
                 ></el-date-picker>
               </div>
-              <div
+              <!-- <div
                 :class="{'font_block':true,'change_bg':click_near_month,'pointer':true}"
                 @click="click_near_month_function"
-              >近一个月</div>
+              >近一个月</div>-->
+              <div @click="click_near_month_function">
+                <el-radio-group v-model="middle_bottom_radio_update" size="mini">
+                  <el-radio-button label="近一个月"></el-radio-button>
+                </el-radio-group>
+              </div>
             </div>
           </div>
           <div ref="grade_start_one" class="myChart"></div>
@@ -244,7 +249,7 @@
                 </el-radio-group>
               </div>
             </div>
-            <div class="btn_item_03" @click="change_middle_bottom_radio02">
+            <div class="btn_item_03">
               <div>时间</div>
               <div>
                 <el-date-picker
@@ -315,7 +320,7 @@
             </div>
             <div class="btn_item_03">
               <div>时间</div>
-              <div @click="change_bottom_radio04">
+              <div>
                 <el-date-picker
                   v-model="bottom_time01"
                   type="daterange"
@@ -416,9 +421,10 @@ export default {
       //  第二部分参数
       //  第二部分参数
       yAxis_max: 5,
-      click_near_month: true,
+      // click_near_month: true,
       response_data_second_part: null,
       middle_top_time01: '',
+      middle_bottom_radio_update: '近一个月',
       middle_top_pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
@@ -549,8 +555,14 @@ export default {
     })
     // 监听第二部分的时间变化
     this.$watch('middle_top_time01', function(newValue, oldValue) {
+      this.middle_bottom_radio_update = ''
       this.get_data_for_second_part()
     })
+    this.$watch('middle_bottom_radio_update', function(newValue, oldValue) {
+      //
+      this.get_data_for_second_part()
+    })
+
     // 监听第三部分的时间变化
     this.$watch('middle_bottom_radio02', function(newValue, oldValue) {
       this.get_data_for_third_part()
@@ -559,10 +571,13 @@ export default {
       this.get_data_for_third_part()
     })
     this.$watch('middle_bottom_time01', function(newValue, oldValue) {
+      this.middle_bottom_radio02 = ''
       this.get_data_for_third_part()
     })
     //'当前第四部分=》评论部分的    时间  发生变化，重新请求数据...'
     this.$watch('bottom_time01', function(newValue, oldValue) {
+      this.bottom_radio04 = ''
+
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio01', function(newValue, oldValue) {
@@ -650,10 +665,7 @@ export default {
           console.log(error)
         })
     },
-    // 当点击第四部分的时间的时候，把和时间一起的单选框置空
-    change_bottom_radio04: function() {
-      this.bottom_radio04 = ''
-    },
+
     // 当点击第四部分的单选框的时候，把和单选框一起的时间置空
     change_bottom_time01: function() {
       this.bottom_time01 = ''
@@ -749,19 +761,19 @@ export default {
             minInterval: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max = 1500
               } else {
                 that.yAxis_max = max_value + 100
@@ -827,13 +839,9 @@ export default {
       )
     },
     click_near_month_function: function() {
-      this.click_near_month = true
       this.middle_top_time01 = ''
-      this.get_data_for_second_part()
     },
-    click_second_el_date_picker: function() {
-      this.click_near_month = false
-    },
+
     // 请求第二部分的图标参数
     get_data_for_second_part() {
       // 基于准备好的dom，初始化echarts实例
@@ -864,7 +872,7 @@ export default {
             '-' +
             formatDate(new Date(), 'yyyy-MM-dd')
 
-          if (!this.click_near_month) {
+          if (this.middle_bottom_radio_update != '近一个月') {
             let middle_top_time01 = this.middle_top_time01
             time =
               formatDate(middle_top_time01[0], 'yyyy-MM-dd') +
@@ -995,19 +1003,19 @@ export default {
             minInterval: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max01 = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max01 = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max01 = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max01 = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max01 = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max01 = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max01 = 1500
               } else {
                 that.yAxis_max01 = max_value + 100
@@ -1127,19 +1135,19 @@ export default {
             minInterval: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max03 = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max03 = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max03 = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max03 = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max03 = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max03 = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max03 = 1500
               } else {
                 that.yAxis_max03 = max_value + 100
@@ -1203,9 +1211,7 @@ export default {
         true
       )
     },
-    change_middle_bottom_radio02() {
-      this.middle_bottom_radio02 = ''
-    },
+
     change_middle_bottom_time01() {
       this.middle_bottom_time01 = ''
     },

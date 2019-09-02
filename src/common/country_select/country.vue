@@ -16,11 +16,11 @@
             <div class="list_header">热门国家</div>
             <div class="item" @click="change_country_name('中国','CN')">
               <img :src="'../../../static/flag/CN.svg'" alt />
-              中国
+              <span>中国</span>
             </div>
             <div class="item" @click="change_country_name('美国','US')">
               <img :src="'../../../static/flag/US.svg'" alt />
-              美国
+              <span>美国</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()!=''">
@@ -31,7 +31,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -43,7 +43,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -55,7 +55,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -67,7 +67,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -79,7 +79,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -91,7 +91,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
           <div class="list" v-show="input.trim()==''">
@@ -103,7 +103,7 @@
               @click="change_country_name(item.name,item.code)"
             >
               <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              {{item.name}}
+              <span>{{item.name}}</span>
             </div>
           </div>
         </div>
@@ -127,6 +127,13 @@ export default {
     }
   },
   props: ['custom_country'],
+  // 监听,当路由发生变化的时候执行
+  watch: {
+    $route(to, from) {
+      // alert(555555)
+      this.$emit('childFn', this.country_name)
+    }
+  },
   created() {
     if (this.custom_country) {
       this.country_name = this.custom_country
@@ -137,6 +144,7 @@ export default {
       this.$emit('childFn', this.country_name)
     })
   },
+
   mounted: function() {
     this.globalClick(() => {
       this.country_show_hidden = false
@@ -232,6 +240,9 @@ export default {
 }
 </script>
 <style scoped>
+.item span {
+  line-height: 0;
+}
 .item:hover {
   background-color: #f7f7f7;
 }
@@ -301,7 +312,7 @@ export default {
   color: #222222;
   display: flex;
   align-items: center;
-  padding: 4.5px 0;
+  padding: 6px 0;
   cursor: pointer;
 }
 .item img {

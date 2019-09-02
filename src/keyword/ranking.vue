@@ -584,10 +584,9 @@ tbody th:nth-child(5) {
 
 .selected_popover > div {
   width: 65px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+ white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .selected_popover {
   display: flex;
@@ -671,7 +670,7 @@ table {
   width: 100%;
   border: solid 1px #f2f2f2;
   text-align: center;
-  /* margin-bottom: 78px; */
+  margin-bottom: 50px;
 }
 
 .options_04 > div:nth-child(1) {

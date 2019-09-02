@@ -265,22 +265,22 @@ td {
   box-sizing: border-box;
 }
 .app_subtitle {
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+ white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
   text-align: left;
   width: 179px;
   height: 18px;
 }
 .app_name {
-  overflow: hidden;
+  
   height: 23px;
   width: 122px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: left;
-  -webkit-box-orient: vertical;
+  
 }
 .use img {
   border: solid 1px #f2f2f2;

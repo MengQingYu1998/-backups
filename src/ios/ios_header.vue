@@ -64,6 +64,8 @@ export default {
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      // alert(99999999999)
+      this.click()
       this.get_data()
     })
   },
@@ -189,11 +191,10 @@ export default {
 
   width: 200px;
   height: 30px;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  /* background-color: red;   */
+
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .app_description div:last-child {
   font-family: SourceHanSansCN-Normal;
@@ -205,10 +206,9 @@ export default {
   color: #888888;
 
   height: 23px;
+  white-space: nowrap;
   overflow: hidden;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 
   width: 200px;
 }

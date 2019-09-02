@@ -516,7 +516,10 @@
     <div class="my_dialog_wraper" v-show="dialogVisible">
       <div class="my_dialog">
         <img src="../assets/keyword/dialog_02.png" alt @click="dialogVisible=false" />
-        <div class="result_title">【{{word}}】在【{{this.$store.state.now_app_name}}】搜索结果中排名趋势</div>
+        <div
+          class="result_title"
+        >【{{replace_some_chart_wrap(word)}}】在【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】搜索结果中排名趋势</div>
+
         <div class="btn_group">
           <div class="classify">
             <div></div>
@@ -549,7 +552,7 @@
             </div>
           </div>
           <div class="btn_item_01">
-            <div @click="click_second_el_date_picker">
+            <div>
               <el-date-picker
                 v-model="time_dialog"
                 type="daterange"
@@ -569,7 +572,8 @@
           v-show="is_show_myChart_and_table&&!no_data"
         ></div>
         <div class="myChart" v-show="no_data">暂无数据</div>
-        <div class="bottom_image pointer" v-show="is_show_myChart_and_table">
+        <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+        <div class="bottom_image pointer">
           <img
             v-on:click="is_show_myChart_function"
             class="float_right"
@@ -609,7 +613,8 @@
         <div class="footer__dialog">
           <img src="../assets/keyword/dialog_01.png" alt />
           iOS12与iOS11版本的排名不同
-          <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
+          <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table"> -->
+          <div class="bottom_image_table pointer" v-show="false">
             <img
               v-on:click="is_show_myChart_function"
               class="float_right"
@@ -634,7 +639,7 @@
 import country from '../common/country_select/country'
 
 // 引入工具类
-import { formatDate, timestamp } from '../common/util.js'
+import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
   name: 'result',
   components: {
@@ -828,6 +833,9 @@ export default {
       this.get_data_dialog()
     })
     this.$watch('time_dialog', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.radio02_dialog = ''
+      }
       this.get_data_dialog()
     })
   },
@@ -1237,19 +1245,19 @@ export default {
             type: 'value',
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.column_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.column_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.column_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.column_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.column_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.column_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.column_max = 1500
               } else {
                 that.column_max = max_value + 100
@@ -1441,6 +1449,12 @@ export default {
         })
     },
     show_dialog(word, appid, WordId) {
+      //  radio01_dialog: '按小时',
+      // radio02_dialog: '近24小时',
+      // time_dialog: '',
+      this.radio01_dialog = '按小时'
+      this.radio02_dialog = '近24小时'
+      this.time_dialog = ''
       this.dialogVisible = true
       this.word = word
       this.appid = appid
@@ -1552,7 +1566,7 @@ export default {
                   that.radio01_dialog == '按小时' &&
                   that.radio02_dialog == '近24小时'
                 ) {
-                  return value.slice(-3)
+                  return '　　' + value.slice(-3) + '　　'
                 } else if (
                   that.radio01_dialog == '按小时' &&
                   that.radio02_dialog == '昨日'
@@ -1641,19 +1655,19 @@ export default {
             min: 1,
             max: function(value) {
               let max_value = value.max
-              if (max_value <= 5) {
+              if (max_value < 5) {
                 that.yAxis_max = 5
-              } else if (max_value <= 20) {
+              } else if (max_value < 20) {
                 that.yAxis_max = 20
-              } else if (max_value <= 50) {
+              } else if (max_value < 50) {
                 that.yAxis_max = 50
-              } else if (max_value <= 100) {
+              } else if (max_value < 100) {
                 that.yAxis_max = 100
-              } else if (max_value <= 500) {
+              } else if (max_value < 500) {
                 that.yAxis_max = 500
-              } else if (max_value <= 1000) {
+              } else if (max_value < 1000) {
                 that.yAxis_max = 1000
-              } else if (max_value <= 1500) {
+              } else if (max_value < 1500) {
                 that.yAxis_max = 1500
               } else {
                 that.yAxis_max = max_value + 100
@@ -1688,9 +1702,9 @@ export default {
       this.time_dialog = ''
     },
     // 点击日历组件
-    click_second_el_date_picker: function() {
-      this.radio02_dialog = ''
-    },
+    // click_second_el_date_picker: function() {
+    //   this.radio02_dialog = ''
+    // },
     result_compare_iosType(parm) {
       this.dialog_iosType = parm
       // alert(this.dialog_iosType)
@@ -1702,6 +1716,9 @@ export default {
     // tab-pane选择面板
     handleClick(tab, event) {
       // console.log(tab, event)
+    },
+    replace_some_chart_wrap(parm) {
+      return replace_some_chart(parm)
     },
     // 获取当前选中的国家
     parentFn(payload) {
@@ -1810,20 +1827,22 @@ export default {
   text-align: center;
   width: 900px;
   margin: 0 auto;
+  margin-top: 80px;
 }
-.my_dialog .bottom_image_table img {
-  margin-left: 5px;
-}
+
 .my_dialog .bottom_image_table {
   position: absolute;
   top: 20px;
   right: 66px;
 }
+.my_dialog .bottom_image img {
+  margin-left: 10px;
+}
 .my_dialog .bottom_image {
   float: right;
   position: absolute;
-  top: 169.5px;
-  right: 66px;
+  top: 170px;
+  right: 79px;
 }
 .keywordContentTable_th {
   width: 25%;
@@ -1950,11 +1969,10 @@ export default {
 .third_div > div {
   width: 130px !important;
   text-align: left !important;
-  -webkit-line-clamp: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  height: 23px;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  height: 23px;
 }
 .first_div {
   width: 40px;
@@ -1962,7 +1980,7 @@ export default {
 }
 
 .myChart {
-  width: 341px;
+  width: 350px;
   height: 278px;
   text-align: center;
   color: #666;
