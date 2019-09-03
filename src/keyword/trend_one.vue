@@ -52,22 +52,24 @@
     </div>
 
     <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div>
-    <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
+    <div class="position_relative">
+      <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
-    <div class="bottom_image pointer">
-      <img
-        v-on:click="is_show_myChart_function"
-        class="float_right"
-        src="../assets/keyword/three.png"
-        alt
-      />
-      <img
-        v-on:click="is_show_table_function"
-        class="float_right"
-        src="../assets/keyword/calculator.png"
-        alt
-      />
+      <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+      <div class="bottom_image pointer">
+        <img
+          v-on:click="is_show_myChart_function"
+          class="float_right"
+          src="../assets/keyword/three.png"
+          alt
+        />
+        <img
+          v-on:click="is_show_table_function"
+          class="float_right"
+          src="../assets/keyword/calculator.png"
+          alt
+        />
+      </div>
     </div>
     <table v-show="!is_show_myChart_and_table">
       <thead>
@@ -453,6 +455,9 @@ export default {
 }
 </script>
 <style scoped>
+.position_relative {
+  position: relative;
+}
 .date {
   margin-top: 2px !important;
 }
@@ -544,8 +549,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 253px;
-  right: 38px;
+  top: 8px;
+  right: 39px;
   z-index: 9999999999;
 }
 

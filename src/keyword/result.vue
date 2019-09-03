@@ -565,27 +565,28 @@
             </div>
           </div>
         </div>
-
-        <div
-          ref="myChart_result_dialog"
-          class="myChart_dialog"
-          v-show="is_show_myChart_and_table&&!no_data"
-        ></div>
-        <div class="myChart" v-show="no_data">暂无数据</div>
-        <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
-        <div class="bottom_image pointer">
-          <img
-            v-on:click="is_show_myChart_function"
-            class="float_right"
-            src="../assets/keyword/three.png"
-            alt
-          />
-          <img
-            v-on:click="is_show_table_function"
-            class="float_right"
-            src="../assets/keyword/calculator.png"
-            alt
-          />
+        <div class="position_relative">
+          <div
+            ref="myChart_result_dialog"
+            class="myChart_dialog"
+            v-show="is_show_myChart_and_table&&!no_data"
+          ></div>
+          <div class="myChart" v-show="no_data">暂无数据</div>
+          <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+          <div class="bottom_image pointer">
+            <img
+              v-on:click="is_show_myChart_function"
+              class="float_right"
+              src="../assets/keyword/three.png"
+              alt
+            />
+            <img
+              v-on:click="is_show_table_function"
+              class="float_right"
+              src="../assets/keyword/calculator.png"
+              alt
+            />
+          </div>
         </div>
         <table v-show="!no_data&&!is_show_myChart_and_table">
           <thead>
@@ -1785,6 +1786,9 @@ export default {
 }
 </script>
 <style scoped>
+.position_relative {
+  position: relative;
+}
 .my_dialog tbody tr {
   border: solid 1px #f2f2f2;
 }
@@ -1841,8 +1845,8 @@ export default {
 .my_dialog .bottom_image {
   float: right;
   position: absolute;
-  top: 170px;
-  right: 79px;
+  top: 9px;
+  right: 40px;
 }
 .keywordContentTable_th {
   width: 25%;

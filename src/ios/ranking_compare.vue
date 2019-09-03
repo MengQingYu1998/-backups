@@ -87,26 +87,27 @@
           v-if="response_data_second"
         >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名走势</div>
         <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
-
-        <div
-          ref="ranking_compare"
-          class="myChart"
-          style="height: 450px;"
-          v-show="is_show_myChart_and_table&&!no_data"
-        ></div>
-        <div class="bottom_image pointer">
-          <img
-            v-on:click="is_show_myChart_function"
-            class="float_right"
-            src="../assets/keyword/three.png"
-            alt
-          />
-          <img
-            v-on:click="is_show_table_function"
-            class="float_right"
-            src="../assets/keyword/calculator.png"
-            alt
-          />
+        <div class="position_relative">
+          <div
+            ref="ranking_compare"
+            class="myChart"
+            style="height: 450px;"
+            v-show="is_show_myChart_and_table&&!no_data"
+          ></div>
+          <div class="bottom_image pointer">
+            <img
+              v-on:click="is_show_myChart_function"
+              class="float_right"
+              src="../assets/keyword/three.png"
+              alt
+            />
+            <img
+              v-on:click="is_show_table_function"
+              class="float_right"
+              src="../assets/keyword/calculator.png"
+              alt
+            />
+          </div>
         </div>
         <div class="table_wraper" v-show="!no_data&&!is_show_myChart_and_table">
           <table>
@@ -791,6 +792,9 @@ export default {
 }
 </script>
 <style scoped>
+.position_relative {
+  position: relative;
+}
 .time_width {
   width: 30px;
 }
@@ -884,8 +888,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 233px;
-  right: 60px;
+  top: 8px;
+  right: 58px;
 }
 .myChart_tips .float_right {
   float: right;

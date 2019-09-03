@@ -1,6 +1,6 @@
 <template>
   <div id="trend_many" class="content">
-    <div class="trend_many_title">「{{this.$store.state.now_app_name}}」搜索指数排名走势</div>
+    <div class="trend_many_title">「{{keyword_data.join('，')}}」搜索指数排名走势</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -55,25 +55,26 @@
         <div class="search_confirm pointer">添加</div>
       </div>
     </div>
-    <div class="table_title">【{{keyword_data.join(',')}}】搜索指数走势</div>
-    <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
+    <div class="table_title">【{{keyword_data.join('，')}}】搜索指数走势</div>
+    <div class="position_relative">
+      <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-    <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
-    <div class="bottom_image pointer">
-      <img
-        v-on:click="is_show_myChart_function"
-        class="float_right"
-        src="../assets/keyword/three.png"
-        alt
-      />
-      <img
-        v-on:click="is_show_table_function"
-        class="float_right"
-        src="../assets/keyword/calculator.png"
-        alt
-      />
+      <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
+      <div class="bottom_image pointer">
+        <img
+          v-on:click="is_show_myChart_function"
+          class="float_right"
+          src="../assets/keyword/three.png"
+          alt
+        />
+        <img
+          v-on:click="is_show_table_function"
+          class="float_right"
+          src="../assets/keyword/calculator.png"
+          alt
+        />
+      </div>>
     </div>
-
     <table v-show="!is_show_myChart_and_table">
       <thead>
         <tr>
@@ -505,6 +506,9 @@ export default {
 }
 </script>
 <style scoped>
+.position_relative {
+  position: relative;
+}
 td {
   height: 60px;
   width: 600px;
@@ -603,8 +607,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 273px;
-  right: 38px;
+  top: 8px;
+  right: 39px;
   z-index: 9999999999;
 }
 .bottom_image_for_table {
