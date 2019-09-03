@@ -50,7 +50,7 @@ export default {
         ]
         this.drawLine()
         this.myChart.hideLoading()
-      }, 3000)
+      }, 500)
     },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
@@ -89,6 +89,7 @@ export default {
       //
       // }, 3000)
       let option = {
+        animation: false,
         color: [
           '#62c8ff',
           '#216aff',
@@ -102,7 +103,7 @@ export default {
           '#529323'
         ],
         legend: {
-          data: that.keyword_data,
+          // data: that.keyword_data,
           y: 'bottom',
           selected: that.selected_data
         },
@@ -133,11 +134,10 @@ export default {
           }
         },
         grid: {
-          // left: '0',
-          // right: '4%',
+          left: '20%',
+          right: '20%',
           // bottom: '13%',
-          containLabel: true,
-          // width: '150',
+          // width: 500,
           show: true,
           backgroundColor: 'yellow',
           // show: true,
@@ -167,13 +167,17 @@ export default {
               color: '#999'
             }
           },
-          // axisLabel: {
-          //   formatter: function(value, index) {
-          //     console.log(value)
-          //     console.log(index)
-          //     return 222
-          //   }
-          // },
+          axisLabel: {
+            formatter: function(value, index) {
+              return '{value|' + value + '}'
+            },
+            rich: {
+              value: {
+                width: 100,
+                backgroundColor: 'red'
+              }
+            }
+          },
           axisTick: {
             show: false
           },
@@ -199,7 +203,8 @@ export default {
             },
             rich: {
               value: {
-                align: 'center',
+                width: 100,
+                align: 'right',
                 backgroundColor: 'red'
               }
             }
@@ -226,7 +231,26 @@ export default {
           min: null,
           max: null
         },
-        series: that.series_data()
+        series: [
+          {
+            name: '邮件营销',
+            type: 'line',
+            stack: '总量',
+            data: [4, 5, 7, 10, 90, 230, 210]
+          },
+          {
+            name: '联盟广告',
+            type: 'line',
+            stack: '总量',
+            data: [800, 1000, 191, 234, 290, 330, 310]
+          },
+          {
+            name: '视频广告',
+            type: 'line',
+            stack: '总量',
+            data: [150, 232, 201, 154, 190, 330, 410]
+          }
+        ]
       }
       this.myChart.setOption(option, true)
       this.myChart.hideLoading()

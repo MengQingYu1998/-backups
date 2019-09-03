@@ -129,11 +129,14 @@ export default {
   display: inline-block;
   vertical-align: top;
   margin-top: 5px;
+  border-left: 1px solid #dfdfdf;
 }
 #navv #country_select .country_name {
   background-color: transparent;
   border: none;
   height: 100%;
+  padding: 0 3px;
+  text-align: center;
 }
 /* =============================上面是芦的============================= */
 /* =============================下面是孟的============================= */
@@ -395,5 +398,8 @@ table thead tr th {
 /* Aso关键词 解决时间下拉框覆盖单选框 */
 .el-picker-panel {
   z-index: 999 !important;
+}
+#app {
+  padding-top: 67px;
 }
 </style>

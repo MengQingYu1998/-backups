@@ -373,6 +373,7 @@ export default {
       this.upWL = false
       this.showApplication = false
       this.showGame = false
+      this.showdate = false
       this.zongsData.length = 0
       this.page = 1
       this.getData()
@@ -390,6 +391,7 @@ export default {
       this.downG = true
       this.downWG = false
       this.upWG = false
+      this.showdate = false
       this.getData()
     },
     // 点击游戏榜
@@ -405,6 +407,7 @@ export default {
       this.upWG = true
       this.downG = false
       this.downWG = false
+      this.showdate = false
       this.getData()
     },
     // 点击应用option
@@ -434,6 +437,7 @@ export default {
       this.isSelect = index
       this.showApplication = false
       this.showGame = false
+      this.showdate = false
       // this.zongsData.length=0
       if (this.isSelect == 0) {
         this.upfont = true
@@ -448,6 +452,7 @@ export default {
     },
     //点击榜单分类
     clibLei(index) {
+      this.showdate = false
       this.isSelectfont = index
       this.showApplication = false
       this.showGame = false

@@ -1,6 +1,6 @@
 <template>
   <div id="think_word" class="content">
-    <div class="think_word_title">「{{this.$store.state.now_app_name}}」关键词搜索联想词</div>
+    <div class="think_word_title">「{{input}}」关键词搜索联想词</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">

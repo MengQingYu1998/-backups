@@ -778,7 +778,7 @@
 	.topLine{
 		width: 100%;
 		height: 1px ;
-		background-color: #efefef;
+		/*background-color: #efefef;*/
 	}
 	.message{
 		width: 1200px;

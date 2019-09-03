@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" id="register">
     <div class="left">
       <img src="../assets/NumImg/loginImg.png" />
     </div>

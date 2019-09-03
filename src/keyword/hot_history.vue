@@ -1,6 +1,6 @@
 <template>
   <div id="hot_history" class="content">
-    <div class="hot_history_title">实时热搜</div>
+    <div class="hot_history_title">热搜词「{{search_input}}」</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">

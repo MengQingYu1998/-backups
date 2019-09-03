@@ -19,7 +19,12 @@
         <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
       </div>
-      <router-link to="goods_show" tag="div" class="nav_content" active-class="active">竞品对比</router-link>
+      <router-link
+        to="goods_show"
+        tag="div"
+        class="nav_content ranking_compare"
+        active-class="active"
+      >竞品对比</router-link>
       <!-- <router-link
         to="nothing"
         tag="div"

@@ -378,20 +378,23 @@ export default {
   },
 
   created: function() {
+    // alert('created')
     this.get_data_first()
-
     this.get_data_third()
     this.$watch('now_country', function(newValue, oldValue) {
+      // alert('now_country')
       this.get_data_first()
       this.get_data_second()
       this.get_data_third()
     })
     this.$watch('now_ranking_time', function(newValue, oldValue) {
+      // alert('now_ranking_time')
       this.middle_top_radio3 = ''
 
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
+      // alert('middle_top_radio1')
       // 1.解决切换隐藏所有的bug
       this.selected_data_function(this.canvas_is_show_all)
 
@@ -407,16 +410,19 @@ export default {
       this.get_data_second()
     })
     this.$watch('middle_top_radio2', function(newValue, oldValue) {
+      // alert('middle_top_radio2')
       // 1.解决切换隐藏所有的bug
       this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
     this.$watch('middle_top_radio3', function(newValue, oldValue) {
+      // alert('middle_top_radio3')
       // 1.解决切换隐藏所有的bug
       this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
     })
     this.$watch('equipmentValue01', function(newValue, oldValue) {
+      // alert('equipmentValue01')
       this.get_data_third()
     })
     this.$watch('radio3', function(newValue, oldValue) {
@@ -432,6 +438,7 @@ export default {
     // =============================请求第一部分数据=============================
     // =============================请求第一部分数据=============================
     get_data_first() {
+      // alert('first')
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -656,7 +663,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        // this.stack = '总量'
+        this.symbol = 'circle'
         this.data = data
         this.symbol = 'circle'
       }
@@ -730,10 +737,9 @@ export default {
           },
 
           grid: {
-            left: '4%',
-            right: '4%',
-            bottom: '13%',
-            containLabel: true
+            left: '5%',
+            right: '5%',
+            bottom: '20%'
           },
 
           toolbox: {
@@ -837,11 +843,7 @@ export default {
             position: 'bottom',
             type: 'category',
             data: that.xAxis_data,
-            // alignWithLabel: false
             boundaryGap: false
-            // show: this.xAxis_is_show
-            // gridIndex: 0
-            // axisLine: { show: false }
           },
           yAxis: {
             axisLabel: {

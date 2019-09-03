@@ -730,11 +730,10 @@ export default {
             data: ['一星', '二星', '三星', '四星', '五星']
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '3%',
-            bottom: '12%',
-            top: '7%',
-            containLabel: true
+            bottom: '19%',
+            top: '7%'
           },
           xAxis: this.middle_top_xAxis,
           yAxis: {
@@ -759,8 +758,12 @@ export default {
             },
             type: 'value',
             minInterval: 1,
+            min: 0,
             max: function(value) {
               let max_value = value.max
+              if (value.max == -Infinity) {
+                return 5
+              }
               if (max_value < 5) {
                 that.yAxis_max = 5
               } else if (max_value < 20) {
@@ -972,11 +975,10 @@ export default {
             data: ['在线评论', '已删除评论']
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '3%',
-            bottom: '12%',
-            top: '7%',
-            containLabel: true
+            bottom: '19%',
+            top: '7%'
           },
           xAxis: this.middle_bottom_xAxis,
           yAxis: {
@@ -1001,7 +1003,11 @@ export default {
             },
             type: 'value',
             minInterval: 1,
+            min: 0,
             max: function(value) {
+              if (value.max == -Infinity) {
+                return 5
+              }
               let max_value = value.max
               if (max_value < 5) {
                 that.yAxis_max01 = 5
@@ -1104,11 +1110,10 @@ export default {
             data: ['一星', '二星', '三星', '四星', '五星']
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '3%',
-            bottom: '12%',
-            top: '7%',
-            containLabel: true
+            bottom: '19%',
+            top: '7%'
           },
           xAxis: this.middle_bottom_xAxis,
           yAxis: {
@@ -1133,7 +1138,11 @@ export default {
             },
             type: 'value',
             minInterval: 1,
+            min: 0,
             max: function(value) {
+              if (value.max == -Infinity) {
+                return 5
+              }
               let max_value = value.max
               if (max_value < 5) {
                 that.yAxis_max03 = 5

@@ -658,7 +658,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: #f0faff;
-	border-top: 1px solid transparent;
+	/*border-top: 1px solid transparent;*/
 }
 .trend:hover{
 	cursor: pointer;
@@ -669,7 +669,7 @@
 	font-size: 14px;
 	line-height: 30px;
 	color: #009bef;
-	margin-top: 3px;
+	padding-top: 3px;
 	text-align: center;
 }
 .trend>div p{

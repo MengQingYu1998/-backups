@@ -73,7 +73,8 @@
           <img src="../assets/NumImg/jiao.png" class="jiao" />
           <div class="lie">
             <p v-for="(app,index) in apps" :key="index">
-              <router-link :to="{path:app.path}">{{app.name}}</router-link>
+              <!-- <router-link :to="{path:app.path}">{{app.name}}</router-link> -->
+              <a @click="goapp(index)">{{app.name}}</a>
             </p>
           </div>
         </div>
@@ -132,10 +133,10 @@ export default {
       asoVal: 'ASO优化',
       // app store监控
       apps: [
-        { name: '榜单实时排名', path: '/bangdan' },
-        { name: '榜单更新监控', path: '/monitor' },
-        { name: '排名上升/下降监控', path: '/rank' },
-        { name: 'App Store上下架监控', path: '/application' }
+        { name: '榜单实时排名'},
+        { name: '榜单更新监控'},
+        { name: '排名上升/下降监控'},
+        { name: 'App Store上下架监控'}
       ],
       // aso优化
       asos: [{ name: '搜索指数排名' }, { name: '实时热搜榜' }],
@@ -189,6 +190,19 @@ export default {
     // 隐藏个人中心下拉框
     hideMine() {
       this.mine = false
+    },
+    // app store监控点击跳转
+    goapp(index){
+        if(index==0){
+          this.$router.push({ path: '/bangdan' })
+        }else if(index==1){
+          this.$router.push({ path: '/monitor' })
+        }else if(index==2){
+          this.$router.push({ path: '/rank' })
+        }else if(index==3){
+          this.$router.push({ path: '/application' })
+        }
+        this.appstore=false
     },
     climsg(index) {
       this.mine = false
@@ -293,6 +307,11 @@ export default {
 }
 #navv {
   background-color: #fff;
+  top: 0;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 999;
 }
 #navv > .line {
   border-bottom: 1px solid #efefef;
@@ -369,6 +388,9 @@ export default {
   vertical-align: top;
   margin-top: 7px;
   margin-left: 5px;
+}
+.nav .searchDiv input::placeholder{
+  color: #bfbfbf;
 }
 .nav .searchDiv > p {
   width: 50px;

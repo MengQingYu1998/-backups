@@ -513,7 +513,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        // this.stack = '总量'
+        this.symbol = 'circle'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -622,8 +622,7 @@ export default {
             height: '250px',
             left: '3%',
             right: '4%',
-            // bottom: that.grid_bottom,
-            containLabel: true
+            bottom: '35%'
           },
           toolbox: {
             feature: {
@@ -791,6 +790,8 @@ export default {
   }
 }
 </script>
+<style>
+</style>
 <style scoped>
 .position_relative {
   position: relative;
@@ -880,7 +881,7 @@ table {
   width: 984px;
   overflow-x: scroll;
   border-right: solid 1px #f2f2f2;
-  margin-top: 25px;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 .bottom_image img {
@@ -888,8 +889,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 8px;
-  right: 58px;
+  top: 9px;
+  right: 56px;
 }
 .myChart_tips .float_right {
   float: right;

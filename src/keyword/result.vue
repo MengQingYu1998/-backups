@@ -759,14 +759,11 @@ export default {
     }
   },
   created: function() {
-    this.isFirstEnter = true
-    // 只有第一次进入或者刷新页面后才会执行此钩子函数
-    // 使用keep-alive后（2+次）进入不会再执行此钩子函数
-    // this.get_data_for_top_table()
-    // this.get_data_12()
-    // this.get_data_11()
-    // this.get_data_column()
-
+    // this.isFirstEnter = true
+    this.get_data_for_top_table()
+    this.get_data_12()
+    this.get_data_11()
+    this.get_data_column()
     this.$watch('activeName', function(newValue, oldValue) {
       this.get_data_for_top_table()
     })
@@ -780,6 +777,7 @@ export default {
 
       this.get_data_12()
       this.get_data_11()
+      // alert('now_country')
       this.get_data_column()
     })
     this.$watch('$store.state.now_app_name', function(newValue, oldValue) {
@@ -789,6 +787,7 @@ export default {
       this.page11 = 1
       this.page12 = 1
       this.get_data_for_top_table()
+      // alert('$store.state.now_app_name')
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
@@ -799,6 +798,7 @@ export default {
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
+      // alert('equipmentValue')
       this.get_data_12()
       this.get_data_11()
       this.get_data_for_top_table()
@@ -814,6 +814,7 @@ export default {
       this.page12 = 1
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data_for_top_table()
+      // alert('dateValue')
       this.get_data_12()
       this.get_data_11()
     })
@@ -840,23 +841,7 @@ export default {
       this.get_data_dialog()
     })
   },
-  activated() {
-    if (!this.$route.meta.isBack || this.isFirstEnter) {
-      // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
-      // 如果isFirstEnter是true，表明是第一次进入此页面或用户刷新了页面，需获取新数据
 
-      this.equipmentValue = 'iPhone'
-      this.dateValue = new Date()
-      this.get_data_for_top_table()
-      this.get_data_12()
-      this.get_data_11()
-      this.get_data_column()
-    }
-    // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
-    this.$route.meta.isBack = false
-    // 恢复成默认的false，避免isBack一直是true，导致每次都获取新数据
-    this.isFirstEnter = false
-  },
   mounted() {
     this.$nextTick(() => {
       let that = this
@@ -872,7 +857,6 @@ export default {
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
-
           that.get_data_11()
           console.log('yes11')
           that.get_data_12()
@@ -1144,10 +1128,13 @@ export default {
                     'width:6px;height:6px;vertical-align:2px;'
                   )}</td>
                   <td style="padding-right:10px">${element.seriesName}</td>
-                  <td>${element.value}</td>
+                  <td>${element.value == 0.0 ? '--' : element.value + '%'}</td>
                   </tr>`
               })
-              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              let str = `<p>${timestamp(
+                new Date(data[0].axisValue + ':00:00').getTime() / 1000,
+                'Y年M月D日 h点'
+              )}</p><table><tbody>${tr}</tbody></table>`
               return str
             },
             axisPointer: {
@@ -1162,20 +1149,7 @@ export default {
               fontSize: 13,
               align: 'left'
             },
-            trigger: 'axis',
-            formatter: function(data) {
-              // console.log(data)
-              return (
-                data[0].axisValue +
-                '<br/>' +
-                data[0].marker +
-                data[0].seriesName +
-                '：' +
-                data[0].value +
-                '%'
-              )
-              //将小数转化为百分数显示
-            }
+            trigger: 'axis'
           },
           color: [
             '#62c8ff',
@@ -1189,24 +1163,28 @@ export default {
             '#c3df00',
             '#529323'
           ],
-          color: ['#3398DB'],
 
           legend: {
             data: that.keyword_data01,
             y: 'bottom'
           },
           grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '13%',
-            containLabel: true
+            left: '15%',
+            right: '15%',
+            bottom: '20%'
           },
           xAxis: {
             axisLine: {
               show: true,
+              onZero: false,
               lineStyle: {
-                color: ['#666'],
-                opacity: 0.5
+                color: '#DCDFE6'
+              }
+            },
+            axisLabel: {
+              color: '#222',
+              formatter: function(value, index) {
+                return value.slice(-5).replace(' ', '日') + '点'
               }
             },
             axisTick: {
@@ -1220,17 +1198,20 @@ export default {
               }
             },
             type: 'category',
-            data: that.xAxis_data01,
-            axisTick: {
-              alignWithLabel: true
-            }
+            data: that.xAxis_data01
           },
           yAxis: {
+            //设置Y轴百分比显示
+            axisLabel: {
+              color: '#222',
+              show: true,
+              interval: 'auto',
+              formatter: '{value} %'
+            },
             axisLine: {
               show: true,
               lineStyle: {
-                color: ['#666'],
-                opacity: 0.5
+                color: '#DCDFE6'
               }
             },
             axisTick: {
@@ -1246,48 +1227,20 @@ export default {
             type: 'value',
             max: function(value) {
               let max_value = value.max
-              if (max_value < 5) {
-                that.column_max = 5
+              if (max_value < 10) {
+                that.column_max = 10
               } else if (max_value < 20) {
                 that.column_max = 20
               } else if (max_value < 50) {
                 that.column_max = 50
               } else if (max_value < 100) {
                 that.column_max = 100
-              } else if (max_value < 500) {
-                that.column_max = 500
-              } else if (max_value < 1000) {
-                that.column_max = 1000
-              } else if (max_value < 1500) {
-                that.column_max = 1500
               } else {
-                that.column_max = max_value + 100
+                that.column_max = value.max + 10
               }
               return that.column_max
             },
-            min: function(value) {
-              // alert(value.min)
-              let min_value = value.min
-              if (min_value <= 0 && min_value >= -9) {
-                that.column_min = -10
-              } else if (min_value <= -10 && min_value >= -19) {
-                that.column_min = -20
-              } else if (min_value <= -20 && min_value >= -49) {
-                that.column_min = -50
-              } else if (min_value <= -50 && min_value >= -99) {
-                that.column_min = -100
-              } else if (min_value >= -100) {
-                that.column_min = min_value - 20
-              }
-              return that.column_min
-            },
-            // min: that.column_min,
-            //设置Y轴百分比显示
-            axisLabel: {
-              show: true,
-              interval: 'auto',
-              formatter: '{value} %'
-            }
+            min: 0
           },
           series: that.series_data01()
         },
@@ -1525,10 +1478,9 @@ export default {
             y: 'bottom'
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '5%',
-            bottom: '13%',
-            containLabel: true
+            bottom: '20%'
           },
           toolbox: {
             feature: {
@@ -1688,7 +1640,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        // this.stack = '总量'
+        this.symbol = 'circle'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -1726,8 +1678,8 @@ export default {
       this.now_country = payload
     },
     go_to_page01(parm) {
-      this.get_data_12()
-      this.get_data_11()
+      // this.get_data_12()
+      // this.get_data_11()
       this.$router.push({
         path: '/think_word'
       })
@@ -1750,18 +1702,20 @@ export default {
     go_to_page04(parm) {
       // console.log(parm)
       this.get_data_for_top_table()
-      this.get_data_12()
-      this.get_data_11()
-      this.get_data_column()
+
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
       this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
+
       this.$router.push({
         path: '/result'
       })
+      this.get_data_12()
+      this.get_data_11()
+      this.get_data_column()
     },
     go_to_page05(parm, parm02) {
       this.$store.state.now_country_name = this.now_country
@@ -1957,7 +1911,7 @@ export default {
 }
 .myChart_dialog {
   width: 983px;
-  height: 264px;
+  height: 350px;
   margin: 0 auto;
 }
 .first_table_last_td {
@@ -1985,7 +1939,7 @@ export default {
 
 .myChart {
   width: 350px;
-  height: 278px;
+  height: 350px;
   text-align: center;
   color: #666;
   line-height: 300px;

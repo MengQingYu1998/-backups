@@ -201,7 +201,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        // this.stack = '总量'
+        this.symbol = 'circle'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -365,10 +365,9 @@ export default {
             y: 'bottom'
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '3%',
-            bottom: '13%',
-            containLabel: true
+            bottom: '20%'
           },
           toolbox: {
             feature: {
@@ -431,9 +430,15 @@ export default {
 
             minInterval: 1,
             min: function(value) {
+              if (value.min == Infinity) {
+                return 0
+              }
               return value.min
             },
             max: function(value) {
+              if (value.max == -Infinity) {
+                return 5
+              }
               return value.max
             }
           },
@@ -549,7 +554,7 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 8px;
+  top: 9px;
   right: 39px;
   z-index: 9999999999;
 }

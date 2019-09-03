@@ -265,7 +265,7 @@
                 </td>
                 <td>
                   <div
-                    class="table_font"
+                    class="table_font pointer"
                     @click="middle_table_first(index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
@@ -458,7 +458,7 @@
                 </td>
                 <td>
                   <div
-                    class="table_font"
+                    class="table_font pointer"
                     @click="middle_table_second(index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
@@ -1161,7 +1161,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-        // this.stack = '总量'
+       this.symbol = 'circle'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -1235,8 +1235,7 @@ export default {
           grid: {
             left: '4%',
             right: '4%',
-            bottom: '13%',
-            containLabel: true
+            bottom: '19%'
           },
           toolbox: {
             feature: {
