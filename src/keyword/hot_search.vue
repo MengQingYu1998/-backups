@@ -482,7 +482,7 @@ table {
 }
 .font_block {
   text-align: center;
-  line-height: 26px;
+  line-height: 27px;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;

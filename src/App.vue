@@ -160,7 +160,8 @@ export default {
 }
 
 #data_table .min_max .el-input__inner,
-#ranking .min_max .el-input__inner {
+#ranking .min_max .el-input__inner,
+#bidding_word .min_max .el-input__inner {
   padding: 5px 6px !important;
 }
 
@@ -225,7 +226,12 @@ table tbody tr:hover {
 }
 .el-radio-button__inner {
   /* border-left: none; */
+  font-family: SourceHanSansCN-Normal !important;
 
+  line-height: 25px !important;
+  font-size: 13px !important;
+  padding: 0 12px !important;
+  padding-top: 1px !important;
   border: solid 1px #dfdfdf !important;
   border-radius: 4px !important;
   box-sizing: border-box;

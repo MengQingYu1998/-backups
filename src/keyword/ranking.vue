@@ -45,8 +45,7 @@
             >
               应用
               <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_app" />
-              <img src="../assets/keyword/white_arrows_up.png" alt v-show="false" />
-              <img src="../assets/keyword/white_arrows_down.png" alt v-show="change_bg_app" />
+              <img src="../assets/keyword/white_arrows_up.png" alt v-show="change_bg_app" />
             </div>
           </div>
         </el-popover>
@@ -67,8 +66,7 @@
             >
               游戏
               <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_game" />
-              <img src="../assets/keyword/white_arrows_up.png" alt v-show="false" />
-              <img src="../assets/keyword/white_arrows_down.png" alt v-show="change_bg_game" />
+              <img src="../assets/keyword/white_arrows_up.png" alt v-show="change_bg_game" />
             </div>
           </div>
         </el-popover>
@@ -584,7 +582,7 @@ tbody th:nth-child(5) {
 
 .selected_popover > div {
   width: 65px;
- white-space: nowrap;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

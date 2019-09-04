@@ -184,6 +184,22 @@ export default new Router({
       path: '/country_select',
       name: 'country_select',
       component: () => import('../common/country_select/country')
+    },
+    // ================以下是孟的二期页面===============
+    {
+      path: '/bidding_word',
+      name: 'bidding_word',
+      component: () => import('../ASM_bidding/bidding_word')
+    },
+    {
+      path: '/app_monitoring',
+      name: 'app_monitoring',
+      component: () => import('../ASM_bidding/app_monitoring')
+    },
+    {
+      path: '/bidding_app',
+      name: 'bidding_app',
+      component: () => import('../ASM_bidding/bidding_app')
     }
   ],
   scrollBehavior(to, from, savedPosition) {
