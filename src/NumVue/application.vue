@@ -149,7 +149,6 @@
 						<!-- <tbody v-else>暂无数据 </tbody> -->
 					</table>
 					
-			        <!-- scroll -->
 
 					<!-- 清词应用table -->
 					<table class="qingci" v-if="qingciF">
@@ -162,54 +161,50 @@
 								<th>分类</th>
 								<th>价格</th>
 								<th>评论数</th>
-								<th>清榜时间</th>
+								<th>清词时间</th>
 								<th>上架时间</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr v-for="tr in cidataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" :class="[tr.num<4?'weit':'']">{{tr.num}}</p>
-									<img src="../assets/NumImg/testIcon.png" class="logo" />
+									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
+									<img :src="tr.icon"class="logo" />
 									<div class="msg">
-										<p class="appname">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
-										<p class="company">啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</p>
+										<p class="appname">{{tr.appName}}</p>
+										<p class="company">{{tr.publisher}}
+										</p>
 									</div>
 								</th>
-								<th>200</th>
+								<th>{{tr.clearNum}}</th>
 								<th>
-									<span>1</span>
+									<span>{{tr.clearNumOld}}</span>
 									<img src="../assets/NumImg/xia.png" class="dir right" />
-									<span>0</span>
+									<span>{{tr.clearNumOld-tr.clearNum}}</span>
 								</th>
 								<th>
 									<div>
-										<p>1</p>
-										<p>总榜(免费)</p>
+										<p v-if="tr.rank_b">{{tr.rank_b.rankID}}</p>
+										<p v-if="tr.rank_a">{{tr.rank_a.genreName}}(免费)</p>
 									</div>
 								</th>
-								<th>角色扮演</th>
-								<th>免费</th>
-								<th>30756</th>
-								<th>2019-02-01 11时</th>
-								<th>2019-02-01</th>
+								<th v-if="tr.rank_b">{{tr.rank_b.genreName}}</th>
+								<th v-else></th>
+								<th>{{tr.price}}</th>
+								<th>{{tr.comment.num}}</th>
+								<th>{{tr.clearTime}}时</th>
+								<th>{{tr.isOnlineTime}}</th>
 							</tr>
 							<tr v-else>暂无数据</tr>
 						</tbody>
 					</table>
 					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
-			            <p v-show="infiniteMsgShow" class="tips"><!-- 加载更多ing --></p>
-			            <p v-show="!infiniteMsgShow" class="tips"> <!-- 没有更多数据 --></p>
+			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
+			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
 			            </div>
 			        </div>
-					<!-- scroll -->
-			       <!--  <div class="scrollDiv bbbbb" v-show="contentShow2">
-			            <div>
-			            <p v-show="infiniteMsgShow2" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow2" class="tips"> 没有更多数据</p>
-			            </div>
-			        </div> -->
+					
 				</div>
 			</div>
 			
@@ -257,7 +252,7 @@
 				onlinFontC:'0',//清词应用数
 				// showci:true,//清词div
 				// 获取当前选中的国家
-      	 now_country:  '中国',
+      	 		now_country:  '中国',
 				// 当前选中日期
 				dateV: new Date(),
 			    pickerOptions2: {
@@ -270,16 +265,16 @@
 				zongsdataList:[],
 				page:1,
 				pageSize:20,
-				contentShow:false,
+				contentShow:true,
 				infiniteMsgShow:false,
 				// 清榜tbody
 				zongsBList:[],
 				page2:1,
 				pageSize2:20,
-				// contentShow2:false,
-				// infiniteMsgShow2:false,
 				// 清词tbody
 				cidataList:[],
+				page3:1,
+				pageSize3:20,
 				// 总分类
 				lis:[
 					{name:'上架应用',id:1},
@@ -299,6 +294,8 @@
 				searchval:'',// 搜索关键词
 				total_number:0,//修改上下架排序错乱
 				total_numberB:0,//修改清榜排序错乱
+				total_numberC:0//修改清词排序错乱
+				
 			}
 		},
 		mounted(){
@@ -317,10 +314,10 @@
 		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
 		        var int=Math.round(scrollTop + windowHeight)
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
-		          //  请求数据 
+		          	// 请求数据 
+		          	that.getData();
 					that.getDataB();
-					that.getData();
-		            
+					that.getDataci();
 		          
 		        }
 		      }
@@ -332,16 +329,15 @@
 			
 			this.$watch('dateV',function(Value, oldValue) {
 		      // 当前日期发生变化，重新请求数据
-		      // alert(8)
 		      this.zongsdataList.length=0
-		      this.zongsBList.length=0
 		      this.page=1
-		      this.page2=1
-		      this.cidataList.length=0
-		      this.getDataci()
-		      this.getDataB()
 		      this.getData()
-		      
+		      this.zongsBList.length=0
+		      this.page2=1
+		      this.getDataB()
+		      this.cidataList.length=0
+		      this.page3=1
+		      this.getDataci()
 		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
@@ -351,9 +347,11 @@
 		      this.getData()
 		      this.zongsBList.length=0
 		      this.page2=1
-		      this.cidataList.length=0
-		      this.getDataci()
 		      this.getDataB()
+		      this.cidataList.length=0
+		      this.page3=1
+		      this.getDataci()
+		      
 		      
 		    })
 		},
@@ -439,7 +437,7 @@
 							    // console.log("newData:"+newData)
 							    // console.log("IsOnlineV:"+IsOnlineV)
 							    // console.log("searchval:"+this.searchval)
-							    // console.log("page:"+this.page)
+							    // console.log("page11111111111111:"+this.page)
 							    // console.log("pageSize:"+this.pageSize)
 							    // 获取应用接口
 							  	this.$axios({
@@ -456,7 +454,6 @@
 									}
 								})
 								.then(res=>{
-									console.log(res.data)
 									if(res.data.Code==0){
 										this.onlinFont=res.data.pageCount
 										if(this.onlinFont>0){
@@ -491,7 +488,6 @@
 									        }
 								       
 									}else{
-										console.log(1)
 										this.onlinFont=0
 										this.contentShow = true
 									    this.infiniteMsgShow = false//没有更多
@@ -527,7 +523,7 @@
 			// 清榜应用接口
 			getDataB(){
 				this.total_numberB+=1
-				let number=this.total_numberB
+				let numberB=this.total_numberB
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -595,7 +591,7 @@
 									}
 								})
 								.then(res=>{
-
+									// console.log(res.data)
 									if(res.data.Code==0){
 										this.onlinFontB=res.data.pageCount
 										if(this.onlinFontB>0){
@@ -605,7 +601,7 @@
 								            this.contentShow = true
 								            this.infiniteMsgShow = false//没有更多
 								        }
-								        if(this.total_number==number){
+								        if(this.total_numberB==numberB){
 											this.zongsBList=this.zongsBList.concat(res.data.Data)
 											this.page2+=1
 										}
@@ -642,6 +638,8 @@
 			   
 			// 清词应用接口
 			getDataci(){
+				this.total_numberC+=1
+				let numberC=this.total_numberC
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -651,6 +649,9 @@
 				}else if(this.isFontG==true){
 					pidV=6014
 				}
+
+				// 传给后台的日期值
+				let newDataB=formatDate(this.dateV, 'yyyy-MM-dd')
 
 				//传给后台的countryid值
 				let country_id=1
@@ -667,82 +668,93 @@
 				              country_id = element.id
 				              return false
 				            }
+
 				        })
-				        
-					}
-				})
-				.catch(error=>{
-					console.log(error)
-				})
-				// 传给后台的日期值
-				let newDataB=formatDate(this.dateV, 'yyyy-MM-dd')
-				// 获取genreid
-				let geid=36
-				this.$axios({
-					method:"get",
-					url:'/GetGenre?genreID='+pidV
-						
-				})
-				.then(res => {
-					if (res.data.Code == 0) {
-						this.Applications=res.data
-						this.games=res.data
-						if(pidV==36){
-					        geid=36	
-					       	
-					    }else{
-					        for(var i=0;i<res.data.Data.length;i++){
-						        if(this.now_Application==res.data.Data[i].name){
-									geid = res.data.Data[i].id
-						 		}
-						    }
-
-					    }
-
-					    // 获取清词接口
-					  	this.$axios({
-							method:'post',
-							url:'/PostKeyClear',
-							data:{
-								countryid:country_id,
-								date:newDataB,
-								genreid:geid,
-								pid:pidV,
-								appname:this.searchval
-							}
+				       
+				        // 获取genreid
+						let geid=36
+						this.$axios({
+							method:"get",
+							url:'/GetGenre?genreID='+pidV
+								
 						})
 						.then(res => {
-							console.log(res.data)
-							if(res.data.Code==0){
-								console.log(res.data.Data.length)
-								if(res.data.Data==""){
-									this.onlinFontC=0
+							if (res.data.Code == 0) {
+								this.Applications=res.data
+								this.games=res.data
+								if(pidV==36){
+							        geid=36	
+							       	
+							    }else{
+							        for(var i=0;i<res.data.Data.length;i++){
+								        if(this.now_Application==res.data.Data[i].name){
+											geid = res.data.Data[i].id
+								 		}
+								    }
+
+							    }
+							    // console.log("country_id:"+country_id)
+							    // console.log("newDataB:"+newDataB)
+							    // console.log("geid:"+geid)
+							    // console.log("pidV:"+pidV)
+							    // console.log("searchval:"+this.searchval)
+							    // 获取清词接口
+							  	this.$axios({
+									method:'post',
+									url:'/PostKeyClear',
+									data:{
+										countryid:country_id,
+										date:newDataB,
+										genreid:geid,
+										pid:pidV,
+										pageIndex:this.page3,
+										pageSize:this.pageSize3,
+										appname:this.searchval
+									}
+								})
+								.then(res => {
+									if(res.data.Code==0){
+										this.onlinFontC=res.data.pageCount
+										if(this.onlinFontC>0){
+											this.contentShow = true
+											this.infiniteMsgShow = true//加载更多
+								        } else {
+								            this.contentShow = true
+								            this.infiniteMsgShow = false//没有更多
+								        }
+								        if(this.total_numberC==numberC){
+											this.cidataList=this.cidataList.concat(res.data.Data)
+											this.page3+=1
+										}
+								        
+								        let DownloadTotal=(this.pageSize3+1)*this.page3
+								        let total=res.data.pageCount
+								        
+									}else{
+										this.onlinFontC=0
+										this.contentShow = true
+								        this.infiniteMsgShow = false//没有更多
+									}
+									
+								 
+								})
+								.catch(error=>{
+									console.log(error)
 									this.contentShow = true
 									this.infiniteMsgShow = false//没有更多
-								}else{
-									//有用的 
-									this.onlinFontC=res.data.Data.length
-									this.cidataList=res.data.Data
-								}
-
-
-								
+								})
 							}
-
-							
-						 
 						})
 						.catch(error=>{
 							console.log(error)
-							// console.log("清词："+this.infiniteMsgShow)
-								this.contentShow = true
-								this.infiniteMsgShow = false//没有更多
 						})
-					} 
-				})
-				.catch(error=>{
-					console.log(error)
-				})
+							}
+						})
+						.catch(error=>{
+							console.log(error)
+						})
+				
+				
 
 			},
 			// 点击总榜
@@ -763,6 +775,7 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.cidataList.length=0
+				this.page3=1
 				this.getData()
 				this.getDataB()
 				this.getDataci()
@@ -813,6 +826,7 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.cidataList.length=0
+				this.page3=1
 				this.getData()
 				this.getDataB()
 				this.getDataci()
@@ -828,6 +842,7 @@
 		      	this.zongsBList.length=0
 				this.page2=1
 				this.cidataList.length=0
+				this.page3=1
 				this.getData()
 				this.getDataB()
 				this.getDataci()
@@ -835,7 +850,8 @@
 			// 判断显示上架应用还是下架应用
 			selectLei(i){
 				this.isSelect=i
-				console.log(i)
+				this.contentShow = true
+				this.infiniteMsgShow = true//加载更多
 				if(this.isSelect==0){
 					// 上架应用
 					this.shangjiatF=true//上架标题
@@ -887,18 +903,19 @@
 					this.qingciF=true//清词标题
 
 					this.cidataList.length=0
+					this.page3=1
 					this.getDataci()
 				}
 			},
 			go_to_page01(parm,parm02) {
 		      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm02
-      this.$store.state.now_app_id = parm
-      this.hand_save_vuex(this)
-      let routerUrl = this.$router.resolve({
-        path: '/now_ranking'
-      })
-      window.open(routerUrl.href, '_blank')
+		      this.$store.state.now_app_name = parm02
+		      this.$store.state.now_app_id = parm
+		      this.hand_save_vuex(this)
+		      let routerUrl = this.$router.resolve({
+		        path: '/now_ranking'
+		      })
+		      window.open(routerUrl.href, '_blank')
 		    }
 		}
 	}

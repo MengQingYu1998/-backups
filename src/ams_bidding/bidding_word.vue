@@ -66,7 +66,7 @@
             流行度
             <el-popover placement="bottom" trigger="hover" width="229">
               <div class="popover_content">流行度是指每个关键词在App Store的搜索热度。通常情况，指数越高说明该关键词每天被搜索次数也越多。</div>
-              <img slot="reference" class="tan_hao" src="../assets/ASM_bidding/tan_hao.png" alt />
+              <img slot="reference" class="tan_hao" src="../assets/ams_bidding/tan_hao.png" alt />
             </el-popover>
           </th>
           <th>结果数</th>

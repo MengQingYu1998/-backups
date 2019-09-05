@@ -189,17 +189,32 @@ export default new Router({
     {
       path: '/bidding_word',
       name: 'bidding_word',
-      component: () => import('../ASM_bidding/bidding_word')
+      component: () => import('../ams_bidding/bidding_word')
     },
     {
       path: '/app_monitoring',
       name: 'app_monitoring',
-      component: () => import('../ASM_bidding/app_monitoring')
+      component: () => import('../ams_bidding/app_monitoring')
     },
     {
       path: '/bidding_app',
       name: 'bidding_app',
-      component: () => import('../ASM_bidding/bidding_app')
+      component: () => import('../ams_bidding/bidding_app')
+    },
+    {
+      path: '/compete_manage',
+      name: 'compete_manage',
+      component: () => import('../compete_manage/compete_manage')
+    },
+    {
+      path: '/compete_report',
+      name: 'compete_report',
+      component: () => import('../compete_manage/compete_report')
+    },
+    {
+      path: '/compete_optimize',
+      name: 'compete_optimize',
+      component: () => import('../compete_manage/compete_optimize')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

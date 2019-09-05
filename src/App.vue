@@ -408,4 +408,11 @@ table thead tr th {
 #app {
   padding-top: 67px;
 }
+.table_no_data {
+  font-family: SourceHanSansCN-Normal;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
 </style>

@@ -13,8 +13,10 @@
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
-        <div>版本更新时间</div>
-        <div v-if="response_data">{{time}}</div>
+        <div v-if="response_data">{{response_data.expectedReleaseDate=='无'?'版本更新时间':'预计上线时间'}}</div>
+        <div
+          v-if="response_data"
+        >{{response_data.expectedReleaseDate=='无'?response_data.appUpdateTime.slice(0,10):response_data.expectedReleaseDate.slice(0,10)}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
@@ -54,8 +56,7 @@ export default {
     return {
       // is_show_header: true,
       now_country: '中国',
-      response_data: null,
-      time: ''
+      response_data: null
     }
   },
 
@@ -94,7 +95,7 @@ export default {
             '&appId=' +
             this.$store.state.now_app_id
           // console.log(this.$store.state.now_app_id)
-          // console.log(url)
+          console.log(url)
 
           // 请求数据
           this.$axios
@@ -104,7 +105,6 @@ export default {
               // console.log(22222222222222222222222)
               // console.log(this.response_data)
               this.$store.state.now_app_name = this.response_data.appName
-              this.time = myTime(this.response_data.appUpdateTime)
               // this.is_show_header = false
               // this.$nextTick(() => {
               //   this.is_show_header = true

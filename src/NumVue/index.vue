@@ -51,6 +51,17 @@
 			}
 		},
 		created(){
+			//防止页面后退
+
+			history.pushState(null, null, document.URL);
+			window.addEventListener('popstate', function () {
+			history.pushState(null, null, document.URL);
+			});
+			
+			if(location.href.indexOf("#reloaded")==-1){
+		        location.href=location.href+"#reloaded";
+		        location.reload();
+		    }
 		}
 	}
 

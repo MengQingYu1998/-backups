@@ -39,15 +39,15 @@
           <td></td>
           <td>
             555
-            <img src="../assets/ASM_bidding/trend.png" alt />
+            <img src="../assets/ams_bidding/trend.png" alt />
           </td>
           <td>
             555
-            <img src="../assets/ASM_bidding/trend.png" alt />
+            <img src="../assets/ams_bidding/trend.png" alt />
           </td>
           <td>
             555
-            <img src="../assets/ASM_bidding/trend.png" alt />
+            <img src="../assets/ams_bidding/trend.png" alt />
           </td>
         </tr>
       </tbody>

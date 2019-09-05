@@ -182,14 +182,15 @@
 							    localStorage.setItem("userId",userid);//存储userId(用户id)
 								localStorage.setItem("tel",that.tel);//存储手机号
 								localStorage.setItem("code",that.code);//存储密码
-
-								// that.$router.go(0)
-								let routerUrl=that.$router.resolve({
+								that.$router.push({
 									path:'/index'
 								})
-								window.open(routerUrl .href,'_blank')
-								window.close();
-
+								// that.$router.go(0)
+								// let routerUrl=that.$router.resolve({
+								// 	path:'/index'
+								// })
+								// window.close();
+								// window.open(routerUrl .href,'_blank')
 							},1000)
 							
 						}else if(res.data.Code==-2){
@@ -247,11 +248,13 @@
 		created(){
 			//初始化验证码
         	this.refreshCode()
+        	
 		},
 		mounted(){
 	        this.identifyCode = "";
 	        this.makeCode(this.identifyCodes, 4);
 	    },
+
 	}
 </script>
 
