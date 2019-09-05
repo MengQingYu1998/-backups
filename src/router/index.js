@@ -215,6 +215,11 @@ export default new Router({
       path: '/compete_optimize',
       name: 'compete_optimize',
       component: () => import('../compete_manage/compete_optimize')
+    },
+    {
+      path: '/ams_compete_word',
+      name: 'ams_compete_word',
+      component: () => import('../ios/ams_compete_word')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

@@ -161,6 +161,7 @@ export default {
 
 #data_table .min_max .el-input__inner,
 #ranking .min_max .el-input__inner,
+#ams_compete_word .min_max .el-input__inner,
 #bidding_word .min_max .el-input__inner {
   padding: 5px 6px !important;
 }

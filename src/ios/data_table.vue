@@ -9,6 +9,18 @@
       <div class="right">
         <div class="right_nav">关键词明细</div>
         <div class="line"></div>
+        <!-- 用户没有登录的状态 -->
+        <!-- 用户没有登录的状态 -->
+        <div class="no_login" v-show="false">
+          <img src="../assets/ios/no_data.png" alt />
+          <span>您还未登录，登录后可查看更多ASO相关数据</span>
+          <div>
+            <span>登录</span>
+            <span>注册</span>
+          </div>
+        </div>
+        <!-- 用户没有登录的状态 -->
+        <!-- 用户没有登录的状态 -->
         <!-- 顶部 关键词概述 -->
         <!-- 顶部 关键词概述 -->
         <!-- 顶部 关键词概述 -->
@@ -1161,7 +1173,7 @@ export default {
       function Obj(name, data) {
         this.name = name
         this.type = 'line'
-       this.symbol = 'circle'
+        this.symbol = 'circle'
         this.data = data
       }
       //通过便利关键词数组从而创建canvas的series数据
@@ -1417,7 +1429,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .search > div {
   width: 210px !important;
   margin-right: 10px;
@@ -1931,5 +1943,56 @@ table {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.no_login {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  img {
+    margin-top: 119px;
+  }
+  > span {
+    font-family: SourceHanSansCN-Normal;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #888888;
+  }
+  > div {
+    width: 140px;
+    margin-top: 20px;
+    span:first-child {
+      display: inline-block;
+      width: 60px;
+      height: 32px;
+      border-radius: 4px;
+      border: solid 1px #009bef;
+      font-family: SourceHanSansCN-Regular;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 32px;
+      letter-spacing: 0px;
+      color: #009bef;
+      text-align: center;
+    }
+    span:last-child {
+      display: inline-block;
+      width: 60px;
+      height: 32px;
+      background-color: #009bef;
+      border-radius: 4px;
+      font-family: SourceHanSansCN-Regular;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 32px;
+      letter-spacing: 0px;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
 }
 </style>
