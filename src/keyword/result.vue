@@ -1324,7 +1324,6 @@ export default {
           } else if (this.radio01_dialog == '按天') {
             showType = 1
           }
-          let Word = this.word
           let appid = this.appid
           let wordid = this.WordId
           let iosType
@@ -1342,7 +1341,7 @@ export default {
             '&countryId=' +
             country_id +
             '&word=' +
-            Word +
+            this.$store.state.now_app_name +
             '&wordid=' +
             wordid +
             '&sdate=' +
@@ -2107,13 +2106,10 @@ td {
 .options_03 div:last-child {
   width: 114px !important;
 }
-.option div:first-child {
+.option > div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
-  width: 86px;
-  height: 24px;
-}
+
 .option {
   display: flex;
 }
@@ -2123,12 +2119,10 @@ option:first-child {
 .options .option:first-child {
   margin-left: 0 !important;
 }
-.options_03 {
-  margin-left: 22px;
+.option {
+  margin-right: 29px;
 }
-.options_02 {
-  margin-left: 30px;
-}
+
 .margin_top_font {
   margin-top: 4px;
 }

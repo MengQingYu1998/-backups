@@ -37,10 +37,7 @@ p {
 #logo-image {
   padding-left: 8px;
 }
-.header {
-  font-family: 'Oswald', sans-serif;
-  border-top: 2px solid red;
-}
+
 .navbar .row {
   padding-top: 2px;
 }

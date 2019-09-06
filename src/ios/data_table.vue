@@ -1576,7 +1576,7 @@ table img {
   color: #dfdfdf;
 }
 .option_for_min_max > div:first-child {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 .option_for_min_max .all {
   width: 48px;
@@ -1606,7 +1606,7 @@ table img {
   letter-spacing: 0px;
   color: #222222;
   text-align: center;
-  margin-left: 15px;
+  margin-left: 29px;
 }
 
 .bottom table {
@@ -1640,13 +1640,7 @@ table img {
   padding-left: 16px;
   margin-top: 22px;
 }
-.option_date {
-  margin-left: 50px !important;
-}
-.date div {
-  width: 119px !important;
-  z-index: 999 !important;
-}
+
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
@@ -1849,12 +1843,18 @@ table {
   display: flex;
   align-items: center;
 }
+.bottom_time {
+  margin-left: 19px !important;
+}
 .classify > div:nth-child(2) {
   margin-left: 10px;
   margin-right: 10px;
 }
 .classify > div:nth-child(3) {
   width: 89px;
+}
+.classify > div:nth-child(1) {
+  margin-left: 30px;
 }
 .classify {
   font-family: SourceHanSansCN-Medium;
@@ -1863,20 +1863,16 @@ table {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  margin-left: 30px;
+  margin-left: 29px;
   display: flex;
   align-items: center;
 }
 
-.option div:first-child {
-  margin-left: 10px;
+.option > div:first-child {
+  margin-right: 15px;
 }
-.option div:last-child {
-  width: 85px;
-}
-.btn_group .option:first-child div:first-child {
-  margin-left: 0;
-  margin-right: 10px;
+.btn_group > div:first-child {
+  margin-left: 13px !important;
 }
 .option {
   font-family: SourceHanSansCN-Medium;
@@ -1888,7 +1884,7 @@ table {
   color: #222222;
   display: flex;
   align-items: center;
-  margin-left: 15px;
+  margin-left: 29px;
 }
 .right {
   padding-left: 57px;

@@ -220,6 +220,21 @@ export default new Router({
       path: '/ams_compete_word',
       name: 'ams_compete_word',
       component: () => import('../ios/ams_compete_word')
+    },
+    {
+      path: '/apple_history',
+      name: 'apple_history',
+      component: () => import('../ios/apple_history')
+    },
+    {
+      path: '/asm',
+      name: 'asm',
+      component: () => import('../hand_school/asm')
+    },
+    {
+      path: '/ams_artical_details',
+      name: 'ams_artical_details',
+      component: () => import('../hand_school/ams_artical_details')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

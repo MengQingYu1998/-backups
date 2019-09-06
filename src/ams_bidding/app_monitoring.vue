@@ -11,19 +11,68 @@
       </div>
       <div class="classes">
         <span>类别</span>
-        <el-radio-group v-model="radio1" size="mini">
-          <el-radio-button label="总榜"></el-radio-button>
-          <el-radio-button label="应用">
-            应用
-            <img src="../assets/keyword/arrows_down.png" v-show="radio1!='应用'" />
-            <img src="../assets/keyword/white_arrows_down.png" alt v-show="radio1=='应用'" />
-          </el-radio-button>
-          <el-radio-button label="游戏">
-            游戏
-            <img src="../assets/keyword/arrows_down.png" v-show="radio1!='游戏'" />
-            <img src="../assets/keyword/white_arrows_down.png" alt v-show="radio1=='游戏'" />
-          </el-radio-button>
-        </el-radio-group>
+        <!-- 选择总榜 -->
+        <div>
+          <div
+            :class=" {'change_bg':change_bg_all,'radio_one':true,'pointer':true}"
+            @click="click_all"
+          >总榜</div>
+        </div>
+        <!-- 选择应用 -->
+        <el-popover placement="bottom" trigger="click" width="168" v-model="visible">
+          <div class="selected_popover">
+            <div class="pointer" v-for="item in 10" :key="item" @click="visible=false">{{item+'游戏'}}</div>
+          </div>
+          <div slot="reference">
+            <div
+              :class=" {'change_bg':change_bg_app,'radio_one':true,'pointer':true}"
+              @click="click_app"
+            >
+              应用
+              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_app" />
+              <img
+                src="../assets/keyword/white_arrows_up.png"
+                alt
+                v-show="change_bg_app&&visible==true"
+              />
+              <img
+                src="../assets/keyword/white_arrows_down.png"
+                alt
+                v-show="change_bg_app&&visible==false"
+              />
+            </div>
+          </div>
+        </el-popover>
+        <!-- 选择游戏 -->
+        <el-popover placement="bottom" trigger="click" width="168" v-model="visible01">
+          <div class="selected_popover">
+            <div
+              class="pointer"
+              v-for="item in 10"
+              :key="item"
+              @click="visible01=false"
+            >{{item+'游戏'}}</div>
+          </div>
+          <div slot="reference">
+            <div
+              :class=" {'change_bg':change_bg_game,'radio_one':true,'pointer':true}"
+              @click="click_game"
+            >
+              游戏
+              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_game" />
+              <img
+                src="../assets/keyword/white_arrows_up.png"
+                alt
+                v-show="change_bg_game&&visible01==true"
+              />
+              <img
+                src="../assets/keyword/white_arrows_down.png"
+                alt
+                v-show="change_bg_game&&visible01==false"
+              />
+            </div>
+          </div>
+        </el-popover>
       </div>
       <div class="search">
         <span>搜索</span>
@@ -93,10 +142,37 @@ export default {
       response_data: null,
       now_country: '中国',
       radio1: '总榜',
-      search_input: ''
+      search_input: '',
+      // =======单选按钮组加悬浮框========
+      change_bg_all: true,
+      change_bg_app: false,
+      change_bg_game: false,
+      visible: false, //悬浮框是否隐藏
+      visible01: false //悬浮框是否隐藏
+      // =======单选按钮组加悬浮框========
     }
   },
   methods: {
+    // =======单选按钮组加悬浮框========
+    // 点击游戏
+    click_game() {
+      this.change_bg_all = false
+      this.change_bg_app = false
+      this.change_bg_game = true
+    },
+    // 点击应用
+    click_app() {
+      this.change_bg_all = false
+      this.change_bg_app = true
+      this.change_bg_game = false
+    },
+    // 点击总榜
+    click_all() {
+      this.change_bg_all = true
+      this.change_bg_app = false
+      this.change_bg_game = false
+    },
+    // =======单选按钮组加悬浮框========
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -282,14 +358,14 @@ table {
   }
 }
 
+// =======单选按钮组加悬浮框========
 .classes {
   display: flex;
   align-items: center;
-
   img {
     width: 8px;
   }
-  > span {
+  > span:first-child {
     font-family: SourceHanSansCN-Medium;
     font-size: 13px;
     font-weight: normal;
@@ -299,7 +375,50 @@ table {
     color: #222222;
     margin-right: 9px;
   }
+
+  .change_bg {
+    color: #ffffff !important;
+    background-color: #009bef;
+    border: solid 1px #009bef !important;
+  }
+  .radio_one {
+    text-align: center;
+    line-height: 26px;
+    font-family: SourceHanSansCN-Normal;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    width: 48px !important;
+    height: 24px;
+    border-radius: 4px;
+    border: solid 1px #dfdfdf;
+    letter-spacing: 0px;
+    color: #444444;
+    margin-right: 10px;
+    display: inline-block;
+  }
 }
+.selected_popover {
+  display: flex;
+  align-items: center;
+  width: 142px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+  > div {
+    width: 65px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+// =======单选按钮组加悬浮框========
 .country {
   display: flex;
   align-items: center;

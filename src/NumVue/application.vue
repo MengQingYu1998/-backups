@@ -176,11 +176,11 @@
 										</p>
 									</div>
 								</th>
-								<th>{{tr.clearNum}}</th>
+								<th>{{tr.clearNumOld}}</th>
 								<th>
-									<span>{{tr.clearNumOld}}</span>
+									<span>{{tr.clearNum}}</span>
 									<img src="../assets/NumImg/xia.png" class="dir right" />
-									<span>{{tr.clearNumOld-tr.clearNum}}</span>
+									<span>{{tr.differNum}}</span>
 								</th>
 								<th>
 									<div>
@@ -362,9 +362,15 @@
 			},
 			// 点击搜索
 			search(){
-				this.getDataci()
-				this.getDataB()
-				this.getData()
+				this.zongsdataList.length=0
+			    this.page=1
+			    this.getData()
+			    this.zongsBList.length=0
+			    this.page2=1
+			    this.getDataB()
+			    this.cidataList.length=0
+			    this.page3=1
+			    this.getDataci()
 				
 				
 			},
@@ -593,6 +599,7 @@
 								.then(res=>{
 									// console.log(res.data)
 									if(res.data.Code==0){
+										console.log(res.data.pageCount)
 										this.onlinFontB=res.data.pageCount
 										if(this.onlinFontB>0){
 											this.contentShow = true

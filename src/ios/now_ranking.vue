@@ -314,8 +314,7 @@ export default {
       // 第二部分折线图数据
       // 第二部分折线图数据
       // 第二部分折线图数据
-      is_show_mychart: false,
-
+      is_show_mychart: true,
       response_data_second: null,
       middle_top_radio1: '按小时',
       middle_top_radio2: '全部',
@@ -431,6 +430,9 @@ export default {
     })
   },
   mounted: function() {
+    // 基于准备好的dom，初始化echarts实例
+    this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
+    this.myChart.showLoading()
     this.get_data_second()
   },
   methods: {
@@ -494,9 +496,6 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
-      // 基于准备好的dom，初始化echarts实例
-      this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
-      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {

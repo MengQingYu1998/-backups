@@ -464,15 +464,14 @@ export default {
   position: relative;
 }
 .date {
-  margin-top: 2px !important;
 }
 .btn_item_03 > div:nth-child(1) {
-  margin-right: 16px !important;
+  margin-right: 15px !important;
 }
 .btn_item_03 {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 30px;
 }
 .btn_item_03 > div {
   font-family: SourceHanSansCN-Medium;
@@ -599,13 +598,10 @@ table {
 .options_03 {
   margin-left: 70px !important;
 }
-.option div:first-child {
+.option > div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
-  width: 86px;
-  height: 24px;
-}
+
 .option {
   display: flex;
   margin-left: 29px;

@@ -360,7 +360,7 @@ export default {
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
-  margin-left: -5px;
+  margin-left: 10px;
 }
 .hide_font {
   width: 45px;
@@ -493,29 +493,29 @@ table {
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
   color: #444444;
-  margin-right: 15px;
-  margin-left: -6px;
+  margin-right: 10px;
   display: inline-block;
 }
 .options_04 {
-  margin-left: 15px !important;
+  margin-left: 20px !important;
 }
 .options_04 .search div {
   width: 145px !important;
 }
-.options_03 {
-  margin-left: 15px !important;
+
+.options_03 .date {
+  margin-right: 10px;
 }
 .options_03 .date div {
   width: 114px !important;
 }
-.option div:first-child {
+
+.option > div:first-child {
   margin-right: 15px;
 }
-
 .option {
   display: flex;
-  margin-left: 15px;
+  margin-left: 30px;
 }
 option:first-child {
   margin: 0;

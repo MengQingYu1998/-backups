@@ -238,9 +238,6 @@ table {
   border-right: solid 1px #f2f2f2;
   text-align: center;
 }
-.options_03 {
-  margin-left: 39px !important;
-}
 .option .days {
   width: 48px;
   line-height: 26px;
@@ -255,21 +252,13 @@ table {
   letter-spacing: 0px;
   color: #444444;
   text-align: center;
-  margin-right: 9px;
+  margin-right: 10px;
 }
-.options_01 div:last-child {
-  width: 114px !important;
-}
-.options_03 div:last-child {
-  width: 200px !important;
-}
-.option div:first-child {
+
+.option > div:first-child {
   margin-right: 15px;
 }
-.option div:last-child {
-  width: 72px;
-  height: 24px;
-}
+
 .option {
   display: flex;
   margin-left: 29px;

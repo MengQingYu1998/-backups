@@ -45,12 +45,21 @@
             >
               应用
               <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_app" />
-              <img src="../assets/keyword/white_arrows_up.png" alt v-show="change_bg_app" />
+              <img
+                src="../assets/keyword/white_arrows_up.png"
+                alt
+                v-show="change_bg_app&&visible01==true"
+              />
+              <img
+                src="../assets/keyword/white_arrows_down.png"
+                alt
+                v-show="change_bg_app&&visible01==false"
+              />
             </div>
           </div>
         </el-popover>
         <!-- 选择游戏 -->
-        <el-popover placement="bottom" trigger="click" v-model="visible">
+        <el-popover placement="bottom" trigger="click" width="168" v-model="visible">
           <div class="selected_popover">
             <div
               v-for="(item,index) in data_for_classify"
@@ -66,7 +75,16 @@
             >
               游戏
               <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_game" />
-              <img src="../assets/keyword/white_arrows_up.png" alt v-show="change_bg_game" />
+              <img
+                src="../assets/keyword/white_arrows_up.png"
+                alt
+                v-show="change_bg_game&&visible==true"
+              />
+              <img
+                src="../assets/keyword/white_arrows_down.png"
+                alt
+                v-show="change_bg_game&&visible==false"
+              />
             </div>
           </div>
         </el-popover>
@@ -618,8 +636,7 @@ tbody th:nth-child(5) {
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
   color: #444444;
-  margin-right: 15px;
-  margin-left: -6px;
+  margin-right: 10px;
   display: inline-block;
 }
 .keyword_input div {
@@ -671,15 +688,12 @@ table {
   margin-bottom: 50px;
 }
 
-.options_04 > div:nth-child(1) {
-  margin-right: 20px !important;
-}
 .options_04 img {
   width: 8px;
 }
 
 .options_03_ml {
-  margin-left: 10px !important;
+  margin-left: 13px !important;
 }
 .options_03 .date div {
   width: 114px !important;
@@ -703,7 +717,7 @@ table {
   /* z-index: 1; */
 }
 .options_02_last_one {
-  margin-left: 20px !important;
+  margin-left: 29px !important;
 }
 .options_02 .tow {
   margin-left: 10px;
@@ -725,11 +739,9 @@ table {
   margin-top: 2px;
 }
 .option > div:first-child {
-  margin-right: 15px;
+  margin-right: 9px;
 }
-.options_01 div:last-child {
-  width: 85px;
-}
+
 /* .options_03 div:last-child,
 .options_02 div:last-child {
   width: 74px;

@@ -103,7 +103,7 @@
 						<thead>
 							<tr>
 								<th class="yingyong">应用</th>
-								<th>总榜排名</th>
+								<th v-html="rankfont"></th>
 								<th>分类榜排名</th>
 								<th>关键词覆盖</th>
 								<th>评分统计</th>
@@ -180,6 +180,7 @@
 		data(){
 			
 			return{
+				rankfont:'应用/游戏榜排名',//排名文字
 				countryname:'中国',//导航条上面的国家
 				showApplication:false,
 				showGame:false,
@@ -620,6 +621,7 @@
 				this.showApplication=false
 				this.isSelect=index
 				if(this.isSelect==0){
+					this.rankfont="应用/游戏榜排名"
 					this.fenFont='总榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=true//总榜按钮被选中
@@ -634,6 +636,7 @@
 					this.page=1
 					this.getData()
 				}else if(this.isSelect==1){
+					this.rankfont="应用榜排名"
 					this.fenFont='应用榜'
 					this.isFont=true//应用按钮被选中
 					this.isFontZ=false//总榜按钮取消选中
@@ -649,6 +652,7 @@
 					this.page=1
 					this.getData()
 				}else{
+					this.rankfont="游戏榜排名"
 					this.fenFont='游戏榜'
 					this.isFont=false//应用按钮取消选中
 					this.isFontZ=false//总榜按钮取消选中

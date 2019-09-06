@@ -129,10 +129,12 @@ export default {
   display: inline-block;
   vertical-align: top;
   margin-top: 5px;
+  margin-left: 5px;
   border-left: 1px solid #dfdfdf;
 }
 #navv #country_select .country_name {
   background-color: transparent;
+  width: 60px;
   border: none;
   height: 100%;
   padding: 0 3px;
@@ -415,5 +417,17 @@ table thead tr th {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #bfbfbf;
+}
+/*文本域 */
+.el-textarea {
+  width: 652px;
+}
+.el-textarea__inner {
+  height: 88px;
+  border: solid 1px #f2f2f2;
+}
+.el-textarea .el-input__count {
+  bottom: 9px;
+  right: 11px;
 }
 </style>

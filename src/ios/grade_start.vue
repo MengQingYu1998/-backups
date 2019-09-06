@@ -262,7 +262,6 @@
                   :picker-options="middle_bottom_pickerOptions"
                 ></el-date-picker>
               </div>
-              <div></div>
               <div @click="change_middle_bottom_time01">
                 <el-radio-group v-model="middle_bottom_radio02" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
@@ -282,7 +281,7 @@
           <div class="section_title">评论详情</div>
           <div class="btn_group">
             <div class="btn_item_02">
-              <div>类型</div>
+              <div>评论类型</div>
               <div>
                 <el-radio-group v-model="bottom_radio01" size="mini">
                   <el-radio-button label="全部"></el-radio-button>
@@ -308,7 +307,7 @@
           </div>
           <div class="btn_group">
             <div class="btn_item_02">
-              <div>类型</div>
+              <div>排序</div>
               <div>
                 <el-radio-group v-model="bottom_radio03" size="mini">
                   <el-radio-button label="最有帮助"></el-radio-button>
@@ -331,7 +330,6 @@
                   :picker-options="pickerOptions2"
                 ></el-date-picker>
               </div>
-              <div></div>
               <div @click="change_bottom_time01">
                 <el-radio-group v-model="bottom_radio04" size="mini">
                   <el-radio-button label="今日"></el-radio-button>
@@ -758,7 +756,7 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            min: 0,
+
             max: function(value) {
               let max_value = value.max
               if (value.max == -Infinity) {
@@ -1003,7 +1001,7 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            min: 0,
+
             max: function(value) {
               if (value.max == -Infinity) {
                 return 5
@@ -1138,7 +1136,7 @@ export default {
             },
             type: 'value',
             minInterval: 1,
-            min: 0,
+
             max: function(value) {
               if (value.max == -Infinity) {
                 return 5
@@ -1668,7 +1666,7 @@ table {
   margin-right: 10px;
 }
 .btn_item_02 > div:nth-child(1) {
-  margin-right: 16px !important;
+  margin-right: 15px !important;
 }
 .btn_item_02 {
   display: flex;
@@ -1679,7 +1677,7 @@ table {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
-  margin-right: 16px;
+  margin-right: 30px;
 }
 .myChart {
   width: 976px;
