@@ -385,7 +385,7 @@
                   </div>
                 </td>
                 <td class="bottom_table_td03">
-                  <div>{{(response_data_fourth_part_item.publishTime).replace('T',' ').slice(0,-3)}}</div>
+                  <div>{{(response_data_fourth_part_item.publishTime).replace('T',' ')}}</div>
                 </td>
               </tr>
             </tbody>
