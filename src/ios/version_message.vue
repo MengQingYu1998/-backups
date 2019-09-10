@@ -26,7 +26,8 @@
                 <div class="time_line_item_title">版本{{item.versionNum}}</div>
                 <div class="time_line_item">
                   <div class="img_description">
-                    <img :src="item.Icon" alt />
+                    <img :src="item.Icon" alt v-if="item.Icon!='无'" />
+                    <img src="../assets/ios/no_img.png" alt v-else />
                     <div class="img_description_child">
                       <div>{{item.appName!='无'?item.appName:''}}</div>
                       <div>{{item.subtitle!='无'?item.subtitle:''}}</div>

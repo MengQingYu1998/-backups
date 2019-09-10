@@ -49,32 +49,38 @@
             </div>
             <div v-if="response_data" class="section_video_flex">
               <!-- iphone 的video -->
-              <video-player
-                cross-origin="*"
-                v-if="response_data.videoUrl.iphone!='无'&&radio01=='iPhone'"
-                class="video_iPhone video-player vjs-custom-skin"
-                ref="videoPlayer"
-                :playsinline="true"
-                :options="playerOptions"
-              ></video-player>
+              <div v-for="(item,index) in response_data.videoUrl.iphone" :key="'video00'+index">
+                <video-player
+                  cross-origin="*"
+                  v-if="response_data.videoUrl.iphone!='无'&&radio01=='iPhone'"
+                  class="video_iPhone video-player vjs-custom-skin"
+                  ref="videoPlayer"
+                  :playsinline="true"
+                  :options="playerOptions[index]"
+                ></video-player>
+              </div>
               <!-- iPad 的video -->
-              <video-player
-                cross-origin="*"
-                v-else-if="response_data.videoUrl.ipad!='无'&&radio01=='iPad'"
-                class="video_iPad video-player vjs-custom-skin"
-                ref="videoPlayer"
-                :playsinline="true"
-                :options="playerOptions"
-              ></video-player>
+              <div v-for="(item,index) in response_data.videoUrl.ipad" :key="'video01'+index">
+                <video-player
+                  cross-origin="*"
+                  v-if="response_data.videoUrl.ipad!='无'&&radio01=='iPad'"
+                  class="video_iPad video-player vjs-custom-skin"
+                  ref="videoPlayer"
+                  :playsinline="true"
+                  :options="playerOptions[index]"
+                ></video-player>
+              </div>
               <!-- watch 的video -->
-              <video-player
-                cross-origin="*"
-                v-else-if="response_data.videoUrl.watch!='无'&&radio01=='watch'"
-                class="video_watch video-player vjs-custom-skin"
-                ref="videoPlayer"
-                :playsinline="true"
-                :options="playerOptions"
-              ></video-player>
+              <div v-for="(item,index) in response_data.videoUrl.watch" :key="'video02'+index">
+                <video-player
+                  cross-origin="*"
+                  v-if="response_data.videoUrl.watch!='无'&&radio01=='watch'"
+                  class="video_watch video-player vjs-custom-skin"
+                  ref="videoPlayer"
+                  :playsinline="true"
+                  :options="playerOptions[index]"
+                ></video-player>
+              </div>
             </div>
           </div>
         </section>
@@ -227,31 +233,34 @@ export default {
   data() {
     return {
       // 播放m3u8格式的视频插件
-      playerOptions: {
-        playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-        autoplay: false, //如果true,浏览器准备好时开始回放。
-        muted: false, // 默认情况下将会消除任何音频。
-        loop: false, // 导致视频一结束就重新开始。
-        preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-        language: 'zh-CN',
-        aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-        sources: [
-          // {
-          //   type: 'video/mp4',
-          //   src:
-          //     'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
-          // }
-        ],
-        poster: '', //你的封面地址
-        notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-        controlBar: {
-          timeDivider: false,
-          durationDisplay: false,
-          remainingTimeDisplay: false,
-          fullscreenToggle: false //全屏按钮
-        }
-      },
+
+      playerOptions: [
+        // {
+        // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+        // autoplay: false, //如果true,浏览器准备好时开始回放。
+        // muted: false, // 默认情况下将会消除任何音频。
+        // loop: false, // 导致视频一结束就重新开始。
+        // preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        // language: 'zh-CN',
+        // aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        // fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        // sources: [
+        // {
+        //   type: 'video/mp4',
+        //   src:
+        //     'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+        // }
+        // ],
+        // poster: '', //你的封面地址
+        // notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        // controlBar: {
+        //   timeDivider: false,
+        //   durationDisplay: false,
+        //   remainingTimeDisplay: false,
+        //   fullscreenToggle: false //全屏按钮
+        // }
+        // }
+      ],
       //单选按钮
       radio01: 'iPhone', //第二部分 视频
       radio02: 'iPhone', //第三部分 截图
@@ -275,17 +284,34 @@ export default {
   methods: {
     // 获取数据并且设置到视频插件的配置项
     onPlayerPlay(videoUrl_item) {
-      let arr = new Array()
-      function NewObj(videoSrc) {
-        this.src = videoSrc
-        this.type = 'application/x-mpegURL'
-        // this.type = 'video/mp4'
-      }
-      videoUrl_item.forEach(element => {
+      console.log(videoUrl_item)
+      videoUrl_item.forEach((element, index) => {
+        let arr = new Array()
+        function NewObj(videoSrc) {
+          this.src = videoSrc
+          this.type = 'application/x-mpegURL'
+        }
         arr.push(new NewObj(element.video))
+        let playerOption = new Object()
+        playerOption.playbackRates = [0.7, 1.0, 1.5, 2.0] //播放速度
+        playerOption.autoplay = false //如果true,浏览器准备好时开始回放。
+        playerOption.muted = false //默认情况下将会消除任何音频。
+        playerOption.loop = false //导致视频一结束就重新开始。
+        playerOption.preload = 'auto' //建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        playerOption.language = 'zh-CN'
+        playerOption.aspectRatio = '16:9' // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        playerOption.fluid = true // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        playerOption.poster = element.preview //你的封面地址
+        playerOption.controlBar = {
+          timeDivider: false,
+          durationDisplay: false,
+          remainingTimeDisplay: false,
+          fullscreenToggle: false //全屏按钮
+        }
+        playerOption.sources = arr
+        this.playerOptions.push(playerOption)
       })
-      this.playerOptions.sources = arr
-      console.log(this.playerOptions)
+      // console.log(this.playerOptions)
     },
     // 请求数据
     get_data() {
@@ -399,17 +425,18 @@ export default {
 .video_iPad {
   width: 332px;
   height: 249px;
+  overflow: hidden;
 }
 .video_watch {
   width: 340px;
   height: 272px;
+  overflow: hidden;
 }
-.video_iPhone:first-child {
-  margin-left: 0 !important;
-}
+
 .video_iPhone {
   width: 225px;
   height: 399px;
+  overflow: hidden;
   margin-left: 30px;
 }
 .like .section_content {
@@ -522,8 +549,18 @@ export default {
   /* border: solid 1px #f2f2f2; */
   margin-bottom: 40px;
 }
+/* .section_video_flex > div:first-child > div {
+  margin-left: 0;
+} */
+.section_video_flex > div > div {
+  margin-left: 20px;
+}
 .section_video_flex {
   display: flex;
+  margin-left: -20px;
+  width: 995px;
+  overflow-x: auto;
+  padding-bottom: 15px;
 }
 
 .section_content {

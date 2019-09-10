@@ -287,7 +287,6 @@ table thead tr th {
 .video-js.vjs-16-9,
 .video-js.vjs-4-3 {
   border-radius: 4px;
-  border: solid 1px #f2f2f2;
 }
 .vjs-icon-play:before,
 .video-js .vjs-big-play-button .vjs-icon-placeholder:before,
@@ -296,19 +295,17 @@ table thead tr th {
   font-size: 1.8em;
 }
 .vjs-custom-skin > .video-js .vjs-big-play-button {
-  background-color: #655e5c !important;
+  background-color: rgba(101, 94, 92, 0.8) !important;
   font-size: 2em !important;
-  height: 2.8em !important;
-  line-height: 2.8em !important;
+  height: 2.5em !important;
+  width: 2.5em !important;
+  line-height: 2.5em !important;
   margin-top: -1em !important;
   border-radius: 50% !important;
   border: none;
   outline: none;
 }
-.vjs-big-play-button {
-  height: 2.8em !important;
-  line-height: 2.8em !important;
-}
+
 /* timeline 时间轴组件的icon */
 #version_message .timeline > li:first-child .el-timeline-item__icon {
   color: #009bef !important;
@@ -429,5 +426,14 @@ table thead tr th {
 .el-textarea .el-input__count {
   bottom: 9px;
   right: 11px;
+}
+/*  ios_header Tooltip 文字提示 */
+.el-tooltip__popper.is-light {
+  /* border: 1px solid #cccccc !important; */
+  border: none !important;
+  font-family: SourceHanSansCN-Normal !important;
+  color: #666;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18);
+  margin-top: 10px;
 }
 </style>

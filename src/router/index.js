@@ -235,6 +235,21 @@ export default new Router({
       path: '/ams_artical_details',
       name: 'ams_artical_details',
       component: () => import('../hand_school/ams_artical_details')
+    },
+    {
+      path: '/activity_club',
+      name: 'activity_club',
+      component: () => import('../hand_school/activity_club')
+    },
+    {
+      path: '/classes_details',
+      name: 'classes_details',
+      component: () => import('../hand_school/classes_details')
+    },
+    {
+      path: '/activity_club_details',
+      name: 'activity_club_details',
+      component: () => import('../hand_school/activity_club_details')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

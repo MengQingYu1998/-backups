@@ -5,11 +5,22 @@
       <span>{{this.$store.state.now_app_name}}</span>
     </div>
     <div class="wrap">
-      <div class="header_img">
-        <img v-if="response_data" :src="response_data.icon" alt />
+      <div class="header_img" v-if="response_data">
+        <img :src="response_data.icon" :class="{'gray':response_data.is_online==0}" alt />
+        <img v-if="response_data.expectedReleaseDate!='无'" src="../assets/ios/order.png" alt />
+        <img v-if="response_data.is_online==0" src="../assets/ios/death.png" alt />
+        <div class="white" v-if="response_data.expectedReleaseDate!='无'"></div>
       </div>
       <div class="app_description">
-        <div v-if="response_data">{{response_data.appName}}</div>
+        <el-tooltip
+          class="item"
+          effect="light"
+          :visible-arrow="false"
+          :content="response_data.appName"
+          placement="top-start"
+        >
+          <div v-if="response_data">{{response_data.appName}}</div>
+        </el-tooltip>
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
@@ -102,8 +113,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(22222222222222222222222)
-              // console.log(this.response_data)
+              console.log(22222222222222222222222)
+              console.log(this.response_data)
               this.$store.state.now_app_name = this.response_data.appName
               // this.is_show_header = false
               // this.$nextTick(() => {
@@ -134,11 +145,33 @@ export default {
 <style scoped>
 .header_img {
   width: 68px;
+  position: relative;
 }
-.header_img img {
+.gray {
+  -webkit-filter: grayscale(100%);
+  -webkit-filter: grayscale(1);
+  filter: grayscale(100%);
+  /* filter: url('../img/gray.svg#grayscale'); */
+  filter: gray;
+}
+.white {
+  width: 69px;
+  height: 69px;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.header_img > img:nth-child(2),
+.header_img > img:nth-child(3) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+.header_img > img:nth-child(1) {
   border-radius: 10px;
   border: solid 1px #f2f2f2;
-
   width: 67px;
   height: 67px;
 }
