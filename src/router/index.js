@@ -250,6 +250,11 @@ export default new Router({
       path: '/activity_club_details',
       name: 'activity_club_details',
       component: () => import('../hand_school/activity_club_details')
+    },
+    {
+      path: '/all',
+      name: 'all',
+      component: () => import('../hand_school/all')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

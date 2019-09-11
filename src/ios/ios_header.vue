@@ -11,7 +11,7 @@
         <img v-if="response_data.is_online==0" src="../assets/ios/death.png" alt />
         <div class="white" v-if="response_data.expectedReleaseDate!='无'"></div>
       </div>
-      <div class="app_description">
+      <div class="app_description" v-if="response_data">
         <el-tooltip
           class="item"
           effect="light"

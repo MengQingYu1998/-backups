@@ -83,8 +83,8 @@
 								<th v-else>下架时间</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr v-for="tr in zongsdataList" :key="tr.index" v-if="tr">
+						<tbody v-if="hasup">
+							<tr v-for="tr in zongsdataList" :key="tr.index" >
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -98,7 +98,13 @@
 								<th>{{tr.date}}</th>
 								
 							</tr>
-							<tr v-else>暂无数据</tr>
+						
+						</tbody>
+						<tbody v-else>
+							<tr class="null">
+								<img src="../assets/NumimgTwo/null.png"/>
+								<p>暂无相关数据</p>
+							</tr>
 						</tbody>
 					</table>
 					
@@ -115,8 +121,8 @@
 								<th>上架时间</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr v-for="tr in zongsBList" :key="tr.index" v-if="tr">
+						<tbody v-if="hasbang">
+							<tr v-for="tr in zongsBList" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -142,11 +148,14 @@
 								<th>{{tr.clearTime}}时</th>
 								<th>{{tr.isOnlineTime}}</th>
 							</tr>
-							<tr v-else>
-								暂无数据
+							
+						</tbody>
+						<tbody v-else>
+							<tr class="null">
+								<img src="../assets/NumimgTwo/null.png"/>
+								<p>暂无相关数据</p>
 							</tr>
 						</tbody>
-						<!-- <tbody v-else>暂无数据 </tbody> -->
 					</table>
 					
 
@@ -165,8 +174,8 @@
 								<th>上架时间</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr v-for="tr in cidataList" :key="tr.index" v-if="tr">
+						<tbody v-if="hasci">
+							<tr v-for="tr in cidataList" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon"class="logo" />
@@ -195,13 +204,21 @@
 								<th>{{tr.clearTime}}时</th>
 								<th>{{tr.isOnlineTime}}</th>
 							</tr>
-							<tr v-else>暂无数据</tr>
+							
+						</tbody>
+						<tbody v-else>
+							<tr class="null">
+								<img src="../assets/NumimgTwo/null.png"/>
+								<p>暂无相关数据</p>
+							</tr>
 						</tbody>
 					</table>
 					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
-			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
+			            <p v-show="infiniteMsgShow" class="tips">
+			            	<img src="../assets/NumimgTwo/loading.gif"/>
+			            </p>
+			            <p v-show="!infiniteMsgShow" class="tips"> 我是有底线的~</p>
 			            </div>
 			        </div>
 					
@@ -290,6 +307,13 @@
 				games:{
 					Data:[]
 				},
+				// 是否有上下架数据
+				hasup:true,
+				// 是否有清榜数据
+				hasbang:true,
+				// 清词是否有数据
+				hasci:true,
+
 				searval:'',//v-model搜索词
 				searchval:'',// 搜索关键词
 				total_number:0,//修改上下架排序错乱
@@ -315,9 +339,17 @@
 		        var int=Math.round(scrollTop + windowHeight)
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
 		          	// 请求数据 
-		          	that.getData();
-					that.getDataB();
-					that.getDataci();
+		          	// console.log(t)
+		          	if(that.isSelect==0||that.isSelect==1){
+		          		that.getData();
+		          	}else if(that.isSelect==2){
+		          		that.getDataB();
+		          	}else if(that.isSelect==3){
+		          		that.getDataci();
+		          	}
+		          	
+					
+					
 		          
 		        }
 		      }
@@ -328,29 +360,39 @@
 			this.getData()
 			
 			this.$watch('dateV',function(Value, oldValue) {
+				console.log(this.isSelect)
 		      // 当前日期发生变化，重新请求数据
-		      this.zongsdataList.length=0
-		      this.page=1
-		      this.getData()
-		      this.zongsBList.length=0
-		      this.page2=1
-		      this.getDataB()
-		      this.cidataList.length=0
-		      this.page3=1
-		      this.getDataci()
+		      	if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
+		    	console.log(this.isSelect)
 		      // 当前国家发生变化，重新请求数据...
-		      this.zongsdataList.length=0
-		      this.page=1
-		      this.getData()
-		      this.zongsBList.length=0
-		      this.page2=1
-		      this.getDataB()
-		      this.cidataList.length=0
-		      this.page3=1
-		      this.getDataci()
+		      	if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 		      
 		      
 		    })
@@ -362,22 +404,28 @@
 			},
 			// 点击搜索
 			search(){
-				this.zongsdataList.length=0
-			    this.page=1
-			    this.getData()
-			    this.zongsBList.length=0
-			    this.page2=1
-			    this.getDataB()
-			    this.cidataList.length=0
-			    this.page3=1
-			    this.getDataci()
-				
+				console.log(this.searchval)
+				if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 				
 			},
 			// 上下架应用接口
 			getData(){
+				
 				this.total_number+=1
 				let number=this.total_number
+
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -462,48 +510,49 @@
 								.then(res=>{
 									if(res.data.Code==0){
 										this.onlinFont=res.data.pageCount
-										if(this.onlinFont>0){
+
+										if(this.onlinFont>0&&this.onlinFont<21){
+											this.contentShow = true
+											this.infiniteMsgShow = false//没有更多
+											this.hasup=true
+										}else if(this.onlinFont>20){
 											this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
-											
-										}else{
-											
-											this.contentShow = true
-											this.infiniteMsgShow = false//没有更多
-											
+											this.hasup=true
+										}else if(this.onlinFont==0){
+											this.contentShow = false
+											this.hasup=false
 										}
-										if(res.data.Data==""){
-											this.contentShow = true
-											this.infiniteMsgShow = false//没有更多
-										}else{
-											if(this.total_number==number){
+
+										if(this.total_number==number){
 											    this.zongsdataList=this.zongsdataList.concat(res.data.Data)
 											    this.page+=1
-											}
-											this.contentShow = true
-											this.infiniteMsgShow = true//加载更多       	
 										}
-								        
-								        let DownloadTotal=(this.pageSize+1)*this.page
+
+
 								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
 								        
 									        if(this.page>=pageC){
-									    		this.contentShow2 = false
 									        	this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
-								       
+									        if(pageC==0){
+									        	this.contentShow = false
+									        }
+
+
 									}else{
 										this.onlinFont=0
 										this.contentShow = true
-									    this.infiniteMsgShow = false//没有更多
+									    this.hasup=false
 									}
-									
+
 								})
 								.catch(error=>{
 									console.log(error)
-									this.contentShow = true
-									this.infiniteMsgShow = false
+									this.hasup=false
+									this.contentShow = false
+									// this.infiniteMsgShow = false
 								})
 							} 
 						})
@@ -530,6 +579,7 @@
 			getDataB(){
 				this.total_numberB+=1
 				let numberB=this.total_numberB
+
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -599,27 +649,36 @@
 								.then(res=>{
 									// console.log(res.data)
 									if(res.data.Code==0){
-										console.log(res.data.pageCount)
 										this.onlinFontB=res.data.pageCount
-										if(this.onlinFontB>0){
+										if(this.onlinFontB>0&&this.onlinFontB<21){
 											this.contentShow = true
+											this.infiniteMsgShow = false//没有更多
+											this.hasbang=true
+								        }else if(this.onlinFontB>20){
+								        	this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
-								        } else {
-								            this.contentShow = true
-								            this.infiniteMsgShow = false//没有更多
+											this.hasbang=true
+								        }else if(this.onlinFontB==0){
+								            this.contentShow = false
+								            this.hasbang=false
 								        }
 								        if(this.total_numberB==numberB){
 											this.zongsBList=this.zongsBList.concat(res.data.Data)
 											this.page2+=1
 										}
-								        
-								        let DownloadTotal=(this.pageSize2+1)*this.page2
-								        let total=res.data.pageCount
-								        
+										let pageC=Math.ceil(this.onlinFontB/this.pageSize2)
+										console.log(this.page2)
+										console.log(pageC)
+								        if(this.page2>=pageC){
+								        	this.contentShow = true
+								        	this.infiniteMsgShow = false//没有更多
+								        }
+								        if(pageC==0){
+								        	this.contentShow = false
+								        }
 									}else{
 										this.onlinFontB=0
-										this.contentShow = true
-								        this.infiniteMsgShow = false//没有更多
+										
 									}
 									
 									
@@ -647,6 +706,8 @@
 			getDataci(){
 				this.total_numberC+=1
 				let numberC=this.total_numberC
+
+				// this.hasci=true
 				//传给后台的pid值
 				let pidV=36
 				if(this.isFontZ==true){
@@ -722,20 +783,33 @@
 								.then(res => {
 									if(res.data.Code==0){
 										this.onlinFontC=res.data.pageCount
-										if(this.onlinFontC>0){
+										if(this.onlinFontC>0&&this.onlinFontC<21){
+
+											this.contentShow = true
+											this.infiniteMsgShow = false//没有更多
+											this.hasci=true
+								        } else if(this.onlinFontC>20){
 											this.contentShow = true
 											this.infiniteMsgShow = true//加载更多
-								        } else {
-								            this.contentShow = true
-								            this.infiniteMsgShow = false//没有更多
+											this.hasci=true
+								        }else if(this.onlinFontC==0) {
+								            this.contentShow = false
+								            this.hasci=false
 								        }
-								        if(this.total_numberC==numberC){
+								        if(this.total_numberC==numberC&&this.hasci==true){
 											this.cidataList=this.cidataList.concat(res.data.Data)
 											this.page3+=1
 										}
-								        
-								        let DownloadTotal=(this.pageSize3+1)*this.page3
-								        let total=res.data.pageCount
+								        let pageC=Math.ceil(this.onlinFontC/this.pageSize3)
+										console.log(this.page3)
+										console.log(pageC)
+								        if(this.page3>=pageC){
+								        	this.contentShow = true
+								        	this.infiniteMsgShow = false//没有更多
+								        }
+								        if(pageC==0){
+								        	this.contentShow = false
+								        }
 								        
 									}else{
 										this.onlinFontC=0
@@ -777,15 +851,19 @@
 				this.upWL=false
 				this.showApplication = false
 				this.showGame=false
-				this.zongsdataList.length=0
-		        this.page=1
-		      	this.zongsBList.length=0
-				this.page2=1
-				this.cidataList.length=0
-				this.page3=1
-				this.getData()
-				this.getDataB()
-				this.getDataci()
+				if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 			},
 			// 点击应用榜
 			showY(){
@@ -800,9 +878,13 @@
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
-				this.getData()
-				this.getDataB()
-				this.getDataci()
+				if(this.isSelect==0||this.isSelect==1){
+				    this.getData()
+				}else if(this.isSelect==2){
+				    this.getDataB()
+				}else if(this.isSelect==3){
+				    this.getDataci()
+				}
 			},
 			// 点击游戏榜
 			showG(){
@@ -817,9 +899,13 @@
 				this.upWG=true
 				this.downG=false
 				this.downWG=false
-				this.getData()
-				this.getDataB()
-				this.getDataci()
+				if(this.isSelect==0||this.isSelect==1){
+				    this.getData()
+				}else if(this.isSelect==2){
+				    this.getDataB()
+				}else if(this.isSelect==3){
+				    this.getDataci()
+				}
 			},
 			// 点击应用option
 			cliLie(Application){
@@ -828,15 +914,19 @@
 				this.upWL=false
 				this.downWL=true
 				this.now_Application=Application.name
-				this.zongsdataList.length=0
-		      	this.page=1
-		      	this.zongsBList.length=0
-				this.page2=1
-				this.cidataList.length=0
-				this.page3=1
-				this.getData()
-				this.getDataB()
-				this.getDataci()
+				if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 			},
 			cliGame(game){
 				this.valueG=game.name
@@ -844,18 +934,24 @@
 				this.upWG=false
 				this.downWG=true
 				this.now_Application=game.name
-				this.zongsdataList.length=0
-		        this.page=1
-		      	this.zongsBList.length=0
-				this.page2=1
-				this.cidataList.length=0
-				this.page3=1
-				this.getData()
-				this.getDataB()
-				this.getDataci()
+				if(this.isSelect==0||this.isSelect==1){
+					this.zongsdataList.length=0
+				    this.page=1
+				    this.getData()
+				}else if(this.isSelect==2){
+					this.zongsBList.length=0
+				    this.page2=1
+				    this.getDataB()
+				}else if(this.isSelect==3){
+					this.cidataList.length=0
+				    this.page3=1
+				    this.getDataci()
+				}
 			},
 			// 判断显示上架应用还是下架应用
 			selectLei(i){
+				this.searchval=""
+				this.searval=""
 				this.isSelect=i
 				this.contentShow = true
 				this.infiniteMsgShow = true//加载更多
@@ -883,8 +979,6 @@
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
 
-					// this.contentShow2=false//清榜的滑动加载
-
 					this.zongsdataList.length=0
 		      		this.page=1
 					this.getData()
@@ -896,7 +990,6 @@
 					this.qingbangF=true//清榜标题
 					this.qingciF=false//清词标题
 
-					// this.contentShow2=true//清榜的滑动加载
 
 					this.zongsBList.length=0
 				    this.page2=1
@@ -923,6 +1016,8 @@
 		        path: '/now_ranking'
 		      })
 		      window.open(routerUrl.href, '_blank')
+
+
 		    }
 		}
 	}
@@ -1325,6 +1420,32 @@ table tbody tr th.zongrank>img{
 	margin-top: 5px;
 	margin-left: 0;
 }
-
-
+/*暂无数据*/
+.null{
+	width: 100%;
+	height:606px;
+	text-align: center;
+	margin:0 auto;
+}
+.null img{
+	width: 210px;
+	height:162px;
+	margin:0 auto;
+	margin-top: 190px;
+}
+.null p{
+	font-family: SourceHanSansCN-Regular;
+	font-size: 13px;
+	color: #555555;
+}
+/*加载中*/
+.tips img{
+	width: 50px;
+	height:50px;
+}
+.tips{
+	font-family: SourceHanSansCN-Normal;
+	font-size: 14px;
+	color: #bfbfbf;
+}
 </style>
