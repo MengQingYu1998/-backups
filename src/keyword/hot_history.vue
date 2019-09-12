@@ -19,26 +19,7 @@
           <country @childFn="parentFn"></country>
         </div>
       </div>
-      <!-- <div class="options_03 option">
-        <div class="margin_top_font">日期</div>
-        <div class="date" @click="change_prop">
-          <el-date-picker
-            :picker-options="pickerOptions2"
-            v-model="dateValue"
-            type="date"
-            placeholder="选择日期"
-            clear-icon
-          ></el-date-picker>
-        </div>
-        <div
-          :class=" {'change_bg':change_bg_day,'font_block':true,'pointer':true}"
-          @click="change_day_dateValue()"
-        >昨日</div>
-        <div
-          :class=" {'change_bg':change_bg_week,'font_block':true,'pointer':true}"
-          @click="change_week_dateValue()"
-        >近七天</div>
-      </div>-->
+
       <div class="options_04 option">
         <div class="margin_top_font">搜索</div>
         <div class="search">
@@ -76,6 +57,11 @@
           </tr>
         </tbody>
       </table>
+    </div>
+      <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+        <img src="../assets/ios/null.png" alt />
+        <div>暂无相关数据</div>
+      </div>
     </div>
   </div>
 </template>
@@ -372,5 +358,23 @@ option:first-child {
 }
 #hot_history {
   padding-bottom: 50px;
+}
+
+.no_data_img {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+    font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
 }
 </style>

@@ -49,8 +49,11 @@
             <th v-show="activeName=='third'" class="keywordContentTable_th">ios11搜索结果数</th>
           </tr>
         </thead>
-        <tbody v-if="data_for_top_table02">
-          <tr>
+        <tbody>
+          <tr class="disable_hover" v-show="!data_for_top_table02&&!data_for_top_table">
+            <td colspan="4">暂无相关数据</td>
+          </tr>
+          <tr v-if="data_for_top_table02">
             <!-- 关键词 -->
             <td>{{data_for_top_table02.Word}}</td>
             <!-- ============ ios12============ -->
@@ -164,78 +167,92 @@
                     <th>top3关键词数</th>
                   </tr>
                 </thead>
-                <tbody v-if="response_data_for_ios12">
-                  <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
-                    <td>
-                      <div class="use">
-                        <div class="first_div">{{item.rowid}}</div>
-                        <div class="second_div">
+                <tbody>
+                  <tr class="disable_hover" v-show="response_data_for_ios12.length==0">
+                    <td colspan="6">暂无相关数据</td>
+                  </tr>
+
+                  <template v-if="response_data_for_ios12">
+                    <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
+                      <td>
+                        <div class="use">
+                          <div class="first_div">{{item.rowid}}</div>
+                          <div class="second_div">
+                            <img
+                              :src="item.icon_url"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              alt
+                            />
+                          </div>
+                          <div class="third_div">
+                            <div
+                              class="app_name pointer"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            >{{item.app_name}}</div>
+                            <div
+                              class="app_subtitle rankingChangeFontColor"
+                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="rankingChange">
                           <img
-                            :src="item.icon_url"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            class="arrowsImg"
+                            v-show="item.Change==0"
+                            src="../assets/keyword/arrows (1).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change<0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (3).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change>0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (2).png"
+                            alt
+                          />
+                          <div
+                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                          >{{Math.abs(item.Change)}}</div>
+                          <img
+                            src="../assets/keyword/keyword01.png"
+                            class="pointer"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
                         </div>
-                        <div class="third_div">
-                          <div
-                            class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
-                          >{{item.app_name}}</div>
-                          <div
-                            class="app_subtitle rankingChangeFontColor"
-                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="rankingChange">
-                        <img
-                          class="arrowsImg"
-                          v-show="item.Change==0"
-                          src="../assets/keyword/arrows (1).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change<0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change>0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
-                          alt
-                        />
-                        <div
-                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                        >{{Math.abs(item.Change)}}</div>
-                        <img
-                          src="../assets/keyword/keyword01.png"
-                          class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
-                          alt
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
-                    </td>
-                    <td>
-                      <div>{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
-                    </td>
-                    <td
-                      class="pointer"
-                      @click="go_to_page06(item.AppStoreId,item.app_name)"
-                    >{{item.Cover}}</td>
-                    <td>{{item.Top3}}</td>
-                  </tr>
+                      </td>
+                      <td>
+                        <div>{{item.ranking.rank_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
+                      </td>
+                      <td>
+                        <div>{{item.ranking.genre_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                      </td>
+                      <td
+                        class="pointer"
+                        @click="go_to_page06(item.AppStoreId,item.app_name)"
+                      >{{item.Cover}}</td>
+                      <td>{{item.Top3}}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
+              <div class="loading" v-show="loading">
+                <img src="../assets/ios/loading.gif" alt />
+              </div>
+              <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+              <div
+                class="it_is_over"
+                v-show="!it_is_over&&response_data_for_ios12.length!=0&&!loading"
+              >下拉加载更多</div>
             </div>
             <div class="right" v-if="now_country=='中国'">
               <div class="right_title">关键词搜索结果变化率</div>
@@ -266,75 +283,88 @@
                     <th>top3关键词数</th>
                   </tr>
                 </thead>
-                <tbody v-if="response_data_for_ios11" class="use_father">
-                  <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
-                    <td>
-                      <div class="use">
-                        <div class="first_div">{{item.rowid}}</div>
-                        <div class="second_div">
+                <tbody class="use_father">
+                  <tr class="disable_hover" v-show="response_data_for_ios11.length==0">
+                    <td colspan="6">暂无相关数据</td>
+                  </tr>
+                  <template v-if="response_data_for_ios11">
+                    <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
+                      <td>
+                        <div class="use">
+                          <div class="first_div">{{item.rowid}}</div>
+                          <div class="second_div">
+                            <img
+                              :src="item.icon_url"
+                              alt
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            />
+                          </div>
+                          <div class="third_div">
+                            <div
+                              class="app_name pointer"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            >{{item.app_name}}</div>
+                            <div
+                              class="app_subtitle rankingChangeFontColor"
+                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="rankingChange">
                           <img
-                            :src="item.icon_url"
+                            class="arrowsImg"
+                            v-show="item.Change==0"
+                            src="../assets/keyword/arrows (1).png"
                             alt
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                          />
+                          <img
+                            v-show="item.Change<0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (3).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change>0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (2).png"
+                            alt
+                          />
+                          <div
+                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                          >{{Math.abs(item.Change)}}</div>
+                          <img
+                            src="../assets/keyword/keyword01.png"
+                            class="pointer"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                            alt
                           />
                         </div>
-                        <div class="third_div">
-                          <div
-                            class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
-                          >{{item.app_name}}</div>
-                          <div
-                            class="app_subtitle rankingChangeFontColor"
-                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="rankingChange">
-                        <img
-                          class="arrowsImg"
-                          v-show="item.Change==0"
-                          src="../assets/keyword/arrows (1).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change<0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change>0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
-                          alt
-                        />
-                        <div
-                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                        >{{Math.abs(item.Change)}}</div>
-                        <img
-                          src="../assets/keyword/keyword01.png"
-                          class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
-                          alt
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div>{{item.ranking.rank_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
-                    </td>
-                    <td>
-                      <div>{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
-                    </td>
-                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                    <td>{{item.Top3}}</td>
-                  </tr>
+                      </td>
+                      <td>
+                        <div>{{item.ranking.rank_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
+                      </td>
+                      <td>
+                        <div>{{item.ranking.genre_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                      </td>
+                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                      <td>{{item.Top3}}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
+              <div class="loading" v-show="loading">
+                <img src="../assets/ios/loading.gif" alt />
+              </div>
+              <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+              <div
+                class="it_is_over"
+                v-show="!it_is_over&&response_data_for_ios11.length!=0&&!loading"
+              >下拉加载更多</div>
             </div>
           </div>
         </el-tab-pane>
@@ -358,69 +388,74 @@
                     <th>评论数</th>
                   </tr>
                 </thead>
-                <tbody v-if="response_data_for_ios12">
-                  <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
-                    <td>
-                      <div class="use">
-                        <div class="first_div">{{item.rowid}}</div>
-                        <div class="second_div">
+                <tbody>
+                  <tr class="disable_hover" v-show="response_data_for_ios12.length==0">
+                    <td colspan="5">暂无相关数据</td>
+                  </tr>
+                  <template v-if="response_data_for_ios12">
+                    <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
+                      <td>
+                        <div class="use">
+                          <div class="first_div">{{item.rowid}}</div>
+                          <div class="second_div">
+                            <img
+                              :src="item.icon_url"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              alt
+                            />
+                          </div>
+                          <div class="third_div">
+                            <div
+                              class="app_name pointer"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            >{{item.app_name}}</div>
+                            <div
+                              class="app_subtitle rankingChangeFontColor"
+                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <div>{{item.ranking.genre_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                      </td>
+                      <td>
+                        <div class="rankingChange">
                           <img
-                            :src="item.icon_url"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            class="arrowsImg"
+                            v-show="item.Change==0"
+                            src="../assets/keyword/arrows (1).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change<0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (3).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change>0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (2).png"
+                            alt
+                          />
+                          <div
+                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                          >{{Math.abs(item.Change)}}</div>
+                          <img
+                            src="../assets/keyword/keyword01.png"
+                            class="pointer"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
                         </div>
-                        <div class="third_div">
-                          <div
-                            class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
-                          >{{item.app_name}}</div>
-                          <div
-                            class="app_subtitle rankingChangeFontColor"
-                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>
-                      <div>{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
-                    </td>
-                    <td>
-                      <div class="rankingChange">
-                        <img
-                          class="arrowsImg"
-                          v-show="item.Change==0"
-                          src="../assets/keyword/arrows (1).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change<0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change>0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
-                          alt
-                        />
-                        <div
-                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                        >{{Math.abs(item.Change)}}</div>
-                        <img
-                          src="../assets/keyword/keyword01.png"
-                          class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
-                          alt
-                        />
-                      </div>
-                    </td>
-                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                    <td>{{item.rating_count}}</td>
-                  </tr>
+                      </td>
+                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                      <td>{{item.rating_count}}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
@@ -441,73 +476,86 @@
                     <th>评论数</th>
                   </tr>
                 </thead>
-                <tbody v-if="response_data_for_ios11">
-                  <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
-                    <td>
-                      <div class="use">
-                        <div class="first_div">{{item.rowid}}</div>
-                        <div class="second_div">
+                <tbody>
+                  <tr class="disable_hover" v-show="response_data_for_ios11.length==0">
+                    <td colspan="5">暂无相关数据</td>
+                  </tr>
+                  <template v-if="response_data_for_ios11">
+                    <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
+                      <td>
+                        <div class="use">
+                          <div class="first_div">{{item.rowid}}</div>
+                          <div class="second_div">
+                            <img
+                              :src="item.icon_url"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              alt
+                            />
+                          </div>
+                          <div class="third_div">
+                            <div
+                              class="app_name pointer"
+                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            >{{item.app_name}}</div>
+                            <div
+                              class="app_subtitle rankingChangeFontColor"
+                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <div>{{item.ranking.genre_class}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
+                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                      </td>
+                      <td>
+                        <div class="rankingChange">
                           <img
-                            :src="item.icon_url"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            class="arrowsImg"
+                            v-show="item.Change==0"
+                            src="../assets/keyword/arrows (1).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change<0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (3).png"
+                            alt
+                          />
+                          <img
+                            v-show="item.Change>0"
+                            class="arrowsImg"
+                            src="../assets/keyword/arrows (2).png"
+                            alt
+                          />
+                          <div
+                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                          >{{Math.abs(item.Change)}}</div>
+                          <img
+                            src="../assets/keyword/keyword01.png"
+                            class="pointer"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
                         </div>
-                        <div class="third_div">
-                          <div
-                            class="app_name pointer"
-                            @click="go_to_page05(item.AppStoreId,item.app_name)"
-                          >{{item.app_name}}</div>
-                          <div
-                            class="app_subtitle rankingChangeFontColor"
-                          >{{item.subtitle!='无'?item.subtitle:''}}</div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td>
-                      <div>{{item.ranking.genre_class}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                      <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
-                    </td>
-                    <td>
-                      <div class="rankingChange">
-                        <img
-                          class="arrowsImg"
-                          v-show="item.Change==0"
-                          src="../assets/keyword/arrows (1).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change<0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (3).png"
-                          alt
-                        />
-                        <img
-                          v-show="item.Change>0"
-                          class="arrowsImg"
-                          src="../assets/keyword/arrows (2).png"
-                          alt
-                        />
-                        <div
-                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                        >{{Math.abs(item.Change)}}</div>
-                        <img
-                          src="../assets/keyword/keyword01.png"
-                          class="pointer"
-                          @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
-                          alt
-                        />
-                      </div>
-                    </td>
-                    <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                    <td>{{item.rating_count}}</td>
-                  </tr>
+                      </td>
+                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                      <td>{{item.rating_count}}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
           </div>
+          <div class="loading" v-show="loading">
+            <img src="../assets/ios/loading.gif" alt />
+          </div>
+          <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+          <div
+            class="it_is_over"
+            v-show="!it_is_over&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!loading"
+          >下拉加载更多</div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -663,6 +711,7 @@ export default {
   data() {
     let that = this
     return {
+      can_execute_scorll: true, //是否可以执行滚动
       custom_country: null, //自定义显示国家
       isFirstEnter: false, // 是否第一次进入，默认false
       // can_excute12: false,
@@ -719,6 +768,8 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
+      it_is_over: false,
+      loading: false,
       response_data_for_ios12: [],
       response_data_for_ios11: [],
       // 获取当前选中的国家
@@ -765,6 +816,14 @@ export default {
     this.get_data_11()
     this.get_data_column()
     this.$watch('activeName', function(newValue, oldValue) {
+      if (newValue == 'third') {
+        this.page11 = 1
+        this.page12 = 1
+        this.response_data_for_ios12.length = 0
+        this.response_data_for_ios11.length = 0
+        this.get_data_12()
+        this.get_data_11()
+      }
       this.get_data_for_top_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
@@ -856,11 +915,21 @@ export default {
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
-          // 需要执行的代码
-          that.get_data_11()
-          console.log('yes11')
-          that.get_data_12()
-          console.log('yes12')
+          if (that.can_execute_scorll) {
+            // 需要执行的代码
+            if (that.activeName == 'first') {
+              that.get_data_12()
+              // console.log('yes12')
+            } else if (that.activeName == 'second') {
+              that.get_data_11()
+              // console.log('yes11')
+            } else if (that.activeName == 'third') {
+              that.get_data_12()
+              // console.log('yes12')
+              that.get_data_11()
+              // console.log('yes11')
+            }
+          }
         }
       }
     })
@@ -907,11 +976,12 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              this.data_for_top_table = response.data.Data
-              console.log(
-                'FindTodayJoinWord,it is me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-              )
-              console.log(this.data_for_top_table)
+              if (response.data.Code == 1) {
+                this.data_for_top_table == false
+              }
+              if (response.data.Code == 0) {
+                this.data_for_top_table = response.data.Data
+              }
             })
             .catch(error => {
               console.log(error)
@@ -922,11 +992,12 @@ export default {
           this.$axios
             .post(url02, data)
             .then(response => {
-              this.data_for_top_table02 = response.data.Data
-              console.log(
-                'FindWordInfo,it is me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-              )
-              console.log(this.data_for_top_table02)
+              if (response.data.Code == 1) {
+                this.data_for_top_table02 == false
+              }
+              if (response.data.Code == 0) {
+                this.data_for_top_table02 = response.data.Data
+              }
             })
             .catch(error => {
               console.log(error)
@@ -942,6 +1013,9 @@ export default {
     // =============================tab可切换部分============================
     // 请求数据  ios12 ios12 ios12
     get_data_12() {
+      this.can_execute_scorll = false
+      this.loading = true
+      this.it_is_over = false
       this.db_number_is_same12++
       let is_excute_function = this.db_number_is_same12
       this.$axios
@@ -974,7 +1048,7 @@ export default {
             '&time=' +
             time +
             '&iosType=12'
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -984,12 +1058,15 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page12 += 1
+                this.it_is_over = response.data.Data < 20
+                this.loading = false
+                this.can_execute_scorll = true //是否可以执行滚动
               }
-              console.log(
-                'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
-              )
-              console.log(response.data.AppInfoList)
-              console.log(this.response_data_for_ios12)
+              // console.log(
+              //   'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
+              // )
+              // console.log(response.data.AppInfoList)
+              // console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -1000,6 +1077,9 @@ export default {
         })
     },
     get_data_11() {
+      this.loading = true
+      this.can_execute_scorll = false //是否可以执行滚动
+      this.it_is_over = false
       this.db_number_is_same11++
       let is_excute_function = this.db_number_is_same11
       this.$axios
@@ -1032,7 +1112,7 @@ export default {
             '&time=' +
             time +
             '&iosType=11'
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -1042,12 +1122,15 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page11 += 1
+                this.it_is_over = response.data.Data < 20
+                this.loading = false
+                this.can_execute_scorll = true //是否可以执行滚动
               }
-              console.log(
-                'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
-              )
-              console.log(response.data.AppInfoList)
-              console.log(this.response_data_for_ios11)
+              // console.log(
+              // 'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
+              // )
+              // console.log(response.data.AppInfoList)
+              // console.log(this.response_data_for_ios11)
             })
             .catch(error => {
               console.log(error)
@@ -1086,12 +1169,12 @@ export default {
             type +
             '&word=' +
             word
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.keyword_data01 = new Array()
               this.keyword_data_value01 = new Array()
               this.xAxis_data01 = new Array()
@@ -1099,7 +1182,7 @@ export default {
               this.keyword_data_value01.push(temp.Yvalue)
               this.xAxis_data01 = temp.Xvalue
               this.keyword_data01.push('ios12')
-              console.log(this.keyword_data_value01[0])
+              // console.log(this.keyword_data_value01[0])
 
               this.drawLine12()
             })
@@ -1354,16 +1437,16 @@ export default {
             edate +
             '&iosType=' +
             iosType
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               if (response.data.Code == 0) {
                 this.no_data = false
                 this.response_data_for_dialog = response.data
-                console.log(this.response_data_for_dialog)
+                // console.log(this.response_data_for_dialog)
 
                 this.keyword_data = new Array()
                 this.keyword_data_value = new Array()
@@ -1374,7 +1457,7 @@ export default {
                 )
                 this.xAxis_data = this.response_data_for_dialog.Xvalue
                 this.keyword_data.push(this.word)
-                console.log(this.xAxis_data)
+                // console.log(this.xAxis_data)
                 this.xAxis_data = this.xAxis_data.map(element => {
                   // console.log(1)
                   if (this.radio01_dialog == '按天') {
@@ -1743,7 +1826,7 @@ export default {
   position: relative;
 }
 .my_dialog tbody tr {
-  border: solid 1px #f2f2f2;
+  border-bottom: solid 1px #f2f2f2;
 }
 .my_dialog tbody {
   font-family: SourceHanSansCN-Normal;
@@ -1813,9 +1896,7 @@ export default {
 .blue {
   color: #009bef;
 }
-#result {
-  padding-bottom: 52px;
-}
+
 .data_for_top_table_span {
   width: 524px;
   padding: 0 66px;
@@ -2173,5 +2254,64 @@ option:first-child {
 }
 .th_width {
   width: 233px;
+}
+.it_is_over {
+  text-align: center;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 74px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+  margin-bottom: -30px;
+}
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-bottom: -20px;
+  margin-top: 30px;
+}
+.loading > img {
+  width: 50px;
+  height: 50px;
+}
+#result {
+  margin-bottom: 30px;
+}
+.no_data_img:hover {
+  background-color: #fff;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
+}
+
+.no_data_img {
+  width: 100%;
+  height: 606px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

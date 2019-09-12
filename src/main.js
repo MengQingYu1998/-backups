@@ -20,7 +20,9 @@ axios.defaults.baseURL = 'http://39.97.234.11:8080'
 //   'Access-Control-Allow-Headers': '*'
 // }
 // axios.defaults.baseURL = 'www.zshddata.com'
-
+// 引入滚动插件
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
 // 引入element-ui
 import ElementUI from 'element-ui'
 Vue.use(ElementUI, { zIndex: 300 })

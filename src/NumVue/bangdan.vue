@@ -111,7 +111,7 @@
 								<th class="company">公司名称</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody v-if="hasbangdata">
 							<tr v-for="tr in zongsData" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
@@ -139,9 +139,7 @@
 									<img src="../assets/NumImg/right.png" class="dir right" v-show="tr.rank_b.rankChange==0"/>
 									<img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rank_b.rankChange>0"/>
 									<img src="../assets/NumImg/xia.png" class="dir right" v-show="tr.rank_b.rankChange<0"/>
-									<!-- <span class="before" v-if='tr.rank_b.rankChange>=0'>{{tr.rank_b.rankChange}}</span>
-									<span class="before" v-if='tr.rank_b.rankChange<0'>{{-(tr.rank_b.rankChange)}}</span> -->
-
+								
 									<span v-if='tr.rank_b.rankChange>0' class="before redB">{{tr.rank_b.rankChange}}</span>
 									<span v-if='tr.rank_b.rankChange==0' class="before">{{tr.rank_b.rankChange}}</span>
 									<span v-if='tr.rank_b.rankChange<0' class="before blueB">{{-(tr.rank_b.rankChange)}}</span>
@@ -150,15 +148,24 @@
 								<th>{{tr.keywordCover}}</th>
 								<th>{{tr.comment.num}}</th>
 								<th>{{tr.LastReleaseDate}}</th>
-								<th class="company">{{tr.company.name}}</th>
+								<th class="company" v-if="tr.company.name">{{tr.company.name}}</th>
+								<th class="company companyb" v-else>--</th>
+							</tr>
+						</tbody>
+						<tbody v-else>
+							<tr class="null">
+								<img src="../assets/NumimgTwo/null.png"/>
+								<p>暂无相关数据</p>
 							</tr>
 						</tbody>
 					</table>
 					<!-- scroll -->
 			        <div v-show="contentShow" class="scrollDiv">
 			            <div>
-			            <p v-show="infiniteMsgShow" class="tips">加载更多ing</p>
-			            <p v-show="!infiniteMsgShow" class="tips"> 没有更多数据</p>
+				            <p v-show="infiniteMsgShow" class="tips">
+				            	<img src="../assets/NumimgTwo/loading.gif"/>
+				            </p>
+				            <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"> </p>
 			            </div>
 			        </div>
 				</div>
@@ -211,7 +218,7 @@
 			        }
 			    },
 			    // 当前选中类别
-			    now_Application:'全部应用',
+			    now_Application:'',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
       			 now_country: '中国',
@@ -228,8 +235,9 @@
 				zongsData:[],
 				page:1,
 				pageSize:20,
-				contentShow:false,
-				infiniteMsgShow:false,
+				contentShow:true,
+				infiniteMsgShow:true,
+				bomfont:'我是有底线的~',
 				// 总分类
 				lis:[
 					{name:'总榜'},{name:'应用榜'},{name:'游戏榜'}
@@ -259,6 +267,9 @@
 				total_number:0,//修改排序错乱
 				// 榜单快照
 				kuaizhao:false,
+				// 是否有数据
+				hasbangdata:true,
+				can_execute_scorll: true,//是否可以执行滚动
 			}
 		},
 		created(){
@@ -301,10 +312,16 @@
 		        that.scrollHeight =
 		        document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
 		        var int=Math.round(scrollTop + windowHeight)
+
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
 		          // 调用请求数据接口
-		          	that.getData()
-		          
+		          	
+		          // console.log(2)
+		           if (that.can_execute_scorll) {
+		          	   that.contentShow=true
+                       that.infiniteMsgShow=true
+			           that.getData() 
+			       }
 		        }
 		      }
 		    })
@@ -319,7 +336,11 @@
 	
 			// 获取数据
 			getData(){
-
+				this.can_execute_scorll = false
+				this.contentShow=true
+                this.infiniteMsgShow=true
+				
+				this.kuaizTim=""
 				this.total_number+=1
 				let number=this.total_number
 				// this.kuaizhao=true
@@ -374,7 +395,7 @@
 						 		}
 						    }
 					    }
-
+					    
 					    //传给后台的countryid值
 						let country_id=1
 						this.$axios({
@@ -417,12 +438,15 @@
 									}
 								})
 								.then(res=>{
-									if (res.data.Code == 0){
+									if (res.data.Code == 0&&res.data.Data!=""){
+
+
 										this.timezs=res.data
 							            for(var i=0;i<this.timezs.Data.length;i++){
 							              	var miao=this.timezs.Data[this.timezs.Data.length-1].AddTime
 							              	this.timnow=miao.slice(11,19)
 							            }
+							            // console.log(this.timnow)
 							            // 传给后台的snapshot值
 							           	let tim=''
 							            if(this.kuaizTim==""){
@@ -432,7 +456,7 @@
 							            }
 							          	// console.log("brandV:"+brandV)
 							          	// console.log("deviceType:"+deviceType)
-							          	console.log("country_id:"+country_id)
+							          	// console.log("country_id:"+country_id)
 							          	// console.log("tim:"+tim)
 							          	// console.log("newDataB:"+newDataB)
 							          	// console.log("geid:"+geid)
@@ -459,35 +483,45 @@
 										})
 										.then(res=>{
 											if(res.data.Code==0){
-												
+
 												let onlinFont=res.data.pageCount
-												if(onlinFont>0){
+												if(onlinFont>0&&onlinFont<21){
 													this.contentShow = true
-													this.infiniteMsgShow = true // 加载更多
-													
-										        } else {
-										            this.contentShow = true
-										            this.infiniteMsgShow = false // 没有更多数据
+													this.infiniteMsgShow = false // 没有更多
+													this.bomfont="我是有底线的~"
+													this.hasbangdata=true
+										        }else if(onlinFont>20){
+										        	this.contentShow = true
+													this.infiniteMsgShow = false // 加载更多
+													this.bomfont="下拉加载更多"
+													this.hasbangdata=true
+													this.can_execute_scorll = true//是否可以执行滚动
+
+										        }else if(onlinFont==0) {
+										            this.contentShow = false
+										            this.hasbangdata=false
 										        }
-										       if(res.data.Data==""){
-										       		this.contentShow = true
-										            this.infiniteMsgShow = false // 没有更多数据
-										            this.canscroll=false
-										       }else{
+										       // if(res.data.Data==""){
+										       // 		this.hasbangdata=false
+										       // 		this.contentShow = false//暂无数据
+										       // }
+										       // else{
 											       	if(this.total_number==number){
 											       		this.zongsData=this.zongsData.concat(res.data.Data)
 											       		this.page+=1
 											       	}
-										       }
+										       // }
 										       
 										      
 										        
 										        let DownloadTotal=(this.pageSize+1)*this.page
 										        let pageC=Math.ceil(onlinFont/this.pageSize)
-										        if(this.page==pageC){
+										       
+										        if(this.page==pageC+1){
 										        	this.contentShow = true
 										            this.infiniteMsgShow = false // 没有更多数据
 										        }
+										        
 											}else{
 												this.contentShow = true
 										        this.infiniteMsgShow = false // 没有更多数据
@@ -502,6 +536,9 @@
 										})
 
 
+									}else{
+										this.hasbangdata=false
+										this.contentShow = false
 									}
 														
 								})
@@ -537,6 +574,7 @@
 			//点击时间快照
 			clitim(tim){
 				this.kuaizTim=tim.AddTime
+				// console.log(this.kuaizTim)
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -573,6 +611,9 @@
 				this.downWG=false
 				this.upWG=false
 				this.isSelect=1
+				this.now_Application="全部应用"
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击游戏榜
@@ -589,7 +630,9 @@
 				this.downG=false
 				this.downWG=false
 				this.isSelect=2
-				// this.page=1
+				this.now_Application="全部游戏"
+				this.zongsData.length=0
+				this.page=1
 				this.getData()
 			},
 			// 点击应用option
@@ -681,13 +724,13 @@
 			},
 			go_to_page01(parm,parm02) {
 		      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm02
-      this.$store.state.now_app_id = parm
-      this.hand_save_vuex(this)
-      let routerUrl = this.$router.resolve({
-        path: '/now_ranking'
-      })
-      window.open(routerUrl.href, '_blank')
+		      this.$store.state.now_app_name = parm02
+		      this.$store.state.now_app_id = parm
+		      this.hand_save_vuex(this)
+		      let routerUrl = this.$router.resolve({
+		        path: '/now_ranking'
+		      })
+		      window.open(routerUrl.href, '_blank')
 		    }
 		}
 	
@@ -1033,6 +1076,9 @@ table tbody tr th.company{
 	padding-left: 8px;
 	color: #888;
 }
+table tbody tr th.companyb{
+	text-align: center;
+}
 table tbody tr th{
 	height: 100px;
 	font-family: SourceHanSansCN-Normal;
@@ -1116,5 +1162,34 @@ table tbody tr th.zongrank>img{
 	margin-left: 0;
 }
 
+
+/*暂无数据*/
+.null{
+	width: 100%;
+	height:606px;
+	text-align: center;
+	margin:0 auto;
+}
+.null img{
+	width: 210px;
+	height:162px;
+	margin:0 auto;
+	margin-top: 190px;
+}
+.null p{
+	font-family: SourceHanSansCN-Regular;
+	font-size: 13px;
+	color: #555555;
+}
+/*加载中*/
+.tips img{
+	width: 50px;
+	height:50px;
+}
+.tips{
+	font-family: SourceHanSansCN-Normal;
+	font-size: 14px;
+	color: #bfbfbf;
+}
 
 </style>

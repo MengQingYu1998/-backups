@@ -7,9 +7,16 @@
     <div class="wrap">
       <div class="header_img" v-if="response_data">
         <img :src="response_data.icon" :class="{'gray':response_data.is_online==0}" alt />
-        <img v-if="response_data.expectedReleaseDate!='无'" src="../assets/ios/order.png" alt />
+        <img
+          v-if="response_data.expectedReleaseDate!='无'&&response_data.expectedReleaseDate!='0001/1/1 0:00:00'"
+          src="../assets/ios/order.png"
+          alt
+        />
         <img v-if="response_data.is_online==0" src="../assets/ios/death.png" alt />
-        <div class="white" v-if="response_data.expectedReleaseDate!='无'"></div>
+        <div
+          class="white"
+          v-if="response_data.expectedReleaseDate=='无'&&response_data.expectedReleaseDate=='0001/1/1 0:00:00'"
+        ></div>
       </div>
       <div class="app_description" v-if="response_data">
         <el-tooltip
@@ -24,10 +31,12 @@
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
-        <div v-if="response_data">{{response_data.expectedReleaseDate=='无'?'版本更新时间':'预计上线时间'}}</div>
         <div
           v-if="response_data"
-        >{{response_data.expectedReleaseDate=='无'?response_data.appUpdateTime.slice(0,10):response_data.expectedReleaseDate.slice(0,10)}}</div>
+        >{{response_data.expectedReleaseDate=='无'||response_data.expectedReleaseDate=='0001/1/1 0:00:00'?'版本更新时间':'预计上线时间'}}</div>
+        <div
+          v-if="response_data"
+        >{{response_data.expectedReleaseDate=='无'||response_data.expectedReleaseDate=='0001/1/1 0:00:00'?response_data.appUpdateTime.slice(0,10):response_data.expectedReleaseDate.slice(0,10)}}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
@@ -106,15 +115,15 @@ export default {
             '&appId=' +
             this.$store.state.now_app_id
           // console.log(this.$store.state.now_app_id)
-          console.log(url)
+          // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(22222222222222222222222)
-              console.log(this.response_data)
+              // console.log(22222222222222222222222)
+              // console.log(this.response_data)
               this.$store.state.now_app_name = this.response_data.appName
               // this.is_show_header = false
               // this.$nextTick(() => {

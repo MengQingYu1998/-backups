@@ -33,26 +33,34 @@
         </div>
       </div>
     </div>
-    <div class="table_group" v-if="response_data">
-      <table class="table_first" v-if="response_data!=null">
+    <div class="table_group">
+      <table class="table_first">
         <thead>
           <tr>
             <th></th>
-            <th v-for="(item,index) in response_data.Xtime" :key="'Xtime'+index">{{item}}</th>
+            <template v-if="response_data">
+              <th v-for="(item,index) in response_data.Xtime" :key="'Xtime'+index">{{item}}</th>
+            </template>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in response_data.Yvalue" :key="'Yvalue'+index">
-            <td class="td_first">{{index+1}}</td>
-            <td
-              class="table_font"
-              v-for="(item_son,index_son) in item"
-              :key="'Yvalue_son'+index_son"
-            >
-              <div class="pointer" @click="go_to_page01(item.keyword)">{{item_son.keyword}}</div>
-              <div>{{item_son.hint}}</div>
-            </td>
-          </tr>
+          <template v-if="response_data">
+            <tr class="disable_hover" v-if="!response_data.Yvalue">
+              <td colspan="8">暂无相关数据</td>
+            </tr>
+
+            <tr v-for="(item,index) in response_data.Yvalue" :key="'Yvalue'+index">
+              <td class="td_first">{{index+1}}</td>
+              <td
+                class="table_font"
+                v-for="(item_son,index_son) in item"
+                :key="'Yvalue_son'+index_son"
+              >
+                <div class="pointer" @click="go_to_page01(item.keyword)">{{item_son.keyword}}</div>
+                <div>{{item_son.hint}}</div>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
@@ -303,5 +311,19 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

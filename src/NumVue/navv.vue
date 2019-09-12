@@ -17,7 +17,6 @@
           <img src="../assets/NumImg/shang.png" class="down" v-else />
         </li>
       </ul>
-
       <div class="searchDiv">
         <img src="../assets/NumImg/pingguo.png" class="ios" />
 
@@ -29,11 +28,19 @@
           v-model="is_show_nav_popover"
         >
           <div
+            v-show="nav_input_value!=''"
             class="pointer popver_for_input"
             v-for="(item,index) in response_data"
-            :key="'nav_input'+index"
+            :key="'nav_input02'+index"
             @click="go_to_page01(item.keyword)"
           >{{item.keyword}}</div>
+          <div
+            v-show="nav_input_value==''"
+            class="pointer popver_for_input"
+            v-for="(item,index) in this.$store.state.HistoryList"
+            :key="'nav_input01'+index"
+            @click="go_to_page01(item)"
+          >{{item}}</div>
           <input
             slot="reference"
             @blur="is_show_nav_popover=true"
@@ -133,10 +140,10 @@ export default {
       asoVal: 'ASO优化',
       // app store监控
       apps: [
-        { name: '榜单实时排名'},
-        { name: '榜单更新监控'},
-        { name: '排名上升/下降监控'},
-        { name: 'App Store上下架监控'}
+        { name: '榜单实时排名' },
+        { name: '榜单更新监控' },
+        { name: '排名上升/下降监控' },
+        { name: 'App Store上下架监控' }
       ],
       // aso优化
       asos: [{ name: '搜索指数排名' }, { name: '实时热搜榜' }],
@@ -192,17 +199,17 @@ export default {
       this.mine = false
     },
     // app store监控点击跳转
-    goapp(index){
-        if(index==0){
-          this.$router.push({ path: '/bangdan' })
-        }else if(index==1){
-          this.$router.push({ path: '/monitor' })
-        }else if(index==2){
-          this.$router.push({ path: '/rank' })
-        }else if(index==3){
-          this.$router.push({ path: '/application' })
-        }
-        this.appstore=false
+    goapp(index) {
+      if (index == 0) {
+        this.$router.push({ path: '/bangdan' })
+      } else if (index == 1) {
+        this.$router.push({ path: '/monitor' })
+      } else if (index == 2) {
+        this.$router.push({ path: '/rank' })
+      } else if (index == 3) {
+        this.$router.push({ path: '/application' })
+      }
+      this.appstore = false
     },
     climsg(index) {
       this.mine = false
@@ -260,10 +267,39 @@ export default {
           console.log(error)
         })
     },
+    // 历史索索记录
+    search_history(val) {
+      console.log(this.$store.state.HistoryList)
+      val = val.trim() // 清除空格
+      if (this.$store.state.HistoryList.length > 0) {
+        // 有数据的话 判断
+        if (this.$store.state.HistoryList.indexOf(val) !== -1) {
+          // 有相同的，先删除 再添加
+          this.$store.state.HistoryList.splice(
+            this.$store.state.HistoryList.indexOf(val),
+            1
+          )
+          this.$store.state.HistoryList.unshift(val)
+        } else {
+          // 没有相同的 添加
+          this.$store.state.HistoryList.unshift(val)
+        }
+      } else {
+        // 没有数据 添加
+        this.$store.state.HistoryList.unshift(val)
+      }
+      this.hand_save_vuex(this)
+      if (this.$store.state.HistoryList.length > 10) {
+        // 保留六个值
+        this.$store.state.HistoryList.pop()
+      }
+    },
     go_to_page01(parm) {
       if (this.nav_input_value.trim() == '') {
         return false
       }
+      // 调用存储历史记录的方法
+      this.search_history(this.nav_input_value)
       if (
         parseInt(this.nav_input_value) >= 10000 &&
         parseInt(this.nav_input_value) <= 999999999999
@@ -389,7 +425,7 @@ export default {
   margin-top: 7px;
   margin-left: 5px;
 }
-.nav .searchDiv input::placeholder{
+.nav .searchDiv input::placeholder {
   color: #bfbfbf;
 }
 .nav .searchDiv > p {
@@ -493,6 +529,7 @@ export default {
   border-radius: 4px;
   border-top: 0.013rem solid transparent;
   text-align: left;
+  padding-bottom: 1px;
 }
 .Combox > div > div p,
 .Combox > div > div p a {
@@ -523,7 +560,7 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26px;
+  line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
 }
@@ -533,7 +570,7 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26px;
+  line-height: 30px;
   letter-spacing: 0px;
   color: #009bef !important;
 }

@@ -532,7 +532,9 @@ td {
   color: #ffffff;
   text-align: center;
 }
-
+tbody div {
+  margin-left: -11px;
+}
 .btn_item_03 > div:nth-child(1) {
   margin-right: 15px !important;
 }

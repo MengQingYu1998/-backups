@@ -1,6 +1,11 @@
 <template>
   <div id="test">
     <div ref="demo111" class="myChart"></div>
+    <div class="img_wraper">
+      <div class="img_group">
+        <img src="../assets/ios/vs.png" alt v-for="item in 100" :key="item" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -261,7 +266,57 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style  scoped lang="less">
+@keyframes myfirst {
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  100% {
+    left: -800px;
+    top: 0px;
+  }
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */ {
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+
+  100% {
+    left: -800px;
+    top: 0px;
+  }
+}
+.img_wraper {
+  width: 200px;
+  height: 250px;
+  position: relative;
+  margin: 20px auto;
+  overflow: hidden;
+  border: 1px solid #666;
+  .img_group {
+    width: 1000px;
+    height: 200px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    animation: myfirst 2s;
+    -webkit-animation: myfirst 2s; /* Safari and Chrome */
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear; /* Safari and Chrome */
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
 .myChart {
   width: 965px;
   height: 300px;

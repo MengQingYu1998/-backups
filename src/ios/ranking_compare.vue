@@ -790,8 +790,7 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+
 <style scoped>
 .position_relative {
   position: relative;

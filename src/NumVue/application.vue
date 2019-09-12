@@ -107,7 +107,50 @@
 							</tr>
 						</tbody>
 					</table>
-					
+					<!-- 下架应用 -->
+					<table class="xiajia" v-show="xiajiaF">
+						<thead>
+							<tr>
+								<th class="yingyong">应用</th>
+								<th class="clixia">当前状态</th>
+								<th>价格</th>
+								<th>分类</th>
+								<th v-if="shangT">上架时间</th>
+								<th v-else>下架时间</th>
+							</tr>
+						</thead>
+						<tbody v-if="hasup">
+							<tr v-for="tr in zongsdataList" :key="tr.index" >
+								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
+									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
+									<img :src="tr.icon" class="logo" />
+									<div class="msg">
+										<p class="appname">{{tr.appName}}</p>
+										<p class="company">{{tr.publisher}}</p>
+									</div>
+								</th>
+								<th class="clixia">
+									<div v-if="tr.isonline==2">
+										<p>重新上架</p>
+										<p>{{tr.isonlineTime.replace('T', ' ')}}</p>
+									</div>
+									<div v-else>下架</div>
+									
+								</th>
+								<th>{{tr.price}}</th>
+								<th>{{tr.genreName}}</th>
+								<th>{{tr.date}}</th>
+								
+							</tr>
+						
+						</tbody>
+						<tbody v-else>
+							<tr class="null">
+								<img src="../assets/NumimgTwo/null.png"/>
+								<p>暂无相关数据</p>
+							</tr>
+						</tbody>
+					</table>
 					<!-- 清榜应用table -->
 					<table class="qingbang" v-show="qingbangF" >
 						<thead>
@@ -215,10 +258,10 @@
 					</table>
 					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
-			            <p v-show="infiniteMsgShow" class="tips">
-			            	<img src="../assets/NumimgTwo/loading.gif"/>
-			            </p>
-			            <p v-show="!infiniteMsgShow" class="tips"> 我是有底线的~</p>
+				            <p v-show="infiniteMsgShow" class="tips">
+				            	<img src="../assets/NumimgTwo/loading.gif"/>
+				            </p>
+				            <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"></p>
 			            </div>
 			        </div>
 					
@@ -257,7 +300,8 @@
 				isSelect:0,//选中应用字体样式
 				shangjiatF:true,//上架标题
 				xiajiatF:false,//下架标题
-				shangjiaF:true,//上下架表格
+				shangjiaF:true,//上架表格
+				xiajiaF:false,//下架表格
 				qingbangF:false,//清榜标题
 				qingciF:false,//清词标题
 				shangT:true,//上架时间显示
@@ -283,7 +327,8 @@
 				page:1,
 				pageSize:20,
 				contentShow:true,
-				infiniteMsgShow:false,
+				infiniteMsgShow:true,
+				bomfont:'我是有底线的~',
 				// 清榜tbody
 				zongsBList:[],
 				page2:1,
@@ -313,13 +358,13 @@
 				hasbang:true,
 				// 清词是否有数据
 				hasci:true,
-
 				searval:'',//v-model搜索词
 				searchval:'',// 搜索关键词
 				total_number:0,//修改上下架排序错乱
 				total_numberB:0,//修改清榜排序错乱
-				total_numberC:0//修改清词排序错乱
+				total_numberC:0,//修改清词排序错乱
 				
+				can_execute_scorll: true,//是否可以执行滚动
 			}
 		},
 		mounted(){
@@ -340,15 +385,23 @@
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
 		          	// 请求数据 
 		          	// console.log(t)
-		          	if(that.isSelect==0||that.isSelect==1){
-		          		that.getData();
-		          	}else if(that.isSelect==2){
-		          		that.getDataB();
-		          	}else if(that.isSelect==3){
-		          		that.getDataci();
-		          	}
+		          	if (that.can_execute_scorll) {
+		          		that.contentShow=true
+                 		that.infiniteMsgShow=true
+			            if(that.isSelect==0||that.isSelect==1){
+					           that.getData() 
+			          	}else if(that.isSelect==2){
+				           		that.getDataB();
+			          	}else if(that.isSelect==3){
+				           		that.getDataci();
+			          	}
+		          	
+
+					}
+
 		          	
 					
+				
 					
 		          
 		        }
@@ -360,7 +413,7 @@
 			this.getData()
 			
 			this.$watch('dateV',function(Value, oldValue) {
-				console.log(this.isSelect)
+				// console.log(this.isSelect)
 		      // 当前日期发生变化，重新请求数据
 		      	if(this.isSelect==0||this.isSelect==1){
 					this.zongsdataList.length=0
@@ -375,10 +428,11 @@
 				    this.page3=1
 				    this.getDataci()
 				}
+
 		      
 		    })
 		    this.$watch('now_country', function(newValue, oldValue) {
-		    	console.log(this.isSelect)
+		    	// console.log(this.isSelect)
 		      // 当前国家发生变化，重新请求数据...
 		      	if(this.isSelect==0||this.isSelect==1){
 					this.zongsdataList.length=0
@@ -404,7 +458,7 @@
 			},
 			// 点击搜索
 			search(){
-				console.log(this.searchval)
+				// console.log(this.searchval)
 				if(this.isSelect==0||this.isSelect==1){
 					this.zongsdataList.length=0
 				    this.page=1
@@ -422,7 +476,10 @@
 			},
 			// 上下架应用接口
 			getData(){
-				
+				this.can_execute_scorll = false
+				this.contentShow=true
+      			this.infiniteMsgShow=true
+
 				this.total_number+=1
 				let number=this.total_number
 
@@ -515,10 +572,13 @@
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
 											this.hasup=true
+											this.bomfont="我是有底线的~"
 										}else if(this.onlinFont>20){
 											this.contentShow = true
-											this.infiniteMsgShow = true//加载更多
+											this.infiniteMsgShow = false//下拉加载更多
 											this.hasup=true
+											this.bomfont="下拉加载更多"
+											this.can_execute_scorll = true//是否可以执行滚动
 										}else if(this.onlinFont==0){
 											this.contentShow = false
 											this.hasup=false
@@ -532,7 +592,7 @@
 
 								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
 								        
-									        if(this.page>=pageC){
+									        if(this.page>=pageC+1){
 									        	this.contentShow = true
 									            this.infiniteMsgShow = false // 没有更多数据
 									        }
@@ -577,6 +637,10 @@
 			  
 			// 清榜应用接口
 			getDataB(){
+				this.can_execute_scorll = false
+				this.contentShow=true
+      			this.infiniteMsgShow=true
+
 				this.total_numberB+=1
 				let numberB=this.total_numberB
 
@@ -653,11 +717,14 @@
 										if(this.onlinFontB>0&&this.onlinFontB<21){
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
+											this.bomfont="我是有底线的~"
 											this.hasbang=true
 								        }else if(this.onlinFontB>20){
 								        	this.contentShow = true
-											this.infiniteMsgShow = true//加载更多
+											this.infiniteMsgShow = false//加载更多
 											this.hasbang=true
+											this.bomfont="下拉加载更多"
+											this.can_execute_scorll = true
 								        }else if(this.onlinFontB==0){
 								            this.contentShow = false
 								            this.hasbang=false
@@ -667,9 +734,9 @@
 											this.page2+=1
 										}
 										let pageC=Math.ceil(this.onlinFontB/this.pageSize2)
-										console.log(this.page2)
-										console.log(pageC)
-								        if(this.page2>=pageC){
+										// console.log(this.page2)
+										// console.log(pageC)
+								        if(this.page2>=pageC+1){
 								        	this.contentShow = true
 								        	this.infiniteMsgShow = false//没有更多
 								        }
@@ -704,6 +771,10 @@
 			   
 			// 清词应用接口
 			getDataci(){
+				this.can_execute_scorll = false
+				this.contentShow=true
+      			this.infiniteMsgShow=true
+
 				this.total_numberC+=1
 				let numberC=this.total_numberC
 
@@ -787,11 +858,14 @@
 
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
+											this.bomfont="我是有底线的~"
 											this.hasci=true
 								        } else if(this.onlinFontC>20){
 											this.contentShow = true
-											this.infiniteMsgShow = true//加载更多
+											this.infiniteMsgShow = false//加载更多
 											this.hasci=true
+											this.bomfont="下拉加载更多"
+											this.can_execute_scorll = true
 								        }else if(this.onlinFontC==0) {
 								            this.contentShow = false
 								            this.hasci=false
@@ -801,9 +875,9 @@
 											this.page3+=1
 										}
 								        let pageC=Math.ceil(this.onlinFontC/this.pageSize3)
-										console.log(this.page3)
-										console.log(pageC)
-								        if(this.page3>=pageC){
+										// console.log(this.page3)
+										// console.log(pageC)
+								        if(this.page3>=pageC+1){
 								        	this.contentShow = true
 								        	this.infiniteMsgShow = false//没有更多
 								        }
@@ -956,11 +1030,13 @@
 				this.contentShow = true
 				this.infiniteMsgShow = true//加载更多
 				if(this.isSelect==0){
+					// this.clixia=false
 					// 上架应用
 					this.shangjiatF=true//上架标题
 					this.xiajiatF=false//下架标题
 					
-					this.shangjiaF=true//上下架表格
+					this.shangjiaF=true//上架表格
+					this.xiajiaF=false//下架表格
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
@@ -970,11 +1046,13 @@
 		      		this.page=1
 		      		this.getData()
 				}else if(this.isSelect==1){
+					// this.clixia=true
 					//下架应用
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=true//下架标题
 					
-					this.shangjiaF=true//上下架表格
+					this.shangjiaF=false//上架表格
+					this.xiajiaF=true//下架表格
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
@@ -986,7 +1064,8 @@
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=false//下架标题
 					
-					this.shangjiaF=false//上下架表格
+					this.shangjiaF=false//上架表格
+					this.xiajiaF=false//下架表格
 					this.qingbangF=true//清榜标题
 					this.qingciF=false//清词标题
 
@@ -998,7 +1077,8 @@
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=false//下架标题
 					
-					this.shangjiaF=false//上下架表格
+					this.shangjiaF=false//上架表格
+					this.xiajiaF=false//下架表格
 					this.qingbangF=false//清榜标题
 					this.qingciF=true//清词标题
 
@@ -1303,6 +1383,9 @@ table tbody tr{
 table tr th{
 	width: 298px;
 }
+table.xiajia tr th{
+	width: 225px;
+}
 table.qingbang tr th{
 	width: 147px;
 }
@@ -1324,12 +1407,16 @@ table tbody tr th{
 	font-size: 14px;
 	color: #444444;
 }
-table.qingbang tbody tr th>div p{
+table.qingbang tbody tr th>div p,
+table.xiajia tbody .clixia p:first-child{
 	font-family: SourceHanSansCN-Normal;
 	font-size: 14px;
 	color: #444444;
 }
-table.qingbang tbody tr th>div p:last-child{
+table.qingbang tbody tr th>div p:last-child,
+table.xiajia tbody .clixia p:last-child{
+	font-family: SourceHanSansCN-Normal;
+	font-size: 14px;
 	color: #888;
 }
 table.qingci tbody tr th>div p{

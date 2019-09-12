@@ -23,7 +23,10 @@
               <th>状态</th>
             </tr>
           </thead>
-          <tbody v-if="response_data">
+          <tbody>
+            <tr class="disable_hover" v-if="response_data==null">
+              <td colspan="8">暂无相关数据</td>
+            </tr>
             <tr v-for="(item ,index) in response_data" :key="index">
               <td class="first_td">{{index+1}}</td>
               <td class="second_td">
@@ -264,8 +267,6 @@ tbody tr td:last-child {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  color: #009bef;
-  padding: 38px 0;
   width: 108px;
   height: 100px;
   box-sizing: border-box;
@@ -343,5 +344,18 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

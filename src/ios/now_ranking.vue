@@ -21,7 +21,10 @@
                 <th>{{response_data_first_title[3]}}</th>
               </tr>
             </thead>
-            <tbody v-if="response_data_first">
+            <tbody>
+              <tr class="disable_hover" v-if="response_data_first.length==0">
+                <td colspan="4">暂无相关数据</td>
+              </tr>
               <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
                 <td>
                   <div class="rankingChangeFontColor">{{item[0]==''?'--':item[0]}}</div>
@@ -309,8 +312,8 @@ export default {
       // 第一部分图表的数据
       // 第一部分图表的数据
       now_country: '中国',
-      response_data_first: null,
-      response_data_first_title: null,
+      response_data_first: new Array(),
+      response_data_first_title: new Array(),
       // 第二部分折线图数据
       // 第二部分折线图数据
       // 第二部分折线图数据
@@ -430,9 +433,6 @@ export default {
     })
   },
   mounted: function() {
-    // 基于准备好的dom，初始化echarts实例
-    this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
-    this.myChart.showLoading()
     this.get_data_second()
   },
   methods: {
@@ -477,7 +477,7 @@ export default {
                 // this.response_data_first.splice(0, 1)
                 delete this.response_data_first.rank_0
               } else {
-                console.log('第一部分没数据')
+                // console.log('第一部分没数据')
                 this.response_data_first = new Array()
                 this.response_data_first_title = new Array()
               }
@@ -496,6 +496,8 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
+      this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
+      this.myChart.showLoading()
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -571,14 +573,6 @@ export default {
           }
           // let appId = 472208016
           let appId = this.$store.state.now_app_id
-          // console.log('999999999999999999999')
-          // console.log('endDate=' + endDate)
-          // console.log('startDate=' + startDate)
-          // console.log('country_id=' + country_id)
-          // console.log('brand=' + brand)
-          // console.log('timeType=' + timeType)
-          // console.log('appId=' + appId)
-          // console.log('device=' + 1)
           let url = '/PostRandTrend'
           let data = {
             appids: appId,
@@ -589,15 +583,15 @@ export default {
             timeType: timeType,
             device: 1
           }
+          // console.log(data)
 
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response.data)
+              // console.log(response.data)
               if (response.data.Code == 0 && response.data.Data.length > 0) {
-                // this.selected_data_function(false)
-                console.log('有数据')
+                // console.log('有数据')
                 this.is_show_mychart = true
                 this.response_data_second = response.data.Data[0]
                 this.xAxis_data.length = 0
@@ -624,7 +618,7 @@ export default {
                 this.drawLine()
                 this.myChart.hideLoading()
               } else {
-                console.log('无数据')
+                // console.log('无数据')
                 // alert('wushuju')
                 this.is_show_mychart = false
               }
@@ -930,8 +924,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              console.log('8888888888888888888888888')
-              console.log(this.response_data_third)
+              // console.log('8888888888888888888888888')
+              // console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }
@@ -1340,5 +1334,22 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+
+.disable_hover td {
+  color: #bfbfbf !important;
+}
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf !important;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

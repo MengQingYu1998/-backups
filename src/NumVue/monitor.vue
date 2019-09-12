@@ -481,7 +481,7 @@
 
 
 
-<style>
+<style scoped>
 .Leibox{
 	position: absolute;
 	top:41px;

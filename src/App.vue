@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <el-backtop></el-backtop>
     <navv />
     <div class="app_div">
       <keep-alive>
@@ -184,6 +185,7 @@ table tbody tr:hover {
 /*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
   box-sizing: border-box;
+  z-index: 99999 !important;
 }
 
 /* 进度条组件element */
@@ -407,6 +409,8 @@ table thead tr th {
 }
 #app {
   padding-top: 67px;
+  width: 100%;
+  height: 100%;
 }
 .table_no_data {
   font-family: SourceHanSansCN-Normal;
@@ -436,4 +440,42 @@ table thead tr th {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18);
   margin-top: 10px;
 }
+
+/* 滚动条 */
+/* 滚动条 */
+/* 滚动条 */
+/* 滚动条 */
+::-webkit-scrollbar-thumb:horizontal {
+  /*水平滚动条的样式*/
+  width: 4px;
+  background-color: #cccccc;
+  -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #fff; /*滚动条的背景颜色*/
+  -webkit-border-radius: 0; /*滚动条的圆角宽度*/
+}
+::-webkit-scrollbar {
+  width: 10px; /*滚动条的宽度*/
+  height: 8px; /*滚动条的高度*/
+}
+::-webkit-scrollbar-thumb:vertical {
+  /*垂直滚动条的样式*/
+  height: 50px;
+  background-color: #999;
+  -webkit-border-radius: 7px;
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+  border: 2px solid #fff;
+}
+::-webkit-scrollbar-thumb:hover {
+  /*滚动条的hover样式*/
+  height: 50px;
+  background-color: #9f9f9f;
+  -webkit-border-radius: 4px;
+}
+/* 滚动条 */
+/* 滚动条 */
+/* 滚动条 */
+/* 滚动条 */
 </style>

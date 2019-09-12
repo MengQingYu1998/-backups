@@ -56,6 +56,15 @@
         </tr>
       </thead>
       <tbody>
+        <tr v-if="!response_data">
+          <td colspan="2">
+            <div class="no_data_img">
+              <img src="../assets/ios/null.png" alt />
+              <div>暂无相关数据</div>
+            </div>
+          </td>
+        </tr>
+
         <tr v-for="(item,index) in response_data" :key="index">
           <td>
             <div class="table_font">{{item.strtime}}</div>
@@ -344,6 +353,28 @@ export default {
 </script>
 
 <style scoped>
+.no_data_img:hover {
+  background-color: #fff;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
+}
+
+.no_data_img {
+  width: 100%;
+  height: 606px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
 .margin_top_font {
   margin-top: 4px;
 }

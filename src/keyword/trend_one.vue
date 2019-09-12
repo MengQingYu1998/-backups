@@ -460,6 +460,9 @@ export default {
 }
 </script>
 <style scoped>
+tbody div {
+  margin-left: -11px;
+}
 .position_relative {
   position: relative;
 }

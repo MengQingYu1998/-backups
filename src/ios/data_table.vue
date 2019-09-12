@@ -87,30 +87,35 @@
                 <th>Top10关键词</th>
               </tr>
             </thead>
-            <tbody v-if="request_data_first" class="tr_height">
-              <tr
-                v-for="(item, index) in request_data_first.detailKeyWord"
-                :key="'detailKeyWord'+index"
-              >
-                <td>
-                  <div>{{item.hintRange}}</div>
-                </td>
-                <td>
-                  <div>{{item.keyWordCount.num}}</div>
-                </td>
-                <td>
-                  <div>{{item.top3.num}}</div>
-                </td>
-                <td>
-                  <div>{{item.top10.num}}</div>
-                </td>
+            <tbody class="tr_height">
+              <tr class="disable_hover" v-if="request_data_first==null">
+                <td colspan="4">暂无相关数据</td>
               </tr>
-              <tr>
-                <td>合计：</td>
-                <td>{{request_data_first.totalCount}}</td>
-                <td>{{request_data_first.top3Count}}</td>
-                <td>{{request_data_first.top10Count}}</td>
-              </tr>
+              <template v-if="request_data_first!=null">
+                <tr
+                  v-for="(item, index) in request_data_first.detailKeyWord"
+                  :key="'detailKeyWord'+index"
+                >
+                  <td>
+                    <div>{{item.hintRange}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.keyWordCount.num}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.top3.num}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.top10.num}}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>合计：</td>
+                  <td>{{request_data_first.totalCount}}</td>
+                  <td>{{request_data_first.top3Count}}</td>
+                  <td>{{request_data_first.top10Count}}</td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </section>
@@ -229,7 +234,14 @@
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody v-if="request_data_second" class="td_width">
+            <tbody class="td_width">
+              <tr
+                class="disable_hover"
+                v-if="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
+              >
+                <td colspan="6">暂无相关数据</td>
+              </tr>
+              <!-- <template v-if="request_data_second"> -->
               <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
                   <div class="pointer table_width01" @click="go_to_page03(item.Word)">{{item.Word}}</div>
@@ -376,7 +388,7 @@
                                 <span>时间</span>
                               </th>
                               <th>
-                                <span>{{this.$store.state.now_app_name}}</span>
+                                <span>{{keyword_data[0]}}</span>
                               </th>
                             </tr>
                           </thead>
@@ -475,11 +487,15 @@
                   >排名趋势</div>
                 </td>
               </tr>
+              <!-- </template> -->
             </tbody>
           </table>
         </section>
 
-        <div class="paging" v-if="request_data_second">
+        <div
+          class="paging"
+          v-if="temp01_request_data_second.length!=0||temp_request_data_second.length!=0"
+        >
           <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
           <div>
             <el-pagination
@@ -551,8 +567,8 @@ export default {
       total: 0,
       response_data_Data: null,
       request_data_second: null,
-      temp_request_data_second: null,
-      temp01_request_data_second: null,
+      temp_request_data_second: new Array(),
+      temp01_request_data_second: new Array(),
       is_show_bottom: false, //默认设置底部折线图隐藏
 
       change_bg_result: true,
@@ -571,7 +587,6 @@ export default {
       word: '',
       wordId: null,
       request_data_third: null,
-      systemValue: 'ios12',
       bottom_radio1: '按小时',
       bottom_radio3: '近24小时',
       middle_time01: '',
@@ -756,15 +771,15 @@ export default {
             nowDate +
             '&compareDate=' +
             compareDate
-          console.log(url)
+          // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.request_data_first = response.data.Data
-              console.log('=================概述=====')
-              console.log(response)
+              // console.log('=================概述=====')
+              // console.log(response)
               // console.log(this.request_data_first)
             })
             .catch(error => {
@@ -777,8 +792,8 @@ export default {
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
-      console.log(new Date(this.dateCompare_for_top).getTime())
-      console.log(new Date(this.date_Now_for_top).getTime())
+      // console.log(new Date(this.dateCompare_for_top).getTime())
+      // console.log(new Date(this.date_Now_for_top).getTime())
 
       this.dateCompare_for_top =
         new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
@@ -806,7 +821,7 @@ export default {
         .get('/GetCountry')
         .then(response => {
           // 获取国家ID
-          console.log(response)
+          // console.log(response)
 
           let country_id
           let arr_country = response.data.Data
@@ -825,18 +840,7 @@ export default {
           let url = '/GetKeyWordDetail'
           let that = this
           let appId = this.$store.state.now_app_id
-          console.log('appId=' + appId)
-          console.log('countryId=' + country_id)
-          console.log('device=' + deviceType)
-          console.log('system=' + system)
-          console.log('nowDate=' + nowDate)
-          console.log('compareDate=' + compareDate)
-          console.log('minHint=' + that.result_min_input01)
-          console.log('maxHint=' + that.result_max_input01)
-          console.log('minRank=' + that.result_min_input02)
-          console.log('maxRank=' + that.result_max_input02)
-          console.log('minResult=' + that.result_min_input03)
-          console.log('maxResult=' + that.result_max_input03)
+
           let data = {
             appId: appId,
             countryId: country_id,
@@ -858,7 +862,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log('=================明细=====')
+              // console.log('=================明细=====')
               if (is_excute_function == this.db_number_is_same) {
                 if (parm) {
                   this.response(response.data.Data)
@@ -876,21 +880,26 @@ export default {
         })
     },
     response(response) {
-      this.response_data_Data = response
-      console.log(this.response_data_Data)
+      if (response != null) {
+        this.response_data_Data = response
+        console.log(this.response_data_Data)
 
-      this.total = this.response_data_Data.length //底部显示总共
-      this.request_data_second = this.response_data_Data
+        this.total = this.response_data_Data.length //底部显示总共
+        this.request_data_second = this.response_data_Data
 
-      // 先把数组置空，不然会出现页面渲染问题
-      this.temp_request_data_second = null //折线图下面的tr
-      this.temp01_request_data_second = null //折线图上面的tr
-      this.is_show_bottom = false //折线图隐藏
+        // 先把数组置空，不然会出现页面渲染问题
+        this.temp_request_data_second = new Array() //折线图下面的tr
+        this.temp01_request_data_second = new Array() //折线图上面的tr
+        this.is_show_bottom = false //折线图隐藏
 
-      this.temp01_request_data_second = this.response_data_Data.slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100 + 1
-      )
+        this.temp01_request_data_second = this.response_data_Data.slice(
+          (this.currentPage - 1) * 100,
+          this.currentPage * 100 + 1
+        )
+      } else {
+        this.temp_request_data_second = new Array() //折线图下面的tr
+        this.temp01_request_data_second = new Array() //折线图上面的tr
+      }
     },
     // 点击搜索,全部按钮
     search_input_all_function() {
@@ -901,9 +910,9 @@ export default {
       if (this.search_input.trim() != '') {
         this.get_data_for_second_part(false)
         let new_array = new Array()
-        this.search_input = this.search_input.trim().replace(/ /g, '，')
+        // this.search_input = this.search_input.trim().replace(/ /g, '，')
         this.search_input = this.search_input.trim().replace(/,/g, '，')
-        console.log(this.search_input)
+        // console.log(this.search_input)
         let search_input_arr = this.search_input.trim().split('，')
         search_input_arr.forEach((element_father, index_father) => {
           this.response_data_Data.forEach((element, index) => {
@@ -1093,7 +1102,7 @@ export default {
           let appId = this.$store.state.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
-          console.log(time)
+          // console.log(time)
           // console.log(wordId)
           // console.log(deviceType)
           // console.log(country_id)
@@ -1117,13 +1126,13 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               // console.log(this.word)
 
               if (response.data.Data != null) {
                 this.no_data = false
                 this.request_data_third = response.data.Data
-                console.log(this.request_data_third)
+                // console.log(this.request_data_third)
                 // this.keyword_data = new Array()
                 this.keyword_data_value = new Array()
                 this.xAxis_data = new Array()
@@ -1451,9 +1460,7 @@ export default {
   color: #ffffff;
   text-align: center;
 }
-.scroll tbody tr {
-  border: solid 1px #f2f2f2;
-}
+
 .scroll tbody {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -1464,6 +1471,7 @@ export default {
   display: block;
   max-height: 366px;
   overflow-y: scroll;
+  border: solid 1px #f2f2f2;
 }
 .scroll thead tr {
   height: 40px;
@@ -1471,8 +1479,11 @@ export default {
 .scroll thead tr span {
   margin-left: -26px;
 }
+.scroll td div {
+  margin-left: -15px;
+}
 .scroll td {
-  width: 489px !important;
+  width: 1% !important;
 }
 .scroll thead {
   width: 100%;
@@ -1725,9 +1736,7 @@ thead tr {
 td {
   padding: 14px 0;
 }
-th {
-  border: 1px solid #f2f2f2;
-}
+
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
@@ -1990,5 +1999,19 @@ table {
       text-align: center;
     }
   }
+}
+
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

@@ -350,44 +350,57 @@
                 <th>时间</th>
               </tr>
             </thead>
-            <tbody v-if="response_data_fourth_part">
-              <tr
-                v-for="(response_data_fourth_part_item,index) in response_data_fourth_part"
-                :key="'response_data_fourth_part'+index"
-              >
-                <td class="bottom_table_td01">
-                  <div>
-                    <el-rate v-model="response_data_fourth_part_item.starLevel" disabled></el-rate>
-                  </div>
-                </td>
-                <td class="bottom_table_td02">
-                  <div class="table_title">
-                    {{response_data_fourth_part_item.title}}
-                    <span
-                      v-if="response_data_fourth_part_item.isDelete"
-                    >该条评论已被删除</span>
-                  </div>
-                  <div
-                    :id="'show_more'+index"
-                    :class="{'table_description':true,'table_description_height':response_data_fourth_part_item.commentContent.length<90} "
-                  >{{response_data_fourth_part_item.commentContent}}</div>
-                  <div
-                    v-if="response_data_fourth_part_item.commentContent.length>90"
-                    class="show_all pointer"
-                    :id="'show_hide'+index"
-                    @click="show_more_function('show_more'+index,'show_hide'+index)"
-                  >展开更多</div>
-                  <div class="table_author">
-                    作者：
-                    <span>{{response_data_fourth_part_item.authorName}}</span>
-                  </div>
-                </td>
-                <td class="bottom_table_td03">
-                  <div>{{(response_data_fourth_part_item.publishTime).replace('T',' ')}}</div>
-                </td>
+            <tbody>
+              <tr class="disable_hover" v-if="response_data_fourth_part.length==0">
+                <td colspan="3">暂无相关数据</td>
               </tr>
+              <template v-if="response_data_fourth_part.length!=0">
+                <tr
+                  v-for="(response_data_fourth_part_item,index) in response_data_fourth_part"
+                  :key="'response_data_fourth_part'+index"
+                >
+                  <td class="bottom_table_td01">
+                    <div>
+                      <el-rate v-model="response_data_fourth_part_item.starLevel" disabled></el-rate>
+                    </div>
+                  </td>
+                  <td class="bottom_table_td02">
+                    <div class="table_title">
+                      {{response_data_fourth_part_item.title}}
+                      <span
+                        v-if="response_data_fourth_part_item.isDelete"
+                      >该条评论已被删除</span>
+                    </div>
+                    <div
+                      :id="'show_more'+index"
+                      :class="{'table_description':true,'table_description_height':response_data_fourth_part_item.commentContent.length<90} "
+                    >{{response_data_fourth_part_item.commentContent}}</div>
+                    <div
+                      v-if="response_data_fourth_part_item.commentContent.length>90"
+                      class="show_all pointer"
+                      :id="'show_hide'+index"
+                      @click="show_more_function('show_more'+index,'show_hide'+index)"
+                    >展开更多</div>
+                    <div class="table_author">
+                      作者：
+                      <span>{{response_data_fourth_part_item.authorName}}</span>
+                    </div>
+                  </td>
+                  <td class="bottom_table_td03">
+                    <div>{{(response_data_fourth_part_item.publishTime).replace('T',' ')}}</div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
+          <div class="loading" v-show="loading">
+            <img src="../assets/ios/loading.gif" alt />
+          </div>
+          <div
+            class="it_is_over"
+            v-show="!it_is_over&&!loading&&response_data_fourth_part.length!=0"
+          >下拉加载更多</div>
+          <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
         </section>
       </div>
     </div>
@@ -404,6 +417,9 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      can_execute_scorll: true, //是否可以执行滚动
+      it_is_over: false,
+      loading: false,
       page: 1,
       // 第一部分参数
       // 第一部分参数
@@ -510,7 +526,7 @@ export default {
       // 第四部分的参数
       // 第四部分的参数
       show_more_less: true, //展开 收起
-      response_data_fourth_part: null,
+      response_data_fourth_part: new Array(),
       bottom_radio01: '全部',
       bottom_radio02: '全部',
       bottom_radio03: '最有帮助',
@@ -542,7 +558,7 @@ export default {
   created: function() {
     // 请求数据
     this.get_data_for_first_part()
-
+    this.page = 1
     this.get_data_for_fourth_part()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
@@ -575,19 +591,23 @@ export default {
     //'当前第四部分=》评论部分的    时间  发生变化，重新请求数据...'
     this.$watch('bottom_time01', function(newValue, oldValue) {
       this.bottom_radio04 = ''
-
+      this.page = 1
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio01', function(newValue, oldValue) {
+      this.page = 1
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio02', function(newValue, oldValue) {
+      this.page = 1
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio03', function(newValue, oldValue) {
+      this.page = 1
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio04', function(newValue, oldValue) {
+      this.page = 1
       this.get_data_for_fourth_part()
     })
   },
@@ -608,7 +628,9 @@ export default {
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
-          that.get_data_for_fourth_part()
+          if (that.can_execute_scorll) {
+            that.get_data_for_fourth_part()
+          }
         }
       }
     })
@@ -1342,6 +1364,9 @@ export default {
     // ==================第四部分===========================
     // 请求第四部分=》评论部分的数据
     get_data_for_fourth_part() {
+      this.can_execute_scorll = false
+      this.loading = true
+      this.it_is_over = false
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1439,6 +1464,11 @@ export default {
               )
               console.log(this.response_data_fourth_part)
               this.page += 1
+              this.can_execute_scorll = true //是否可以执行滚动
+              this.it_is_over =
+                this.response_data_fourth_part.length ==
+                response.data.Data.length
+              this.loading = false
             })
             .catch(error => {
               console.log(error)
@@ -1832,5 +1862,40 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.it_is_over {
+  text-align: center;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 74px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+  margin-top: -50px;
+}
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: -20px;
+}
+.loading > img {
+  width: 50px;
+  height: 50px;
+}
+
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

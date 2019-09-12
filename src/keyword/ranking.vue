@@ -157,30 +157,45 @@
           <th>搜索结果排名第 1 的应用</th>
         </tr>
       </thead>
-      <tbody v-if="data_for_table">
-        <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
-          <td>
-            <div class="rowid">{{item.rowid}}</div>
-          </td>
-          <td class="table_font pointer">
-            <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-          </td>
-          <td class="table_font pointer">
-            <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
-          </td>
-          <!-- 给下一个页面传递参数 -->
-          <td class="table_font pointer" @click="go_to_page03(item.Word)">
-            <div>{{item.SearchCount}}</div>
-          </td>
-          <td class="table_font pointer">
-            <div
-              class="pointer"
-              @click="go_to_page04(item.AppStoreId,item.app_name)"
-            >{{item.app_name}}</div>
+      <tbody>
+        <tr v-if="data_for_table.length == 0">
+          <td colspan="5">
+            <div class="no_data_img">
+              <img src="../assets/ios/null.png" alt />
+              <div>暂无相关数据</div>
+            </div>
           </td>
         </tr>
+        <template v-if="data_for_table.length!=0">
+          <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
+            <td>
+              <div class="rowid">{{item.rowid}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
+            </td>
+            <!-- 给下一个页面传递参数 -->
+            <td class="table_font pointer" @click="go_to_page03(item.Word)">
+              <div>{{item.SearchCount}}</div>
+            </td>
+            <td class="table_font pointer">
+              <div
+                class="pointer"
+                @click="go_to_page04(item.AppStoreId,item.app_name)"
+              >{{item.app_name}}</div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
+    <div class="loading" v-show="data_for_table.length != 0&&loading">
+      <img src="../assets/ios/loading.gif" alt />
+    </div>
+    <div class="it_is_over" v-show="!it_is_over&&data_for_table.length != 0&&!loading">下拉加载更多</div>
+    <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
   </div>
 </template>
 
@@ -194,6 +209,9 @@ export default {
   components: { country },
   data() {
     return {
+      can_execute_scorll: true, //是否可以执行滚动
+      it_is_over: false,
+      loading: false,
       visible: false, //悬浮框是否隐藏
       visible01: false, //悬浮框是否隐藏
       db_number_is_same: 0, //修复用户输入过快的bug
@@ -204,7 +222,7 @@ export default {
       data_for_classify: null,
       my_genreId: null,
       // 请求的表格数据
-      data_for_table: [],
+      data_for_table: new Array(),
       //以下几个变量模仿单选框
       change_bg_index_all: true,
       change_bg_index_number: false,
@@ -313,12 +331,10 @@ export default {
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
-          // 需要执行的代码
-
-          // if (that.can_excute) {
-          that.get_data_table()
-          // console.log('yes')
-          // }
+          //是否可以执行滚动
+          if (that.can_execute_scorll) {
+            that.get_data_table()
+          }
         }
       }
     })
@@ -353,6 +369,9 @@ export default {
     },
     // 请求表格数据
     get_data_table() {
+      this.can_execute_scorll = false
+      this.loading = true
+      this.it_is_over = false
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       // console.log('=======请求表格数据=======')
@@ -398,16 +417,19 @@ export default {
             .get(url)
             .then(response => {
               console.log(response.data.Data)
-              // this.can_excute = true //是否可以执行滚动条到达底部事件
-              if (is_excute_function == this.db_number_is_same) {
+              if (
+                is_excute_function == this.db_number_is_same &&
+                response.data.Data != null
+              ) {
                 // console.log('数组拼接成功')
                 this.data_for_table = this.data_for_table.concat(
                   response.data.Data
                 )
                 this.page += 1
+                this.can_execute_scorll = true //是否可以执行滚动
+                this.it_is_over = response.data.Data < 20
+                this.loading = false
               }
-              // this.can_excute = false //是否可以执行滚动条到达底部事件
-              // console.log(this.data_for_table)
             })
             .catch(error => {
               console.log(error)
@@ -537,6 +559,27 @@ export default {
 }
 </script>
 <style scoped>
+.it_is_over {
+  text-align: center;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 74px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+  margin-top: -50px;
+}
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: -20px;
+}
+.loading > img {
+  width: 50px;
+  height: 50px;
+}
 .margin_top_font {
   margin-top: 4px;
 }
@@ -790,5 +833,27 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.no_data_img:hover {
+  background-color: #fff;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
+}
+
+.no_data_img {
+  width: 100%;
+  height: 606px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
 }
 </style>

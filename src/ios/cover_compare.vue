@@ -38,22 +38,27 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
-              <tr>
-                <td>关键词</td>
-                <td>搜索指数</td>
-                <td>排名</td>
+              <tr class="disable_hover" v-if="response_data.myOwn==0">
+                <td colspan="3">暂无相关数据</td>
               </tr>
-              <tr v-for="(item,index) in response_data.myOwn" :key="'table01'+index">
-                <td>
-                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                </td>
-                <td>
-                  <div class="pointer" @click="go_to_page02()">{{item.WordIdHint}}</div>
-                </td>
-                <td>
-                  <div>{{item.Ranking}}</div>
-                </td>
-              </tr>
+              <template v-if="response_data.myOwn!=0">
+                <tr>
+                  <td>关键词</td>
+                  <td>搜索指数</td>
+                  <td>排名</td>
+                </tr>
+                <tr v-for="(item,index) in response_data.myOwn" :key="'table01'+index">
+                  <td>
+                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+                  </td>
+                  <td>
+                    <div class="pointer" @click="go_to_page02()">{{item.WordIdHint}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.Ranking}}</div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
           <table>
@@ -63,22 +68,27 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
-              <tr>
-                <td>关键词</td>
-                <td>搜索指数</td>
-                <td>排名</td>
+              <tr class="disable_hover" v-if="response_data.common==0">
+                <td colspan="3">暂无相关数据</td>
               </tr>
-              <tr v-for="(item,index) in response_data.common" :key="'table02'+index">
-                <td>
-                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                </td>
-                <td>
-                  <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
-                </td>
-                <td>
-                  <div>{{item.Ranking}}</div>
-                </td>
-              </tr>
+              <template v-if="response_data.common!=0">
+                <tr>
+                  <td>关键词</td>
+                  <td>搜索指数</td>
+                  <td>排名</td>
+                </tr>
+                <tr v-for="(item,index) in response_data.common" :key="'table02'+index">
+                  <td>
+                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+                  </td>
+                  <td>
+                    <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.Ranking}}</div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
           <table>
@@ -88,25 +98,38 @@
               </tr>
             </thead>
             <tbody v-if="response_data">
-              <tr>
-                <td>关键词</td>
-                <td>搜索指数</td>
-                <td>排名</td>
+              <tr class="disable_hover" v-if="response_data.comOwn==0">
+                <td colspan="3">暂无相关数据</td>
               </tr>
-              <tr v-for="(item,index) in response_data.comOwn" :key="'table03'+index">
-                <td>
-                  <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                </td>
-                <td>
-                  <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
-                </td>
-                <td>
-                  <div>{{item.Ranking}}</div>
-                </td>
-              </tr>
+              <template v-if="response_data.comOwn!=0">
+                <tr>
+                  <td>关键词</td>
+                  <td>搜索指数</td>
+                  <td>排名</td>
+                </tr>
+                <tr v-for="(item,index) in response_data.comOwn" :key="'table03'+index">
+                  <td>
+                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+                  </td>
+                  <td>
+                    <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
+                  </td>
+                  <td>
+                    <div>{{item.Ranking}}</div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
+        <div class="loading" v-show="loading">
+          <img src="../assets/ios/loading.gif" alt />
+        </div>
+        <div
+          class="it_is_over"
+          v-show="!it_is_over&&!loading&&(response_data.comOwn.length!=0||response_data.common.length!=0||response_data.myOwn.length!=0)"
+        >下拉加载更多</div>
+        <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
       </div>
     </div>
   </div>
@@ -120,6 +143,9 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      can_execute_scorll: true, //是否可以执行滚动
+      it_is_over: false,
+      loading: false,
       page: 1,
       // 设备选择
       equipment: [
@@ -136,12 +162,15 @@ export default {
     }
   },
   created: function() {
+    this.page = 1
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      this.page = 1
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.page = 1
       this.get_data()
     })
   },
@@ -160,7 +189,9 @@ export default {
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
-          that.get_data()
+          if (that.can_execute_scorll) {
+            that.get_data()
+          }
         }
       }
     })
@@ -168,6 +199,10 @@ export default {
   methods: {
     // 请求数据
     get_data() {
+      this.can_execute_scorll = false
+      console.log('============================')
+      this.loading = true
+      this.it_is_over = false
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -180,24 +215,13 @@ export default {
               return false
             }
           })
-          // 请求数据
-          // 1:iPhone 2:ipad
 
-          // console.log('country_id' + country_id)
-
-          // let system=11
-          // let device=1
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          // let system = this.systemValue == 'ios11' ? 11 : 12
           let system = 11
           let appid = this.$store.state.now_app_id
           let comappId = this.$store.state.now_app_id02
-          // console.log('appid' + '----' + appid)
-          // console.log('country_id' + '----' + country_id)
-          // console.log('comappId' + '----' + comappId)
-          // console.log('system' + '----' + system)
-          // console.log('device' + '----' + device)
+
           let url =
             '/GetKeyWordCompare?countryId=' +
             country_id +
@@ -216,7 +240,10 @@ export default {
             .then(response => {
               this.response_data = response.data.Data
               console.log(response)
-              console.log(this.response_data)
+              //  this.it_is_over =
+              //   this.response_data.myOwn.length < this.page * 20 &&
+              //   this.response_data.common.length < this.page * 20 &&
+              //   this.response_data.comOwn.length < this.page * 20
               this.response_data.comOwn = this.response_data.comOwn.slice(
                 0,
                 this.page * 20
@@ -230,6 +257,8 @@ export default {
                 this.page * 20
               )
               this.page += 1
+              this.can_execute_scorll = true //是否可以执行滚动
+              this.loading = false
             })
             .catch(error => {
               console.log(error)
@@ -417,5 +446,43 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.it_is_over {
+  text-align: center;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 74px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+  margin-bottom: -50px;
+}
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-bottom: -20px;
+  margin-top: 30px;
+}
+.loading > img {
+  width: 50px;
+  height: 50px;
+}
+#cover_compare {
+  padding-bottom: 50px;
+}
+
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>
