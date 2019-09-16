@@ -16,13 +16,13 @@
 				<div>
 					<p class="category">类别</p>
 					<p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">总榜</p>
-					<p class="font" @click="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
+					<p class="font" @click.stop="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
 						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>
 					</p>
-					<p class="font" @click="showG()" v-bind:class="{selectFont:isFontG}">
+					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWG"/>
@@ -56,7 +56,7 @@
 				<div>
 					<p>设备</p>
 					<el-select v-model="equipmentValue">
-				        <el-option v-for="(item,B) in  equipment" :key="item.B"  :value="item.value">
+				        <el-option v-for="(item) in  equipment" :key="item.B"  :value="item.value">
 				        </el-option>
 				    </el-select>
 
@@ -112,7 +112,7 @@
 							</tr>
 						</thead>
 						<tbody v-if="hasbangdata">
-							<tr v-for="tr in zongsData" :key="tr.index" v-if="tr">
+							<tr v-for="tr in zongsData" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -298,6 +298,14 @@
 
 		},
 		mounted() {
+			// showApplication:false,
+			// 	showGame:false,
+		let that = this
+		document.getElementById('body').onclick = function() {
+    that.showApplication = false
+      that.showGame = false
+  }
+   
 		    this.$nextTick(() => {
 		      let that = this
 		      //当页面滚动的时候  加载  滚动加载
@@ -318,6 +326,10 @@
 		          	
 		          // console.log(2)
 		           if (that.can_execute_scorll) {
+								document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
 		          	   that.contentShow=true
                        that.infiniteMsgShow=true
 			           that.getData() 

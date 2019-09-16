@@ -400,7 +400,7 @@
             class="it_is_over"
             v-show="!it_is_over&&!loading&&response_data_fourth_part.length!=0"
           >下拉加载更多</div>
-          <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+          <div class="it_is_over" v-show=" response_data_fourth_part.length!=0 &&it_is_over">我是有底线的～</div>
         </section>
       </div>
     </div>
@@ -562,6 +562,7 @@ export default {
     this.get_data_for_fourth_part()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      this.$store.state.now_country_name = this.now_country
       this.get_data_for_first_part()
       this.get_data_for_fourth_part()
       this.get_data_for_third_part()
@@ -629,6 +630,10 @@ export default {
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
           if (that.can_execute_scorll) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
             that.get_data_for_fourth_part()
           }
         }
@@ -1576,7 +1581,10 @@ table .table_author {
   color: #888888;
   margin-top: 7px;
   margin-bottom: 17px;
-  width: 100%;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 table .table_description {
   font-family: SourceHanSansCN-Normal;

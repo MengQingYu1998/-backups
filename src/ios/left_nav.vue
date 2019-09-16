@@ -1,6 +1,6 @@
 <template>
   <div id="left_nav">
-    <div class="nav">
+    <div class="nav" @click="change_country">
       <div class="nav_title">
         <img src="../assets/ios/left_nav01.png" alt />
         <div>应用信息</div>
@@ -57,7 +57,14 @@ export default {
   data() {
     return {}
   },
-  created: function() {}
+  // props: ['now_country'],
+  created: function() {},
+  methods: {
+    change_country() {
+      // alert(now_country)
+      // this.$store.state.now_country_name = '法国'
+    }
+  }
 }
 </script>
 <style scoped>

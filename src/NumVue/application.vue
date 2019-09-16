@@ -221,7 +221,7 @@
 							<tr v-for="tr in cidataList" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
-									<img :src="tr.icon"class="logo" />
+									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
 										<p class="company">{{tr.publisher}}
@@ -386,6 +386,10 @@
 		          	// 请求数据 
 		          	// console.log(t)
 		          	if (that.can_execute_scorll) {
+									document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
 		          		that.contentShow=true
                  		that.infiniteMsgShow=true
 			            if(that.isSelect==0||that.isSelect==1){

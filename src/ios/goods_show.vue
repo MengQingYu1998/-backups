@@ -21,7 +21,10 @@
               <th>竞品对比</th>
             </tr>
           </thead>
-          <tbody v-if="response_data">
+          <tbody v-if="response_data!=null">
+            <tr class="disable_hover" v-show="response_data.data_0.length==0">
+              <td colspan="7">暂无相关数据</td>
+            </tr>
             <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
               <td>
                 <div class="use">
@@ -100,7 +103,10 @@
               <th>竞品对比</th>
             </tr>
           </thead>
-          <tbody v-if="response_data">
+          <tbody v-if="response_data!=null">
+            <tr class="disable_hover" v-show="response_data.data_1.length==0">
+              <td colspan="7">暂无相关数据</td>
+            </tr>
             <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
               <td>
                 <div class="use">
@@ -175,6 +181,7 @@ export default {
 
     this.$watch('now_country', function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
+      this.$store.state.now_country_name = this.now_country
       this.get_data()
     })
   },
@@ -204,15 +211,19 @@ export default {
             1 +
             '&date=' +
             formatDate(new Date(), 'yyyy-MM-dd')
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
-              console.log(99999999999999999999999999)
-              console.log(this.response_data)
-              console.log(response)
+              if (response.data.Code == 0) {
+                this.response_data = response.data.Data
+                // console.log(99999999999999999999999999)
+                // console.log(this.response_data)
+                // console.log(response)
+              } else {
+                this.response_data = null
+              }
             })
             .catch(error => {
               console.log(error)
@@ -265,7 +276,7 @@ td {
   box-sizing: border-box;
 }
 .app_subtitle {
- white-space: nowrap;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
@@ -273,14 +284,12 @@ td {
   height: 18px;
 }
 .app_name {
-  
   height: 23px;
   width: 122px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
-  
 }
 .use img {
   border: solid 1px #f2f2f2;
@@ -382,14 +391,7 @@ td {
 thead tr {
   height: 40px;
 }
-tbody tr td:last-child {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
+
 tbody {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -466,5 +468,18 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.disable_hover {
+  border-bottom: solid 1px #f2f2f2;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #bfbfbf;
+}
+.disable_hover :hover {
+  background-color: #fff !important;
 }
 </style>

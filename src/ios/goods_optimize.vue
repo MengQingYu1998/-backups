@@ -1,12 +1,10 @@
 <template>
   <div id="goods_optimize" class="content">
     <!-- 自定义组件 -->
-    <ios_header
-      @childFn="parentFn"
-    />
+    <ios_header @childFn="parentFn" />
     <div class="left_and_right">
       <div class="left">
-         <left_nav />
+        <left_nav />
       </div>
       <div class="right">
         <div class="right_nav">竞品优化方案</div>
@@ -15,7 +13,7 @@
           <div>您暂时还未登录，请先登录后查看</div>
           <div>登录</div>
         </div>
-        <table v-show="false">
+        <table v-show="true">
           <thead>
             <tr>
               <th>应用</th>

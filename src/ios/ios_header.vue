@@ -121,14 +121,13 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
-              // console.log(22222222222222222222222)
-              // console.log(this.response_data)
-              this.$store.state.now_app_name = this.response_data.appName
-              // this.is_show_header = false
-              // this.$nextTick(() => {
-              //   this.is_show_header = true
-              // })
+              console.log(response)
+              if (response.data.Data != null) {
+                this.$store.state.now_app_name = response.data.Data.appName
+                this.$store.state.ios_header = response.data.Data
+              }
+              this.response_data = this.$store.state.ios_header
+              // this.response_data = response.data.Data
             })
             .catch(error => {
               console.log(error)

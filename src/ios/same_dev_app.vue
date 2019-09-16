@@ -25,7 +25,12 @@
           </thead>
           <tbody>
             <tr class="disable_hover" v-if="response_data==null">
-              <td colspan="8">暂无相关数据</td>
+              <td colspan="8">
+                <div class="no_data_img">
+                  <img src="../assets/ios/null.png" alt />
+                  <div>暂无相关数据</div>
+                </div>
+              </td>
             </tr>
             <tr v-for="(item ,index) in response_data" :key="index">
               <td class="first_td">{{index+1}}</td>
@@ -97,6 +102,7 @@ export default {
     this.get_data()
     this.$watch('now_country', function(newValue, oldValue) {
       console.log('当前国家发生变化，重新请求数据...')
+      this.$store.state.now_country_name = this.now_country
       this.get_data()
     })
   },
@@ -345,17 +351,26 @@ table {
   width: 1200px;
   margin: 0 auto;
 }
-.disable_hover {
-  border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
-  font-size: 14px;
+.no_data_img:hover {
+  background-color: #fff;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
+}
+
+.no_data_img {
+  width: 100%;
+  height: 606px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 14px;
+  line-height: 13px;
   letter-spacing: 0px;
-  color: #bfbfbf;
-}
-.disable_hover :hover {
-  background-color: #fff !important;
+  color: #555555;
 }
 </style>

@@ -641,6 +641,7 @@ export default {
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      this.$store.state.now_country_name = this.now_country
       this.get_data_for_first_part()
       this.get_data_for_second_part(true)
     })

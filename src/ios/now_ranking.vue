@@ -385,6 +385,7 @@ export default {
     this.get_data_third()
     this.$watch('now_country', function(newValue, oldValue) {
       // alert('now_country')
+      this.$store.state.now_country_name = this.now_country
       this.get_data_first()
       this.get_data_second()
       this.get_data_third()

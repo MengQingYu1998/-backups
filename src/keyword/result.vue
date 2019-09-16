@@ -916,6 +916,10 @@ export default {
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         if (scrollTop + windowHeight == scrollHeight) {
           if (that.can_execute_scorll) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
             // 需要执行的代码
             if (that.activeName == 'first') {
               that.get_data_12()

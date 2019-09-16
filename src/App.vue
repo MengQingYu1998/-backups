@@ -1,6 +1,25 @@
 <template>
   <div id="app">
-    <el-backtop></el-backtop>
+    <div class="go_to_top" v-show="is_show_go_to_top">
+      <el-popover placement="right" trigger="hover">
+        <div class="code_content">
+          <div class="popper_arrow"></div>
+          <div>QQ客服：983419919</div>
+          <div>工作日：9:30--19:00</div>
+        </div>
+        <div slot="reference" class="message"></div>
+      </el-popover>
+      <el-popover placement="right" trigger="hover">
+        <div class="message_content">
+          <div class="popper_arrow"></div>
+          <img src="./assets/ios/weChart_code.jpg" alt />
+          <div>工作日：9:30--19:00</div>
+        </div>
+        <div slot="reference" class="code"></div>
+      </el-popover>
+      <div class="top" @click="backTop"></div>
+    </div>
+
     <navv />
     <div class="app_div">
       <keep-alive>
@@ -23,17 +42,130 @@ import Foot from './NumVue/foot'
 
 export default {
   name: 'App',
-  created() {
-    this.refresh_save_vuex(this)
-  },
   components: {
     Navv,
     Foot
+  },
+  data() {
+    return {
+      is_show_go_to_top: false
+    }
+  },
+  created() {
+    this.refresh_save_vuex(this)
+  },
+  mounted() {
+    window.addEventListener('scroll', this.scrollToTop)
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.scrollToTop)
+  },
+
+  methods: {
+    // 点击图片回到顶部方法，加计时器是为了过渡顺滑
+    backTop() {
+      const that = this
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 2)
+        document.documentElement.scrollTop = document.body.scrollTop =
+          that.scrollTop + ispeed
+        if (that.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 16)
+    },
+
+    // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
+    scrollToTop() {
+      const that = this
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
+      that.scrollTop = scrollTop
+      if (that.scrollTop > 300) {
+        that.is_show_go_to_top = true
+      } else {
+        that.is_show_go_to_top = false
+      }
+    }
   }
 }
 </script>
 
 <style>
+/* 放回顶部 */
+.go_to_top .code:hover {
+  background-image: url('./assets/ios/code_active.png');
+}
+.go_to_top .code {
+  background-image: url('./assets/ios/code.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+}
+.code_content div:last-child {
+  margin-top: 12px;
+}
+.code_content {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  color: #222222;
+}
+.message_content img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 6px;
+}
+.message_content {
+  font-family: SourceHanSansCN-Normal;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+.go_to_top .message:hover {
+  background-image: url('./assets/ios/message_active.png');
+}
+.go_to_top .message {
+  background-image: url('./assets/ios/message.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+  z-index: 99999999;
+}
+.go_to_top .top:hover {
+  background-image: url('./assets/ios/top_active.png');
+}
+.go_to_top .top {
+  background-image: url('./assets/ios/top.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+.go_to_top {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+}
+.go_to_top > div,
+.go_to_top > span {
+  margin-top: 14px;
+  cursor: pointer;
+}
+/* 放回顶部 */
+
 /*message*/
 #msg .bangdan .el-button:focus,
 #msg .el-button:hover,

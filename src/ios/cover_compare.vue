@@ -190,6 +190,10 @@ export default {
         if (scrollTop + windowHeight == scrollHeight) {
           // 需要执行的代码
           if (that.can_execute_scorll) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
             that.get_data()
           }
         }

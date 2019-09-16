@@ -333,6 +333,10 @@ export default {
         if (scrollTop + windowHeight == scrollHeight) {
           //是否可以执行滚动
           if (that.can_execute_scorll) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight -
+              1
             that.get_data_table()
           }
         }
@@ -411,12 +415,12 @@ export default {
             '&GenreId=' +
             this.my_genreId
 
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response.data.Data)
+              // console.log(response.data.Data)
               if (
                 is_excute_function == this.db_number_is_same &&
                 response.data.Data != null
