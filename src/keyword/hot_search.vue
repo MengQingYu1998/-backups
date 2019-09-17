@@ -353,6 +353,9 @@ export default {
 </script>
 
 <style scoped>
+.font_word {
+  line-height: 27px;
+}
 .no_data_img:hover {
   background-color: #fff;
 }

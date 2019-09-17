@@ -22,7 +22,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="disable_hover" v-if="response_data_first.length==0">
+              <tr class="disable_hover" v-if="nothing_data_can_show">
                 <td colspan="4">暂无相关数据</td>
               </tr>
               <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
@@ -308,6 +308,7 @@ export default {
   data() {
     let that = this
     return {
+      nothing_data_can_show: false,
       // 第一部分图表的数据
       // 第一部分图表的数据
       // 第一部分图表的数据
@@ -473,12 +474,14 @@ export default {
                 response.data.Data.rank_1 != null &&
                 response.data.Data.rank_2 != null
               ) {
+                this.nothing_data_can_show = false
                 this.response_data_first = response.data.Data
                 this.response_data_first_title = response.data.Data.rank_0
                 // this.response_data_first.splice(0, 1)
                 delete this.response_data_first.rank_0
               } else {
                 // console.log('第一部分没数据')
+                this.nothing_data_can_show = true
                 this.response_data_first = new Array()
                 this.response_data_first_title = new Array()
               }

@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="disable_hover" v-if="response_data==null">
+            <tr class="disable_hover" v-if="nothing_data_can_show">
               <td colspan="8">
                 <div class="no_data_img">
                   <img src="../assets/ios/null.png" alt />
@@ -95,7 +95,8 @@ export default {
   data() {
     return {
       now_country: '中国',
-      response_data: null
+      response_data: null,
+      nothing_data_can_show: false
     }
   },
   created: function() {
@@ -138,6 +139,11 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
+              if (response.data.Data == null) {
+                this.nothing_data_can_show = true
+              } else {
+                this.nothing_data_can_show = false
+              }
               console.log(55555555555555555)
               console.log(response)
             })

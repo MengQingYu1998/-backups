@@ -50,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="disable_hover" v-show="!data_for_top_table02&&!data_for_top_table">
+          <tr class="disable_hover" v-show="!loading&&!data_for_top_table02&&!data_for_top_table">
             <td colspan="4">暂无相关数据</td>
           </tr>
           <tr v-if="data_for_top_table02">
@@ -168,7 +168,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="response_data_for_ios12.length==0">
+                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios12.length==0">
                     <td colspan="6">暂无相关数据</td>
                   </tr>
 
@@ -284,7 +284,7 @@
                   </tr>
                 </thead>
                 <tbody class="use_father">
-                  <tr class="disable_hover" v-show="response_data_for_ios11.length==0">
+                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios11.length==0">
                     <td colspan="6">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios11">
@@ -389,7 +389,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="response_data_for_ios12.length==0">
+                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios12.length==0">
                     <td colspan="5">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios12">
@@ -477,7 +477,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="response_data_for_ios11.length==0">
+                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios11.length==0">
                     <td colspan="5">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios11">

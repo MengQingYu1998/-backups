@@ -9,8 +9,7 @@ export const store = new Vuex.Store({
     now_app_id02: null,
     now_app_name: null,
     now_country_name: null,
-    HistoryList: [],
-    ios_header: null
+    HistoryList: []
   },
   mutations: {
     // 处理状态

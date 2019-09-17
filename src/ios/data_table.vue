@@ -88,7 +88,7 @@
               </tr>
             </thead>
             <tbody class="tr_height">
-              <tr class="disable_hover" v-if="request_data_first==null">
+              <tr class="disable_hover" v-if="nothing_data_can_show">
                 <td colspan="4">暂无相关数据</td>
               </tr>
               <template v-if="request_data_first!=null">
@@ -358,7 +358,9 @@
                       </div>
 
                       <div class="position_relative">
-                        <div class="table_title">【{{keyword_data[0]}}】榜单排名走势</div>
+                        <div
+                          class="table_title"
+                        >应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势</div>
                         <div
                           ref="myChart_data_table"
                           class="myChart"
@@ -515,7 +517,7 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { formatDate, timestamp } from '../common/util.js'
+import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
   name: 'data_table',
   components: { ios_header, left_nav },
@@ -523,6 +525,8 @@ export default {
   data() {
     let that = this
     return {
+      nothing_data_can_show: false,
+
       // 分页
       currentPage: 1,
       // 第一部分的参数
@@ -779,8 +783,13 @@ export default {
             .get(url)
             .then(response => {
               this.request_data_first = response.data.Data
-              // console.log('=================概述=====')
-              // console.log(response)
+              if (response.data.Data == null) {
+                this.nothing_data_can_show = true
+              } else {
+                this.nothing_data_can_show = false
+              }
+              console.log('=================概述=====')
+              console.log(response)
               // console.log(this.request_data_first)
             })
             .catch(error => {
@@ -1412,7 +1421,9 @@ export default {
         true
       )
     },
-
+    replace_some_chart_wrap(parm) {
+      return replace_some_chart(parm)
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload

@@ -57,7 +57,11 @@
       <div class="app_field country" @mousemove="click">
         <div>国家/地区</div>
         <!-- 选择国家 -->
-        <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
+        <country
+          @childFn="parentFn"
+          :custom_country="this.$store.state.now_country_name"
+          v-if="is_show_country_component"
+        ></country>
       </div>
     </div>
     <div class="border"></div>
@@ -76,7 +80,9 @@ export default {
     return {
       // is_show_header: true,
       now_country: '中国',
-      response_data: null
+      response_data: null,
+      cache_country: null,
+      is_show_country_component: true
     }
   },
 
@@ -85,7 +91,8 @@ export default {
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
-      // alert(99999999999)
+      this.cache_country = oldValue
+      // alert(this.cache_country)
       this.click()
       this.get_data()
     })
@@ -121,13 +128,24 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
-              if (response.data.Data != null) {
+              // console.log('ios_header')
+              // console.log('ios_header')
+              // console.log('ios_header')
+              // console.log(response)
+              // console.log('ios_header')
+              // console.log('ios_header')
+              // console.log('ios_header')
+              if (response.data.Data == null) {
+                this.$store.state.now_country_name = this.cache_country
+                this.is_show_country_component = false
+                this.$nextTick(() => {
+                  this.is_show_country_component = true
+                })
+              } else {
                 this.$store.state.now_app_name = response.data.Data.appName
-                this.$store.state.ios_header = response.data.Data
+                this.$store.state.now_country_name = this.now_country
+                this.response_data = response.data.Data
               }
-              this.response_data = this.$store.state.ios_header
-              // this.response_data = response.data.Data
             })
             .catch(error => {
               console.log(error)

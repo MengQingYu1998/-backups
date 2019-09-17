@@ -315,7 +315,7 @@ export default {
 thead tr {
   height: 40px;
 }
-td,
+
 th {
   border: 1px solid #f2f2f2;
 }
@@ -369,6 +369,7 @@ table {
   width: 94px;
   height: 94px;
   border-radius: 8px;
+  border: solid 1px #f7f7f7;
 }
 .vs_div {
   display: flex;

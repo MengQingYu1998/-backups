@@ -158,7 +158,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="data_for_table.length == 0">
+        <tr v-if="!loading&&data_for_table.length == 0">
           <td colspan="5">
             <div class="no_data_img">
               <img src="../assets/ios/null.png" alt />
@@ -191,7 +191,8 @@
         </template>
       </tbody>
     </table>
-    <div class="loading" v-show="data_for_table.length != 0&&loading">
+    <!-- <div class="loading" v-show="data_for_table.length != 0&&loading"> -->
+    <div class="loading" v-show="loading">
       <img src="../assets/ios/loading.gif" alt />
     </div>
     <div class="it_is_over" v-show="!it_is_over&&data_for_table.length != 0&&!loading">下拉加载更多</div>
