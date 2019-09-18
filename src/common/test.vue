@@ -1,7 +1,7 @@
 <template>
   <div id="test">
     <div ref="demo111" class="myChart"></div>
-    <div class="img_wraper">
+    <div class="img_wraper" v-show="false">
       <div class="img_group">
         <img src="../assets/ios/vs.png" alt v-for="item in 100" :key="item" />
       </div>
@@ -37,20 +37,27 @@ export default {
       this.myChart = this.$echarts.init(this.$refs.demo111)
       this.myChart.showLoading()
       setTimeout(() => {
-        this.keyword_data = ['a发送到发斯蒂芬是', 'b是是', 'c']
+        this.keyword_data = ['a发送到发斯蒂芬是', 's', 'ss']
         // 数据
         this.keyword_data_value = [
-          ['215', '150', '736', '300'],
-          ['403', '', '108', 200, '300'],
-          ['5', '-', '6', '10']
+          ['215', '215', '215', '-', '-', '-', '-', '150', '736', '300'],
+          ['403', '215', '215', '-', '-', '-', '-', '', '108', 200, '300'],
+          ['5', '215', '215', '215', '-', '-', '-', '-', '6', '10', '10', '10']
         ]
         // X轴文本
         this.xAxis_data = [
           '2018-08-06',
           '2018-08-07',
           '2018-08-08',
-          '2018-08-09',
-          '2018-08-10'
+          '2018-08-10',
+          '2018-08-11',
+          '2018-08-12',
+          '2018-08-13',
+          '2018-08-14',
+          '2018-08-15',
+          '2018-08-16',
+          '2018-08-17',
+          '2018-08-18'
         ]
         this.drawLine()
         this.myChart.hideLoading()
@@ -75,6 +82,40 @@ export default {
         // this.stack = '总量'
         this.data = data
         this.symbol = 'circle'
+
+        this.markArea = {
+          label: {
+            formatter: function() {
+              return '{a|ssssssssssss }'
+            },
+
+            rich: {
+              a: {
+                color: 'red',
+                fontSize: 20,
+
+                padding: [-200, 0, 0, 0]
+              }
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: 'red',
+              opacity: 0.5
+            }
+          },
+          data: [
+            [
+              {
+                name: '两个屏幕坐标之间的标域',
+                xAxis: '2018-08-08'
+              },
+              {
+                xAxis: '2018-08-14'
+              }
+            ]
+          ]
+        }
       }
       //通过便利关键词数组从而创建canvas的series数据
       this.keyword_data.forEach((element, index) => {
@@ -235,26 +276,7 @@ export default {
           min: null,
           max: null
         },
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [4, 5, 7, 10, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [800, 1000, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          }
-        ]
+        series: that.series_data()
       }
       this.myChart.setOption(option, true)
       this.myChart.hideLoading()

@@ -175,17 +175,27 @@ export default {
 .second_td {
   width: 250px;
 }
+tbody > tr:nth-child(1) .first_td,
+tbody > tr:nth-child(2) .first_td,
+tbody > tr:nth-child(3) .first_td {
+  font-family: SourceHanSansCN-Bold;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0.3px;
+  color: #222222;
+}
 .first_td {
   width: 50px;
-  font-family: SourceHanSansCN-Bold;
+  font-family: SourceHanSansCN-Regular;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px;
   letter-spacing: 0.3px;
-  color: #222222;
+  color: #888888;
   text-align: center;
-  padding-left: 20px;
 }
 .operation > div {
   display: flex;
@@ -226,9 +236,7 @@ export default {
   right: -9px;
   top: 0;
 }
-.use {
-  text-align: left;
-}
+
 .use .rankingChangeFontColor {
   width: 180px;
   height: 23px;
@@ -264,7 +272,7 @@ export default {
 .use {
   display: flex;
   align-items: center;
-  justify-content: center;
+  text-align: left;
   position: relative;
 }
 tbody tr {

@@ -237,7 +237,7 @@
         <!-- ====================第三部分===================== -->
         <!-- ====================第三部分===================== -->
         <section class="middle_bottom">
-          <div class="section_title">评论统计</div>
+          <div class="section_title">评论统计（在线与已删除）</div>
           <div class="btn_group">
             <div class="btn_item_02">
               <div>类型</div>
@@ -1846,6 +1846,7 @@ table {
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

@@ -1100,9 +1100,7 @@
     <span id="map-tip">
       <!-- <img src="../../../static/flag/AD.svg" alt /> -->
     </span>
-    <span id="scroll-top">
-      <a class="scrollup"></a>
-    </span>
+
     <div style="text-align:center;clear:both"></div>
   </div>
 </template>

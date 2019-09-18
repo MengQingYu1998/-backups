@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="go_to_top" v-show="is_show_go_to_top">
+    <div class="go_to_top">
       <el-popover placement="right" trigger="hover">
         <div class="code_content">
           <div class="popper_arrow"></div>
@@ -17,7 +17,7 @@
         </div>
         <div slot="reference" class="code"></div>
       </el-popover>
-      <div class="top" @click="backTop"></div>
+      <div class="top" @click="backTop" v-show="is_show_go_to_top"></div>
     </div>
 
     <navv />
@@ -252,6 +252,7 @@ export default {
 #index .el-carousel__container img {
   width: 100%;
   height: 500px;
+  object-fit: cover;
 }
 .bangdan #country_select,
 #Application #country_select {
@@ -377,7 +378,7 @@ table tbody tr:hover {
   margin-left: 0 !important;
 }
 .app_div {
-  min-height: 100vh;
+  min-height: 90vh;
 }
 table thead tr th {
   font-family: SourceHanSansCN-Medium !important;
@@ -459,8 +460,9 @@ table thead tr th {
   color: #888888;
 }
 #version_message .el-timeline-item__tail {
-  left: 1px !important;
+  left: 2px;
   margin-top: 6px;
+  border-left: 1px solid #e4e7ed;
 }
 
 #version_message .el-timeline li:first-child .el-timeline-item__node-- {
@@ -474,6 +476,7 @@ table thead tr th {
   .el-timeline-item__node
   .el-icon-time {
   font-size: 17px !important;
+  font-weight: bold;
 }
 #version_message
   .el-timeline
@@ -492,6 +495,10 @@ table thead tr th {
 /* select组件自定义样式 */
 .el-select .el-input__inner {
   padding-right: 22px !important;
+}
+#version_message .el-input__inner {
+  height: 36px !important;
+  line-height: 36px !important;
 }
 .el-input__inner {
   height: 28px !important;
@@ -610,4 +617,22 @@ table thead tr th {
 /* 滚动条 */
 /* 滚动条 */
 /* 滚动条 */
+/* element的分页 data_table最底下那个*/
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li {
+  margin: 0 5px;
+  background-color: #fff;
+  min-width: 30px;
+  border: solid 1px #dfdfdf;
+  border-radius: 4.7px;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #888888;
+}
+/* element的分页 */
 </style>

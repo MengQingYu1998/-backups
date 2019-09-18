@@ -1062,15 +1062,15 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page12 += 1
-                this.it_is_over = response.data.Data < 20
+                this.it_is_over = response.data.AppInfoList < 10
                 this.loading = false
                 this.can_execute_scorll = true //是否可以执行滚动
               }
               // console.log(
               //   'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
               // )
-              // console.log(response.data.AppInfoList)
-              // console.log(this.response_data_for_ios12)
+              console.log(response.data.AppInfoList)
+              console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -1126,7 +1126,7 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page11 += 1
-                this.it_is_over = response.data.Data < 20
+                this.it_is_over = response.data.AppInfoList < 10
                 this.loading = false
                 this.can_execute_scorll = true //是否可以执行滚动
               }
@@ -1398,10 +1398,10 @@ export default {
             sdate = formatDate(time02, 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '昨日') {
             // console.log('昨日')
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
             let time02 = new Date()
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 1)
             sdate = formatDate(time02, 'yyyy-MM-dd')
+             edate =sdate
           }
           let showType
           if (this.radio01_dialog == '按分钟') {
@@ -2273,7 +2273,6 @@ option:first-child {
 .loading {
   width: 100%;
   text-align: center;
-  margin-bottom: -20px;
   margin-top: 30px;
 }
 .loading > img {

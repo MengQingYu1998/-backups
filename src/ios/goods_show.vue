@@ -22,9 +22,6 @@
             </tr>
           </thead>
           <tbody v-if="response_data!=null">
-            <tr class="disable_hover" v-show="response_data.data_0.length==0">
-              <td colspan="7">暂无相关数据</td>
-            </tr>
             <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
               <td>
                 <div class="use">
@@ -87,6 +84,9 @@
                 />
               </td>
             </tr>
+            <tr class="disable_hover" v-show="response_data.data_0.length==0">
+              <td colspan="7">暂无相关数据</td>
+            </tr>
           </tbody>
         </table>
         <!-- ================================ -->
@@ -104,9 +104,6 @@
             </tr>
           </thead>
           <tbody v-if="response_data!=null">
-            <tr class="disable_hover" v-show="response_data.data_1.length==0">
-              <td colspan="7">暂无相关数据</td>
-            </tr>
             <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
               <td>
                 <div class="use">
@@ -154,6 +151,9 @@
               <td>
                 <img src="../assets/ios/ios_add_blue.png" @click="add_data(index)" alt />
               </td>
+            </tr>
+            <tr class="disable_hover" v-show="response_data.data_1.length==0">
+              <td colspan="7">暂无相关数据</td>
             </tr>
           </tbody>
         </table>
@@ -295,6 +295,17 @@ td {
   border: solid 1px #f2f2f2;
 }
 .use > div:nth-child(1) {
+  font-family: SourceHanSansCN-Regular;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0.3px;
+  color: #888888;
+}
+tbody > tr:nth-child(1) .use > div:nth-child(1),
+tbody > tr:nth-child(2) .use > div:nth-child(1),
+tbody > tr:nth-child(3) .use > div:nth-child(1) {
   font-family: SourceHanSansCN-Bold;
   font-size: 14px;
   font-weight: normal;
@@ -361,7 +372,7 @@ td {
   letter-spacing: 0px;
   color: #009bef;
   position: absolute;
-  right: -126px;
+  right: -115px;
   top: 1px;
 }
 .rankingChangeFontColor {
@@ -384,7 +395,7 @@ td {
   display: flex;
   align-items: center;
   position: relative;
-  padding-left: 30px;
+  padding-left: 20px;
   box-sizing: border-box;
   width: 160px;
 }

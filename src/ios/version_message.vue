@@ -231,6 +231,7 @@ export default {
 .time_line_item {
   margin-top: -30px;
   margin-left: 30px;
+  margin-bottom: 20px;
 }
 .time_line_item_title {
   left: -101px;
@@ -255,6 +256,7 @@ export default {
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

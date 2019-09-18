@@ -593,7 +593,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response.data)
+              console.log(response.data)
               if (response.data.Code == 0 && response.data.Data.length > 0) {
                 // console.log('有数据')
                 this.is_show_mychart = true
@@ -1140,7 +1140,9 @@ export default {
   letter-spacing: 0px;
   color: #444444;
 }
-
+.bottom table {
+  table-layout: fixed;
+}
 .middle_bottom table,
 .bottom table {
   margin-top: 18px;
@@ -1188,6 +1190,7 @@ export default {
   height: 24px;
   line-height: 24px;
   text-align: center;
+  box-sizing: border-box;
   border-radius: 4px;
   border: solid 1px #009bef;
   font-family: SourceHanSansCN-Normal;
@@ -1232,6 +1235,7 @@ section {
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

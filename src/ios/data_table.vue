@@ -1667,6 +1667,7 @@ table img {
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
@@ -1730,6 +1731,7 @@ table img {
 .show_all {
   width: 65px;
   height: 24px;
+  box-sizing: border-box;
   line-height: 24px;
   text-align: center;
   border-radius: 4px;

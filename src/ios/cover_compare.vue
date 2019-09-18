@@ -242,27 +242,31 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
-              console.log(response)
-              //  this.it_is_over =
-              //   this.response_data.myOwn.length < this.page * 20 &&
-              //   this.response_data.common.length < this.page * 20 &&
-              //   this.response_data.comOwn.length < this.page * 20
-              this.response_data.comOwn = this.response_data.comOwn.slice(
-                0,
-                this.page * 20
-              )
-              this.response_data.common = this.response_data.common.slice(
-                0,
-                this.page * 20
-              )
-              this.response_data.myOwn = this.response_data.myOwn.slice(
-                0,
-                this.page * 20
-              )
-              this.page += 1
-              this.can_execute_scorll = true //是否可以执行滚动
-              this.loading = false
+              if (response.data.Data != null) {
+                this.response_data = response.data.Data
+                console.log(response)
+                this.response_data.comOwn = this.response_data.comOwn.slice(
+                  0,
+                  this.page * 20
+                )
+                this.response_data.common = this.response_data.common.slice(
+                  0,
+                  this.page * 20
+                )
+                this.response_data.myOwn = this.response_data.myOwn.slice(
+                  0,
+                  this.page * 20
+                )
+                this.loading = false
+                this.page += 1
+                this.can_execute_scorll = true //是否可以执行滚动
+              } else {
+                console.log(response)
+                this.loading = false
+                this.response_data.comOwn = new Array()
+                this.response_data.common = new Array()
+                this.response_data.myOwn = new Array()
+              }
             })
             .catch(error => {
               console.log(error)
@@ -335,7 +339,10 @@ tbody {
   vertical-align: middle;
 }
 td {
-  padding: 33px 0;
+  padding: 14px 0;
+}
+tbody tr > td:nth-child(1) {
+  padding: 0 8px;
 }
 thead {
   width: 100%;

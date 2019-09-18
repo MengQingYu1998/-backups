@@ -22,7 +22,7 @@
 
         <country @childFn="parentFn"></country>
         <el-popover
-          width="230"
+          width="270"
           placement="bottom"
           :visible-arrow="false"
           v-model="is_show_nav_popover"
@@ -555,14 +555,17 @@ export default {
 }
 
 .popver_for_input {
-  height: 30px;
-  font-family: SourceHanSansCN-Regular;
+  height: 36px;
+  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
+  line-height: 36px;
   letter-spacing: 0px;
-  color: #222222;
+  color: #444444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .popver_for_input:hover {
   background-color: rgba(0, 0, 0, 0.03);
@@ -570,7 +573,6 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 30px;
   letter-spacing: 0px;
   color: #009bef !important;
 }

@@ -85,7 +85,7 @@
         <div
           class="table_title"
           v-if="response_data_second"
-        >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名走势</div>
+        >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名对比</div>
         <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
         <div class="position_relative">
           <div
@@ -822,6 +822,7 @@ export default {
   width: 65px;
   height: 24px;
   line-height: 24px;
+  box-sizing: border-box;
   text-align: center;
   border-radius: 4px;
   border: solid 1px #009bef;

@@ -575,6 +575,7 @@ export default {
 .section_title {
   font-family: SourceHanSansCN-Medium;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

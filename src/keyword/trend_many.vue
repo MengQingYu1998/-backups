@@ -558,6 +558,7 @@ tbody div {
   height: 24px;
   line-height: 24px;
   text-align: center;
+  box-sizing: border-box;
   border-radius: 4px;
   border: solid 1px #009bef;
   font-family: SourceHanSansCN-Normal;
