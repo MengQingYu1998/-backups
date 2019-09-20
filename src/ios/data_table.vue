@@ -216,14 +216,16 @@
               <div class="search">
                 <el-input v-model="search_input" placeholder="多个词同时搜索请用“，”隔开"></el-input>
               </div>
-              <div class="search_confirm pointer" @click="search_input_function">搜索</div>
+              <!-- <div class="search_confirm pointer" @click="search_input_function">搜索</div> -->
               <!-- <div
                 class="search_confirm search_confirm_all pointer"
                 @click="search_input_all_function"
               >全部</div>-->
             </div>
           </div>
-          <table>
+          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+
+          <table v-show="!loading_gif">
             <thead>
               <tr class="tr_width">
                 <th class="table_width01">关键词</th>
@@ -235,10 +237,7 @@
               </tr>
             </thead>
             <tbody class="td_width">
-              <tr
-                class="disable_hover"
-                v-if="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
-              >
+              <tr class="disable_hover" v-if="nothing_data_can_show02">
                 <td colspan="6">暂无相关数据</td>
               </tr>
               <!-- <template v-if="request_data_second"> -->
@@ -496,7 +495,7 @@
 
         <div
           class="paging"
-          v-if="temp01_request_data_second.length!=0||temp_request_data_second.length!=0"
+          v-if="!loading_gif&&(temp01_request_data_second.length!=0||temp_request_data_second.length!=0)"
         >
           <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
           <div>
@@ -526,6 +525,7 @@ export default {
     let that = this
     return {
       nothing_data_can_show: false,
+      nothing_data_can_show02: false,
 
       // 分页
       currentPage: 1,
@@ -565,6 +565,7 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      loading_gif: false,
       search_input: '',
       stop_click_many_times: null,
       db_number_is_same: 0, //修复用户输入过快的bug
@@ -677,6 +678,7 @@ export default {
     // ==================第二部分===========================
 
     this.$watch('search_input', function(newValue, oldValue) {
+      this.search_input_function()
       if (this.search_input == '') {
         this.get_data_for_second_part(true)
       }
@@ -784,12 +786,52 @@ export default {
             .then(response => {
               this.request_data_first = response.data.Data
               if (response.data.Data == null) {
-                this.nothing_data_can_show = true
-              } else {
-                this.nothing_data_can_show = false
+                this.request_data_first = new Object()
+                this.request_data_first.top3Count = 0
+                this.request_data_first.top10Count = 0
+                this.request_data_first.totalCount = 0
+                this.request_data_first.detailKeyWord = [
+                  {
+                    hintRange: '≥8000',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  },
+                  {
+                    hintRange: '7000~7999',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  },
+                  {
+                    hintRange: '6000~6999',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  },
+                  {
+                    hintRange: '5000~5999',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  },
+                  {
+                    hintRange: '4605~4999',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  },
+                  {
+                    hintRange: '<4605',
+                    keyWordCount: { num: 0 },
+                    top3: { num: 0 },
+                    top10: { num: 0 }
+                  }
+                ]
+                // this.nothing_data_can_show = true
               }
-              console.log('=================概述=====')
-              console.log(response)
+              // console.log('=================概述=====')
+              // console.log(response)
               // console.log(this.request_data_first)
             })
             .catch(error => {
@@ -825,6 +867,7 @@ export default {
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     get_data_for_second_part(parm) {
+      this.loading_gif = true
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       this.$axios
@@ -891,6 +934,9 @@ export default {
     },
     response(response) {
       if (response != null) {
+        this.loading_gif = false
+
+        this.nothing_data_can_show02 = false
         this.response_data_Data = response
         console.log(this.response_data_Data)
 
@@ -907,6 +953,8 @@ export default {
           this.currentPage * 100 + 1
         )
       } else {
+        this.loading_gif = false
+        this.nothing_data_can_show02 = true
         this.temp_request_data_second = new Array() //折线图下面的tr
         this.temp01_request_data_second = new Array() //折线图上面的tr
       }
@@ -920,7 +968,7 @@ export default {
       if (this.search_input.trim() != '') {
         this.get_data_for_second_part(false)
         let new_array = new Array()
-        // this.search_input = this.search_input.trim().replace(/ /g, '，')
+        this.search_input = this.search_input.trim().replace(/ /g, '，')
         this.search_input = this.search_input.trim().replace(/,/g, '，')
         // console.log(this.search_input)
         let search_input_arr = this.search_input.trim().split('，')
@@ -1451,6 +1499,14 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.loading_gif {
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  margin-left: 47%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 .search > div {
   width: 210px !important;
   margin-right: 10px;
@@ -1836,9 +1892,9 @@ table {
   height: 320px;
   z-index: 1;
   text-align: center;
-  color: #666;
+  color: #bfbfbf;
   line-height: 300px;
-  font-size: 50px;
+  font-size: 25px;
   margin: 0 auto;
   margin-top: -24px;
 }

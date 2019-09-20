@@ -12,6 +12,10 @@
           <div class="search_input">
             <el-input placeholder="请输入日期或者版本号" suffix-icon="el-icon-search" v-model="input1"></el-input>
           </div>
+          <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+            <img src="../assets/ios/null.png" alt />
+            <div>暂无相关数据</div>
+          </div>
           <div class="timeline">
             <el-timeline>
               <el-timeline-item
@@ -169,7 +173,7 @@ export default {
   /* background-color: #ffffff; */
   position: absolute;
   right: 3px;
-  bottom: 19px;
+  bottom: 13px;
 }
 .time_line_item_content div {
   -webkit-line-clamp: 3;
@@ -302,5 +306,23 @@ export default {
 }
 #version_message {
   padding-bottom: 50px;
+}
+.no_data_img {
+  width: 857px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 113px;
 }
 </style>

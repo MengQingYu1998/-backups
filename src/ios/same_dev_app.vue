@@ -9,8 +9,8 @@
       <div class="right">
         <div class="right_nav">同开发者应用</div>
         <div class="line"></div>
-
-        <table>
+        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+        <table v-show="!loading_gif">
           <thead>
             <tr>
               <th></th>
@@ -94,6 +94,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      loading_gif: false,
       now_country: '中国',
       response_data: null,
       nothing_data_can_show: false
@@ -110,6 +111,7 @@ export default {
   methods: {
     // 请求数据
     get_data() {
+      this.loading_gif = true
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -138,6 +140,8 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              this.loading_gif = false
+
               this.response_data = response.data.Data
               if (response.data.Data == null) {
                 this.nothing_data_can_show = true
@@ -172,6 +176,14 @@ export default {
 }
 </script>
 <style scoped>
+.loading_gif {
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  margin-left: 47%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 .second_td {
   width: 250px;
 }
@@ -243,6 +255,9 @@ tbody > tr:nth-child(3) .first_td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.appName:hover {
+  color: #009bef;
 }
 .appName {
   width: 180px;

@@ -7,13 +7,13 @@
 				<div>
 					<p class="category">类别</p>
 					<p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">总榜</p>
-					<p class="font" @click="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
+					<p class="font" @click.stop="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/> 
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
 						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>
 					</p>
-					<p class="font" @click="showG()" v-bind:class="{selectFont:isFontG}">
+					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWG"/>
@@ -63,7 +63,7 @@
 						<div class="time" v-if="tr1.UpNum==0&&tr1.DownNum==0&&tr1.NewNum==0&&tr1.DropNum==0">
 							{{tr1.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr1.HHmm}}</p>
 								<div>
 									<p>
@@ -87,7 +87,7 @@
 						<div class="time" v-if="tr2.UpNum==0&&tr2.DownNum==0&&tr2.NewNum==0&&tr2.DropNum==0">
 								{{tr2.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr2.HHmm}}</p>
 								<div>
 									<p>
@@ -111,7 +111,7 @@
 						<div class="time" v-if="tr3.UpNum==0&&tr3.DownNum==0&&tr3.NewNum==0&&tr3.DropNum==0">
 								{{tr3.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr3.HHmm}}</p>
 								<div>
 									<p>
@@ -135,7 +135,7 @@
 						<div class="time" v-if="tr4.UpNum==0&&tr4.DownNum==0&&tr4.NewNum==0&&tr4.DropNum==0">
 								{{tr4.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr4.HHmm}}</p>
 								<div>
 									<p>
@@ -159,7 +159,7 @@
 						<div class="time" v-if="tr5.UpNum==0&&tr5.DownNum==0&&tr5.NewNum==0&&tr5.DropNum==0">
 								{{tr5.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr5.HHmm}}</p>
 								<div>
 									<p>
@@ -183,7 +183,7 @@
 						<div class="time" v-if="tr6.UpNum==0&&tr6.DownNum==0&&tr6.NewNum==0&&tr6.DropNum==0">
 								{{tr6.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr6.HHmm}}</p>
 								<div>
 									<p>
@@ -207,7 +207,7 @@
 						<div class="time" v-if="tr7.UpNum==0&&tr7.DownNum==0&&tr7.NewNum==0&&tr7.DropNum==0">
 								{{tr7.HHmm}}
 						</div>
-						<div class="trend" v-else>
+						<div class="trend" v-on:click="goDetail()" v-else>
 								<p>{{tr7.HHmm}}</p>
 								<div>
 									<p>
@@ -309,6 +309,14 @@
 				}
 			}
 		},
+		mounted(){
+			let that = this
+			// 点击其他地方弹窗消失
+		    that.globalClick(() => {
+		      that.showApplication= false
+		      that.showGame = false
+		    })
+		},
 		methods:{
 			
 			//请求数据
@@ -404,43 +412,81 @@
 			},
 			// 点击总榜
 			showZ(){
-				this.downG=true
-				this.downWG=false
+				// 应用小三角
+				this.upWL=false
 				this.downL=true
 				this.downWL=false
+				//游戏小三角
+				this.upWG=false
+				this.downG=true
+				this.downWG=false
+
 				this.isFontZ=true
 				this.isFont=false
 				this.isFontG=false
 				this.showApplication = false;
 				this.showGame=false;
+				this.valueY="应用"
+				this.valueG="游戏"
 				this.getData()
 			},
 			// 点击应用榜
 			showY(){
-				this.showApplication = true;
-				this.showGame=false;
+				this.now_Application="全部应用"
+				if(this.showApplication==false){
+					this.showApplication = true
+					// 应用小三角
+					this.upWL=true
+					this.downL=false
+					this.downWL=false
+				}else{
+					this.showApplication = false
+					
+					// 应用小三角
+					this.upWL=false
+					this.downL=false
+					this.downWL=true
+				}
+				this.showGame=false
 				this.isFont=true
-				this.upWL=true
-				this.downL=false
-				this.downWL=false
 				this.isFontZ=false
 				this.isFontG=false
+				
+				//游戏小三角
+				this.upWG=false
 				this.downG=true
 				this.downWG=false
+
+				this.valueG="游戏"
 				this.getData()
 			},
 			// 点击游戏榜
 			showG(){
-				this.showGame=true
+				this.now_Application="全部游戏"
+				if(this.showGame==true){
+					this.showGame=false
+					//游戏小三角
+					this.upWG=false
+					this.downG=false
+					this.downWG=true
+				}else{
+					this.showGame=true
+					//游戏小三角
+					this.upWG=true
+					this.downG=false
+					this.downWG=false
+				}
+				
 				this.showApplication=false
 				this.isFontZ=false
 				this.isFontG=true
 				this.isFont=false
+				// 应用小三角
+				this.upWL=false
 				this.downL=true
 				this.downWL=false
-				this.upWG=true
-				this.downG=false
-				this.downWG=false
+				
+				this.valueY="应用"
 				this.getData()
 			},
 			// 点击应用option
@@ -466,6 +512,10 @@
 				this.showApplication = false;
 				this.showGame=false;
 				this.getData()
+			},
+			// 跳转到榜单更新检测的排名页面
+			goDetail(){
+				this.$router.push({ path: '/rankapp' })
 			}
 		},
 		created(){

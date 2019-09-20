@@ -14,13 +14,13 @@
         <div>
           <p class="category">类别</p>
           <p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">总榜</p>
-          <p class="font" @click="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
+          <p class="font" @click.stop="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
             <span class="valY" v-html="valueY"></span>
             <img src="../assets/NumImg/down.png" class="down" v-show="downL" />
             <img src="../assets/NumImg/downW.png" class="down" v-show="downWL" />
             <img src="../assets/NumImg/upW.png" class="down" v-show="upWL" />
           </p>
-          <p class="font" @click="showG()" v-bind:class="{selectFont:isFontG}">
+          <p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
             <span class="valG" v-html="valueG"></span>
             <img src="../assets/NumImg/down.png" class="down" v-show="downG" />
             <img src="../assets/NumImg/downW.png" class="down" v-show="downWG" />
@@ -108,12 +108,14 @@
                 </th>
                 <th class="zongrank">
                   <span v-if="tr.rank_a">{{tr.rank_a.rankID}}</span>
+                  <span v-else>--</span>
                 </th>
                 <th>
                   <div class="now" v-if="tr.rank_b">
                     <p>{{tr.rank_b.rankID}}</p>
                     <p class="shejiao">{{tr.rank_b.genreName}}</p>
                   </div>
+                  <div v-else>--</div>
                 </th>
                 <th class="change">
                   <div>
@@ -128,7 +130,7 @@
             </tbody>
             <tbody v-else>
               <tr class="null">
-                <img src="../assets/NumimgTwo/null.png" />
+                <img src="../assets/NumimgTwo/null.png"/>
                 <p>暂无相关数据</p>
               </tr>
             </tbody>
@@ -137,9 +139,9 @@
           <div v-show="contentShow" class="scrollDiv">
             <div>
               <p v-show="infiniteMsgShow" class="tips">
-                <img src="../assets/NumimgTwo/loading.gif" />
+                <img src="../assets/NumimgTwo/loading.gif"/>
               </p>
-              <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"></p>
+              <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"> </p>
             </div>
           </div>
         </div>
@@ -181,7 +183,7 @@ export default {
       pageSize: 20,
       contentShow: true,
       infiniteMsgShow: true,
-      bomfont: '我是有底线的~',
+      bomfont:"我是有底线的~",
       // 总分类
       lis: [{ name: '排名上升榜' }, { name: '排名下降榜' }],
       // 榜单分类
@@ -202,20 +204,28 @@ export default {
         Data: []
       },
       // 是否有数据
-      hasrankdata: true,
+      hasrankdata:true,
 
       scrollHeight: 0,
       total_number: 0, //修改排序错乱
 
-      can_execute_scorll: true //是否可以执行滚动
+
+      can_execute_scorll: true,//是否可以执行滚动
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.$nextTick(() => {
-      let that = this
+    let that = this
+  // 点击其他地方弹窗消失
+        that.globalClick(() => {
+          that.showApplication = false
+          that.showGame = false
+        })
+
+    that.$nextTick(() => {
+      
       //当页面滚动的时候  加载  滚动加载
       window.onscroll = function() {
         //变量scrollTop是滚动条滚动时，距离顶部的距离
@@ -228,22 +238,15 @@ export default {
         that.scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         var int = Math.round(scrollTop + windowHeight)
-        if (
-          int == that.scrollHeight ||
-          int + 1 == that.scrollHeight ||
-          int - 1 == that.scrollHeight
-        ) {
+        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
           // 请求数据
-          that.contentShow = true
-          that.infiniteMsgShow = true
-          if (that.can_execute_scorll) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              1
-
-            that.getData()
-          }
+          
+          if (that.can_execute_scorll) {
+                 document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight-1
+                that.contentShow=true
+                that.infiniteMsgShow=true
+                that.getData() 
+             }
         }
       }
     })
@@ -251,10 +254,9 @@ export default {
   methods: {
     //请求数据
     getData() {
-      this.can_execute_scorll = false
-      this.contentShow = true
-      this.infiniteMsgShow = true
-
+      this.can_execute_scorll=false
+      this.contentShow=true
+      this.infiniteMsgShow=true
       this.total_number += 1
       let number = this.total_number
       //传给后台的sort值
@@ -327,9 +329,6 @@ export default {
             if (pidV == 36) {
               apliId = 36
             } else {
-              console.log(this.now_Application)
-              console.log(res.data.Data[0].name)
-              console.log(res.data.Data[1].name)
               for (var i = 0; i < res.data.Data.length; i++) {
                 if (this.now_Application == res.data.Data[i].name) {
                   apliId = res.data.Data[i].id
@@ -339,8 +338,8 @@ export default {
             //             console.log("brandV:"+brandV)
             //             console.log("dayNumV:"+dayNumV)
             //             console.log("sortV:"+sortV)
-            // console.log("apliId:"+apliId)
-            // console.log("pidV:"+pidV)
+                        // console.log("apliId:"+apliId)
+                        // console.log("pidV:"+pidV)
             // console.log(111111111111111111111)
             this.$axios({
               method: 'post',
@@ -359,58 +358,61 @@ export default {
             })
               .then(res => {
                 if (res.data.Code == 0) {
-                  // console.log(res.data.pageCount)
-                  let total = res.data.pageCount
-                  // console.log(total)
-                  if (total > 0 && total < 21) {
-                    this.contentShow = true
-                    this.infiniteMsgShow = false //没有更多
-                    this.hasrankdata = true
-                    this.bomfont = '我是有底线的~'
-                  } else if (total > 20) {
-                    this.contentShow = true
-                    this.infiniteMsgShow = false //加载更多
-                    this.hasrankdata = true
-                    this.bomfont = '下拉加载更多'
-                    this.can_execute_scorll = true
-                  } else if (total == 0) {
-                    this.contentShow = false
-                    this.hasrankdata = false
-                  }
+                    let total = res.data.pageCount
+                    
+                    if (this.total_number == number) {
+                      this.zongsData = this.zongsData.concat(res.data.Data)
+                      this.page++
+                      if(total>20){
+                        this.contentShow = true
+                        this.infiniteMsgShow = false//加载更多
+                        this.hasrankdata=true
+                        this.bomfont="下拉加载更多"
+                        this.can_execute_scorll=true
+                      }
+                    }
 
-                  if (this.total_number == number) {
-                    this.zongsData = this.zongsData.concat(res.data.Data)
-                    this.page++
-                  }
-                  // if(res.data.Data==""){
-                  //   this.contentShow = false
-                  //   this.hasrankdata=false
-                  // // }else{
-                  //   }
+                    if(total>0&&total<21){
+                        this.contentShow = true
+                        this.infiniteMsgShow = false//没有更多
+                        this.hasrankdata=true
+                        this.bomfont="我是有底线的~"
+                      }else if(total==0){
+                        this.contentShow = false
+                        this.hasrankdata=false
+                      }
 
-                  let pageC = Math.ceil(total / this.pageSize)
-                  // console.log(this.page)
-                  // console.log(pageC)
-                  if (this.page >= pageC + 1) {
-                    this.contentShow = true
-                    this.infiniteMsgShow = false // 没有更多数据
-                  }
+                  
+                    
 
-                  if (pageC == 0) {
-                    this.contentShow = false
-                  }
-                } else {
+                    let pageC=Math.ceil(total/this.pageSize)
+                    // console.log(this.page)
+                    // console.log(pageC)
+                    if(this.page==pageC+1){
+                      this.can_execute_scorll =false
+                      this.contentShow=true
+                      this.infiniteMsgShow=false // 没有更多数据
+                      this.bomfont="我是有底线的~"
+                    }
+
+                    if(pageC==0){
+                      this.contentShow = false
+                    }
+                 
+                  
+                  
+                }else{
                   this.contentShow = false
-                  this.hasrankdata = false
+                  this.hasrankdata=false
                 }
               })
               .catch(error => {
                 console.log(error)
                 this.contentShow = false
               })
-          } else {
+          }else{
             this.contentShow = false
-            this.hasrankdata = false
+            this.hasrankdata=false
           }
         })
         .catch(error => {
@@ -430,6 +432,8 @@ export default {
       this.upWL = false
       this.showApplication = false
       this.showGame = false
+      this.valueG="游戏"
+      this.valueY="应用"
       this.showdate = false
       this.zongsData.length = 0
       this.page = 1
@@ -437,38 +441,62 @@ export default {
     },
     // 点击应用榜
     showY() {
-      this.showApplication = true
+     this.now_Application="全部应用"
+        if(this.showApplication==false){
+          this.showApplication = true
+          // 应用小三角
+          this.upWL=true
+          this.downL=false
+          this.downWL=false
+        }else{
+          this.showApplication = false
+          
+          // 应用小三角
+          this.upWL=false
+          this.downL=false
+          this.downWL=true
+        }
       this.showGame = false
       this.isFont = true
-      this.upWL = true
-      this.downL = false
-      this.downWL = false
       this.isFontZ = false
       this.isFontG = false
+      
+      // 游戏小三角
       this.downG = true
       this.downWG = false
       this.upWG = false
       this.showdate = false
-      this.now_Application = '全部应用'
+      this.valueG="游戏"
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
     // 点击游戏榜
     showG() {
-      this.showGame = true
+      this.now_Application="全部游戏"
+        if(this.showGame==true){
+          this.showGame=false
+          //游戏小三角
+          this.upWG=false
+          this.downG=false
+          this.downWG=true
+        }else{
+          this.showGame=true
+          //游戏小三角
+          this.upWG=true
+          this.downG=false
+          this.downWG=false
+        }
       this.showApplication = false
       this.isFontZ = false
       this.isFontG = true
       this.isFont = false
+      // 应用小三角
       this.downL = true
       this.downWL = false
       this.upWL = false
-      this.upWG = true
-      this.downG = false
-      this.downWG = false
       this.showdate = false
-      this.now_Application = '全部游戏'
+      this.valueY="应用"
       this.zongsData.length = 0
       this.page = 1
       this.getData()
@@ -911,30 +939,31 @@ table tbody tr th.zongrank > img {
   margin-left: 0;
 }
 
+
 /*暂无数据*/
-.null {
+.null{
   width: 100%;
-  height: 606px;
+  height:606px;
   text-align: center;
-  margin: 0 auto;
+  margin:0 auto;
 }
-.null img {
+.null img{
   width: 210px;
-  height: 162px;
-  margin: 0 auto;
+  height:162px;
+  margin:0 auto;
   margin-top: 190px;
 }
-.null p {
+.null p{
   font-family: SourceHanSansCN-Regular;
   font-size: 13px;
   color: #555555;
 }
 /*加载中*/
-.tips img {
+.tips img{
   width: 50px;
-  height: 50px;
+  height:50px;
 }
-.tips {
+.tips{
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   color: #bfbfbf;

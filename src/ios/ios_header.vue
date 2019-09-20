@@ -19,15 +19,15 @@
         ></div>
       </div>
       <div class="app_description" v-if="response_data">
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           effect="light"
           :visible-arrow="false"
           :content="response_data.appName"
           placement="top-start"
-        >
-          <div v-if="response_data">{{response_data.appName}}</div>
-        </el-tooltip>
+        >-->
+        <div v-if="response_data">{{response_data.appName}}</div>
+        <!-- </el-tooltip> -->
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
@@ -137,6 +137,7 @@ export default {
               // console.log('ios_header')
               if (response.data.Data == null) {
                 this.$store.state.now_country_name = this.cache_country
+                // alert(555)
                 this.is_show_country_component = false
                 this.$nextTick(() => {
                   this.is_show_country_component = true

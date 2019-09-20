@@ -922,9 +922,9 @@ table {
   width: 965px;
   /* height: 450px; */
   text-align: center;
-  color: #666;
+  color: #bfbfbf;
   line-height: 300px;
-  font-size: 50px;
+  font-size: 25px;
   margin-top: -25px;
 }
 .table_sub_title {

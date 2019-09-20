@@ -27,22 +27,34 @@
 						
 					</ul>
 					<div v-show="nomsg">
-						<div v-for="msg in msgsno.data" @click="clinoread(msg)" :key="'LY02'+index">
+						<div v-for="msg in msgsno.data" @click="clinoread(msg)" :key="'LY02'+index" v-if="msg">
 							<p>{{msg.Remark}}</p>
 							<p class="time">{{msg.CreateTimeStr}}</p>
 						</div>
+						<div class="null">
+							<img src="../assets/NumimgTwo/null.png"/>
+							<p>暂无相关数据</p>
+						</div>
 					</div>
 					<div v-show="readmsg">
-						<div v-for="msg in msgsread.data" @click="cliread(msg)" :key="'LY03'+index">
+						<div v-for="msg in msgsread.data" @click="cliread(msg)" :key="'LY03'+index" v-if="msg">
 							<p>{{msg.Remark}}</p>
 							<p class="time">{{msg.UpdateTimeStr}}</p>
 						</div>
+						<div class="null">
+							<img src="../assets/NumimgTwo/null.png"/>
+							<p>暂无相关数据</p>
+						</div>
 					</div>
 					<div v-show="allmsg">
-						<div v-for="msg in msgsall.data" @click="cliallmsg(msg)" :key="'LY04'+index">
+						<div v-for="msg in msgsall.data" @click="cliallmsg(msg)" :key="'LY04'+index" v-if="msg">
 							<p>{{msg.Remark}}</p>
 							<p class="time" v-if="msg.ReadType==0">{{msg.CreateTimeStr}}</p>
 							<p class="time" v-if="msg.ReadType==1">{{msg.UpdateTimeStr}}</p>
+						</div>
+						<div class="null">
+							<img src="../assets/NumimgTwo/null.png"/>
+							<p>暂无相关数据</p>
 						</div>
 					</div>
 				</div>
@@ -1180,4 +1192,24 @@
 		text-align: center;
 		margin-top: 13px;
 	}
+	/*暂无数据*/
+.null{
+	width: 100%;
+	height:606px!important;
+	text-align: center;
+	margin:0 auto;
+	border:none!important;
+}
+.null img{
+	width: 210px;
+	height:162px;
+	margin:0 auto;
+	margin-top: 190px;
+}
+.null p{
+	font-family: SourceHanSansCN-Regular;
+	font-size: 13px;
+	color: #555555;
+	display: block!important;
+}
 </style>

@@ -627,7 +627,12 @@ export default {
         //变量scrollHeight是滚动条的总高度
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        if (scrollTop + windowHeight == scrollHeight) {
+        var int = Math.round(scrollTop + windowHeight)
+        if (
+          int == scrollHeight ||
+          int + 1 == scrollHeight ||
+          int - 1 == scrollHeight
+        ) {
           // 需要执行的代码
           if (that.can_execute_scorll) {
             document.documentElement.scrollTop =

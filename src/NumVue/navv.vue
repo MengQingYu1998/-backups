@@ -26,6 +26,7 @@
           placement="bottom"
           :visible-arrow="false"
           v-model="is_show_nav_popover"
+          trigger="manual"
         >
           <div
             v-show="nav_input_value!=''"
@@ -43,7 +44,8 @@
           >{{item}}</div>
           <input
             slot="reference"
-            @blur="is_show_nav_popover=true"
+            @focus="is_show_nav_popover=true"
+            @blur="is_show_nav_popover=false"
             type="text"
             placeholder="应用名称或APPID"
             v-model="nav_input_value"
@@ -153,6 +155,17 @@ export default {
       now_country: '中国',
       touxiang: require('../assets/NumImg/touxiang.png')
     }
+  },
+  created() {
+    this.fun()
+    this.$watch('nav_input_value', function(newValue, oldValue) {
+      this.get_data_for_nav_input()
+    })
+  },
+  mounted: function() {
+    // this.globalClick(() => {
+    //   this.is_show_nav_popover = false
+    // })
   },
   methods: {
     // 获取当前选中的国家
@@ -295,9 +308,10 @@ export default {
       }
     },
     go_to_page01(parm) {
-      if (this.nav_input_value.trim() == '') {
+      if (parm.trim() == '') {
         return false
       }
+      this.is_show_nav_popover = false
       // 调用存储历史记录的方法
       this.search_history(this.nav_input_value)
       if (
@@ -313,7 +327,7 @@ export default {
         window.open(routerUrl.href, '_blank')
         return false
       }
-      this.is_show_nav_popover = false
+
       this.nav_input_value = ''
       this.$store.state.now_app_name = parm
       this.$store.state.now_country_name = this.now_country
@@ -324,12 +338,6 @@ export default {
       })
       window.open(routerUrl.href, '_blank')
     }
-  },
-  created() {
-    this.fun()
-    this.$watch('nav_input_value', function(newValue, oldValue) {
-      this.get_data_for_nav_input()
-    })
   }
 }
 </script>

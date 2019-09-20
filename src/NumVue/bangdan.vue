@@ -10,7 +10,7 @@
 			</ul>
 			<div class="lei">
 				<div>
-					<p class="fenlei">榜单分类</p>
+					<p class="fenlei">榜单分类</p> 
 					<p class="font" v-for="(genre,index) in genres" :key="'LY07'+index" :class="{'selectFont':selefont==index}" @click="cligenre(index)">{{genre.name}}</p>
 				</div>
 				<div>
@@ -56,7 +56,7 @@
 				<div>
 					<p>设备</p>
 					<el-select v-model="equipmentValue">
-				        <el-option v-for="(item) in  equipment" :key="item.B"  :value="item.value">
+				        <el-option v-for="item in  equipment" :key="item.B"  :value="item.value">
 				        </el-option>
 				    </el-select>
 
@@ -130,7 +130,7 @@
 									<span v-if='tr.rank_a.rankChange==0'>{{tr.rank_a.rankChange}}</span>
 									<span v-if='tr.rank_a.rankChange<0' class="blueB">{{-(tr.rank_a.rankChange)}}</span>
 								</th>
-								<th v-else>
+								<th v-else>--</th>
 								<th v-if="tr.rank_b">
 									<div class="now" v-if="tr.rank_b">
 										<p>{{tr.rank_b.rankID}}</p>
@@ -144,7 +144,7 @@
 									<span v-if='tr.rank_b.rankChange==0' class="before">{{tr.rank_b.rankChange}}</span>
 									<span v-if='tr.rank_b.rankChange<0' class="before blueB">{{-(tr.rank_b.rankChange)}}</span>
 								</th>
-								<th v-else></th>
+								<th v-else>--</th>
 								<th>{{tr.keywordCover}}</th>
 								<th>{{tr.comment.num}}</th>
 								<th>{{tr.LastReleaseDate}}</th>
@@ -298,15 +298,15 @@
 
 		},
 		mounted() {
-			// showApplication:false,
-			// 	showGame:false,
-		let that = this
-		document.getElementById('body').onclick = function() {
-    that.showApplication = false
-      that.showGame = false
-  }
-   
-		    this.$nextTick(() => {
+
+			let that = this
+			// 点击其他地方弹窗消失
+		    that.globalClick(() => {
+		      that.showApplication = false
+		      that.showGame = false
+		    })
+
+		    that.$nextTick(() => {
 		      let that = this
 		      //当页面滚动的时候  加载  滚动加载
 		      window.onscroll = function() {
@@ -326,10 +326,8 @@
 		          	
 		          // console.log(2)
 		           if (that.can_execute_scorll) {
-								document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              1
+		          		document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight-1
+
 		          	   that.contentShow=true
                        that.infiniteMsgShow=true
 			           that.getData() 
@@ -338,6 +336,7 @@
 		      }
 		    })
 		   
+		   	  
 		},
 		methods:{
 			
@@ -352,7 +351,7 @@
 				this.contentShow=true
                 this.infiniteMsgShow=true
 				
-				this.kuaizTim=""
+				// this.kuaizTim=""
 				this.total_number+=1
 				let number=this.total_number
 				// this.kuaizhao=true
@@ -495,7 +494,7 @@
 										})
 										.then(res=>{
 											if(res.data.Code==0){
-
+												// console.log(res.data.pageCount)
 												let onlinFont=res.data.pageCount
 												if(onlinFont>0&&onlinFont<21){
 													this.contentShow = true
@@ -530,8 +529,11 @@
 										        let pageC=Math.ceil(onlinFont/this.pageSize)
 										       
 										        if(this.page==pageC+1){
+										        	this.can_execute_scorll =false
 										        	this.contentShow = true
 										            this.infiniteMsgShow = false // 没有更多数据
+										            this.bomfont="我是有底线的~"
+										            
 										        }
 										        
 											}else{
@@ -604,45 +606,75 @@
 				this.upWL=false
 				this.showApplication = false//应用榜
 				this.showGame=false//游戏榜
+				this.valueG="游戏"
+				this.valueY="应用"
 				this.isSelect=0
+				this.kuaizTim=""
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
 			},
 			// 点击应用榜
 			showY(){
-				this.showApplication = true;
+				this.kuaizTim=""
+				this.now_Application="全部应用"
+				if(this.showApplication==false){
+					this.showApplication = true
+					// 应用小三角
+					this.upWL=true
+					this.downL=false
+					this.downWL=false
+				}else{
+					this.showApplication = false
+					
+					// 应用小三角
+					this.upWL=false
+					this.downL=false
+					this.downWL=true
+				}
 				this.showGame=false
+				this.valueG="游戏"
 				this.isFont=true
-				this.upWL=true
-				this.downL=false
-				this.downWL=false
 				this.isFontZ=false
 				this.isFontG=false
+				
+				// 游戏小三角
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
 				this.isSelect=1
-				this.now_Application="全部应用"
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
 			},
 			// 点击游戏榜
 			showG(){
-				this.showGame=true
+				this.kuaizTim=""
+				this.now_Application="全部游戏"
+				if(this.showGame==true){
+					this.showGame=false
+					//游戏小三角
+					this.upWG=false
+					this.downG=false
+					this.downWG=true
+				}else{
+					this.showGame=true
+					//游戏小三角
+					this.upWG=true
+					this.downG=false
+					this.downWG=false
+				}
 				this.showApplication=false
+				this.valueY="应用"
 				this.isFontZ=false
 				this.isFontG=true
 				this.isFont=false
+				// 应用小三角
 				this.downL=true
 				this.downWL=false
 				this.upWL=false
-				this.upWG=true
-				this.downG=false
-				this.downWG=false
+				
 				this.isSelect=2
-				this.now_Application="全部游戏"
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -672,6 +704,7 @@
 			},
 			// 点击总分类
 			selectLei(index){
+				this.kuaizTim=""
 				this.showGame=false
 				this.showApplication=false
 				this.isSelect=index

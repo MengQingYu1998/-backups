@@ -12,13 +12,13 @@
 				<div>
 					<p class="category">类别</p>
 					<p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">总榜</p>
-					<p class="font" @click="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
+					<p class="font" @click.stop="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
 						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>
 					</p>
-					<p class="font" @click="showG()" v-bind:class="{selectFont:isFontG}">
+					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWG"/>
@@ -84,7 +84,7 @@
 							</tr>
 						</thead>
 						<tbody v-if="hasup">
-							<tr v-for="tr in zongsdataList" :key="tr.index" >
+							<tr v-for="tr in zongsdataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -120,7 +120,7 @@
 							</tr>
 						</thead>
 						<tbody v-if="hasup">
-							<tr v-for="tr in zongsdataList" :key="tr.index" >
+							<tr v-for="tr in zongsdataList" :key="tr.index" v-if="tr">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
@@ -138,7 +138,8 @@
 									
 								</th>
 								<th>{{tr.price}}</th>
-								<th>{{tr.genreName}}</th>
+								<th v-if="tr.genreName">{{tr.genreName}}</th>
+								<th v-else>--</th>
 								<th>{{tr.date}}</th>
 								
 							</tr>
@@ -179,12 +180,14 @@
 										<p>{{tr.rank_a.rankID}}</p>
 										<p>{{tr.rank_a.genreName}}</p>
 									</div>
+									<div v-else>--</div>
 								</th>
 								<th>
 									<div v-if="tr.rank_b">
 										<p>{{tr.rank_b.rankID}}</p>
 										<p>{{tr.rank_b.genreName}}</p>
 									</div>
+									<div v-else>--</div>
 								</th>
 								<th>{{tr.price}}</th>
 								<th>{{tr.comment.num}}</th>
@@ -221,7 +224,7 @@
 							<tr v-for="tr in cidataList" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
 									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
-									<img :src="tr.icon" class="logo" />
+									<img :src="tr.icon"class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
 										<p class="company">{{tr.publisher}}
@@ -237,11 +240,13 @@
 								<th>
 									<div>
 										<p v-if="tr.rank_b">{{tr.rank_b.rankID}}</p>
+										<p v-else>--</p>
 										<p v-if="tr.rank_a">{{tr.rank_a.genreName}}(免费)</p>
+										<p v-else>--</p>
 									</div>
 								</th>
 								<th v-if="tr.rank_b">{{tr.rank_b.genreName}}</th>
-								<th v-else></th>
+								<th v-else>--</th>
 								<th>{{tr.price}}</th>
 								<th>{{tr.comment.num}}</th>
 								<th>{{tr.clearTime}}时</th>
@@ -368,8 +373,15 @@
 			}
 		},
 		mounted(){
-			this.$nextTick(() => {
-		      let that = this
+			let that = this
+			// 点击其他地方弹窗消失
+		    that.globalClick(() => {
+		      that.showApplication = false
+		      that.showGame = false
+		    })
+
+			that.$nextTick(() => {
+		      // let that = this
 		      //当页面滚动的时候  加载  滚动加载
 		      window.onscroll = function() {
 		        //变量scrollTop是滚动条滚动时，距离顶部的距离
@@ -386,10 +398,8 @@
 		          	// 请求数据 
 		          	// console.log(t)
 		          	if (that.can_execute_scorll) {
-									document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              1
+		          		document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight-1
+		          		
 		          		that.contentShow=true
                  		that.infiniteMsgShow=true
 			            if(that.isSelect==0||that.isSelect==1){
@@ -571,7 +581,7 @@
 								.then(res=>{
 									if(res.data.Code==0){
 										this.onlinFont=res.data.pageCount
-
+										
 										if(this.onlinFont>0&&this.onlinFont<21){
 											this.contentShow = true
 											this.infiniteMsgShow = false//没有更多
@@ -595,10 +605,11 @@
 
 
 								        let pageC=Math.ceil(this.onlinFont/this.pageSize)
-								        
-									        if(this.page>=pageC+1){
-									        	this.contentShow = true
+									        if(this.page==pageC+1){
+									        	this.contentShow=true
 									            this.infiniteMsgShow = false // 没有更多数据
+									            this.bomfont="我是有底线的~"
+									           this.can_execute_scorll =false
 									        }
 									        if(pageC==0){
 									        	this.contentShow = false
@@ -607,8 +618,6 @@
 
 									}else{
 										this.onlinFont=0
-										this.contentShow = true
-									    this.hasup=false
 									}
 
 								})
@@ -740,9 +749,11 @@
 										let pageC=Math.ceil(this.onlinFontB/this.pageSize2)
 										// console.log(this.page2)
 										// console.log(pageC)
-								        if(this.page2>=pageC+1){
+								        if(this.page2==pageC+1){
+								        	this.can_execute_scorll =false
 								        	this.contentShow = true
 								        	this.infiniteMsgShow = false//没有更多
+								        	this.bomfont="我是有底线的~"
 								        }
 								        if(pageC==0){
 								        	this.contentShow = false
@@ -881,9 +892,11 @@
 								        let pageC=Math.ceil(this.onlinFontC/this.pageSize3)
 										// console.log(this.page3)
 										// console.log(pageC)
-								        if(this.page3>=pageC+1){
+								        if(this.page3==pageC+1){
+								        	this.can_execute_scorll =false
 								        	this.contentShow = true
 								        	this.infiniteMsgShow = false//没有更多
+								        	this.bomfont="我是有底线的~"
 								        }
 								        if(pageC==0){
 								        	this.contentShow = false
@@ -929,6 +942,8 @@
 				this.upWL=false
 				this.showApplication = false
 				this.showGame=false
+				this.valueG="游戏"
+				this.valueY="应用"
 				if(this.isSelect==0||this.isSelect==1){
 					this.zongsdataList.length=0
 				    this.page=1
@@ -945,14 +960,28 @@
 			},
 			// 点击应用榜
 			showY(){
-				this.showApplication = true;
-				this.showGame=false;
+				this.now_Application="全部应用"
+				if(this.showApplication==false){
+					this.showApplication = true
+					// 应用小三角
+					this.upWL=true
+					this.downL=false
+					this.downWL=false
+				}else{
+					this.showApplication = false
+					
+					// 应用小三角
+					this.upWL=false
+					this.downL=false
+					this.downWL=true
+				}
+				this.showGame=false
+				this.valueG="游戏"
 				this.isFont=true
-				this.upWL=true
-				this.downL=false
-				this.downWL=false
 				this.isFontZ=false
 				this.isFontG=false
+				
+				// 游戏小三角
 				this.downG=true
 				this.downWG=false
 				this.upWG=false
@@ -966,17 +995,29 @@
 			},
 			// 点击游戏榜
 			showG(){
-				this.showGame=true
+				this.now_Application="全部游戏"
+				if(this.showGame==true){
+					this.showGame=false
+					//游戏小三角
+					this.upWG=false
+					this.downG=false
+					this.downWG=true
+				}else{
+					this.showGame=true
+					//游戏小三角
+					this.upWG=true
+					this.downG=false
+					this.downWG=false
+				}
 				this.showApplication=false
+				this.valueY="应用"
 				this.isFontZ=false
 				this.isFontG=true
 				this.isFont=false
+				// 应用小三角
 				this.downL=true
 				this.downWL=false
 				this.upWL=false
-				this.upWG=true
-				this.downG=false
-				this.downWG=false
 				if(this.isSelect==0||this.isSelect==1){
 				    this.getData()
 				}else if(this.isSelect==2){
@@ -993,14 +1034,20 @@
 				this.downWL=true
 				this.now_Application=Application.name
 				if(this.isSelect==0||this.isSelect==1){
+					this.zongsBList.length=0
+					this.cidataList.length=0
 					this.zongsdataList.length=0
 				    this.page=1
 				    this.getData()
 				}else if(this.isSelect==2){
+					this.cidataList.length=0
+					this.zongsdataList.length=0
 					this.zongsBList.length=0
 				    this.page2=1
 				    this.getDataB()
 				}else if(this.isSelect==3){
+					this.zongsdataList.length=0
+					this.zongsBList.length=0
 					this.cidataList.length=0
 				    this.page3=1
 				    this.getDataci()

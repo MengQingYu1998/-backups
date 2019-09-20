@@ -318,6 +318,7 @@ export default {
       // 第二部分折线图数据
       // 第二部分折线图数据
       // 第二部分折线图数据
+      db_number_is_same: 0, //修复用户输入过快的bug
       is_show_mychart: true,
       response_data_second: null,
       middle_top_radio1: '按小时',
@@ -468,7 +469,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               if (
                 response.data.Data.rank_0 != null &&
                 response.data.Data.rank_1 != null &&
@@ -500,6 +501,8 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
+      this.db_number_is_same++
+      let is_excute_function = this.db_number_is_same
       this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
       this.myChart.showLoading()
       this.$axios
@@ -594,7 +597,11 @@ export default {
             .post(url, data)
             .then(response => {
               console.log(response.data)
-              if (response.data.Code == 0 && response.data.Data.length > 0) {
+              if (
+                is_excute_function == this.db_number_is_same &&
+                response.data.Code == 0 &&
+                response.data.Data.length > 0
+              ) {
                 // console.log('有数据')
                 this.is_show_mychart = true
                 this.response_data_second = response.data.Data[0]
@@ -1171,9 +1178,9 @@ export default {
   height: 360px;
   z-index: 1;
   text-align: center;
-  color: #666;
+  color: #bfbfbf;
   line-height: 300px;
-  font-size: 50px;
+  font-size: 25px;
 }
 .table_title {
   font-family: SourceHanSansCN-Medium;

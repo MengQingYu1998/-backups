@@ -33,15 +33,19 @@
         <div class="table_group">
           <table>
             <thead>
-              <tr v-if="response_data">
-                <th colspan="3">我的独家关键词({{response_data.myOwn.length}})</th>
+              <tr>
+                <th
+                  colspan="3"
+                  v-if="response_data"
+                >我的独家关键词({{response_data&&response_data.myOwn.length}})</th>
+                <th colspan="3" v-if="!response_data">我的独家关键词(0)</th>
               </tr>
             </thead>
-            <tbody v-if="response_data">
-              <tr class="disable_hover" v-if="response_data.myOwn==0">
+            <tbody>
+              <tr class="disable_hover" v-if="myOwn_no_data">
                 <td colspan="3">暂无相关数据</td>
               </tr>
-              <template v-if="response_data.myOwn!=0">
+              <template v-if="response_data">
                 <tr>
                   <td>关键词</td>
                   <td>搜索指数</td>
@@ -63,15 +67,19 @@
           </table>
           <table>
             <thead>
-              <tr v-if="response_data">
-                <th colspan="3">公共覆盖关键词({{response_data.common.length}})</th>
+              <tr>
+                <th
+                  colspan="3"
+                  v-if="response_data"
+                >公共覆盖关键词({{response_data&&response_data.common.length}})</th>
+                <th colspan="3" v-if="!response_data">公共覆盖关键词(0)</th>
               </tr>
             </thead>
-            <tbody v-if="response_data">
-              <tr class="disable_hover" v-if="response_data.common==0">
+            <tbody>
+              <tr class="disable_hover" v-if="common_no_data">
                 <td colspan="3">暂无相关数据</td>
               </tr>
-              <template v-if="response_data.common!=0">
+              <template v-if="response_data">
                 <tr>
                   <td>关键词</td>
                   <td>搜索指数</td>
@@ -93,15 +101,19 @@
           </table>
           <table>
             <thead>
-              <tr v-if="response_data">
-                <th colspan="3">我的独家关键词({{response_data.comOwn.length}})</th>
+              <tr>
+                <th
+                  colspan="3"
+                  v-if="response_data"
+                >我的独家关键词({{response_data&&response_data.comOwn.length}})</th>
+                <th colspan="3" v-if="!response_data">我的独家关键词(0)</th>
               </tr>
             </thead>
-            <tbody v-if="response_data">
-              <tr class="disable_hover" v-if="response_data.comOwn==0">
+            <tbody>
+              <tr class="disable_hover" v-if="comOwn_no_data">
                 <td colspan="3">暂无相关数据</td>
               </tr>
-              <template v-if="response_data.comOwn!=0">
+              <template v-if="response_data">
                 <tr>
                   <td>关键词</td>
                   <td>搜索指数</td>
@@ -125,10 +137,7 @@
         <div class="loading" v-show="loading">
           <img src="../assets/ios/loading.gif" alt />
         </div>
-        <div
-          class="it_is_over"
-          v-show="!it_is_over&&!loading&&(response_data.comOwn.length!=0||response_data.common.length!=0||response_data.myOwn.length!=0)"
-        >下拉加载更多</div>
+        <div class="it_is_over" v-show="!it_is_over&&!loading&&(response_data!=null)">下拉加载更多</div>
         <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
       </div>
     </div>
@@ -143,6 +152,9 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      comOwn_no_data: false,
+      myOwn_no_data: false,
+      common_no_data: false,
       can_execute_scorll: true, //是否可以执行滚动
       it_is_over: false,
       loading: false,
@@ -187,7 +199,12 @@ export default {
         //变量scrollHeight是滚动条的总高度
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        if (scrollTop + windowHeight == scrollHeight) {
+        var int = Math.round(scrollTop + windowHeight)
+        if (
+          int == scrollHeight ||
+          int + 1 == scrollHeight ||
+          int - 1 == scrollHeight
+        ) {
           // 需要执行的代码
           if (that.can_execute_scorll) {
             document.documentElement.scrollTop =
@@ -243,6 +260,9 @@ export default {
             .get(url)
             .then(response => {
               if (response.data.Data != null) {
+                this.comOwn_no_data = false
+                this.common_no_data = false
+                this.myOwn_no_data = false
                 this.response_data = response.data.Data
                 console.log(response)
                 this.response_data.comOwn = this.response_data.comOwn.slice(
@@ -261,11 +281,13 @@ export default {
                 this.page += 1
                 this.can_execute_scorll = true //是否可以执行滚动
               } else {
+                // alert(111)
                 console.log(response)
                 this.loading = false
-                this.response_data.comOwn = new Array()
-                this.response_data.common = new Array()
-                this.response_data.myOwn = new Array()
+                this.response_data = null
+                this.comOwn_no_data = true
+                this.common_no_data = true
+                this.myOwn_no_data = true
               }
             })
             .catch(error => {

@@ -619,7 +619,7 @@
             class="myChart_dialog"
             v-show="is_show_myChart_and_table&&!no_data"
           ></div>
-          <div class="myChart" v-show="no_data">暂无数据</div>
+          <div class="myChart_dialog" v-show="no_data">暂无数据</div>
           <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
           <div class="bottom_image pointer">
             <img
@@ -914,7 +914,12 @@ export default {
         //变量scrollHeight是滚动条的总高度
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        if (scrollTop + windowHeight == scrollHeight) {
+        var int = Math.round(scrollTop + windowHeight)
+        if (
+          int == scrollHeight ||
+          int + 1 == scrollHeight ||
+          int - 1 == scrollHeight
+        ) {
           if (that.can_execute_scorll) {
             document.documentElement.scrollTop =
               document.documentElement.scrollHeight -
@@ -1062,7 +1067,9 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page12 += 1
-                this.it_is_over = response.data.AppInfoList < 10
+                this.it_is_over =
+                  response.data.AppInfoList < 10 &&
+                  response.data.AppInfoList > 0
                 this.loading = false
                 this.can_execute_scorll = true //是否可以执行滚动
               }
@@ -1126,7 +1133,9 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page11 += 1
-                this.it_is_over = response.data.AppInfoList < 10
+                this.it_is_over =
+                  response.data.AppInfoList < 10 &&
+                  response.data.AppInfoList > 0
                 this.loading = false
                 this.can_execute_scorll = true //是否可以执行滚动
               }
@@ -1178,7 +1187,7 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response)
+              console.log(response)
               this.keyword_data01 = new Array()
               this.keyword_data_value01 = new Array()
               this.xAxis_data01 = new Array()
@@ -1322,8 +1331,26 @@ export default {
                 that.column_max = 50
               } else if (max_value < 100) {
                 that.column_max = 100
-              } else {
-                that.column_max = value.max + 10
+              } else if (max_value < 200) {
+                that.column_max = 200
+              } else if (max_value < 300) {
+                that.column_max = 300
+              } else if (max_value < 400) {
+                that.column_max = 400
+              } else if (max_value < 500) {
+                that.column_max = 500
+              } else if (max_value < 600) {
+                that.column_max = 600
+              } else if (max_value < 700) {
+                that.column_max = 700
+              } else if (max_value < 800) {
+                that.column_max = 800
+              } else if (max_value < 900) {
+                that.column_max = 900
+              } else if (max_value < 1000) {
+                that.column_max = 1000
+              } else if (max_value < 2000) {
+                that.column_max = 2000
               }
               return that.column_max
             },
@@ -1401,7 +1428,7 @@ export default {
             let time02 = new Date()
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 1)
             sdate = formatDate(time02, 'yyyy-MM-dd')
-             edate =sdate
+            edate = sdate
           }
           let showType
           if (this.radio01_dialog == '按分钟') {
@@ -1997,6 +2024,11 @@ export default {
   width: 983px;
   height: 350px;
   margin: 0 auto;
+  text-align: center;
+  color: #bfbfbf;
+  font-size: 25px;
+
+  line-height: 350px;
 }
 .first_table_last_td {
   color: #222222 !important;
@@ -2025,9 +2057,9 @@ export default {
   width: 350px;
   height: 350px;
   text-align: center;
-  color: #666;
+  color: #bfbfbf;
   line-height: 300px;
-  font-size: 50px;
+  font-size: 25px;
 }
 .flex-row {
   display: flex;

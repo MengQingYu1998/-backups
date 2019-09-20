@@ -9,7 +9,8 @@
       <div class="right">
         <div class="right_nav">竞品概览</div>
         <div class="line"></div>
-        <table>
+        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+        <table v-show="!loading_gif">
           <thead>
             <tr>
               <th>应用</th>
@@ -18,7 +19,7 @@
               <th>关键词覆盖数</th>
               <th>当前版本评分</th>
               <th>所有版本评分</th>
-              <th>竞品对比</th>
+              <th>竞品对比&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
             </tr>
           </thead>
           <tbody v-if="response_data!=null">
@@ -77,7 +78,7 @@
                   <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
                 </div>
                 <img
-                  v-show="index!=0"
+                  :class="{opacity_0:index==0}"
                   src="../assets/ios/compare_del.png"
                   @click="remove_data(index)"
                   alt
@@ -91,7 +92,8 @@
         </table>
         <!-- ================================ -->
         <div class="section_title">竞品推荐</div>
-        <table>
+        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+        <table v-show="!loading_gif">
           <thead>
             <tr>
               <th>应用</th>
@@ -172,6 +174,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      loading_gif: false,
       response_data: null,
       now_country: '中国'
     }
@@ -188,6 +191,7 @@ export default {
   methods: {
     // 请求数据
     get_data() {
+      this.loading_gif = true
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -217,11 +221,14 @@ export default {
             .get(url)
             .then(response => {
               if (response.data.Code == 0) {
+                this.loading_gif = false
                 this.response_data = response.data.Data
+
                 // console.log(99999999999999999999999999)
                 // console.log(this.response_data)
                 // console.log(response)
               } else {
+                this.loading_gif = false
                 this.response_data = null
               }
             })
@@ -238,6 +245,9 @@ export default {
       this.response_data.data_1.splice(index, 1)
     },
     remove_data(index) {
+      if (index == 0) {
+        return false
+      }
       this.response_data.data_1.unshift(this.response_data.data_0[index])
       this.response_data.data_0.splice(index, 1)
     },
@@ -271,6 +281,17 @@ export default {
 }
 </script>
 <style scoped>
+.loading_gif {
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  margin-left: 47%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.opacity_0 {
+  opacity: 0;
+}
 td {
   height: 100px;
   box-sizing: border-box;
@@ -282,6 +303,10 @@ td {
   text-align: left;
   width: 179px;
   height: 18px;
+}
+
+.app_name:hover {
+  color: #009bef;
 }
 .app_name {
   height: 23px;

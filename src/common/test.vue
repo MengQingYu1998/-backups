@@ -27,6 +27,7 @@ export default {
   },
   mounted() {
     this.get_data()
+
     // this.$watch('max', function(newValue, oldValue) {
     // console.log('maxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmaxmax')
     // this.drawLine()
@@ -85,8 +86,10 @@ export default {
 
         this.markArea = {
           label: {
-            formatter: function() {
-              return '{a|ssssssssssss }'
+            formatter: function(params) {
+              console.log(params)
+              return '{a|' + params.name + '}'
+              // return '{a|ssssssssssss }'
             },
 
             rich: {
@@ -100,18 +103,23 @@ export default {
           },
           itemStyle: {
             normal: {
-              color: 'red',
-              opacity: 0.5
+              color: 'blue'
             }
           },
           data: [
             [
               {
-                name: '两个屏幕坐标之间的标域',
+                name: '2222',
                 xAxis: '2018-08-08'
               },
               {
                 xAxis: '2018-08-14'
+              }
+            ],
+            [
+              { name: '33333', xAxis: '2018-08-16' },
+              {
+                xAxis: '2018-08-18'
               }
             ]
           ]
