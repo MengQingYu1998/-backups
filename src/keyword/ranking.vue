@@ -24,7 +24,7 @@
         <!-- 选择总榜 -->
         <div>
           <div
-            :class=" {'change_bg':change_bg_all,'radio_one':true,'pointer':true}"
+            :class=" {'change_bg':change_bg_all,'select_radio_one':true,'pointer':true}"
             @click="change_all_dateValue()"
           >总榜</div>
         </div>
@@ -40,7 +40,7 @@
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_app,'radio_one':true,'pointer':true}"
+              :class=" {'change_bg':change_bg_app,'select_radio_one':true,'pointer':true}"
               @click="change_app_dateValue()"
             >
               应用
@@ -70,7 +70,7 @@
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_game,'radio_one':true,'pointer':true}"
+              :class=" {'change_bg':change_bg_game,'select_radio_one':true,'pointer':true}"
               @click="change_game_dateValue()"
             >
               游戏
@@ -676,15 +676,30 @@ tbody th:nth-child(5) {
   background-color: #009bef;
   border: solid 1px #009bef !important;
 }
-.radio_one {
+.select_radio_one {
   text-align: center;
-  line-height: 26px;
+  width: 48px;
+  height: 26px;
   font-family: SourceHanSansCN-Normal;
+  line-height: 28px;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  width: 48px !important;
-  height: 24px;
+  border-radius: 4px;
+  border: solid 1px #dfdfdf;
+  letter-spacing: 0px;
+  color: #444444;
+  margin-right: 10px;
+  display: inline-block;
+}
+.radio_one {
+  text-align: center;
+  font-family: SourceHanSansCN-Normal;
+  line-height: 25px;
+  font-size: 13px;
+  padding: 0 12px;
+  font-weight: normal;
+  font-stretch: normal;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;

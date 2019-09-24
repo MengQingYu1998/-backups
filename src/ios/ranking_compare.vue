@@ -82,16 +82,16 @@
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           class="table_title"
           v-if="response_data_second"
         >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名对比</div>
-        <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>
+        <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>-->
         <div class="position_relative">
           <div
             ref="ranking_compare"
             class="myChart"
-            style="height: 450px;"
+            style="height: 460px;"
             v-show="is_show_myChart_and_table&&!no_data"
           ></div>
           <div class="bottom_image pointer">
@@ -280,7 +280,10 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.ranking_compare)
 
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -529,6 +532,28 @@ export default {
       // 绘制图表
       this.myChart.setOption(
         {
+          title: {
+            text:
+              that.response_data_second[0].appName +
+              ' 与 ' +
+              that.response_data_second[1].appName +
+              '排名对比',
+            subtext: '【' + that.middle_top_radio3 + '】榜单排名走势',
+            left: 'center',
+            itemGap: 20,
+            textStyle: {
+              color: '#222222',
+              fontSize: 16,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            },
+            subtextStyle: {
+              color: '#222222',
+              fontSize: 14,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            }
+          },
           color: [
             '#62c8ff',
             '#216aff',
@@ -614,12 +639,13 @@ export default {
           },
           legend: {
             data: that.legend_array,
-            top: '330px',
+            top: '365px',
             orient: 'horizontal',
             selected: that.selected_data
           },
           grid: {
             height: '250px',
+            top: '85px',
             left: '3%',
             right: '4%',
             bottom: '35%'
@@ -833,7 +859,7 @@ export default {
   letter-spacing: 0px;
   color: #009bef;
   margin: 32px auto;
-  margin-top: 0;
+  margin-top: 40px;
 }
 thead tr {
   height: 40px;
@@ -920,12 +946,12 @@ table {
 }
 .myChart {
   width: 965px;
-  /* height: 450px; */
+
   text-align: center;
   color: #bfbfbf;
   line-height: 300px;
   font-size: 25px;
-  margin-top: -25px;
+  margin-top: 50px;
 }
 .table_sub_title {
   font-family: SourceHanSansCN-Medium;

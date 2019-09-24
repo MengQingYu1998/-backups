@@ -367,7 +367,7 @@
 
 				// 传给后台的pid
 				let pidV=36
-				let geid=""
+				let geid=''
 				if(this.isFontZ==true){
 					// 点击总榜
 					pidV=36
@@ -400,12 +400,21 @@
 						if(pidV==36){
 					        geid=36	
 					    }else{
-					        for(var i=0;i<res.data.Data.length;i++){
-								if(this.now_Application==res.data.Data[i].name){
-									geid = res.data.Data[i].id
-						 		}
-						    }
+					    		for(var i=0;i<res.data.Data.length;i++){
+									if(this.now_Application==res.data.Data[i].name){
+										geid = res.data.Data[i].id
+							 		}
+							    }
 					    }
+
+
+					    if(this.isFont==true&&geid==""){
+					    		geid=5000	
+					    	}else if(this.isFontG==true&&geid==""){
+					    		geid=6014	
+					    	}
+					        
+					    
 					    
 					    //传给后台的countryid值
 						let country_id=1
@@ -595,6 +604,7 @@
 			},
 			// 点击总榜
 			showZ(){
+				this.fenFont='总榜'
 				this.downG=true
 				this.downWG=false
 				this.downL=true
@@ -617,7 +627,11 @@
 			// 点击应用榜
 			showY(){
 				this.kuaizTim=""
-				this.now_Application="全部应用"
+				this.fenFont='应用榜'
+				if(this.now_Application==""){
+					this.now_Application="全部应用"
+				}
+				
 				if(this.showApplication==false){
 					this.showApplication = true
 					// 应用小三角
@@ -650,7 +664,10 @@
 			// 点击游戏榜
 			showG(){
 				this.kuaizTim=""
-				this.now_Application="全部游戏"
+				this.fenFont='游戏榜'
+				if(this.now_Application==""){
+					this.now_Application="全部游戏"
+				}
 				if(this.showGame==true){
 					this.showGame=false
 					//游戏小三角

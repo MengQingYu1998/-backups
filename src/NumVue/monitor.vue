@@ -432,7 +432,9 @@
 			},
 			// 点击应用榜
 			showY(){
-				this.now_Application="全部应用"
+				if(this.now_Application==""){
+					this.now_Application="全部应用"
+				}
 				if(this.showApplication==false){
 					this.showApplication = true
 					// 应用小三角
@@ -462,7 +464,9 @@
 			},
 			// 点击游戏榜
 			showG(){
-				this.now_Application="全部游戏"
+				if(this.now_Application==""){
+					this.now_Application="全部游戏"
+				}
 				if(this.showGame==true){
 					this.showGame=false
 					//游戏小三角

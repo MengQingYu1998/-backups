@@ -130,10 +130,10 @@ export default {
           })
           // 请求数据
 
-          // console.log('country_id' + country_id)
+          // console.log(formatDate(this.dateValue, 'yyyy-MM-dd'))
           let system = this.systemValue == 'ios11' ? 11 : 12
-          let edate = formatDate(new Date(), 'yyyy-MM-dd')
-          let time02 = new Date()
+          let edate = formatDate(this.dateValue, 'yyyy-MM-dd')
+          let time02 = new Date(this.dateValue)
           time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6)
           let sdate = formatDate(time02, 'yyyy-MM-dd')
           let word = this.input
@@ -146,6 +146,7 @@ export default {
             word: word,
             iosType: system
           }
+          console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)

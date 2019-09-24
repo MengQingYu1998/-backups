@@ -36,7 +36,10 @@ export default {
   methods: {
     get_data() {
       this.myChart = this.$echarts.init(this.$refs.demo111)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       setTimeout(() => {
         this.keyword_data = ['a发送到发斯蒂芬是', 's', 'ss']
         // 数据
@@ -142,6 +145,16 @@ export default {
       //
       // }, 3000)
       let option = {
+        title: {
+          text: '【' + that.keyword_data.join('，') + '】搜索指数走势',
+          left: 'center',
+          textStyle: {
+            color: '#222222',
+            fontSize: 16,
+            fontFamily: 'SourceHanSansCN-Medium',
+            fontWeight: 'normal'
+          }
+        },
         animation: false,
         color: [
           '#62c8ff',

@@ -257,6 +257,9 @@ export default {
       this.can_execute_scorll=false
       this.contentShow=true
       this.infiniteMsgShow=true
+      this.hasrankdata=true
+      // console.log( this.infiniteMsgShow)
+      // console.log(this.hasrankdata)
       this.total_number += 1
       let number = this.total_number
       //传给后台的sort值
@@ -317,7 +320,7 @@ export default {
       }
 
       // 获取分类id
-      let apliId = 36
+      let apliId = ''
       this.$axios({
         method: 'get',
         url: '/GetGenre?genreID=' + pidV
@@ -335,10 +338,15 @@ export default {
                 }
               }
             }
+              if(this.isFont==true&&apliId==""){
+                  apliId=5000 
+              }else if(this.isFontG==true&&apliId==""){
+                  apliId=6014 
+              }
             //             console.log("brandV:"+brandV)
             //             console.log("dayNumV:"+dayNumV)
             //             console.log("sortV:"+sortV)
-                        // console.log("apliId:"+apliId)
+                        console.log("apliId:"+apliId)
                         // console.log("pidV:"+pidV)
             // console.log(111111111111111111111)
             this.$axios({
@@ -404,6 +412,7 @@ export default {
                 }else{
                   this.contentShow = false
                   this.hasrankdata=false
+                  alert(2)
                 }
               })
               .catch(error => {
@@ -413,6 +422,7 @@ export default {
           }else{
             this.contentShow = false
             this.hasrankdata=false
+            alert(3)
           }
         })
         .catch(error => {
@@ -441,7 +451,10 @@ export default {
     },
     // 点击应用榜
     showY() {
-     this.now_Application="全部应用"
+        if(this.now_Application==""){
+          this.now_Application="全部应用"
+        }
+          
         if(this.showApplication==false){
           this.showApplication = true
           // 应用小三角
@@ -473,7 +486,10 @@ export default {
     },
     // 点击游戏榜
     showG() {
-      this.now_Application="全部游戏"
+        if(this.now_Application==""){
+          this.now_Application="全部游戏"
+        }
+        console.log(this.now_Application)
         if(this.showGame==true){
           this.showGame=false
           //游戏小三角

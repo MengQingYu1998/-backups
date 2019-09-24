@@ -162,7 +162,7 @@ export default {
         .get('/GetCountry')
         .then(response => {
           // 获取国家ID
-          // console.log(response.data.Data)
+          console.log(response.data.Data)
           this.arr_country = new Array()
           if (this.input.trim() == '') {
             // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia

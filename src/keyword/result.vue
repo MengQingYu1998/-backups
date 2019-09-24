@@ -49,8 +49,8 @@
             <th v-show="activeName=='third'" class="keywordContentTable_th">ios11搜索结果数</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="disable_hover" v-show="!loading&&!data_for_top_table02&&!data_for_top_table">
+        <tbody v-show="!loading_first">
+          <tr class="disable_hover" v-show="!data_for_top_table02&&!data_for_top_table">
             <td colspan="4">暂无相关数据</td>
           </tr>
           <tr v-if="data_for_top_table02">
@@ -149,6 +149,9 @@
           </tr>
         </tbody>
       </table>
+      <!-- <div class="loading" v-show="loading_first">
+        <img src="../assets/ios/loading.gif" alt />
+      </div>-->
     </div>
     <div class="tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -227,14 +230,36 @@
                         </div>
                       </td>
                       <td>
-                        <div>{{item.ranking.rank_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                        >{{item.ranking.rank_class}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.rank_all}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_allprice}}</div>
+                        <div
+                          v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
+                        >--</div>
                       </td>
                       <td>
-                        <div>{{item.ranking.genre_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                        >{{item.ranking.genre_class}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_all}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                        >--</div>
                       </td>
                       <td
                         class="pointer"
@@ -248,7 +273,7 @@
               <div class="loading" v-show="loading">
                 <img src="../assets/ios/loading.gif" alt />
               </div>
-              <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+              <div class="it_is_over" v-show="it_is_over&&response_data_for_ios12.length!=0">我是有底线的～</div>
               <div
                 class="it_is_over"
                 v-show="!it_is_over&&response_data_for_ios12.length!=0&&!loading"
@@ -342,14 +367,36 @@
                         </div>
                       </td>
                       <td>
-                        <div>{{item.ranking.rank_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.rank_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_allprice}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                        >{{item.ranking.rank_class}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.rank_all}}</div>
+                        <div
+                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_allprice}}</div>
+                        <div
+                          v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
+                        >--</div>
                       </td>
                       <td>
-                        <div>{{item.ranking.genre_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                        >{{item.ranking.genre_class}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_all}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                        >--</div>
                       </td>
                       <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
                       <td>{{item.Top3}}</td>
@@ -360,7 +407,7 @@
               <div class="loading" v-show="loading">
                 <img src="../assets/ios/loading.gif" alt />
               </div>
-              <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+              <div class="it_is_over" v-show="it_is_over&&response_data_for_ios11.length!=0">我是有底线的～</div>
               <div
                 class="it_is_over"
                 v-show="!it_is_over&&response_data_for_ios11.length!=0&&!loading"
@@ -417,9 +464,20 @@
                       </td>
 
                       <td>
-                        <div>{{item.ranking.genre_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                        >{{item.ranking.genre_class}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_all}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                        >--</div>
                       </td>
                       <td>
                         <div class="rankingChange">
@@ -505,9 +563,20 @@
                       </td>
 
                       <td>
-                        <div>{{item.ranking.genre_class}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_all}}</div>
-                        <div class="rankingChangeFontColor">{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                        >{{item.ranking.genre_class}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_all}}</div>
+                        <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                        >{{item.ranking.genre_classprice}}</div>
+                        <div
+                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                        >--</div>
                       </td>
                       <td>
                         <div class="rankingChange">
@@ -551,7 +620,10 @@
           <div class="loading" v-show="loading">
             <img src="../assets/ios/loading.gif" alt />
           </div>
-          <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
+          <div
+            class="it_is_over"
+            v-show="it_is_over&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)"
+          >我是有底线的～</div>
           <div
             class="it_is_over"
             v-show="!it_is_over&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!loading"
@@ -711,6 +783,7 @@ export default {
   data() {
     let that = this
     return {
+      loading_first: false,
       can_execute_scorll: true, //是否可以执行滚动
       custom_country: null, //自定义显示国家
       isFirstEnter: false, // 是否第一次进入，默认false
@@ -949,6 +1022,7 @@ export default {
     // =============================顶部table============================
     // =============================顶部table============================
     get_data_for_top_table() {
+      this.loading_first = true
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1001,6 +1075,7 @@ export default {
           this.$axios
             .post(url02, data)
             .then(response => {
+              this.loading_first = false
               if (response.data.Code == 1) {
                 this.data_for_top_table02 == false
               }
@@ -1062,20 +1137,25 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              console.log(response)
+              this.loading = false
+              this.can_execute_scorll = true //是否可以执行滚动
+
+              if (response.data.Code == 1) {
+                this.it_is_over = true
+                return false
+              }
               if (is_excute_function == this.db_number_is_same12) {
                 this.response_data_for_ios12 = this.response_data_for_ios12.concat(
                   response.data.AppInfoList
                 )
                 this.page12 += 1
+                // if (response.data.AppInfoList > 0) {
                 this.it_is_over =
                   response.data.AppInfoList < 10 &&
-                  response.data.AppInfoList > 0
-                this.loading = false
-                this.can_execute_scorll = true //是否可以执行滚动
+                  response.data.AppInfoList >= 0
               }
-              // console.log(
-              //   'ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12==ios12=='
-              // )
+
               console.log(response.data.AppInfoList)
               console.log(this.response_data_for_ios12)
             })
@@ -1128,16 +1208,24 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              console.log(response)
+              this.loading = false
+              this.can_execute_scorll = true //是否可以执行滚动
+
+              if (response.data.Code == 1) {
+                this.it_is_over = true
+                return false
+              }
               if (is_excute_function == this.db_number_is_same11) {
                 this.response_data_for_ios11 = this.response_data_for_ios11.concat(
                   response.data.AppInfoList
                 )
                 this.page11 += 1
+                // if (response.data.AppInfoList > 0) {
                 this.it_is_over =
                   response.data.AppInfoList < 10 &&
-                  response.data.AppInfoList > 0
-                this.loading = false
-                this.can_execute_scorll = true //是否可以执行滚动
+                  response.data.AppInfoList >= 0
+                // }
               }
               // console.log(
               // 'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
@@ -1385,7 +1473,10 @@ export default {
     get_data_dialog() {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -2314,28 +2405,7 @@ option:first-child {
 #result {
   margin-bottom: 30px;
 }
-.no_data_img:hover {
-  background-color: #fff;
-}
-.no_data_img img {
-  width: 210px;
-  margin-top: 193px;
-}
 
-.no_data_img {
-  width: 100%;
-  height: 606px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 13px;
-  letter-spacing: 0px;
-  color: #555555;
-}
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
   font-family: SourceHanSansCN-Normal;

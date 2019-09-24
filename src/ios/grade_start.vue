@@ -17,15 +17,11 @@
               <div class="start_left_title">App Store 当前显示评分</div>
               <div class="start_left_bottom">
                 <div class="start_left_bottom_child_left">
-                  <div
-                    v-if="response_data_first_part"
-                  >{{response_data_first_part.current.ratingAverage}}</div>
+                  <div>{{response_data_first_part&&response_data_first_part.current.ratingAverage}}</div>
                   <div>
                     <el-rate v-model="start_left" disabled></el-rate>
                   </div>
-                  <div
-                    v-if="response_data_first_part"
-                  >评分次数：{{response_data_first_part.current.totalCount}}</div>
+                  <div>评分次数：{{response_data_first_part&&response_data_first_part.current.totalCount}}</div>
                 </div>
                 <div class="start_left_bottom_child_right">
                   <section>
@@ -110,15 +106,11 @@
               <div class="start_right_title">所有版本评分</div>
               <div class="start_left_bottom">
                 <div class="start_left_bottom_child_left">
-                  <div
-                    v-if="response_data_first_part"
-                  >{{response_data_first_part.all.ratingAverage}}</div>
+                  <div>{{response_data_first_part&&response_data_first_part.all.ratingAverage}}</div>
                   <div>
                     <el-rate v-model="start_right" disabled></el-rate>
                   </div>
-                  <div
-                    v-if="response_data_first_part"
-                  >评分次数：{{response_data_first_part.all.totalCount}}</div>
+                  <div>评分次数：{{response_data_first_part&&response_data_first_part.all.totalCount}}</div>
                 </div>
                 <div class="start_left_bottom_child_right">
                   <section>
@@ -393,7 +385,7 @@
               </template>
             </tbody>
           </table>
-          <div class="loading" v-show="loading">
+          <div class="loading" v-show="!response_data_fourth_part.length==0&&loading">
             <img src="../assets/ios/loading.gif" alt />
           </div>
           <div
@@ -449,10 +441,13 @@ export default {
         {
           axisLine: {
             show: true,
+            onZero: false,
             lineStyle: {
-              color: ['#666'],
-              opacity: 0.5
+              color: '#DCDFE6'
             }
+          },
+          axisLabel: {
+            color: '#222'
           },
           axisTick: {
             show: false
@@ -464,6 +459,7 @@ export default {
               color: ['#f2f2f2']
             }
           },
+
           type: 'category',
           data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
         }
@@ -674,18 +670,18 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log('==========分数======')
+              if (response.data.Data != null) {
+                this.response_data_first_part = response.data.Data
 
-              this.response_data_first_part = response.data.Data
-              console.log(this.response_data_first_part)
-
-              // 设置左边的五评分五角星
-              this.start_left = this.response_data_first_part.current.ratingAverage
-              // 设置右边的五评分五角星
-              this.start_right = this.response_data_first_part.all.ratingAverage
-              // console.log(
-              //   this.
-              // )
+                // 设置左边的五评分五角星
+                this.start_left = this.response_data_first_part.current.ratingAverage
+                // 设置右边的五评分五角星
+                this.start_right = this.response_data_first_part.all.ratingAverage
+              } else {
+                this.response_data_first_part = null
+                this.start_left = 0
+                this.start_right = 0
+              }
             })
             .catch(error => {
               console.log(error)
@@ -879,7 +875,10 @@ export default {
     get_data_for_second_part() {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.grade_start_one)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1257,8 +1256,14 @@ export default {
     get_data_for_third_part() {
       this.myChart03 = this.$echarts.init(this.$refs.grade_start_three)
       this.myChart01 = this.$echarts.init(this.$refs.common_one)
-      this.myChart03.showLoading()
-      this.myChart01.showLoading()
+      this.myChart03.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
+      this.myChart01.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {

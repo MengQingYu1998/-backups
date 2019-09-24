@@ -92,7 +92,7 @@ export default {
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.cache_country = oldValue
-      // alert(this.cache_country)
+      // alert(555)
       this.click()
       this.get_data()
     })
@@ -128,25 +128,21 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log('ios_header')
-              // console.log('ios_header')
-              // console.log('ios_header')
-              // console.log(response)
-              // console.log('ios_header')
-              // console.log('ios_header')
-              // console.log('ios_header')
-              if (response.data.Data == null) {
-                this.$store.state.now_country_name = this.cache_country
-                // alert(555)
-                this.is_show_country_component = false
-                this.$nextTick(() => {
-                  this.is_show_country_component = true
-                })
-              } else {
+              // if (response.data.Data == null) {
+              //   this.$store.state.now_country_name = this.cache_country
+              //   this.is_show_country_component = false
+              //   this.$nextTick(() => {
+              //     this.is_show_country_component = true
+              //   })
+              // } else {
+              console.log(response)
+              this.$store.state.now_country_name = this.now_country
+              this.response_data = response.data.Data
+              if (response.data.Data != null) {
                 this.$store.state.now_app_name = response.data.Data.appName
-                this.$store.state.now_country_name = this.now_country
-                this.response_data = response.data.Data
               }
+
+              // }
             })
             .catch(error => {
               console.log(error)

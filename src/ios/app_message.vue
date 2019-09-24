@@ -20,13 +20,14 @@
             v-if="response_data"
             v-html="response_data.description"
           ></div>
+          <!-- v-show="show_all" ref="show_all" -->
           <div id="show_all" @click="show_more_function()">展开更多</div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
         <!-- 第二部分 -->
 
-        <section class="video" v-if="true&&response_data">
+        <section class="video" v-if="response_data">
           <div
             class="section_title"
             v-if="response_data.videoUrl.iphone!='无'||response_data.videoUrl.ipad!='无'||response_data.videoUrl.watch!='无'"
@@ -215,6 +216,14 @@
           </div>
           <!-- <div class="section_content" v-else>无</div> -->
         </section>
+        <!-- 暂无数据 -->
+        <!-- 暂无数据 -->
+        <div class="no_data_img" v-if="no_data_img">
+          <img src="../assets/ios/null.png" alt />
+          <div>暂无相关数据</div>
+        </div>
+        <!-- 暂无数据 -->
+        <!-- 暂无数据 -->
       </div>
     </div>
   </div>
@@ -232,8 +241,9 @@ export default {
   components: { ios_header, left_nav, videoPlayer },
   data() {
     return {
+      no_data_img: false,
       // 播放m3u8格式的视频插件
-
+      show_all: false,
       playerOptions: [
         // {
         // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -281,7 +291,7 @@ export default {
       this.get_data()
     })
   },
-
+  mounted() {},
   methods: {
     // 获取数据并且设置到视频插件的配置项
     onPlayerPlay(videoUrl_item) {
@@ -344,19 +354,30 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
-              console.log(5555555)
               console.log(response)
-              // 获取数据并且设置到视频插件的配置项
-              if (this.radio01 == 'iPhone') {
-                this.onPlayerPlay(this.response_data.videoUrl.iphone)
-              } else if (this.radio01 == 'iPad') {
-                this.onPlayerPlay(this.response_data.videoUrl.ipad)
-              } else if (this.radio01 == 'watch') {
-                this.onPlayerPlay(this.response_data.videoUrl.watch)
+              if (response.data.Data) {
+                this.response_data = response.data.Data
+
+                // this.$refs.show_all
+                // console.log(this.$refs.show_all)
+                // this.$nextTick(() => {
+                //   // console.log(this.$refs.show_all)
+                //   console.log(document.getElementById('section_content'))
+                // })
+                // 获取数据并且设置到视频插件的配置项
+                if (this.radio01 == 'iPhone') {
+                  this.onPlayerPlay(this.response_data.videoUrl.iphone)
+                } else if (this.radio01 == 'iPad') {
+                  this.onPlayerPlay(this.response_data.videoUrl.ipad)
+                } else if (this.radio01 == 'watch') {
+                  this.onPlayerPlay(this.response_data.videoUrl.watch)
+                }
+              } else {
+                this.no_data_img = true
               }
             })
             .catch(error => {
+              this.no_data_img = true
               console.log(error)
             })
         })
@@ -618,5 +639,23 @@ export default {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.no_data_img {
+  width: 857px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 153px;
 }
 </style>

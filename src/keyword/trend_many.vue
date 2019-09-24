@@ -55,7 +55,7 @@
         <div class="search_confirm pointer">添加</div>
       </div>
     </div>
-    <div class="table_title">【{{keyword_data.join('，')}}】搜索指数走势</div>
+    <!-- <div class="table_title">【{{keyword_data.join('，')}}】搜索指数走势</div> -->
     <div class="position_relative">
       <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
 
@@ -212,7 +212,10 @@ export default {
     get_data() {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.myChart_trend_many)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -299,6 +302,16 @@ export default {
       // 绘制图表
       this.myChart.setOption(
         {
+          title: {
+            text: '【' + that.keyword_data.join('，') + '】搜索指数走势',
+            left: 'center',
+            textStyle: {
+              color: '#222222',
+              fontSize: 16,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            }
+          },
           tooltip: {
             formatter: function(data) {
               let tr = ''
@@ -651,6 +664,7 @@ table {
   width: 1200px;
   height: 380px;
   z-index: 1;
+  margin-top: 60px;
 }
 
 .table_title {

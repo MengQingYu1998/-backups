@@ -56,7 +56,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="!response_data">
+        <tr v-if="no_data_img">
           <td colspan="2">
             <div class="no_data_img">
               <img src="../assets/ios/null.png" alt />
@@ -131,6 +131,7 @@ export default {
   components: { country },
   data() {
     return {
+      no_data_img: false,
       response_data: null,
       response_datafor_popover: null,
       // 获取当前选中的国家
@@ -246,6 +247,10 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              // this.no_data_img=true
+              if (response.data.Data == null) {
+                this.no_data_img = true
+              }
               this.response_data = response.data.Data
               console.log(this.response_data)
               // console.log(555555555555555555555555)

@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div>
+    <!-- <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div> -->
     <div class="position_relative">
       <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
 
@@ -214,7 +214,10 @@ export default {
     // 请求数据
     get_data() {
       this.myChart = this.$echarts.init(this.$refs.myChart_trend_one)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -317,6 +320,16 @@ export default {
       // 绘制图表
       this.myChart.setOption(
         {
+          title: {
+            text: '【' + that.$store.state.now_app_name + '】搜索结果数走势',
+            left: 'center',
+            textStyle: {
+              color: '#222222',
+              fontSize: 16,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            }
+          },
           tooltip: {
             formatter: function(data) {
               let tr = ''
@@ -564,6 +577,7 @@ table {
 .myChart {
   width: 1200px;
   height: 380px;
+  margin-top: 60px;
 }
 
 .table_title {

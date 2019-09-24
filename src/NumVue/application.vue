@@ -503,6 +503,7 @@
 					pidV=36
 				}else if(this.isFont==true){
 					pidV=5000
+
 				}else if(this.isFontG==true){
 					pidV=6014
 				}
@@ -536,7 +537,7 @@
 				            }
 				        })
 				        // 获取genreid
-						let geid=36
+						let geid=''
 						this.$axios({
 							method:"get",
 							url:'/GetGenre?genreID='+pidV
@@ -557,6 +558,11 @@
 								    }
 
 							    }
+							    if(this.isFont==true&&geid==""){
+						    		geid=5000	
+						    	}else if(this.isFontG==true&&geid==""){
+						    		geid=6014	
+						    	}
 							    // console.log("country_id:"+country_id)
 							    // console.log("geid:"+geid)
 							    // console.log("newData:"+newData)
@@ -960,7 +966,10 @@
 			},
 			// 点击应用榜
 			showY(){
-				this.now_Application="全部应用"
+				if(this.now_Application==""){
+					this.now_Application="全部应用"
+				}
+				
 				if(this.showApplication==false){
 					this.showApplication = true
 					// 应用小三角
@@ -995,7 +1004,11 @@
 			},
 			// 点击游戏榜
 			showG(){
-				this.now_Application="全部游戏"
+				if(this.now_Application==""){
+					this.now_Application="全部游戏"
+				}
+				
+				
 				if(this.showGame==true){
 					this.showGame=false
 					//游戏小三角

@@ -114,10 +114,10 @@
               </div>
             </div>
           </div>
-          <div
+          <!-- <div
             class="table_title"
             v-if="response_data_second"
-          >【{{replace_some_chart_wrap(response_data_second.appName)}}】排名走势</div>
+          >【{{replace_some_chart_wrap(response_data_second.appName)}}】排名走势</div>-->
 
           <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
 
@@ -126,12 +126,12 @@
           <div>
             <div
               class="show_all pointer"
-              v-show="!canvas_is_show_all"
+              v-show="is_show_mychart&&!canvas_is_show_all"
               @click="selected_data_function(true)"
             >显示所有</div>
             <div
               class="show_all pointer"
-              v-show="canvas_is_show_all"
+              v-show="is_show_mychart&&canvas_is_show_all"
               @click="selected_data_function(false)"
             >隐藏所有</div>
           </div>
@@ -235,7 +235,8 @@
                         <div class="font_img">
                           <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
                           <!-- <img src="../../static/flag/HK.svg" /> -->
-                          {{item_div.CountryName}}({{item_div.Ranking}})
+                          <span class="country_name_width">{{item_div.CountryName}}</span>
+                          <span class="country_rank_width">({{item_div.Ranking}})</span>
                         </div>
                       </div>
                     </div>
@@ -268,17 +269,20 @@
                   v-for="(item, index) in response_data_third.data_1.genreList"
                   :key="'table555'+index"
                 >{{item.genreName}}</th>
+                <th v-show="response_data_third.data_1.genreList.length==0"></th>
+                <th v-show="response_data_third.data_1.genreList.length==0"></th>
+                <th v-show="response_data_third.data_1.genreList.length==0"></th>
               </tr>
             </thead>
             <tbody v-if="response_data_third">
+              <tr v-if="response_data_third.data_1.list.length==0">
+                <td colspan="4" class="disable_hover">暂无相关数据</td>
+              </tr>
               <tr
                 v-for="(item, index) in response_data_third.data_1.list"
                 :key="'table06785'+index"
               >
                 <td class="table_width01">
-                  <!-- <img src="../assets/flag/HK.svg" /> -->
-                  <!-- {{'../assets/flag/'+item.CountryCode+'.svg'}} -->
-
                   <div class="rankingChangeFontColor font_and_img">
                     <img :src="'../../static/flag/'+item.CountryCode+'.svg'" />
                     {{item.CountryName}}
@@ -504,7 +508,10 @@ export default {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -686,6 +693,19 @@ export default {
       // 绘制图表
       this.myChart.setOption(
         {
+          // {{replace_some_chart_wrap(response_data_second.appName)}}】排名走势
+          title: {
+            text:
+              that.replace_some_chart_wrap(that.response_data_second.appName) +
+              '排名走势',
+            left: 'center',
+            textStyle: {
+              color: '#222222',
+              fontSize: 16,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            }
+          },
           tooltip: {
             formatter: function(data) {
               let tr = ''
@@ -935,8 +955,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              // console.log('8888888888888888888888888')
-              // console.log(this.response_data_third)
+              console.log('8888888888888888888888888')
+              console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }
@@ -1036,6 +1056,17 @@ export default {
 }
 </script>
 <style scoped>
+.country_rank_width {
+  width: 30px;
+  display: inline-block;
+}
+.country_name_width {
+  display: inline-block;
+  width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .third_table_td {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -1056,6 +1087,8 @@ export default {
   font-family: SourceHanSansCN-Normal !important;
   font-size: 14px !important;
   color: #222222 !important;
+  display: flex;
+  align-items: center;
 }
 .font_img img {
   margin-right: 11px;
@@ -1122,11 +1155,7 @@ export default {
   height: 18px;
   background-color: #027fc3;
 }
-.four_level {
-  width: 18px;
-  height: 18px;
-  background-color: #027fc3;
-}
+
 .level > div {
   margin-top: 27px;
 }
@@ -1181,6 +1210,7 @@ export default {
   color: #bfbfbf;
   line-height: 300px;
   font-size: 25px;
+  margin-top: 40px;
 }
 .table_title {
   font-family: SourceHanSansCN-Medium;
@@ -1268,14 +1298,14 @@ thead tr {
 tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
-tbody tr td:last-child {
+/* tbody tr td:last-child {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
   color: #009bef;
-}
+} */
 tbody {
   font-family: SourceHanSansCN-Normal;
   font-size: 14px;
@@ -1364,7 +1394,7 @@ table {
   letter-spacing: 0px;
   color: #bfbfbf !important;
 }
-.disable_hover :hover {
+.disable_hover:hover {
   background-color: #fff !important;
 }
 </style>

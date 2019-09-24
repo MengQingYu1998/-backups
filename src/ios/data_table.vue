@@ -78,7 +78,7 @@
             <span v-if="request_data_first">{{request_data_first.top3Count}}</span> 前十关键词：
             <span v-if="request_data_first">{{request_data_first.top10Count}}</span>
           </div>
-          <table>
+          <table v-show="!loading_gif_first">
             <thead>
               <tr class="th_width01">
                 <th>搜索指数</th>
@@ -88,9 +88,6 @@
               </tr>
             </thead>
             <tbody class="tr_height">
-              <tr class="disable_hover" v-if="nothing_data_can_show">
-                <td colspan="4">暂无相关数据</td>
-              </tr>
               <template v-if="request_data_first!=null">
                 <tr
                   v-for="(item, index) in request_data_first.detailKeyWord"
@@ -118,6 +115,7 @@
               </template>
             </tbody>
           </table>
+          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif_first" />
         </section>
         <!-- 中部 关键词明细 -->
         <!-- 中部 关键词明细 -->
@@ -228,7 +226,7 @@
           <table v-show="!loading_gif">
             <thead>
               <tr class="tr_width">
-                <th class="table_width01">关键词</th>
+                <th>关键词</th>
                 <th>排名</th>
                 <th>变动</th>
                 <th>搜索指数</th>
@@ -243,7 +241,7 @@
               <!-- <template v-if="request_data_second"> -->
               <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                 <td>
-                  <div class="pointer table_width01" @click="go_to_page03(item.Word)">{{item.Word}}</div>
+                  <span class="pointer item_word" @click="go_to_page03(item.Word)">{{item.Word}}</span>
                 </td>
                 <td>
                   <div>{{item.Ranking}}</div>
@@ -357,9 +355,9 @@
                       </div>
 
                       <div class="position_relative">
-                        <div
+                        <!-- <div
                           class="table_title"
-                        >应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势</div>
+                        >应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势</div>-->
                         <div
                           ref="myChart_data_table"
                           class="myChart"
@@ -524,7 +522,6 @@ export default {
   data() {
     let that = this
     return {
-      nothing_data_can_show: false,
       nothing_data_can_show02: false,
 
       // 分页
@@ -532,6 +529,8 @@ export default {
       // 第一部分的参数
       // 第一部分的参数
       // 第一部分的参数
+      loading_gif_first: false,
+
       now_country: '中国',
       request_data_first: null,
       date_Now_for_top: new Date(), //top section的日期选择 当前日期or对比日期
@@ -739,6 +738,7 @@ export default {
     // ===========================第一部分数据=================================
     // 关键词概述
     get_data_for_first_part() {
+      this.loading_gif_first = true
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -784,6 +784,8 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              this.loading_gif_first = false
+
               this.request_data_first = response.data.Data
               if (response.data.Data == null) {
                 this.request_data_first = new Object()
@@ -828,7 +830,6 @@ export default {
                     top10: { num: 0 }
                   }
                 ]
-                // this.nothing_data_can_show = true
               }
               // console.log('=================概述=====')
               // console.log(response)
@@ -933,9 +934,9 @@ export default {
         })
     },
     response(response) {
-      if (response != null) {
-        this.loading_gif = false
-
+      this.loading_gif = false
+      console.log(response)
+      if (response != null && response.length != 0) {
         this.nothing_data_can_show02 = false
         this.response_data_Data = response
         console.log(this.response_data_Data)
@@ -953,7 +954,6 @@ export default {
           this.currentPage * 100 + 1
         )
       } else {
-        this.loading_gif = false
         this.nothing_data_can_show02 = true
         this.temp_request_data_second = new Array() //折线图下面的tr
         this.temp01_request_data_second = new Array() //折线图上面的tr
@@ -1087,7 +1087,10 @@ export default {
     // 请求数据
     get_data_for_third_part() {
       this.myChart = this.$echarts.init(this.$refs.myChart_data_table)
-      this.myChart.showLoading()
+      this.myChart.showLoading({
+        text: '',
+        color: '#D3D3D3'
+      })
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1118,10 +1121,11 @@ export default {
               time = sdate + '-' + edate
             }
           } else if (this.bottom_radio3 == '昨日') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
+            // edate = formatDate(new Date(), 'yyyy-MM-dd')
             let time02 = new Date()
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
             sdate = formatDate(time02, 'yyyy-MM-dd')
+            edate = sdate
             time = sdate + '-' + edate
           } else if (this.bottom_radio3 == '7天') {
             edate = formatDate(new Date(), 'yyyy-MM-dd')
@@ -1267,6 +1271,22 @@ export default {
       // 绘制图表
       this.myChart.setOption(
         {
+          // 应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势
+          title: {
+            text:
+              '应用【' +
+              that.replace_some_chart_wrap(that.$store.state.now_app_name) +
+              '】在关键词【' +
+              that.keyword_data[0] +
+              '】的排名趋势',
+            left: 'center',
+            textStyle: {
+              color: '#222222',
+              fontSize: 16,
+              fontFamily: 'SourceHanSansCN-Medium',
+              fontWeight: 'normal'
+            }
+          },
           tooltip: {
             formatter: function(data) {
               let tr = ''
@@ -1490,15 +1510,24 @@ export default {
       this.$store.state.now_app_name = parm
     },
     go_to_page03(parm) {
-      this.$router.push({
+      this.$store.state.now_app_name = parm
+      this.hand_save_vuex(this)
+
+      let routerUrl = this.$router.resolve({
         path: '/result'
       })
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     }
   }
 }
 </script>
 <style scoped lang="less">
+.item_word:hover {
+  color: #009bef;
+}
+.item_word {
+  padding: 10px;
+}
 .loading_gif {
   margin: 0 auto;
   width: 50px;
@@ -1604,9 +1633,7 @@ export default {
 .th_width01 {
   width: 25%;
 }
-.table_width01 {
-  width: 200px;
-}
+
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
@@ -1896,7 +1923,7 @@ table {
   line-height: 300px;
   font-size: 25px;
   margin: 0 auto;
-  margin-top: -24px;
+  margin-top: 38px;
 }
 
 .table_title {
