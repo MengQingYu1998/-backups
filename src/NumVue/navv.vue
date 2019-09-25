@@ -157,8 +157,12 @@ export default {
     }
   },
   created() {
+    this.nav_input_value = this.$store.state.nav_input_value
+
     this.fun()
     this.$watch('nav_input_value', function(newValue, oldValue) {
+      this.$store.state.nav_input_value = this.nav_input_value
+
       this.get_data_for_nav_input()
     })
   },
@@ -328,7 +332,7 @@ export default {
         return false
       }
 
-      this.nav_input_value = ''
+      // this.nav_input_value = ''
       this.$store.state.now_app_name = parm
       this.$store.state.now_country_name = this.now_country
 

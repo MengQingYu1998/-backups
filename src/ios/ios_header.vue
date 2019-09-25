@@ -60,6 +60,7 @@
         <country
           @childFn="parentFn"
           :custom_country="this.$store.state.now_country_name"
+          :app_id="this.$store.state.now_app_id"
           v-if="is_show_country_component"
         ></country>
       </div>

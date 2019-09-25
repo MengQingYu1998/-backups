@@ -171,7 +171,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios12.length==0">
+                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
                     <td colspan="6">暂无相关数据</td>
                   </tr>
 
@@ -270,13 +270,16 @@
                   </template>
                 </tbody>
               </table>
-              <div class="loading" v-show="loading">
+              <div class="loading" v-show="loading_12">
                 <img src="../assets/ios/loading.gif" alt />
               </div>
-              <div class="it_is_over" v-show="it_is_over&&response_data_for_ios12.length!=0">我是有底线的～</div>
               <div
                 class="it_is_over"
-                v-show="!it_is_over&&response_data_for_ios12.length!=0&&!loading"
+                v-show="it_is_over_12&&response_data_for_ios12.length!=0"
+              >我是有底线的～</div>
+              <div
+                class="it_is_over"
+                v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
               >下拉加载更多</div>
             </div>
             <div class="right" v-if="now_country=='中国'">
@@ -309,7 +312,7 @@
                   </tr>
                 </thead>
                 <tbody class="use_father">
-                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios11.length==0">
+                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
                     <td colspan="6">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios11">
@@ -404,13 +407,16 @@
                   </template>
                 </tbody>
               </table>
-              <div class="loading" v-show="loading">
+              <div class="loading" v-show="loading_11">
                 <img src="../assets/ios/loading.gif" alt />
               </div>
-              <div class="it_is_over" v-show="it_is_over&&response_data_for_ios11.length!=0">我是有底线的～</div>
               <div
                 class="it_is_over"
-                v-show="!it_is_over&&response_data_for_ios11.length!=0&&!loading"
+                v-show="it_is_over_11&&response_data_for_ios11.length!=0"
+              >我是有底线的～</div>
+              <div
+                class="it_is_over"
+                v-show="!it_is_over_11&&response_data_for_ios11.length!=0&&!loading_11"
               >下拉加载更多</div>
             </div>
           </div>
@@ -436,7 +442,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios12.length==0">
+                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
                     <td colspan="5">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios12">
@@ -535,7 +541,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading&&response_data_for_ios11.length==0">
+                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
                     <td colspan="5">暂无相关数据</td>
                   </tr>
                   <template v-if="response_data_for_ios11">
@@ -617,16 +623,16 @@
               </table>
             </div>
           </div>
-          <div class="loading" v-show="loading">
+          <div class="loading" v-show="loading_11||loading_12">
             <img src="../assets/ios/loading.gif" alt />
           </div>
           <div
             class="it_is_over"
-            v-show="it_is_over&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)"
+            v-show="it_is_over_11&&it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)"
           >我是有底线的～</div>
           <div
             class="it_is_over"
-            v-show="!it_is_over&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!loading"
+            v-show="!it_is_over_11&&!it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!(loading_11||loading_12)"
           >下拉加载更多</div>
         </el-tab-pane>
       </el-tabs>
@@ -841,8 +847,10 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
-      it_is_over: false,
-      loading: false,
+      it_is_over_12: false,
+      it_is_over_11: false,
+      loading_12: false,
+      loading_11: false,
       response_data_for_ios12: [],
       response_data_for_ios11: [],
       // 获取当前选中的国家
@@ -1098,8 +1106,8 @@ export default {
     // 请求数据  ios12 ios12 ios12
     get_data_12() {
       this.can_execute_scorll = false
-      this.loading = true
-      this.it_is_over = false
+      this.loading_12 = true
+      this.it_is_over_12 = false
       this.db_number_is_same12++
       let is_excute_function = this.db_number_is_same12
       this.$axios
@@ -1138,11 +1146,11 @@ export default {
             .get(url)
             .then(response => {
               console.log(response)
-              this.loading = false
+              this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
 
               if (response.data.Code == 1) {
-                this.it_is_over = true
+                this.it_is_over_12 = true
                 return false
               }
               if (is_excute_function == this.db_number_is_same12) {
@@ -1151,7 +1159,7 @@ export default {
                 )
                 this.page12 += 1
                 // if (response.data.AppInfoList > 0) {
-                this.it_is_over =
+                this.it_is_over_12 =
                   response.data.AppInfoList < 10 &&
                   response.data.AppInfoList >= 0
               }
@@ -1168,9 +1176,9 @@ export default {
         })
     },
     get_data_11() {
-      this.loading = true
+      this.loading_11 = true
       this.can_execute_scorll = false //是否可以执行滚动
-      this.it_is_over = false
+      this.it_is_over_11 = false
       this.db_number_is_same11++
       let is_excute_function = this.db_number_is_same11
       this.$axios
@@ -1209,11 +1217,11 @@ export default {
             .get(url)
             .then(response => {
               console.log(response)
-              this.loading = false
+              this.loading_11 = false
               this.can_execute_scorll = true //是否可以执行滚动
 
               if (response.data.Code == 1) {
-                this.it_is_over = true
+                this.it_is_over_11 = true
                 return false
               }
               if (is_excute_function == this.db_number_is_same11) {
@@ -1221,17 +1229,11 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page11 += 1
-                // if (response.data.AppInfoList > 0) {
-                this.it_is_over =
+
+                this.it_is_over_11 =
                   response.data.AppInfoList < 10 &&
                   response.data.AppInfoList >= 0
-                // }
               }
-              // console.log(
-              // 'ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11==ios11=='
-              // )
-              // console.log(response.data.AppInfoList)
-              // console.log(this.response_data_for_ios11)
             })
             .catch(error => {
               console.log(error)

@@ -12,7 +12,7 @@
           <img src="./search.png" alt />
         </div>
         <div class="country_content" v-if="arr_country!=null">
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&!app_id">
             <div class="list_header">热门国家</div>
             <div class="item" @click="change_country_name('中国','CN')">
               <img :src="'../../../static/flag/CN.svg'" alt />
@@ -34,7 +34,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[0].length!=0">
             <div class="list_header">亚洲</div>
             <div
               class="item"
@@ -46,7 +46,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[1].length!=0">
             <div class="list_header">北美洲</div>
             <div
               class="item"
@@ -58,7 +58,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[2].length!=0">
             <div class="list_header">南美洲</div>
             <div
               class="item"
@@ -70,7 +70,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[3].length!=0">
             <div class="list_header">欧洲</div>
             <div
               class="item"
@@ -82,7 +82,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[4].length!=0">
             <div class="list_header">大洋洲</div>
             <div
               class="item"
@@ -94,7 +94,7 @@
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''">
+          <div class="list" v-show="input.trim()==''&&arr_country[5].length!=0">
             <div class="list_header">非洲</div>
             <div
               class="item"
@@ -126,7 +126,7 @@ export default {
       country_code: 'CN'
     }
   },
-  props: ['custom_country'],
+  props: ['custom_country', 'app_id'],
   // 监听,当路由发生变化的时候执行
   watch: {
     $route(to, from) {
@@ -138,6 +138,7 @@ export default {
     if (this.custom_country) {
       this.country_name = this.custom_country
     }
+
     this.get_data()
     this.$emit('childFn', this.country_name)
     this.$watch('country_name', function(newValue, oldValue) {
@@ -158,8 +159,14 @@ export default {
       // 大洋洲是5 Oceania
       // 北美洲是2  North_America
       // 非洲是6 Africa
+      let url
+      if (this.app_id) {
+        url = '/GetCountry?appId=' + this.app_id
+      } else {
+        url = '/GetCountry'
+      }
       this.$axios
-        .get('/GetCountry')
+        .get(url)
         .then(response => {
           // 获取国家ID
           console.log(response.data.Data)
