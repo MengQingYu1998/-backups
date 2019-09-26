@@ -287,7 +287,7 @@
                 <td>
                   <div
                     class="table_font pointer"
-                    @click="middle_table_first(index,item.WordId,item.Word)"
+                    @click="middle_table_first(item.index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
               </tr>
@@ -482,7 +482,7 @@
                 <td>
                   <div
                     class="table_font pointer"
-                    @click="middle_table_second(index,item.WordId,item.Word)"
+                    @click="middle_table_first(item.index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
               </tr>
@@ -514,7 +514,12 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
+import {
+  formatDate,
+  timestamp,
+  replace_some_chart,
+  unique
+} from '../common/util.js'
 export default {
   name: 'data_table',
   components: { ios_header, left_nav },
@@ -569,8 +574,8 @@ export default {
       stop_click_many_times: null,
       db_number_is_same: 0, //修复用户输入过快的bug
       total: 0,
-      response_data_Data: null,
       request_data_second: null,
+      copy_request_data_second: null,
       temp_request_data_second: new Array(),
       temp01_request_data_second: new Array(),
       is_show_bottom: false, //默认设置底部折线图隐藏
@@ -631,9 +636,12 @@ export default {
     }
     // 分页
     this.$watch('currentPage', function(newValue, oldValue) {
-      // console.log(333333333333333333333333333)
-      // console.log(newValue, oldValue)
-      this.get_data_for_second_part(true)
+      this.temp01_request_data_second = this.request_data_second.slice(
+        (this.currentPage - 1) * 100,
+        this.currentPage * 100
+      )
+      this.temp_request_data_second = new Array()
+      this.is_show_bottom = false
     })
 
     // ==================第一部分===========================
@@ -677,29 +685,50 @@ export default {
     // ==================第二部分===========================
 
     this.$watch('search_input', function(newValue, oldValue) {
-      this.search_input_function()
+      // this.search_input_function()
       if (this.search_input == '') {
-        this.get_data_for_second_part(true)
+        this.temp01_request_data_second = this.copy_request_data_second.slice(
+          (this.currentPage - 1) * 100,
+          this.currentPage * 100
+        )
+        this.temp_request_data_second = new Array()
+      } else {
+        let new_array = new Array()
+        this.search_input = this.search_input.trim().replace(/ /g, '，')
+        this.search_input = this.search_input.trim().replace(/,/g, '，')
+        // console.log(this.search_input)
+        let search_input_arr = this.search_input.trim().split('，')
+        search_input_arr.forEach((element_father, index_father) => {
+          this.copy_request_data_second.forEach((element, index) => {
+            // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
+            if (element.Word == search_input_arr[index_father]) {
+              new_array.push(element)
+            }
+          })
+        })
+
+        this.temp01_request_data_second = unique(new_array)
+        this.temp_request_data_second = new Array()
       }
     })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_min_input01')
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_max_input01')
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_min_input02')
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_max_input02')
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_min_input03')
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
-      this.get_data_for_second_part(true)
+      this.change_number('result_max_input03')
     })
     // ==================第三部分===========================
     // ==================第三部分===========================
@@ -733,6 +762,57 @@ export default {
   },
 
   methods: {
+    // 最大值那块的搜索框改变，执行次函数
+    change_number(parm) {
+      let code_block
+
+      let new_array = new Array()
+      this.copy_request_data_second.forEach((element, index) => {
+        switch (parm) {
+          case 'result_min_input01':
+            if (element.WordIdHint >= this.result_min_input01) {
+              new_array.push(element)
+            }
+            break
+          case 'result_max_input01':
+            if (element.WordIdHint <= this.result_max_input01) {
+              new_array.push(element)
+            }
+            break
+          case 'result_min_input02':
+            if (element.Ranking >= this.result_min_input02) {
+              new_array.push(element)
+            }
+            break
+          case 'result_max_input02':
+            if (element.Ranking <= this.result_max_input02) {
+              new_array.push(element)
+            }
+            break
+          case 'result_min_input03':
+            if (element.SearchCount >= this.result_min_input03) {
+              new_array.push(element)
+            }
+            break
+          case 'result_max_input03':
+            if (element.SearchCount <= this.result_max_input03) {
+              new_array.push(element)
+            }
+            break
+          default:
+            ''
+            break
+        }
+      })
+      this.request_data_second = new_array
+      this.total = this.request_data_second.length //底部显示总共
+      let now_show_data = this.request_data_second.slice(
+        (this.currentPage - 1) * 100,
+        this.currentPage * 100
+      )
+      this.temp01_request_data_second = now_show_data
+      this.temp_request_data_second = new Array()
+    },
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
@@ -916,12 +996,25 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log('=================明细=====')
+              this.loading_gif = false
               if (is_excute_function == this.db_number_is_same) {
-                if (parm) {
-                  this.response(response.data.Data)
+                if (response != null && response.length != 0) {
+                  this.nothing_data_can_show02 = false
+                  this.request_data_second = response.data.Data
+                  this.copy_request_data_second = response.data.Data
+                  this.total = this.request_data_second.length //底部显示总共
+
+                  this.temp01_request_data_second = this.request_data_second.slice(
+                    (this.currentPage - 1) * 100,
+                    this.currentPage * 100
+                  )
+                  console.log('=================明细=====')
+                  console.log(this.request_data_second)
+                  console.log('=================明细=====')
                 } else {
-                  this.response_data_Data = response.data.Data
+                  this.nothing_data_can_show02 = true
+                  this.temp_request_data_second = new Array() //折线图下面的tr
+                  this.temp01_request_data_second = new Array() //折线图上面的tr
                 }
               }
             })
@@ -933,58 +1026,28 @@ export default {
           console.log(error)
         })
     },
-    response(response) {
-      this.loading_gif = false
-      console.log(response)
-      if (response != null && response.length != 0) {
-        this.nothing_data_can_show02 = false
-        this.response_data_Data = response
-        console.log(this.response_data_Data)
 
-        this.total = this.response_data_Data.length //底部显示总共
-        this.request_data_second = this.response_data_Data
-
-        // 先把数组置空，不然会出现页面渲染问题
-        this.temp_request_data_second = new Array() //折线图下面的tr
-        this.temp01_request_data_second = new Array() //折线图上面的tr
-        this.is_show_bottom = false //折线图隐藏
-
-        this.temp01_request_data_second = this.response_data_Data.slice(
-          (this.currentPage - 1) * 100,
-          this.currentPage * 100 + 1
-        )
-      } else {
-        this.nothing_data_can_show02 = true
-        this.temp_request_data_second = new Array() //折线图下面的tr
-        this.temp01_request_data_second = new Array() //折线图上面的tr
-      }
-    },
-    // 点击搜索,全部按钮
-    search_input_all_function() {
-      this.search_input = ''
-      this.get_data_for_second_part(true)
-    },
-    search_input_function() {
-      if (this.search_input.trim() != '') {
-        this.get_data_for_second_part(false)
-        let new_array = new Array()
-        this.search_input = this.search_input.trim().replace(/ /g, '，')
-        this.search_input = this.search_input.trim().replace(/,/g, '，')
-        // console.log(this.search_input)
-        let search_input_arr = this.search_input.trim().split('，')
-        search_input_arr.forEach((element_father, index_father) => {
-          this.response_data_Data.forEach((element, index) => {
-            // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
-            if (element.Word == search_input_arr[index_father]) {
-              new_array.push(element)
-            }
-          })
-        })
-        this.response(new_array)
-      } else {
-        this.get_data_for_second_part(true)
-      }
-    },
+    // search_input_function() {
+    //   if (this.search_input.trim() != '') {
+    //     this.get_data_for_second_part(false)
+    //     let new_array = new Array()
+    //     this.search_input = this.search_input.trim().replace(/ /g, '，')
+    //     this.search_input = this.search_input.trim().replace(/,/g, '，')
+    //     // console.log(this.search_input)
+    //     let search_input_arr = this.search_input.trim().split('，')
+    //     search_input_arr.forEach((element_father, index_father) => {
+    //       this.response_data_Data.forEach((element, index) => {
+    //         // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
+    //         if (element.Word == search_input_arr[index_father]) {
+    //           new_array.push(element)
+    //         }
+    //       })
+    //     })
+    //     this.response(new_array)
+    //   } else {
+    //     this.get_data_for_second_part(true)
+    //   }
+    // },
 
     // 点击搜索结果数的min_mix
     change_bg_result_function() {
@@ -998,15 +1061,8 @@ export default {
     },
     // 设置对比日期永远比当前日期小一天 第二部分
     change_time01() {
-      // console.log(this.date_Now_for_top)
-      // console.log(this.dateCompare_for_top)
-      // if (
-      //   new Date(this.date_Now_for_top).getTime() <=
-      //   new Date(this.dateCompare_for_top).getTime()
-      // ) {
       this.dateCompare_for_top =
         new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
-      // }
     },
     change_time_Compare01() {
       if (
@@ -1019,6 +1075,10 @@ export default {
     },
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word) {
+      if (index >= 100) {
+        index = index - (this.currentPage - 1) * 100
+      }
+      alert(index)
       this.bottom_radio1 = '按小时'
       this.bottom_radio3 = '近24小时'
       this.middle_time01 = ''
@@ -1029,58 +1089,22 @@ export default {
         return false
       }
       this.stop_click_many_times = wordId + word
-      // temp01是一个tr        temp是第三个tr
 
-      // if (this.echart_function_body_can_excute != index) {
-      // console.log('第一个方法执行了')
+      // 当前页面 显示的数据
 
-      this.temp01_request_data_second = this.request_data_second.slice(
+      let now_show_data = this.request_data_second.slice(
         (this.currentPage - 1) * 100,
-        this.currentPage * 100 + 1
+        this.currentPage * 100
       )
-      this.temp_request_data_second = this.temp01_request_data_second.slice(
-        index + 1
-      )
-      this.temp01_request_data_second = this.temp01_request_data_second.slice(
-        0,
-        index + 1
-      )
+      this.temp01_request_data_second = now_show_data.slice(0, index + 1)
+      this.temp_request_data_second = now_show_data.slice(index + 1)
       this.wordId = wordId
       this.word = word
       this.is_show_myChart_and_table = true
       this.is_show_bottom = true
       this.get_data_for_third_part()
-      // }
+    },
 
-      // this.echart_function_body_can_excute = index
-    },
-    middle_table_second(index, wordId, word) {
-      this.bottom_radio1 = '按小时'
-      this.bottom_radio3 = '近24小时'
-      this.middle_time01 = ''
-      // 防止多次点击
-      if (this.stop_click_many_times == wordId + word) {
-        this.is_show_bottom = !this.is_show_bottom
-        this.stop_click_many_times = wordId + word
-        return false
-      }
-      this.stop_click_many_times = wordId + word
-      // if (this.echart_function_body_can_excute02 != index) {
-      // console.log('第二个方法执行了')
-      this.temp01_request_data_second = this.temp01_request_data_second.concat(
-        this.temp_request_data_second.slice(0, index + 1)
-      )
-      this.temp_request_data_second = this.temp_request_data_second.slice(
-        index + 1
-      )
-      this.wordId = wordId
-      this.word = word
-      this.is_show_myChart_and_table = true
-      this.is_show_bottom = true
-      this.get_data_for_third_part()
-      // }
-      // this.echart_function_body_can_excute02 = index
-    },
     // ============================第三部分数据================================
     // ============================第三部分数据================================
     // ============================第三部分数据================================

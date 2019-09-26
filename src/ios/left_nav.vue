@@ -22,8 +22,7 @@
       <router-link
         to="goods_show"
         tag="div"
-        class="nav_content ranking_compare"
-        active-class="active"
+        :class="{'nav_content':true,'blue_router':blue_router}"
       >竞品对比</router-link>
       <!-- <router-link
         to="nothing"
@@ -55,10 +54,14 @@
 export default {
   name: 'left_nav',
   data() {
-    return {}
+    return { blue_router: false }
   },
-  // props: ['now_country'],
+
   created: function() {},
+  mounted() {
+    // this.blue_router = this.$store.state.router_color
+    // console.log(this.$store.state)
+  },
   methods: {
     change_country() {
       // alert(now_country)

@@ -63,7 +63,8 @@
 						<div class="time" v-if="tr1.UpNum==0&&tr1.DownNum==0&&tr1.NewNum==0&&tr1.DropNum==0">
 							{{tr1.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-else>
+						<!-- <div class="trend" v-on:click="goDetail()" v-else> -->
 								<p>{{tr1.HHmm}}</p>
 								<div>
 									<p>
@@ -519,7 +520,7 @@
 			},
 			// 跳转到榜单更新检测的排名页面
 			goDetail(){
-				this.$router.push({ path: '/rankapp' })
+				// this.$router.push({ path: '/rankapp' })
 			}
 		},
 		created(){

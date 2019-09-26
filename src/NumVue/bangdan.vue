@@ -86,7 +86,7 @@
 								<p>落榜应用<span>{{tim.DropNum}}</span></p>
 							</div>
 
-						    <el-button slot="reference" v-html="gettim(tim.AddTime)" :class="{'has':tim.UpNum!=0||tim.DownNum!=0||tim.NewNum!=0||tim.DropNum!=0}" @click="clitim(tim)"></el-button>
+						    <p slot="reference" v-html="gettim(tim.AddTime)" :class="{'has':tim.UpNum!=0||tim.DownNum!=0||tim.NewNum!=0||tim.DropNum!=0}" @click="clitim(tim)"></p>
 						</el-popover>
 					  	<img src="../assets/NumImg/dash.png"/>
 					</div>
@@ -324,8 +324,9 @@
 		        if (int == that.scrollHeight||int+1 == that.scrollHeight||int-1 == that.scrollHeight) {
 		          // 调用请求数据接口
 		          	
-		          // console.log(2)
+		        
 		           if (that.can_execute_scorll) {
+
 		          		document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight-1
 
 		          	   that.contentShow=true
@@ -339,7 +340,6 @@
 		   	  
 		},
 		methods:{
-			
 		    // 获取当前选中的国家
 			parentFn(payload) {
 				this.now_country = payload
@@ -596,8 +596,8 @@
 			},
 			//点击时间快照
 			clitim(tim){
+
 				this.kuaizTim=tim.AddTime
-				// console.log(this.kuaizTim)
 				this.zongsData.length=0
 				this.page=1
 				this.getData()
@@ -1074,7 +1074,7 @@
 	vertical-align: top;
 	margin-top: 12px;
 	margin-left: -2px;
-	/*margin-right: -3px;*/
+    margin-right: -3px;
 }
 .content .zongbang .tit>p{
 	display: inline-block;

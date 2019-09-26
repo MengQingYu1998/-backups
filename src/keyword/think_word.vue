@@ -251,9 +251,9 @@ table {
   width: 48px;
   line-height: 26px;
   height: 26px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   border-radius: 4px;
-  border: solid 1px #dfdfdf;
+  border: 1px solid #dcdfe6;
   font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;

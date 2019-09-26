@@ -38,7 +38,7 @@
           <div
             v-show="nav_input_value==''"
             class="pointer popver_for_input"
-            v-for="(item,index) in this.$store.state.HistoryList"
+            v-for="(item,index) in historyWord"
             :key="'nav_input01'+index"
             @click="go_to_page01(item)"
           >{{item}}</div>
@@ -124,6 +124,7 @@ export default {
   components: { country },
   data() {
     return {
+      historyWord: '',
       nav_input_value: '',
       is_show_nav_popover: false,
       response_data: null,
@@ -157,6 +158,11 @@ export default {
     }
   },
   created() {
+    // 第一步 localStorage的历史记录搜索
+    this.historyWord = localStorage.getItem('searchWord')
+    this.historyWord = this.historyWord.split(',') //将字符串转成数组
+    // 第一步 localStorage的历史记录搜索
+
     this.nav_input_value = this.$store.state.nav_input_value
 
     this.fun()
@@ -286,29 +292,22 @@ export default {
     },
     // 历史索索记录
     search_history(val) {
-      console.log(this.$store.state.HistoryList)
-      val = val.trim() // 清除空格
-      if (this.$store.state.HistoryList.length > 0) {
-        // 有数据的话 判断
-        if (this.$store.state.HistoryList.indexOf(val) !== -1) {
-          // 有相同的，先删除 再添加
-          this.$store.state.HistoryList.splice(
-            this.$store.state.HistoryList.indexOf(val),
-            1
-          )
-          this.$store.state.HistoryList.unshift(val)
-        } else {
-          // 没有相同的 添加
-          this.$store.state.HistoryList.unshift(val)
-        }
+      let searchWord = localStorage.getItem('searchWord')
+      if (searchWord == null) {
+        localStorage.setItem('searchWord', val)
       } else {
-        // 没有数据 添加
-        this.$store.state.HistoryList.unshift(val)
-      }
-      this.hand_save_vuex(this)
-      if (this.$store.state.HistoryList.length > 10) {
-        // 保留六个值
-        this.$store.state.HistoryList.pop()
+        let arr = localStorage.getItem('searchWord')
+        arr = arr.split(',')
+        if (arr.indexOf(val) != -1) {
+          arr = arr
+        } else {
+          arr.unshift(val)
+        }
+        this.historyWord = arr
+        if (this.historyWord.length > 10) {
+          this.historyWord.pop()
+        }
+        localStorage.setItem('searchWord', this.historyWord)
       }
     },
     go_to_page01(parm) {

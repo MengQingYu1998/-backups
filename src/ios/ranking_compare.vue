@@ -528,7 +528,9 @@ export default {
     },
     drawLine: function() {
       let that = this
-
+      if (that.response_data_second == null) {
+        return false
+      }
       // 绘制图表
       this.myChart.setOption(
         {

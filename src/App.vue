@@ -635,4 +635,7 @@ table thead tr th {
   color: #888888;
 }
 /* element的分页 */
+/* .blue_router {
+  color: red !important;
+} */
 </style>

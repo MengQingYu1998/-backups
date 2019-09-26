@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     now_app_name: null,
     now_country_name: null,
     HistoryList: [],
-    nav_input_value: ''
+    nav_input_value: '',
+    router_color: false
   },
   mutations: {
     // 处理状态

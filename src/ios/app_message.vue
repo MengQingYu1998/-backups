@@ -356,6 +356,7 @@ export default {
             .then(response => {
               console.log(response)
               if (response.data.Data) {
+                this.no_data_img = false
                 this.response_data = response.data.Data
 
                 // this.$refs.show_all
@@ -377,7 +378,6 @@ export default {
               }
             })
             .catch(error => {
-              this.no_data_img = true
               console.log(error)
             })
         })

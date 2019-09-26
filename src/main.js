@@ -16,10 +16,10 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 //全局配置
 axios.defaults.baseURL = 'http://39.97.234.11:8080'
-// axios.defaults.headers = {
-//   'Access-Control-Allow-Headers': '*'
-// }
-// axios.defaults.baseURL = 'www.zshddata.com'
+// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+import qs from 'qs'
+Vue.prototype.$qs = qs
+
 // 引入滚动插件
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(infiniteScroll)
@@ -74,10 +74,17 @@ Vue.prototype.hand_save_vuex = function(parm) {
     )
   }
 }
+
 import { store } from './store/store'
 import App from './App'
 import router from './router'
-
+router.beforeEach((to, from, next) => {
+  // to来自  from  去哪
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

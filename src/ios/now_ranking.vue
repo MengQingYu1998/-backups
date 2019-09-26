@@ -505,6 +505,7 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
+      // console.log(66666666666666666)
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking)
@@ -538,7 +539,9 @@ export default {
             let yesterday = new Date()
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000)
             startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
+            endDate = startDate
+            console.log(startDate)
+            console.log(endDate)
           } else if (this.middle_top_radio3 == '7天') {
             let yesterday = new Date()
             yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 7)
@@ -601,44 +604,55 @@ export default {
 
           // 请求数据
           this.$axios
-            .post(url, data)
+            .post(url, this.$qs.stringify(data), {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              }
+            })
+            // .post(url, data)
             .then(response => {
+              console.log(66666666666666666)
+              console.log(66666666666666666)
+
+              // console.log(is_excute_function)
+              // console.log(this.db_number_is_same)
               console.log(response.data)
-              if (
-                is_excute_function == this.db_number_is_same &&
-                response.data.Code == 0 &&
-                response.data.Data.length > 0
-              ) {
-                // console.log('有数据')
-                this.is_show_mychart = true
-                this.response_data_second = response.data.Data[0]
-                this.xAxis_data.length = 0
+              console.log(66666666666666666)
+              console.log(66666666666666666)
+              if (is_excute_function == this.db_number_is_same) {
+                if (response.data.Code == 0 && response.data.Data.length > 0) {
+                  // console.log('有数据')
+                  this.is_show_mychart = true
+                  this.response_data_second = response.data.Data[0]
+                  this.xAxis_data.length = 0
 
-                let temp02 = this.response_data_second.rankTrendInfo.r2.data
-                this.xAxis_data = temp02.map(element => {
-                  if (this.middle_top_radio1 == '按天') {
-                    return timestamp(element, 'Y年M月D日')
-                  } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'Y年M月D日 h点')
-                  } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'M月D日 h点m分')
-                  }
-                })
+                  let temp02 = this.response_data_second.rankTrendInfo.r2.data
+                  this.xAxis_data = temp02.map(element => {
+                    if (this.middle_top_radio1 == '按天') {
+                      return timestamp(element, 'Y年M月D日')
+                    } else if (this.middle_top_radio1 == '按小时') {
+                      return timestamp(element, 'Y年M月D日 h点')
+                    } else if (this.middle_top_radio1 == '按分钟') {
+                      return timestamp(element, 'M月D日 h点m分')
+                    }
+                  })
 
-                // 都谁？ 抖音 快手 内涵
-                this.keyword_data = this.response_data_second.rankTrendInfo.RankList
+                  // 都谁？ 抖音 快手 内涵
+                  this.keyword_data = this.response_data_second.rankTrendInfo.RankList
 
-                this.keyword_data_value = response.data.Data[0].rankTrendInfo.r3
+                  this.keyword_data_value =
+                    response.data.Data[0].rankTrendInfo.r3
 
-                // console.log(this.keyword_data_value)
+                  // console.log(this.keyword_data_value)
 
-                this.selected_data_function(true)
-                this.drawLine()
-                this.myChart.hideLoading()
-              } else {
-                // console.log('无数据')
-                // alert('wushuju')
-                this.is_show_mychart = false
+                  this.selected_data_function(true)
+                  this.drawLine()
+                  this.myChart.hideLoading()
+                } else {
+                  // console.log('无数据s')
+
+                  this.is_show_mychart = false
+                }
               }
             })
             .catch(error => {
@@ -689,7 +703,9 @@ export default {
 
     drawLine: function() {
       let that = this
-
+      if (that.response_data_second == null) {
+        return false
+      }
       // 绘制图表
       this.myChart.setOption(
         {
@@ -955,8 +971,8 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third = response.data.Data
-              console.log('8888888888888888888888888')
-              console.log(this.response_data_third)
+              // console.log('8888888888888888888888888')
+              // console.log(this.response_data_third)
               if (this.response_data_third.data_1.genreList.length > 0) {
                 this.radio3 = this.response_data_third.data_1.genreList[0].genreName
               }

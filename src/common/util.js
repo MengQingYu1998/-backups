@@ -77,3 +77,17 @@ export function replace_some_chart(parm) {
   })
   return parm
 }
+// 数组去重复
+export function unique(arr) {
+  if (!Array.isArray(arr)) {
+    console.log('type error!')
+    return
+  }
+  var array = []
+  for (var i = 0; i < arr.length; i++) {
+    if (array.indexOf(arr[i]) === -1) {
+      array.push(arr[i])
+    }
+  }
+  return array
+}
