@@ -611,14 +611,14 @@ export default {
             })
             // .post(url, data)
             .then(response => {
-              console.log(66666666666666666)
-              console.log(66666666666666666)
+              // console.log(66666666666666666)
+              // console.log(66666666666666666)
 
               // console.log(is_excute_function)
               // console.log(this.db_number_is_same)
-              console.log(response.data)
-              console.log(66666666666666666)
-              console.log(66666666666666666)
+              // console.log(response.data)
+              // console.log(66666666666666666)
+              // console.log(66666666666666666)
               if (is_excute_function == this.db_number_is_same) {
                 if (response.data.Code == 0 && response.data.Data.length > 0) {
                   // console.log('有数据')
@@ -1032,16 +1032,17 @@ export default {
         })
       })
       this.country_temp01 = this.country_temp01.map(item => {
-        return item.CountryName
+        return item.CountryName + ' ' + this.radio3 + '-' + item.Ranking
       })
       this.country_temp02 = this.country_temp02.map(item => {
-        return item.CountryName
+        // console.log(item) //item.Ranking
+        return item.CountryName + ' ' + this.radio3 + '-' + item.Ranking
       })
       this.country_temp03 = this.country_temp03.map(item => {
-        return item.CountryName
+        return item.CountryName + ' ' + this.radio3 + '-' + item.Ranking
       })
       this.country_temp04 = this.country_temp04.map(item => {
-        return item.CountryName
+        return item.CountryName + ' ' + this.radio3 + '-' + item.Ranking
       })
       // this.country_temp01 = ['中国']
       // console.log('=================================')

@@ -136,7 +136,7 @@ export default {
               //     this.is_show_country_component = true
               //   })
               // } else {
-              console.log(response)
+              // console.log(response)
               this.$store.state.now_country_name = this.now_country
               this.response_data = response.data.Data
               if (response.data.Data != null) {

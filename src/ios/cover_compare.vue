@@ -46,7 +46,7 @@
                 <td colspan="3">暂无相关数据</td>
               </tr>
               <template v-if="response_data">
-                <tr>
+                <tr v-show="!myOwn_no_data">
                   <td>关键词</td>
                   <td>搜索指数</td>
                   <td>排名</td>
@@ -80,7 +80,7 @@
                 <td colspan="3">暂无相关数据</td>
               </tr>
               <template v-if="response_data">
-                <tr>
+                <tr v-show="!common_no_data">
                   <td>关键词</td>
                   <td>搜索指数</td>
                   <td>排名</td>
@@ -114,7 +114,7 @@
                 <td colspan="3">暂无相关数据</td>
               </tr>
               <template v-if="response_data">
-                <tr>
+                <tr v-show="!comOwn_no_data">
                   <td>关键词</td>
                   <td>搜索指数</td>
                   <td>排名</td>
@@ -137,7 +137,13 @@
         <div class="loading" v-show="loading">
           <img src="../assets/ios/loading.gif" alt />
         </div>
-        <div class="it_is_over" v-show="!it_is_over&&!loading&&(response_data!=null)">下拉加载更多</div>
+        <!-- <div class="loading" v-show="loading02">
+            <img src="../assets/ios/loading.gif" alt />
+        </div>-->
+        <div
+          class="it_is_over"
+          v-show="!it_is_over&&!loading&&response_data!=null&&(response_data.common.length!=0||response_data.myOwn.length!=0||response_data.comOwn.length!=0)"
+        >下拉加载更多</div>
         <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
       </div>
     </div>
@@ -158,6 +164,7 @@ export default {
       can_execute_scorll: true, //是否可以执行滚动
       it_is_over: false,
       loading: false,
+      // loading02: false,
       page: 1,
       // 设备选择
       equipment: [
@@ -178,10 +185,19 @@ export default {
     this.get_data()
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      // this.loading02 = true
       this.page = 1
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.response_data.comOwn = new Array()
+      this.response_data.common.length = new Array()
+      this.response_data.myOwn.length = new Array()
+
+      this.comOwn_no_data = false
+      this.myOwn_no_data = false
+      this.common_no_data = false
+      // this.loading02 = true
       this.page = 1
       this.get_data()
     })
@@ -221,7 +237,7 @@ export default {
     // 请求数据
     get_data() {
       this.can_execute_scorll = false
-      console.log('============================')
+      // console.log('============================')
       this.loading = true
       this.it_is_over = false
       this.$axios
@@ -254,17 +270,31 @@ export default {
             system +
             '&device=' +
             deviceType
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
+              this.loading = false
+              // this.loading02 = false
               if (response.data.Data != null) {
-                this.comOwn_no_data = false
-                this.common_no_data = false
-                this.myOwn_no_data = false
+                if (response.data.Data.comOwn.length == 0) {
+                  this.comOwn_no_data = true
+                } else {
+                  this.comOwn_no_data = false
+                }
+                if (response.data.Data.common.length == 0) {
+                  this.common_no_data = true
+                } else {
+                  this.common_no_data = false
+                }
+                if (response.data.Data.myOwn.length == 0) {
+                  this.myOwn_no_data = true
+                } else {
+                  this.myOwn_no_data = false
+                }
                 this.response_data = response.data.Data
-                console.log(response)
+                // console.log(response)
                 this.response_data.comOwn = this.response_data.comOwn.slice(
                   0,
                   this.page * 20
@@ -277,13 +307,13 @@ export default {
                   0,
                   this.page * 20
                 )
-                this.loading = false
+
                 this.page += 1
                 this.can_execute_scorll = true //是否可以执行滚动
               } else {
                 // alert(111)
-                console.log(response)
-                this.loading = false
+                // console.log(response)
+
                 this.response_data = null
                 this.comOwn_no_data = true
                 this.common_no_data = true

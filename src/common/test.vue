@@ -90,7 +90,7 @@ export default {
         this.markArea = {
           label: {
             formatter: function(params) {
-              console.log(params)
+              // console.log(params)
               return '{a|' + params.name + '}'
               // return '{a|ssssssssssss }'
             },

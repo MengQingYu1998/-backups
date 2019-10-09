@@ -1,6 +1,6 @@
 <template>
   <div id="left_nav">
-    <div class="nav" @click="change_country">
+    <div class="nav">
       <div class="nav_title">
         <img src="../assets/ios/left_nav01.png" alt />
         <div>应用信息</div>
@@ -20,22 +20,37 @@
         <div>竞品</div>
       </div>
       <router-link
+        v-show="goods_show"
         to="goods_show"
         tag="div"
-        :class="{'nav_content':true,'blue_router':blue_router}"
+        :class="{'nav_content':true,'blue_font':blue_font}"
+        active-class="active"
       >竞品对比</router-link>
-      <!-- <router-link
-        to="nothing"
+      <router-link
+        v-show="ranking_compare"
+        to="ranking_compare"
         tag="div"
-        class="nav_content"
+        :class="{'nav_content':true,'blue_font':blue_font}"
         active-class="active"
-      >竞对报告</router-link>-->
-      <!-- <router-link
-        to="nothing"
+      >竞品对比</router-link>
+      <router-link
+        v-show="cover_compare"
+        to="cover_compare"
         tag="div"
-        class="nav_content"
+        :class="{'nav_content':true,'blue_font':blue_font}"
         active-class="active"
-      >竞品当前优化</router-link>-->
+      >竞品对比</router-link>
+      <!-- 第一步 -->
+      <div
+        class="shade"
+        @mouseover="blue_font=true"
+        @mouseleave="blue_font=false"
+        @click.stop="$router.push({
+        path: '/goods_show'
+      })"
+      ></div>
+      <!-- 第一步 -->
+
       <div class="nav_title">
         <img src="../assets/ios/left_nav04.png" alt />
         <div>ASM</div>
@@ -54,23 +69,55 @@
 export default {
   name: 'left_nav',
   data() {
-    return { blue_router: false }
+    return {
+      // 第二部
+      goods_show: false,
+      ranking_compare: false,
+      cover_compare: false,
+      blue_font: false
+      // 第二部
+    }
   },
 
-  created: function() {},
-  mounted() {
-    // this.blue_router = this.$store.state.router_color
-    // console.log(this.$store.state)
-  },
-  methods: {
-    change_country() {
-      // alert(now_country)
-      // this.$store.state.now_country_name = '法国'
+  created: function() {
+    // 第三部
+    if (
+      this.$route.name != 'ranking_compare' ||
+      this.$route.name != 'cover_compare'
+    ) {
+      this.ranking_compare = false
+      this.cover_compare = false
+      this.goods_show = true
     }
-  }
+    if (this.$route.name == 'ranking_compare') {
+      this.ranking_compare = true
+      this.cover_compare = false
+      this.goods_show = false
+    }
+    if (this.$route.name == 'cover_compare') {
+      this.ranking_compare = false
+      this.cover_compare = true
+      this.goods_show = false
+    }
+    // 第三部
+  },
+  mounted() {},
+  methods: {}
 }
 </script>
 <style scoped>
+.blue_font {
+  color: #009bef !important;
+}
+.shade {
+  background-color: transparent;
+  width: 125px;
+  height: 21px;
+  position: absolute;
+  top: 496px;
+  right: 0;
+  cursor: pointer;
+}
 .active {
   color: #009bef !important;
 }
@@ -111,5 +158,6 @@ export default {
   border-right: 1px solid #efefef;
   padding-bottom: 150px;
   min-height: 500px;
+  position: relative;
 }
 </style>

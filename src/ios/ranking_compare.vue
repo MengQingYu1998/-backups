@@ -177,6 +177,7 @@ export default {
   data() {
     let that = this
     return {
+      db_number_is_same: 0, //修复用户输入过快的bug
       no_data: false,
       is_show_myChart_and_table: false,
       now_country: '中国',
@@ -277,6 +278,8 @@ export default {
   },
   methods: {
     get_data_second() {
+      this.db_number_is_same++
+      let is_excute_function = this.db_number_is_same
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.ranking_compare)
 
@@ -368,13 +371,7 @@ export default {
 
           let appid =
             this.$store.state.now_app_id + ',' + this.$store.state.now_app_id02
-          console.log('appid=' + appid)
-          console.log('countryId=' + country_id)
-          console.log('startDate=' + startDate)
-          console.log('endDate=' + endDate)
-          console.log('brand=' + brand)
-          console.log('timeType=' + timeType)
-          console.log('device=' + deviceType)
+
           let data = {
             // appids: '600273928,951391381',
             appids: appid,
@@ -388,90 +385,100 @@ export default {
 
           // 请求数据
           this.$axios
-            .post(url, data)
+            .post(url, this.$qs.stringify(data), {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              }
+            })
             .then(response => {
-              console.log(response.data)
-              // console.log(response.data.Data.length)
-              this.is_show_myChart_and_table = false
-              if (response.data.Data != null && response.data.Data.length > 0) {
-                this.no_data = false
-                // this.selected_data_function(false)
-                this.is_show_myChart_and_table = true
-                console.log('有数据')
-                this.keyword_data_value = new Array()
-                this.xAxis_data.length = new Array()
-                this.keyword_data.length = new Array()
-
-                this.response_data_second = response.data.Data
-
-                let temp = response.data.Data[1]
-                // 都谁？ 抖音 快手 内涵
-                let name_group01 = this.response_data_second[0].rankTrendInfo
-                  .RankList
-                let name_group02 = temp.rankTrendInfo.RankList
-
-                this.response_data_second[1].appName = replace_some_chart(
-                  this.response_data_second[1].appName
-                )
-                this.response_data_second[0].appName = replace_some_chart(
-                  this.response_data_second[0].appName
-                )
-
-                name_group01.forEach(element => {
-                  this.keyword_data.push(
-                    this.response_data_second[0].appName + '-' + element
-                  )
-                })
-                name_group02.forEach(element => {
-                  this.keyword_data.push(temp.appName + '-' + element)
-                })
-                // this.keyword_data = this.keyword_data.concat(
-                //   temp.rankTrendInfo.RankList
-                // )
-                //y轴数值
-                let temp01 = this.response_data_second[0].rankTrendInfo.r1
-                temp01.forEach(element => {
-                  this.keyword_data_value.push(element.data)
-                })
-                let temp03 = temp.rankTrendInfo.r1
-                temp03.forEach(element => {
-                  this.keyword_data_value.push(element.data)
-                })
-                // x轴数据
-                let temp02 = this.response_data_second[0].rankTrendInfo.r2.data
-                this.xAxis_data = temp02.map(element => {
-                  if (this.middle_top_radio1 == '按天') {
-                    return timestamp(element, 'Y年M月D日')
-                  } else if (this.middle_top_radio1 == '按小时') {
-                    return timestamp(element, 'Y年M月D日 h点')
-                  } else if (this.middle_top_radio1 == '按分钟') {
-                    return timestamp(element, 'M月D日 h点m分')
-                  }
-                })
-                // 重新定义legend的图例数组，为了换行
-                let times = 0
-                this.legend_array = this.keyword_data.slice(0)
-                this.legend_array.forEach((element, index) => {
-                  times += 1
-                  if ((index + 1) % 4 == 0) {
-                    this.legend_array.splice(times, 0, '')
-                    times += 1
-                  }
-                })
-                let legend_height =
-                  Math.ceil(this.keyword_data.length / 4) * 30 + 330 + 'px'
-                document.getElementsByClassName(
-                  'myChart'
-                )[0].style.height = legend_height
-                console.log(this.legend_array)
-
-                this.drawLine()
-
-                this.myChart.hideLoading()
-              } else {
-                console.log('无数据')
-                this.no_data = true
+              if (is_excute_function == this.db_number_is_same) {
+                console.log(response.data)
+                // console.log(response.data.Data.length)
                 this.is_show_myChart_and_table = false
+                if (
+                  response.data.Data != null &&
+                  response.data.Data.length > 0
+                ) {
+                  this.no_data = false
+                  // this.selected_data_function(false)
+                  this.is_show_myChart_and_table = true
+                  console.log('有数据')
+                  this.keyword_data_value = new Array()
+                  this.xAxis_data.length = new Array()
+                  this.keyword_data.length = new Array()
+
+                  this.response_data_second = response.data.Data
+
+                  let temp = response.data.Data[1]
+                  // 都谁？ 抖音 快手 内涵
+                  let name_group01 = this.response_data_second[0].rankTrendInfo
+                    .RankList
+                  let name_group02 = temp.rankTrendInfo.RankList
+
+                  this.response_data_second[1].appName = replace_some_chart(
+                    this.response_data_second[1].appName
+                  )
+                  this.response_data_second[0].appName = replace_some_chart(
+                    this.response_data_second[0].appName
+                  )
+
+                  name_group01.forEach(element => {
+                    this.keyword_data.push(
+                      this.response_data_second[0].appName + '-' + element
+                    )
+                  })
+                  name_group02.forEach(element => {
+                    this.keyword_data.push(temp.appName + '-' + element)
+                  })
+                  // this.keyword_data = this.keyword_data.concat(
+                  //   temp.rankTrendInfo.RankList
+                  // )
+                  //y轴数值
+                  let temp01 = this.response_data_second[0].rankTrendInfo.r1
+                  temp01.forEach(element => {
+                    this.keyword_data_value.push(element.data)
+                  })
+                  let temp03 = temp.rankTrendInfo.r1
+                  temp03.forEach(element => {
+                    this.keyword_data_value.push(element.data)
+                  })
+                  // x轴数据
+                  let temp02 = this.response_data_second[0].rankTrendInfo.r2
+                    .data
+                  this.xAxis_data = temp02.map(element => {
+                    if (this.middle_top_radio1 == '按天') {
+                      return timestamp(element, 'Y年M月D日')
+                    } else if (this.middle_top_radio1 == '按小时') {
+                      return timestamp(element, 'Y年M月D日 h点')
+                    } else if (this.middle_top_radio1 == '按分钟') {
+                      return timestamp(element, 'M月D日 h点m分')
+                    }
+                  })
+                  // 重新定义legend的图例数组，为了换行
+                  let times = 0
+                  this.legend_array = this.keyword_data.slice(0)
+                  this.legend_array.forEach((element, index) => {
+                    times += 1
+                    if ((index + 1) % 4 == 0) {
+                      this.legend_array.splice(times, 0, '')
+                      times += 1
+                    }
+                  })
+                  let legend_height =
+                    Math.ceil(this.keyword_data.length / 4) * 30 + 330 + 'px'
+                  document.getElementsByClassName(
+                    'myChart'
+                  )[0].style.height = legend_height
+                  console.log(this.legend_array)
+
+                  this.drawLine()
+
+                  this.myChart.hideLoading()
+                } else {
+                  console.log('无数据')
+                  this.no_data = true
+                  this.is_show_myChart_and_table = false
+                }
               }
             })
             .catch(error => {

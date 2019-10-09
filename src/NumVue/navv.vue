@@ -160,7 +160,10 @@ export default {
   created() {
     // 第一步 localStorage的历史记录搜索
     this.historyWord = localStorage.getItem('searchWord')
-    this.historyWord = this.historyWord.split(',') //将字符串转成数组
+    if (this.historyWord != null) {
+      this.historyWord = this.historyWord.split(',') //将字符串转成数组
+    }
+
     // 第一步 localStorage的历史记录搜索
 
     this.nav_input_value = this.$store.state.nav_input_value

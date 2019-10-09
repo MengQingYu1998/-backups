@@ -1135,30 +1135,6 @@ export default {
   },
   methods: {
     demo() {
-      this.country_temp01.forEach((element, index) => {
-        if (element == '中国澳门') {
-          this.country_temp01[index] = '中国'
-        }
-      })
-
-      this.country_temp02.forEach((element, index) => {
-        if (element == '中国澳门') {
-          this.country_temp01[index] = '中国'
-        }
-      })
-
-      this.country_temp03.forEach((element, index) => {
-        if (element == '中国澳门') {
-          this.country_temp01[index] = '中国'
-        }
-      })
-
-      this.country_temp04.forEach((element, index) => {
-        if (element == '中国澳门') {
-          this.country_temp01[index] = '中国'
-        }
-      })
-
       // console.log('=============地图组件内部====================')
       // console.log(this.country_temp01)
       // console.log(this.country_temp02)
@@ -1167,16 +1143,43 @@ export default {
       // console.log('=============地图组件内部====================')
 
       let map = this.__proto__.__proto__.map_config
-      // console.log(map)
+      // 重置map 去掉下面添加的 排名
+      for (let key in map) {
+        if (map[key].hover) {
+          map[key].hover = map[key].hover.split(' ')[0]
+        }
+        // console.log(map[key].hover)
+      }
       for (let key in map) {
         if (this.isInArray(this.country_temp01, map[key].hover)) {
           map[key].upColor = '#91d8ff'
+          this.country_temp01.forEach((element, index) => {
+            if (element.split(' ')[0] == map[key].hover) {
+              map[key].hover = this.country_temp01[index]
+            }
+          })
         } else if (this.isInArray(this.country_temp02, map[key].hover)) {
           map[key].upColor = '#31b6fe'
+
+          this.country_temp02.forEach((element, index) => {
+            if (element.split(' ')[0] == map[key].hover) {
+              map[key].hover = this.country_temp02[index]
+            }
+          })
         } else if (this.isInArray(this.country_temp03, map[key].hover)) {
           map[key].upColor = '#0191df'
+          this.country_temp03.forEach((element, index) => {
+            if (element.split(' ')[0] == map[key].hover) {
+              map[key].hover = this.country_temp03[index]
+            }
+          })
         } else if (this.isInArray(this.country_temp04, map[key].hover)) {
           map[key].upColor = '#027fc3'
+          this.country_temp04.forEach((element, index) => {
+            if (element.split(' ')[0] == map[key].hover) {
+              map[key].hover = this.country_temp04[index]
+            }
+          })
         } else {
           map[key].upColor = '#eeeeee'
         }
@@ -1187,10 +1190,18 @@ export default {
       start04()
       start05()
     },
+    //判断一个值在一个数组中 ，是的话， 把这个值更改成数组中的那个值
+    at_array_index(arr, value) {
+      arr.forEach((element, index) => {
+        if (element.split(' ')[0] == value) {
+          return arr[index]
+        }
+      })
+    },
     //判断一个值是否存在一个数组中
     isInArray: function(arr, value) {
       for (var i = 0; i < arr.length; i++) {
-        if (value === arr[i]) {
+        if (value === arr[i].split(' ')[0]) {
           return true
         }
       }

@@ -43,7 +43,7 @@
 				</div>
 				<div>
 					<p>搜索</p>
-					<input type="text" placeholder="请输入搜索应用名称" v-model="searval" @keyup="getsearchVal(searval)"/>
+					<input type="text" placeholder="请输入搜索应用名称" v-model="searval" @keyup="getsearchVal(searval)" @keyup.enter="search()"/>
 					<button class="search" @click="search()">搜索</button>
 				</div>
 			</div>
@@ -334,6 +334,7 @@
 				contentShow:true,
 				infiniteMsgShow:true,
 				bomfont:'我是有底线的~',
+				xiajiaId:0,
 				// 清榜tbody
 				zongsBList:[],
 				page2:1,
@@ -424,6 +425,7 @@
 		},
 		
 		created(){
+
 			this.getData()
 			
 			this.$watch('dateV',function(Value, oldValue) {
@@ -466,6 +468,7 @@
 		    })
 		},
 		methods:{
+
 			// 获取搜索关键词
 			getsearchVal(searval){
 				this.searchval=searval
@@ -490,6 +493,7 @@
 			},
 			// 上下架应用接口
 			getData(){
+				console.log("idididiididid:"+this.xiajiaId)
 				this.can_execute_scorll = false
 				this.contentShow=true
       			this.infiniteMsgShow=true
@@ -570,22 +574,43 @@
 							    // console.log("searchval:"+this.searchval)
 							    // console.log("page11111111111111:"+this.page)
 							    // console.log("pageSize:"+this.pageSize)
+// console.log("id:"+this.xiajiaId)
+							    // var data="";
+							    var data1={
+							    	countryid:country_id,
+									genreid:geid,
+									date:newData,
+									IsOnline:IsOnlineV,
+									appKey:this.searchval,
+									pageIndex:this.page,
+									pageSize:this.pageSize
+							    }
+							  //   var data2={
+							  //   	countryid:country_id,
+									// genreid:geid,
+									// date:newData,
+									// IsOnline:IsOnlineV,
+									// appKey:this.searchval,
+									// pageIndex:this.page,
+									// pageSize:this.pageSize,
+									// IsOnlineId:this.xiajiaId
+							  //   }
+							    
+							  //   if(IsOnlineV==0){
+							  //   	data=data2
+							  //   }else{
+							  //   	data=data1
+							  //   }
+							  //   console.log(data)
 							    // 获取应用接口
 							  	this.$axios({
 									method:"post",
 									url:"/PostAppIsOnline",
-									data: {
-										countryid:country_id,
-										genreid:geid,
-										date:newData,
-										IsOnline:IsOnlineV,
-										appKey:this.searchval,
-										pageIndex:this.page,
-										pageSize:this.pageSize
-									}
+									data:data1
 								})
 								.then(res=>{
 									if(res.data.Code==0){
+										console.log("data:"+res.data.Data)
 										this.onlinFont=res.data.pageCount
 										
 										if(this.onlinFont>0&&this.onlinFont<21){
@@ -607,6 +632,9 @@
 										if(this.total_number==number){
 											    this.zongsdataList=this.zongsdataList.concat(res.data.Data)
 											    this.page+=1
+											    this.xiajiaId=this.zongsdataList[0].id
+											    console.log("page:"+this.page)
+											    console.log("id:"+this.xiajiaId)
 										}
 
 
@@ -633,6 +661,8 @@
 									this.contentShow = false
 									// this.infiniteMsgShow = false
 								})
+
+
 							} 
 						})
 						.catch(error => {

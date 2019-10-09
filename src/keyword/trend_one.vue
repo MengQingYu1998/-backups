@@ -260,7 +260,7 @@ export default {
           // console.log(sdate)
           // console.log(edate)
           if (sdate == undefined && edate == undefined) {
-            console.log('时间未定义')
+            // console.log('时间未定义')
             return false
           }
           // 设备选择
@@ -286,7 +286,7 @@ export default {
             .post(url, data)
             .then(response => {
               this.response_data = response.data
-              console.log(this.response_data)
+              // console.log(this.response_data)
               this.keyword_data_value.length = 0
               this.xAxis_data.length = 0
               this.keyword_data_value.push(this.response_data.Yvalue)

@@ -103,7 +103,7 @@ export default {
   created: function() {
     this.get_data()
     this.$watch('now_country', function(newValue, oldValue) {
-      console.log('当前国家发生变化，重新请求数据...')
+      // console.log('当前国家发生变化，重新请求数据...')
       this.$store.state.now_country_name = this.now_country
       this.get_data()
     })
@@ -135,7 +135,7 @@ export default {
             '&appId=' +
             appId
           // &appId=291322250
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -148,8 +148,8 @@ export default {
               } else {
                 this.nothing_data_can_show = false
               }
-              console.log(55555555555555555)
-              console.log(response)
+              // console.log(55555555555555555)
+              // console.log(response)
             })
             .catch(error => {
               console.log(error)

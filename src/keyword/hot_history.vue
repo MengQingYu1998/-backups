@@ -151,7 +151,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(this.response_data)
+              // console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)

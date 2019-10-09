@@ -15,13 +15,12 @@
         <section class="app_description" v-if="response_data&&response_data.description!='无'">
           <div class="section_title">应用描述</div>
           <div
-            class="section_content"
+            :class="{'section_content':true,'height_125':height_125}"
             id="section_content"
             v-if="response_data"
             v-html="response_data.description"
           ></div>
-          <!-- v-show="show_all" ref="show_all" -->
-          <div id="show_all" @click="show_more_function()">展开更多</div>
+          <div id="show_all" @click="show_more_function()" v-show="show_all">展开更多</div>
         </section>
         <!-- 第二部分 -->
         <!-- 第二部分 -->
@@ -244,33 +243,8 @@ export default {
       no_data_img: false,
       // 播放m3u8格式的视频插件
       show_all: false,
-      playerOptions: [
-        // {
-        // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-        // autoplay: false, //如果true,浏览器准备好时开始回放。
-        // muted: false, // 默认情况下将会消除任何音频。
-        // loop: false, // 导致视频一结束就重新开始。
-        // preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-        // language: 'zh-CN',
-        // aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-        // fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-        // sources: [
-        // {
-        //   type: 'video/mp4',
-        //   src:
-        //     'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
-        // }
-        // ],
-        // poster: '', //你的封面地址
-        // notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-        // controlBar: {
-        //   timeDivider: false,
-        //   durationDisplay: false,
-        //   remainingTimeDisplay: false,
-        //   fullscreenToggle: false //全屏按钮
-        // }
-        // }
-      ],
+      height_125: false, //没有用到这个属性，可能会用到
+      playerOptions: [],
       //单选按钮
       radio01: 'iPhone', //第二部分 视频
       radio02: 'iPhone', //第三部分 截图
@@ -295,7 +269,7 @@ export default {
   methods: {
     // 获取数据并且设置到视频插件的配置项
     onPlayerPlay(videoUrl_item) {
-      console.log(videoUrl_item)
+      // console.log(videoUrl_item)
       videoUrl_item.forEach((element, index) => {
         let arr = new Array()
         function NewObj(videoSrc) {
@@ -349,22 +323,45 @@ export default {
             // '&appId=281736535'
             '&appId=' +
             appId
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               if (response.data.Data) {
                 this.no_data_img = false
                 this.response_data = response.data.Data
 
-                // this.$refs.show_all
-                // console.log(this.$refs.show_all)
-                // this.$nextTick(() => {
-                //   // console.log(this.$refs.show_all)
-                //   console.log(document.getElementById('section_content'))
-                // })
+                // 判断展开收起更多的按钮是否出现 小于125px 则不出现
+                this.$nextTick(() => {
+                  // console.log(
+                  //   window
+                  //     .getComputedStyle(
+                  //       document.getElementById('section_content'),
+                  //       null
+                  //     )
+                  //     .getPropertyValue('height')
+                  // )
+                  if (
+                    parseInt(
+                      window
+                        .getComputedStyle(
+                          document.getElementById('section_content'),
+                          null
+                        )
+                        .getPropertyValue('height')
+                    ) >= 125
+                  ) {
+                    this.show_all = true
+                    this.height_125 = true
+                  } else {
+                    this.show_all = false
+                    this.height_125 = false
+                  }
+                })
+                // 判断展开收起更多的按钮是否出现
+
                 // 获取数据并且设置到视频插件的配置项
                 if (this.radio01 == 'iPhone') {
                   this.onPlayerPlay(this.response_data.videoUrl.iphone)
@@ -403,7 +400,7 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      console.log('app_message' + this.now_country)
+      // console.log('app_message' + this.now_country)
     },
     go_to_page01(parm, parm02) {
       this.$store.state.now_country_name = this.now_country
@@ -416,12 +413,13 @@ export default {
 }
 </script>
 <style scoped>
+/* .height_125 {
+  height: 125px;
+} */
 #version_message {
   padding-bottom: 53px;
 }
 #section_content {
-  min-height: 125px;
-  height: 125px;
   -webkit-line-clamp: 6;
   display: -webkit-box;
   -webkit-box-orient: vertical;

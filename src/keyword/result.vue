@@ -808,6 +808,7 @@ export default {
       // ===================element的弹窗================
       // ===================element的弹窗================
       // ===================element的弹窗================
+      db_number_is_same: 0, //修复用户输入过快的bug
       dialog_iosType: '',
       no_data: false,
       word: '',
@@ -1473,6 +1474,8 @@ export default {
     // ==================element弹窗==============
 
     get_data_dialog() {
+      this.db_number_is_same++
+      let is_excute_function = this.db_number_is_same
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.myChart_result_dialog)
       this.myChart.showLoading({
@@ -1566,37 +1569,39 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response)
-              if (response.data.Code == 0) {
-                this.no_data = false
-                this.response_data_for_dialog = response.data
-                // console.log(this.response_data_for_dialog)
+              if (is_excute_function == this.db_number_is_same) {
+                // console.log(response)
+                if (response.data.Code == 0) {
+                  this.no_data = false
+                  this.response_data_for_dialog = response.data
+                  // console.log(this.response_data_for_dialog)
 
-                this.keyword_data = new Array()
-                this.keyword_data_value = new Array()
-                this.xAxis_data = new Array()
+                  this.keyword_data = new Array()
+                  this.keyword_data_value = new Array()
+                  this.xAxis_data = new Array()
 
-                this.keyword_data_value.push(
-                  this.response_data_for_dialog.Yvalue
-                )
-                this.xAxis_data = this.response_data_for_dialog.Xvalue
-                this.keyword_data.push(this.word)
-                // console.log(this.xAxis_data)
-                this.xAxis_data = this.xAxis_data.map(element => {
-                  // console.log(1)
-                  if (this.radio01_dialog == '按天') {
-                    return timestamp(element, 'Y年M月D日')
-                  } else if (this.radio01_dialog == '按小时') {
-                    return timestamp(element, 'Y年M月D日 h点')
-                  } else if (this.radio01_dialog == '按分钟') {
-                    return timestamp(element, 'M月D日 h点m分')
-                  }
-                })
-                this.drawLine_dialog()
+                  this.keyword_data_value.push(
+                    this.response_data_for_dialog.Yvalue
+                  )
+                  this.xAxis_data = this.response_data_for_dialog.Xvalue
+                  this.keyword_data.push(this.word)
+                  // console.log(this.xAxis_data)
+                  this.xAxis_data = this.xAxis_data.map(element => {
+                    // console.log(1)
+                    if (this.radio01_dialog == '按天') {
+                      return timestamp(element, 'Y年M月D日')
+                    } else if (this.radio01_dialog == '按小时') {
+                      return timestamp(element, 'Y年M月D日 h点')
+                    } else if (this.radio01_dialog == '按分钟') {
+                      return timestamp(element, 'M月D日 h点m分')
+                    }
+                  })
+                  this.drawLine_dialog()
 
-                this.myChart.hideLoading()
-              } else {
-                this.no_data = true
+                  this.myChart.hideLoading()
+                } else {
+                  this.no_data = true
+                }
               }
               // console.log(this.is_show_myChart_and_table)
             })

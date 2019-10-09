@@ -146,13 +146,13 @@ export default {
             word: word,
             iosType: system
           }
-          console.log(data)
+          // console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.response_data = response.data
-              console.log(this.response_data)
+              // console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)

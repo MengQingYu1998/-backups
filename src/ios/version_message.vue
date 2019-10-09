@@ -108,7 +108,7 @@ export default {
             this.input1 == '' ? '&timeOrVerNum' : '&timeOrVerNum=' + this.input1
           // console.log(country_id)
           let appId = this.$store.state.now_app_id
-          console.log(appId)
+          // console.log(appId)
 
           let url =
             '/GetVersionLogs?countryId=' +
@@ -125,7 +125,7 @@ export default {
               this.response_data = response.data.Data
               // this.response_data = response.data.Data.slice(1)
               // this.response_data_first = response.data.Data.slice(0, 1)
-              console.log(response)
+              // console.log(response)
             })
             .catch(error => {
               console.log(error)
@@ -138,7 +138,7 @@ export default {
     show_more_function(parm, parm02) {
       let this_div02 = document.getElementById(parm02) //展开收起
       let this_div = document.getElementById(parm) //内容
-      console.log(this_div02.innerHTML)
+      // console.log(this_div02.innerHTML)
       if (this_div02.innerHTML == '展开更多') {
         this_div.style.height = 'auto'
         this_div.style.display = 'block'

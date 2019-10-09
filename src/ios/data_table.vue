@@ -173,7 +173,7 @@
                 :class=" {'change_bg':change_bg_result,'radio_one':true,'pointer':true}"
                 @click="result_all()"
               >全部</div>
-              <div class="min_max" @click="change_bg_result_function">
+              <div class="min_max">
                 <div>
                   <el-input v-model="result_min_input01" placeholder="最小值" type="number"></el-input>
                 </div>
@@ -235,7 +235,10 @@
               </tr>
             </thead>
             <tbody class="td_width">
-              <tr class="disable_hover" v-if="nothing_data_can_show02">
+              <tr
+                class="disable_hover"
+                v-if="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
+              >
                 <td colspan="6">暂无相关数据</td>
               </tr>
               <!-- <template v-if="request_data_second"> -->
@@ -287,7 +290,7 @@
                 <td>
                   <div
                     class="table_font pointer"
-                    @click="middle_table_first(item.index,item.WordId,item.Word)"
+                    @click="middle_table_first(index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
               </tr>
@@ -482,7 +485,7 @@
                 <td>
                   <div
                     class="table_font pointer"
-                    @click="middle_table_first(item.index,item.WordId,item.Word)"
+                    @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word)"
                   >排名趋势</div>
                 </td>
               </tr>
@@ -527,7 +530,7 @@ export default {
   data() {
     let that = this
     return {
-      nothing_data_can_show02: false,
+      // nothing_data_can_show02: false,
 
       // 分页
       currentPage: 1,
@@ -685,50 +688,75 @@ export default {
     // ==================第二部分===========================
 
     this.$watch('search_input', function(newValue, oldValue) {
-      // this.search_input_function()
+      if (
+        this.result_min_input01 != '' ||
+        this.result_max_input01 != '' ||
+        this.result_min_input02 != '' ||
+        this.result_max_input02 != '' ||
+        this.result_min_input03 != '' ||
+        this.result_max_input03 != ''
+      ) {
+        this.result_min_input01 = ''
+        this.result_max_input01 = ''
+        this.result_min_input02 = ''
+        this.result_max_input02 = ''
+        this.result_min_input03 = ''
+        this.result_max_input03 = ''
+      }
+      this.is_show_bottom = false
       if (this.search_input == '') {
-        this.temp01_request_data_second = this.copy_request_data_second.slice(
-          (this.currentPage - 1) * 100,
-          this.currentPage * 100
-        )
+        // 重新复制四句话
+        this.request_data_second = this.copy_request_data_second
+        this.total = this.request_data_second.length //底部显示总共
+        this.temp01_request_data_second = this.request_data_second.slice(0, 100)
         this.temp_request_data_second = new Array()
+        // 重新复制四句话
       } else {
-        let new_array = new Array()
-        this.search_input = this.search_input.trim().replace(/ /g, '，')
-        this.search_input = this.search_input.trim().replace(/,/g, '，')
-        // console.log(this.search_input)
-        let search_input_arr = this.search_input.trim().split('，')
-        search_input_arr.forEach((element_father, index_father) => {
-          this.copy_request_data_second.forEach((element, index) => {
-            // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
-            if (element.Word == search_input_arr[index_father]) {
-              new_array.push(element)
-            }
+        this.$nextTick(() => {
+          let new_array = new Array()
+          this.search_input = this.search_input.trim().replace(/ /g, '，')
+          this.search_input = this.search_input.trim().replace(/,/g, '，')
+          // console.log(this.search_input)
+          let search_input_arr = this.search_input.trim().split('，')
+          search_input_arr.forEach((element_father, index_father) => {
+            this.copy_request_data_second.forEach((element, index) => {
+              // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
+              if (element.Word == search_input_arr[index_father]) {
+                new_array.push(element)
+              }
+            })
           })
-        })
 
-        this.temp01_request_data_second = unique(new_array)
-        this.temp_request_data_second = new Array()
+          // 重新复制四句话
+          this.request_data_second = unique(new_array)
+          this.total = this.request_data_second.length //底部显示总共
+          this.temp01_request_data_second = this.request_data_second.slice(
+            0,
+            100
+          )
+          this.temp_request_data_second = new Array()
+          // 重新复制四句话
+        })
       }
     })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
-      this.change_number('result_min_input01')
+      this.before_change_number(1)
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
-      this.change_number('result_max_input01')
+      this.before_change_number(1)
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
-      this.change_number('result_min_input02')
+      this.before_change_number(2)
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
-      this.change_number('result_max_input02')
+      this.before_change_number(2)
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
-      this.change_number('result_min_input03')
+      this.before_change_number(3)
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
-      this.change_number('result_max_input03')
+      this.before_change_number(3)
     })
     // ==================第三部分===========================
     // ==================第三部分===========================
@@ -762,54 +790,78 @@ export default {
   },
 
   methods: {
-    // 最大值那块的搜索框改变，执行次函数
-    change_number(parm) {
-      let code_block
+    // 最大值那块的搜索框改变，执行函数
 
+    before_change_number() {
+      if (this.result_min_input01 == '' && this.result_max_input01 == '') {
+        this.change_bg_result = true //全部 按钮   变颜色
+      } else {
+        this.change_bg_result = false //全部 按钮   变颜色
+      }
+      if (
+        this.result_min_input01 == '' &&
+        this.result_max_input01 == '' &&
+        this.result_min_input02 == '' &&
+        this.result_max_input02 == '' &&
+        this.result_min_input03 == '' &&
+        this.result_max_input03 == ''
+      ) {
+        // 重新复制四句话
+        this.request_data_second = this.copy_request_data_second
+        this.total = this.request_data_second.length //底部显示总共
+        this.temp01_request_data_second = this.request_data_second.slice(0, 100)
+        this.temp_request_data_second = new Array()
+        // 重新复制四句话
+        return false
+      } else {
+        this.change_number()
+      }
+    },
+    change_number() {
+      this.is_show_bottom = false
+      let code_block
       let new_array = new Array()
       this.copy_request_data_second.forEach((element, index) => {
-        switch (parm) {
-          case 'result_min_input01':
-            if (element.WordIdHint >= this.result_min_input01) {
-              new_array.push(element)
-            }
-            break
-          case 'result_max_input01':
-            if (element.WordIdHint <= this.result_max_input01) {
-              new_array.push(element)
-            }
-            break
-          case 'result_min_input02':
-            if (element.Ranking >= this.result_min_input02) {
-              new_array.push(element)
-            }
-            break
-          case 'result_max_input02':
-            if (element.Ranking <= this.result_max_input02) {
-              new_array.push(element)
-            }
-            break
-          case 'result_min_input03':
-            if (element.SearchCount >= this.result_min_input03) {
-              new_array.push(element)
-            }
-            break
-          case 'result_max_input03':
-            if (element.SearchCount <= this.result_max_input03) {
-              new_array.push(element)
-            }
-            break
-          default:
-            ''
-            break
+        let temp01 = this.result_min_input01
+        let temp02 = this.result_max_input01
+        let temp03 = this.result_min_input02
+        let temp04 = this.result_max_input02
+        let temp05 = this.result_min_input03
+        let temp06 = this.result_max_input03
+
+        if (this.result_min_input01 == '') {
+          temp01 = -999999999
+        }
+        if (this.result_max_input01 == '') {
+          temp02 = 999999999
+        }
+        if (this.result_min_input02 == '') {
+          temp03 = -999999999
+        }
+        if (this.result_max_input02 == '') {
+          temp04 = 999999999
+        }
+        if (this.result_min_input03 == '') {
+          temp05 = -999999999
+        }
+        if (this.result_max_input03 == '') {
+          temp06 = 999999999
+        }
+
+        if (
+          element.WordIdHint >= temp01 &&
+          element.WordIdHint <= temp02 &&
+          element.Ranking >= temp03 &&
+          element.Ranking <= temp04 &&
+          element.SearchCount >= temp05 &&
+          element.SearchCount <= temp06
+        ) {
+          new_array.push(element)
         }
       })
       this.request_data_second = new_array
       this.total = this.request_data_second.length //底部显示总共
-      let now_show_data = this.request_data_second.slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100
-      )
+      let now_show_data = this.request_data_second.slice(0, 100)
       this.temp01_request_data_second = now_show_data
       this.temp_request_data_second = new Array()
     },
@@ -999,20 +1051,22 @@ export default {
               this.loading_gif = false
               if (is_excute_function == this.db_number_is_same) {
                 if (response != null && response.length != 0) {
-                  this.nothing_data_can_show02 = false
-                  this.request_data_second = response.data.Data
                   this.copy_request_data_second = response.data.Data
-                  this.total = this.request_data_second.length //底部显示总共
 
+                  // 重新复制四句话
+                  this.request_data_second = this.copy_request_data_second
+                  this.total = this.request_data_second.length //底部显示总共
                   this.temp01_request_data_second = this.request_data_second.slice(
-                    (this.currentPage - 1) * 100,
-                    this.currentPage * 100
+                    0,
+                    100
                   )
-                  console.log('=================明细=====')
-                  console.log(this.request_data_second)
-                  console.log('=================明细=====')
+                  this.temp_request_data_second = new Array()
+                  // 重新复制四句话
+
+                  // console.log('=================明细=====')
+                  // console.log(this.request_data_second)
+                  // console.log('=================明细=====')
                 } else {
-                  this.nothing_data_can_show02 = true
                   this.temp_request_data_second = new Array() //折线图下面的tr
                   this.temp01_request_data_second = new Array() //折线图上面的tr
                 }
@@ -1027,32 +1081,6 @@ export default {
         })
     },
 
-    // search_input_function() {
-    //   if (this.search_input.trim() != '') {
-    //     this.get_data_for_second_part(false)
-    //     let new_array = new Array()
-    //     this.search_input = this.search_input.trim().replace(/ /g, '，')
-    //     this.search_input = this.search_input.trim().replace(/,/g, '，')
-    //     // console.log(this.search_input)
-    //     let search_input_arr = this.search_input.trim().split('，')
-    //     search_input_arr.forEach((element_father, index_father) => {
-    //       this.response_data_Data.forEach((element, index) => {
-    //         // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
-    //         if (element.Word == search_input_arr[index_father]) {
-    //           new_array.push(element)
-    //         }
-    //       })
-    //     })
-    //     this.response(new_array)
-    //   } else {
-    //     this.get_data_for_second_part(true)
-    //   }
-    // },
-
-    // 点击搜索结果数的min_mix
-    change_bg_result_function() {
-      this.change_bg_result = false
-    },
     // 点击搜索结果数的全部
     result_all() {
       this.result_min_input01 = ''
@@ -1075,10 +1103,7 @@ export default {
     },
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word) {
-      if (index >= 100) {
-        index = index - (this.currentPage - 1) * 100
-      }
-      alert(index)
+      console.log(index)
       this.bottom_radio1 = '按小时'
       this.bottom_radio3 = '近24小时'
       this.middle_time01 = ''
@@ -1091,11 +1116,11 @@ export default {
       this.stop_click_many_times = wordId + word
 
       // 当前页面 显示的数据
-
       let now_show_data = this.request_data_second.slice(
         (this.currentPage - 1) * 100,
         this.currentPage * 100
       )
+
       this.temp01_request_data_second = now_show_data.slice(0, index + 1)
       this.temp_request_data_second = now_show_data.slice(index + 1)
       this.wordId = wordId
@@ -2063,8 +2088,7 @@ table {
   width: 1200px;
   margin: 0 auto;
 }
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
   transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {

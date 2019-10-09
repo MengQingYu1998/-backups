@@ -77,14 +77,14 @@ export default {
             '&appId=' +
             appId
           // &appId=291322250
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              console.log(55555555555555555)
-              console.log(response)
+              // console.log(55555555555555555)
+              // console.log(response)
             })
             .catch(error => {
               console.log(error)

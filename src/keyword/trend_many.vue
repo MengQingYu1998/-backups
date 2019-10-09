@@ -253,10 +253,10 @@ export default {
             time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 90)
             sdate = formatDate(time02, 'yyyy-MM-dd')
           }
-          console.log(sdate)
-          console.log(edate)
+          // console.log(sdate)
+          // console.log(edate)
           if (sdate == undefined && edate == undefined) {
-            console.log('时间未定义')
+            // console.log('时间未定义')
             return false
           }
           // 设备选择
@@ -264,7 +264,7 @@ export default {
 
           let word = this.keyword_data
           // console.log(word)
-          console.log(deviceType)
+          // console.log(deviceType)
           // console.log(country_id)
           let data = {
             deviceType: deviceType,
@@ -278,7 +278,7 @@ export default {
             .post(url, data)
             .then(response => {
               this.response_data = response.data
-              console.log(this.response_data)
+              // console.log(this.response_data)
 
               this.xAxis_data = this.response_data.Xtime
               this.keyword_data_value = this.response_data.Yvalue
