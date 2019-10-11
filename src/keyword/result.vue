@@ -774,6 +774,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // alert(from.name)
+
     if (
       from.name == 'think_word' ||
       from.name == 'trend_many' ||
@@ -784,7 +785,13 @@ export default {
       //如果是page2过来的，表明当前页面不需要刷新获取新数据，直接用之前缓存的数据即可
     }
     // alert(to.meta.isBack)
-    next()
+    next(vm => {
+      // 通过 `vm` 访问组件实例
+      // console.log(from)
+      // if (from.name == 'ranking') {
+      //   vm.equipmentValue = vm.$store.state.ranking_to_result_equipmentValue
+      // }
+    })
   },
   data() {
     let that = this
@@ -892,7 +899,19 @@ export default {
     }
   },
   created: function() {
-    // this.isFirstEnter = true
+    // 与上一页面的参数保持一致
+    if (this.$route.query.equipmentValue_from_ranking) {
+      this.equipmentValue = this.$route.query.equipmentValue_from_ranking
+    }
+
+    if (this.$route.query.dateValue_from_ranking) {
+      this.dateValue = new Date(
+        Date.parse(this.$route.query.dateValue_from_ranking.replace(/-/g, '/'))
+      )
+    }
+
+    // 与上一页面的参数保持一致
+
     this.get_data_for_top_table()
     this.get_data_12()
     this.get_data_11()
@@ -1128,25 +1147,35 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name
-          let url =
-            '/Word/FindSearch?' +
-            'deviceType=' +
-            deviceType +
-            '&page=' +
-            this.page12 +
-            '&countryId=' +
-            country_id +
-            '&word=' +
-            word +
-            '&time=' +
-            time +
-            '&iosType=12'
+          // let url =
+          //   '/Word/FindSearch?' +
+          //   'deviceType=' +
+          //   deviceType +
+          //   '&page=' +
+          //   this.page12 +
+          //   '&countryId=' +
+          //   country_id +
+          //   '&word=' +
+          //   word +
+          //   '&time=' +
+          //   time +
+          //   '&iosType=12'
+          let that = this
+          let url = '/Word/FindSearch'
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            word: word,
+            time: time,
+            iosType: 12,
+            page: that.page12
+          }
           // console.log(url)
           // 请求数据
           this.$axios
-            .get(url)
+            .post(url, data)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
 
@@ -1161,12 +1190,13 @@ export default {
                 this.page12 += 1
                 // if (response.data.AppInfoList > 0) {
                 this.it_is_over_12 =
-                  response.data.AppInfoList < 10 &&
-                  response.data.AppInfoList >= 0
+                  response.data.AppInfoList.length < 10 &&
+                  response.data.AppInfoList.length >= 0
               }
+              // console.log(this.it_is_over_12)
 
-              console.log(response.data.AppInfoList)
-              console.log(this.response_data_for_ios12)
+              // console.log(response.data.AppInfoList)
+              // console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -1199,25 +1229,35 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name
-          let url =
-            '/Word/FindSearch?' +
-            'deviceType=' +
-            deviceType +
-            '&page=' +
-            this.page11 +
-            '&countryId=' +
-            country_id +
-            '&word=' +
-            word +
-            '&time=' +
-            time +
-            '&iosType=11'
+          // let url =
+          //   '/Word/FindSearch?' +
+          //   'deviceType=' +
+          //   deviceType +
+          //   '&page=' +
+          //   this.page11 +
+          //   '&countryId=' +
+          //   country_id +
+          //   '&word=' +
+          //   word +
+          //   '&time=' +
+          //   time +
+          //   '&iosType=11'
           // console.log(url)
+          let that = this
+          let url = '/Word/FindSearch'
+          let data = {
+            deviceType: deviceType,
+            countryId: country_id,
+            word: word,
+            time: time,
+            iosType: 11,
+            page: that.page11
+          }
           // 请求数据
           this.$axios
-            .get(url)
+            .post(url, data)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.loading_11 = false
               this.can_execute_scorll = true //是否可以执行滚动
 
@@ -1232,8 +1272,8 @@ export default {
                 this.page11 += 1
 
                 this.it_is_over_11 =
-                  response.data.AppInfoList < 10 &&
-                  response.data.AppInfoList >= 0
+                  response.data.AppInfoList.length < 10 &&
+                  response.data.AppInfoList.length >= 0
               }
             })
             .catch(error => {
@@ -1272,13 +1312,13 @@ export default {
             '&type=' +
             type +
             '&word=' +
-            word
+            encodeURIComponent(word)
           // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.keyword_data01 = new Array()
               this.keyword_data_value01 = new Array()
               this.xAxis_data01 = new Array()
@@ -1544,30 +1584,43 @@ export default {
           } else if (this.activeName == 'third') {
             iosType = this.dialog_iosType
           }
-          let url =
-            '/Word/FindHistory?page=1' +
-            '&deviceType=' +
-            deviceType +
-            '&countryId=' +
-            country_id +
-            '&word=' +
-            this.$store.state.now_app_name +
-            '&wordid=' +
-            wordid +
-            '&sdate=' +
-            sdate +
-            '&appid=' +
-            appid +
-            '&day=' +
-            showType +
-            '&edate=' +
-            edate +
-            '&iosType=' +
-            iosType
+          // let url =
+          //   '/Word/FindHistory?page=1' +
+          //   '&deviceType=' +
+          //   deviceType +
+          //   '&countryId=' +
+          //   country_id +
+          //   '&word=' +
+          //   this.$store.state.now_app_name +
+          //   '&wordid=' +
+          //   wordid +
+          //   '&sdate=' +
+          //   sdate +
+          //   '&appid=' +
+          //   appid +
+          //   '&day=' +
+          //   showType +
+          //   '&edate=' +
+          //   edate +
+          //   '&iosType=' +
+          //   iosType
           // console.log(url)
+          let url = '/Word/FindHistory'
+          let that = this
+          let data = {
+            page: 1,
+            deviceType: deviceType,
+            countryId: country_id,
+            word: that.$store.state.now_app_name,
+            edate: edate,
+            sdate: sdate,
+            appid: appid,
+            day: showType,
+            iosType: iosType
+          }
           // 请求数据
           this.$axios
-            .get(url)
+            .post(url, data)
             .then(response => {
               if (is_excute_function == this.db_number_is_same) {
                 // console.log(response)

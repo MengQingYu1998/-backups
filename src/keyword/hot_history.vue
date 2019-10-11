@@ -16,7 +16,7 @@
         <div class="margin_top_font">地区</div>
         <div>
           <!-- 选择国家 -->
-          <country @childFn="parentFn"></country>
+          <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         </div>
       </div>
 
@@ -58,10 +58,9 @@
         </tbody>
       </table>
     </div>
-      <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
-        <img src="../assets/ios/null.png" alt />
-        <div>暂无相关数据</div>
-      </div>
+    <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+      <img src="../assets/ios/null.png" alt />
+      <div>暂无相关数据</div>
     </div>
   </div>
 </template>
@@ -75,6 +74,7 @@ export default {
   name: 'hot_history',
   components: { country },
   data() {
+    let that = this
     return {
       // 动态改变本周 昨日的类样式
       change_bg_week: false,
@@ -101,7 +101,8 @@ export default {
           value: 'iPad'
         }
       ],
-      equipmentValue: 'iPhone',
+      equipmentValue:
+        that.$store.state.hot_search_to_hot_history_equipmentValue,
 
       // 国家选择
       countryValue: '中国'
@@ -144,7 +145,7 @@ export default {
             '&countryId=' +
             country_id +
             '&searchWord=' +
-            searchWord
+            encodeURIComponent(searchWord)
 
           // 请求数据
           this.$axios
@@ -365,7 +366,7 @@ option:first-child {
   display: flex;
   align-items: center;
   flex-direction: column;
-    font-family: SourceHanSansCN-Regular;
+  font-family: SourceHanSansCN-Regular;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

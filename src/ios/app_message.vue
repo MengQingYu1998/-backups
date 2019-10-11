@@ -270,6 +270,9 @@ export default {
     // 获取数据并且设置到视频插件的配置项
     onPlayerPlay(videoUrl_item) {
       // console.log(videoUrl_item)
+      if (videoUrl_item == '无') {
+        return false
+      }
       videoUrl_item.forEach((element, index) => {
         let arr = new Array()
         function NewObj(videoSrc) {
@@ -354,10 +357,10 @@ export default {
                     ) >= 125
                   ) {
                     this.show_all = true
-                    this.height_125 = true
+                    // this.height_125 = true
                   } else {
                     this.show_all = false
-                    this.height_125 = false
+                    // this.height_125 = false
                   }
                 })
                 // 判断展开收起更多的按钮是否出现

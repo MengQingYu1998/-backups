@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
     now_country_name: null,
     HistoryList: [],
     nav_input_value: '',
-    router_color: false
+    hot_search_to_hot_history_equipmentValue: ''
+    // ranking_to_result_equipmentValue: ''
   },
   mutations: {
     // 处理状态

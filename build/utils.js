@@ -16,13 +16,16 @@ exports.assetsPath = function(_path) {
 exports.cssLoaders = function(options) {
   options = options || {}
 
+  // const cssLoader = {
+  //   loader: 'css-loader',
+  //   options: {
+  //     sourceMap: options.sourceMap
+  //   }
+  // }
   const cssLoader = {
     loader: 'css-loader',
-    options: {
-      sourceMap: options.sourceMap
-    }
+    options: { sourceMap: options.sourceMap, minimize: true }
   }
-
   const postcssLoader = {
     loader: 'postcss-loader',
     options: {

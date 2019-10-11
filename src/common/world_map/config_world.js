@@ -533,7 +533,7 @@ let  map_config= {
 'map_158':{'code':'CN',
   'hover': '中国','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
-'map_159':{'code':'TI',
+'map_159':{'code':'TJ',
   'hover': '塔吉克斯坦','upColor':'#eeeeee','overColor':'#ffcc5f','downColor':'#477cb2','enable':true,
 },
 'map_160':{'code':'TZ',

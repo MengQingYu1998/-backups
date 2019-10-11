@@ -399,32 +399,45 @@ export default {
           })
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let url =
-            '/Word/FindWordRank?&page=' +
-            this.page +
-            '&deviceType=' +
-            deviceType +
-            '&countryId=' +
-            country_id +
-            '&minHint=' +
-            this.index_min_input +
-            '&maxHint=' +
-            this.index_max_input +
-            '&minResult=' +
-            this.result_min_input +
-            '&maxResult=' +
-            this.result_max_input +
-            '&word=' +
-            this.keyword_input +
-            '&time=' +
-            formatDate(this.dateValue, 'yyyy-MM-dd') +
-            '&GenreId=' +
-            this.my_genreId
-
+          // let url =
+          //   '/Word/FindWordRank?&page=' +
+          //   this.page +
+          //   '&deviceType=' +
+          //   deviceType +
+          //   '&countryId=' +
+          //   country_id +
+          //   '&minHint=' +
+          //   this.index_min_input +
+          //   '&maxHint=' +
+          //   this.index_max_input +
+          //   '&minResult=' +
+          //   this.result_min_input +
+          //   '&maxResult=' +
+          //   this.result_max_input +
+          //   '&word=' +
+          //   this.keyword_input +
+          //   '&time=' +
+          //   formatDate(this.dateValue, 'yyyy-MM-dd') +
+          //   '&GenreId=' +
+          //   this.my_genreId
+          let url = '/Word/FindWordRank'
+          let that = this
+          let data = {
+            page: that.page,
+            deviceType: deviceType,
+            countryId: country_id,
+            minHint: that.index_min_input,
+            maxHint: that.index_max_input,
+            minResult: that.result_min_input,
+            maxResult: that.result_max_input,
+            word: that.keyword_input,
+            time: formatDate(that.dateValue, 'yyyy-MM-dd'),
+            GenreId: that.my_genreId
+          }
           // console.log(url)
           // 请求数据
           this.$axios
-            .get(url)
+            .post(url, data)
             .then(response => {
               // console.log(response.data.Data)
               if (
@@ -437,7 +450,7 @@ export default {
                 )
                 this.page += 1
                 this.can_execute_scorll = true //是否可以执行滚动
-                this.it_is_over = response.data.Data < 20
+                this.it_is_over = response.data.Data.length < 20
                 this.loading = false
               }
             })
@@ -527,12 +540,18 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
+      let that = this
+      // this.$store.state.ranking_to_result_equipmentValue = this.equipmentValue
       this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
       this.hand_save_vuex(this)
-
+      let temo_time = formatDate(this.dateValue, 'yyyy-MM-dd hh:mm:ss')
       let routerUrl = this.$router.resolve({
-        path: '/result'
+        path:
+          '/result?equipmentValue_from_ranking=' +
+          this.equipmentValue +
+          '&dateValue_from_ranking=' +
+          temo_time
       })
       window.open(routerUrl.href, '_blank')
     },
