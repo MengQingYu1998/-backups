@@ -157,6 +157,7 @@ export default {
   flex-direction: column;
   position: fixed;
   right: 20px;
+  z-index: 9999;
   bottom: 40px;
 }
 .go_to_top > div,

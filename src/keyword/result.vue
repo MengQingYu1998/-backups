@@ -916,6 +916,7 @@ export default {
     this.get_data_12()
     this.get_data_11()
     this.get_data_column()
+
     this.$watch('activeName', function(newValue, oldValue) {
       if (newValue == 'third') {
         this.page11 = 1
@@ -1074,7 +1075,7 @@ export default {
           }
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let url = '/Word/FindTodayJoinWord'
-          let word = this.$store.state.now_app_name
+          let word = this.$store.state.now_app_name.trim()
           let data = {
             deviceType: deviceType,
             countryId: country_id,
@@ -1146,7 +1147,7 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$store.state.now_app_name
+          let word = this.$store.state.now_app_name.trim()
           // let url =
           //   '/Word/FindSearch?' +
           //   'deviceType=' +
@@ -1228,7 +1229,8 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$store.state.now_app_name
+          let word = this.$store.state.now_app_name.trim()
+          // alert(word.length)
           // let url =
           //   '/Word/FindSearch?' +
           //   'deviceType=' +
@@ -1302,7 +1304,7 @@ export default {
           })
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let type = this.radio1 == 'all' ? 1 : 0
-          let word = this.$store.state.now_app_name
+          let word = this.$store.state.now_app_name.trim()
           let url =
             '/Word/FindSearchRate?' +
             '&deviceType=' +
@@ -1318,17 +1320,17 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response)
+              console.log(response)
               this.keyword_data01 = new Array()
               this.keyword_data_value01 = new Array()
               this.xAxis_data01 = new Array()
-              let temp = response.data
-              this.keyword_data_value01.push(temp.Yvalue)
-              this.xAxis_data01 = temp.Xvalue
+              this.keyword_data_value01.push(response.data.Yvalue)
+              this.xAxis_data01 = response.data.Xvalue
               this.keyword_data01.push('ios12')
               // console.log(this.keyword_data_value01[0])
-
-              this.drawLine12()
+              if (this.now_country == '中国') {
+                this.drawLine12()
+              }
             })
             .catch(error => {
               console.log(error)
@@ -1341,6 +1343,7 @@ export default {
     drawLine12: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
+      // console.log(this.$refs.myChart_result12)
       let myChart = this.$echarts.init(this.$refs.myChart_result12)
       // 绘制图表
       myChart.setOption(
@@ -1584,27 +1587,7 @@ export default {
           } else if (this.activeName == 'third') {
             iosType = this.dialog_iosType
           }
-          // let url =
-          //   '/Word/FindHistory?page=1' +
-          //   '&deviceType=' +
-          //   deviceType +
-          //   '&countryId=' +
-          //   country_id +
-          //   '&word=' +
-          //   this.$store.state.now_app_name +
-          //   '&wordid=' +
-          //   wordid +
-          //   '&sdate=' +
-          //   sdate +
-          //   '&appid=' +
-          //   appid +
-          //   '&day=' +
-          //   showType +
-          //   '&edate=' +
-          //   edate +
-          //   '&iosType=' +
-          //   iosType
-          // console.log(url)
+
           let url = '/Word/FindHistory'
           let that = this
           let data = {
@@ -1612,6 +1595,7 @@ export default {
             deviceType: deviceType,
             countryId: country_id,
             word: that.$store.state.now_app_name,
+            wordid: wordid,
             edate: edate,
             sdate: sdate,
             appid: appid,

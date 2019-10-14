@@ -20,7 +20,7 @@
       <div class="searchDiv">
         <img src="../assets/NumImg/pingguo.png" class="ios" />
 
-        <country @childFn="parentFn"></country>
+        <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         <el-popover
           width="270"
           placement="bottom"
@@ -124,6 +124,7 @@ export default {
   components: { country },
   data() {
     return {
+      first_request: 0,
       historyWord: '',
       nav_input_value: '',
       is_show_nav_popover: false,
@@ -157,7 +158,28 @@ export default {
       touxiang: require('../assets/NumImg/touxiang.png')
     }
   },
+
+  watch: {
+    $route(val, old) {
+      // alert(11111)
+      // this.$nextTick(() => {
+      //   this.is_show_nav_popover = false
+      //   console.log(this.is_show_nav_popover)
+      // })
+      // 当前路由
+      // console.log()
+      if (val.path == '/result') {
+        this.nav_input_value = this.$store.state.nav_input_value
+      } else {
+        this.nav_input_value = ''
+      }
+      // 上一个路由
+    }
+  },
   created() {
+    this.first_request = 0
+    // alert(this.$store.state.now_country_name)
+    // this.now_country = this.$store.state.now_country_name
     // 第一步 localStorage的历史记录搜索
     this.historyWord = localStorage.getItem('searchWord')
     if (this.historyWord != null) {
@@ -165,8 +187,9 @@ export default {
     }
 
     // 第一步 localStorage的历史记录搜索
+    // if (window.location.href.indexOf('/result') != -1) {
 
-    this.nav_input_value = this.$store.state.nav_input_value
+    // }
 
     this.fun()
     this.$watch('nav_input_value', function(newValue, oldValue) {
@@ -175,11 +198,7 @@ export default {
       this.get_data_for_nav_input()
     })
   },
-  mounted: function() {
-    // this.globalClick(() => {
-    //   this.is_show_nav_popover = false
-    // })
-  },
+
   methods: {
     // 获取当前选中的国家
     parentFn(payload) {
@@ -248,6 +267,7 @@ export default {
       }
     },
     get_data_for_nav_input() {
+      this.first_request += 1
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -272,16 +292,15 @@ export default {
             word: word,
             iosType: iosType
           }
-          // console.log(deviceType)
-          // console.log(country_id)
-          // console.log(word)
-          // console.log(time)
-          // console.log(iosType)
+
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.response_data = response.data.Data
+              if (!response.data.Data) {
+                this.is_show_nav_popover = false
+              }
               // console.log(this.response_data)
               // console.log('88888888888888888888888888888')
             })
