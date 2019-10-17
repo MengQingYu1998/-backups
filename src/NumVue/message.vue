@@ -327,10 +327,18 @@
 			getMsg(){
 				let tel=window.localStorage.getItem('tel')
 				let code=window.localStorage.getItem('code')
+				let email = window.localStorage.getItem('email')
 				this.code=code
 				let userId=localStorage.getItem("userId")//获取userId
 				this.uid=userId
 				this.telnow=tel//当前手机号
+				if(email!=null||email!=""){
+					this.unemail=false
+					this.nowemail=email// 当前邮箱
+				}else{
+					this.unemail=true
+				}
+				
 				if(localStorage.getItem('touxiang')!=null){
 					this.touxiang=localStorage.getItem('touxiang')
 				}
@@ -631,7 +639,7 @@
 	        bindemail(){
 	        	this.$axios({
 	        		method:'post',
-	        		url:'/BindEmail',
+	        		url:'/SendEmail',  
 	        		data:{
 	        			accountId:this.uid,
 	        			email:this.email

@@ -416,6 +416,9 @@ export default {
 }
 </script>
 <style scoped>
+.section_img img {
+  border: 1px solid #f2f2f2;
+}
 /* .height_125 {
   height: 125px;
 } */

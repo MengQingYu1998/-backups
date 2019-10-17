@@ -119,7 +119,6 @@ export default {
           let url =
             '/GetAppSynopsis?countryId=' +
             country_id +
-            // '&appId=281736535'
             '&appId=' +
             this.$store.state.now_app_id
           // console.log(this.$store.state.now_app_id)

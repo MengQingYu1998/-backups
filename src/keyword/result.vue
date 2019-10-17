@@ -236,11 +236,11 @@
                         <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.rank_all}}</div>
-                        <div
+                        >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_allprice}}</div>
+                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
                         >--</div>
@@ -252,11 +252,11 @@
                         <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all}}</div>
-                        <div
+                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_classprice}}</div>
+                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
@@ -376,11 +376,11 @@
                         <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.rank_all}}</div>
-                        <div
+                        >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_allprice}}</div>
+                        >{{item.ranking.genre_allprice}}</div>-->
                         <div
                           v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
                         >--</div>
@@ -392,11 +392,11 @@
                         <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all}}</div>
-                        <div
+                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_classprice}}</div>
+                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
@@ -427,9 +427,7 @@
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
               <div>
                 <div>ios12</div>
-                <div
-                  v-if="response_data_for_ios11&&response_data_for_ios12"
-                >更新时间 {{response_data_for_ios11.SearchDate}}</div>
+                <div v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</div>
               </div>
               <table>
                 <thead>
@@ -476,11 +474,11 @@
                         <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all}}</div>
-                        <div
+                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_classprice}}</div>
+                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
@@ -526,9 +524,7 @@
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
               <div>
                 <div>ios11</div>
-                <div
-                  v-if="response_data_for_ios11&&response_data_for_ios12"
-                >更新时间 {{response_data_for_ios11.SearchDate}}</div>
+                <div v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</div>
               </div>
               <table>
                 <thead>
@@ -575,11 +571,11 @@
                         <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all}}</div>
-                        <div
+                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                        <!-- <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
-                        >{{item.ranking.genre_classprice}}</div>
+                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
@@ -855,6 +851,9 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
+      SearchDate_11: '',
+      SearchDate_12: '',
+
       it_is_over_12: false,
       it_is_over_11: false,
       loading_12: false,
@@ -1093,6 +1092,7 @@ export default {
               }
               if (response.data.Code == 0) {
                 this.data_for_top_table = response.data.Data
+                console.log(this.data_for_top_table)
               }
             })
             .catch(error => {
@@ -1148,19 +1148,7 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name.trim()
-          // let url =
-          //   '/Word/FindSearch?' +
-          //   'deviceType=' +
-          //   deviceType +
-          //   '&page=' +
-          //   this.page12 +
-          //   '&countryId=' +
-          //   country_id +
-          //   '&word=' +
-          //   word +
-          //   '&time=' +
-          //   time +
-          //   '&iosType=12'
+
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1176,7 +1164,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response)
+              console.log(response)
               this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
 
@@ -1185,6 +1173,7 @@ export default {
                 return false
               }
               if (is_excute_function == this.db_number_is_same12) {
+                this.SearchDate_12 = response.data.SearchDate
                 this.response_data_for_ios12 = this.response_data_for_ios12.concat(
                   response.data.AppInfoList
                 )
@@ -1197,7 +1186,7 @@ export default {
               // console.log(this.it_is_over_12)
 
               // console.log(response.data.AppInfoList)
-              // console.log(this.response_data_for_ios12)
+              console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -1230,21 +1219,7 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name.trim()
-          // alert(word.length)
-          // let url =
-          //   '/Word/FindSearch?' +
-          //   'deviceType=' +
-          //   deviceType +
-          //   '&page=' +
-          //   this.page11 +
-          //   '&countryId=' +
-          //   country_id +
-          //   '&word=' +
-          //   word +
-          //   '&time=' +
-          //   time +
-          //   '&iosType=11'
-          // console.log(url)
+
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1268,6 +1243,7 @@ export default {
                 return false
               }
               if (is_excute_function == this.db_number_is_same11) {
+                this.SearchDate_11 = response.data.SearchDate
                 this.response_data_for_ios11 = this.response_data_for_ios11.concat(
                   response.data.AppInfoList
                 )

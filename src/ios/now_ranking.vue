@@ -326,7 +326,7 @@ export default {
       is_show_mychart: true,
       response_data_second: null,
       middle_top_radio1: '按小时',
-      middle_top_radio2: '全部',
+      middle_top_radio2: '免费',
       middle_top_radio3: '今日',
       now_ranking_time: '',
       middle_top_pickerOptions: {

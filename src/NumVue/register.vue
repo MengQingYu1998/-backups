@@ -1,5 +1,5 @@
 <template>
-  <div class="box" id="register">
+  <div class="box">
     <div class="left">
       <img src="../assets/NumImg/loginImg.png" />
     </div>
@@ -333,6 +333,7 @@ export default {
     bluremail(emailval){
       this.focemail=false
       this.emailV=this.emailval
+
       var reg=/^[1-9]\d{5,11}@qq\.com$/;
         if(this.emailval==undefined){
           this.wrongemail=true
@@ -348,7 +349,7 @@ export default {
     sureBind(){
       this.$axios({
             method:"post",
-            url:"/BindEmail",
+            url:"/SendEmail",
             data:{
               phone:this.tel,
               email:this.emailV
@@ -356,6 +357,8 @@ export default {
       })
       .then(res=>{
            this.emailMask = false
+           localStorage.setItem("email",this.emailV);//存储手机号
+           // console.log(localStorage.getItem("email"))
       })
       .catch(error=>{
             console.log(error)

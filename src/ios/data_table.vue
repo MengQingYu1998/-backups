@@ -714,7 +714,7 @@ export default {
       } else {
         this.$nextTick(() => {
           let new_array = new Array()
-          this.search_input = this.search_input.trim().replace(/ /g, '，')
+          // this.search_input = this.search_input.trim().replace(/ /g, '，')
           this.search_input = this.search_input.trim().replace(/,/g, '，')
           // console.log(this.search_input)
           let search_input_arr = this.search_input.trim().split('，')

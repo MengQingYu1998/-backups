@@ -494,7 +494,7 @@
 			// 上下架应用接口
 			getData(){
 				
-				console.log("idididiididid:"+this.xiajiaId)
+				// console.log("idididiididid:"+this.xiajiaId)
 				this.can_execute_scorll = false
 				this.contentShow=true
       			this.infiniteMsgShow=true
@@ -573,20 +573,11 @@
 							    // console.log("newData:"+newData)
 							    // console.log("IsOnlineV:"+IsOnlineV)
 							    // console.log("searchval:"+this.searchval)
-							    console.log("page11111111111111:"+this.page)
+							    // console.log("page11111111111111:"+this.page)
 							    // console.log("pageSize:"+this.pageSize)
-								console.log("第一页id:"+this.xiajiaId)
-							    var data="";
-							    var data1={
-							    	countryid:country_id,
-									genreid:geid,
-									date:newData,
-									IsOnline:IsOnlineV,
-									appKey:this.searchval,
-									pageIndex:this.page,
-									pageSize:this.pageSize
-							    }
-							    var data2={
+								// console.log("第一页id:"+this.xiajiaId)
+							    
+							    var data={
 							    	countryid:country_id,
 									genreid:geid,
 									date:newData,
@@ -597,12 +588,7 @@
 									IsOnlineId:this.xiajiaId
 							    }
 							    
-							    if(IsOnlineV==0){
-							    	data=data2
-							    }else{
-							    	data=data1
-							    }
-							  //   console.log(data)
+							    // console.log(data)
 							    // 获取应用接口
 							  	this.$axios({
 									method:"post",
@@ -611,7 +597,7 @@
 								})
 								.then(res=>{
 									if(res.data.Code==0){
-										console.log("data:"+res.data.Data)
+										// console.log("data:"+res.data.Data)
 										this.onlinFont=res.data.pageCount
 										
 										if(this.onlinFont>0&&this.onlinFont<21){
@@ -635,7 +621,7 @@
 											    this.page+=1
 											    this.xiajiaId=this.zongsdataList[0].id
 											    // console.log("page:"+this.page)
-											    console.log("第一个的id:"+this.xiajiaId)
+											    // console.log("第一个的id:"+this.xiajiaId)
 											    // console.log(res.data.Data)
 										}
 

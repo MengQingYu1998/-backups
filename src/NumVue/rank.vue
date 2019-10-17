@@ -346,7 +346,7 @@ export default {
             //             console.log("brandV:"+brandV)
             //             console.log("dayNumV:"+dayNumV)
             //             console.log("sortV:"+sortV)
-                        console.log("apliId:"+apliId)
+                        // console.log("apliId:"+apliId)
                         // console.log("pidV:"+pidV)
             // console.log(111111111111111111111)
             this.$axios({
@@ -412,7 +412,6 @@ export default {
                 }else{
                   this.contentShow = false
                   this.hasrankdata=false
-                  alert(2)
                 }
               })
               .catch(error => {
@@ -422,7 +421,6 @@ export default {
           }else{
             this.contentShow = false
             this.hasrankdata=false
-            alert(3)
           }
         })
         .catch(error => {

@@ -15,6 +15,7 @@
       <router-link to="now_ranking" tag="div" class="nav_content" active-class="active">榜单实时排名</router-link>
       <router-link to="data_table" tag="div" class="nav_content" active-class="active">ASO关键词</router-link>
       <router-link to="grade_start" tag="div" class="nav_content" active-class="active">评分评论</router-link>
+      <router-link to="apple_history" tag="div" class="nav_content" active-class="active">苹果历史推荐</router-link>
       <div class="nav_title">
         <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
