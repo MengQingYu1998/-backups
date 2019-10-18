@@ -205,7 +205,7 @@ export default {
     },
     blurCode(codeval) {
       this.focCode = false
-      this.code = codeval
+      // this.code = codeval
       var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
       if (this.codeval == undefined || this.codeval == '') {
         this.wrongCode = true
@@ -215,8 +215,11 @@ export default {
       } else if (!reg.test(this.codeval)) {
         this.wrongCode = true
         this.wrocode = true
-        this.codeFont = '密码输入错误'
+        this.codeFont = '密码需包含字母、数字、符号中的两种，位数为6-15位；'
+        
         return false
+      }else{
+        this.code = this.codeval
       }
     },
     // 确认密码
@@ -233,7 +236,7 @@ export default {
         this.wroscode = true
         this.scodeFont = '确认密码不能为空'
         return false
-      } else if (codesval != this.code) {
+      } else if (this.codesval != this.codeval) {
         this.wrongsCode = true
         this.wroscode = true
         this.scodeFont = '确认密码必须与密码保持一致'
@@ -309,12 +312,22 @@ export default {
           }
         })
           .then(res => {
-            if (res.data.Code == 1) {
+            console.log(res.data)
+            if (res.data.Code == 0) {
               // 注册成功弹窗
+              var userid=res.data.Data.id
+              console.log(userid)
+              localStorage.setItem("userId",userid);//存储userId(用户id)
+              localStorage.setItem("tel",this.tel);//存储手机号
+              localStorage.setItem("code",this.code);//存储密码
               this.reSus = true
               document
                 .getElementsByTagName('body')[0]
                 .setAttribute('style', 'position:fixed; width:100%;')
+               
+                this.$router.push({
+                  path:'/index'
+                })
             } else if (res.data.Code == -1) {
               this.wrongTel = true
               this.wroinp = true
@@ -376,8 +389,7 @@ export default {
         .getElementsByTagName('body')[0]
         .setAttribute('style', 'position:relative;')
     }
-  },
-  created() {}
+  }
 }
 </script>
 

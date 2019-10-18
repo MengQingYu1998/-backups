@@ -10,11 +10,13 @@
 			</ul>
 			<!-- 邮箱找回 -->
 			<div class="emailDiv" v-if="showemail">
+				<div class="einpdiv">
+					<p class="emailInp" :class="{'focInp':focemail,'wroInp':wroemail}">
+						<input type="text" placeholder="请输入邮箱号" @blur="bluremail(emailval)"  @focus="focusemail()" v-model="emailval" @keyup="nullInput()"/>
+					</p>
+					<p class="wrongemail" v-show="wrongemail" v-html="emailFont"></p>
+				</div>
 				
-				<p class="emailInp" :class="{'focInp':focemail,'wroInp':wroemail}">
-					<input type="text" placeholder="请输入邮箱号" @blur="bluremail(emailval)"  @focus="focusemail()" v-model="emailval" @keyup="nullInput()"/>
-				</p>
-				<p class="wrongemail" v-show="wrongemail" v-html="emailFont"></p>
 				<div class="loginBtn" :class="{'nokong':ishas}" @click="susLj()">确认</div>
 			</div>
 			<!-- 手机号找回 -->
@@ -110,17 +112,18 @@
 			bluremail(emailval){
 				this.focemail=false
 				this.email=emailval
-				var reg=/^[1-9]\d{5,11}@qq\.com$/;
-				if(this.emailval==undefined){
-					this.wrongemail=true
-					this.wroemail=true
-					return false;
-				}else if(!reg.test(this.emailval)){
-					this.wrongemail=true
-					this.wroemail=true
-					this.emailFont="邮箱输入错误"
-					return false;
-				}
+				// var reg=/^[1-9]\d{5,11}@qq\.com$/;
+				// if(this.emailval==undefined||this.emailval==""){
+				// 	this.wrongemail=true
+				// 	this.wroemail=true
+				// 	return false;
+				// }else if(!reg.test(this.emailval)){
+				// 	this.wrongemail=true
+				// 	this.wroemail=true
+				// 	console.log(this.emailval)
+				// 	this.emailFont="邮箱输入错误"
+				// 	return false;
+				// }
 			},
 			nullInput(){
 				if(this.emailval.length>=1){
@@ -147,9 +150,10 @@
 				this.focinp=false
 				this.tel=this.telval
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
-				if(this.telval==undefined){
+				if(this.telval==undefined||this.telval==""){
 					this.wrongTel=true
 					this.wroinp=true
+					this.telFont="手机号不能为空"
 					return false;
 				}else if(!reg.test(this.telval)){
 					this.wrongTel=true
@@ -168,27 +172,25 @@
 				this.veri=verival
 				this.focveri=false
 				var reg=/^\d{6}$/;
-				if(this.verival==undefined){
+				if(this.verival==undefined||this.verival==""){
 					this.wrongVeri=true
 					this.wroveri=true
+					this.veriFont="验证码不能为空"
 					return false;
 				}else if(!reg.test(this.verival)){
 					this.wrongVeri=true
 					this.wroveri=true
 					this.veriFont="验证码输入错误"
 					return false;
-				}else if(this.verival!=this.veri){
-					this.wrongVeri=true
-					this.wroveri=true
-					this.veriFont="验证码输入错误"
 				}
 			},
 			// 获取验证码
 			huoqu(){
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
-				if(this.tel==undefined){
+				if(this.tel==undefined||this.tel==""){
 					this.wrongTel=true
 					this.wroinp=true
+					this.telFont="手机号不能为空"
 					return false;
 				}else if(!reg.test(this.tel)){
 					this.wrongTel=true
@@ -238,6 +240,7 @@
 			},
 			//通过邮箱找回点击确认按钮
 			susLj(){
+				console.log(this.email)
 				if(this.ishas==true){
 					this.$axios({
 						method:"get",
@@ -245,13 +248,21 @@
 						
 					})
 					.then(res=>{
+						console.log(res.data.Code)
 						if(res.data.Code==0){
 							this.reSus=true
 							document.getElementsByTagName('body')[0].setAttribute('style', 'position:fixed; width:100%;')
 						}else if(res.data.Code==1){
+							// console.log(this.emailval)
 							this.wrongemail=true
 							this.wroemail=true
-							this.emailFont="邮箱不存在"
+							if(this.emailval==""){
+								this.emailFont="邮箱不可以为空"
+							}else{
+								this.emailFont="邮箱不存在"
+							}
+							
+							
 						}
 					})
 					.catch(error=>{
@@ -308,9 +319,6 @@
 					
 				}
 			}
-		},
-		created(){
-
 		}
 	}
 </script>
@@ -394,6 +402,9 @@
 .emailDiv,.telDiv{
 	width: 306px;
     margin: 0 auto;
+}
+.right .emailDiv .einpdiv{
+	height: 4rem;
 }
 .right .emailDiv .emailInp{
 	height: 42px;

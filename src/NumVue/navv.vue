@@ -210,16 +210,34 @@ export default {
     },
     fun() {
       let userId = localStorage.getItem('userId') //获取userId
-      let tel = window.localStorage.getItem('tel')
-      if (localStorage.getItem('touxiang') != null) {
-        this.touxiang = localStorage.getItem('touxiang')
-      }
-      this.telnow = tel
+
       this.uid = userId
       if (this.uid == '' || this.uid == null) {
         this.unlogin = true
       } else {
         this.unlogin = false
+        this.$axios({
+          method: 'get',
+          url: 'GetAccount?accountId=' + this.uid
+        })
+          .then(res => {
+            // console.log(res.data)
+            this.uid = res.data.Data.id
+            this.telnow = res.data.Data.Phone //当前手机号
+            this.nowemail = res.data.Data.Email // 当前邮箱
+            if (res.data.Data.Avatar != null) {
+              this.touxiang = res.data.Data.Avatar //头像
+            }
+
+            if (this.nowemail == null) {
+              this.unemail = true
+            } else {
+              this.unemail = false
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     },
     // 显示app store监控下拉框

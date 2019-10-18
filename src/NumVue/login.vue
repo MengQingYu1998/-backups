@@ -167,7 +167,7 @@
 					.then(res=>{
 						if(res.data.Code==0){
 							let that = this
-							
+
 							//登录成功弹窗
 								this.$message({
 							        message: '登录成功',
@@ -185,18 +185,13 @@
 								that.$router.push({
 									path:'/index'
 								})
-								// that.$router.go(0)
-								// let routerUrl=that.$router.resolve({
-								// 	path:'/index'
-								// })
-								// window.close();
-								// window.open(routerUrl .href,'_blank')
+								
 							},1000)
 							
 						}else if(res.data.Code==-2){
 							this.wrongCode=true
 							this.wrocode=true
-							this.codeFont="密码输入错误you"
+							this.codeFont="密码输入错误"
 						}else if(res.data.Code==-1){
 							this.wrongTel=true
 							this.wroinp=true

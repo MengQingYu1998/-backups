@@ -49,12 +49,6 @@
 			}
 		},
 		methods:{
-			
-			nullInput(){
-				if(this.codeval.length>=1&&this.codesval.length>=1){
-					this.ishas=true
-				}
-			},
 			// 密码
 			focusCode(){
 				this.focCode=true
@@ -65,14 +59,15 @@
 				this.focCode=false
 				this.code=codeval
 				var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
-				if(this.codeval==undefined){
+				if(this.codeval==undefined||this.codeval==""){
 					this.wrongCode=true
 					this.wrocode=true
+					this.codeFont="密码不可以为空"
 					return false;
 				}else if(!reg.test(this.codeval)){
 					this.wrongCode=true
 					this.wrocode=true
-					this.codeFont="密码至少包含数字、字母、特殊符号中的两种"
+					this.codeFont="密码需包含字母、数字、符号中的两种，位数为6-15位"
 					return false;
 				}
 			},
@@ -84,31 +79,41 @@
 			},
 			blurCodes(codesval){
 				this.focsCode=false
-				if(this.codesval==undefined){
+				if(this.codesval==undefined||this.codesval==""){
 					this.wrongsCode=true
 					this.wroscode=true
+					this.scodeFont="确认密码不可以为空"
 					return false;
-				}else if(codesval!=this.code){
+				}else if(this.codesval!=this.code){
 					this.wrongsCode=true
 					this.wroscode=true
-					this.scodeFont="确认密码必须与密码保持一致"
+					this.scodeFont="确认密码必须与新密码保持一致"
 					return false;
+				}
+			},
+			nullInput(){
+				var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
+				if(reg.test(this.codeval)&&this.codesval==this.codeval){
+					this.ishas=true
 				}
 			},
 			// 点击确认
 			cliSure(){
-				if(this.ishas==true){
+				var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
+				if(reg.test(this.codeval)&&this.codesval==this.codeval){
 					// 设置新密码接口
 					this.$axios({
 						method:'post',
 						url:'/NewPasswordSetting',
 						data:{
 							phone:this.tel,
-							passwordNew:this.code,
+							passwordNew:this.codeval,
 						}
 					})
 					.then(res=>{
+
 						if(res.data.Code==0){
+							
 							this.$router.push({path:'/login'})
 						}
 					})

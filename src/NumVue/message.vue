@@ -117,7 +117,7 @@
 							<input type="text" @blur="blurpro(proval)" v-model="proval" placeholder="请输入您的产品名称" class="inpro">
 						</p>
 					</div>
-					<div class="preserve" @click="setsave()">保存</div>
+					<div class="preserve setbtn" @click="setsave()">保存</div>
 				</div>
 				<!-- 修改密码 -->
 				<div class="codeDiv" v-else>
@@ -125,14 +125,14 @@
 					<div>
 						<p>旧密码</p>
 						<p class="telInp" :class="{'focInp':focold,'wroInp':wrold}">
-							<input type="text" placeholder="请输入您的旧密码" @blur="blurold(oldval)"  @focus="focusold()" v-model="oldval" />
+							<input type="Password" placeholder="请输入您的旧密码" @blur="blurold(oldval)" @keyup="codeInput()" @focus="focusold()" v-model="oldval" />
 						</p>
 						<p class="wrongold" v-show="wrongold" v-html="oldFont"></p>
 					</div>
 					<div>
 						<p>新密码</p>
 						<p class="telInp" :class="{'focInp':focnew,'wroInp':wronew}">
-							<input type="text" placeholder="请输入您的新密码" @blur="blurnew(newval)"  @focus="focusnew()" v-model="newval" />
+							<input type="Password" placeholder="请输入您的新密码" @blur="blurnew(newval)" @keyup="codeInput()" @focus="focusnew()" v-model="newval" />
 						</p>
 						
 						<p class="des">密码需包含字母、数字、符号中的两种，位数为6-15位</p>
@@ -141,11 +141,11 @@
 					<div>
 						<p>确认密码</p>
 						<p class="telInp" :class="{'focInp':focsure,'wroInp':wrosure}">
-							<input type="text" placeholder="请输入确认密码" @blur="blursure(sureval)"  @focus="focusure()" v-model="sureval"/>
+							<input type="Password" placeholder="请输入确认密码" @blur="blursure(sureval)" @keyup="codeInput()" @focus="focusure()" v-model="sureval"  />
 						</p>
 						<p class="wrongsure" v-show="wrongsure" v-html="sureFont"></p>
 					</div>
-					<div class="preserve" @click="savecode()">保存</div>
+					<div class="preserve" @click="savecode()" :class="{'nokong':iscodebtn}">保存</div>
 				</div>
 			</div>
 		</div>
@@ -164,8 +164,8 @@
 					</p>
 					<div class="telnum">
 						<p>
-							<input class="telInp" :class="{'focInp':focinp,'wroInp':wroinp}" type="text" placeholder="请输入您的新手机号" @blur="blurState(telval)"  @focus="focusState()" v-model="telval" @keyup="telInput()"/>
-							<el-button :class="{'nokong':telhas}" v-html="codeBtn" :plain="true" @click="huoqu()" :disabled="disabled"></el-button>
+							<input class="telInp" :class="{'focInp':focinp,'wroInp':wroinp}" type="text" placeholder="请输入您的新手机号" @blur="blurState(telval)"  @focus="focusState()" v-model="telval"/>
+							<el-button v-html="codeBtn" :plain="true" @click="huoqu()" @keyup="telInput()" :disabled="disabled"></el-button>
 						</p>
 						<p class="wrongTel" v-show="wrongTel" v-html="telFont"></p>
 					</div>
@@ -176,7 +176,7 @@
 						</p>
 						<p class="wrongVeri" v-show="wrongVeri" v-html="veriFont"></p>
 					</div>
-					<p class="sureBtn" @click="changetel()">确认修改</p>
+					<p class="sureBtn" @click="changetel()" :class="{'nokong':ishas}">确认修改</p>
 				</div>
 			</div>
 			<!-- 绑定邮箱 -->
@@ -188,14 +188,14 @@
 					</p>
 					<div>
 						<p class="emailInp" >
-							<input :class="{'focInp':focEmail,'wroInp':wroemail}" type="text" placeholder="请输入您的邮箱" @blur="blurEmail(emailval)"  @focus="focusEmail()"  v-model="emailval" @keyup="nullInput()"/>
+							<input :class="{'focInp':focEmail,'wroInp':wroemail}" type="text" placeholder="请输入您的邮箱" @blur="blurEmail(emailval)"  @focus="focusEmail()"  v-model="emailval" @keyup="emailInput()"/>
 						</p>
 						<p class="wrongEmail" v-show="wrongEmail" v-html="emailFont"></p>
 					</div>
 					<p class="des">
 						确认绑定邮箱后将收到激活邮件，点击激活邮件里的链接验证邮箱成功。
 					</p>
-					<p class="sureBtn" @click="bindemail()">确认绑定</p>
+					<p class="sureBtn" @click="bindemail()" :class="{'nokong':isemail}">确认绑定</p>
 				</div>
 			</div>
 			<!-- 绑定微信 -->
@@ -295,6 +295,12 @@
 				sureval:'',
 				telhas:false,
 				disabled:false,
+				ishas:false,
+				isemail:false,
+				iscodebtn:false,
+				iscom:false,//新旧密码相同
+				// oldcode:'',//旧密码
+				// surecode:'',//确认密码
 				//未读data
 				msgsno:{
 					data:{
@@ -323,25 +329,47 @@
 			
 		},
 		methods:{
-			//获取消息接口
-			getMsg(){
-				let tel=window.localStorage.getItem('tel')
-				let code=window.localStorage.getItem('code')
-				let email = window.localStorage.getItem('email')
-				this.code=code
+			// 获取用户详细信息接口
+			getallmsg(){
 				let userId=localStorage.getItem("userId")//获取userId
 				this.uid=userId
-				this.telnow=tel//当前手机号
-				if(email!=null||email!=""){
-					this.unemail=false
-					this.nowemail=email// 当前邮箱
-				}else{
-					this.unemail=true
-				}
+				this.$axios({
+					method:"get",
+					url:'GetAccount?accountId='+this.uid
+				})
+				.then(res=>{
+					this.uid=res.data.Data.id
+					this.telnow=res.data.Data.Phone//当前手机号
+					this.nowemail=res.data.Data.Email// 当前邮箱
+					console.log(this.nowemail)
+					if(res.data.Data.Avatar!=null){
+						this.touxiang=res.data.Data.Avatar//头像
+					}
+					if(res.data.Data.AppName!=null){
+						this.proval=res.data.Data.AppName//产品名称
+					}
+					if(this.nowemail==null){
+						this.unemail=true
+					}else{
+						this.unemail=false
+					}
+
+				})
+				.catch(error=>{
+					console.log(error)
+				})
+			},
+			//获取消息接口
+			getMsg(){
+				// let tel=window.localStorage.getItem('tel')
+				// let code=window.localStorage.getItem('code')
+				// let email = window.localStorage.getItem('email')
+				// this.code=code
 				
-				if(localStorage.getItem('touxiang')!=null){
-					this.touxiang=localStorage.getItem('touxiang')
-				}
+				
+				// if(localStorage.getItem('touxiang')!=null){
+				// 	this.touxiang=localStorage.getItem('touxiang')
+				// }
 				
 				this.$axios({
 					method:"get",
@@ -454,8 +482,8 @@
 	                method:'post',
 	                url:'/UptAvatar',
 	                data:{
-	                	accountId:1,
-	                	avatar:touX
+	                	accountId:this.uid,
+	                	avatar:this.touxiang
 	                }
 	            })
 	            .then(res=>{
@@ -479,7 +507,7 @@
 	                    that.touxiang=this.result
 	                    // 调用上传头像接口
 	                    that.changeTou(this.result)
-	                    localStorage.setItem("touxiang",this.result);//存储密码
+	                    // localStorage.setItem("touxiang",this.result);//存储密码
 	                }
 	                
 	                
@@ -496,9 +524,10 @@
 				this.tel=this.telval
 				
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
-				if(this.telval==undefined){
+				if(this.telval==undefined||this.telval==""){
 					this.wrongTel=true
 					this.wroinp=true
+					this.telFont="手机号不能为空"
 					return false;
 				}else if(!reg.test(this.telval)){
 					this.wrongTel=true
@@ -514,12 +543,13 @@
 				this.wroveri=false
 			},
 			blurVeri(verival){
-				this.veri=verival
+				// this.veri=verival
 				this.focveri=false
 				var reg=/^\d{6}$/;
-				if(this.verival==undefined){
+				if(this.verival==undefined||this.verival==""){
 					this.wrongVeri=true
 					this.wroveri=true
+					this.veriFont="验证码不能为空"
 					return false;
 				}else if(!reg.test(this.verival)){
 					this.wrongVeri=true
@@ -532,12 +562,21 @@
 					this.veriFont="验证码输入错误"
 				}
 			},
+			// 手机号修改
+			telInput(){
+				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
+				if(reg.test(this.telval)&&this.verival==this.veri){
+					this.ishas=true
+				}
+				
+			},
 			// 获取验证码
 			huoqu(){
 				var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
-				if(this.tel==undefined){
+				if(this.tel==undefined||this.tel==""){
 					this.wrongTel=true
 					this.wroinp=true
+					this.telFont="手机号不能为空"
 					return false;
 				}else if(!reg.test(this.tel)){
 					this.wrongTel=true
@@ -581,22 +620,30 @@
 			},
 	        // 修改手机号接口
 	        changetel(){
-	        	this.$axios({
-	        		method:'post',
-	        		url:'/UptPhone',
-	        		data:{
-	        			accountId:this.uid,//用户id
-	        			newPhone:this.tel
-	        		}
-	        	})
-	        	.then(res=>{
-	        		this.telnow=this.tel
-	        		this.telMask=true
-	        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:fixed; width:100%;')
-	        	})
-	        	.catch(error=>{
-	        		console.log(error)
-	        	})
+	        	var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;
+	        	if(reg.test(this.telval)&&this.verival==this.veri){
+	        		this.$axios({
+		        		method:'post',
+		        		url:'/UptPhone',
+		        		data:{
+		        			accountId:this.uid,//用户id
+		        			newPhone:this.telval
+		        		}
+		        	})
+		        	.then(res=>{
+		        		if(res.data.Code==0){
+		        			this.telMask=false
+		        			this.telnow=this.telval
+			        		
+			        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:fixed; width:100%;')
+		        		}
+		        		
+		        	})
+		        	.catch(error=>{
+		        		console.log(error)
+		        	})
+	        	}
+	        	
 	        },
 	        // 修改手机号
 	        corTel(){
@@ -624,9 +671,10 @@
 				this.focEmail=false
 				this.wrongEmail=false
 				var reg=/^[1-9]\d{5,11}@qq\.com$/;
-				if(this.emailval==undefined){
+				if(this.emailval==undefined||this.emailval==""){
 					this.wrongEmail=true
 					this.wroemail=true
+					this.emailFont="邮箱不能为空"
 					return false;
 				}else if(!reg.test(this.emailval)){
 					this.wrongEmail=true
@@ -635,30 +683,63 @@
 					return false;
 				}
 	        },
+	        // 绑定邮箱输入框
+	        emailInput(){
+	        	var reg=/^[1-9]\d{5,11}@qq\.com$/;
+	        	if(reg.test(this.emailval)){
+	        		this.isemail=true
+	        	}
+	        },
 	        // 绑定邮箱接口
 	        bindemail(){
+	        	var reg=/^[1-9]\d{5,11}@qq\.com$/;
+	        	
+	        	if(reg.test(this.emailval)){
+	        		this.$axios({
+		        		method:'post',
+		        		url:'/SendEmail',  
+		        		data:{
+		        			phone:this.telnow,
+		        			email:this.email
+		        		}
+		        	})
+		        	.then(res=>{
+		        		if(res.data.Code==0){
+		        			this.emailMask=false
+			        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:relative;')
+			        		alert("验证信息已发送您的邮箱")
+		        		}
+		        		
+		        		
+		        	})
+		        	.catch(error=>{
+		        		console.log(error)
+		        	})
+	        	}
+	        	
+	        },
+	        // 取消绑定邮箱
+	        cancelemail(){
+	        	
 	        	this.$axios({
 	        		method:'post',
-	        		url:'/SendEmail',  
+	        		url:'/CancleBind',
 	        		data:{
-	        			accountId:this.uid,
-	        			email:this.email
-	        		}
+		        		accountId:this.uid,
+		        		type:2
+		        	}
 	        	})
 	        	.then(res=>{
-	        		this.emailMask=false
-	        		document.getElementsByTagName('body')[0].setAttribute('style', 'position:relative;')
-	        		this.unemail=false
-	        		this.nowemail=this.email
+	        		if(res.data.Code==0){
+	        			this.unemail=true
+	        			window.localStorage.removeItem('email')
+	        			// this.nowemail=''
+	        		}
 	        	})
 	        	.catch(error=>{
 	        		console.log(error)
 	        	})
-	        },
-	        // 取消绑定邮箱
-	        cancelemail(){
-	        	this.unemail=true
-	        	this.nowemail=''
+	        	
 	        },
 	        // 绑定邮箱
 	        cliemail(){
@@ -681,28 +762,25 @@
 	        },
 	        // 账号设置的保存按钮
 	        setsave(){
-	        	if(this.product==''){
-	        		alert("产品名称不可以为空")
-	        	}else{
-	        		this.$axios({
-		        		method:'post',
-		        		url:'/ProductName',
-		        		data:{
-		        			accountId:this.uid,
-		        			productName:this.product,
-		        		}
-		        	})
-		        	.then(res=>{
-		        		let routerUrl=this.$router.resolve({
-									path:'/index'
-						})
-						window.open(routerUrl .href,'_blank')
-						window.close();
-		        	})
-		        	.catch(error=>{
-		        		console.log(error)
-		        	})
-	        	}
+	        	this.$axios({
+		        	method:'post',
+		        	url:'/ProductName',
+		        	data:{
+		        		accountId:this.uid,
+		        		productName:this.product,
+		        	}
+		        })
+		        .then(res=>{
+		        	let routerUrl=this.$router.resolve({
+						path:'/index'
+					})
+					window.open(routerUrl .href,'_blank')
+					window.close();
+		        })
+		        .catch(error=>{
+		        	console.log(error)
+		        })
+	        
 	        	
 	        },
 	        // 修改密码
@@ -714,14 +792,34 @@
 	        },
 	        blurold(oldval){
 	        	this.focold=false
-	        	this.wrold=true
-	        	if(oldval==""||oldval==undefined){
+	        
+	        	if(this.oldval==""||this.oldval==undefined){
 	        		this.wrongold=true
+	        		this.wrold=true
 	        		this.oldFont="旧密码不能为空"
-	        	}else if(oldval!=this.code){
-	        		this.wrongold=true
-	        		this.oldFont="旧密码错误"
 	        	}
+	        	
+	        	this.$axios({
+	        		method:'post',
+		        		url:'/VerifyOldPwd',
+		        		data:{
+		        			id:this.uid,
+							Password:this.oldval
+		        		}
+	        	})
+	        	.then(res=>{
+	        		if(res.data.Code==0){
+	        			this.wrold=false
+	        			this.iscom=true
+	        		}else{
+	        			this.wrold=true
+	        			this.wrongold=true
+	        			this.oldFont="旧密码错误"
+	        		}
+	        	})
+	        	.catch(error=>{
+	        		console.log(error)
+	        	})
 	        },
 	        // 新密码
 	        focusnew(){
@@ -731,16 +829,17 @@
 	        },
 	        blurnew(newval){
 	        	this.focnew=false
-	        	this.wronew=true
-	        	this.newV=newval
+	        	// this.wronew=true
+	        	this.newV=this.newval
 	        	var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/
-	        	if(newval==""||newval==undefined){
+	        	if(this.newval==""||this.newval==undefined){
+	        		this.wronew=true
 	        		this.wrongnew=true
 	        		this.newFont="密码不能为空"
 	        	}else if(!reg.test(this.newval)){
 					this.wrongnew=true
 					this.wronew=true
-					this.newFont="密码输入错误"
+					this.newFont="密码格式错误"
 				}
 	        },
 	        // 点击确认密码
@@ -751,42 +850,54 @@
 	        },
 	        blursure(sureval){
 	        	this.focsure=false
-	        	this.wrosure=true
-	        	
-	        	if(sureval==""||sureval==undefined){
+	        	// this.wrosure=false
+	        	// this.surecode=this.sureval
+	        	if(this.sureval==""||this.sureval==undefined){
+	        		this.wrosure=true
 	        		this.wrongsure=true
 	        		this.sureFont="确认密码不能为空"
-	        	}else if(this.newV!=sureval){
+	        	}else if(this.newV!=this.sureval){
+	        		this.wrosure=true
 					this.wrongsure=true
-					this.wronew=true
-					this.sureFont="确认密码和新密码保持一致"
-				}else{
-					this.wrongsure=false
+					this.sureFont="确认密码需和新密码保持一致"
 				}
 	        },
-
-
+	        codeInput(){
+	        	var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/;
+	        	
+	        	if(this.iscom==true&&reg.test(this.newval)&&this.newval!=""&&this.newval==this.sureval){
+		        		this.iscodebtn=true
+		        }
+	        	
+	        },
 	        // 点击修改密码的保存
 	        savecode(){
-	        	this.$axios({
-	        		method:'post',
-	        		url:'/PostUpdatePassword',
-	        		data:{
-	        			passwordOld:this.code,
-	        			passwordNew:this.newV,
-	        			accountId:this.uid
-	        		}
-	        	})
-	        	.then(res=>{
-	        		console.log(res.data)
-	        	})
-	        	.catch(error=>{
-	        		console.log(error)
-	        	})
+	        	var reg=/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,15}$/;
+	        	if(this.iscom==true&&reg.test(this.newval)&&this.newval!=""&&this.newval==this.sureval){
+	        		this.$axios({
+		        		method:'post',
+		        		url:'/PostUpdatePassword',
+		        		data:{
+		        			passwordOld:this.oldval,
+		        			passwordNew:this.newval,
+		        			accountId:this.uid
+		        		}
+		        	})
+		        	.then(res=>{
+		        		if(res.data.Code==0){
+		        			alert("密码修改成功")
+		        		}
+		        	})
+		        	.catch(error=>{
+		        		console.log(error)
+		        	})
+	        	}
+	        	
 	        }
 
 		},
 		created(){
+			this.getallmsg()
 			this.getMsg()
 		}	
 	}
@@ -912,13 +1023,16 @@
 		height: 36px;
 		line-height: 36px;
 		text-align: center;
-		background-color: #009bef;
+		background-color: #dfdfdf;
 		border-radius: 4px;
 		font-family: SourceHanSansCN-Regular;
 		font-size: 15px;
 		color: #ffffff;
 		margin-top: 50px;
 		margin-left: 98px;
+	}
+	.message .setDiv>div>div.setbtn{
+		background-color: #009bef;
 	}
 	.message .setDiv>div>div.preserve:hover,
 	.mask .aDiv .tit img:hover,
@@ -1161,7 +1275,7 @@
 		height: 36px;
 		line-height: 36px;
 		text-align: center;
-		background-color: #009bef;
+		background-color: #dfdfdf;
 		border-radius: 4px;
 		font-family: SourceHanSansCN-Regular;
 		font-size: 15px;
@@ -1219,5 +1333,9 @@
 	font-size: 13px;
 	color: #555555;
 	display: block!important;
+}
+
+.nokong{
+	background-color: #009bef!important;
 }
 </style>
