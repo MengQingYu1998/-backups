@@ -349,7 +349,7 @@ export default {
 <style scoped>
 .vs_div span {
   width: 130px;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -382,7 +382,7 @@ tbody tr td:first-child {
   width: 50%;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -399,7 +399,7 @@ tbody tr > td:nth-child(1) {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -407,7 +407,7 @@ thead {
   color: #222222;
 }
 .table_font {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -453,7 +453,7 @@ table {
   width: 86px;
 }
 .option {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   display: inline-block;
   font-size: 13px;
   font-weight: normal;
@@ -474,7 +474,7 @@ table {
   margin-bottom: 22px;
 }
 .right_nav {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -490,14 +490,14 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -513,7 +513,7 @@ table {
 }
 .it_is_over {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -538,7 +538,7 @@ table {
 
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

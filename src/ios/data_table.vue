@@ -52,6 +52,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  prefix-icon="fasle"
                   :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
@@ -65,6 +66,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  prefix-icon="fasle"
                   :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
@@ -148,6 +150,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  prefix-icon="fasle"
                   :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
@@ -161,6 +164,7 @@
                   type="date"
                   placeholder="选择日期"
                   clear-icon
+                  prefix-icon="fasle"
                   :picker-options="pickerOptions"
                 ></el-date-picker>
               </div>
@@ -352,6 +356,7 @@
                               end-placeholder="结束日期"
                               :picker-options="middle_pickerOptions"
                               clear-icon
+                              prefix-icon="fasle"
                             ></el-date-picker>
                           </div>
                         </div>
@@ -1594,21 +1599,20 @@ export default {
 }
 .search_confirm {
   width: 48px !important;
-  height: 27px;
+  height: 26px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 27px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
 }
 
 .scroll tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1634,7 +1638,7 @@ export default {
 .scroll thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1686,17 +1690,17 @@ export default {
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;
-  border: solid 1px #ffffff !important;
+  border: solid 1px #009bef !important;
 }
 .radio_one {
   text-align: center;
-  line-height: 28px;
-  font-family: SourceHanSansCN-Normal;
+  line-height: 26px;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  width: 48px !important;
-  height: 26px;
+  padding: 0 12px;
+  height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
@@ -1709,7 +1713,6 @@ export default {
   width: 16.667%;
 }
 .paging {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1725,7 +1728,7 @@ table img {
 }
 .min_max > div:nth-child(1),
 .min_max > div:nth-child(3) div {
-  width: 75px;
+  width: 59px;
 }
 .min_max > div:nth-child(2) {
   color: #dfdfdf;
@@ -1738,7 +1741,7 @@ table img {
   height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1754,7 +1757,7 @@ table img {
 .option_for_min_max {
   display: flex;
   align-items: center;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1785,7 +1788,7 @@ table img {
   width: 984px;
   height: 40px;
   background-color: #f5fcff;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1797,7 +1800,7 @@ table img {
 }
 
 .section_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   line-height: 16px;
   font-weight: normal;
@@ -1816,7 +1819,7 @@ table img {
   height: 24px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -1836,7 +1839,7 @@ table img {
   height: 24px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -1851,7 +1854,7 @@ table img {
   position: relative;
 }
 .right_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -1868,7 +1871,7 @@ table img {
   text-align: center;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1887,7 +1890,6 @@ tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1898,7 +1900,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1906,7 +1908,6 @@ thead {
   color: #222222;
 }
 .table_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1928,6 +1929,8 @@ table {
 }
 .bottom_image img {
   margin-left: 10px;
+  width: 17px;
+  height: 15px;
 }
 .bottom_image:hover {
   z-index: 999999999;
@@ -1943,7 +1946,6 @@ table {
   margin-left: 20px;
 }
 .bottom_image_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1976,7 +1978,7 @@ table {
 }
 
 .table_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -2012,7 +2014,7 @@ table {
   margin-left: 30px;
 }
 .classify {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2030,7 +2032,7 @@ table {
   margin-left: 13px !important;
 }
 .option {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   display: inline-block;
   font-size: 13px;
   font-weight: normal;
@@ -2051,7 +2053,7 @@ table {
   margin-bottom: 22px;
 }
 .right_nav {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -2067,14 +2069,12 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2103,7 +2103,6 @@ table {
     margin-top: 119px;
   }
   > span {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -2119,7 +2118,7 @@ table {
       height: 32px;
       border-radius: 4px;
       border: solid 1px #009bef;
-      font-family: SourceHanSansCN-Regular;
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -2134,7 +2133,7 @@ table {
       height: 32px;
       background-color: #009bef;
       border-radius: 4px;
-      font-family: SourceHanSansCN-Regular;
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -2148,7 +2147,7 @@ table {
 
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

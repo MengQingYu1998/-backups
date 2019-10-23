@@ -33,7 +33,7 @@
               v-model="dateValue"
               type="date"
               placeholder="选择日期"
-              clear-icon
+                clear-icon prefix-icon="fasle" 
             ></el-date-picker>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default {
   width: 100%;
   margin-top: 239px;
   div:first-child {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 22px;
     line-height: 22px;
     font-weight: normal;
@@ -157,7 +157,7 @@ export default {
     margin-bottom: 13px;
   }
   div:last-child {
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 14px;
     left: 14px;
     font-weight: normal;
@@ -175,7 +175,7 @@ export default {
     margin-top: 119px;
   }
   > span {
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -191,7 +191,7 @@ export default {
       height: 32px;
       border-radius: 4px;
       border: solid 1px #009bef;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -206,7 +206,7 @@ export default {
       height: 32px;
       background-color: #009bef;
       border-radius: 4px;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -238,7 +238,7 @@ export default {
     }
   }
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -252,7 +252,7 @@ export default {
     background-color: #009bef;
     border-radius: 4px;
     border: solid 1px #009bef;
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -263,7 +263,7 @@ export default {
   }
 }
 .blue_font {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -279,7 +279,7 @@ export default {
   }
 
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -290,7 +290,7 @@ export default {
   }
 }
 .paging {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -305,7 +305,7 @@ export default {
 .nav_tips {
   div {
     width: 72px;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -325,7 +325,7 @@ export default {
   margin-top: 23px;
   table-layout: fixed;
   tr {
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -339,7 +339,7 @@ export default {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -373,7 +373,7 @@ export default {
   margin-right: 56px;
   height: 700px;
   span {
-    font-family: SourceHanSansCN-Bold;
+    font-weight: 600 !important;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;

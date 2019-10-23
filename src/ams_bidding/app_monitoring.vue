@@ -183,7 +183,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .my_popover {
-  font-family: SourceHanSansCN-Normal;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -198,21 +197,21 @@ export default {
   }
   .search_confirm {
     width: 48px !important;
-    height: 27px;
+    height: 26px;
     background-color: #009bef;
     border-radius: 4px;
-    font-family: SourceHanSansCN-Normal;
+
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
-    line-height: 27px;
+    line-height: 26px;
     letter-spacing: 0px;
     color: #ffffff;
     text-align: center;
     margin-left: 15px;
   }
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -233,7 +232,7 @@ table {
     align-items: center;
     .title {
       width: 122px;
-      font-family: SourceHanSansCN-Regular;
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -245,7 +244,7 @@ table {
     }
     .sub_title {
       width: 178px;
-      font-family: SourceHanSansCN-Normal;
+
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -265,7 +264,6 @@ table {
   }
 
   .blue_font {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -274,7 +272,6 @@ table {
     color: #009bef;
   }
   tbody {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -282,7 +279,6 @@ table {
     color: #222222;
     vertical-align: middle;
     tr {
-      font-family: SourceHanSansCN-Regular;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -321,7 +317,6 @@ table {
       }
       td:nth-child(4) {
         div:nth-child(1) {
-          font-family: SourceHanSansCN-Normal;
           font-size: 14px;
           font-weight: normal;
           font-stretch: normal;
@@ -334,7 +329,7 @@ table {
     tr:nth-child(1) td:nth-child(1),
     tr:nth-child(2) td:nth-child(1),
     tr:nth-child(3) td:nth-child(1) {
-      font-family: SourceHanSansCN-Bold;
+      font-weight: 600 !important;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -345,7 +340,7 @@ table {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -366,7 +361,7 @@ table {
     width: 8px;
   }
   > span:first-child {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -384,7 +379,7 @@ table {
   .radio_one {
     text-align: center;
     line-height: 26px;
-    font-family: SourceHanSansCN-Normal;
+
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -404,7 +399,7 @@ table {
   width: 142px;
   flex-wrap: wrap;
   justify-content: space-between;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -423,7 +418,7 @@ table {
   display: flex;
   align-items: center;
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -446,7 +441,6 @@ table {
 .nav_tips {
   padding: 27px 0 23px 0;
   span:nth-child(1) {
-    font-family: SourceHanSansCN-Regular;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -455,7 +449,6 @@ table {
     color: #009bef;
   }
   span:nth-child(2) {
-    font-family: SourceHanSansCN-Regular;
     font-size: 13px;
     font-weight: normal;
     letter-spacing: 0px;

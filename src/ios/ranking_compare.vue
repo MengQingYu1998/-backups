@@ -76,7 +76,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                clear-icon
+                  clear-icon prefix-icon="fasle"
                 :picker-options="middle_top_pickerOptions"
               ></el-date-picker>
             </div>
@@ -843,7 +843,7 @@ export default {
   z-index: 100;
 }
 .right_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -861,7 +861,7 @@ export default {
   text-align: center;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -881,7 +881,6 @@ td {
   width: 200px;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -897,7 +896,7 @@ thead tr span {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -921,6 +920,8 @@ table {
 }
 .bottom_image img {
   margin-left: 10px;
+  width: 17px;
+  height: 15px;
 }
 .bottom_image {
   position: absolute;
@@ -932,7 +933,6 @@ table {
   margin-left: 20px;
 }
 .bottom_image_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -963,7 +963,7 @@ table {
   margin-top: 50px;
 }
 .table_sub_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -974,7 +974,7 @@ table {
   margin-top: 20px;
 }
 .table_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -1003,7 +1003,7 @@ table {
   width: 89px;
 }
 .classify {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1021,7 +1021,7 @@ table {
   width: 86px;
 }
 .option {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   display: inline-block;
   font-size: 13px;
   font-weight: normal;
@@ -1042,7 +1042,7 @@ table {
   margin-bottom: 22px;
 }
 .right_nav {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1058,14 +1058,12 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

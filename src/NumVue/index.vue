@@ -86,8 +86,9 @@
 	margin-top: 80px;
 }
 .content>.des p{
-	font-family: SourceHanSansCN-Medium;
-	font-size: 26px;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
+	font-size: 24px;
 	color: #222222;
 }
 .content>.des p.moreNew{
@@ -96,7 +97,7 @@
 	line-height: 36px;
 	border-radius: 4px;
 	border: solid 1px #009bef;
-	font-family: SourceHanSansCN-Regular;
+	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 16px;
 	color: #009bef;
 	margin:0 auto;
@@ -125,7 +126,8 @@
 }
 .content>.des>div p.titindex{
 	width: 323px;
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	font-size: 16px;
 	color: #222222;
 	overflow: hidden;    
@@ -138,7 +140,7 @@
 }
 .content>.des>div p.des{
 	width: 323px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #888888;
 	overflow: hidden;

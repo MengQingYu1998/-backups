@@ -207,7 +207,7 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
-                  clear-icon
+                    clear-icon prefix-icon="fasle"
                   end-placeholder="结束日期"
                   :picker-options="middle_top_pickerOptions"
                 ></el-date-picker>
@@ -249,7 +249,7 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
-                  clear-icon
+                    clear-icon prefix-icon="fasle"
                   end-placeholder="结束日期"
                   :picker-options="middle_bottom_pickerOptions"
                 ></el-date-picker>
@@ -317,7 +317,7 @@
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
-                  clear-icon
+                    clear-icon prefix-icon="fasle"
                   end-placeholder="结束日期"
                   :picker-options="pickerOptions2"
                 ></el-date-picker>
@@ -1543,7 +1543,7 @@ export default {
 .font_block {
   text-align: center;
   line-height: 24px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1560,7 +1560,6 @@ export default {
 }
 
 .bottom_table_td02 .table_title span {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1577,14 +1576,12 @@ export default {
 }
 
 table .table_author span {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #009bef;
 }
 table .table_author {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0px;
@@ -1597,7 +1594,6 @@ table .table_author {
   text-overflow: ellipsis;
 }
 table .table_description {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   letter-spacing: 0.3px !important;
   font-weight: normal;
@@ -1618,7 +1614,7 @@ table .table_description {
   min-height: 0px !important;
 }
 table .table_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1636,7 +1632,6 @@ tbody tr {
 }
 
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1648,7 +1643,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1656,7 +1651,6 @@ thead {
   color: #222222;
 }
 .table_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1678,7 +1672,7 @@ table {
   width: 984px;
   height: 40px;
   background-color: #f5fcff;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1705,7 +1699,7 @@ table {
   align-items: center;
 }
 .btn_item_03 > div {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1719,7 +1713,7 @@ table {
 .btn_item_02 {
   display: flex;
   align-items: center;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1734,7 +1728,6 @@ table {
 .btn_item_01 > div:nth-child(4),
 .btn_item_01 > div:nth-child(5),
 .btn_item_01 > div:nth-child(6) {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1761,7 +1754,7 @@ table {
   align-items: center;
 }
 .btn_item_01 > div {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1791,7 +1784,7 @@ table {
 .start_left_bottom_child_right > section {
   display: flex;
   align-items: center;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1806,7 +1799,7 @@ table {
   margin-top: 5px;
 }
 .start_left_bottom_child_left > div:first-child {
-  font-family: SourceHanSansCN-Bold;
+  font-weight: 600 !important;
   font-size: 18px;
   font-weight: normal;
   font-stretch: normal;
@@ -1816,7 +1809,6 @@ table {
   margin-top: 78px;
 }
 .start_left_bottom_child_left div:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1832,7 +1824,7 @@ table {
 }
 .start .start_right_title,
 .start .start_left_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -1854,7 +1846,7 @@ table {
   align-items: center;
 }
 .section_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   line-height: 16px;
   font-weight: normal;
@@ -1884,7 +1876,7 @@ table {
 }
 .it_is_over {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1906,7 +1898,7 @@ table {
 
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

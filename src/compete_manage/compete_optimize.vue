@@ -281,7 +281,7 @@ export default {
     text-align: center;
     tbody {
       tr {
-        font-family: SourceHanSansCN-Bold;
+        font-weight: 600 !important;
         font-size: 18px;
         font-weight: normal;
         font-stretch: normal;
@@ -294,7 +294,7 @@ export default {
       }
       tr:nth-child(2) {
         height: 50px;
-        font-family: SourceHanSansCN-Normal;
+
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -314,7 +314,7 @@ export default {
     thead {
       width: 100%;
       background-color: #f7f7f7;
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -333,7 +333,7 @@ export default {
 
   > div {
     width: 100%;
-    font-family: SourceHanSansCN-Regular;
+
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -348,7 +348,6 @@ export default {
       margin-right: 10px;
     }
     span {
-      font-family: SourceHanSansCN-Normal;
       font-size: 14px;
       font-weight: normal;
       letter-spacing: 0px;
@@ -378,7 +377,6 @@ export default {
     }
   }
   .blue_font {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -400,7 +398,6 @@ export default {
       width: 100px;
     }
     tr {
-      font-family: SourceHanSansCN-Regular;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -414,7 +411,7 @@ export default {
     thead {
       width: 100%;
       background-color: #f7f7f7;
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -443,7 +440,6 @@ export default {
     text-align: center;
 
     tr {
-      font-family: SourceHanSansCN-Regular;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -464,7 +460,7 @@ export default {
       }
       td {
         height: 60px !important;
-        font-family: SourceHanSansCN-Normal;
+
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -478,7 +474,7 @@ export default {
     thead {
       width: 100%;
       background-color: #f7f7f7;
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -516,7 +512,7 @@ export default {
     .app_name {
       text-align: center;
       width: 116px;
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       line-height: 13px;
       font-size: 13px;
       font-weight: normal;
@@ -530,7 +526,7 @@ export default {
     .app_description {
       width: 116px;
       text-align: center;
-      font-family: SourceHanSansCN-Normal;
+
       font-size: 13px;
       line-height: 13px;
       font-weight: normal;
@@ -541,7 +537,7 @@ export default {
       text-overflow: ellipsis;
     }
     .add_compete {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       text-align: center;
       font-size: 13px;
       font-weight: normal;
@@ -555,7 +551,7 @@ export default {
 .nav_tips {
   div {
     width: 156px;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -570,7 +566,7 @@ export default {
   margin-bottom: 21px;
 }
 .title_tips {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -592,7 +588,7 @@ export default {
     margin-right: 56px;
     height: 700px;
     span {
-      font-family: SourceHanSansCN-Bold;
+      font-weight: 600 !important;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;

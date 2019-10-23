@@ -216,7 +216,6 @@ export default {
   padding: 0 9px;
 }
 .app_field div:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -226,7 +225,6 @@ export default {
   /* text-align: center; */
 }
 .app_field div:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   text-align: center;
   font-weight: normal;
@@ -237,7 +235,6 @@ export default {
 }
 
 .app_description div:first-child {
-  font-family: SourceHanSansCN-Medium;
   font-size: 24px;
   font-weight: normal;
   font-stretch: normal;
@@ -253,7 +250,6 @@ export default {
   text-overflow: ellipsis;
 }
 .app_description div:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -281,14 +277,12 @@ export default {
 }
 
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

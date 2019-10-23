@@ -161,7 +161,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .paging {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -177,7 +177,7 @@ export default {
   background-color: #009bef;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -189,7 +189,7 @@ export default {
 }
 .add_app_gray {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -205,7 +205,7 @@ export default {
 .nav_tips {
   div {
     width: 58px;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -228,7 +228,7 @@ export default {
     align-items: center;
     .title {
       width: 122px;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -240,7 +240,7 @@ export default {
     }
     .sub_title {
       width: 178px;
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -259,7 +259,7 @@ export default {
     }
   }
   tr {
-    font-family: SourceHanSansCN-Regular;
+    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -291,7 +291,7 @@ export default {
     td:nth-child(4) {
       width: 300px;
       > div:nth-child(1) {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -302,7 +302,7 @@ export default {
     }
     td:nth-child(5) {
       width: 300px;
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -314,7 +314,7 @@ export default {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -327,7 +327,7 @@ export default {
   }
 }
 .title_tips {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -342,7 +342,7 @@ export default {
   width: 78px;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -363,7 +363,7 @@ export default {
     align-items: center;
     .title {
       width: 122px;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -375,7 +375,7 @@ export default {
     }
     .sub_title {
       width: 178px;
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -395,7 +395,7 @@ export default {
   }
 
   tbody {
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -403,7 +403,7 @@ export default {
     color: #222222;
     vertical-align: middle;
     tr {
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -436,7 +436,7 @@ export default {
       td:nth-child(4) {
         width: 155px;
         > div:nth-child(1) {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 14px;
           font-weight: normal;
           font-stretch: normal;
@@ -459,7 +459,7 @@ export default {
           height: 18px;
         }
         > div > div {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 13px;
           font-weight: normal;
           font-stretch: normal;
@@ -484,7 +484,7 @@ export default {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -510,7 +510,7 @@ export default {
   display: flex;
   align-items: center;
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -539,7 +539,7 @@ export default {
   margin-right: 56px;
   height: 700px;
   span {
-    font-family: SourceHanSansCN-Bold;
+    font-weight: 600 !important;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;

@@ -33,7 +33,7 @@
 				        v-model="dateV"
 				        type="date"
 				        placeholder="选择日期"
-								clear-icon
+								  clear-icon prefix-icon="fasle"
 				    ></el-date-picker>
 				</div>
 			</div>
@@ -548,6 +548,7 @@
 .Leibox >div .jiao{
 	width: 23px;
 	height: 12px;
+	margin-top: 4px;
 }
 .Leibox >div{
 	display: inline-block;
@@ -576,7 +577,7 @@
 .Leibox >div >div span{
 	margin-left: 15px;
     width: 65px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	line-height: 30px;
@@ -595,11 +596,13 @@
   background-image: url('../assets/NumImg/tit.png');
   background-size: 100% 86px;
   background-repeat: no-repeat;
-  font-family: SourceHanSansCN-Medium;
+  /*font-family: SourceHanSansCN-Medium;*/
+  font-weight: 600;
   font-size: 22px;
   color: #ffffff;
   text-align: center;
   line-height: 86px;
+  letter-spacing: 1px;
 }
 .down{
   width: 8px;
@@ -627,7 +630,7 @@
 	text-align: center;
 	border-radius: 4px;
 	border: solid 1px #dfdfdf;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	display: inline-block;
@@ -650,7 +653,8 @@
 	border: 1px solid #38aded!important;
 }
 .content .lei>div p:first-child{
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	color: #222222;
 	border:none;
 	padding: 0;
@@ -666,7 +670,7 @@
 .dataTable{
 	width: 100%;
 	border: solid 1px #f2f2f2;
-	margin-top: 64px;
+	margin-top: 25px;
 	margin-bottom: 55px;
 	border-collapse:collapse;
 	display: flex;
@@ -692,7 +696,8 @@
 	background-color: #f7f7f7;
 }
 .dataTable .thead p{
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	font-size: 13px;
 	color: #222222;
 }
@@ -704,7 +709,7 @@
 	width:100%;
 	height: 100%;
 	line-height: 80px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #444444;
 	text-align: center;
@@ -720,7 +725,8 @@
 	background-color: #e2f5ff;
 }
 .trend>p{
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	font-size: 14px;
 	line-height: 30px;
 	color: #009bef;
@@ -733,7 +739,7 @@
 	margin-top: -7px;
 }
 .trend>div p span{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	line-height: 30px;
 	color: #888888;

@@ -28,7 +28,7 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-            clear-icon
+              clear-icon prefix-icon="fasle"
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -524,6 +524,10 @@ export default {
 }
 </script>
 <style scoped>
+.float_right {
+  width: 17px;
+  height: 15px;
+}
 .position_relative {
   position: relative;
 }
@@ -533,14 +537,14 @@ td {
 }
 .search_confirm {
   width: 48px !important;
-  height: 27px;
+  height: 26px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 27px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -557,7 +561,7 @@ tbody div {
   margin-left: 29px;
 }
 .btn_item_03 > div {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -574,7 +578,7 @@ tbody div {
   box-sizing: border-box;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -592,7 +596,6 @@ thead tr span {
   margin-left: -26px;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -604,7 +607,7 @@ tbody {
 }
 thead {
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -626,7 +629,7 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 9px;
+  top: 7px;
   right: 39px;
   z-index: 9999999999;
 }
@@ -639,7 +642,6 @@ table {
   margin-left: 20px;
 }
 .bottom_image_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -668,7 +670,7 @@ table {
 }
 
 .table_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -683,27 +685,34 @@ table {
 }
 .keywords > div:first-child {
   margin-right: 15px;
+  font-weight: 600 !important;
 }
 .keywords {
   display: flex;
   align-items: center;
-  font-family: SourceHanSansCN-Medium;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
 }
+
 .can_del_div div {
   display: inline-block;
 }
+.can_del_div img {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+}
 .can_del_div {
   padding: 0 6px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #444444;
   height: 26px;
@@ -724,6 +733,7 @@ option:first-child {
   margin: 0;
 }
 .options .option:first-child {
+  font-weight: 600 !important;
   margin-left: 0 !important;
 }
 .margin_top_font {
@@ -731,7 +741,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -748,13 +757,12 @@ option:first-child {
   background-color: #efefef;
 }
 .trend_many_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;

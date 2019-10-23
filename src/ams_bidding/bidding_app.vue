@@ -19,7 +19,7 @@
           v-model="dateValue"
           type="date"
           placeholder="选择日期"
-          clear-icon
+            clear-icon prefix-icon="fasle" 
         ></el-date-picker>
       </div>
     </div>
@@ -130,7 +130,7 @@ export default {
 .tab_nav {
   div {
     width: 96px;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
@@ -153,7 +153,6 @@ export default {
     vertical-align: -2px;
   }
   tbody {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -166,7 +165,7 @@ export default {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -189,7 +188,7 @@ export default {
     align-items: center;
     .title {
       width: 122px;
-      font-family: SourceHanSansCN-Regular;
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -201,7 +200,7 @@ export default {
     }
     .sub_title {
       width: 178px;
-      font-family: SourceHanSansCN-Normal;
+
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -221,7 +220,6 @@ export default {
   }
 
   .blue_font {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -230,7 +228,6 @@ export default {
     color: #009bef;
   }
   tbody {
-    font-family: SourceHanSansCN-Normal;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -238,7 +235,6 @@ export default {
     color: #222222;
     vertical-align: middle;
     tr {
-      font-family: SourceHanSansCN-Regular;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -258,7 +254,6 @@ export default {
       td:nth-child(4),
       td:nth-child(3) {
         div:nth-child(1) {
-          font-family: SourceHanSansCN-Normal;
           font-size: 14px;
           font-weight: normal;
           font-stretch: normal;
@@ -271,7 +266,7 @@ export default {
     tr:nth-child(1) td:nth-child(1),
     tr:nth-child(2) td:nth-child(1),
     tr:nth-child(3) td:nth-child(1) {
-      font-family: SourceHanSansCN-Bold;
+      font-weight: 600 !important;
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -282,7 +277,7 @@ export default {
   thead {
     width: 100%;
     background-color: #f7f7f7;
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -305,7 +300,7 @@ export default {
     width: 8px;
   }
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -319,7 +314,7 @@ export default {
   display: flex;
   align-items: center;
   > span {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -340,12 +335,12 @@ export default {
   }
 }
 .nav_tips {
-  font-family: SourceHanSansCN-Medium;
-  font-size: 18px;
+  font-weight: 600 !important;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 60px;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-bottom: 1px solid #efefef;
   margin-bottom: 22px;

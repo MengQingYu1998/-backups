@@ -21,7 +21,7 @@
       </div>
       <div class="options_03 option">
         <div class="margin_top_font">日期</div>
-        <div class="date" @click="change_prop">
+        <div class="date">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
             :picker-options="pickerOptions2"
@@ -29,6 +29,7 @@
             type="date"
             placeholder="选择日期"
             clear-icon
+            prefix-icon="fasle"
           ></el-date-picker>
         </div>
         <div
@@ -169,7 +170,12 @@ export default {
     this.endDate = formatDate(this.dateValue, 'yyyy-MM-dd')
     this.get_data()
     this.$watch('dateValue', function(newValue, oldValue) {
-      console.log('当前日期发生变化，重新请求数据...')
+      // console.log('当前日期发生变化，重新请求数据...')
+      if (newValue != '') {
+        this.change_bg_week = false
+        this.change_bg_day = false
+      }
+
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -200,7 +206,7 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          console.log(555)
+          // console.log(555)
           // alert(this.dateValue)
 
           let url
@@ -242,17 +248,21 @@ export default {
               '&endDate=' +
               startDate
           }
-          console.log(url)
+          // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              // this.no_data_img=true
-              if (response.data.Data == null) {
+              this.no_data_img = false
+
+              if (
+                response.data.Data == null ||
+                response.data.Data.length == 0
+              ) {
                 this.no_data_img = true
               }
               this.response_data = response.data.Data
-              console.log(this.response_data)
+              // console.log(this.response_data)
               // console.log(555555555555555555555555)
             })
             .catch(error => {
@@ -289,14 +299,14 @@ export default {
             encodeURIComponent(word) +
             '&time=' +
             time
-          console.log(url)
+          // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.response_datafor_popover = response.data
-              console.log(this.response_datafor_popover)
+              // console.log(this.response_datafor_popover)
             })
             .catch(error => {
               console.log(error)
@@ -306,11 +316,7 @@ export default {
           console.log(error)
         })
     },
-    // 点击日历
-    change_prop() {
-      this.change_bg_week = false
-      this.change_bg_day = false
-    },
+
     //点击昨日按钮
     change_day_dateValue() {
       this.dateValue = ''
@@ -329,7 +335,7 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
-      console.log(this.now_country)
+      // console.log(this.now_country)
     },
     go_to_page01_son() {
       if (this.search_input.trim() == '') {
@@ -380,7 +386,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -393,14 +399,14 @@ export default {
 }
 .search_confirm {
   width: 48px !important;
-  height: 27px;
+  height: 26px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 27px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -442,7 +448,7 @@ export default {
 .table_hover_app_group img {
   width: 40px;
   height: 40px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -472,7 +478,6 @@ export default {
   align-items: center;
 }
 .table_hover {
-  font-family: SourceHanSansCN-Regular;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -499,7 +504,6 @@ tbody tr {
 }
 
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -510,7 +514,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -527,7 +531,7 @@ table {
 .font_block {
   text-align: center;
   line-height: 27px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -550,11 +554,9 @@ table {
 .options_03 .date {
   margin-right: 10px;
 }
-.options_03 .date div {
-  width: 114px !important;
-}
 
 .option > div:first-child {
+  font-weight: 600 !important;
   margin-right: 15px;
 }
 .option {
@@ -569,7 +571,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -585,13 +586,12 @@ option:first-child {
   background-color: #efefef;
 }
 .hot_search_title {
-  font-family: SourceHanSansCN-Medium;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
+  font-weight: 600;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;

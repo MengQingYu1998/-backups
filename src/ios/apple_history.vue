@@ -134,7 +134,7 @@ export default {
 tbody tr {
   height: 60px;
   border-bottom: 1px solid #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -146,7 +146,7 @@ thead tr {
   height: 40px;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -156,7 +156,7 @@ tbody {
 thead {
   width: 1200px;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -180,7 +180,7 @@ table {
   margin-bottom: 22px;
 }
 .right_nav {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -196,14 +196,14 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -231,7 +231,7 @@ table {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

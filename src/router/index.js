@@ -8,6 +8,12 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      path: '/recommend',
+      name: 'recommend',
+      component: () => import('../NumTwo/recommend')
+    },
+    // 二期以上
+    {
       meta: {
         title: '首页'
       },

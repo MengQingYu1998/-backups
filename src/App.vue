@@ -109,7 +109,6 @@ export default {
   margin-top: 12px;
 }
 .code_content {
-  font-family: SourceHanSansCN-Normal;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -123,7 +122,6 @@ export default {
   margin-bottom: 6px;
 }
 .message_content {
-  font-family: SourceHanSansCN-Normal;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -166,7 +164,13 @@ export default {
   cursor: pointer;
 }
 /* 放回顶部 */
-
+/*日期间距*/
+#Application .el-date-editor--date,
+#bangdan .el-input,
+#monitor .el-date-editor--date,
+.recommend .el-date-editor--date {
+  margin-left: 10px;
+}
 /*message*/
 #msg .bangdan .el-button:focus,
 #msg .el-button:hover,
@@ -203,14 +207,13 @@ export default {
   background-size: 100%;
 }
 .el-message .el-message__content {
-  font-family: SourceHanSansCN-Regular;
   font-size: 15px;
   color: #444444;
   margin-left: 17px;
 }
 .bangdan .el-button {
   padding: 7px 9px;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 12px;
   color: #888888;
   border: solid 1px #dfdfdf;
@@ -224,7 +227,7 @@ export default {
 /*榜单快照悬浮框*/
 #bangdan .el-popover {
   min-width: 128px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   color: #444444;
   line-height: 1.8;
@@ -316,6 +319,9 @@ table tbody tr:hover {
 .el-input__inner {
   padding-right: 4px !important;
 }
+.el-input--suffix .el-input__inner {
+  padding-left: 10px;
+}
 /*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
   box-sizing: border-box;
@@ -347,11 +353,12 @@ table tbody tr:hover {
 .el-date-editor--timerange.el-input,
 .el-date-editor--timerange.el-input__inner {
   width: 250px !important;
+  padding-left: 4px !important;
 }
 /* 修改element的单选框 */
 .el-radio-button {
   margin-left: 10px;
-  font-family: SourceHanSansCN-Normal !important;
+
   outline: none !important;
 }
 .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
@@ -361,13 +368,11 @@ table tbody tr:hover {
   border: solid 1px #009bef !important;
   box-shadow: -1px 0 0 0 #009bef;
   background-color: #009bef;
-  font-family: SourceHanSansCN-Normal !important;
 }
 .el-radio-button__inner {
   /* border-left: none; */
-  font-family: SourceHanSansCN-Normal !important;
 
-  line-height: 25px !important;
+  line-height: 23px !important;
   font-size: 13px !important;
   padding: 0 12px !important;
   padding-top: 1px !important;
@@ -382,10 +387,9 @@ table tbody tr:hover {
   min-height: 90vh;
 }
 table thead tr th {
-  font-family: SourceHanSansCN-Medium !important;
   font-size: 13px;
   color: #222222;
-  font-weight: normal;
+  font-weight: 600;
 }
 
 /* 世界地图的样式 */
@@ -415,7 +419,8 @@ table thead tr th {
   color: #888888;
 }
 #result .el-tabs__item.is-active {
-  color: #009bef;
+  color: #222;
+  font-weight: 600;
 }
 /* 应用信息的视频插件 */
 
@@ -453,7 +458,7 @@ table thead tr th {
 }
 #version_message .el-timeline-item__timestamp.is-top {
   margin-left: -130px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -502,8 +507,8 @@ table thead tr th {
   line-height: 36px !important;
 }
 .el-input__inner {
-  height: 28px !important;
-  line-height: 28px !important;
+  height: 26px !important;
+  line-height: 26px !important;
 }
 .el-select {
   width: 86px !important;
@@ -512,7 +517,7 @@ table thead tr th {
   display: none;
 }
 .el-icon-date {
-  line-height: 28px !important;
+  line-height: 26px !important;
 }
 .el-range-editor.el-input__inner {
   padding: 0 10px;
@@ -541,7 +546,7 @@ table thead tr th {
 }
 /* 单选时间的长度 */
 .el-date-editor--date {
-  width: 114px !important;
+  width: 94px !important;
 }
 /* Aso关键词 解决时间下拉框覆盖单选框 */
 .el-picker-panel {
@@ -553,7 +558,6 @@ table thead tr th {
   height: 100%;
 }
 .table_no_data {
-  font-family: SourceHanSansCN-Normal;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
@@ -575,7 +579,7 @@ table thead tr th {
 .el-tooltip__popper.is-light {
   /* border: 1px solid #cccccc !important; */
   border: none !important;
-  font-family: SourceHanSansCN-Normal !important;
+
   color: #666;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18);
   margin-top: 10px;
@@ -627,7 +631,7 @@ table thead tr th {
   min-width: 30px;
   border: solid 1px #dfdfdf;
   border-radius: 4.7px;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -635,6 +639,16 @@ table thead tr th {
   letter-spacing: 0px;
   color: #888888;
 }
+/* input[type='number']去掉箭头 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+/* input[type='number']去掉箭头 */
+
 /* element的分页 */
 /* .blue_router {
   color: red !important;

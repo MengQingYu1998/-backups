@@ -23,7 +23,7 @@
 						<p class="wrongCode" v-show="wrongCode" v-html="codeFont"></p>
 					</div>
 					<div class="veri" v-show="veri">
-	                    <p>验证码</p>
+	                    <p class="Veri">验证码</p>
 	                    <div class="VeriInp" :class="{'focInp':focveri,'wroInp':wroVeri}">
 	                        <input type="text" @blur="blurVeri(verival)"  @focus="focusVeri()" v-model="verival"  placeholder="请输入您的验证码" maxlength="4" />
 	                        <div class="login-code" @click="refreshCode">
@@ -294,7 +294,7 @@
 	border-top: 1px solid transparent;
 }
 .right .loginlogo{
-	font-family: SourceHanSansCN-Heavy;
+	/*font-family: SourceHanSansCN-Heavy;*/
 	font-size: 44px;
 	color: #f5fbff;
 	text-align: center;
@@ -305,11 +305,12 @@
 	bottom: 28px;
 }
 .right .logintit{
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
 	text-align: center;
-	
+	letter-spacing: 1px;
 	/*margin-top: 44px;*/
 }
 .inpDiv, .goRegiste, .loginBtn, .weixinLogin{
@@ -327,8 +328,8 @@
 }
 .right .inpDiv .tel,
 .right .inpDiv .code,
-.right .inpDiv .Veri,{
-	font-family: SourceHanSansCN-Regular;
+.right .inpDiv .Veri{
+	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 14px;
 	color: #222222;
 }
@@ -352,7 +353,7 @@
 .right .inpDiv .telInp input::placeholder,
 .right .inpDiv .codeInp input::placeholder,
 .right .inpDiv .VeriInp input::placeholder{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #bfbfbf;
 }
@@ -365,7 +366,7 @@
 	outline: none;
 	border:none;
 	margin-top: 12px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #222222;
 }
@@ -375,7 +376,7 @@
 .right .inpDiv .wrongTel,
 .right .inpDiv .wrongCode,
 .right .inpDiv .wrongVeri{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 12px;
 	color: #f50202;
 }
@@ -383,24 +384,24 @@
 	margin-top: 15px;
 }
 .right .goRegiste p:first-child{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #888888;
 	float: left;
 }
 .right .goRegiste p:first-child span a{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #009bef;
 }
 .right .goRegiste p:last-child{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 12px;
 	color: #009bef;
 	float: right;
 }
 .right .goRegiste p:last-child a{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 12px;
 	color: #009bef;
 }
@@ -414,7 +415,7 @@
 	text-align: center;
 	background-color: #dfdfdf;
 	border-radius: 4px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 16px;
 	color: #ffffff;
 	margin-top: 52px;
@@ -424,7 +425,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: transparent;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 16px;
 	color: #ffffff!important;
 }

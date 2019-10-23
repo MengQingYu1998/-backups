@@ -127,7 +127,6 @@ export default {
   cursor: pointer;
 }
 .nav_content {
-  font-family: SourceHanSansCN-Medium;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -144,8 +143,9 @@ export default {
   margin: 0;
 }
 .nav_title {
-  font-family: SourceHanSansCN-Bold;
+  font-weight: 600 !important;
   font-size: 14px;
+  line-height: 14px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

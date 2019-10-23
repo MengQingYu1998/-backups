@@ -184,7 +184,7 @@ export default {
   height: 62px;
 }
 .time_line_item_content {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -206,7 +206,7 @@ export default {
   height: auto !important;
 }
 .img_description_child div:first-child {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -214,7 +214,7 @@ export default {
   color: #222222;
 }
 .img_description_child div:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -241,7 +241,7 @@ export default {
   left: -101px;
   top: -17px;
   position: absolute;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -258,7 +258,7 @@ export default {
   margin-bottom: 31px;
 }
 .section_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   line-height: 16px;
   font-weight: normal;
@@ -283,14 +283,14 @@ export default {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -313,7 +313,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

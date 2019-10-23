@@ -190,7 +190,7 @@ export default {
 tbody > tr:nth-child(1) .first_td,
 tbody > tr:nth-child(2) .first_td,
 tbody > tr:nth-child(3) .first_td {
-  font-family: SourceHanSansCN-Bold;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -200,7 +200,7 @@ tbody > tr:nth-child(3) .first_td {
 }
 .first_td {
   width: 50px;
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -223,7 +223,7 @@ tbody > tr:nth-child(3) .first_td {
   height: 26px;
   border-radius: 4px;
   border: solid 1px #009bef;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -237,7 +237,7 @@ tbody > tr:nth-child(3) .first_td {
   height: 20px;
   background-color: #f5fcff;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -267,7 +267,7 @@ tbody > tr:nth-child(3) .first_td {
   text-overflow: ellipsis;
 }
 .rankingChangeFontColor {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -297,7 +297,7 @@ thead tr {
   height: 40px;
 }
 tbody tr td:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -307,7 +307,7 @@ tbody tr td:last-child {
   box-sizing: border-box;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -318,7 +318,7 @@ tbody {
 thead {
   width: 1200px;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -343,7 +343,7 @@ table {
   margin-bottom: 22px;
 }
 .right_nav {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -359,14 +359,14 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -394,7 +394,7 @@ table {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

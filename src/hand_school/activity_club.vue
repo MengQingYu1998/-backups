@@ -105,7 +105,7 @@ export default {
  
 <style scoped lang="less">
 .more_things {
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -139,7 +139,7 @@ export default {
         div:nth-child(3) {
           display: flex;
           align-items: center;
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 13px;
           font-weight: normal;
           font-stretch: normal;
@@ -153,7 +153,7 @@ export default {
             background-color: #009bef;
             border-radius: 4px;
             border: solid 1px #009bef;
-            font-family: SourceHanSansCN-Normal;
+            
             font-size: 13px;
             font-weight: normal;
             font-stretch: normal;
@@ -172,7 +172,7 @@ export default {
           }
         }
         .title {
-          font-family: SourceHanSansCN-Medium;
+          font-weight: 600 !important;
           font-size: 16px;
           font-weight: normal;
           font-stretch: normal;
@@ -192,7 +192,7 @@ export default {
       }
     }
     .title_tips {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -223,7 +223,7 @@ export default {
         margin-bottom: 20px;
       }
       div:nth-child(2) {
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -234,7 +234,7 @@ export default {
         margin-left: 21px;
       }
       div:nth-child(3) {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -245,7 +245,7 @@ export default {
         color: #888888;
       }
       div:nth-child(4) {
-        font-family: SourceHanSansCN-Regular;
+        
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -275,7 +275,7 @@ export default {
       border-bottom: 3px solid #fff;
     }
     span {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 22px;
       font-weight: normal;
       width: 100px;

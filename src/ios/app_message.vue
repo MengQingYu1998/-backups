@@ -15,7 +15,7 @@
         <section class="app_description" v-if="response_data&&response_data.description!='无'">
           <div class="section_title">应用描述</div>
           <div
-            :class="{'section_content':true,'height_125':height_125}"
+            :class="{'section_content':true}"
             id="section_content"
             v-if="response_data"
             v-html="response_data.description"
@@ -243,7 +243,6 @@ export default {
       no_data_img: false,
       // 播放m3u8格式的视频插件
       show_all: false,
-      height_125: false, //没有用到这个属性，可能会用到
       playerOptions: [],
       //单选按钮
       radio01: 'iPhone', //第二部分 视频
@@ -338,14 +337,14 @@ export default {
 
                 // 判断展开收起更多的按钮是否出现 小于125px 则不出现
                 this.$nextTick(() => {
-                  // console.log(
-                  //   window
-                  //     .getComputedStyle(
-                  //       document.getElementById('section_content'),
-                  //       null
-                  //     )
-                  //     .getPropertyValue('height')
-                  // )
+                  console.log(
+                    window
+                      .getComputedStyle(
+                        document.getElementById('section_content'),
+                        null
+                      )
+                      .getPropertyValue('height')
+                  )
                   if (
                     parseInt(
                       window
@@ -354,13 +353,11 @@ export default {
                           null
                         )
                         .getPropertyValue('height')
-                    ) >= 125
+                    ) >= 140
                   ) {
                     this.show_all = true
-                    // this.height_125 = true
                   } else {
                     this.show_all = false
-                    // this.height_125 = false
                   }
                 })
                 // 判断展开收起更多的按钮是否出现
@@ -395,8 +392,7 @@ export default {
         this_div.style.display = 'block'
         this_div02.innerHTML = '收起'
       } else if (this_div02.innerHTML == '收起') {
-        this_div.style.height = '125px'
-        this_div.style.display = '-webkit-box '
+        this_div.style.display = '-webkit-box'
         this_div02.innerHTML = '展开更多'
       }
     },
@@ -419,14 +415,12 @@ export default {
 .section_img img {
   border: 1px solid #f2f2f2;
 }
-/* .height_125 {
-  height: 125px;
-} */
+
 #version_message {
   padding-bottom: 53px;
 }
 #section_content {
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 7;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -484,7 +478,6 @@ export default {
 }
 
 .message .section_content {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -508,7 +501,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -563,7 +556,7 @@ export default {
 .btn_item_02 {
   display: flex;
   align-items: center;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -590,15 +583,15 @@ export default {
 }
 
 .section_content {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
+  line-height: 20px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
   color: #444444;
 }
 .section_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   line-height: 16px;
   font-weight: normal;
@@ -623,14 +616,12 @@ export default {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -650,7 +641,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

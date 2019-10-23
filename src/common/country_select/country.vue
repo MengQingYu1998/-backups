@@ -266,7 +266,6 @@ export default {
   cursor: pointer;
   letter-spacing: 0px;
   color: #666;
-  font-family: SourceHanSansCN-Normal;
 }
 .arrows_active {
   transform: rotate(-90deg) !important;
@@ -289,14 +288,16 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: 'PingFangSC', 'helvetica neue', 'hiragino sans gb', 'arial',
+    'microsoft yahei ui', 'microsoft yahei', 'simsun', 'sans-serif' !important;
 }
 .country_name {
   width: 81px;
-  height: 28px;
+  height: 26px;
   background-color: #fff;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -311,7 +312,6 @@ export default {
   box-sizing: border-box;
 }
 .item {
-  font-family: SourceHanSansCN-Regular;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

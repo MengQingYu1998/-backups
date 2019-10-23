@@ -52,7 +52,7 @@ export default {
 
 <style scoped lang="less">
 .more_item {
-  font-family: SourceHanSansCN-Regular;
+  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -88,7 +88,7 @@ export default {
       flex-direction: column;
       border-bottom: 1px solid #f2f2f2;
       > div:nth-child(1) {
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -100,7 +100,7 @@ export default {
       }
       > div:nth-child(2) {
         height: 106px;
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -109,7 +109,7 @@ export default {
         color: #444444;
       }
       > div:nth-child(3) {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -125,7 +125,7 @@ export default {
   background-repeat: no-repeat;
   width: 100%;
   height: 240px;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 30px;
   font-weight: normal;
   font-stretch: normal;

@@ -12,7 +12,7 @@
             v-model="dateValue"
             type="date"
             placeholder="选择日期"
-            clear-icon
+              clear-icon prefix-icon="fasle"
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -185,7 +185,6 @@ export default {
   /* align-items: center; */
 }
 .table_font div:first-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -194,7 +193,6 @@ export default {
   line-height: 20px;
 }
 .table_font div:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -220,7 +218,6 @@ tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -231,7 +228,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -250,11 +247,11 @@ table {
 .option .days {
   width: 48px;
   line-height: 26px;
-  height: 26px;
+  height: 24px;
   background-color: #ffffff;
   border-radius: 4px;
   border: 1px solid #dcdfe6;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -265,6 +262,7 @@ table {
 }
 
 .option > div:first-child {
+  font-weight: 600 !important;
   margin-right: 15px;
 }
 
@@ -283,7 +281,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -298,13 +295,12 @@ option:first-child {
   background-color: #efefef;
 }
 .think_word_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;
@@ -316,7 +312,7 @@ option:first-child {
 
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

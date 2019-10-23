@@ -27,7 +27,7 @@
             v-model="dateValue"
             type="date"
             placeholder="选择日期"
-            clear-icon
+              clear-icon prefix-icon="fasle"
             :picker-options="pickerOptions2"
           ></el-date-picker>
         </div>
@@ -63,7 +63,7 @@
               {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page02(data_for_top_table02.Word)"
                 alt
               />
@@ -72,7 +72,7 @@
               <span>{{data_for_top_table02.SearchCount12}}</span>
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page03(data_for_top_table02.Word)"
                 alt
               />
@@ -94,7 +94,7 @@
               <img
                 src="../assets/keyword/keyword01.png"
                 @click="go_to_page02(data_for_top_table02.Word)"
-                class="pointer"
+                class="pointer img_width"
                 alt
               />
             </td>
@@ -102,7 +102,7 @@
               <span>{{data_for_top_table02.SearchCount11}}</span>
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page03(data_for_top_table02.Word)"
                 alt
               />
@@ -123,7 +123,7 @@
               {{data_for_top_table02.Hint}}
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page02(data_for_top_table02.Word)"
                 alt
               />
@@ -132,7 +132,7 @@
               <span>{{data_for_top_table02.SearchCount12}}</span>
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page03(data_for_top_table02.Word)"
                 alt
               />
@@ -141,7 +141,7 @@
               <span>{{data_for_top_table02.SearchCount11}}</span>
               <img
                 src="../assets/keyword/keyword01.png"
-                class="pointer"
+                class="pointer img_width"
                 @click="go_to_page03(data_for_top_table02.Word)"
                 alt
               />
@@ -171,10 +171,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
-                    <td colspan="6">暂无相关数据</td>
-                  </tr>
-
                   <template v-if="response_data_for_ios12">
                     <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
                       <td>
@@ -223,7 +219,7 @@
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
-                            class="pointer"
+                            class="pointer img_width"
                             @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
@@ -268,6 +264,9 @@
                       <td>{{item.Top3}}</td>
                     </tr>
                   </template>
+                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
+                    <td colspan="6">暂无相关数据</td>
+                  </tr>
                 </tbody>
               </table>
               <div class="loading" v-show="loading_12">
@@ -312,9 +311,6 @@
                   </tr>
                 </thead>
                 <tbody class="use_father">
-                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
-                    <td colspan="6">暂无相关数据</td>
-                  </tr>
                   <template v-if="response_data_for_ios11">
                     <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
                       <td>
@@ -363,7 +359,7 @@
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
-                            class="pointer"
+                            class="pointer img_width"
                             @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
@@ -405,6 +401,9 @@
                       <td>{{item.Top3}}</td>
                     </tr>
                   </template>
+                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
+                    <td colspan="6">暂无相关数据</td>
+                  </tr>
                 </tbody>
               </table>
               <div class="loading" v-show="loading_11">
@@ -440,9 +439,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
-                    <td colspan="5">暂无相关数据</td>
-                  </tr>
                   <template v-if="response_data_for_ios12">
                     <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
                       <td>
@@ -508,7 +504,7 @@
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
-                            class="pointer"
+                            class="pointer img_width"
                             @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
@@ -518,6 +514,9 @@
                       <td>{{item.rating_count}}</td>
                     </tr>
                   </template>
+                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
+                    <td colspan="5">暂无相关数据</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -537,9 +536,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
-                    <td colspan="5">暂无相关数据</td>
-                  </tr>
                   <template v-if="response_data_for_ios11">
                     <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
                       <td>
@@ -605,7 +601,7 @@
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
-                            class="pointer"
+                            class="pointer img_width"
                             @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
                             alt
                           />
@@ -615,6 +611,9 @@
                       <td>{{item.rating_count}}</td>
                     </tr>
                   </template>
+                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
+                    <td colspan="5">暂无相关数据</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -680,7 +679,7 @@
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
-                clear-icon
+                  clear-icon prefix-icon="fasle"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
               ></el-date-picker>
@@ -736,21 +735,6 @@
         <div class="footer__dialog">
           <img src="../assets/keyword/dialog_01.png" alt />
           iOS12与iOS11版本的排名不同
-          <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table"> -->
-          <div class="bottom_image_table pointer" v-show="false">
-            <img
-              v-on:click="is_show_myChart_function"
-              class="float_right"
-              src="../assets/keyword/three.png"
-              alt
-            />
-            <img
-              v-on:click="is_show_table_function"
-              class="float_right"
-              src="../assets/keyword/calculator.png"
-              alt
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -1964,6 +1948,10 @@ export default {
 }
 </script>
 <style scoped>
+.img_width {
+  width: 14px;
+  height: 13px;
+}
 .position_relative {
   position: relative;
 }
@@ -1971,7 +1959,6 @@ export default {
   border-bottom: solid 1px #f2f2f2;
 }
 .my_dialog tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1993,7 +1980,7 @@ export default {
 .my_dialog thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2019,11 +2006,13 @@ export default {
 }
 .my_dialog .bottom_image img {
   margin-left: 10px;
+  width: 17px;
+  height: 15px;
 }
 .my_dialog .bottom_image {
   float: right;
   position: absolute;
-  top: 9px;
+  top: 7px;
   right: 40px;
 }
 .keywordContentTable_th {
@@ -2045,7 +2034,7 @@ export default {
 }
 .data_for_top_table_span span {
   margin-left: 13px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -2076,17 +2065,20 @@ export default {
   position: absolute;
   top: 16px;
   right: 16px;
+  width: 23px;
+  height: 23px;
 }
 .footer__dialog > img {
   margin-right: 7px;
   vertical-align: -2px;
   margin-left: 46px;
   margin-top: 20px;
+  width: 15px;
 }
 
 .footer__dialog {
   position: relative;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2109,7 +2101,7 @@ export default {
   width: 89px;
 }
 .classify {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2158,6 +2150,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   height: 23px;
+  margin-top: 5px;
 }
 .first_div {
   width: 40px;
@@ -2176,7 +2169,6 @@ export default {
   display: flex;
 }
 .compare_iOS > div:first-child div:first-child {
-  font-family: SourceHanSansCN-Bold;
   font-size: 18px;
   font-weight: normal;
   font-stretch: normal;
@@ -2184,7 +2176,6 @@ export default {
   color: #009bef;
 }
 .compare_iOS > div:first-child div:last-child {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2213,7 +2204,7 @@ export default {
 }
 
 .right_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -2232,12 +2223,12 @@ export default {
   display: flex;
 }
 .rankingChangeFontColor {
-  font-family: SourceHanSansCN-Normal;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #888888;
+  margin-top: 5px;
 }
 .rankingChange div {
   margin: 0 9px;
@@ -2271,7 +2262,6 @@ td {
   padding: 20px 0;
 }
 .tabsContentTable tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -2282,7 +2272,7 @@ td {
 .tabsContentTable thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2295,7 +2285,7 @@ td {
   border: solid 1px #f2f2f2;
   text-align: center;
 }
-.tabsContentTable {
+.flex-row .tabsContentTable:first-child {
   margin-right: 22px;
 }
 .tabs {
@@ -2307,7 +2297,6 @@ td {
 }
 
 .keywordContentTable tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -2318,7 +2307,7 @@ td {
 .keywordContentTable thead {
   width: 1200px;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2331,10 +2320,9 @@ td {
   border: solid 1px #f2f2f2;
   text-align: center;
 }
-.options_03 div:last-child {
-  width: 114px !important;
-}
+
 .option > div:first-child {
+  font-weight: 600 !important;
   margin-right: 15px;
 }
 
@@ -2356,7 +2344,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2372,13 +2359,13 @@ option:first-child {
   background-color: #efefef;
 }
 .result_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
+
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;
@@ -2404,7 +2391,7 @@ option:first-child {
 }
 .it_is_over {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -2428,7 +2415,7 @@ option:first-child {
 
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

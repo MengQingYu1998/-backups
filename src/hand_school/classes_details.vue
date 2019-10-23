@@ -153,7 +153,7 @@ export default {
     margin-top: 30px;
     box-sizing: border-box;
     .title_tips {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -177,7 +177,7 @@ export default {
       height: 32px;
       border-radius: 4px;
       border: solid 1px #009bef;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -201,7 +201,7 @@ export default {
         width: 650px;
         padding-top: 15px;
         > div:first-child {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 13px;
           font-weight: normal;
           letter-spacing: 0px;
@@ -209,7 +209,7 @@ export default {
           line-height: 30px;
         }
         > div:last-child {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 13px;
           font-weight: normal;
           letter-spacing: 0px;
@@ -217,7 +217,7 @@ export default {
           color: #444444;
         }
         span {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 13px;
           font-weight: normal;
           font-stretch: normal;
@@ -228,7 +228,7 @@ export default {
       }
     }
     .comment_count {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -247,7 +247,7 @@ export default {
         border-radius: 4px;
         line-height: 33px;
         border: solid 1px #009bef;
-        font-family: SourceHanSansCN-Regular;
+        
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -272,7 +272,7 @@ export default {
       }
     }
     .title_tips {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -298,7 +298,7 @@ export default {
     width: 1200px;
   }
   .auther {
-    font-family: SourceHanSansCN-Normal;
+    
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -307,7 +307,7 @@ export default {
     color: #ffffff;
   }
   .title {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 20px;
     font-weight: normal;
     font-stretch: normal;
@@ -335,7 +335,7 @@ export default {
         background-color: #009bef;
         border-radius: 4px;
         border: solid 1px #009bef;
-        font-family: SourceHanSansCN-Regular;
+        
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -347,7 +347,7 @@ export default {
         margin-top: 214px;
       }
       span {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -368,7 +368,7 @@ export default {
         cursor: pointer;
         display: flex;
         align-items: center;
-        font-family: SourceHanSansCN-Regular;
+        
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;

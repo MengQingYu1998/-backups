@@ -170,7 +170,8 @@
 	border-top: 1px solid transparent;
 }
 .right .logintit{
-	font-family: SourceHanSansCN-Medium;
+	/*font-family: SourceHanSansCN-Medium;*/
+	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
 	text-align: center;
@@ -188,7 +189,7 @@
     outline: none;
     border: none;
     margin-top: 12px;
-    font-family: SourceHanSansCN-Normal;
+    /*font-family: SourceHanSansCN-Normal;*/
     font-size: 14px;
     color: #222222;
 }
@@ -202,7 +203,7 @@
     border-radius: 0px 4px 4px 0px;
     display: inline-block;
     float: right;
-    font-family: SourceHanSansCN-Normal;
+    /*font-family: SourceHanSansCN-Normal;*/
     font-size: 14px;
     color: #ffffff;
     line-height: 42px;
@@ -210,7 +211,7 @@
 }
 
 .right .telDiv>div p input::placeholder{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #bfbfbf;
 }
@@ -228,7 +229,7 @@
 	border: solid 1px #f2f2f2;
 }
 .right .telDiv>div p.wrongCode{
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 12px;
 	color: #f50202;
 }
@@ -255,7 +256,7 @@
 	margin:0 auto;
 	background-color: #dfdfdf;
 	border-radius: 4px;
-	font-family: SourceHanSansCN-Normal;
+	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 16px;
 	color: #ffffff;
 }

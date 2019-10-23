@@ -948,7 +948,8 @@
 	.message .left>div p{
 		line-height: 16px;
 		display: inline-block;
-		font-family: SourceHanSansCN-Medium;
+		/*font-family: SourceHanSansCN-Medium;*/
+		font-weight: 600;
 		font-size: 14px;
 		color: #222222;
 		vertical-align: top;
@@ -971,7 +972,8 @@
 		height: 24px;
 		text-align: center;
 		float: left;
-		font-family: SourceHanSansCN-Medium;
+		/*font-family: SourceHanSansCN-Medium;*/
+		font-weight: 600;
 		font-size: 14px;
 		color: #888888;
 		margin-left: 47px;
@@ -994,7 +996,7 @@
 	}
 	.message .msgDiv .msgDetail .listmsg,
 	.message .msgDiv .msgDetail .timemsg{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 13px;
 		color: #888888;
 	}
@@ -1002,7 +1004,8 @@
 		color: #009bef;
 	}
 	.message .msgDiv .msgDetail .titmsg{
-		font-family: SourceHanSansCN-Medium;
+		/*font-family: SourceHanSansCN-Medium;*/
+		font-weight: 600;
 		font-size: 18px;
 		color: #222222;
 		margin-top: 15px;
@@ -1012,7 +1015,7 @@
 		margin-top: 10px;
 	}
 	.message .msgDiv .msgDetail .content{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #444444;
 		margin-top: 14px;
@@ -1025,7 +1028,7 @@
 		text-align: center;
 		background-color: #dfdfdf;
 		border-radius: 4px;
-		font-family: SourceHanSansCN-Regular;
+		/*font-family: SourceHanSansCN-Regular;*/
 		font-size: 15px;
 		color: #ffffff;
 		margin-top: 50px;
@@ -1057,7 +1060,7 @@
 	}
 	.message .setDiv>div>div p,
 	.message .setDiv>div>div p span{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #888;
 		display: inline-block;
@@ -1093,7 +1096,7 @@
 		margin-left: 34px;
 	}
 	.file {
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 	    font-size: 14px;
 	    position: relative;
 	    color: #009bef;
@@ -1120,27 +1123,27 @@
 		width: 219px;
 		height: 32px;
 		border: solid 1px #f2f2f2;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #009bef;
 		outline: none;
 		padding-left:13px; 
 	}
 	.inpro::placeholder{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #bfbfbf;
 	}
 
 	.message .setDiv .codeDiv>p{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #009bef;
 		margin-top: 34px;
 	}
 	.message .setDiv .codeDiv>div>p{
 		width: 56px;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #444444;
 	}
@@ -1149,7 +1152,7 @@
 	.message .setDiv>div>div p.wrongsure{
 	    display: block;
 	    width: 216px;
-	    font-family: SourceHanSansCN-Normal;
+	    /*font-family: SourceHanSansCN-Normal;*/
 	    font-size: 12px;
 	    color: #f50202;
 	    margin-left: 95px;
@@ -1162,18 +1165,18 @@
 	}
 	.message .setDiv .codeDiv>div>p.des{
 		width: 288px;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 12px;
 		color: #bfbfbf;
 		margin-left: 15px;
 	}
 	.message .setDiv .codeDiv>div>p input::placeholder{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #bfbfbf;
 	}
 	.message .setDiv .codeDiv>div>p input{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #009bef;
 		margin-top: 8px;
@@ -1203,8 +1206,9 @@
 		margin-top: 24px;
 	}
 	.mask .aDiv .tit span{
-		font-family: SourceHanSansCN-Medium;
-		font-size: 20px;
+		/*font-family: SourceHanSansCN-Medium;*/
+		font-weight: 600;
+		font-size: 18px;
 		color: #222222;
 	}
 	.mask .aDiv .nowTel{
@@ -1221,7 +1225,7 @@
 		margin-right: 16px;
 	}
 	.mask .aDiv .nowTel span{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #888888;
 	}
@@ -1235,7 +1239,7 @@
 		border:solid 1px #f50202!important;
 	}
 	.mask .aDiv p.wrongEmail{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 	    font-size: 12px;
 	    color: #f50202;
 	    margin-left: 24px;
@@ -1243,7 +1247,7 @@
 	.mask .aDiv p input{
 		width: 232px;
 		height: 32px;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #009bef;
 		outline: none;
@@ -1259,14 +1263,14 @@
 	.mask .aDiv .wrongTel,
 	.mask .aDiv .wrongVeri{
 		height: 10px;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 12px;
 		color: #f50202;
 		margin-left: 24px;
 	}
 
 	.mask .aDiv p input::placeholder{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #bfbfbf;
 	}
@@ -1277,14 +1281,14 @@
 		text-align: center;
 		background-color: #dfdfdf;
 		border-radius: 4px;
-		font-family: SourceHanSansCN-Regular;
+		/*font-family: SourceHanSansCN-Regular;*/
 		font-size: 15px;
 		color: #ffffff;
 		margin:0 auto;
 		margin-top: 30px;
 	}
 	.mask .aDiv p span.codeBtn{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #009bef;
 		margin-left: 24px;
@@ -1294,7 +1298,7 @@
 		width: 350px;
 		line-height: 30px;
 		margin:0 auto;
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #888888;
 		margin-top: 15px;
@@ -1308,7 +1312,7 @@
 		margin-top: 54px;
 	}
 	.mask .aDiv p.sao{
-		font-family: SourceHanSansCN-Normal;
+		/*font-family: SourceHanSansCN-Normal;*/
 		font-size: 14px;
 		color: #888888;
 		text-align: center;
@@ -1329,7 +1333,7 @@
 	margin-top: 190px;
 }
 .null p{
-	font-family: SourceHanSansCN-Regular;
+	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 13px;
 	color: #555555;
 	display: block!important;

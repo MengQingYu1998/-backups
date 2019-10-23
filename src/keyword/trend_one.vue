@@ -38,7 +38,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :picker-options="pickerOptions"
-            clear-icon
+              clear-icon prefix-icon="fasle"
           ></el-date-picker>
         </div>
         <div @click="change_time01">
@@ -473,6 +473,10 @@ export default {
 }
 </script>
 <style scoped>
+.float_right {
+  width: 17px;
+  height: 15px;
+}
 tbody div {
   margin-left: -11px;
 }
@@ -490,7 +494,7 @@ tbody div {
   margin-left: 30px;
 }
 .btn_item_03 > div {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -499,7 +503,7 @@ tbody div {
   margin-right: 10px;
 }
 .classify {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -526,7 +530,6 @@ tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -542,7 +545,7 @@ thead tr span {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -569,7 +572,7 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 9px;
+  top: 7px;
   right: 39px;
   z-index: 9999999999;
 }
@@ -581,7 +584,7 @@ table {
 }
 
 .table_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -601,7 +604,7 @@ table {
   text-align: center;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -609,9 +612,7 @@ table {
   color: #444444;
   margin-top: 3px;
 }
-.options_03 div:last-child {
-  width: 114px !important;
-}
+
 .options_03 {
   margin-left: 70px !important;
 }
@@ -627,6 +628,7 @@ option:first-child {
   margin: 0;
 }
 .options .option:first-child {
+  font-weight: 600 !important;
   margin-left: 0 !important;
 }
 .margin_top_font {
@@ -634,7 +636,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -651,13 +652,12 @@ option:first-child {
   background-color: #efefef;
 }
 .trend_one_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;

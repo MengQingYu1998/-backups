@@ -98,6 +98,7 @@
             type="date"
             placeholder="选择日期"
             clear-icon
+            prefix-icon="fasle"
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -110,7 +111,7 @@
           :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true,'pointer':true}"
           @click="result_all()"
         >全部</div>
-        <div class="min_max" @click="change_bg_result_function">
+        <div class="min_max">
           <div>
             <el-input v-model="result_min_input" placeholder="最小值" type="number"></el-input>
           </div>
@@ -130,7 +131,7 @@
           :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true,'pointer':true}"
           @click="index_number()"
         >≥4605</div>
-        <div class="min_max" @click="change_bg_index_function">
+        <div class="min_max">
           <div>
             <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
           </div>
@@ -306,15 +307,27 @@ export default {
       this.get_data_table()
     })
     this.$watch('result_min_input', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.change_bg_result_function()
+      }
       this.blur()
     })
     this.$watch('result_max_input', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.change_bg_result_function()
+      }
       this.blur()
     })
     this.$watch('index_min_input', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.change_bg_index_function()
+      }
       this.blur()
     })
     this.$watch('index_max_input', function(newValue, oldValue) {
+      if (newValue != '') {
+        this.change_bg_index_function()
+      }
       this.blur()
     })
   },
@@ -590,7 +603,7 @@ export default {
 <style scoped>
 .it_is_over {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -658,7 +671,7 @@ tbody th:nth-child(5) {
 }
 .min_max > div:nth-child(1) div,
 .min_max > div:nth-child(3) div {
-  width: 75px !important;
+  width: 59px !important;
 }
 .change_something {
   margin-right: 0px !important;
@@ -682,7 +695,7 @@ tbody th:nth-child(5) {
   width: 142px;
   flex-wrap: wrap;
   justify-content: space-between;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -697,10 +710,8 @@ tbody th:nth-child(5) {
 }
 .select_radio_one {
   text-align: center;
-  width: 48px;
-  height: 26px;
-  font-family: SourceHanSansCN-Normal;
-  line-height: 28px;
+
+  line-height: 13px;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -708,15 +719,15 @@ tbody th:nth-child(5) {
   border: solid 1px #dfdfdf;
   letter-spacing: 0px;
   color: #444444;
+  padding: 6px 12px 5px 12px;
   margin-right: 10px;
   display: inline-block;
 }
 .radio_one {
   text-align: center;
-  font-family: SourceHanSansCN-Normal;
-  line-height: 25px;
+  line-height: 13px;
   font-size: 13px;
-  padding: 0 12px;
+  padding: 6px 12px 5px 12px;
   font-weight: normal;
   font-stretch: normal;
   border-radius: 4px;
@@ -730,7 +741,6 @@ tbody th:nth-child(5) {
   width: 145px !important;
 }
 .table_font {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -750,7 +760,6 @@ tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -761,7 +770,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -781,9 +790,6 @@ table {
 
 .options_03_ml {
   margin-left: 13px !important;
-}
-.options_03 .date div {
-  width: 114px !important;
 }
 
 .min_max > div:first-child {
@@ -816,7 +822,7 @@ table {
   line-height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -826,6 +832,7 @@ table {
   margin-top: 2px;
 }
 .option > div:first-child {
+  font-weight: 600 !important;
   margin-right: 9px;
 }
 
@@ -846,7 +853,6 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -862,13 +868,12 @@ option:first-child {
   background-color: #efefef;
 }
 .ranking_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;
@@ -892,7 +897,7 @@ option:first-child {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

@@ -144,7 +144,7 @@ export default {
           margin-left: 23px;
           border-bottom: 1px solid #f2f2f2;
           > div:nth-child(1) {
-            font-family: SourceHanSansCN-Medium;
+            font-weight: 600 !important;
             font-size: 16px;
             font-weight: normal;
             font-stretch: normal;
@@ -158,7 +158,7 @@ export default {
             width: 454px;
           }
           > div:nth-child(2) {
-            font-family: SourceHanSansCN-Normal;
+            
             font-size: 13px;
             font-weight: normal;
             font-stretch: normal;
@@ -173,7 +173,7 @@ export default {
             width: 454px;
           }
           > div:nth-child(3) {
-            font-family: SourceHanSansCN-Normal;
+            
             font-size: 12px;
             font-weight: normal;
             font-stretch: normal;
@@ -194,7 +194,7 @@ export default {
       margin-bottom: 30px;
       margin-top: 0;
       .title {
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 20px;
         font-weight: normal;
         font-stretch: normal;
@@ -219,7 +219,7 @@ export default {
       .title_and_time {
         margin-top: 30px;
         > div:nth-child(1) {
-          font-family: SourceHanSansCN-Medium;
+          font-weight: 600 !important;
           font-size: 16px;
           font-weight: normal;
           font-stretch: normal;
@@ -233,7 +233,7 @@ export default {
           width: 338px;
         }
         > div:nth-child(2) {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 12px;
           font-weight: normal;
           font-stretch: normal;
@@ -244,7 +244,7 @@ export default {
         }
       }
       .quick_report_time {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -254,7 +254,7 @@ export default {
         margin-top: 10px;
       }
       .quick_report_content {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -263,7 +263,7 @@ export default {
         color: #444444;
       }
       .quick_report_title {
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -274,7 +274,7 @@ export default {
         margin-bottom: 9px;
       }
       .title_tips {
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -293,7 +293,7 @@ export default {
       margin-bottom: 30px;
       div {
         width: 277px;
-        font-family: SourceHanSansCN-Medium;
+        font-weight: 600 !important;
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;

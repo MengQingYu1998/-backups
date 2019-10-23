@@ -4,7 +4,6 @@
 // 引入重置样式
 import './common/reset.css'
 // 引入字体样式
-import './common/font/font.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './common/world_map/world.css'
 // 引入播放m3u8格式的视频插件

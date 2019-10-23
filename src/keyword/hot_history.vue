@@ -203,14 +203,14 @@ export default {
 }
 .search_confirm {
   width: 48px !important;
-  height: 27px;
+  height: 26px;
   background-color: #009bef;
   border-radius: 4px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 27px;
+  line-height: 26px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
@@ -228,7 +228,7 @@ export default {
   height: 80px;
   line-height: 80px;
   border: solid 1px #f2f2f2;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -257,7 +257,6 @@ tbody tr {
 }
 
 tbody {
-  font-family: SourceHanSansCN-Normal;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -268,7 +267,7 @@ tbody {
 thead {
   width: 100%;
   background-color: #f7f7f7;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -285,7 +284,7 @@ table {
 .font_block {
   text-align: center;
   line-height: 26px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -306,11 +305,10 @@ table {
 .options_03 {
   margin-left: 15px !important;
 }
-.options_03 .date div {
-  width: 114px !important;
-}
+
 .option > div:first-child {
   margin-right: 15px;
+  font-weight: 600 !important;
 }
 
 .option {
@@ -325,7 +323,7 @@ option:first-child {
 }
 .options {
   margin: 22px 0;
-  font-family: SourceHanSansCN-Medium;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -341,13 +339,12 @@ option:first-child {
   background-color: #efefef;
 }
 .hot_history_title {
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600 !important;
   height: 18px;
   line-height: 18px;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;
@@ -366,7 +363,7 @@ option:first-child {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

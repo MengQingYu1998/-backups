@@ -146,7 +146,9 @@ export default {
         { name: '榜单实时排名' },
         { name: '榜单更新监控' },
         { name: '排名上升/下降监控' },
-        { name: 'App Store上下架监控' }
+        { name: 'App Store上下架监控' },
+        { name: 'App Store精品推荐' }
+        // { name: 'App Store数据统计'},
       ],
       // aso优化
       asos: [{ name: '搜索指数排名' }, { name: '实时热搜榜' }],
@@ -274,7 +276,12 @@ export default {
         this.$router.push({ path: '/rank' })
       } else if (index == 3) {
         this.$router.push({ path: '/application' })
+      } else if (index == 4) {
+        this.$router.push({ path: '/recommend' })
       }
+      // else if(index==5){
+      //   this.$router.push({ path: '/data_monitor' })
+      // }
       this.appstore = false
     },
     climsg(index) {
@@ -424,13 +431,12 @@ export default {
 .nav ul li {
   float: left;
   line-height: 66px;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 16px;
   color: #222222;
   margin-left: 58px;
 }
 .nav ul li a {
-  font-family: SourceHanSansCN-Regular;
   font-size: 16px;
   color: #222222;
 }
@@ -444,7 +450,7 @@ export default {
 }
 .nav ul li p {
   display: inline-block;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 15px;
   color: #222222;
 }
@@ -472,11 +478,11 @@ export default {
   border: none;
   outline: none;
   background-color: transparent;
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 15px;
   color: #222222;
   vertical-align: top;
-  margin-top: 7px;
+  margin-top: 9px;
   margin-left: 5px;
 }
 .nav .searchDiv input::placeholder {
@@ -497,7 +503,6 @@ export default {
 }
 .nav .denglu,
 .nav .zhuce {
-  font-family: SourceHanSansCN-Regular;
   font-size: 15px;
   width: 70px;
   height: 36px;
@@ -535,7 +540,6 @@ export default {
   border: 2px solid #fcfcfc;
 }
 .nav .ldiv p {
-  font-family: SourceHanSansCN-Regular;
   font-size: 14px;
   color: #888888;
   display: inline-block;
@@ -550,6 +554,7 @@ export default {
 .Combox > div .jiao {
   width: 23px;
   height: 12px;
+  margin-top: 4px;
 }
 .Combox > div {
   display: inline-block;
@@ -587,7 +592,6 @@ export default {
 }
 .Combox > div > div p,
 .Combox > div > div p a {
-  font-family: SourceHanSansCN-Normal;
   font-size: 13px;
   color: #444444;
   margin: 0 25px;
@@ -610,7 +614,7 @@ export default {
 
 .popver_for_input {
   height: 36px;
-  font-family: SourceHanSansCN-Normal;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -623,7 +627,7 @@ export default {
 }
 .popver_for_input:hover {
   background-color: rgba(0, 0, 0, 0.03);
-  font-family: SourceHanSansCN-Regular;
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;

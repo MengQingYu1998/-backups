@@ -138,7 +138,7 @@ export default {
     height: 32px;
     border-radius: 4px;
     border: solid 1px #009bef;
-    font-family: SourceHanSansCN-Regular;
+    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -162,7 +162,7 @@ export default {
       width: 650px;
       padding-top: 15px;
       > div:first-child {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
@@ -170,7 +170,7 @@ export default {
         line-height: 30px;
       }
       > div:last-child {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
@@ -178,7 +178,7 @@ export default {
         color: #444444;
       }
       span {
-        font-family: SourceHanSansCN-Normal;
+        
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -189,7 +189,7 @@ export default {
     }
   }
   .comment_count {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -208,7 +208,7 @@ export default {
       border-radius: 4px;
       line-height: 33px;
       border: solid 1px #009bef;
-      font-family: SourceHanSansCN-Regular;
+      
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -233,7 +233,7 @@ export default {
     }
   }
   .title_tips {
-    font-family: SourceHanSansCN-Medium;
+    font-weight: 600 !important;
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
@@ -266,7 +266,7 @@ export default {
         height: 30px;
         border-radius: 4px;
         border: solid 1px #009bef;
-        font-family: SourceHanSansCN-Regular;
+        
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -285,7 +285,7 @@ export default {
       margin-bottom: 48px;
       width: 100%;
       height: 47px;
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -298,7 +298,7 @@ export default {
       margin-bottom: 22px;
     }
     .words {
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -307,7 +307,7 @@ export default {
       color: #444444;
     }
     .title {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 20px;
       font-weight: normal;
       font-stretch: normal;
@@ -316,7 +316,7 @@ export default {
       color: #222222;
     }
     .sub_title {
-      font-family: SourceHanSansCN-Normal;
+      
       font-size: 12px;
       font-weight: normal;
       font-stretch: normal;
@@ -334,7 +334,7 @@ export default {
     box-shadow: 0px 0px 26px 0px rgba(0, 0, 0, 0.04);
     padding-bottom: 30px;
     .title_tips {
-      font-family: SourceHanSansCN-Medium;
+      font-weight: 600 !important;
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -362,7 +362,7 @@ export default {
         justify-content: space-between;
         height: 74px;
         div:nth-child(1) {
-          font-family: SourceHanSansCN-Medium;
+          font-weight: 600 !important;
           font-size: 14px;
           font-weight: normal;
           font-stretch: normal;
@@ -371,7 +371,7 @@ export default {
           color: #222222;
         }
         div:nth-child(2) {
-          font-family: SourceHanSansCN-Normal;
+          
           font-size: 12px;
           font-weight: normal;
           font-stretch: normal;
@@ -386,7 +386,7 @@ export default {
 
 .nav_tips {
   margin: 26px 0;
-  font-family: SourceHanSansCN-Normal;
+  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
