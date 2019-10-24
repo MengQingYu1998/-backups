@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
     now_app_name: null,
     now_country_name: null,
     HistoryList: [],
-    nav_input_value: '',
+    // nav_input_value: '',
     hot_search_to_hot_history_equipmentValue: ''
     // ranking_to_result_equipmentValue: ''
   },

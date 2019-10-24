@@ -337,14 +337,14 @@ export default {
 
                 // 判断展开收起更多的按钮是否出现 小于125px 则不出现
                 this.$nextTick(() => {
-                  console.log(
-                    window
-                      .getComputedStyle(
-                        document.getElementById('section_content'),
-                        null
-                      )
-                      .getPropertyValue('height')
-                  )
+                  // console.log(
+                  //   window
+                  //     .getComputedStyle(
+                  //       document.getElementById('section_content'),
+                  //       null
+                  //     )
+                  //     .getPropertyValue('height')
+                  // )
                   if (
                     parseInt(
                       window
@@ -353,7 +353,7 @@ export default {
                           null
                         )
                         .getPropertyValue('height')
-                    ) >= 140
+                    ) >= 190
                   ) {
                     this.show_all = true
                   } else {
@@ -584,7 +584,7 @@ export default {
 
 .section_content {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 30px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

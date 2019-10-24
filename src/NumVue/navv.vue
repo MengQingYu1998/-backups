@@ -43,8 +43,9 @@
             @click="go_to_page01(item)"
           >{{item}}</div>
           <input
+            id="nav_input_value"
             slot="reference"
-            @focus="is_show_nav_popover=true"
+            @focus="is_show_nav_popover=(historyWord.length!=0)"
             @blur="is_show_nav_popover=false"
             type="text"
             placeholder="应用名称或APPID"
@@ -162,44 +163,26 @@ export default {
 
   watch: {
     $route(val, old) {
-      // alert(11111)
-      // this.$nextTick(() => {
-      //   this.is_show_nav_popover = false
-      //   console.log(this.is_show_nav_popover)
-      // })
-      // 当前路由
-      // console.log()
-      if (val.path == '/result') {
-        this.nav_input_value = this.$store.state.nav_input_value
-      } else {
+      if (val.path != '/result') {
         this.nav_input_value = ''
+        this.is_show_nav_popover = false
       }
       // 上一个路由
     }
   },
   created() {
-    // alert(this.$store.state.now_country_name)
-    // this.now_country = this.$store.state.now_country_name
     // 第一步 localStorage的历史记录搜索
     this.historyWord = localStorage.getItem('searchWord')
     if (this.historyWord != null) {
       this.historyWord = this.historyWord.split(',') //将字符串转成数组
     }
 
-    // 第一步 localStorage的历史记录搜索
-    // if (window.location.href.indexOf('/result') != -1) {
-
-    // }
-
     this.fun()
     this.$watch('nav_input_value', function(newValue, oldValue) {
-      // console.log(newValue)
-      // if (newValue == '') {
-      //   this.is_show_nav_popover = true
-      //   // alert(this.is_show_nav_popover)
-      // }
-      // this.$store.state.nav_input_value = this.nav_input_value
-
+      this.get_data_for_nav_input()
+    })
+    this.$watch('now_country', function(newValue, oldValue) {
+      document.getElementById('nav_input_value').focus()
       this.get_data_for_nav_input()
     })
   },
@@ -325,11 +308,31 @@ export default {
             .post(url, data)
             .then(response => {
               this.response_data = response.data.Data
-              if (!response.data.Data && this.nav_input_value != '') {
-                this.is_show_nav_popover = false
+
+              // 查找你要判断的文本框
+              var myInput = document.getElementById('nav_input_value')
+              // if (myInput == document.activeElement) {
+              //   alert('获取焦点')
+              // } else {
+              //   alert('未获取焦点')
+              // }
+              if (
+                this.$route.fullPath == '/result' &&
+                myInput == document.activeElement
+              ) {
+                if (response.data.Data) {
+                  this.is_show_nav_popover = true
+                } else {
+                  this.is_show_nav_popover = false
+                }
+
+                if (this.nav_input_value == '') {
+                  this.is_show_nav_popover = true
+                }
               }
-              // console.log(this.response_data)
-              // console.log('88888888888888888888888888888')
+
+              console.log(this.response_data)
+              console.log('88888888888888888888888888888')
             })
             .catch(error => {
               console.log(error)
@@ -363,8 +366,10 @@ export default {
       if (parm.trim() == '') {
         return false
       }
-      this.$store.state.nav_input_value = parm
+      // this.$store.state.nav_input_value = parm
+      this.nav_input_value = parm
       this.is_show_nav_popover = false
+
       // 调用存储历史记录的方法
       this.search_history(this.nav_input_value)
       if (
@@ -381,15 +386,21 @@ export default {
         return false
       }
 
-      this.nav_input_value = ''
       this.$store.state.now_app_name = parm
       this.$store.state.now_country_name = this.now_country
+      // alert(this.$store.state.now_country_name)
+
+      // alert(this.$store.state.now_country_name)
 
       this.hand_save_vuex(this)
-      let routerUrl = this.$router.resolve({
+
+      this.$router.push({
         path: '/result'
       })
-      window.open(routerUrl.href, '_blank')
+      // let routerUrl = this.$router.resolve({
+      //   path: '/result'
+      // })
+      // window.open(routerUrl.href, '_blank')
     }
   }
 }

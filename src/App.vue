@@ -357,7 +357,7 @@ table tbody tr:hover {
 }
 /* 修改element的单选框 */
 .el-radio-button {
-  margin-left: 10px;
+  margin-left: 12px;
 
   outline: none !important;
 }
@@ -409,6 +409,19 @@ table thead tr th {
   margin: 0 auto;
 }
 /* 搜索结果的切换 */
+/* #result .el-tabs__active-bar {
+  height: 2px !important;
+}
+
+#result .el-tabs__item {
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #222222;
+  font-weight: 600;
+} */
 #result .el-tabs__active-bar {
   height: 1px !important;
 }

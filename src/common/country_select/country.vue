@@ -148,6 +148,7 @@ export default {
 
   mounted: function() {
     this.globalClick(() => {
+      // alert(111)
       this.country_show_hidden = false
     })
   },
