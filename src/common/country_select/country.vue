@@ -283,9 +283,11 @@ export default {
   -webkit-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   transition-duration: 0.3s;
+  margin-left: 7px;
 }
 .country_name span {
-  width: 60px;
+  /* width: 60px; */
+  max-width: 60px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -293,12 +295,11 @@ export default {
     'microsoft yahei ui', 'microsoft yahei', 'simsun', 'sans-serif' !important;
 }
 .country_name {
-  width: 81px;
+  /* width: 81px; */
   height: 26px;
   background-color: #fff;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
-
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -309,7 +310,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 9px;
+  padding: 0 12px;
+  padding-right: 13px;
   box-sizing: border-box;
 }
 .item {

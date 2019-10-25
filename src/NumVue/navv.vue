@@ -331,8 +331,8 @@ export default {
                 }
               }
 
-              console.log(this.response_data)
-              console.log('88888888888888888888888888888')
+              // console.log(this.response_data)
+              // console.log('88888888888888888888888888888')
             })
             .catch(error => {
               console.log(error)

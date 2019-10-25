@@ -257,19 +257,19 @@
                 <td>
                   <div>
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg_0"
                       src="../assets/keyword/arrows (1).png"
                       alt
                       v-show="item.Change==0"
                     />
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg"
                       src="../assets/keyword/arrows (2).png"
                       alt
                       v-show="item.Change>0"
                     />
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg"
                       src="../assets/keyword/arrows (3).png"
                       alt
                       v-show="item.Change<0"
@@ -453,19 +453,19 @@
                 <td>
                   <div>
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg_0"
                       src="../assets/keyword/arrows (1).png"
                       alt
                       v-show="item.Change==0"
                     />
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg"
                       src="../assets/keyword/arrows (2).png"
                       alt
                       v-show="item.Change>0"
                     />
                     <img
-                      class="img_left"
+                      class="img_left arrowsImg"
                       src="../assets/keyword/arrows (3).png"
                       alt
                       v-show="item.Change<0"
@@ -1369,7 +1369,7 @@ export default {
             trigger: 'axis'
           },
           color: [
-            '#62c8ff',
+            '#009bef',
             '#216aff',
             '#4209a2',
             '#a000d2',
@@ -1576,6 +1576,14 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.arrowsImg_0 {
+  width: 5px;
+  height: 11px;
+}
+.arrowsImg {
+  width: 11px;
+  height: 5px;
+}
 .item_word:hover {
   color: #009bef;
 }
@@ -1856,6 +1864,7 @@ table img {
 .right_title {
   font-weight: 600 !important;
   font-size: 16px;
+  line-height: 16px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;

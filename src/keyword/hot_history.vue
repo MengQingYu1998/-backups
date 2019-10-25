@@ -58,7 +58,7 @@
         </tbody>
       </table>
     </div>
-    <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+    <div class="no_data_img" v-show="response_data==null||response_data.length == 0">
       <img src="../assets/ios/null.png" alt />
       <div>暂无相关数据</div>
     </div>
@@ -152,7 +152,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data = response.data.Data
-              // console.log(this.response_data)
+              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)
@@ -210,7 +210,7 @@ export default {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 26px;
+  line-height: 27px;
   letter-spacing: 0px;
   color: #ffffff;
   text-align: center;

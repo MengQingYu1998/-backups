@@ -50,7 +50,8 @@
 				            v-model="dateV"
 				            type="date"
 				            placeholder="选择日期"
-				              clear-icon prefix-icon="fasle"
+				            clear-icon
+										prefix-icon="fasle"
 				></el-date-picker>
 			</div>	
 		</div>
@@ -682,7 +683,7 @@ export default{
   background-image: url('../assets/NumImg/tit.png');
   background-size: 100% 86px;
   background-repeat: no-repeat;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600;
   font-size: 22px;
   color: #ffffff;
   text-align: center;
@@ -693,7 +694,6 @@ export default{
 	width: 1200px;
 	margin:0 auto;
 }
-
 
 .top>div{
 	display: inline-block;
@@ -706,7 +706,6 @@ export default{
 	border-radius: 4px;
 	border: solid 1px #dfdfdf;
 	display: inline-block;
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #444444;
 	margin-left: 10px;
@@ -714,7 +713,7 @@ export default{
 .top .country p,
 .top .lei .category,
 .top .date p{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 13px;
 	color: #222222;
 	float: left;
@@ -771,7 +770,7 @@ export default{
 .bodyDiv>div .Titdiv .font,
 .appDiv>div .Titdiv .font,
 .otherDiv>div .Titdiv .font{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
 	display: inline-block;
@@ -817,11 +816,10 @@ export default{
 	float: left;
 }
 .bodyDiv>div .lidiv .right .product div{
-	/*float: right;*/
 	margin-left: 47px;
 }
 .bodyDiv>div .lidiv .right>p{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 18px;
 	color: #009bef;
 	text-align: center;
@@ -850,7 +848,6 @@ export default{
 
 
 .bodyDiv>div .lidiv .right>div p:first-child{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 14px;
 	color: #222222;
 	width: 122px;
@@ -859,7 +856,6 @@ export default{
 	text-overflow: ellipsis;
 }
 .bodyDiv>div .lidiv .right>div p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #888888;
 	width: 204px;
@@ -870,7 +866,6 @@ export default{
 /*第一种*/
 .bodyDiv>div .div1 .left p,
 .bodyDiv>div .div5 .left>p{
-	font-family: SourceHanSansCN-Regular;
 	color: #ffffff;
 	width: 210px;
 	margin:0 auto;
@@ -885,7 +880,7 @@ export default{
 }
 .bodyDiv>div .div1 p.font,
 .bodyDiv>div .div5 p.font{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 18px;
 	margin-top: 10px;
 	height:50px;
@@ -897,7 +892,7 @@ export default{
 
 /*第二种*/
 .bodyDiv>div .div2 .left>p{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 26px;
 	color: #ffffff;
 	width: 210px;
@@ -941,7 +936,6 @@ export default{
 .bodyDiv>div .div2 .left>div>div.prodiv p:first-child,
 .bodyDiv>div .div3 .left .pro>div .prodiv p:first-child,
 .bodyDiv>div .div5 .left>div>div.prodiv p:first-child{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 14px;
 	color: #ffffff;
 	width: 75px;
@@ -952,7 +946,6 @@ export default{
 .bodyDiv>div .div2 .left>div>div.prodiv p:last-child,
 .bodyDiv>div .div3 .left .pro>div .prodiv p:last-child,
 .bodyDiv>div .div5 .left>div>div.prodiv p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #ffffff;
 	width: 62px;
@@ -974,7 +967,7 @@ export default{
 	text-align: center;
 	background-color: #ffffff;
 	border-radius: 4px;
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 13px;
 	color: #009bef;
 	margin:0 auto;
@@ -985,7 +978,6 @@ export default{
 	margin-right: 20px;
 }
 .bodyDiv>div .div2 .left>div>div.huoqu p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 10px;
 	color: #ffffff;
 }
@@ -997,14 +989,13 @@ export default{
 }
 .bodyDiv>div .div3 .left .name,
 .bodyDiv>div .div4 .left .name{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 14px;
 	color: #888888;
 	margin-top: 10px;
 }
 .bodyDiv>div .div3 .left .des,
 .bodyDiv>div .div4 .left .des{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
 	height:50px;
@@ -1036,13 +1027,12 @@ export default{
 	text-align: center;
 	background-color: #f2f2f2;
 	border-radius: 4px;
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 13px;
 	color: #009bef;
 	margin:0 auto;
 }
 .bodyDiv>div .div3 .left .pro>div .huoqudiv p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 10px;
 	color: #bfbfbf;
 
@@ -1121,7 +1111,6 @@ export default{
 	margin:0 auto;
 }
 .appDiv .nowDiv .leiDiv>div .time p{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #888888;
 	float: left;
@@ -1133,7 +1122,7 @@ export default{
 }
 .appDiv .nowDiv .leiDiv>div .name{
 	clear: both;
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 16px;
 	color: #444444;
 	margin-left: 25px;
@@ -1162,7 +1151,6 @@ export default{
 	vertical-align: top;
 }
 .appDiv .nowDiv .pro>div p:first-child{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 14px;
 	color: #222222;
 	width: 230px;
@@ -1171,7 +1159,6 @@ export default{
 	text-overflow: ellipsis;
 }
 .appDiv .nowDiv .pro>div p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #888888;
 	width: 260px;
@@ -1206,7 +1193,6 @@ export default{
 	border-bottom: none;
 }
 .appDiv .otherDiv ul li>div div{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 14px;
 	color: #444444;
 	display: inline-block;
@@ -1233,14 +1219,12 @@ export default{
 	text-align: left;
 }
 .appDiv .otherDiv ul li>div div.namDiv p:first-child{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 14px;
 	color: #222222;
 	width: 130px;
 	margin-top: 2px;
 }
 .appDiv .otherDiv ul li>div div.namDiv p:last-child{
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #888888;
 	width: 190px;
@@ -1287,7 +1271,6 @@ export default{
 .Leibox >div >div span{
 	margin-left: 15px;
     width: 65px;
-	font-family: SourceHanSansCN-Normal;
 	font-size: 13px;
 	color: #444444;
 	line-height: 30px;
@@ -1302,7 +1285,7 @@ export default{
 }
 /*暂无数据*/
 .null{
-	font-family: SourceHanSansCN-Medium;
+	font-weight: 600;
 	font-size: 14px;
 	color: #bfbfbf;
 	text-align: center;
@@ -1321,7 +1304,6 @@ export default{
 	margin-top: 190px;
 }
 .nullA p{
-	font-family: SourceHanSansCN-Regular;
 	font-size: 13px;
 	color: #555555;
 }
@@ -1330,7 +1312,6 @@ export default{
     height: 28px;
     border-radius: 4px;
     border: solid 1px #dfdfdf;
-    font-family: SourceHanSansCN-Normal;
     font-size: 13px;
     line-height: 28px;
     color: #444444;

@@ -157,7 +157,7 @@ export default {
         },
         animation: false,
         color: [
-          '#62c8ff',
+          '#009bef',
           '#216aff',
           '#4209a2',
           '#a000d2',

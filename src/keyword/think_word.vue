@@ -12,7 +12,8 @@
             v-model="dateValue"
             type="date"
             placeholder="选择日期"
-              clear-icon prefix-icon="fasle"
+            clear-icon
+            prefix-icon="fasle"
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -46,7 +47,12 @@
         <tbody>
           <template v-if="response_data">
             <tr class="disable_hover" v-if="!response_data.Yvalue">
-              <td colspan="8">暂无相关数据</td>
+              <td colspan="8">
+                <div class="no_data_img">
+                  <img src="../assets/ios/null.png" alt />
+                  <div>暂无相关数据</div>
+                </div>
+              </td>
             </tr>
 
             <tr v-for="(item,index) in response_data.Yvalue" :key="'Yvalue'+index">
@@ -152,7 +158,7 @@ export default {
             .post(url, data)
             .then(response => {
               this.response_data = response.data
-              // console.log(this.response_data)
+              console.log(this.response_data)
             })
             .catch(error => {
               console.log(error)
@@ -179,6 +185,28 @@ export default {
 }
 </script>
 <style scoped>
+.no_data_img:hover {
+  background-color: #fff;
+}
+.no_data_img img {
+  width: 210px;
+  margin-top: 193px;
+}
+
+.no_data_img {
+  width: 100%;
+  height: 606px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #555555;
+}
 .table_group {
   margin-bottom: 38px;
   display: flex;

@@ -320,7 +320,59 @@ table tbody tr:hover {
   padding-right: 4px !important;
 }
 .el-input--suffix .el-input__inner {
-  padding-left: 10px;
+  padding-left: 12px;
+  padding-right: 12px !important;
+}
+
+/* 时间选择组件===》开始时间与结束时间共存组件 */
+/* 单选时间的长度 */
+.el-date-editor--date {
+  width: 110px !important;
+}
+/* #result #dateValue01 .el-date-editor:after { */
+.el-date-editor:after {
+  display: block;
+  content: '';
+  background-image: url('./assets/keyword/arrows_down.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* transform: rotate(-90deg) !important; */
+  background-size: 100% 100%;
+  width: 8px !important;
+  height: 8px !important;
+  margin-top: -17px;
+  position: absolute;
+  right: 12px;
+}
+.el-date-editor .el-range__icon,
+.el-date-editor .el-range__close-icon {
+  display: none !important;
+}
+.el-date-editor .el-range-separator {
+  line-height: 19px !important;
+  color: #444444 !important;
+}
+
+.el-input__icon {
+  line-height: 21px !important;
+}
+.el-range-editor.el-input__inner:after {
+  /* background-image: none !important; */
+  display: block;
+  content: '';
+  background-image: url('./assets/keyword/arrows_down.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  width: 8px !important;
+  height: 8px !important;
+  margin-top: 0px;
+  position: absolute;
+  right: 16px;
+}
+.el-range-editor.el-input__inner {
+  width: 222px;
+  padding-left: 8px;
 }
 /*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
@@ -337,23 +389,6 @@ table tbody tr:hover {
 }
 #grade_start .el-progress-bar__outer {
   border-radius: 0 !important;
-}
-/* 时间选择组件===》开始时间与结束时间共存组件 */
-
-.el-date-editor .el-range-separator {
-  line-height: 27px !important;
-  color: #444444 !important;
-}
-
-.el-input__icon {
-  line-height: 21px !important;
-}
-.el-date-editor--daterange.el-input,
-.el-date-editor--daterange.el-input__inner,
-.el-date-editor--timerange.el-input,
-.el-date-editor--timerange.el-input__inner {
-  width: 250px !important;
-  padding-left: 4px !important;
 }
 /* 修改element的单选框 */
 .el-radio-button {
@@ -409,7 +444,7 @@ table thead tr th {
   margin: 0 auto;
 }
 /* 搜索结果的切换 */
-/* #result .el-tabs__active-bar {
+#result .el-tabs__active-bar {
   height: 2px !important;
 }
 
@@ -421,19 +456,9 @@ table thead tr th {
   letter-spacing: 0px;
   color: #222222;
   font-weight: 600;
-} */
-#result .el-tabs__active-bar {
+}
+#result .el-tabs__nav-wrap:after {
   height: 1px !important;
-}
-#result .el-tabs__nav-wrap::after {
-  height: 1px !important;
-}
-#result .el-tabs__item {
-  color: #888888;
-}
-#result .el-tabs__item.is-active {
-  color: #222;
-  font-weight: 600;
 }
 /* 应用信息的视频插件 */
 
@@ -532,18 +557,6 @@ table thead tr th {
 .el-icon-date {
   line-height: 26px !important;
 }
-.el-range-editor.el-input__inner {
-  padding: 0 10px;
-}
-.el-select .el-input__icon:after {
-  content: '';
-  background-image: url('./assets/keyword/app_vue.png');
-  background-repeat: no-repeat;
-  width: 8px !important;
-  height: 8px !important;
-  transform: rotate(-90deg) !important;
-  margin-top: -1px;
-}
 
 .el-select .el-input__icon:after {
   content: '';
@@ -554,13 +567,11 @@ table thead tr th {
   transform: rotate(-90deg) !important;
   margin-top: -1px;
 }
+
 .el-input__suffix-inner {
   line-height: 10px !important;
 }
-/* 单选时间的长度 */
-.el-date-editor--date {
-  width: 94px !important;
-}
+
 /* Aso关键词 解决时间下拉框覆盖单选框 */
 .el-picker-panel {
   z-index: 999 !important;
@@ -661,9 +672,4 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 /* input[type='number']去掉箭头 */
-
-/* element的分页 */
-/* .blue_router {
-  color: red !important;
-} */
 </style>

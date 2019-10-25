@@ -412,27 +412,7 @@ export default {
           })
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          // let url =
-          //   '/Word/FindWordRank?&page=' +
-          //   this.page +
-          //   '&deviceType=' +
-          //   deviceType +
-          //   '&countryId=' +
-          //   country_id +
-          //   '&minHint=' +
-          //   this.index_min_input +
-          //   '&maxHint=' +
-          //   this.index_max_input +
-          //   '&minResult=' +
-          //   this.result_min_input +
-          //   '&maxResult=' +
-          //   this.result_max_input +
-          //   '&word=' +
-          //   this.keyword_input +
-          //   '&time=' +
-          //   formatDate(this.dateValue, 'yyyy-MM-dd') +
-          //   '&GenreId=' +
-          //   this.my_genreId
+
           let url = '/Word/FindWordRank'
           let that = this
           let data = {
@@ -464,6 +444,8 @@ export default {
                 this.page += 1
                 this.can_execute_scorll = true //是否可以执行滚动
                 this.it_is_over = response.data.Data.length < 20
+                this.loading = false
+              } else {
                 this.loading = false
               }
             })
@@ -786,6 +768,7 @@ table {
 
 .options_04 img {
   width: 8px;
+  vertical-align: 0px;
 }
 
 .options_03_ml {

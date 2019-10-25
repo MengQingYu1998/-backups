@@ -1,167 +1,108 @@
 <template>
   <div id="result" class="content">
-    <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
     <div class="line"></div>
-    <div class="options">
-      <div class="options_01 option">
-        <div class="margin_top_font">设备</div>
-        <div>
-          <!-- 饿了么的select组件 -->
-          <el-select v-model="equipmentValue">
-            <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="options_02 option">
-        <div class="margin_top_font">地区</div>
-        <div>
-          <!-- 选择国家 -->
-          <country
-            v-if="is_show_country_component"
-            @childFn="parentFn"
-            :custom_country="this.$store.state.now_country_name"
-          ></country>
-        </div>
-      </div>
-      <div class="options_03 option">
-        <div class="margin_top_font">日期</div>
-        <div>
-          <!-- 饿了么的日期选择组件 -->
-          <el-date-picker
-            v-model="dateValue"
-            type="date"
-            placeholder="选择日期"
-            clear-icon
-            prefix-icon="fasle"
-            :picker-options="pickerOptions2"
-          ></el-date-picker>
-        </div>
-      </div>
-    </div>
-    <div class="keywordContentTable">
-      <table>
-        <thead>
-          <tr>
-            <th class="keywordContentTable_th">关键词</th>
-            <th v-show="activeName=='first'">搜索指数</th>
-            <th v-show="activeName=='first'">搜索结果数</th>
-            <th v-show="activeName=='first'">搜索联想词</th>
-            <th v-show="activeName=='second'">搜索指数</th>
-            <th v-show="activeName=='second'">搜索结果数</th>
-            <th v-show="activeName=='second'">搜索联想词</th>
-            <th v-show="activeName=='third'" class="keywordContentTable_th">搜索指数</th>
-            <th v-show="activeName=='third'" class="keywordContentTable_th">ios12搜索结果数</th>
-            <th v-show="activeName=='third'" class="keywordContentTable_th">ios11搜索结果数</th>
-          </tr>
-        </thead>
-        <tbody v-show="!loading_first">
-          <tr class="disable_hover" v-show="!data_for_top_table02&&!data_for_top_table">
-            <td colspan="4">暂无相关数据</td>
-          </tr>
-          <tr v-if="data_for_top_table02">
-            <!-- 关键词 -->
-            <td>{{data_for_top_table02.Word}}</td>
-            <!-- ============ ios12============ -->
-            <!-- ============ ios12============ -->
-            <!-- ============ ios12============ -->
-            <td v-show="activeName=='first'">
-              {{data_for_top_table02.Hint}}
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page02(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='first'">
-              <span>{{data_for_top_table02.SearchCount12}}</span>
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page03(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='first'" class="data_for_top_table_span">
-              <span
-                class="pointer"
-                @click="go_to_page04(item_son.keyword)"
-                v-for="(item_son, index_son) in data_for_top_table"
-                :key="'data_for_top_tablesss'+index_son"
-              >{{item_son.keyword}}</span>
-              <span @click="go_to_page01(data_for_top_table02.Word)" class="pointer">查看更多>></span>
-            </td>
-            <!-- ============ ios11============ -->
-            <!-- ============ ios11============ -->
-            <!-- ============ ios11============ -->
-            <td v-show="activeName=='second'">
-              {{data_for_top_table02.Hint}}
-              <img
-                src="../assets/keyword/keyword01.png"
-                @click="go_to_page02(data_for_top_table02.Word)"
-                class="pointer img_width"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='second'">
-              <span>{{data_for_top_table02.SearchCount11}}</span>
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page03(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='second'" class="data_for_top_table_span">
-              <span
-                class="pointer"
-                @click="go_to_page04(item_son.keyword)"
-                v-for="(item_son, index_son) in data_for_top_table"
-                :key="'data_for_top_tablesss'+index_son"
-              >{{item_son.keyword}}</span>
-              <span @click="go_to_page01(data_for_top_table02.Word)" class="pointer">查看更多>></span>
-            </td>
-            <!-- ============ 搜索结果对比============ -->
-            <!-- ============ 搜索结果对比============ -->
-            <!-- ============ 搜索结果对比============ -->
-            <td v-show="activeName=='third'">
-              {{data_for_top_table02.Hint}}
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page02(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='third'">
-              <span>{{data_for_top_table02.SearchCount12}}</span>
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page03(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-            <td v-show="activeName=='third'">
-              <span>{{data_for_top_table02.SearchCount11}}</span>
-              <img
-                src="../assets/keyword/keyword01.png"
-                class="pointer img_width"
-                @click="go_to_page03(data_for_top_table02.Word)"
-                alt
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- <div class="loading" v-show="loading_first">
-        <img src="../assets/ios/loading.gif" alt />
-      </div>-->
-    </div>
+
     <div class="tabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
-        <el-tab-pane label="ios12搜索结果" name="first">
+        <el-tab-pane label="iOS13/12搜索结果" name="first">
+          <div class="options">
+            <div class="options_01 option">
+              <div class="margin_top_font">设备</div>
+              <div>
+                <el-radio-group v-model="equipmentValue" size="mini">
+                  <el-radio-button
+                    v-for="item in  equipment "
+                    :key="item.value"
+                    :label="item.value"
+                  ></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="options_02 option">
+              <div class="margin_top_font">地区</div>
+              <div>
+                <!-- 选择国家 -->
+                <country
+                  v-if="is_show_country_component"
+                  @childFn="parentFn"
+                  :custom_country="this.$store.state.now_country_name"
+                ></country>
+              </div>
+            </div>
+            <div class="options_03 option">
+              <div class="margin_top_font">日期</div>
+              <div id="dateValue01">
+                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                  <el-radio-button label="今日"></el-radio-button>
+                  <el-radio-button label="昨日"></el-radio-button>
+                </el-radio-group>
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateValue"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                  prefix-icon="fasle"
+                  :picker-options="pickerOptions2"
+                  @blur="dateValue_blur01"
+                  @focus="dateValue_focus01"
+                ></el-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="keywordContentTable">
+            <div>
+              <div>{{this.$store.state.now_app_name}}</div>
+              <div>搜索关键词</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.Hint}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page02(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>搜索指数</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.SearchCount12}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page03(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>搜索结果数</div>
+            </div>
+            <div id="data_for_top_table_keyword01">
+              <span
+                class="pointer active_line"
+                @click="go_to_page04(item_son.keyword)"
+                v-for="(item_son, index_son) in data_for_top_table"
+                :key="'data_for_top_tablesss'+index_son"
+              >{{item_son.keyword}}</span>
+              <span
+                v-show="!data_for_top_table"
+                style="margin-left:90px;line-height: 50px;"
+              >暂无更多搜索联想词</span>
+              <span
+                v-show="data_for_top_table"
+                @click="go_to_page01(data_for_top_table02.Word)"
+                :class="{ 'active_line':true,'pointer':true, 'see_more':see_more, 'see_more01':see_more01}"
+              >更多>></span>
+            </div>
+          </div>
+          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title_line"></div>
+
           <div class="left_and_right">
             <div class="left tabsContentTable">
               <table>
@@ -171,8 +112,7 @@
                     <th>搜索排名变动</th>
                     <th>总榜排名</th>
                     <th>分类榜排名</th>
-                    <th>关键词覆盖数</th>
-                    <th>top3关键词数</th>
+                    <th class="th_width_555">关键词覆盖数/top3</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -190,19 +130,21 @@
                           </div>
                           <div class="third_div">
                             <div
-                              class="app_name pointer"
+                              :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
                             <div
-                              class="app_subtitle rankingChangeFontColor"
-                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                              class="new_add_field"
+                              v-show="item.developer_name"
+                            >{{item.developer_name}}</div>
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="rankingChange">
                           <img
-                            class="arrowsImg01"
+                            class="arrowsImg_0"
                             v-show="item.Change==0"
                             src="../assets/keyword/arrows (1).png"
                             alt
@@ -220,7 +162,7 @@
                             alt
                           />
                           <div
-                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            :class="{'font_size_15':true ,'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
@@ -232,22 +174,21 @@
                       </td>
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                         >{{item.ranking.rank_class}}</div>
                         <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
                         >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{}}</div>-->
+
                         <div
                           v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
                         >--</div>
                       </td>
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                         >{{item.ranking.genre_class}}</div>
                         <div
@@ -265,8 +206,7 @@
                       <td
                         class="pointer"
                         @click="go_to_page06(item.AppStoreId,item.app_name)"
-                      >{{item.Cover}}</td>
-                      <td>{{item.Top3}}</td>
+                      >{{item.Cover+' / '+item.Top3}}</td>
                     </tr>
                   </template>
                   <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
@@ -295,13 +235,108 @@
                     <el-radio-button label="all"></el-radio-button>
                   </el-radio-group>
                 </div>
-                <div ref="myChart_result12" class="myChart"></div>
               </div>
+              <div ref="myChart_result12" class="myChart"></div>
             </div>
           </div>
         </el-tab-pane>
         <!-- ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果 -->
-        <el-tab-pane label="ios11搜索结果" name="second">
+        <el-tab-pane label="iOS11搜索结果" name="second">
+          <div class="options">
+            <div class="options_01 option">
+              <div class="margin_top_font">设备</div>
+              <div>
+                <el-radio-group v-model="equipmentValue" size="mini">
+                  <el-radio-button
+                    v-for="item in  equipment "
+                    :key="item.value"
+                    :label="item.value"
+                  ></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="options_02 option">
+              <div class="margin_top_font">地区</div>
+              <div>
+                <!-- 选择国家 -->
+                <country
+                  v-if="is_show_country_component"
+                  @childFn="parentFn"
+                  :custom_country="this.$store.state.now_country_name"
+                ></country>
+              </div>
+            </div>
+            <div class="options_03 option">
+              <div class="margin_top_font">日期</div>
+              <div id="dateValue02">
+                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                  <el-radio-button label="今日"></el-radio-button>
+                  <el-radio-button label="昨日"></el-radio-button>
+                </el-radio-group>
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateValue"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                  prefix-icon="fasle"
+                  :picker-options="pickerOptions2"
+                  @blur="dateValue_blur02"
+                  @focus="dateValue_focus02"
+                ></el-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="keywordContentTable">
+            <div>
+              <div>{{this.$store.state.now_app_name}}</div>
+              <div>搜索关键词</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.Hint}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page02(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>搜索指数</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.SearchCount11}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page03(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>搜索结果数</div>
+            </div>
+            <div id="data_for_top_table_keyword02">
+              <span
+                class="pointer active_line"
+                @click="go_to_page04(item_son.keyword)"
+                v-for="(item_son, index_son) in data_for_top_table"
+                :key="'data_for_top_tablesss'+index_son"
+              >{{item_son.keyword}}</span>
+              <span
+                v-show="!data_for_top_table"
+                style="margin-left:90px;line-height: 50px;"
+              >暂无更多搜索联想词</span>
+              <span
+                v-show="data_for_top_table"
+                :class="{ 'active_line':true,'pointer':true, 'another_see_more':another_see_more, 'another_see_more01':another_see_more01}"
+              >...更多>></span>
+            </div>
+          </div>
+          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title_line"></div>
           <div class="left_and_right">
             <div class="left tabsContentTable">
               <table>
@@ -311,8 +346,7 @@
                     <th>搜索排名变动</th>
                     <th>总榜排名</th>
                     <th>分类榜排名</th>
-                    <th>关键词覆盖数</th>
-                    <th>top3关键词数</th>
+                    <th>关键词覆盖数/top3</th>
                   </tr>
                 </thead>
                 <tbody class="use_father">
@@ -330,19 +364,21 @@
                           </div>
                           <div class="third_div">
                             <div
-                              class="app_name pointer"
+                              :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
                             <div
-                              class="app_subtitle rankingChangeFontColor"
-                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                              class="new_add_field"
+                              v-show="item.developer_name"
+                            >{{item.developer_name}}</div>
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div class="rankingChange">
                           <img
-                            class="arrowsImg01"
+                            class="arrowsImg_0"
                             v-show="item.Change==0"
                             src="../assets/keyword/arrows (1).png"
                             alt
@@ -360,7 +396,7 @@
                             alt
                           />
                           <div
-                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
@@ -372,38 +408,36 @@
                       </td>
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                         >{{item.ranking.rank_class}}</div>
                         <div
                           v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
                           class="rankingChangeFontColor"
                         >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.genre_allprice}}</div>-->
+
                         <div
                           v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
                         >--</div>
                       </td>
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                         >{{item.ranking.genre_class}}</div>
                         <div
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
                         >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{}}</div>-->
+
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
                       </td>
-                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                      <td>{{item.Top3}}</td>
+                      <td
+                        class="pointer"
+                        @click="go_to_page06(item.AppStoreId)"
+                      >{{item.Cover+' / '+item.Top3}}</td>
                     </tr>
                   </template>
                   <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
@@ -427,11 +461,103 @@
         </el-tab-pane>
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
         <el-tab-pane label="搜索结果对比" name="third">
+          <div class="options">
+            <div class="options_01 option">
+              <div class="margin_top_font">设备</div>
+              <div>
+                <el-radio-group v-model="equipmentValue" size="mini">
+                  <el-radio-button
+                    v-for="item in  equipment "
+                    :key="item.value"
+                    :label="item.value"
+                  ></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="options_02 option">
+              <div class="margin_top_font">地区</div>
+              <div>
+                <!-- 选择国家 -->
+                <country
+                  v-if="is_show_country_component"
+                  @childFn="parentFn"
+                  :custom_country="this.$store.state.now_country_name"
+                ></country>
+              </div>
+            </div>
+            <div class="options_03 option">
+              <div class="margin_top_font">日期</div>
+              <div id="dateValue03">
+                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                  <el-radio-button label="今日"></el-radio-button>
+                  <el-radio-button label="昨日"></el-radio-button>
+                </el-radio-group>
+                <!-- 饿了么的日期选择组件 -->
+                <el-date-picker
+                  v-model="dateValue"
+                  type="date"
+                  placeholder="选择日期"
+                  clear-icon
+                  prefix-icon="fasle"
+                  :picker-options="pickerOptions2"
+                  @blur="dateValue_blur03"
+                  @focus="dateValue_focus03"
+                ></el-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="keywordContentTable">
+            <div>
+              <div>{{this.$store.state.now_app_name}}</div>
+              <div>搜索关键词</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.Hint}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page02(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>搜索指数</div>
+            </div>
+            <div>
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02&&data_for_top_table02.SearchCount11}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page03(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>iOS11搜索结果数</div>
+            </div>
+            <div class="same">
+              <div v-if="data_for_top_table02">
+                {{data_for_top_table02.SearchCount12}}
+                <img
+                  src="../assets/keyword/keyword01.png"
+                  class="pointer"
+                  @click="go_to_page03(data_for_top_table02.Word)"
+                  alt
+                />
+              </div>
+              <div v-else>--</div>
+              <div>iOS12搜索结果数</div>
+            </div>
+          </div>
+          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title_line"></div>
           <div class="flex-row">
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
               <div>
-                <div>ios12</div>
-                <div v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</div>
+                <span>ios12&nbsp;</span>
+                <span v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</span>
               </div>
               <table>
                 <thead>
@@ -458,18 +584,21 @@
                           </div>
                           <div class="third_div">
                             <div
-                              class="app_name pointer"
+                              :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
                             <div
-                              class="app_subtitle rankingChangeFontColor"
-                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                              class="new_add_field"
+                              v-show="item.developer_name"
+                            >{{item.developer_name}}</div>
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
 
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                         >{{item.ranking.genre_class}}</div>
                         <div
@@ -487,7 +616,7 @@
                       <td>
                         <div class="rankingChange">
                           <img
-                            class="arrowsImg01"
+                            class="arrowsImg_0"
                             v-show="item.Change==0"
                             src="../assets/keyword/arrows (1).png"
                             alt
@@ -505,7 +634,7 @@
                             alt
                           />
                           <div
-                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
@@ -527,8 +656,8 @@
             </div>
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
               <div>
-                <div>ios11</div>
-                <div v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</div>
+                <span>ios11&nbsp;</span>
+                <span v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</span>
               </div>
               <table>
                 <thead>
@@ -555,18 +684,21 @@
                           </div>
                           <div class="third_div">
                             <div
-                              class="app_name pointer"
+                              :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
                             <div
-                              class="app_subtitle rankingChangeFontColor"
-                            >{{item.subtitle!='无'?item.subtitle:''}}</div>
+                              class="new_add_field"
+                              v-show="item.developer_name"
+                            >{{item.developer_name}}</div>
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
 
                       <td>
                         <div
+                          class="font_size_15"
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                         >{{item.ranking.genre_class}}</div>
                         <div
@@ -584,7 +716,7 @@
                       <td>
                         <div class="rankingChange">
                           <img
-                            class="arrowsImg"
+                            class="arrowsImg_0"
                             v-show="item.Change==0"
                             src="../assets/keyword/arrows (1).png"
                             alt
@@ -602,7 +734,7 @@
                             alt
                           />
                           <div
-                            :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                           >{{Math.abs(item.Change)}}</div>
                           <img
                             src="../assets/keyword/keyword01.png"
@@ -746,11 +878,9 @@
     </div>
   </div>
 </template>
-
 <script>
 // 引入国家选择组件
 import country from '../common/country_select/country'
-
 // 引入工具类
 import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
@@ -840,9 +970,12 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
+      another_see_more: false,
+      another_see_more01: false,
+      see_more: false,
+      see_more01: false,
       SearchDate_11: '',
       SearchDate_12: '',
-
       it_is_over_12: false,
       it_is_over_11: false,
       loading_12: false,
@@ -861,10 +994,9 @@ export default {
         }
       ],
       equipmentValue: 'iPhone',
-
       //当前选中的日期
+      date_button: '今日',
       dateValue: new Date(),
-
       pickerOptions2: {
         disabledDate(time) {
           return time.getTime() > Date.now()
@@ -888,25 +1020,20 @@ export default {
   },
   created: function() {
     // alert(this.$store.state.now_country_name)
-
     // 与上一页面的参数保持一致
     if (this.$route.query.equipmentValue_from_ranking) {
       this.equipmentValue = this.$route.query.equipmentValue_from_ranking
     }
-
     if (this.$route.query.dateValue_from_ranking) {
       this.dateValue = new Date(
         Date.parse(this.$route.query.dateValue_from_ranking.replace(/-/g, '/'))
       )
     }
-
     // 与上一页面的参数保持一致
-
     this.get_data_for_top_table()
     this.get_data_12()
     this.get_data_11()
     this.get_data_column()
-
     this.$watch('activeName', function(newValue, oldValue) {
       if (newValue == 'third') {
         this.page11 = 1
@@ -919,13 +1046,19 @@ export default {
       this.get_data_for_top_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
+      // 保证切换的时候，国家统一
+      this.$store.state.now_country_name = this.now_country
+      this.is_show_country_component = false
+      this.$nextTick(() => {
+        this.is_show_country_component = true
+      })
+      // 保证切换的时候，国家统一
       // console.log('当前国家发生变化，重新请求数据...')
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
       this.get_data_for_top_table()
-
       this.get_data_12()
       this.get_data_11()
       // alert('now_country')
@@ -967,7 +1100,6 @@ export default {
       this.get_data_11()
       this.get_data_column()
     })
-
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
@@ -982,7 +1114,38 @@ export default {
     this.$watch('radio1', function(newValue, oldValue) {
       this.get_data_column()
     })
+    this.$watch('date_button', function(newValue, oldValue) {
+      switch (newValue) {
+        case '今日':
+          this.dateValue = new Date()
+
+          break
+        case '昨日':
+          let time02 = new Date()
+          this.dateValue = new Date(
+            new Date().setTime(time02.getTime() - 24 * 60 * 60 * 1000)
+          )
+          break
+        default:
+          break
+      }
+    })
     this.$watch('dateValue', function(newValue, oldValue) {
+      switch (timestamp(newValue.getTime() / 1000, 'Y年M月D日')) {
+        case timestamp(new Date().getTime() / 1000, 'Y年M月D日'):
+          this.date_button = '今日'
+
+          break
+        case timestamp(
+          (new Date().getTime() - 24 * 60 * 60 * 1000) / 1000,
+          'Y年M月D日'
+        ):
+          this.date_button = '昨日'
+          break
+        default:
+          this.date_button = ''
+          break
+      }
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
       this.page11 = 1
@@ -1016,7 +1179,6 @@ export default {
       this.get_data_dialog()
     })
   },
-
   mounted() {
     this.$nextTick(() => {
       let that = this
@@ -1059,8 +1221,55 @@ export default {
       }
     })
   },
-
   methods: {
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id
+    // 2.添加两个事件
+    // 3.复制以下代码
+    dateValue_blur01() {
+      // console.log('失去焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue01 .el-date-editor::after',
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    dateValue_focus01() {
+      // console.log('得到焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue01 .el-date-editor::after',
+        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    dateValue_blur02() {
+      // console.log('失去焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue02 .el-date-editor::after',
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    dateValue_focus02() {
+      // console.log('得到焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue02 .el-date-editor::after',
+        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    dateValue_blur03() {
+      // console.log('失去焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue03 .el-date-editor::after',
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    dateValue_focus03() {
+      // console.log('得到焦点')
+      document.styleSheets[0].addRule(
+        '#dateValue03 .el-date-editor::after',
+        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+      )
+    },
+    // 控制时间组件旋转
+
     // =============================顶部table============================
     // =============================顶部table============================
     // =============================顶部table============================
@@ -1103,11 +1312,62 @@ export default {
             .post(url, data)
             .then(response => {
               if (response.data.Code == 1) {
-                this.data_for_top_table == false
+                this.data_for_top_table = false
               }
               if (response.data.Code == 0) {
                 this.data_for_top_table = response.data.Data
+                // console.log(8888888888888888)
                 console.log(this.data_for_top_table)
+                this.$nextTick(() => {
+                  switch (this.activeName) {
+                    case 'first':
+                      if (
+                        parseInt(
+                          window
+                            .getComputedStyle(
+                              document.getElementById(
+                                'data_for_top_table_keyword01'
+                              ),
+                              null
+                            )
+                            .getPropertyValue('height')
+                        ) >= 40
+                      ) {
+                        // 两行
+                        this.see_more = true
+                        this.see_more01 = false
+                      } else {
+                        // 一行
+                        this.see_more = false
+                        this.see_more01 = true
+                      }
+                      break
+                    case 'second':
+                      if (
+                        parseInt(
+                          window
+                            .getComputedStyle(
+                              document.getElementById(
+                                'data_for_top_table_keyword02'
+                              ),
+                              null
+                            )
+                            .getPropertyValue('height')
+                        ) >= 40
+                      ) {
+                        // 两行
+                        this.another_see_more = true
+                        this.another_see_more01 = false
+                      } else {
+                        // 一行
+                        this.another_see_more = false
+                        this.another_see_more01 = true
+                      }
+                      break
+                    default:
+                      break
+                  }
+                })
               }
             })
             .catch(error => {
@@ -1115,15 +1375,18 @@ export default {
             })
           // 请求数据02==============================================
           // 请求数据02==============================================
+
           let url02 = '/Word/FindWordInfo'
           this.$axios
             .post(url02, data)
             .then(response => {
               this.loading_first = false
               if (response.data.Code == 1) {
-                this.data_for_top_table02 == false
+                this.data_for_top_table02 = false
               }
               if (response.data.Code == 0) {
+                // console.log('this.data_for_top_table')
+                // console.log(response.data.Data)
                 this.data_for_top_table02 = response.data.Data
               }
             })
@@ -1135,7 +1398,6 @@ export default {
           console.log(error)
         })
     },
-
     // =============================tab可切换部分============================
     // =============================tab可切换部分============================
     // =============================tab可切换部分============================
@@ -1163,7 +1425,6 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name.trim()
-
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1182,7 +1443,6 @@ export default {
               console.log(response)
               this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
-
               if (response.data.Code == 1) {
                 this.it_is_over_12 = true
                 return false
@@ -1199,9 +1459,8 @@ export default {
                   response.data.AppInfoList.length >= 0
               }
               // console.log(this.it_is_over_12)
-
               // console.log(response.data.AppInfoList)
-              console.log(this.response_data_for_ios12)
+              // console.log(this.response_data_for_ios12)
             })
             .catch(error => {
               console.log(error)
@@ -1234,7 +1493,6 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$store.state.now_app_name.trim()
-
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1252,7 +1510,6 @@ export default {
               // console.log(response)
               this.loading_11 = false
               this.can_execute_scorll = true //是否可以执行滚动
-
               if (response.data.Code == 1) {
                 this.it_is_over_11 = true
                 return false
@@ -1263,7 +1520,6 @@ export default {
                   response.data.AppInfoList
                 )
                 this.page11 += 1
-
                 this.it_is_over_11 =
                   response.data.AppInfoList.length < 10 &&
                   response.data.AppInfoList.length >= 0
@@ -1311,13 +1567,13 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.keyword_data01 = new Array()
               this.keyword_data_value01 = new Array()
               this.xAxis_data01 = new Array()
               this.keyword_data_value01.push(response.data.Yvalue)
               this.xAxis_data01 = response.data.Xvalue
-              this.keyword_data01.push('ios12')
+              this.keyword_data01.push('搜索结果变化率')
               // console.log(this.keyword_data_value01[0])
               if (this.now_country == '中国') {
                 this.drawLine12()
@@ -1373,7 +1629,7 @@ export default {
             trigger: 'axis'
           },
           color: [
-            '#62c8ff',
+            '#009bef',
             '#216aff',
             '#4209a2',
             '#a000d2',
@@ -1384,14 +1640,21 @@ export default {
             '#c3df00',
             '#529323'
           ],
-
           legend: {
             data: that.keyword_data01,
-            y: 'bottom'
+            y: 'bottom',
+            textStyle: {
+              fontSize: 13,
+              padding: [3, 0, 0, 0]
+            },
+            itemWidth: 12,
+            itemHeight: 12,
+            icon: 'rect'
           },
           grid: {
-            left: '15%',
-            right: '15%',
+            top: '2%',
+            left: '14%',
+            right: '5%',
             bottom: '20%'
           },
           xAxis: {
@@ -1506,7 +1769,6 @@ export default {
     // ==================element弹窗==============
     // ==================element弹窗==============
     // ==================element弹窗==============
-
     get_data_dialog() {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
@@ -1539,7 +1801,6 @@ export default {
             edate = formatDate(this.time_dialog[1], 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '近24小时') {
             // console.log近24小时
-
             edate = formatDate(new Date(), 'yyyy-MM-dd')
             sdate = formatDate(new Date(), 'yyyy-MM-dd')
           } else if (this.radio02_dialog == '7天') {
@@ -1578,7 +1839,6 @@ export default {
           } else if (this.activeName == 'third') {
             iosType = this.dialog_iosType
           }
-
           let url = '/Word/FindHistory'
           let that = this
           let data = {
@@ -1603,11 +1863,9 @@ export default {
                   this.no_data = false
                   this.response_data_for_dialog = response.data
                   // console.log(this.response_data_for_dialog)
-
                   this.keyword_data = new Array()
                   this.keyword_data_value = new Array()
                   this.xAxis_data = new Array()
-
                   this.keyword_data_value.push(
                     this.response_data_for_dialog.Yvalue
                   )
@@ -1625,7 +1883,6 @@ export default {
                     }
                   })
                   this.drawLine_dialog()
-
                   this.myChart.hideLoading()
                 } else {
                   this.no_data = true
@@ -1665,7 +1922,6 @@ export default {
     // 画canvas
     drawLine_dialog: function() {
       let that = this
-
       // 绘制图表
       this.myChart.setOption(
         {
@@ -1700,7 +1956,7 @@ export default {
             trigger: 'axis'
           },
           color: [
-            '#62c8ff',
+            '#009bef',
             '#216aff',
             '#4209a2',
             '#a000d2',
@@ -1711,7 +1967,6 @@ export default {
             '#c3df00',
             '#529323'
           ],
-
           legend: {
             data: that.keyword_data,
             y: 'bottom'
@@ -1904,7 +2159,6 @@ export default {
     // ==================element弹窗==============
     // ==================element弹窗==============
     // ==================element弹窗==============
-
     // tab-pane选择面板
     handleClick(tab, event) {
       // console.log(tab, event)
@@ -1941,14 +2195,12 @@ export default {
     go_to_page04(parm) {
       // console.log(parm)
       this.get_data_for_top_table()
-
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
       this.page11 = 1
       this.page12 = 1
       this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm
-
       this.$router.push({
         path: '/result'
       })
@@ -1979,17 +2231,23 @@ export default {
 }
 </script>
 <style scoped>
+.font_size_15 {
+  font-size: 15px !important;
+}
+.active_line:hover {
+  text-decoration: underline;
+}
+.arrowsImg_0 {
+  width: 5px;
+  height: 11px;
+}
 .arrowsImg {
   width: 11px;
   height: 5px;
 }
-.arrowsImg01 {
-  width: 5px;
-  height: 11px;
-}
 .img_width {
-  width: 14px;
-  height: 13px;
+  width: 15px;
+  height: 14px;
 }
 .position_relative {
   position: relative;
@@ -2054,8 +2312,159 @@ export default {
   top: 7px;
   right: 40px;
 }
-.keywordContentTable_th {
-  width: 25%;
+
+.same div:first-child {
+  font-size: 22px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+.same div:last-child {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.same {
+  width: auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.keywordContentTable > div:nth-child(4) span {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 25px;
+  letter-spacing: 0px;
+  color: #009bef;
+  margin-right: 14px;
+}
+.keywordContentTable > div:nth-child(4) {
+  width: 330px;
+  height: 50px;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+.keywordContentTable > div:nth-child(3) > div:first-child {
+  font-size: 22px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+.keywordContentTable > div:nth-child(3) > div:last-child {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.keywordContentTable > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.keywordContentTable > div:nth-child(2) > div:first-child {
+  font-size: 22px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+}
+.keywordContentTable > div:nth-child(2) > div:last-child {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.keywordContentTable > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.keywordContentTable > div:nth-child(1) > div:first-child {
+  font-size: 22px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+  max-width: 180px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.keywordContentTable > div:nth-child(1) > div:last-child {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #444444;
+}
+.keywordContentTable > div:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.keywordContentTable img {
+  width: 15px;
+  height: 14px;
+  vertical-align: 1px;
+}
+.another_see_more01 {
+  display: block;
+  background-color: #f7fcff;
+  position: absolute;
+  top: 40px;
+  right: 43px;
+}
+.another_see_more {
+  display: block;
+  background-color: #f7fcff;
+  position: absolute;
+  top: 55px;
+  right: 43px;
+}
+.see_more01 {
+  display: block;
+  background-color: #f7fcff;
+  position: absolute;
+  top: 40px;
+  right: 43px;
+}
+.see_more {
+  display: block;
+  background-color: #f7fcff;
+  position: absolute;
+  top: 55px;
+  right: 43px;
+}
+.keywordContentTable {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  background-color: #f7fcff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 105px;
+  box-sizing: border-box;
 }
 .gray {
   color: #888888;
@@ -2083,10 +2492,29 @@ export default {
 }
 .app_name {
   cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: #222222;
 }
 
-.keywordContentTable img {
-  vertical-align: 0px;
+.new_add_field {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  color: #888888;
+}
+.app_subtitle {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  color: #888888;
 }
 .my_dialog_wraper {
   position: fixed;
@@ -2130,7 +2558,7 @@ export default {
 .btn_group {
   display: flex;
   align-items: center;
-  margin: 30px 0 40px 0;
+  margin: 30px 0 20px 0;
 }
 .classify > div:nth-child(2) {
   margin-left: 10px;
@@ -2155,8 +2583,8 @@ export default {
   width: 1060px;
   border-radius: 10px;
   position: relative;
-  padding-top: 25px;
-  padding-bottom: 34px;
+  padding-top: 0px;
+  padding-bottom: 30px;
   padding-left: 37px;
   padding-right: 37px;
   box-sizing: border-box;
@@ -2168,7 +2596,7 @@ export default {
   margin: 0 auto;
   text-align: center;
   color: #bfbfbf;
-  font-size: 25px;
+  font-size: ;
 
   line-height: 350px;
 }
@@ -2182,22 +2610,27 @@ export default {
 .second_div img {
   border: solid 1px #f2f2f2;
 }
+.third_div {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 60px;
+}
 .third_div > div {
-  width: 130px !important;
+  width: 145px !important;
   text-align: left !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 23px;
-  margin-top: 5px;
+  margin-left: 12px;
 }
 .first_div {
-  width: 40px;
+  width: 50px;
   text-align: center;
 }
 
 .myChart {
-  width: 350px;
+  width: 300px;
   height: 350px;
   text-align: center;
   color: #bfbfbf;
@@ -2207,36 +2640,36 @@ export default {
 .flex-row {
   display: flex;
 }
-.compare_iOS > div:first-child div:first-child {
-  font-size: 18px;
+.compare_iOS > div:first-child span:first-child {
+  font-size: 20px;
   font-weight: normal;
   font-stretch: normal;
+  line-height: 30px;
   letter-spacing: 0px;
   color: #009bef;
 }
-.compare_iOS > div:first-child div:last-child {
+.compare_iOS > div:first-child span:last-child {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
+  line-height: 30px;
   letter-spacing: 0px;
   color: #888888;
+  vertical-align: 2px;
 }
 .compare_iOS > div:first-child {
   width: 100%;
-  height: 100px;
+  line-height: 68px;
   border: solid 1px #f2f2f2;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 26px;
+
+  padding-left: 46px;
   box-sizing: border-box;
 }
 .compare_iOS {
   width: 100%;
 }
 .right_btn div:first-child {
-  padding-left: 27px;
+  padding-left: 7px;
 }
 .right_btn {
   margin: 21px 0;
@@ -2253,16 +2686,17 @@ export default {
   padding-left: 11px;
 }
 .left {
-  width: 840px;
+  width: 100%;
 }
 .right {
   width: 340px;
+  padding-left: 22px;
 }
 .left_and_right {
   display: flex;
 }
 .rankingChangeFontColor {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 1px;
@@ -2279,8 +2713,8 @@ export default {
 }
 
 .tabsContentTable .use img {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   border-radius: 10px;
 
   cursor: pointer;
@@ -2295,10 +2729,10 @@ export default {
 }
 
 .tabsContentTable tbody tr {
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid #eaeaea;
 }
 td {
-  padding: 20px 0;
+  padding: 12px 0;
 }
 .tabsContentTable tbody {
   font-size: 14px;
@@ -2321,7 +2755,7 @@ td {
 .tabsContentTable table {
   width: 100%;
   height: 121px;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
 }
 .flex-row .tabsContentTable:first-child {
@@ -2331,38 +2765,9 @@ td {
   margin-top: 30px;
 }
 
-.keywordContentTable thead tr {
-  height: 40px;
-}
-
-.keywordContentTable tbody {
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #222222;
-  vertical-align: middle;
-}
-.keywordContentTable thead {
-  width: 1200px;
-  background-color: #f7f7f7;
-  font-weight: 600 !important;
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #222222;
-}
-.keywordContentTable table {
-  width: 1200px;
-  height: 121px;
-  border: solid 1px #f2f2f2;
-  text-align: center;
-}
-
 .option > div:first-child {
   font-weight: 600 !important;
-  margin-right: 15px;
+  margin-right: 12px;
 }
 
 .option {
@@ -2382,7 +2787,8 @@ option:first-child {
   margin-top: 4px;
 }
 .options {
-  margin: 22px 0;
+  margin: 24px 0;
+  margin-top: 9px;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -2397,9 +2803,14 @@ option:first-child {
   height: 1px;
   background-color: #efefef;
 }
+.result_title_line {
+  height: 1px;
+  width: 1200px;
+  margin-bottom: 25px;
+  background: #eaeaea;
+}
 .result_title {
   font-weight: 600 !important;
-
   height: 18px;
   line-height: 18px;
   font-size: 16px;
@@ -2407,13 +2818,14 @@ option:first-child {
   letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
-  margin: 20px 0;
+  margin-bottom: 15px;
+  margin-top: 40px;
 }
 .content {
   width: 1200px;
   margin: 0 auto;
 }
-.tabs tbody tr:nth-child(1) .use .first_div {
+/* .tabs tbody tr:nth-child(1) .use .first_div {
   color: #222222;
   font-weight: bold;
 }
@@ -2424,9 +2836,12 @@ option:first-child {
 .tabs tbody tr:nth-child(3) .use .first_div {
   color: #222222;
   font-weight: bold;
-}
+} */
 .th_width {
   width: 233px;
+}
+.th_width_555 {
+  width: 170px;
 }
 .it_is_over {
   text-align: center;
@@ -2464,5 +2879,9 @@ option:first-child {
 }
 .disable_hover :hover {
   background-color: #fff !important;
+}
+.my_el_radio_group {
+  margin-top: -3px;
+  margin-right: 9px;
 }
 </style>
