@@ -1,9 +1,7 @@
 <template>
   <div id="result" class="content">
-    <div class="line"></div>
-
     <div class="tabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
         <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
         <el-tab-pane label="iOS13/12搜索结果" name="first">
           <div class="options">
@@ -133,11 +131,12 @@
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
+
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                             <div
                               class="new_add_field"
                               v-show="item.developer_name"
                             >{{item.developer_name}}</div>
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
@@ -167,7 +166,7 @@
                           <img
                             src="../assets/keyword/keyword01.png"
                             class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                             alt
                           />
                         </div>
@@ -241,6 +240,7 @@
           </div>
         </el-tab-pane>
         <!-- ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果 -->
+        <!-- <el-tab-pane label="　　iOS11搜索结果　　" name="second"> -->
         <el-tab-pane label="iOS11搜索结果" name="second">
           <div class="options">
             <div class="options_01 option">
@@ -367,11 +367,12 @@
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
+
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                             <div
                               class="new_add_field"
                               v-show="item.developer_name"
                             >{{item.developer_name}}</div>
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
@@ -401,7 +402,7 @@
                           <img
                             src="../assets/keyword/keyword01.png"
                             class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                             alt
                           />
                         </div>
@@ -587,11 +588,12 @@
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
+
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                             <div
                               class="new_add_field"
                               v-show="item.developer_name"
                             >{{item.developer_name}}</div>
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
@@ -639,7 +641,7 @@
                           <img
                             src="../assets/keyword/keyword01.png"
                             class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                             alt
                           />
                         </div>
@@ -687,11 +689,12 @@
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             >{{item.app_name}}</div>
+
+                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                             <div
                               class="new_add_field"
                               v-show="item.developer_name"
                             >{{item.developer_name}}</div>
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
                           </div>
                         </div>
                       </td>
@@ -739,7 +742,7 @@
                           <img
                             src="../assets/keyword/keyword01.png"
                             class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId)"
+                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                             alt
                           />
                         </div>
@@ -936,6 +939,7 @@ export default {
       word: '',
       appid: '',
       WordId: '',
+      rankId: '',
       radio01_dialog: '按小时',
       radio02_dialog: '近24小时',
       dialogVisible: false,
@@ -1134,6 +1138,48 @@ export default {
       switch (timestamp(newValue.getTime() / 1000, 'Y年M月D日')) {
         case timestamp(new Date().getTime() / 1000, 'Y年M月D日'):
           this.date_button = '今日'
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue01  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue01 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue02  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue02 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue03  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue03 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
 
           break
         case timestamp(
@@ -1141,9 +1187,95 @@ export default {
           'Y年M月D日'
         ):
           this.date_button = '昨日'
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue01  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue01 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue02  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue02 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
+          // 非选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.backgroundColor = '#fff'
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.border = '1px solid #dcdfe6'
+          document.querySelector('#dateValue03  .el-input__inner').style.color =
+            '#606266'
+          document.styleSheets[0].addRule(
+            '#dateValue03 .el-date-editor::after',
+            'border-color: #888 transparent transparent transparent;'
+          )
+          // 非选中状态下的时间组件的样式
           break
         default:
           this.date_button = ''
+          // 选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.backgroundColor = '#009bef'
+          document.querySelector(
+            '#dateValue01  .el-input__inner'
+          ).style.border = '1px solid #009bef'
+          document.querySelector('#dateValue01  .el-input__inner').style.color =
+            '#fff'
+          document.styleSheets[0].addRule(
+            '#dateValue01 .el-date-editor::after',
+            'border-color: #fff transparent transparent transparent;'
+          )
+          // 选中状态下的时间组件的样式
+          // 选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.backgroundColor = '#009bef'
+          document.querySelector(
+            '#dateValue02  .el-input__inner'
+          ).style.border = '1px solid #009bef'
+          document.querySelector('#dateValue02  .el-input__inner').style.color =
+            '#fff'
+          document.styleSheets[0].addRule(
+            '#dateValue02 .el-date-editor::after',
+            'border-color: #fff transparent transparent transparent;'
+          )
+          // 选中状态下的时间组件的样式
+
+          // 选中状态下的时间组件的样式
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.backgroundColor = '#009bef'
+          document.querySelector(
+            '#dateValue03  .el-input__inner'
+          ).style.border = '1px solid #009bef'
+          document.querySelector('#dateValue03  .el-input__inner').style.color =
+            '#fff'
+          document.styleSheets[0].addRule(
+            '#dateValue03 .el-date-editor::after',
+            'border-color: #fff transparent transparent transparent;'
+          )
+          // 选中状态下的时间组件的样式
+
           break
       }
       this.response_data_for_ios11.length = 0
@@ -1230,42 +1362,42 @@ export default {
       // console.log('失去焦点')
       document.styleSheets[0].addRule(
         '#dateValue01 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
       )
     },
     dateValue_focus01() {
       // console.log('得到焦点')
       document.styleSheets[0].addRule(
         '#dateValue01 .el-date-editor::after',
-        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;  '
       )
     },
     dateValue_blur02() {
       // console.log('失去焦点')
       document.styleSheets[0].addRule(
         '#dateValue02 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
       )
     },
     dateValue_focus02() {
       // console.log('得到焦点')
       document.styleSheets[0].addRule(
         '#dateValue02 .el-date-editor::after',
-        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
       )
     },
     dateValue_blur03() {
       // console.log('失去焦点')
       document.styleSheets[0].addRule(
         '#dateValue03 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
       )
     },
     dateValue_focus03() {
       // console.log('得到焦点')
       document.styleSheets[0].addRule(
         '#dateValue03 .el-date-editor::after',
-        'transform: rotate(180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;'
+        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
       )
     },
     // 控制时间组件旋转
@@ -1630,15 +1762,15 @@ export default {
           },
           color: [
             '#009bef',
-            '#216aff',
-            '#4209a2',
-            '#a000d2',
-            '#ec066d',
-            '#f24d3e',
-            '#ff9731',
-            '#ffd800',
-            '#c3df00',
-            '#529323'
+            '#e75b48',
+            '#05c898',
+            '#f8c848',
+            '#d55282',
+            '#f49c47',
+            '#39c3da',
+            '#7b4dee',
+            '#a4d53b',
+            '#b2b2b2'
           ],
           legend: {
             data: that.keyword_data01,
@@ -1831,6 +1963,7 @@ export default {
           }
           let appid = this.appid
           let wordid = this.WordId
+          let rankId = this.rankId
           let iosType
           if (this.activeName == 'first') {
             iosType = 12
@@ -1851,7 +1984,8 @@ export default {
             sdate: sdate,
             appid: appid,
             day: showType,
-            iosType: iosType
+            iosType: iosType,
+            rankid: rankId
           }
           // 请求数据
           this.$axios
@@ -1898,7 +2032,7 @@ export default {
           console.log(error)
         })
     },
-    show_dialog(word, appid, WordId) {
+    show_dialog(word, appid, WordId, rankId) {
       //  radio01_dialog: '按小时',
       // radio02_dialog: '近24小时',
       // time_dialog: '',
@@ -1909,6 +2043,7 @@ export default {
       this.word = word
       this.appid = appid
       this.WordId = WordId
+      this.rankId = rankId
       // alert(this.WordId)
       this.get_data_dialog()
     },
@@ -1957,15 +2092,15 @@ export default {
           },
           color: [
             '#009bef',
-            '#216aff',
-            '#4209a2',
-            '#a000d2',
-            '#ec066d',
-            '#f24d3e',
-            '#ff9731',
-            '#ffd800',
-            '#c3df00',
-            '#529323'
+            '#e75b48',
+            '#05c898',
+            '#f8c848',
+            '#d55282',
+            '#f49c47',
+            '#39c3da',
+            '#7b4dee',
+            '#a4d53b',
+            '#b2b2b2'
           ],
           legend: {
             data: that.keyword_data,
@@ -2596,7 +2731,6 @@ export default {
   margin: 0 auto;
   text-align: center;
   color: #bfbfbf;
-  font-size: ;
 
   line-height: 350px;
 }
@@ -2815,7 +2949,7 @@ option:first-child {
   line-height: 18px;
   font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 1px;
+  letter-spacing: 0px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin-bottom: 15px;

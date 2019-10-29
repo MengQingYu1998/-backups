@@ -439,7 +439,6 @@ export default {
   border-top: 1px solid transparent;
 }
 .right .logintit {
-  /*font-family: SourceHanSansCN-Medium;*/
   font-weight: 600;
   font-size: 18px;
   color: #222222;
@@ -464,7 +463,6 @@ export default {
 .right .inpDiv .tel,
 .right .inpDiv .code,
 .right .inpDiv .Veri {
-  /*font-family: SourceHanSansCN-Regular;*/
   font-size: 14px;
   color: #222222;
 }
@@ -488,7 +486,6 @@ export default {
 .right .inpDiv .telInp input::placeholder,
 .right .inpDiv .codeInp input::placeholder,
 .right .inpDiv .VeriInp input::placeholder {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #bfbfbf;
 }
@@ -501,7 +498,6 @@ export default {
   outline: none;
   border: none;
   margin-top: 12px;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #222222;
 }
@@ -516,7 +512,6 @@ export default {
   border-radius: 0px 4px 4px 0px;
   display: inline-block;
   float: right;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #ffffff;
   line-height: 42px;
@@ -525,14 +520,12 @@ export default {
 .right .inpDiv .wrongTel,
 .right .inpDiv .wrongCode,
 .right .inpDiv .wrongVeri {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 12px;
   color: #f50202;
 }
 .right .goRegiste p {
   margin-top: 10px;
   margin-left: 108px;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 13px;
   color: #888888;
   float: left;
@@ -549,7 +542,6 @@ export default {
   text-align: center;
   background-color: #dfdfdf;
   border-radius: 4px;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 16px;
   color: #ffffff;
   margin-top: 25px;
@@ -588,14 +580,12 @@ export default {
   margin-top: 40px;
 }
 .maskR .conDiv .font {
-  /*font-family: SourceHanSansCN-Medium;*/
   font-weight: 600;
   font-size: 20px;
   color: #222222;
   margin-top: 28px;
 }
 .maskR .conDiv .des {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 16px;
   color: #888888;
   margin-top: 15px;
@@ -606,7 +596,6 @@ export default {
   margin: 0 auto;
   background-color: #009bef;
   border-radius: 4px;
-  /*font-family: SourceHanSansCN-Regular;*/
   font-size: 15px;
   color: #ffffff;
   line-height: 36px;
@@ -627,7 +616,6 @@ export default {
   margin-top: 24px;
 }
 .mask .aDiv .tit span {
-  /*font-family: SourceHanSansCN-Medium;*/
   font-weight: 600;
   font-size: 20px;
   color: #222222;
@@ -646,14 +634,12 @@ export default {
   margin-right: 16px;
 }
 .mask .aDiv .nowTel span {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #888888;
 }
 .mask .aDiv p input {
   width: 232px;
   height: 32px;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #009bef;
   outline: none;
@@ -663,7 +649,6 @@ export default {
   margin-top: 20px;
 }
 .mask .aDiv p input::placeholder {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #bfbfbf;
 }
@@ -674,7 +659,6 @@ export default {
   text-align: center;
   background-color: #009bef;
   border-radius: 4px;
-  /*font-family: SourceHanSansCN-Regular;*/
   font-size: 15px;
   color: #ffffff;
   margin: 0 auto;
@@ -684,7 +668,6 @@ export default {
   cursor: pointer;
 }
 .mask .aDiv p span.codeBtn {
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #009bef;
   margin-left: 24px;
@@ -693,7 +676,6 @@ export default {
   width: 350px;
   line-height: 30px;
   margin: 0 auto;
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #888888;
   margin-top: 15px;

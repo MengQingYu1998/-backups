@@ -145,10 +145,9 @@ export default {
       this.$emit('childFn', this.country_name)
     })
   },
-
-  mounted: function() {
+  mounted() {
+    console.log(99999999)
     this.globalClick(() => {
-      // alert(111)
       this.country_show_hidden = false
     })
   },
@@ -240,8 +239,14 @@ export default {
       this.get_data()
     },
     change_country_name(parm, parm1) {
-      this.country_name = parm
-      this.country_code = parm1
+      console.log(parm)
+      console.log(parm1)
+      if (parm) {
+        this.country_name = parm
+      }
+      if (parm1) {
+        this.country_code = parm1
+      }
       this.country_show_hidden = false
     }
   }
@@ -269,21 +274,18 @@ export default {
   color: #666;
 }
 .arrows_active {
-  transform: rotate(-90deg) !important;
-  -ms-transform: rotate(-90deg) !important;
-  -moz-transform: rotate(-90deg) !important;
-  -webkit-transform: rotate(-90deg) !important;
-  -o-transform: rotate(-90deg) !important;
+  transform: rotate(180deg) !important;
+  -ms-transform: rotate(-180deg) !important;
+  -moz-transform: rotate(-180deg) !important;
+  -webkit-transform: rotate(-180deg) !important;
+  -o-transform: rotate(-180deg) !important;
   transition-duration: 0.3s;
 }
 .arrows {
-  transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
   transition-duration: 0.3s;
-  margin-left: 7px;
+  width: 8px !important;
+  height: 4px !important;
+  margin-left: 9px;
 }
 .country_name span {
   /* width: 60px; */
@@ -311,7 +313,6 @@ export default {
   align-items: center;
   justify-content: space-around;
   padding: 0 12px;
-  padding-right: 13px;
   box-sizing: border-box;
 }
 .item {

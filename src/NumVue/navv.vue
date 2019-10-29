@@ -550,9 +550,10 @@ export default {
   margin-top: 13px;
   border: 2px solid #fcfcfc;
 }
+
 .nav .ldiv p {
   font-size: 14px;
-  color: #888888;
+  color: #444;
   display: inline-block;
   vertical-align: top;
   margin-top: 25px;

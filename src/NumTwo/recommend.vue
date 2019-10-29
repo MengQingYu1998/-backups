@@ -1,6 +1,6 @@
 <template>
 	<!-- App Store精品推荐 -->
-<div class="recommend">
+<div class="recommend" id="recommend">
 	<div class="title">App Store精品推荐</div>
 	<div class="content">
 		<div class="top">
@@ -51,7 +51,6 @@
 				            type="date"
 				            placeholder="选择日期"
 				            clear-icon
-										prefix-icon="fasle"
 				></el-date-picker>
 			</div>	
 		</div>
@@ -162,9 +161,9 @@
 								<p>{{div.Label}}</p>
 								<div>
 									<div class="product" v-for="i in div.AppList">
-										<img :src="i.IconUrl"/>
+										<img :src="i.IconUrl" @click="go_to_page04(i.AppId,i.AppName)"/>
 										<div>
-											<p>{{i.AppName}}</p>
+											<p @click="go_to_page04(i.AppId,i.AppName)">{{i.AppName}}</p>
 											<p>{{i.DeveloperName}}</p>
 										</div>
 									</div>
@@ -205,9 +204,9 @@
 							<div class="name">{{item.TagLine}}</div>
 							<div class="imgD"><img :src="item.Img"/></div>
 							<div class="pro">
-								<img :src="item.AppList.IconUrl"/>
+								<img :src="item.AppList.IconUrl" @click="go_to_page04(item.AppList.AppId,item.AppList.AppName)"/>
 								<div>
-									<p>{{item.AppList.AppName}}</p>
+									<p @click="go_to_page04(item.AppList.AppId,item.AppList.AppName)">{{item.AppList.AppName}}</p>
 									<p>{{item.AppList.DeveloperName}}</p>
 								</div>
 							</div>
@@ -224,10 +223,10 @@
 						<div>
 							<ul>
 								<li v-for="i in item.AppList">
-									<img :src="i.IconUrl"/>
+									<img :src="i.IconUrl" @click="go_to_page04(i.AppId,i.AppName)"/>
 									<div>
 										<div class="namDiv">
-											<p>{{i.AppName}}</p>
+											<p @click="go_to_page04(i.AppId,i.AppName)">{{i.AppName}}</p>
 											<p>{{i.SubTitle}}</p>
 										</div>
 										<div>{{i.Price}}</div>
@@ -352,12 +351,12 @@ export default{
 		})
 	},
 	mounted(){
+		// 点击其他地方弹窗消失
 		let that = this
-			// 点击其他地方弹窗消失
-		    that.globalClick(() => {
-		      that.showApplication = false
-		      that.showGame = false
-		    })
+	    document.getElementById('app').onclick = function() {
+		   that.showApplication = false
+		   that.showGame = false
+		}
 	},
 	methods:{
 		// 获取当前选中的国家
@@ -431,6 +430,7 @@ export default{
 		// 获取应用，游戏的推荐数据
 		gettuijianData(){
 			this.load=true
+
 			// 传给后台的date值
 			let newDataB=formatDate(this.dateV,'yyyy-MM-dd')
 			// 传给后台的pid
@@ -450,6 +450,7 @@ export default{
 				url:'/GetGenre?genreID='+pidV
 			})
 			.then(res=>{
+				// console.log(res.data.Code)
 				if (res.data.Code == 0) {
 					this.load=false
 					this.Applications=res.data
@@ -474,7 +475,9 @@ export default{
 						}
 					})
 					.then(res=>{
+						console.log(res.data.Code)
 						if(res.data.Code==0){
+							console.log(res.data.Data)
 							this.load=false
 							this.tuijiandata=res.data
 						}
@@ -511,7 +514,9 @@ export default{
 				url:'/GetGenre?genreID='+pidV
 			})
 			.then(res=>{
+				
 				if (res.data.Code == 0) {
+					// console.log(res.data.Data)
 					this.Applications=res.data
 					this.games=res.data
 					for(var i=0;i<res.data.Data.length;i++){
@@ -534,6 +539,7 @@ export default{
 						}
 					})
 					.then(res=>{
+						console.log("其他推荐"+res.data.Data)
 						if(res.data.Code==0){
 							this.otherdata=res.data
 						}
@@ -555,8 +561,7 @@ export default{
 			this.appDiv=false//应用div隐藏
 			this.bodyDiv=true//Today显示
 			this.tod=true
-			this.todaydata.length=0
-		    this.gettodayData()
+			
 		    this.todayshow=true//国家组件
 		    this.valueY="应用"
 		    this.valueG="游戏"
@@ -574,6 +579,12 @@ export default{
       		this.downG=true
       		this.downWG=false
       		this.upWG=false
+
+      		this.todaydata.length=0
+		    this.gettodayData()
+
+      		this.showApplication=false
+      		this.showGame=false
 		},
 		// 点击应用
 		showY(){
@@ -582,7 +593,24 @@ export default{
 				this.now_Application="全部应用"
 			}
 			
-			// console.log(this.now_Application)
+			if(this.showApplication==false){
+					this.showApplication = true
+					// 应用小三角
+					this.upWL=true
+					this.downL=false
+					this.downWL=false
+				}else{
+					this.showApplication = false
+					
+					// 应用小三角
+					this.upWL=false
+					this.downL=true
+					this.downWL=false
+				}
+				// 游戏小三角
+				this.downG=true
+				this.downWG=false
+				this.upWG=false
 			this.showfont=this.now_Application
 			this.appDiv=true//应用div显示
 			this.bodyDiv=false//Today隐藏
@@ -594,14 +622,6 @@ export default{
       		this.isFont=true
       		// 选中游戏
       		this.isFontG=false
-      		this.downL=false
-      		this.downWL=true
-      		this.upWL=false
-      		// 游戏小图标
-      		this.downG=true
-      		this.downWG=false
-      		this.upWG=false
-      		this.showApplication=true
       		this.showGame=false
       		this.tuijiandata.length=0
 		    this.gettuijianData()
@@ -613,8 +633,23 @@ export default{
 			if(this.now_Application==""||this.now_Application==undefined){
 				this.now_Application="全部游戏"
 			}
-			
-			
+			if(this.showGame==true){
+					this.showGame=false
+					//游戏小三角
+					this.upWG=false
+					this.downG=false
+					this.downWG=true
+				}else{
+					this.showGame=true
+					//游戏小三角
+					this.upWG=true
+					this.downG=false
+					this.downWG=false
+				}
+			// 应用小三角
+				this.downL=true
+				this.downWL=false
+				this.upWL=false
 			// console.log(this.now_Application)
 			this.showfont=this.now_Application
 			this.appDiv=true//应用div显示
@@ -627,16 +662,8 @@ export default{
       		this.isFont=false
       		// 选中游戏
       		this.isFontG=true
-      		// 应用小图标
-      		this.downL=true
-      		this.downWL=false
-      		this.upWL=false
-      		// 游戏小图标
-      		this.downG=false
-      		this.downWG=true
-      		this.upWG=false
+      		
       		this.showApplication=false
-      		this.showGame=true
 			this.tuijiandata.length=0
 		    this.gettuijianData()
 		    this.otherdata.length=0
@@ -669,6 +696,16 @@ export default{
 		    this.otherdata.length=0
 		    this.getotherData()
 		},
+		go_to_page04(parm, parm02) {
+		      this.$store.state.now_country_name = this.now_country
+		      this.$store.state.now_app_name = parm02
+		      this.$store.state.now_app_id = parm
+		      this.hand_save_vuex(this)
+		      let routerUrl = this.$router.resolve({
+		        path: '/now_ranking'
+		      })
+		      window.open(routerUrl.href, '_blank')
+	    }
 	}
 }
 
@@ -775,7 +812,10 @@ export default{
 	color: #222222;
 	display: inline-block;
 	vertical-align: top;
-	margin-top: -4px;
+	margin-top: -1px;
+}
+.appDiv>div .Titdiv .font{
+	margin-top: -3px;
 }
 .bodyDiv>div .lidiv{
 	width: 556px;
@@ -814,6 +854,11 @@ export default{
 	border-radius: 10px;
 	border: solid 1px #f2f2f2;
 	float: left;
+}
+.bodyDiv>div .lidiv .right .product img:hover,
+.appDiv .nowDiv .pro>img,
+.top .lei p:hover{
+	cursor: pointer;
 }
 .bodyDiv>div .lidiv .right .product div{
 	margin-left: 47px;
@@ -855,6 +900,11 @@ export default{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+.bodyDiv>div .lidiv .right>div p:first-child:hover,
+.appDiv .nowDiv .pro>div p:first-child:hover{
+	cursor: pointer;
+	color: #009bef;
+}
 .bodyDiv>div .lidiv .right>div p:last-child{
 	font-size: 13px;
 	color: #888888;
@@ -862,6 +912,7 @@ export default{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	margin-top: 6px;
 }
 /*第一种*/
 .bodyDiv>div .div1 .left p,
@@ -908,7 +959,7 @@ export default{
 	width: 229px;
 	height: 68px;
 	background-color: rgba(0,0,0,.26);
-	margin-top: 26px;
+	margin-top: 31px;
 }
 .bodyDiv>div .div5 .left>div{
 	margin-top: 122px;
@@ -952,6 +1003,7 @@ export default{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	margin-top: 6px;
 }
 .bodyDiv>div .div2 .left>div>div.huoqu{
 	float: right;
@@ -980,6 +1032,7 @@ export default{
 .bodyDiv>div .div2 .left>div>div.huoqu p:last-child{
 	font-size: 10px;
 	color: #ffffff;
+	margin-top: 2px;
 }
 /*第三种*/
 .bodyDiv>div .div3 .left >p,
@@ -1165,6 +1218,7 @@ export default{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	margin-top: 7px;
 }
 .appDiv .otherDiv {
 	padding-bottom: 0;
@@ -1205,6 +1259,7 @@ export default{
 
 .appDiv .otherDiv ul li>div div:nth-child(3){
 	text-align: left;
+	line-height: 30px;
 }
 .appDiv .otherDiv ul li>div div:nth-child(even){
 	line-height: 40px;
@@ -1228,7 +1283,7 @@ export default{
 	font-size: 13px;
 	color: #888888;
 	width: 190px;
-
+	margin-top: 6px;
 }
 /*应用和游戏下拉框*/
 .Leibox{

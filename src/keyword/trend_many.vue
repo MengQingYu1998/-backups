@@ -28,7 +28,8 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-              clear-icon prefix-icon="fasle"
+            clear-icon
+            prefix-icon="fasle"
             :picker-options="pickerOptions"
           ></el-date-picker>
         </div>
@@ -344,15 +345,15 @@ export default {
           },
           color: [
             '#009bef',
-            '#216aff',
-            '#4209a2',
-            '#a000d2',
-            '#ec066d',
-            '#f24d3e',
-            '#ff9731',
-            '#ffd800',
-            '#c3df00',
-            '#529323'
+            '#e75b48',
+            '#05c898',
+            '#f8c848',
+            '#d55282',
+            '#f49c47',
+            '#39c3da',
+            '#7b4dee',
+            '#a4d53b',
+            '#b2b2b2'
           ],
 
           legend: {
@@ -712,10 +713,10 @@ table {
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
-  line-height: 27px;
+  line-height: 25px;
   letter-spacing: 0px;
   color: #444444;
-  height: 26px;
+  height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
   text-align: center;

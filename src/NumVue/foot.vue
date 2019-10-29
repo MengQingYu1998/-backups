@@ -98,18 +98,15 @@
 	text-align: center;
 }
 .footer .top>div p{
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 13px;
 	color: #ffffff;
 	opacity: 0.5;
 }
 .footer .top>div p:first-child{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 }
 .footer .bom>p{
 	display: inline-block;
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 12px;
 	color: #ffffff;
 	opacity: 0.5;

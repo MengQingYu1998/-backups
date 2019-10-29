@@ -921,6 +921,7 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              console.log(response)
               this.loading_gif_first = false
 
               this.request_data_first = response.data.Data
@@ -1370,15 +1371,15 @@ export default {
           },
           color: [
             '#009bef',
-            '#216aff',
-            '#4209a2',
-            '#a000d2',
-            '#ec066d',
-            '#f24d3e',
-            '#ff9731',
-            '#ffd800',
-            '#c3df00',
-            '#529323'
+            '#e75b48',
+            '#05c898',
+            '#f8c848',
+            '#d55282',
+            '#f49c47',
+            '#39c3da',
+            '#7b4dee',
+            '#a4d53b',
+            '#b2b2b2'
           ],
 
           legend: {

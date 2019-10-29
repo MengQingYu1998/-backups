@@ -11,7 +11,7 @@
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/> 
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
-						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>
+						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/> 
 					</p>
 					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
@@ -33,7 +33,7 @@
 				        v-model="dateV"
 				        type="date"
 				        placeholder="选择日期"
-								  clear-icon prefix-icon="fasle"
+								clear-icon
 				    ></el-date-picker>
 				</div>
 			</div>
@@ -63,8 +63,8 @@
 						<div class="time" v-if="tr1.UpNum==0&&tr1.DownNum==0&&tr1.NewNum==0&&tr1.DropNum==0">
 							{{tr1.HHmm}}
 						</div>
-						<div class="trend" v-else>
-						<!-- <div class="trend" v-on:click="goDetail()" v-else> -->
+						<!-- <div class="trend" v-else> -->
+						<div class="trend" v-on:click="goDetail(tr1.Brand,tr1.DeviceType,tr1.AddTime,tr1.GenreID,tr1.pid)" v-else>
 								<p>{{tr1.HHmm}}</p>
 								<div>
 									<p>
@@ -88,7 +88,7 @@
 						<div class="time" v-if="tr2.UpNum==0&&tr2.DownNum==0&&tr2.NewNum==0&&tr2.DropNum==0">
 								{{tr2.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr2.Brand,tr2.DeviceType,tr2.AddTime,tr2.GenreID,tr2.pid)" v-else>
 								<p>{{tr2.HHmm}}</p>
 								<div>
 									<p>
@@ -112,7 +112,7 @@
 						<div class="time" v-if="tr3.UpNum==0&&tr3.DownNum==0&&tr3.NewNum==0&&tr3.DropNum==0">
 								{{tr3.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr3.Brand,tr3.DeviceType,tr3.AddTime,tr3.GenreID,tr3.pid)" v-else>
 								<p>{{tr3.HHmm}}</p>
 								<div>
 									<p>
@@ -136,7 +136,7 @@
 						<div class="time" v-if="tr4.UpNum==0&&tr4.DownNum==0&&tr4.NewNum==0&&tr4.DropNum==0">
 								{{tr4.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr4.Brand,tr4.DeviceType,tr4.AddTime,tr4.GenreID,tr4.pid)" v-else>
 								<p>{{tr4.HHmm}}</p>
 								<div>
 									<p>
@@ -160,7 +160,7 @@
 						<div class="time" v-if="tr5.UpNum==0&&tr5.DownNum==0&&tr5.NewNum==0&&tr5.DropNum==0">
 								{{tr5.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr5.Brand,tr5.DeviceType,tr5.AddTime,tr5.GenreID,tr5.pid)" v-else>
 								<p>{{tr5.HHmm}}</p>
 								<div>
 									<p>
@@ -184,7 +184,7 @@
 						<div class="time" v-if="tr6.UpNum==0&&tr6.DownNum==0&&tr6.NewNum==0&&tr6.DropNum==0">
 								{{tr6.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr6.Brand,tr6.DeviceType,tr6.AddTime,tr6.GenreID,tr6.pid)" v-else>
 								<p>{{tr6.HHmm}}</p>
 								<div>
 									<p>
@@ -208,7 +208,7 @@
 						<div class="time" v-if="tr7.UpNum==0&&tr7.DownNum==0&&tr7.NewNum==0&&tr7.DropNum==0">
 								{{tr7.HHmm}}
 						</div>
-						<div class="trend" v-on:click="goDetail()" v-else>
+						<div class="trend" v-on:click="goDetail(tr7.Brand,tr7.DeviceType,tr7.AddTime,tr7.GenreID,tr7.pid)" v-else>
 								<p>{{tr7.HHmm}}</p>
 								<div>
 									<p>
@@ -396,9 +396,7 @@
 								this.trs6=res.data.Data[1]
 								this.trs7=res.data.Data[0]
 								var a=this.trs2.RankMonitorList.length
-								// for(var j=0;j<a;j++){
-								// 	console.log(this.trs2[j].UpNum)
-								// }
+								
 							}
 						})
 						.catch(error => {
@@ -519,9 +517,9 @@
 				this.getData()
 			},
 			// 跳转到榜单更新检测的排名页面
-			goDetail(){
-				// this.$router.push({ path: '/rankapp' })
-			}
+			goDetail(parm01,parm02,parm03,parm04,parm05){
+				this.$router.push({path:'/rankapp',query:{brand:parm01,device:parm02,time:parm03,gid:parm04,pid:parm05} })
+			}  
 		},
 		created(){
 			this.getData()
@@ -577,7 +575,6 @@
 .Leibox >div >div span{
 	margin-left: 15px;
     width: 65px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	line-height: 30px;
@@ -596,7 +593,6 @@
   background-image: url('../assets/NumImg/tit.png');
   background-size: 100% 86px;
   background-repeat: no-repeat;
-  /*font-family: SourceHanSansCN-Medium;*/
   font-weight: 600;
   font-size: 22px;
   color: #ffffff;
@@ -630,7 +626,6 @@
 	text-align: center;
 	border-radius: 4px;
 	border: solid 1px #dfdfdf;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	display: inline-block;
@@ -653,7 +648,6 @@
 	border: 1px solid #38aded!important;
 }
 .content .lei>div p:first-child{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	color: #222222;
 	border:none;
@@ -696,7 +690,6 @@
 	background-color: #f7f7f7;
 }
 .dataTable .thead p{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	font-size: 13px;
 	color: #222222;
@@ -709,7 +702,6 @@
 	width:100%;
 	height: 100%;
 	line-height: 80px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #444444;
 	text-align: center;
@@ -718,14 +710,12 @@
 	width: 100%;
 	height: 100%;
 	background-color: #f0faff;
-	/*border-top: 1px solid transparent;*/
 }
 .trend:hover{
 	cursor: pointer;
 	background-color: #e2f5ff;
 }
 .trend>p{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 30px;
@@ -739,7 +729,6 @@
 	margin-top: -7px;
 }
 .trend>div p span{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	line-height: 30px;
 	color: #888888;

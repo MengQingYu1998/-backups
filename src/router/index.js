@@ -8,6 +8,11 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      path: '/rankapp',
+      name: 'rankapp',
+      component: () => import('../NumTwo/rankapp')
+    },
+    {
       path: '/recommend',
       name: 'recommend',
       component: () => import('../NumTwo/recommend')

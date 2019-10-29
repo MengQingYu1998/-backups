@@ -708,6 +708,7 @@ tbody th:nth-child(5) {
 .radio_one {
   text-align: center;
   line-height: 13px;
+  height: 13px;
   font-size: 13px;
   padding: 6px 12px 5px 12px;
   font-weight: normal;
@@ -768,7 +769,8 @@ table {
 
 .options_04 img {
   width: 8px;
-  vertical-align: 0px;
+  height: 4px;
+  margin-top: -3px;
 }
 
 .options_03_ml {

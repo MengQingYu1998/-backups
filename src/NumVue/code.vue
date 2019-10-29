@@ -365,7 +365,6 @@
 	border-top: 1px solid transparent;
 }
 .right .logintit{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
@@ -380,7 +379,6 @@
 	height: 33px;
 	padding: 0 7px;
 	line-height: 33px;
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 14px;
 	color: #888888;
 	display: inline-block;
@@ -390,7 +388,6 @@
 	cursor: pointer;
 }
 .selected{
-	/*font-family: SourceHanSansCN-Medium!important;*/
 	font-weight: 600;
 	color: #222222!important;
 	border-bottom: 1px solid #009bef!important;
@@ -422,7 +419,6 @@
     outline: none;
     border: none;
     margin-top: 12px;
-    /*font-family: SourceHanSansCN-Normal;*/
     font-size: 14px;
     color: #222222;
 }
@@ -437,7 +433,6 @@
     border-radius: 0px 4px 4px 0px;
     display: inline-block;
     float: right;
-    /*font-family: SourceHanSansCN-Normal;*/
     font-size: 14px;
     color: #ffffff!important;
     line-height: 42px;
@@ -447,7 +442,6 @@
 }
 .right .emailDiv .emailInp input::placeholder,
 .right .telDiv>div p input::placeholder{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #bfbfbf;
 }
@@ -466,7 +460,6 @@
 }
 .right .telDiv>div p.wrongTel,
 .right .telDiv>div p.wrongVeri{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 12px;
 	color: #f50202;
 }
@@ -483,7 +476,6 @@
 	background-color: #009bef!important;
 }
 .right .emailDiv .wrongemail{
-	/*font-family: SourceHanSansCN-Normal;*/
     font-size: 12px;
     color: #f50202;
 }
@@ -497,7 +489,6 @@
 	margin:0 auto;
 	background-color: #dfdfdf;
 	border-radius: 4px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 16px;
 	color: #ffffff;
 }
@@ -505,7 +496,6 @@
 	width: 100%;
 	height: 100%;
 	display: inline-block;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 16px;
 	color: #ffffff;
 }
@@ -544,7 +534,6 @@
 	width: 253px;
 	margin:0 auto;
 	text-align: center;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 18px;
 	color: #222222;
 	margin-top: 28px;
@@ -555,7 +544,6 @@
 	margin: 0 auto;
 	background-color: #009bef;
 	border-radius: 4px;
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 15px;
 	color: #ffffff;
 	line-height: 36px;

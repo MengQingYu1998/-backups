@@ -257,11 +257,11 @@ export default {
       // console.log('version_message' + this.now_country)
     },
     go_to_page01(parm, parm02) {
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
       this.$router.push({
         path: '/now_ranking'
       })
-      this.$store.state.now_app_id02 = parm
-      this.$store.state.now_app_name = parm02
     },
     go_to_page02(parm) {
       this.$router.push({
@@ -320,7 +320,6 @@ td {
   border: solid 1px #f2f2f2;
 }
 .use > div:nth-child(1) {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -375,7 +374,7 @@ tbody > tr:nth-child(3) .use > div:nth-child(1) {
   height: 26px;
   border-radius: 4px;
   border: solid 1px #009bef;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -389,7 +388,7 @@ tbody > tr:nth-child(3) .use > div:nth-child(1) {
   height: 20px;
   background-color: #f5fcff;
   border-radius: 4px;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -401,7 +400,6 @@ tbody > tr:nth-child(3) .use > div:nth-child(1) {
   top: 1px;
 }
 .rankingChangeFontColor {
-  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -429,7 +427,6 @@ thead tr {
 }
 
 tbody {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -484,14 +481,12 @@ table {
   margin-top: 27px;
 }
 .breadcrumb span:last-child {
-  
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -507,7 +502,7 @@ table {
 }
 .disable_hover {
   border-bottom: solid 1px #f2f2f2;
-  
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

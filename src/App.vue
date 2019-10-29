@@ -94,76 +94,9 @@ export default {
 </script>
 
 <style>
-/* 放回顶部 */
-.go_to_top .code:hover {
-  background-image: url('./assets/ios/code_active.png');
+.el-icon-date:before {
+  display: none;
 }
-.go_to_top .code {
-  background-image: url('./assets/ios/code.png');
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  position: relative;
-}
-.code_content div:last-child {
-  margin-top: 12px;
-}
-.code_content {
-  font-size: 12px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 12px;
-  letter-spacing: 0px;
-  color: #222222;
-}
-.message_content img {
-  width: 70px;
-  height: 70px;
-  margin-bottom: 6px;
-}
-.message_content {
-  font-size: 12px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 12px;
-  letter-spacing: 0px;
-  text-align: center;
-}
-.go_to_top .message:hover {
-  background-image: url('./assets/ios/message_active.png');
-}
-.go_to_top .message {
-  background-image: url('./assets/ios/message.png');
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  position: relative;
-  z-index: 99999999;
-}
-.go_to_top .top:hover {
-  background-image: url('./assets/ios/top_active.png');
-}
-.go_to_top .top {
-  background-image: url('./assets/ios/top.png');
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-}
-.go_to_top {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  position: fixed;
-  right: 20px;
-  z-index: 9999;
-  bottom: 40px;
-}
-.go_to_top > div,
-.go_to_top > span {
-  margin-top: 14px;
-  cursor: pointer;
-}
-/* 放回顶部 */
 /*日期间距*/
 #Application .el-date-editor--date,
 #bangdan .el-input,
@@ -308,7 +241,7 @@ export default {
 
 /* 表格的交互 */
 table tbody tr:hover {
-  background-color: #f5fcff;
+  background-color: #ebf7ff;
 }
 
 .tabsContentTable .use > div:nth-child(3):hover {
@@ -321,28 +254,28 @@ table tbody tr:hover {
 }
 .el-input--suffix .el-input__inner {
   padding-left: 12px;
+  font-size: 13px;
   padding-right: 12px !important;
 }
 
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 /* 单选时间的长度 */
 .el-date-editor--date {
-  width: 110px !important;
+  width: 108px !important;
 }
-/* #result #dateValue01 .el-date-editor:after { */
+/* 时间的小三角 */
 .el-date-editor:after {
-  display: block;
-  content: '';
-  background-image: url('./assets/keyword/arrows_down.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  /* transform: rotate(-90deg) !important; */
-  background-size: 100% 100%;
-  width: 8px !important;
-  height: 8px !important;
-  margin-top: -17px;
   position: absolute;
+  top: 11px;
   right: 12px;
+  display: block;
+  width: 0;
+  height: 0;
+  content: ' ';
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-bottom: none;
+  border-width: 4px;
 }
 .el-date-editor .el-range__icon,
 .el-date-editor .el-range__close-icon {
@@ -357,18 +290,17 @@ table tbody tr:hover {
   line-height: 21px !important;
 }
 .el-range-editor.el-input__inner:after {
-  /* background-image: none !important; */
-  display: block;
-  content: '';
-  background-image: url('./assets/keyword/arrows_down.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% 100%;
-  width: 8px !important;
-  height: 8px !important;
-  margin-top: 0px;
   position: absolute;
-  right: 16px;
+  top: 11px;
+  right: 12px;
+  display: block;
+  width: 0;
+  height: 0;
+  content: ' ';
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-bottom: none;
+  border-width: 4px;
 }
 .el-range-editor.el-input__inner {
   width: 222px;
@@ -560,12 +492,14 @@ table thead tr th {
 
 .el-select .el-input__icon:after {
   content: '';
-  background-image: url('./assets/keyword/app_vue.png');
+  background-image: url('./assets/keyword/arrows_down.png');
   background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  transform: rotate(180deg) !important;
   width: 8px !important;
-  height: 8px !important;
-  transform: rotate(-90deg) !important;
-  margin-top: -1px;
+  height: 4px !important;
+  margin-top: 2px;
 }
 
 .el-input__suffix-inner {
@@ -672,4 +606,77 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 /* input[type='number']去掉箭头 */
+/* 放回顶部 */
+.go_to_top .code:hover {
+  background-image: url('./assets/ios/code_active.png');
+}
+.go_to_top .code {
+  background-image: url('./assets/ios/code.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+}
+.code_content div:last-child {
+  margin-top: 12px;
+}
+.code_content {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  color: #222222;
+}
+.message_content img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 6px;
+}
+.message_content {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 12px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+.go_to_top .message:hover {
+  background-image: url('./assets/ios/message_active.png');
+}
+.go_to_top .message {
+  background-image: url('./assets/ios/message.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+  z-index: 99999999;
+}
+.go_to_top .top:hover {
+  background-image: url('./assets/ios/top_active.png');
+}
+.go_to_top .top {
+  background-image: url('./assets/ios/top.png');
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+.go_to_top {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  right: 20px;
+  z-index: 9999;
+  bottom: 40px;
+}
+.go_to_top > div,
+.go_to_top > span {
+  margin-top: 14px;
+  cursor: pointer;
+}
+/* 放回顶部 */
+.el-tabs__nav.is-stretch {
+  min-width: 50% !important;
+}
 </style>

@@ -38,7 +38,7 @@
 				            v-model="dateV"
 				            type="date"
 				            placeholder="选择日期"
-				              clear-icon prefix-icon="fasle"
+				            clear-icon
 				    ></el-date-picker>
 				</div>
 				<div>
@@ -1190,7 +1190,6 @@
 
 <style scoped>
 .weit{
-	/*font-family: SourceHanSansCN-Bold!important;*/
 	font-weight: 600;
 	color: #222222!important;
 }
@@ -1237,7 +1236,6 @@
 .Leibox >div >div span{
 	margin-left: 15px;
     width: 65px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	line-height: 30px;
@@ -1256,7 +1254,7 @@
   background-image: url('../assets/NumImg/tit.png');
   background-size: 100% 86px;
   background-repeat: no-repeat;
-  font-family: SourceHanSansCN-Medium;
+  font-weight: 600;
   font-size: 22px;
   color: #ffffff;
   line-height: 86px;
@@ -1280,7 +1278,6 @@
 	height: 33px;
 	line-height: 33px;
 	text-align: center;
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 14px;
 	color: #888888;
 	float: left;
@@ -1295,7 +1292,6 @@
 	margin-left: 0;
 }
 .select{
-	/*font-family: SourceHanSansCN-Medium!important;*/
 	font-weight: 600;
 	color: #222222!important;
 	border-bottom: 1px solid #009bef;
@@ -1304,9 +1300,6 @@
 
 .content > div {
 	margin-top: 28px;
-}
-.content > div.zongbang {
-	/*margin-top: -225px;*/
 }
 .content .lei>div,
 .content .country>div{
@@ -1330,12 +1323,10 @@
 	border: solid 1px #dfdfdf;
 }
 .content .lei>div:last-child input::placeholder{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #bfbfbf;
 }
 .content .lei>div:last-child input{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	padding-left: 10px;
@@ -1346,7 +1337,6 @@
     height: 24px;
     background-color: #009bef;
     border-radius: 4px;
-    /*font-family: SourceHanSansCN-Normal;*/
     font-size: 13px;
     font-weight: 400;
     font-stretch: normal;
@@ -1364,7 +1354,6 @@
 	text-align: center;
 	border-radius: 4px;
 	border: solid 1px #dfdfdf;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #444444;
 	display: inline-block;
@@ -1395,7 +1384,6 @@
 }
 .content .lei>div p:first-child,
 .content .country>div p:first-child{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	color: #222222;
 	border:none;
@@ -1432,7 +1420,6 @@
 	background-color: #429ae8;
 }
 .content .zongbang .tit .font{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	font-size: 16px;
 	color: #222222;
@@ -1458,7 +1445,6 @@ table thead tr{
 	height: 40px;
 }
 table thead tr th{
-	/*font-family: SourceHanSansCN-Medium;*/
 	font-weight: 600;
 	font-size: 13px;
 	color: #222222;
@@ -1488,31 +1474,26 @@ table tr th.yingyong{
 	width: 321px;
 }
 table tr th.change span{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	line-height: 30px;
 	color: #f50202;
 }
 table tbody tr th{
 	height: 100px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #444444;
 }
 table.qingbang tbody tr th>div p,
 table.xiajia tbody .clixia p:first-child{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #444444;
 }
 table.qingbang tbody tr th>div p:last-child,
 table.xiajia tbody .clixia p:last-child{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #888;
 }
 table.qingci tbody tr th>div p{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #444444;
 }
@@ -1524,7 +1505,6 @@ table tbody tr th .shejiao{
 	font-size: 13px;
 }
 table tbody tr th .ranking{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #888888;
 	float: left;
@@ -1545,7 +1525,6 @@ table tbody tr th .logo{
 	margin-left: 22px;
 }
 table tbody tr th .msg{
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 14px;
 	color: #888888;
 	float: left;
@@ -1553,28 +1532,30 @@ table tbody tr th .msg{
 }
 table tbody tr th .msg .appname{
 	width: 122px;
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 14px;
 	color: #222222;
 	white-space:nowrap; 
 	overflow:hidden; 
 	text-overflow:ellipsis;
 	text-align: left;
+	margin-top: 1px;
 }
+
 table tbody tr th .msg .appname:hover{
 	color: #009bef;
 	cursor: pointer;
 }
 table tbody tr th .msg .company{
 	width: 166px;
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 13px;
 	color: #888888;
 	white-space:nowrap; 
 	overflow:hidden; 
 	text-overflow:ellipsis;
 	text-align: left;
+	margin-top: 7px;
 }
+
 table tbody tr th .now,
 table tbody tr th .before{
 	display: inline-block;
@@ -1613,7 +1594,6 @@ table tbody tr th.zongrank>img{
 	margin-top: 190px;
 }
 .null p{
-	/*font-family: SourceHanSansCN-Regular;*/
 	font-size: 13px;
 	color: #555555;
 }
@@ -1623,7 +1603,6 @@ table tbody tr th.zongrank>img{
 	height:50px;
 }
 .tips{
-	/*font-family: SourceHanSansCN-Normal;*/
 	font-size: 14px;
 	color: #bfbfbf;
 }
