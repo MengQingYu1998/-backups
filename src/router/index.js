@@ -8,11 +8,17 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      meta: {
+        title: '掌上互动'
+      },
       path: '/rankapp',
       name: 'rankapp',
       component: () => import('../NumTwo/rankapp')
     },
     {
+      meta: {
+        title: 'AppStore精品推荐'
+      },
       path: '/recommend',
       name: 'recommend',
       component: () => import('../NumTwo/recommend')

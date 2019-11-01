@@ -1,164 +1,166 @@
 <template>
-  <div id="goods_show" class="content">
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <div class="right_nav">竞品概览</div>
-        <div class="line"></div>
-        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
-        <table v-show="!loading_gif">
-          <thead>
-            <tr>
-              <th>应用</th>
-              <th>总榜排名</th>
-              <th>分类排名</th>
-              <th>关键词覆盖数</th>
-              <th>当前版本评分</th>
-              <th>所有版本评分</th>
-              <th>竞品对比&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody v-if="response_data!=null">
-            <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
-              <td>
-                <div class="use">
-                  <div>{{index+1}}</div>
-                  <div>
-                    <img
-                      :src="item.icon"
-                      class="pointer"
-                      @click="go_to_page01(item.appId,item.appName)"
-                      alt
-                    />
+  <div id="goods_show">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
+        </div>
+        <div class="right">
+          <div class="right_nav">竞品概览</div>
+          <div class="line"></div>
+          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+          <table v-show="!loading_gif">
+            <thead>
+              <tr>
+                <th>应用</th>
+                <th>总榜排名</th>
+                <th>分类排名</th>
+                <th>关键词覆盖数</th>
+                <th>当前版本评分</th>
+                <th>所有版本评分</th>
+                <th>竞品对比&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody v-if="response_data!=null">
+              <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
+                <td>
+                  <div class="use">
+                    <div>{{index+1}}</div>
+                    <div>
+                      <img
+                        :src="item.icon"
+                        class="pointer"
+                        @click="go_to_page01(item.appId,item.appName)"
+                        alt
+                      />
+                    </div>
+                    <div>
+                      <div
+                        class="app_name pointer"
+                        @click="go_to_page01(item.appId,item.appName)"
+                      >{{item.appName}}>{{item.appName}}</div>
+                      <div class="now_app" v-show="index==0">当前应用</div>
+                      <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div
-                      class="app_name pointer"
-                      @click="go_to_page01(item.appId,item.appName)"
-                    >{{item.appName}}>{{item.appName}}</div>
-                    <div class="now_app" v-show="index==0">当前应用</div>
-                    <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
-                  </div>
-                </div>
-              </td>
+                </td>
 
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-              </td>
-              <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
-                <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.comment.num}}</div>
-                <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
-              </td>
-              <td class="operation">
-                <div>
-                  <div v-show="index==0">当前应用</div>
-                  <div
-                    v-show="index!=0"
-                    class="pointer"
-                    @click="go_to_page03(item.appId,item.appName)"
-                  >实时排名</div>
-                  <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
-                </div>
-                <img
-                  :class="{opacity_0:index==0}"
-                  src="../assets/ios/compare_del.png"
-                  @click="remove_data(index)"
-                  alt
-                />
-              </td>
-            </tr>
-            <tr class="disable_hover" v-show="response_data.data_0.length==0">
-              <td colspan="7">暂无相关数据</td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- ================================ -->
-        <div class="section_title">竞品推荐</div>
-        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
-        <table v-show="!loading_gif">
-          <thead>
-            <tr>
-              <th>应用</th>
-              <th>总榜排名</th>
-              <th>分类排名</th>
-              <th>关键词覆盖数</th>
-              <th>当前版本评分</th>
-              <th>所有版本评</th>
-              <th>竞品对比</th>
-            </tr>
-          </thead>
-          <tbody v-if="response_data!=null">
-            <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
-              <td>
-                <div class="use">
-                  <div>{{index+1}}</div>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                </td>
+                <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                  <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                  <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
+                </td>
+                <td class="operation">
                   <div>
-                    <img
-                      :src="item.icon"
-                      class="pointer"
-                      @click="go_to_page01(item.appId,item.appName)"
-                      alt
-                    />
-                  </div>
-                  <div>
+                    <div v-show="index==0">当前应用</div>
                     <div
-                      class="app_name pointer"
-                      @click="go_to_page01(item.appId,item.appName)"
-                    >{{item.appName}}</div>
-                    <!-- <div class="now_app">当前应用</div> -->
-                    <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
+                      v-show="index!=0"
+                      class="pointer"
+                      @click="go_to_page03(item.appId,item.appName)"
+                    >实时排名</div>
+                    <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
                   </div>
-                </div>
-              </td>
+                  <img
+                    :class="{opacity_0:index==0}"
+                    src="../assets/ios/compare_del.png"
+                    @click="remove_data(index)"
+                    alt
+                  />
+                </td>
+              </tr>
+              <tr class="disable_hover" v-show="response_data.data_0.length==0">
+                <td colspan="7">暂无相关数据</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- ================================ -->
+          <div class="section_title">竞品推荐</div>
+          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+          <table v-show="!loading_gif">
+            <thead>
+              <tr>
+                <th>应用</th>
+                <th>总榜排名</th>
+                <th>分类排名</th>
+                <th>关键词覆盖数</th>
+                <th>当前版本评分</th>
+                <th>所有版本评</th>
+                <th>竞品对比</th>
+              </tr>
+            </thead>
+            <tbody v-if="response_data!=null">
+              <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
+                <td>
+                  <div class="use">
+                    <div>{{index+1}}</div>
+                    <div>
+                      <img
+                        :src="item.icon"
+                        class="pointer"
+                        @click="go_to_page01(item.appId,item.appName)"
+                        alt
+                      />
+                    </div>
+                    <div>
+                      <div
+                        class="app_name pointer"
+                        @click="go_to_page01(item.appId,item.appName)"
+                      >{{item.appName}}</div>
+                      <!-- <div class="now_app">当前应用</div> -->
+                      <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
+                    </div>
+                  </div>
+                </td>
 
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-                <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-                <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
-                <div class="rankingChangeFontColor" v-else>- -</div>
-              </td>
-              <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
-                <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.comment.num}}</div>
-                <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
-              </td>
-              <td>
-                <img src="../assets/ios/ios_add_blue.png" @click="add_data(index)" alt />
-              </td>
-            </tr>
-            <tr class="disable_hover" v-show="response_data.data_1.length==0">
-              <td colspan="7">暂无相关数据</td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>- -</div>
+                </td>
+                <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                  <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                  <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
+                </td>
+                <td>
+                  <img src="../assets/ios/ios_add_blue.png" @click="add_data(index)" alt />
+                </td>
+              </tr>
+              <tr class="disable_hover" v-show="response_data.data_1.length==0">
+                <td colspan="7">暂无相关数据</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -260,7 +262,11 @@ export default {
       this.$store.state.now_app_id = parm
       this.$store.state.now_app_name = parm02
       this.$router.push({
-        path: '/now_ranking'
+        path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
     },
     go_to_page02(parm) {
@@ -449,17 +455,20 @@ thead {
 }
 table {
   width: 100%;
-  height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
   margin-bottom: 50px;
 }
 .right {
-  padding-left: 57px;
-  position: relative;
+  width: 100%;
+  background-color: #fff;
+  margin-left: 14px;
+  padding: 25px 20px;
+  padding-bottom: 0;
+  box-sizing: border-box;
 }
 .line {
-  width: 985px;
+  width: 100%;
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
@@ -478,7 +487,7 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
+  margin-top: 14px;
 }
 .breadcrumb span:last-child {
   font-size: 13px;
@@ -512,5 +521,13 @@ table {
 }
 .disable_hover :hover {
   background-color: #fff !important;
+}
+#goods_show {
+  background-color: #f4f4f4;
+  padding-bottom: 50px;
+}
+.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

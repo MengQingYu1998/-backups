@@ -1,140 +1,141 @@
 <template>
-  <div id="data_table" class="content">
-    <!-- 自定义组件 -->
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <div class="right_nav">榜单排名对比</div>
-        <div class="line"></div>
-        <div class="btn_group">
-          <div class="option">
-            <div>设备</div>
-            <div>
-              <el-select v-model="equipmentValue">
-                <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="classify">
-            <div>榜单分类</div>
-            <div>
-              <el-radio-group v-model="middle_top_radio2" size="mini">
-                <el-radio-button label="全部"></el-radio-button>
-                <el-radio-button label="免费"></el-radio-button>
-                <el-radio-button label="付费"></el-radio-button>
-                <el-radio-button label="畅销"></el-radio-button>
-              </el-radio-group>
-            </div>
-          </div>
-          <div class="classify type">
-            <div>类型</div>
-            <div>
-              <el-radio-group v-model="middle_top_radio1" size="mini">
-                <!-- <el-radio-button label="按分钟"></el-radio-button> -->
-                <el-radio-button label="按小时"></el-radio-button>
-                <el-radio-button label="按天"></el-radio-button>
-              </el-radio-group>
-            </div>
-          </div>
+  <div id="ranking_compare">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
         </div>
-        <div class="btn_group">
-          <div class="classify middle_top_time">
-            <div class="time_width">时间</div>
-            <div @click="click_second_el_radio" class="btn_group_time">
-              <el-radio-group v-model="middle_top_radio3" size="mini">
-                <el-radio-button
-                  label="今日"
-                  v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
-                ></el-radio-button>
-                <el-radio-button
-                  label="昨日"
-                  v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
-                ></el-radio-button>
-                <el-radio-button
-                  label="7天"
-                  v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
-                ></el-radio-button>
-                <el-radio-button label="30天" v-show="middle_top_radio1=='按天'"></el-radio-button>
-                <el-radio-button
-                  label="180天"
-                  v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
-                ></el-radio-button>
-                <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
-              </el-radio-group>
+        <div class="right">
+          <div class="right_nav">榜单排名对比</div>
+          <div class="line"></div>
+          <div class="btn_group">
+            <div class="option">
+              <div>设备</div>
+              <div>
+                <el-select v-model="equipmentValue">
+                  <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="classify">
+              <div>榜单分类</div>
+              <div>
+                <el-radio-group v-model="middle_top_radio2" size="mini">
+                  <el-radio-button label="全部"></el-radio-button>
+                  <el-radio-button label="免费"></el-radio-button>
+                  <el-radio-button label="付费"></el-radio-button>
+                  <el-radio-button label="畅销"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="classify type">
+              <div>类型</div>
+              <div>
+                <el-radio-group v-model="middle_top_radio1" size="mini">
+                  <!-- <el-radio-button label="按分钟"></el-radio-button> -->
+                  <el-radio-button label="按小时"></el-radio-button>
+                  <el-radio-button label="按天"></el-radio-button>
+                </el-radio-group>
+              </div>
             </div>
           </div>
-          <div class="btn_item_01">
-            <!-- <div>时间</div> -->
-            <div>
-              <el-date-picker
-                v-model="middle_top_time01"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                clear-icon
-                prefix-icon="fasle"
-                :picker-options="middle_top_pickerOptions"
-              ></el-date-picker>
+          <div class="btn_group">
+            <div class="classify middle_top_time">
+              <div class="time_width">时间</div>
+              <div @click="click_second_el_radio" class="btn_group_time">
+                <el-radio-group v-model="middle_top_radio3" size="mini">
+                  <el-radio-button
+                    label="今日"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="昨日"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                  ></el-radio-button>
+                  <el-radio-button
+                    label="7天"
+                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
+                  ></el-radio-button>
+                  <el-radio-button label="30天" v-show="middle_top_radio1=='按天'"></el-radio-button>
+                  <el-radio-button
+                    label="180天"
+                    v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
+                  ></el-radio-button>
+                  <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
+                </el-radio-group>
+              </div>
+            </div>
+            <div class="btn_item_01">
+              <!-- <div>时间</div> -->
+              <div>
+                <el-date-picker
+                  v-model="middle_top_time01"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  clear-icon
+                  prefix-icon="fasle"
+                  :picker-options="middle_top_pickerOptions"
+                ></el-date-picker>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- <div
+          <!-- <div
           class="table_title"
           v-if="response_data_second"
         >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名对比</div>
-        <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>-->
-        <div class="position_relative">
-          <div
-            ref="ranking_compare"
-            class="myChart"
-            style="height: 460px;"
-            v-show="is_show_myChart_and_table&&!no_data"
-          ></div>
-          <div class="bottom_image pointer">
-            <img
-              v-on:click="is_show_myChart_function"
-              class="float_right"
-              src="../assets/keyword/three.png"
-              alt
-            />
-            <img
-              v-on:click="is_show_table_function"
-              class="float_right"
-              src="../assets/keyword/calculator.png"
-              alt
-            />
+          <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>-->
+          <div class="position_relative">
+            <div
+              ref="ranking_compare"
+              class="myChart"
+              style="height: 460px;"
+              v-show="is_show_myChart_and_table&&!no_data"
+            ></div>
+            <div class="bottom_image pointer">
+              <img
+                v-on:click="is_show_myChart_function"
+                class="float_right"
+                src="../assets/keyword/three.png"
+                alt
+              />
+              <img
+                v-on:click="is_show_table_function"
+                class="float_right"
+                src="../assets/keyword/calculator.png"
+                alt
+              />
+            </div>
           </div>
-        </div>
-        <div class="table_wraper" v-show="!no_data&&!is_show_myChart_and_table">
-          <table>
-            <thead v-if="response_data_second">
-              <tr>
-                <th>
-                  <span>时间</span>
-                </th>
-                <th v-for="(item ,index) in keyword_data" :key="'tableasdfwe'+index">
-                  <span>{{item}}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody v-if="response_data_second">
-              <tr v-for="(item ,index) in xAxis_data.length" :key="'table03wergfsdarw'+index">
-                <td>
-                  <div>{{xAxis_data[index]}}</div>
-                </td>
-                <td v-for="(item_son ,index_son) in keyword_data" :key="'table03wergf'+index_son">
-                  <div>{{keyword_data_value[index_son][index]}}</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
+          <div class="table_wraper" v-show="!no_data&&!is_show_myChart_and_table">
+            <table>
+              <thead v-if="response_data_second">
+                <tr>
+                  <th>
+                    <span>时间</span>
+                  </th>
+                  <th v-for="(item ,index) in keyword_data" :key="'tableasdfwe'+index">
+                    <span>{{item}}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody v-if="response_data_second">
+                <tr v-for="(item ,index) in xAxis_data.length" :key="'table03wergfsdarw'+index">
+                  <td>
+                    <div>{{xAxis_data[index]}}</div>
+                  </td>
+                  <td v-for="(item_son ,index_son) in keyword_data" :key="'table03wergf'+index_son">
+                    <div>{{keyword_data_value[index_son][index]}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
           <img
             v-on:click="is_show_myChart_function"
             class="float_right"
@@ -147,20 +148,21 @@
             src="../assets/keyword/calculator.png"
             alt
           />
-        </div>-->
+          </div>-->
 
-        <div class="myChart" v-show="no_data">暂无数据</div>
-        <div v-show="is_show_myChart_and_table">
-          <div
-            class="show_all pointer"
-            v-show="!canvas_is_show_all"
-            @click="selected_data_function(true)"
-          >显示所有</div>
-          <div
-            class="show_all pointer"
-            v-show="canvas_is_show_all"
-            @click="selected_data_function(false)"
-          >隐藏所有</div>
+          <div class="myChart" v-show="no_data">暂无数据</div>
+          <div v-show="is_show_myChart_and_table">
+            <div
+              class="show_all pointer"
+              v-show="!canvas_is_show_all"
+              @click="selected_data_function(true)"
+            >显示所有</div>
+            <div
+              class="show_all pointer"
+              v-show="canvas_is_show_all"
+              @click="selected_data_function(false)"
+            >隐藏所有</div>
+          </div>
         </div>
       </div>
     </div>
@@ -173,7 +175,7 @@ import left_nav from './left_nav'
 // 引入工具类
 import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
 export default {
-  name: 'data_table',
+  name: 'ranking_compare',
   components: { ios_header, left_nav },
   data() {
     let that = this
@@ -913,7 +915,7 @@ table {
   width: 100%;
 }
 .table_wraper {
-  width: 984px;
+  width: 950px;
   overflow-x: scroll;
   border-right: solid 1px #f2f2f2;
   margin-top: 50px;
@@ -926,8 +928,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 9px;
-  right: 56px;
+  top: 7px;
+  right: 30px;
 }
 .myChart_tips .float_right {
   float: right;
@@ -955,7 +957,7 @@ table {
   justify-content: center;
 }
 .myChart {
-  width: 965px;
+  width: 950px;
 
   text-align: center;
   color: #bfbfbf;
@@ -1033,11 +1035,15 @@ table {
   align-items: center;
 }
 .right {
-  padding-left: 57px;
-  position: relative;
+  width: 100%;
+  background-color: #fff;
+  margin-left: 14px;
+  padding: 25px 20px;
+  padding-bottom: 0;
+  box-sizing: border-box;
 }
 .line {
-  width: 985px;
+  width: 100%;
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
@@ -1056,26 +1062,17 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
-}
-.breadcrumb span:last-child {
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
+  margin-top: 14px;
 }
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+#ranking_compare {
+  background-color: #f4f4f4;
+  padding-bottom: 50px;
+}.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

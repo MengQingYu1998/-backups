@@ -1,8 +1,8 @@
 <template>
   <div id="ios_header">
     <div class="breadcrumb">
-      <span>iOS应用</span> >
-      <span>{{this.$store.state.now_app_name}}</span>
+      <span>iOS应用</span>
+      <span>> {{this.$store.state.now_app_name}}</span>
     </div>
     <div class="wrap">
       <div class="header_img" v-if="response_data">
@@ -19,15 +19,7 @@
         ></div>
       </div>
       <div class="app_description" v-if="response_data">
-        <!-- <el-tooltip
-          class="item"
-          effect="light"
-          :visible-arrow="false"
-          :content="response_data.appName"
-          placement="top-start"
-        >-->
         <div v-if="response_data">{{response_data.appName}}</div>
-        <!-- </el-tooltip> -->
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
@@ -274,22 +266,24 @@ export default {
 .wrap {
   display: flex;
   align-items: center;
+  background-color: #fff;
+  padding: 28px;
 }
 
 .breadcrumb span:last-child {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
   letter-spacing: 0px;
   color: #888888;
 }
 .breadcrumb span:first-child {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
   color: #009bef;
 }
 .breadcrumb {
-  margin: 20px 0;
+  padding: 7px 0;
 }
 </style>

@@ -1,301 +1,303 @@
 <template>
-  <div id="now_ranking" class="content">
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <!-- 第一部分 -->
-        <!-- 第一部分 -->
-        <!-- 第一部分 -->
-        <section class="top">
-          <div class="section_title">实时排名</div>
-          <table>
-            <thead v-if="response_data_first_title">
-              <tr>
-                <th>{{response_data_first_title[0]}}</th>
-                <th>{{response_data_first_title[1]}}</th>
-                <th>{{response_data_first_title[2]}}</th>
-                <th>{{response_data_first_title[3]}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="disable_hover" v-if="nothing_data_can_show">
-                <td colspan="4">暂无相关数据</td>
-              </tr>
-              <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
-                <td>
-                  <div class="rankingChangeFontColor">{{item[0]==''?'--':item[0]}}</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">{{item[1]==''?'--':item[1]}}</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">{{item[2]==''?'--':item[2]}}</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">{{item[3]==''?'--':item[3]}}</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <!-- 第二部分 -->
-        <!-- 第二部分 -->
-        <!-- 第二部分 -->
-        <section class="middle_top">
-          <div class="section_title">排名走势</div>
-          <div class="btn_group">
-            <div class="classify" @click="clear_time">
-              <div>类型</div>
-              <div>
-                <el-radio-group v-model="middle_top_radio1" size="mini">
-                  <el-radio-button label="按分钟"></el-radio-button>
-                  <el-radio-button label="按小时"></el-radio-button>
-                  <el-radio-button label="按天"></el-radio-button>
-                </el-radio-group>
+  <div id="now_ranking">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
+        </div>
+        <div class="right">
+          <!-- 第一部分 -->
+          <!-- 第一部分 -->
+          <!-- 第一部分 -->
+          <section class="top">
+            <div class="section_title">实时排名</div>
+            <table>
+              <thead v-if="response_data_first_title">
+                <tr>
+                  <th>{{response_data_first_title[0]}}</th>
+                  <th>{{response_data_first_title[1]}}</th>
+                  <th>{{response_data_first_title[2]}}</th>
+                  <th>{{response_data_first_title[3]}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="disable_hover" v-if="nothing_data_can_show">
+                  <td colspan="4">暂无相关数据</td>
+                </tr>
+                <tr v-for="(item ,index) in response_data_first" :key="'first'+index">
+                  <td>
+                    <div class="rankingChangeFontColor">{{item[0]==''?'--':item[0]}}</div>
+                  </td>
+                  <td>
+                    <div class="rankingChangeFontColor">{{item[1]==''?'--':item[1]}}</div>
+                  </td>
+                  <td>
+                    <div class="rankingChangeFontColor">{{item[2]==''?'--':item[2]}}</div>
+                  </td>
+                  <td>
+                    <div class="rankingChangeFontColor">{{item[3]==''?'--':item[3]}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <!-- 第二部分 -->
+          <!-- 第二部分 -->
+          <!-- 第二部分 -->
+          <section class="middle_top">
+            <div class="section_title">排名走势</div>
+            <div class="btn_group">
+              <div class="classify" @click="clear_time">
+                <div>类型</div>
+                <div>
+                  <el-radio-group v-model="middle_top_radio1" size="mini">
+                    <el-radio-button label="按分钟"></el-radio-button>
+                    <el-radio-button label="按小时"></el-radio-button>
+                    <el-radio-button label="按天"></el-radio-button>
+                  </el-radio-group>
+                </div>
+              </div>
+              <div class="classify middle_top_time">
+                <div>时间</div>
+                <div @click="click_second_el_radio">
+                  <el-radio-group v-model="middle_top_radio3" size="mini">
+                    <el-radio-button
+                      label="今日"
+                      v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                    ></el-radio-button>
+                    <el-radio-button
+                      label="昨日"
+                      v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
+                    ></el-radio-button>
+                    <el-radio-button
+                      label="7天"
+                      v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
+                    ></el-radio-button>
+                    <el-radio-button
+                      label="30天"
+                      v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按天'"
+                    ></el-radio-button>
+                    <el-radio-button
+                      label="180天"
+                      v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
+                    ></el-radio-button>
+                    <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
+                  </el-radio-group>
+                </div>
+              </div>
+              <div class="btn_item_01">
+                <!-- <div>时间</div> -->
+                <div>
+                  <el-date-picker
+                    v-model="now_ranking_time"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :picker-options="middle_top_pickerOptions"
+                    clear-icon
+                    prefix-icon="fasle"
+                  ></el-date-picker>
+                </div>
               </div>
             </div>
-            <div class="classify middle_top_time">
-              <div>时间</div>
-              <div @click="click_second_el_radio">
-                <el-radio-group v-model="middle_top_radio3" size="mini">
-                  <el-radio-button
-                    label="今日"
-                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
-                  ></el-radio-button>
-                  <el-radio-button
-                    label="昨日"
-                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'"
-                  ></el-radio-button>
-                  <el-radio-button
-                    label="7天"
-                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按分钟'||middle_top_radio1=='按天'"
-                  ></el-radio-button>
-                  <el-radio-button
-                    label="30天"
-                    v-show="middle_top_radio1=='按小时'||middle_top_radio1=='按天'"
-                  ></el-radio-button>
-                  <el-radio-button
-                    label="180天"
-                    v-show="middle_top_radio1=='按天'||middle_top_radio1=='按天'"
-                  ></el-radio-button>
-                  <el-radio-button label="360天" v-show="middle_top_radio1=='按天'"></el-radio-button>
-                </el-radio-group>
+            <div class="btn_group">
+              <div class="classify">
+                <div>榜单分类</div>
+                <div>
+                  <el-radio-group v-model="middle_top_radio2" size="mini">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="免费"></el-radio-button>
+                    <el-radio-button label="付费"></el-radio-button>
+                    <el-radio-button label="畅销"></el-radio-button>
+                  </el-radio-group>
+                </div>
               </div>
             </div>
-            <div class="btn_item_01">
-              <!-- <div>时间</div> -->
-              <div>
-                <el-date-picker
-                  v-model="now_ranking_time"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="middle_top_pickerOptions"
-                  clear-icon
-                  prefix-icon="fasle"
-                ></el-date-picker>
-              </div>
-            </div>
-          </div>
-          <div class="btn_group">
-            <div class="classify">
-              <div>榜单分类</div>
-              <div>
-                <el-radio-group v-model="middle_top_radio2" size="mini">
-                  <el-radio-button label="全部"></el-radio-button>
-                  <el-radio-button label="免费"></el-radio-button>
-                  <el-radio-button label="付费"></el-radio-button>
-                  <el-radio-button label="畅销"></el-radio-button>
-                </el-radio-group>
-              </div>
-            </div>
-          </div>
-          <!-- <div
+            <!-- <div
             class="table_title"
             v-if="response_data_second"
-          >【{{replace_some_chart_wrap(response_data_second.appName)}}】排名走势</div>-->
+            >【{{replace_some_chart_wrap(response_data_second.appName)}}】排名走势</div>-->
 
-          <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
+            <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
 
-          <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
+            <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
 
-          <div>
-            <div
-              class="show_all pointer"
-              v-show="is_show_mychart&&!canvas_is_show_all"
-              @click="selected_data_function(true)"
-            >显示所有</div>
-            <div
-              class="show_all pointer"
-              v-show="is_show_mychart&&canvas_is_show_all"
-              @click="selected_data_function(false)"
-            >隐藏所有</div>
-          </div>
-        </section>
-
-        <!-- 第三部分 -->
-        <!-- 第三部分 -->
-        <!-- 第三部分 -->
-        <section class="middle_bottom">
-          <div class="section_title">全球排名</div>
-          <div class="btn_group">
-            <div class="option">
-              <div>设备</div>
-              <div>
-                <el-select v-model="equipmentValue01">
-                  <el-option
-                    v-for="item in equipment01 "
-                    :key="'equipment01'+item.value"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="classify">
-              <div>分类</div>
-              <div v-if="response_data_third">
-                <el-radio-group v-model="radio3" size="mini">
-                  <el-radio-button
-                    v-for="(item, index) in response_data_third.data_1.genreList"
-                    :key="'button'+index"
-                    :label="item.genreName"
-                  ></el-radio-button>
-                </el-radio-group>
-              </div>
-            </div>
-          </div>
-          <div class="world_map">
             <div>
-              <world_map
-                v-if="is_show_map"
-                :country_temp01="country_temp01"
-                :country_temp02="country_temp02"
-                :country_temp03="country_temp03"
-                :country_temp04="country_temp04"
-              />
+              <div
+                class="show_all pointer"
+                v-show="is_show_mychart&&!canvas_is_show_all"
+                @click="selected_data_function(true)"
+              >显示所有</div>
+              <div
+                class="show_all pointer"
+                v-show="is_show_mychart&&canvas_is_show_all"
+                @click="selected_data_function(false)"
+              >隐藏所有</div>
             </div>
-            <div class="level">
-              <div class="one_level">
-                <div></div>
-                <div>1</div>
-              </div>
-              <div class="four_level">
-                <div></div>
-                <div>2-500</div>
-              </div>
-              <div class="two_level">
-                <div></div>
-                <div>501-1000</div>
-              </div>
-              <div class="three_level">
-                <div></div>
-                <div>1001-5000</div>
-              </div>
-            </div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>排名</th>
-                <th>数量</th>
-                <th>地区</th>
-              </tr>
-            </thead>
-            <tbody v-if="response_data_third" class="tr_height">
-              <tr v-for="(item, index) in response_data_third.data_0" :key="'table01'+index">
-                <td class="td_width01">
-                  <div class="third_table_td">{{item.RankingInterval}}</div>
-                </td>
+          </section>
 
-                <td class="td_width02 third_table_td">
-                  <div
-                    v-for="(item_td, index_td) in item.GenreCountryList"
-                    :key="'table01_td'+index_td"
-                  >
-                    <div v-if="item_td.genreName==radio3">
-                      <div>{{item_td.Num}}</div>
+          <!-- 第三部分 -->
+          <!-- 第三部分 -->
+          <!-- 第三部分 -->
+          <section class="middle_bottom">
+            <div class="section_title">全球排名</div>
+            <div class="btn_group">
+              <div class="option">
+                <div>设备</div>
+                <div>
+                  <el-select v-model="equipmentValue01">
+                    <el-option
+                      v-for="item in equipment01 "
+                      :key="'equipment01'+item.value"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </div>
+              </div>
+              <div class="classify">
+                <div>分类</div>
+                <div v-if="response_data_third">
+                  <el-radio-group v-model="radio3" size="mini">
+                    <el-radio-button
+                      v-for="(item, index) in response_data_third.data_1.genreList"
+                      :key="'button'+index"
+                      :label="item.genreName"
+                    ></el-radio-button>
+                  </el-radio-group>
+                </div>
+              </div>
+            </div>
+            <div class="world_map">
+              <div>
+                <world_map
+                  v-if="is_show_map"
+                  :country_temp01="country_temp01"
+                  :country_temp02="country_temp02"
+                  :country_temp03="country_temp03"
+                  :country_temp04="country_temp04"
+                />
+              </div>
+              <div class="level">
+                <div class="one_level">
+                  <div></div>
+                  <div>1</div>
+                </div>
+                <div class="four_level">
+                  <div></div>
+                  <div>2-500</div>
+                </div>
+                <div class="two_level">
+                  <div></div>
+                  <div>501-1000</div>
+                </div>
+                <div class="three_level">
+                  <div></div>
+                  <div>1001-5000</div>
+                </div>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>排名</th>
+                  <th>数量</th>
+                  <th>地区</th>
+                </tr>
+              </thead>
+              <tbody v-if="response_data_third" class="tr_height">
+                <tr v-for="(item, index) in response_data_third.data_0" :key="'table01'+index">
+                  <td class="td_width01">
+                    <div class="third_table_td">{{item.RankingInterval}}</div>
+                  </td>
+
+                  <td class="td_width02 third_table_td">
+                    <div
+                      v-for="(item_td, index_td) in item.GenreCountryList"
+                      :key="'table01_td'+index_td"
+                    >
+                      <div v-if="item_td.genreName==radio3">
+                        <div>{{item_td.Num}}</div>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="td_width03">
-                  <div
-                    v-for="(item_td, index_td) in item.GenreCountryList"
-                    :key="'table01_td'+index_td"
-                  >
-                    <div v-if="item_td.genreName==radio3" class="flex_div">
-                      <div
-                        class="rankingChangeFontColor"
-                        v-for="(item_div, index_div) in item_td.data"
-                        :key="'table01_div'+index_div"
-                      >
-                        <div class="font_img">
-                          <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
-                          <!-- <img src="../../static/flag/HK.svg" /> -->
-                          <span class="country_name_width">{{item_div.CountryName}}</span>
-                          <span class="country_rank_width">({{item_div.Ranking}})</span>
+                  </td>
+                  <td class="td_width03">
+                    <div
+                      v-for="(item_td, index_td) in item.GenreCountryList"
+                      :key="'table01_td'+index_td"
+                    >
+                      <div v-if="item_td.genreName==radio3" class="flex_div">
+                        <div
+                          class="rankingChangeFontColor"
+                          v-for="(item_div, index_div) in item_td.data"
+                          :key="'table01_div'+index_div"
+                        >
+                          <div class="font_img">
+                            <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
+                            <!-- <img src="../../static/flag/HK.svg" /> -->
+                            <span class="country_name_width">{{item_div.CountryName}}</span>
+                            <span class="country_rank_width">({{item_div.Ranking}})</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <!-- 第四部分 -->
-        <!-- 第四部分 -->
-        <!-- 第四部分 -->
-        <section class="bottom">
-          <div class="section_title">全球排名明细表</div>
-          <div class="btn_group">
-            <div class="option">
-              <div>设备</div>
-              <div>
-                <el-select v-model="equipmentValue01">
-                  <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
-                </el-select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <!-- 第四部分 -->
+          <!-- 第四部分 -->
+          <!-- 第四部分 -->
+          <section class="bottom">
+            <div class="section_title">全球排名明细表</div>
+            <div class="btn_group">
+              <div class="option">
+                <div>设备</div>
+                <div>
+                  <el-select v-model="equipmentValue01">
+                    <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
+                  </el-select>
+                </div>
               </div>
             </div>
-          </div>
-          <table>
-            <thead>
-              <tr v-if="response_data_third">
-                <th>国家/地区</th>
-                <th
-                  v-for="(item, index) in response_data_third.data_1.genreList"
-                  :key="'table555'+index"
-                >{{item.genreName}}</th>
-                <th v-show="response_data_third.data_1.genreList.length==0"></th>
-                <th v-show="response_data_third.data_1.genreList.length==0"></th>
-                <th v-show="response_data_third.data_1.genreList.length==0"></th>
-              </tr>
-            </thead>
-            <tbody v-if="response_data_third">
-              <tr v-if="response_data_third.data_1.list.length==0">
-                <td colspan="4" class="disable_hover">暂无相关数据</td>
-              </tr>
-              <tr
-                v-for="(item, index) in response_data_third.data_1.list"
-                :key="'table06785'+index"
-              >
-                <td class="table_width01">
-                  <div class="rankingChangeFontColor font_and_img">
-                    <img :src="'../../static/flag/'+item.CountryCode+'.svg'" />
-                    {{item.CountryName}}
-                  </div>
-                </td>
-                <td v-for="(item_son, index) in item.list" :key="'table06sss785'+index">
-                  <div class="rankingChangeFontColor">{{item_son.rankID}}</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+            <table>
+              <thead>
+                <tr v-if="response_data_third">
+                  <th>国家/地区</th>
+                  <th
+                    v-for="(item, index) in response_data_third.data_1.genreList"
+                    :key="'table555'+index"
+                  >{{item.genreName}}</th>
+                  <th v-show="response_data_third.data_1.genreList.length==0"></th>
+                  <th v-show="response_data_third.data_1.genreList.length==0"></th>
+                  <th v-show="response_data_third.data_1.genreList.length==0"></th>
+                </tr>
+              </thead>
+              <tbody v-if="response_data_third">
+                <tr v-if="response_data_third.data_1.list.length==0">
+                  <td colspan="4" class="disable_hover">暂无相关数据</td>
+                </tr>
+                <tr
+                  v-for="(item, index) in response_data_third.data_1.list"
+                  :key="'table06785'+index"
+                >
+                  <td class="table_width01">
+                    <div class="rankingChangeFontColor font_and_img">
+                      <img :src="'../../static/flag/'+item.CountryCode+'.svg'" />
+                      {{item.CountryName}}
+                    </div>
+                  </td>
+                  <td v-for="(item_son, index) in item.list" :key="'table06sss785'+index">
+                    <div class="rankingChangeFontColor">{{item_son.rankID}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
       </div>
     </div>
   </div>
@@ -468,7 +470,7 @@ export default {
           let url = '/PostRealTimeRank'
           // console.log(url)
           // let appId = 472208016
-          let appId = this.$store.state.now_app_id
+          let appId = this.$route.query.now_app_id
           let data = { appId: appId, countryId: country_id }
           // 请求数据
           this.$axios
@@ -590,7 +592,8 @@ export default {
             timeType = 3
           }
           // let appId = 472208016
-          let appId = this.$store.state.now_app_id
+          let appId = this.$route.query.now_app_id
+
           let url = '/PostRandTrend'
           let data = {
             appids: appId,
@@ -613,12 +616,7 @@ export default {
             // .post(url, data)
             .then(response => {
               // console.log(66666666666666666)
-              // console.log(66666666666666666)
-
-              // console.log(is_excute_function)
-              // console.log(this.db_number_is_same)
               // console.log(response.data)
-              // console.log(66666666666666666)
               // console.log(66666666666666666)
               if (is_excute_function == this.db_number_is_same) {
                 if (response.data.Code == 0 && response.data.Data.length > 0) {
@@ -632,7 +630,7 @@ export default {
                     if (this.middle_top_radio1 == '按天') {
                       return timestamp(element, 'Y年M月D日')
                     } else if (this.middle_top_radio1 == '按小时') {
-                      return timestamp(element, 'Y年M月D日 h点')
+                      return timestamp(element, 'Y年M月D日 h点m分')
                     } else if (this.middle_top_radio1 == '按分钟') {
                       return timestamp(element, 'M月D日 h点m分')
                     }
@@ -755,6 +753,16 @@ export default {
 
             trigger: 'axis'
           },
+
+          legend: {
+            data: that.keyword_data,
+            y: 'bottom',
+            // 控制显示隐藏哪一个折线
+            // selected: {
+            //   邮件营销: false
+            // }
+            selected: that.selected_data
+          },
           color: [
             '#009bef',
             '#e75b48',
@@ -767,16 +775,6 @@ export default {
             '#a4d53b',
             '#b2b2b2'
           ],
-          legend: {
-            data: that.keyword_data,
-            y: 'bottom',
-            // 控制显示隐藏哪一个折线
-            // selected: {
-            //   邮件营销: false
-            // }
-            selected: that.selected_data
-          },
-
           grid: {
             left: '5%',
             right: '5%',
@@ -821,12 +819,12 @@ export default {
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '今日'
                 ) {
-                  return '　　' + value.slice(-3) + '　　'
+                  return '　　' + value.slice(-6, -3) + '　　'
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '昨日'
                 ) {
-                  return value.slice(8)
+                  return value.slice(8, -3)
                 } else if (
                   that.middle_top_radio1 == '按小时' &&
                   that.middle_top_radio3 == '7天'
@@ -964,7 +962,7 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue01 == 'iPhone' ? 1 : 2
           // let appId = 472208016
-          let appId = this.$store.state.now_app_id
+          let appId = this.$route.query.now_app_id
           let url = '/GetGlobalRank?appid=' + appId + '&device=' + deviceType
           console.log(url)
           // 请求数据
@@ -1200,7 +1198,6 @@ export default {
 .middle_bottom table,
 .bottom table {
   margin-top: 18px;
-  margin-bottom: 50px;
 }
 .option div:first-child {
   margin-left: 10px;
@@ -1221,7 +1218,7 @@ export default {
   margin-right: 30px;
 }
 .myChart {
-  width: 965px;
+  width: 950px;
   height: 360px;
   z-index: 1;
   text-align: center;
@@ -1348,9 +1345,11 @@ table {
   text-align: center;
 }
 .right {
-  padding-left: 57px;
-  position: relative;
-  width: 82%;
+  padding: 25px 20px;
+  background-color: #fff;
+  margin-left: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .line {
   width: 985px;
@@ -1372,23 +1371,7 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
-}
-.breadcrumb span:last-child {
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
+  margin-top: 14px;
 }
 .content {
   width: 1200px;
@@ -1410,5 +1393,13 @@ table {
 }
 .disable_hover:hover {
   background-color: #fff !important;
+}
+#now_ranking {
+  background-color: #f4f4f4;
+  padding-bottom: 50px;
+}
+.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

@@ -571,11 +571,14 @@ export default {
     },
     go_to_page04(parm, parm02) {
       this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm02
       this.$store.state.now_app_id = parm
       this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path: '/now_ranking'
+        path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       window.open(routerUrl.href, '_blank')
     }

@@ -346,6 +346,7 @@ table tbody tr:hover {
   border: solid 1px #dfdfdf !important;
   border-radius: 4px !important;
   box-sizing: border-box;
+  font-weight: normal !important;
 }
 .el-radio-group .el-radio-button:first-child {
   margin-left: 0 !important;
@@ -490,16 +491,12 @@ table thead tr th {
   line-height: 26px !important;
 }
 
-.el-select .el-input__icon:after {
-  content: '';
-  background-image: url('./assets/keyword/arrows_down.png');
+.el-select .el-input__icon {
+  background-image: url('./assets/keyword/arrows_up.png');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 100% 100%;
-  transform: rotate(180deg) !important;
-  width: 8px !important;
-  height: 4px !important;
-  margin-top: 2px;
+  background-size: 8px 4px;
+  display: block;
 }
 
 .el-input__suffix-inner {
@@ -614,7 +611,11 @@ input[type='number'] {
   background-image: url('./assets/ios/code.png');
   width: 36px;
   height: 36px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   cursor: pointer;
+  border-radius: 4px;
   position: relative;
 }
 .code_content div:last-child {
@@ -646,7 +647,11 @@ input[type='number'] {
 }
 .go_to_top .message {
   background-image: url('./assets/ios/message.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   width: 36px;
+  border-radius: 4px;
   height: 36px;
   cursor: pointer;
   position: relative;
@@ -658,6 +663,10 @@ input[type='number'] {
 .go_to_top .top {
   background-image: url('./assets/ios/top.png');
   width: 36px;
+  background-position: center center;
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   height: 36px;
   cursor: pointer;
 }

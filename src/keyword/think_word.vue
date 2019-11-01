@@ -218,6 +218,7 @@ export default {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #222222;
+  word-break: break-all;
   line-height: 20px;
 }
 .table_font div:last-child {
@@ -233,7 +234,7 @@ thead tr {
   border: 1px solid #f2f2f2;
 }
 td {
-  padding: 24px 0;
+  padding: 24px 10px;
   border-right: 1px solid #f2f2f2;
 }
 th {

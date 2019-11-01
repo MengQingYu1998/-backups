@@ -232,7 +232,7 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
+  margin-top: 14px;
 }
 .breadcrumb span:last-child {
   
@@ -255,5 +255,8 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
+}.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

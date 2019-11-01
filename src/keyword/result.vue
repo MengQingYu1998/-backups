@@ -103,7 +103,7 @@
 
           <div class="left_and_right">
             <div class="left tabsContentTable">
-              <table>
+              <table class="fitst_left">
                 <thead>
                   <tr>
                     <th class="th_width">应用</th>
@@ -126,7 +126,9 @@
                               alt
                             />
                           </div>
-                          <div class="third_div">
+                          <div
+                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                          >
                             <div
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
@@ -194,10 +196,6 @@
                           v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
                           class="rankingChangeFontColor"
                         >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{}}</div>-->
                         <div
                           v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
                         >--</div>
@@ -213,19 +211,19 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="loading" v-show="loading_12">
+              <div class="loading margin_left" v-show="loading_12">
                 <img src="../assets/ios/loading.gif" alt />
               </div>
               <div
-                class="it_is_over"
+                class="it_is_over margin_left"
                 v-show="it_is_over_12&&response_data_for_ios12.length!=0"
               >我是有底线的～</div>
               <div
-                class="it_is_over"
+                class="it_is_over margin_left"
                 v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
               >下拉加载更多</div>
             </div>
-            <div class="right" v-if="now_country=='中国'">
+            <div :class="{'right':true,'position_fixed':position_fixed} " v-if="now_country=='中国'">
               <div class="right_title">关键词搜索结果变化率</div>
               <div class="right_btn">
                 <div>
@@ -362,7 +360,9 @@
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
                             />
                           </div>
-                          <div class="third_div">
+                          <div
+                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                          >
                             <div
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
@@ -583,7 +583,9 @@
                               alt
                             />
                           </div>
-                          <div class="third_div">
+                          <div
+                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                          >
                             <div
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
@@ -684,7 +686,9 @@
                               alt
                             />
                           </div>
-                          <div class="third_div">
+                          <div
+                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                          >
                             <div
                               :class="{'app_name':true,'pointer':true} "
                               @click="go_to_page05(item.AppStoreId,item.app_name)"
@@ -813,13 +817,15 @@
             </div>
           </div>
           <div class="btn_item_01">
-            <div>
+            <div id="dateValue04">
               <el-date-picker
                 v-model="time_dialog"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
                 clear-icon
+                @blur="dateValue_blur04"
+                @focus="dateValue_focus04"
                 prefix-icon="fasle"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
@@ -885,7 +891,15 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
+import {
+  formatDate,
+  timestamp,
+  replace_some_chart,
+  time_inactive,
+  time_active,
+  time_reset,
+  time_rotate
+} from '../common/util.js'
 export default {
   name: 'result',
   components: {
@@ -974,6 +988,7 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
+      position_fixed: false,
       another_see_more: false,
       another_see_more01: false,
       see_more: false,
@@ -1139,46 +1154,9 @@ export default {
         case timestamp(new Date().getTime() / 1000, 'Y年M月D日'):
           this.date_button = '今日'
           // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue01  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue01 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
-          // 非选中状态下的时间组件的样式
-          // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue02  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue02 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
-          // 非选中状态下的时间组件的样式
-          // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue03  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue03 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
+          time_inactive('#dateValue01')
+          time_inactive('#dateValue02')
+          time_inactive('#dateValue03')
           // 非选中状态下的时间组件的样式
 
           break
@@ -1188,92 +1166,17 @@ export default {
         ):
           this.date_button = '昨日'
           // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue01  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue01 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
-          // 非选中状态下的时间组件的样式
-          // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue02  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue02 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
-          // 非选中状态下的时间组件的样式
-          // 非选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.backgroundColor = '#fff'
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.border = '1px solid #dcdfe6'
-          document.querySelector('#dateValue03  .el-input__inner').style.color =
-            '#606266'
-          document.styleSheets[0].addRule(
-            '#dateValue03 .el-date-editor::after',
-            'border-color: #888 transparent transparent transparent;'
-          )
+          time_inactive('#dateValue01')
+          time_inactive('#dateValue02')
+          time_inactive('#dateValue03')
           // 非选中状态下的时间组件的样式
           break
         default:
           this.date_button = ''
           // 选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.backgroundColor = '#009bef'
-          document.querySelector(
-            '#dateValue01  .el-input__inner'
-          ).style.border = '1px solid #009bef'
-          document.querySelector('#dateValue01  .el-input__inner').style.color =
-            '#fff'
-          document.styleSheets[0].addRule(
-            '#dateValue01 .el-date-editor::after',
-            'border-color: #fff transparent transparent transparent;'
-          )
-          // 选中状态下的时间组件的样式
-          // 选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.backgroundColor = '#009bef'
-          document.querySelector(
-            '#dateValue02  .el-input__inner'
-          ).style.border = '1px solid #009bef'
-          document.querySelector('#dateValue02  .el-input__inner').style.color =
-            '#fff'
-          document.styleSheets[0].addRule(
-            '#dateValue02 .el-date-editor::after',
-            'border-color: #fff transparent transparent transparent;'
-          )
-          // 选中状态下的时间组件的样式
-
-          // 选中状态下的时间组件的样式
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.backgroundColor = '#009bef'
-          document.querySelector(
-            '#dateValue03  .el-input__inner'
-          ).style.border = '1px solid #009bef'
-          document.querySelector('#dateValue03  .el-input__inner').style.color =
-            '#fff'
-          document.styleSheets[0].addRule(
-            '#dateValue03 .el-date-editor::after',
-            'border-color: #fff transparent transparent transparent;'
-          )
+          time_active('#dateValue01')
+          time_active('#dateValue02')
+          time_active('#dateValue03')
           // 选中状态下的时间组件的样式
 
           break
@@ -1325,6 +1228,12 @@ export default {
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         var int = Math.round(scrollTop + windowHeight)
+        // 这个if是让柱状图固定到某一个位置
+        if (scrollTop > 340) {
+          that.position_fixed = true
+        } else {
+          that.position_fixed = false
+        }
         if (
           int == scrollHeight ||
           int + 1 == scrollHeight ||
@@ -1356,50 +1265,32 @@ export default {
   methods: {
     // 控制时间组件旋转
     // 1.给日期组件的父类添加一个新的id
-    // 2.添加两个事件
-    // 3.复制以下代码
+
     dateValue_blur01() {
-      // console.log('失去焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue01 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
-      )
+      time_reset('#dateValue01')
     },
     dateValue_focus01() {
-      // console.log('得到焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue01 .el-date-editor::after',
-        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;  '
-      )
+      time_rotate('#dateValue01')
     },
     dateValue_blur02() {
-      // console.log('失去焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue02 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
-      )
+      time_reset('#dateValue02')
     },
     dateValue_focus02() {
-      // console.log('得到焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue02 .el-date-editor::after',
-        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
-      )
+      time_rotate('#dateValue02')
     },
     dateValue_blur03() {
-      // console.log('失去焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue03 .el-date-editor::after',
-        'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
-      )
+      time_reset('#dateValue03')
     },
     dateValue_focus03() {
-      // console.log('得到焦点')
-      document.styleSheets[0].addRule(
-        '#dateValue03 .el-date-editor::after',
-        'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
-      )
+      time_rotate('#dateValue03')
     },
+    dateValue_blur04() {
+      time_reset('#dateValue04')
+    },
+    dateValue_focus04() {
+      time_rotate('#dateValue04')
+    },
+
     // 控制时间组件旋转
 
     // =============================顶部table============================
@@ -1449,7 +1340,7 @@ export default {
               if (response.data.Code == 0) {
                 this.data_for_top_table = response.data.Data
                 // console.log(8888888888888888)
-                console.log(this.data_for_top_table)
+                // console.log(this.data_for_top_table)
                 this.$nextTick(() => {
                   switch (this.activeName) {
                     case 'first':
@@ -2348,7 +2239,11 @@ export default {
       this.$store.state.now_app_id = parm
       this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path: '/now_ranking'
+       path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       window.open(routerUrl.href, '_blank')
     },
@@ -2366,6 +2261,15 @@ export default {
 }
 </script>
 <style scoped>
+.fitst_left {
+  width: 878px !important;
+}
+.position_fixed {
+  position: fixed;
+  margin-left: 878px;
+  margin-top: -340px;
+  background-color: #fff;
+}
 .font_size_15 {
   font-size: 15px !important;
 }
@@ -2476,17 +2380,17 @@ export default {
   font-stretch: normal;
   line-height: 25px;
   letter-spacing: 0px;
-  color: #009bef;
   margin-right: 14px;
 }
 .keywordContentTable > div:nth-child(4) {
   width: 330px;
   height: 50px;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  /* -webkit-line-clamp: 2; */
+  /* display: -webkit-box;
+  -webkit-box-orient: vertical; */
   overflow: hidden;
   word-break: break-all;
+  color: #009bef;
 }
 .keywordContentTable > div:nth-child(3) > div:first-child {
   font-size: 22px;
@@ -2588,7 +2492,7 @@ export default {
   background-color: #f7fcff;
   position: absolute;
   top: 55px;
-  right: 43px;
+  right: 47px;
 }
 .keywordContentTable {
   position: relative;
@@ -2623,6 +2527,9 @@ export default {
   font-stretch: normal;
   line-height: 30px;
   letter-spacing: 0px;
+  color: #009bef;
+}
+.app_name:hover {
   color: #009bef;
 }
 .app_name {
@@ -2744,11 +2651,15 @@ export default {
 .second_div img {
   border: solid 1px #f2f2f2;
 }
+.third_div_padding {
+  padding: 8px 0;
+}
 .third_div {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   height: 60px;
+  box-sizing: border-box;
 }
 .third_div > div {
   width: 145px !important;
@@ -2828,6 +2739,7 @@ export default {
 }
 .left_and_right {
   display: flex;
+  position: relative;
 }
 .rankingChangeFontColor {
   font-size: 13px;
@@ -2959,23 +2871,16 @@ option:first-child {
   width: 1200px;
   margin: 0 auto;
 }
-/* .tabs tbody tr:nth-child(1) .use .first_div {
-  color: #222222;
-  font-weight: bold;
-}
-.tabs tbody tr:nth-child(2) .use .first_div {
-  color: #222222;
-  font-weight: bold;
-}
-.tabs tbody tr:nth-child(3) .use .first_div {
-  color: #222222;
-  font-weight: bold;
-} */
+
 .th_width {
   width: 233px;
 }
 .th_width_555 {
   width: 170px;
+}
+.margin_left {
+  text-align: left !important;
+  margin-left: 400px !important;
 }
 .it_is_over {
   text-align: center;

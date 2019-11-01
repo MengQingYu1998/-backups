@@ -1,43 +1,45 @@
 <template>
-  <div id="apple_history" class="content">
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <div class="right_nav">苹果历史推荐</div>
-        <div class="line"></div>
+  <div id="apple_history">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
+        </div>
+        <div class="right">
+          <div class="right_nav">苹果历史推荐</div>
+          <div class="line"></div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>推荐位置</th>
-              <th>推荐主题</th>
-              <th>开始/结束时间</th>
-              <th v-show="false">排名</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="no_data_img">
-              <td colspan="4">
-                <div class="no_data_img">
-                  <img src="../assets/ios/null.png" alt />
-                  <div>暂无相关数据</div>
-                  <div>&nbsp;</div>
-                  <div v-show="now_country!='中国'">该模块仅对中国地区开发</div>
-                </div>
-              </td>
-            </tr>
-            <tr v-for="(item,index) in response_data" :key="'apple_history'+index">
-              <td>{{item.Genre}}</td>
-              <td>{{item.Name}}</td>
-              <td class>{{item.Stime+'至'+item.Etime}}</td>
-              <td class="td_width04" v-show="false">{{item.GenreId}}</td>
-            </tr>
-          </tbody>
-        </table>
+          <table>
+            <thead>
+              <tr>
+                <th>推荐位置</th>
+                <th>推荐主题</th>
+                <th>开始/结束时间</th>
+                <th v-show="false">排名</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="no_data_img">
+                <td colspan="4">
+                  <div class="no_data_img">
+                    <img src="../assets/ios/null.png" alt />
+                    <div>暂无相关数据</div>
+                    <div>&nbsp;</div>
+                    <div v-show="now_country!='中国'">该模块仅对中国地区开发</div>
+                  </div>
+                </td>
+              </tr>
+              <tr v-for="(item,index) in response_data" :key="'apple_history'+index">
+                <td>{{item.Genre}}</td>
+                <td>{{item.Name}}</td>
+                <td class>{{item.Stime+'至'+item.Etime}}</td>
+                <td class="td_width04" v-show="false">{{item.GenreId}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -134,7 +136,7 @@ export default {
 tbody tr {
   height: 60px;
   border-bottom: 1px solid #f2f2f2;
-  
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -146,7 +148,6 @@ thead tr {
   height: 40px;
 }
 tbody {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -170,11 +171,15 @@ table {
   margin-bottom: 50px;
 }
 .right {
-  padding-left: 57px;
-  position: relative;
+  width: 100%;
+  background-color: #fff;
+  margin-left: 14px;
+  padding: 25px 20px;
+  padding-bottom: 0;
+  box-sizing: border-box;
 }
 .line {
-  width: 985px;
+  width: 100%;
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
@@ -193,25 +198,7 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
-}
-.breadcrumb span:last-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
+  margin-top: 14px;
 }
 .content {
   width: 1200px;
@@ -231,12 +218,19 @@ table {
   display: flex;
   align-items: center;
   flex-direction: column;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 13px;
   letter-spacing: 0px;
   color: #555555;
+}
+#apple_history {
+  background-color: #f4f4f4;
+  padding-bottom: 50px;
+}.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

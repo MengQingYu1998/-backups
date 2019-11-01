@@ -91,3 +91,44 @@ export function unique(arr) {
   }
   return array
 }
+// 非选中状态下的时间组件的样式
+export function time_inactive(element) {
+  document.querySelector(element + ' .el-input__inner').style.backgroundColor =
+    '#fff'
+  document.querySelector(element + ' .el-input__inner').style.border =
+    '1px solid #dcdfe6'
+  document.querySelector(element + '  .el-input__inner').style.color = '#606266'
+  document.styleSheets[0].addRule(
+    element + ' .el-date-editor::after',
+    'border-color: #888 transparent transparent transparent;'
+  )
+}
+//  选中状态下的时间组件的样式
+export function time_active(element) {
+  document.querySelector(element + '  .el-input__inner').style.backgroundColor =
+    '#009bef'
+  document.querySelector(element + '  .el-input__inner').style.border =
+    '1px solid #009bef'
+  document.querySelector(element + '  .el-input__inner').style.color = '#fff'
+  document.styleSheets[0].addRule(
+    element + ' .el-date-editor::after',
+    'border-color: #fff transparent transparent transparent;'
+  )
+}
+// 控制时间组件旋转
+// 1.给日期组件的父类添加一个新的id
+
+export function time_rotate(element) {
+  // console.log('得到焦点')
+  document.styleSheets[0].addRule(
+    element + ' .el-date-editor::after',
+    'transform: rotate(-180deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s;  '
+  )
+}
+export function time_reset(element) {
+  // console.log('失去焦点')
+  document.styleSheets[0].addRule(
+    element + ' .el-date-editor::after',
+    'transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; '
+  )
+}

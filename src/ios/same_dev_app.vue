@@ -1,86 +1,88 @@
 <template>
-  <div id="same_dev_app" class="content">
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <div class="right_nav">同开发者应用</div>
-        <div class="line"></div>
-        <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
-        <table v-show="!loading_gif">
-          <thead>
-            <tr>
-              <th></th>
-              <th>应用</th>
-              <th>总榜排名</th>
-              <th>分类榜排名</th>
-              <th>关键词覆盖</th>
-              <th>上架日期</th>
-              <th>最后更新时间</th>
-              <th>状态</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="disable_hover" v-if="nothing_data_can_show">
-              <td colspan="8">
-                <div class="no_data_img">
-                  <img src="../assets/ios/null.png" alt />
-                  <div>暂无相关数据</div>
-                </div>
-              </td>
-            </tr>
-            <tr v-for="(item ,index) in response_data" :key="index">
-              <td class="first_td">{{index+1}}</td>
-              <td class="second_td">
-                <div class="use">
-                  <div>
-                    <img
-                      :src="item.icon"
-                      class="pointer"
-                      @click="go_to_page01(item.appId,item.appName)"
-                      alt
-                    />
+  <div id="same_dev_app">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
+        </div>
+        <div class="right">
+          <div class="right_nav">同开发者应用</div>
+          <div class="line"></div>
+          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
+          <table v-show="!loading_gif">
+            <thead>
+              <tr>
+                <th></th>
+                <th>应用</th>
+                <th>总榜排名</th>
+                <th>分类榜排名</th>
+                <th>关键词覆盖</th>
+                <th>上架日期</th>
+                <th>最后更新时间</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="disable_hover" v-if="nothing_data_can_show">
+                <td colspan="8">
+                  <div class="no_data_img">
+                    <img src="../assets/ios/null.png" alt />
+                    <div>暂无相关数据</div>
                   </div>
-                  <div>
-                    <div
-                      class="pointer appName"
-                      @click="go_to_page01(item.appId,item.appName)"
-                    >{{item.appName}}</div>
-                    <div class="rankingChangeFontColor">{{item.subtitle!='无'?item.subtitle:''}}</div>
+                </td>
+              </tr>
+              <tr v-for="(item ,index) in response_data" :key="index">
+                <td class="first_td">{{index+1}}</td>
+                <td class="second_td">
+                  <div class="use">
+                    <div>
+                      <img
+                        :src="item.icon"
+                        class="pointer"
+                        @click="go_to_page01(item.appId,item.appName)"
+                        alt
+                      />
+                    </div>
+                    <div>
+                      <div
+                        class="pointer appName"
+                        @click="go_to_page01(item.appId,item.appName)"
+                      >{{item.appName}}</div>
+                      <div class="rankingChangeFontColor">{{item.subtitle!='无'?item.subtitle:''}}</div>
+                    </div>
                   </div>
-                </div>
-              </td>
+                </td>
 
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
-                <div
-                  class="rankingChangeFontColor"
-                  v-if="item.totalGenreName!=null"
-                >{{item.totalGenreName}}</div>
-                <div class="rankingChangeFontColor" v-if="item.totalGenreName==null">--</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
-                <div class="rankingChangeFontColor" v-if="item.genreName!=null">{{item.genreName}}</div>
-                <div class="rankingChangeFontColor" v-if="item.genreName==null">--</div>
-              </td>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
+                  <div
+                    class="rankingChangeFontColor"
+                    v-if="item.totalGenreName!=null"
+                  >{{item.totalGenreName}}</div>
+                  <div class="rankingChangeFontColor" v-if="item.totalGenreName==null">--</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
+                  <div class="rankingChangeFontColor" v-if="item.genreName!=null">{{item.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-if="item.genreName==null">--</div>
+                </td>
 
-              <td class="rankingChangeFontColor">{{item.keyWordHide}}</td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.onLineTime}}</div>
-              </td>
-              <td>
-                <div class="rankingChangeFontColor">{{item.updateTime}}</div>
-              </td>
-              <td class="operation">
-                <div class="rankingChangeFontColor">{{item.status}}</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="rankingChangeFontColor">{{item.keyWordHide}}</td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.onLineTime}}</div>
+                </td>
+                <td>
+                  <div class="rankingChangeFontColor">{{item.updateTime}}</div>
+                </td>
+                <td class="operation">
+                  <div class="rankingChangeFontColor">{{item.status}}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -167,7 +169,11 @@ export default {
     },
     go_to_page01(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking'
+        path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       this.$store.state.now_app_id = parm
       this.$store.state.now_app_name = parm02
@@ -200,7 +206,7 @@ tbody > tr:nth-child(3) .first_td {
 }
 .first_td {
   width: 50px;
-  
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -223,7 +229,7 @@ tbody > tr:nth-child(3) .first_td {
   height: 26px;
   border-radius: 4px;
   border: solid 1px #009bef;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -237,7 +243,7 @@ tbody > tr:nth-child(3) .first_td {
   height: 20px;
   background-color: #f5fcff;
   border-radius: 4px;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -267,7 +273,6 @@ tbody > tr:nth-child(3) .first_td {
   text-overflow: ellipsis;
 }
 .rankingChangeFontColor {
-  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -297,7 +302,6 @@ thead tr {
   height: 40px;
 }
 tbody tr td:last-child {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -307,7 +311,6 @@ tbody tr td:last-child {
   box-sizing: border-box;
 }
 tbody {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -330,14 +333,16 @@ table {
   height: 121px;
   border: solid 1px #f2f2f2;
   text-align: center;
-  margin-bottom: 50px;
 }
 .right {
-  padding-left: 57px;
-  position: relative;
+  padding: 25px 20px;
+  background-color: #fff;
+  margin-left: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .line {
-  width: 985px;
+  width: 100%;
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
@@ -356,25 +361,7 @@ table {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
-}
-.breadcrumb span:last-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
+  margin-top: 14px;
 }
 .content {
   width: 1200px;
@@ -394,12 +381,20 @@ table {
   display: flex;
   align-items: center;
   flex-direction: column;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 13px;
   letter-spacing: 0px;
   color: #555555;
+}
+#same_dev_app {
+  background-color: #f4f4f4;
+  padding-bottom: 50px;
+}
+.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

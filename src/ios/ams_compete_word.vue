@@ -33,7 +33,8 @@
               v-model="dateValue"
               type="date"
               placeholder="选择日期"
-                clear-icon prefix-icon="fasle" 
+              clear-icon
+              prefix-icon="fasle"
             ></el-date-picker>
           </div>
         </div>
@@ -157,7 +158,6 @@ export default {
     margin-bottom: 13px;
   }
   div:last-child {
-    
     font-size: 14px;
     left: 14px;
     font-weight: normal;
@@ -175,7 +175,6 @@ export default {
     margin-top: 119px;
   }
   > span {
-    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -191,7 +190,7 @@ export default {
       height: 32px;
       border-radius: 4px;
       border: solid 1px #009bef;
-      
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -206,7 +205,7 @@ export default {
       height: 32px;
       background-color: #009bef;
       border-radius: 4px;
-      
+
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -252,7 +251,7 @@ export default {
     background-color: #009bef;
     border-radius: 4px;
     border: solid 1px #009bef;
-    
+
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -263,7 +262,6 @@ export default {
   }
 }
 .blue_font {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -290,7 +288,6 @@ export default {
   }
 }
 .paging {
-  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -325,7 +322,6 @@ export default {
   margin-top: 23px;
   table-layout: fixed;
   tr {
-    
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -390,5 +386,9 @@ export default {
   width: 1200px;
   margin: 0 auto;
   padding-top: 31px;
+}
+.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

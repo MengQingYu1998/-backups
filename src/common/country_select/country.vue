@@ -146,10 +146,13 @@ export default {
     })
   },
   mounted() {
-    console.log(99999999)
     this.globalClick(() => {
       this.country_show_hidden = false
     })
+    // console.log(this.$parent.$parent.$refs.body)
+    // this.$parent.$parent.$refs.body.addEventListener('click', function() {
+    //   console.log(5555555555)
+    // })
   },
   methods: {
     get_data() {

@@ -182,7 +182,7 @@ export default {
       this.get_data_for_nav_input()
     })
     this.$watch('now_country', function(newValue, oldValue) {
-      document.getElementById('nav_input_value').focus()
+      // document.getElementById('nav_input_value').focus()
       this.get_data_for_nav_input()
     })
   },
@@ -366,7 +366,6 @@ export default {
       if (parm.trim() == '') {
         return false
       }
-      // this.$store.state.nav_input_value = parm
       this.nav_input_value = parm
       this.is_show_nav_popover = false
 
@@ -380,7 +379,11 @@ export default {
         this.$store.state.now_app_id = parseInt(this.nav_input_value)
         this.hand_save_vuex(this)
         let routerUrl = this.$router.resolve({
-          path: '/now_ranking'
+         path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
         })
         window.open(routerUrl.href, '_blank')
         return false
@@ -388,19 +391,12 @@ export default {
 
       this.$store.state.now_app_name = parm
       this.$store.state.now_country_name = this.now_country
-      // alert(this.$store.state.now_country_name)
-
-      // alert(this.$store.state.now_country_name)
 
       this.hand_save_vuex(this)
 
       this.$router.push({
         path: '/result'
       })
-      // let routerUrl = this.$router.resolve({
-      //   path: '/result'
-      // })
-      // window.open(routerUrl.href, '_blank')
     }
   }
 }

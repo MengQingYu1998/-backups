@@ -1,58 +1,60 @@
 <template>
-  <div id="version_message" class="content">
-    <!-- 自定义组件 -->
-    <ios_header @childFn="parentFn" />
-    <div class="left_and_right">
-      <div class="left">
-        <left_nav />
-      </div>
-      <div class="right">
-        <section class="top">
-          <div class="section_title">版本记录</div>
-          <div class="search_input">
-            <el-input placeholder="请输入日期或者版本号" suffix-icon="el-icon-search" v-model="input1"></el-input>
-          </div>
-          <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
-            <img src="../assets/ios/null.png" alt />
-            <div>暂无相关数据</div>
-          </div>
-          <div class="timeline">
-            <el-timeline>
-              <el-timeline-item
-                v-for="(item ,index) in response_data"
-                :key="index"
-                :timestamp="format(item.publishTime)"
-                placement="top"
-                color="#fff"
-                icon="el-icon-time"
-                size="large"
-              >
-                <div class="time_line_item_title">版本{{item.versionNum}}</div>
-                <div class="time_line_item">
-                  <div class="img_description">
-                    <img :src="item.Icon" alt v-if="item.Icon!='无'" />
-                    <img src="../assets/ios/no_img.png" alt v-else />
-                    <div class="img_description_child">
-                      <div>{{item.appName!='无'?item.appName:''}}</div>
-                      <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
+  <div id="version_message">
+    <div class="content">
+      <!-- 自定义组件 -->
+      <ios_header @childFn="parentFn" />
+      <div class="left_and_right">
+        <div class="left">
+          <left_nav />
+        </div>
+        <div class="right">
+          <section class="top">
+            <div class="section_title">版本记录</div>
+            <div class="search_input">
+              <el-input placeholder="请输入日期或者版本号" suffix-icon="el-icon-search" v-model="input1"></el-input>
+            </div>
+            <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+              <img src="../assets/ios/null.png" alt />
+              <div>暂无相关数据</div>
+            </div>
+            <div class="timeline">
+              <el-timeline>
+                <el-timeline-item
+                  v-for="(item ,index) in response_data"
+                  :key="index"
+                  :timestamp="format(item.publishTime)"
+                  placement="top"
+                  color="#fff"
+                  icon="el-icon-time"
+                  size="large"
+                >
+                  <div class="time_line_item_title">版本{{item.versionNum}}</div>
+                  <div class="time_line_item">
+                    <div class="img_description">
+                      <img :src="item.Icon" alt v-if="item.Icon!='无'" />
+                      <img src="../assets/ios/no_img.png" alt v-else />
+                      <div class="img_description_child">
+                        <div>{{item.appName!='无'?item.appName:''}}</div>
+                        <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
+                      </div>
                     </div>
+                    <div
+                      :class="{'time_line_item_content':true,'time_line_item_content_height':item.updateLog.length<100}"
+                    >
+                      <div v-html="item.updateLog" :id="'show_more'+index"></div>
+                    </div>
+                    <div
+                      class="show_all"
+                      :id="'show_hide'+index"
+                      v-if="item.updateLog.length>100"
+                      @click="show_more_function('show_more'+index,'show_hide'+index)"
+                    >展开更多</div>
                   </div>
-                  <div
-                    :class="{'time_line_item_content':true,'time_line_item_content_height':item.updateLog.length<100}"
-                  >
-                    <div v-html="item.updateLog" :id="'show_more'+index"></div>
-                  </div>
-                  <div
-                    class="show_all"
-                    :id="'show_hide'+index"
-                    v-if="item.updateLog.length>100"
-                    @click="show_more_function('show_more'+index,'show_hide'+index)"
-                  >展开更多</div>
-                </div>
-              </el-timeline-item>
-            </el-timeline>
-          </div>
-        </section>
+                </el-timeline-item>
+              </el-timeline>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </div>
@@ -172,7 +174,7 @@ export default {
   margin-top: 3px;
   /* background-color: #ffffff; */
   position: absolute;
-  right: 3px;
+  right: 125px;
   bottom: 13px;
 }
 .time_line_item_content div {
@@ -184,14 +186,13 @@ export default {
   height: 62px;
 }
 .time_line_item_content {
-  
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px;
   letter-spacing: 0px;
   color: #444444;
-  width: 789px;
+  width: 750px;
   background-color: #f7f7f7;
   padding: 10px 16px 30px 15px;
   margin-top: 20px;
@@ -214,7 +215,6 @@ export default {
   color: #222222;
 }
 .img_description_child div:last-child {
-  
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -270,7 +270,12 @@ export default {
   margin-bottom: 20px;
 }
 .right {
-  padding-left: 57px;
+  padding: 25px 20px;
+  padding-bottom: 0px;
+  background-color: #fff;
+  margin-left: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .line {
   width: 985px;
@@ -280,32 +285,16 @@ export default {
 }
 .left_and_right {
   display: flex;
-  margin-top: 27px;
+  margin-top: 14px;
 }
-.breadcrumb span:last-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: 0px;
-  color: #888888;
-}
-.breadcrumb span:first-child {
-  
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  letter-spacing: 0px;
-  color: #009bef;
-}
-.breadcrumb {
-  margin: 20px 0;
-}
+
 .content {
   width: 1200px;
   margin: 0 auto;
 }
 #version_message {
   padding-bottom: 50px;
+  background-color: #f4f4f4;
 }
 .no_data_img {
   width: 857px;
@@ -313,7 +302,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-  
+
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -324,5 +313,9 @@ export default {
 .no_data_img img {
   width: 210px;
   margin-top: 113px;
+}
+.left {
+  width: 231px;
+  min-height: 621px;
 }
 </style>

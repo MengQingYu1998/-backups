@@ -67,7 +67,7 @@
 							<p class="line"></p>
 							<p class="font">{{today.CreateDate}}</p>
 						</div>
-						<div class="lidiv" v-for="div in today.TodayInfo"  :class="{'div1':div.DisplayStyle=='Media','div2':div.DisplayStyle=='Branded','div3':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='List','div4':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='River','div5':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='ShortImage'}">
+						<div class="lidiv" v-for="div in today.TodayInfo"  :class="{'div1':div.DisplayStyle=='Media','div2':div.DisplayStyle=='Branded','div3':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='List','div4':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='River','div5':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='ShortImage','div6':div.DisplayStyle=='Content'&&div.CardDisplayStyle=='SingleApp'}">
 							<!-- div1 -->
 							<div class="left" v-show="div.DisplayStyle=='Media'" :style="{backgroundImage:'url(' + div.PicUrl + ')'}">
 								<p class="name">{{div.Label}}</p>
@@ -84,7 +84,8 @@
 										<p>{{div.AppList[0].DeveloperName}}</p>
 									</div>
 									<div class="huoqu">
-										<p>获取</p>
+										<p v-if="div.AppList[0].Price=='免费'">获取</p>
+										<p v-else>¥{{div.AppList[0].Price}}</p>
 										<p>App内购买项目</p>
 									</div>
 								</div>
@@ -96,25 +97,25 @@
 								<div class="pro">
 									<div v-if="div.AppList[0]">
 										<img :src="div.AppList[0].IconUrl" />
-										<!-- <img src="" v-else/> -->
 										<div class="prodiv">
 											<p>{{div.AppList[0].AppName}}</p>
-											<p>{{div.AppList[0].DeveloperName}}</p>
+											<p>{{div.AppList[0].SubTitle}}</p>
 										</div>
 										<div class="huoqudiv">
-											<p>获取</p>
+											<p v-if="div.AppList[0].Price=='免费'">获取</p>
+											<p v-else>¥{{div.AppList[0].Price}}</p>
 											<p>App内购买项目</p>
 										</div>
 									</div>
 									<div v-if="div.AppList[1]" >
 										<img :src="div.AppList[1].IconUrl" />
-										<!-- <img src="" v-else/> -->
 										<div class="prodiv">
 											<p>{{div.AppList[1].AppName}}</p>
-											<p>{{div.AppList[1].DeveloperName}}</p>
+											<p>{{div.AppList[1].SubTitle}}</p>
 										</div>
 										<div class="huoqudiv">
-											<p>获取</p>
+											<p v-if="div.AppList[1].Price=='免费'">获取</p>
+											<p v-else>¥{{div.AppList[1].Price}}</p>
 											<p>App内购买项目</p>
 										</div>
 									</div>
@@ -122,10 +123,11 @@
 										<img :src="div.AppList[2].IconUrl"/>
 										<div class="prodiv">
 											<p>{{div.AppList[2].AppName}}</p>
-											<p>{{div.AppList[2].DeveloperName}}</p>
+											<p>{{div.AppList[2].SubTitle}}</p>
 										</div>
 										<div class="huoqudiv">
-											<p>获取</p>
+											<p v-if="div.AppList[2].Price=='免费'">获取</p>
+											<p v-else>¥{{div.AppList[2].Price}}</p>
 											<p>App内购买项目</p>
 										</div>
 									</div> 
@@ -154,7 +156,25 @@
 										<p>{{div.AppList[0].AppName}}</p>
 										<p>{{div.AppList[0].DeveloperName}}</p>
 									</div>
-									<div class="huoqu">获取</div>
+									<div class="huoqu" v-if="div.AppList[0].Price=='免费'">获取</div>
+									<div class="huoqu" v-else>¥{{div.AppList[0].Price}}</div>
+								</div>
+							</div>
+							<!-- div6 -->
+							<div class="left" v-show="div.DisplayStyle=='Content'&&div.CardDisplayStyle=='SingleApp'">
+								<p class="name">{{div.Label}}</p>
+								<p class="font">{{div.Title}}</p>
+								<div v-if="div.AppList[0]" >
+									<img :src="div.AppList[0].IconUrl" />
+									<div class="prodiv">
+										<p>{{div.AppList[0].AppName}}</p>
+										<p>{{div.AppList[0].SubTitle}}</p>
+									</div>
+									<div class="huoqudiv">
+											<p v-if="div.AppList[0].Price=='免费'">获取</p>
+											<p v-else>¥{{div.AppList[0].Price}}</p>
+											<p>App内购买项目</p>
+									</div>
 								</div>
 							</div>
 							<div class="right">
@@ -702,7 +722,11 @@ export default{
 		      this.$store.state.now_app_id = parm
 		      this.hand_save_vuex(this)
 		      let routerUrl = this.$router.resolve({
-		        path: '/now_ranking'
+		        path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
 		      })
 		      window.open(routerUrl.href, '_blank')
 	    }
@@ -739,13 +763,16 @@ export default{
 .top .lei p{
 	height: 24px;
 	line-height: 24px;
-	padding:0 10px;
+	padding:0 11px;
 	border-radius: 4px;
 	border: solid 1px #dfdfdf;
 	display: inline-block;
 	font-size: 13px;
 	color: #444444;
 	margin-left: 10px;
+}
+.top .lei p:nth-child(2){
+	margin-left: 5px;
 }
 .top .country p,
 .top .lei .category,
@@ -799,7 +826,7 @@ export default{
 .appDiv>div .Titdiv .line,
 .otherDiv>div .Titdiv .line{
 	width: 2px;
-	height: 17px;
+	height: 16px;
 	background-color: #009bef;
 	display: inline-block;
 	vertical-align: top;
@@ -866,8 +893,7 @@ export default{
 .bodyDiv>div .lidiv .right>p{
 	font-weight: 600;
 	font-size: 18px;
-	color: #009bef;
-	text-align: center;
+	color: #222;
 	margin-top: 26px;
 }
 .bodyDiv>div .lidiv .right>div{
@@ -878,16 +904,16 @@ export default{
 }
 
 .bodyDiv>div .lidiv .right>div::-webkit-scrollbar {/*滚动条整体样式*/
-    width: 6px;   /*高宽分别对应横竖滚动条的尺寸*/
+    width: 8px;   /*高宽分别对应横竖滚动条的尺寸*/
 }
 .bodyDiv>div .lidiv .right>div::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-    border-radius: 3px;
+    border-radius: 5px;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     background: rgba(0,0,0,0.2);
 }
 .bodyDiv>div .lidiv .right>div::-webkit-scrollbar-track {/*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.2);
-    border-radius: 3px;
+    border-radius: 5px;
     background: rgba(0,0,0,0.1);
 }
 
@@ -1036,22 +1062,29 @@ export default{
 }
 /*第三种*/
 .bodyDiv>div .div3 .left >p,
-.bodyDiv>div .div4 .left >p{
+.bodyDiv>div .div4 .left >p,
+.bodyDiv>div .div6 .left >p{
 	width: 210px;
 	margin:0 auto;
 }
 .bodyDiv>div .div3 .left .name,
-.bodyDiv>div .div4 .left .name{
+.bodyDiv>div .div4 .left .name,
+.bodyDiv>div .div6 .left .name{
 	font-size: 14px;
 	color: #888888;
 	margin-top: 10px;
 }
 .bodyDiv>div .div3 .left .des,
-.bodyDiv>div .div4 .left .des{
+.bodyDiv>div .div4 .left .des,
+.bodyDiv>div .div6 .left .font{
 	font-weight: 600;
 	font-size: 18px;
 	color: #222222;
 	height:50px;
+	line-height: 35px;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .bodyDiv>div .div3 .left .pro>div{
 	clear: both;
@@ -1069,6 +1102,9 @@ export default{
 }
 .bodyDiv>div .div3 .left .pro>div .prodiv p{
 	color:#222!important;
+}
+.bodyDiv>div .div3 .left .pro>div .prodiv p:last-child{
+	color: #888888!important;
 }
 .bodyDiv>div .div3 .left .pro>div .huoqudiv{
 	float: right;	
@@ -1091,7 +1127,8 @@ export default{
 
 }
 .bodyDiv>div .div3 .left,
-.bodyDiv>div .div4 .left{
+.bodyDiv>div .div4 .left,
+.bodyDiv>div .div6 .left{
 	background-image: none;
 	border-right:1px solid #f2f2f2;
 }
@@ -1129,6 +1166,62 @@ export default{
     margin-left: 7px;
     margin-top: 7px;
 }
+/*第六种*/	
+.bodyDiv>div .div6 .left>div img{
+	width: 90px;
+	height: 90px;
+	margin-left:70px;
+	margin-top: 10px;
+	border-radius: 20px;
+	border: solid 1px #f2f2f2;
+}
+.bodyDiv>div .div6 .left>div>div{
+	margin-top: 50px;
+}
+.bodyDiv>div .div6 .left>div>div.prodiv{
+	float: left;
+	margin-left: 17px;
+}
+.bodyDiv>div .div6 .left>div>div.prodiv p{
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.bodyDiv>div .div6 .left>div>div.prodiv p:first-child{
+	font-weight: 600;
+	font-size: 14px;
+	color: #222222;
+	width: 100px;
+}
+.bodyDiv>div .div6 .left>div>div.prodiv p:last-child{
+	width: 114px;
+	font-family: PingFangSC-Regular;
+	font-size: 13px;
+	color: #888888;
+	margin-top: 5px;
+}
+.bodyDiv>div .div6 .left>div>div.huoqudiv{
+	float: right;
+	margin-right: 10px;
+}
+.bodyDiv>div .div6 .left>div>div.huoqudiv p:first-child{
+	width: 56px;
+	height: 26px;
+	line-height: 26px;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+	font-weight: 600;
+	font-size: 13px;
+	color: #009bef;
+	text-align: center;
+	margin:0 auto;
+}
+.bodyDiv>div .div6 .left>div>div.huoqudiv p:last-child{
+	font-family: PingFangSC-Regular;
+	font-size: 10px;
+	color: #bfbfbf;
+}
+
 
 /*应用*/
 .appDiv .nowDiv,
@@ -1338,6 +1431,13 @@ export default{
 	color: #009bef;
 	cursor: pointer;
 }
+.down{
+	margin-left: 4px;
+    vertical-align: top;
+    margin-top: 8px;
+}
+ 
+
 /*暂无数据*/
 .null{
 	font-weight: 600;

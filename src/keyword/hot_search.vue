@@ -359,7 +359,11 @@ export default {
     },
     go_to_page02(parm, parm02) {
       this.$router.push({
-        path: '/now_ranking'
+        path:
+          '/now_ranking?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       this.$store.state.now_app_id = parm
       this.$store.state.now_app_name = parm02
