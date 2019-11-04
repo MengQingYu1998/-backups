@@ -59,19 +59,33 @@
     <!-- <div class="table_title">【{{keyword_data.join('，')}}】搜索指数走势</div> -->
     <div class="position_relative">
       <div ref="myChart_trend_many" class="myChart" v-show="is_show_myChart_and_table"></div>
-
-      <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
       <div class="bottom_image pointer">
         <img
+          v-if="!is_show_myChart_and_table"
           v-on:click="is_show_myChart_function"
           class="float_right"
           src="../assets/keyword/three.png"
           alt
         />
         <img
+          v-else
+          v-on:click="is_show_myChart_function"
+          class="float_right"
+          src="../assets/keyword/three_active.png"
+          alt
+        />
+        <img
+          v-if="is_show_myChart_and_table"
           v-on:click="is_show_table_function"
           class="float_right"
           src="../assets/keyword/calculator.png"
+          alt
+        />
+        <img
+          v-else
+          v-on:click="is_show_table_function"
+          class="float_right"
+          src="../assets/keyword/calculator_active.png"
           alt
         />
       </div>
@@ -98,21 +112,7 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="bottom_image pointer bottom_image_for_table" v-show="!is_show_myChart_and_table"> -->
-    <div class="bottom_image pointer bottom_image_for_table" v-show="false">
-      <img
-        v-on:click="is_show_myChart_function"
-        class="float_right"
-        src="../assets/keyword/three.png"
-        alt
-      />
-      <img
-        v-on:click="is_show_table_function"
-        class="float_right"
-        src="../assets/keyword/calculator.png"
-        alt
-      />
-    </div>
+
     <div
       class="show_all pointer"
       v-show="is_show_myChart_and_table&&!canvas_is_show_all"
@@ -619,7 +619,7 @@ thead {
   table-layout: fixed;
 }
 table {
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   table-layout: fixed;
   text-align: center;
   margin-top: 90px;
@@ -630,14 +630,11 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 7px;
-  right: 39px;
+  top: 3px;
+  right: 38px;
   z-index: 9999999999;
 }
-.bottom_image_for_table {
-  position: static !important;
-  margin-top: 40px;
-}
+
 .myChart_tips .float_right {
   float: right;
   margin-left: 20px;

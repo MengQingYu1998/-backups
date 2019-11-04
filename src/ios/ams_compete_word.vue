@@ -388,7 +388,7 @@ export default {
   padding-top: 31px;
 }
 .left {
-  width: 231px;
+  width: 231px;position: relative;
   min-height: 621px;
 }
 </style>

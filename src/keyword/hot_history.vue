@@ -226,8 +226,7 @@ export default {
 }
 .table01 > div:first-child {
   height: 80px;
-  line-height: 80px;
-  border: solid 1px #f2f2f2;
+  line-height: 80px;border: solid 1px #eaeaea;
 
   font-size: 14px;
   font-weight: normal;
@@ -276,8 +275,7 @@ thead {
 }
 table {
   width: 100%;
-  height: 121px;
-  border: solid 1px #f2f2f2;
+  height: 121px;border: solid 1px #eaeaea;
   text-align: center;
   table-layout: fixed;
 }

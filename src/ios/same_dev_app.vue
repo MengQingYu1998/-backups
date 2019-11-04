@@ -56,27 +56,30 @@
                 </td>
 
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.totalRank!=0">{{item.totalRank}}</div>
                   <div
-                    class="rankingChangeFontColor"
-                    v-if="item.totalGenreName!=null"
-                  >{{item.totalGenreName}}</div>
-                  <div class="rankingChangeFontColor" v-if="item.totalGenreName==null">--</div>
+                    class="rankingChangeFontColor font_size_15"
+                  >{{item.totalRank==0?'-':item.totalRank}}</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                  >{{item.totalGenreName==null?'-':item.totalGenreName}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.genreRank!=0">{{item.genreRank}}</div>
-                  <div class="rankingChangeFontColor" v-if="item.genreName!=null">{{item.genreName}}</div>
-                  <div class="rankingChangeFontColor" v-if="item.genreName==null">--</div>
+                  <div
+                    class="rankingChangeFontColor font_size_15"
+                  >{{item.genreRank==0?'-':item.genreRank}}</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                  >{{item.genreName==null?'-':item.genreName}}</div>
                 </td>
 
-                <td class="rankingChangeFontColor">{{item.keyWordHide}}</td>
+                <td class="rankingChangeFontColor font_size_14">{{item.keyWordHide}}</td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.onLineTime}}</div>
+                  <div class="rankingChangeFontColor font_size_14">{{item.onLineTime}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.updateTime}}</div>
+                  <div class="rankingChangeFontColor font_size_14">{{item.updateTime}}</div>
                 </td>
-                <td class="operation">
+                <td>
                   <div class="rankingChangeFontColor">{{item.status}}</div>
                 </td>
               </tr>
@@ -151,7 +154,7 @@ export default {
                 this.nothing_data_can_show = false
               }
               // console.log(55555555555555555)
-              // console.log(response)
+              console.log(response)
             })
             .catch(error => {
               console.log(error)
@@ -182,6 +185,17 @@ export default {
 }
 </script>
 <style scoped>
+.letter_spacing_1 {
+  letter-spacing: 1px !important;
+}
+.font_size_14 {
+  font-size: 14px !important;
+  color: #222 !important;
+}
+.font_size_15 {
+  font-size: 15px !important;
+  color: #222 !important;
+}
 .loading_gif {
   margin: 0 auto;
   width: 50px;
@@ -191,18 +205,7 @@ export default {
   margin-bottom: 50px;
 }
 .second_td {
-  width: 250px;
-}
-tbody > tr:nth-child(1) .first_td,
-tbody > tr:nth-child(2) .first_td,
-tbody > tr:nth-child(3) .first_td {
-  font-weight: 600 !important;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 14px;
-  letter-spacing: 0.3px;
-  color: #222222;
+  width: 210px;
 }
 .first_td {
   width: 50px;
@@ -212,32 +215,10 @@ tbody > tr:nth-child(3) .first_td {
   font-stretch: normal;
   line-height: 30px;
   letter-spacing: 0.3px;
-  color: #888888;
+  color: #222;
   text-align: center;
 }
-.operation > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
-}
-.operation > div > div:last-child {
-  margin-bottom: 0px;
-}
-.operation > div > div {
-  width: 62px;
-  height: 26px;
-  border-radius: 4px;
-  border: solid 1px #009bef;
 
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 26px;
-  letter-spacing: 0px;
-  color: #009bef;
-  margin-bottom: 9px;
-}
 .now_app {
   width: 58px;
   height: 20px;
@@ -256,7 +237,7 @@ tbody > tr:nth-child(3) .first_td {
 }
 
 .use .rankingChangeFontColor {
-  width: 180px;
+  width: 140px;
   height: 23px;
   white-space: nowrap;
   overflow: hidden;
@@ -266,11 +247,12 @@ tbody > tr:nth-child(3) .first_td {
   color: #009bef;
 }
 .appName {
-  width: 180px;
+  width: 140px;
   height: 23px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 1px;
 }
 .rankingChangeFontColor {
   font-size: 13px;
@@ -282,11 +264,11 @@ tbody > tr:nth-child(3) .first_td {
 }
 
 .use img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
-  /* margin-left: 16px; */
   margin-right: 9px;
+  box-sizing: border-box;
   border: solid 1px #f2f2f2;
 }
 .use {
@@ -306,8 +288,8 @@ tbody tr td:last-child {
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  width: 108px;
-  height: 100px;
+  width: 80px;
+  height: 76px;
   box-sizing: border-box;
 }
 tbody {
@@ -330,8 +312,7 @@ thead {
 }
 table {
   width: 100%;
-  height: 121px;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
 }
 .right {
@@ -395,6 +376,7 @@ table {
 }
 .left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

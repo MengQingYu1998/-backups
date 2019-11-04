@@ -10,11 +10,13 @@
           <p v-bind:class="{up:isUp}" v-html="appVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="down" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
+          <p class="borB" :class="{hovB:ishovB}"></p>
         </li>
         <li @mouseover="showAso()" @mouseout="hideAso()">
           <p v-bind:class="{up:isUpaso}" v-html="asoVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="downaso" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
+          <p class="borB" :class="{hovaso:ishovaso}"></p>
         </li>
       </ul>
       <div class="searchDiv">
@@ -70,7 +72,7 @@
       <!-- 登录 -->
       <div class="ldiv" v-else @mouseover="showMine()" @mouseout="hideMine()">
         <img :src="touxiang" />
-        <P>{{telnow}}</P>
+        <!-- <P>{{telnow}}</P> -->
       </div>
       <div class="Combox">
         <!-- app store监控下拉框 -->
@@ -80,27 +82,82 @@
           @mouseover="showAppstore()"
           @mouseout="hideAppstore()"
         >
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
           <div class="lie">
-            <p v-for="(app,index) in apps" :key="index">
-              <!-- <router-link :to="{path:app.path}">{{app.name}}</router-link> -->
-              <a @click="goapp(index)">{{app.name}}</a>
-            </p>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/bangdan" active-class="up">
+                  <span class="iconicon-test5"></span>
+                  <span>榜单实时排名</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/monitor" active-class="up">
+                  <span class="iconicon-test4"></span>
+                  <span>榜单更新监测</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/application" active-class="up">
+                  <span class="iconicon-test"></span>
+                  <span>APP Store上下架监控</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/rank" active-class="up">
+                  <span class="iconicon-test2"></span>
+                  <span>排名上升/下降监控</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/application1" active-class="up">
+                  <span class="iconicon-test8"></span>
+                  <span>清榜/清词监控</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closecli()">
+                <router-link to="/recommend" active-class="up">
+                  <span class="iconicon-test1"></span>
+                  <span>APP Store精品推荐</span>
+                </router-link>
+              </p>
+            </div>
           </div>
         </div>
+        <!-- aso优化下拉框 -->
         <div class="aso" v-show="aso" @mouseover="showAso()" @mouseout="hideAso()">
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
           <div class="lie">
-            <p
-              v-for="(aso,index) in asos"
-              :key="index"
-              @click="aso.name=='搜索指数排名'?$router.push('ranking'):$router.push('hot_search')"
-            >{{aso.name}}</p>
+            <div>
+              <p @click="closeclie()">
+                <router-link to="/ranking" active-class="up">
+                  <span class="icon_huaban8"></span>
+                  <span>搜索指数排名</span>
+                </router-link>
+              </p>
+            </div>
+            <div>
+              <p @click="closeclie()">
+                <router-link to="/hot_search" active-class="up">
+                  <span class="iconicon-test6"></span>
+                  <span>实时热搜榜</span>
+                </router-link>
+              </p>
+            </div>
           </div>
         </div>
+
         <!-- 个人中心下拉框 -->
         <div class="mine" v-show="mine" @mouseover="showMine()" @mouseout="hideMine()">
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
+          <!-- <img src="../assets/NumImg/jiao.png" class="jiao" /> -->
           <div class="lie">
             <p v-for="(mine,index) in mines" @click="climsg(index)" :key="'LY'+index">
               {{mine.name}}
@@ -112,7 +169,6 @@
         </div>
       </div>
     </div>
-    <P class="line"></P>
   </div>
 </template>
 
@@ -140,7 +196,7 @@ export default {
       downaso: true,
       isUp: false,
       isUpaso: false,
-      appVal: 'App Store监控',
+      appVal: 'APP Store监控',
       asoVal: 'ASO优化',
       // app store监控
       apps: [
@@ -157,7 +213,11 @@ export default {
       mines: [{ name: '消息中心' }, { name: '账号设置' }, { name: '退出' }],
       // 获取当前选中的国家
       now_country: '中国',
-      touxiang: require('../assets/NumImg/touxiang.png')
+      touxiang: require('../assets/NumImg/touxiang.png'),
+      ishovB: false,
+      ishovaso: false,
+      nohover: -1,
+      noasoh: -1
     }
   },
 
@@ -188,6 +248,12 @@ export default {
   },
 
   methods: {
+    closecli() {
+      this.appstore = false
+    },
+    closeclie() {
+      this.aso = false
+    },
     // 获取当前选中的国家
     parentFn(payload) {
       // console.log(payload)
@@ -227,19 +293,31 @@ export default {
     },
     // 显示app store监控下拉框
     showAppstore() {
-      ;(this.appstore = true), (this.down = false), (this.isUp = true)
+      ;(this.appstore = true),
+        (this.down = false),
+        (this.isUp = true),
+        (this.ishovB = true)
     },
     // 隐藏app store监控下拉框
     hideAppstore() {
-      ;(this.appstore = false), (this.down = true), (this.isUp = false)
+      ;(this.appstore = false),
+        (this.down = true),
+        (this.isUp = false),
+        (this.ishovB = false)
     },
     // 显示aso监控下拉框
     showAso() {
-      ;(this.aso = true), (this.downaso = false), (this.isUpaso = true)
+      ;(this.aso = true),
+        (this.downaso = false),
+        (this.isUpaso = true),
+        (this.ishovaso = true)
     },
     // 隐藏aso监控下拉框
     hideAso() {
-      ;(this.aso = false), (this.downaso = true), (this.isUpaso = false)
+      ;(this.aso = false),
+        (this.downaso = true),
+        (this.isUpaso = false),
+        (this.ishovaso = false)
     },
     // 显示个人中心下拉框
     showMine() {
@@ -251,6 +329,7 @@ export default {
     },
     // app store监控点击跳转
     goapp(index) {
+      // this.nohover=index
       if (index == 0) {
         this.$router.push({ path: '/bangdan' })
       } else if (index == 1) {
@@ -266,6 +345,18 @@ export default {
       //   this.$router.push({ path: '/data_monitor' })
       // }
       this.appstore = false
+    },
+    overapp(index) {
+      this.nohover = index
+    },
+    outapp(index) {
+      this.nohover = -1
+    },
+    overaso(index) {
+      this.noasoh = index
+    },
+    outaso(index) {
+      this.noasoh = -1
     },
     climsg(index) {
       this.mine = false
@@ -379,11 +470,11 @@ export default {
         this.$store.state.now_app_id = parseInt(this.nav_input_value)
         this.hand_save_vuex(this)
         let routerUrl = this.$router.resolve({
-         path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
+          path:
+            '/now_ranking?now_country_name=' +
+            this.$store.state.now_country_name +
+            '&now_app_id=' +
+            this.$store.state.now_app_id
         })
         window.open(routerUrl.href, '_blank')
         return false
@@ -408,6 +499,7 @@ export default {
   padding: 0;
   list-style: none;
   text-decoration: none;
+  font-family: 'iconfont';
 }
 #navv {
   background-color: #fff;
@@ -416,10 +508,13 @@ export default {
   left: 0;
   width: 100%;
   z-index: 999;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
-#navv > .line {
+/*#navv > .line {
   border-bottom: 1px solid #efefef;
-}
+    box-shadow: 0px 10px 0px 0px 
+    rgba(0, 0, 0, 0.5);
+}*/
 .down {
   width: 8px;
   height: 8px;
@@ -438,26 +533,28 @@ export default {
 .nav ul li {
   float: left;
   line-height: 66px;
-
   font-size: 16px;
   color: #222222;
-  margin-left: 58px;
+  margin-left: 65px;
 }
 .nav ul li a {
   font-size: 16px;
   color: #222222;
 }
+.nav ul li a:active {
+  text-decoration: none;
+}
 .nav ul li:hover,
 .nav ul li a:hover {
   color: #009bef !important;
   cursor: pointer;
+  text-decoration: none;
 }
 .nav ul li:first-child {
-  margin-left: 66px;
+  margin-left: 40px;
 }
 .nav ul li p {
   display: inline-block;
-
   font-size: 15px;
   color: #222222;
 }
@@ -465,12 +562,13 @@ export default {
   color: #009bef !important;
 }
 .nav .searchDiv {
-  width: 331px;
-  height: 36px;
+  width: 320px;
+  height: 34px;
   float: left;
-  margin-left: 150px;
-  margin-top: 15px;
-  background-color: #f2f2f2;
+  margin-left: 230px;
+  margin-top: 17px;
+  border: solid 1px #009bef;
+  /*background-color: #f2f2f2;*/
   border-radius: 4px;
 }
 .nav .searchDiv > img {
@@ -481,23 +579,21 @@ export default {
   margin-top: 7px;
 }
 .nav .searchDiv input {
-  width: 134px;
+  width: 118px;
   border: none;
   outline: none;
   background-color: transparent;
-
-  font-size: 15px;
+  font-size: 14px;
   color: #222222;
   vertical-align: top;
   margin-top: 9px;
-  margin-left: 5px;
 }
 .nav .searchDiv input::placeholder {
   color: #bfbfbf;
 }
 .nav .searchDiv > p {
   width: 50px;
-  height: 36px;
+  height: 34px;
   background-color: #009bef;
   border-radius: 0px 4px 4px 0px;
   float: right;
@@ -510,34 +606,43 @@ export default {
 }
 .nav .denglu,
 .nav .zhuce {
-  font-size: 15px;
-  width: 70px;
-  height: 36px;
-  line-height: 37px;
+  font-size: 14px;
+  width: 50px;
+  height: 14px;
+  line-height: 14px;
   text-align: center;
-  border-radius: 4px;
   float: left;
-  margin-top: 15px;
+  margin-top: 25px;
+  font-family: PingFangSC-Regular;
+  color: #222222;
+}
+.nav .denglu a,
+.nav .zhuce a {
+  font-family: PingFangSC-Regular;
+  color: #222222;
+  font-size: 14px;
 }
 .nav .denglu {
-  border: solid 1px #009bef;
+  border-right: 1px solid #888888;
+  margin-left: 20px;
+  /*  border: solid 1px #009bef;
   color: #009bef;
-  margin-left: 30px;
+  margin-left: 13px;*/
 }
 .nav .denglu a {
-  color: #009bef;
+  /*color: #009bef;*/
 }
-.nav .zhuce {
+/*.nav .zhuce {
   background-color: #009bef;
   color: #ffffff;
-  margin-left: 16px;
-}
+  margin-left: 13px;
+}*/
 .nav .zhuce a {
-  color: #ffffff;
+  /*color: #ffffff;*/
 }
 .nav .ldiv {
   height: 100%;
-  margin-left: 1040px;
+  margin-left: 1142px;
 }
 .nav .ldiv img {
   width: 36px;
@@ -546,7 +651,6 @@ export default {
   margin-top: 13px;
   border: 2px solid #fcfcfc;
 }
-
 .nav .ldiv p {
   font-size: 14px;
   color: #444;
@@ -556,8 +660,12 @@ export default {
 }
 .Combox {
   position: absolute;
-  top: 41px;
+  top: 69px;
   z-index: 1001;
+}
+.Combox a:active,
+.Combox a:link {
+  text-decoration: none;
 }
 .Combox > div .jiao {
   width: 23px;
@@ -569,14 +677,16 @@ export default {
   text-align: center;
 }
 .Combox > div.appstore {
-  margin-left: 245px;
+  margin-left: 119px;
 }
 .Combox > div.aso {
-  margin-left: 410px;
+  margin-left: 370px;
+}
+.Combox > div.asm {
+  margin-left: 420px;
 }
 .Combox > div.mine {
-  margin-left: 1010px;
-  margin-top: 8px;
+  margin-left: 1111px;
 }
 .Combox > div.mine .lie p {
   width: 100px;
@@ -584,7 +694,7 @@ export default {
   margin: 0;
   margin-top: 10px;
 }
-.Combox > div.mine .lie p:nth-child(2) {
+.Combox > div.mine .lie p:nth-child(7) {
   border-bottom: 1px solid #f2f2f2;
   padding-bottom: 5px;
 }
@@ -598,11 +708,52 @@ export default {
   text-align: left;
   padding-bottom: 1px;
 }
+
+.Combox > div.appstore > div.lie,
+.Combox > div.aso > div.lie {
+  width: 393px;
+  /*height: 229px;*/
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding-bottom: 16px;
+}
+.Combox > div.appstore > div.lie div,
+.Combox > div.aso > div.lie > div {
+  width: 176px;
+  height: 38px;
+  border-radius: 4px;
+  border: solid 1px #f2f2f2;
+  display: inline-block;
+  margin-top: 16px;
+  margin-left: 12px;
+}
+.Combox > div.appstore > div.lie div p img,
+.Combox > div.aso > div.lie div p img {
+  width: 14px;
+  height: 14px;
+  vertical-align: top;
+  margin-top: 11px;
+  margin-left: 13px;
+}
+.Combox > div > div p {
+  width: 100%;
+}
+.Combox > div > div p span {
+  display: inline-block;
+  line-height: 38px;
+  margin-left: 10px;
+}
+
+.Combox > div.aso > div.lie {
+  width: 204px;
+}
+
 .Combox > div > div p,
 .Combox > div > div p a {
   font-size: 13px;
   color: #444444;
-  margin: 0 25px;
+  /*margin: 0 25px;*/
   line-height: 30px;
 }
 .Combox > div > div p a {
@@ -614,10 +765,32 @@ export default {
   cursor: pointer;
 }
 .Combox > div > div p:first-child {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
 }
 .Combox > div > div p:last-child {
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
+}
+
+.borB {
+  display: block !important;
+  width: 0px;
+  height: 2px;
+  position: relative;
+  background: #009bef;
+  left: -2px;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transition: width 0.2s ease;
+  -moz-transition: width 0.2s ease; /* Firefox 4 */
+  -webkit-transition: width 0.2s ease; /* Safari and Chrome */
+  -o-transition: width 0.2s ease; /* Opera */
+}
+.hovB {
+  width: 110px;
+}
+.hovaso {
+  width: 74px;
 }
 
 .popver_for_input {

@@ -92,6 +92,7 @@
 .footer .top>div.erO p,
 .footer .top>div.erT p{
 	font-size: 12px;
+	margin-top: 5px;
 }
 .footer .top>div.erT{
 	margin-left: 79px;

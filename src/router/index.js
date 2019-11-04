@@ -26,6 +26,14 @@ export default new Router({
     // 二期以上
     {
       meta: {
+        title: 'App Store清榜监控'
+      },
+      path: '/application1',
+      name: 'application1',
+      component: () => import('../NumVue/application1')
+    },
+    {
+      meta: {
         title: '首页'
       },
       path: '/',

@@ -1,5 +1,8 @@
 <template>
-  <div id="left_nav" :class="{'position_fixed':position_fixed}">
+  <div
+    id="left_nav"
+    :class="{'position_fixed':position_fixed,'position_fixed_02':position_fixed_02}"
+  >
     <div class="nav_meng">
       <div class="nav_title">
         <img src="../assets/ios/left_nav01.png" alt />
@@ -76,45 +79,17 @@
         <img src="../assets/ios/left_nav02.png" alt />
         <div>竞品</div>
       </div>
+      <!-- 第一步 -->
       <router-link
-        v-show="goods_show"
         :to="'/goods_show?now_country_name=' +
           this.$route.query.now_country_name +
           '&now_app_id=' +
           this.$route.query.now_app_id"
         tag="div"
-        :class="{'nav_content':true,'blue_font':blue_font}"
+        class="nav_content"
         active-class="active"
-      >竞品对比</router-link>
-      <router-link
-        v-show="ranking_compare"
-        :to="'/ranking_compare?now_country_name=' +
-          this.$route.query.now_country_name +
-          '&now_app_id=' +
-          this.$route.query.now_app_id"
-        tag="div"
-        :class="{'nav_content':true,'blue_font':blue_font}"
-        active-class="active"
-      >竞品对比</router-link>
-      <router-link
-        v-show="cover_compare"
-        :to="'/cover_compare?now_country_name=' +
-          this.$route.query.now_country_name +
-          '&now_app_id=' +
-          this.$route.query.now_app_id"
-        tag="div"
-        :class="{'nav_content':true,'blue_font':blue_font}"
-        active-class="active"
-      >竞品对比</router-link>
-      <!-- 第一步 -->
-      <div
-        class="shade"
-        @mouseover="blue_font=true"
-        @mouseleave="blue_font=false"
-        @click.stop="$router.push({
-        path: '/goods_show'
-      })"
-      ></div>
+      ></router-link>
+      <div class="shade" @click.stop="shade_function()" :class="{'blue_bg':blue_bg}">竞品对比</div>
       <!-- 第一步 -->
 
       <!-- <div class="nav_title">
@@ -137,12 +112,10 @@ export default {
   data() {
     return {
       // 第二部
-      goods_show: false,
-      ranking_compare: false,
-      cover_compare: false,
-      blue_font: false,
-      position_fixed: false
+      blue_bg: false,
       // 第二部
+      position_fixed: false, //滚动条滚动
+      position_fixed_02: false
     }
   }, // 接受父组件的值
   props: ['position_fixed_form_father'],
@@ -152,23 +125,20 @@ export default {
       this.position_fixed = this.position_fixed_form_father
     })
     // 第三部
-    if (
-      this.$route.name != 'ranking_compare' ||
-      this.$route.name != 'cover_compare'
-    ) {
-      this.ranking_compare = false
-      this.cover_compare = false
-      this.goods_show = true
-    }
-    if (this.$route.name == 'ranking_compare') {
-      this.ranking_compare = true
-      this.cover_compare = false
-      this.goods_show = false
-    }
-    if (this.$route.name == 'cover_compare') {
-      this.ranking_compare = false
-      this.cover_compare = true
-      this.goods_show = false
+    console.log(this.$route.path)
+    switch (this.$route.path) {
+      case '/goods_show':
+        this.blue_bg = true
+        break
+      case '/ranking_compare':
+        this.blue_bg = true
+        break
+      case '/cover_compare':
+        this.blue_bg = true
+        break
+      default:
+        this.blue_bg = false
+        break
     }
     // 第三部
   },
@@ -186,42 +156,79 @@ export default {
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         var int = Math.round(scrollTop + windowHeight)
-        // 这个if是让柱状图固定到某一个位置
+        // 这个if是让左侧导航固定到某一个位置
         if (scrollTop > 160) {
           that.position_fixed = true
         } else {
           that.position_fixed = false
         }
+        // 解决左侧导航到达底部溢出
+        let obj = $('.nav_meng')
+        if (scrollHeight - scrollTop <= 310 + 548 + 68) {
+          that.position_fixed_02 = true
+        } else {
+          that.position_fixed_02 = false
+        }
       }
     })
   },
-  methods: {}
+  methods: {
+    // 第四部
+    shade_function() {
+      this.blue_bg = true
+      this.$router.push({
+        path:
+          '/goods_show?now_country_name=' +
+          this.$route.query.now_country_name +
+          '&now_app_id=' +
+          this.$route.query.now_app_id
+      })
+    }
+    // 第四部
+  }
 }
 </script>
 <style scoped>
+.position_fixed_02 {
+  position: absolute !important;
+  bottom: 0px;
+}
 .position_fixed {
   position: fixed;
   margin-top: -160px;
   background-color: #fff;
   z-index: 9999;
 }
-.blue_font {
+.blue_bg {
   color: #009bef !important;
+  background-color: rgba(0, 155, 239, 0.12);
+}
+/* 第五步 */
+.shade:hover {
+  color: #009bef;
 }
 .shade {
-  background-color: transparent;
   width: 125px;
-  height: 21px;
   position: absolute;
-  top: 460px;
+  top: 400px;
   right: -32px;
   cursor: pointer;
   width: 190px;
-  height: 46px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: normal;
+  box-sizing: border-box;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #222;
+  padding-left: 52px;
+  cursor: pointer;
+  line-height: 40px;
 }
+/* 第五步 */
+
 .active {
   color: #009bef !important;
-  background-color: #009bef;
   background-color: rgba(0, 155, 239, 0.12);
 }
 .nav_content:hover {
@@ -272,7 +279,7 @@ export default {
 #left_nav {
   background-color: #fff;
   padding-top: 12px;
-
+  z-index: 1;
   width: 190px;
 }
 </style>

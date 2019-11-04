@@ -424,7 +424,7 @@ thead {
 table {
   width: 100%;
   height: 121px;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
   margin-top: 40px;
   /* 表格定长 */
@@ -561,7 +561,7 @@ table {
   background-color: #fff !important;
 }
 .left {
-  width: 231px;
+  width: 231px;position: relative;
   min-height: 621px;
 }
 </style>

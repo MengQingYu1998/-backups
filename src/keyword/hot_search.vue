@@ -527,8 +527,7 @@ thead {
 }
 table {
   width: 100%;
-  height: 121px;
-  border: solid 1px #f2f2f2;
+  height: 121px;border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }

@@ -1655,7 +1655,7 @@ thead {
 table {
   width: 100%;
   height: 121px;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }
@@ -1815,7 +1815,8 @@ table {
 .start .start_right_bottom,
 .start .start_left_bottom {
   height: 230px;
-  border: solid 1px #f7f7f7;
+  border: solid 1px #eaeaea;
+  border-top: none;
   display: flex;
 }
 .start .start_right_title,
@@ -1823,6 +1824,7 @@ table {
   font-weight: 600 !important;
   font-size: 13px;
   font-weight: normal;
+  border: solid 1px #eaeaea;
   font-stretch: normal;
   line-height: 40px;
   text-align: center;
@@ -1915,6 +1917,7 @@ table {
 }
 .left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

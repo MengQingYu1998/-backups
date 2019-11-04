@@ -93,7 +93,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" >
 .el-icon-date:before {
   display: none;
 }
@@ -240,8 +240,44 @@ export default {
 }
 
 /* 表格的交互 */
-table tbody tr:hover {
-  background-color: #ebf7ff;
+//ios
+#ams_compete_word table,
+#app_message table,
+#apple_history table,
+#cover_compare table,
+#data_table table,
+#goods_optimize table,
+#goods_show table,
+#grade_start table,
+#now_ranking table,
+#ranking_compare table,
+#same_dev_app table,
+//keyword
+#version_message table,
+#hot_history table,
+#hot_search table,
+#ranking table,
+#result table,
+#think_word table,
+#trend_many table,
+#trend_one table,
+//compete_manage
+#compete_manage table,
+#compete_optimize table,
+#compete_report table,
+//hand_school
+#activity_club_details table,
+#activity_club table,
+#all table,
+#ams_artical_details table,
+#asm table,
+#classes_details table, {
+  tr {
+    border: 1px solid #eaeaea !important;
+  }
+  tbody tr:hover {
+    background-color: #ebf7ff;
+  }
 }
 
 .tabsContentTable .use > div:nth-child(3):hover {
@@ -482,7 +518,7 @@ table thead tr th {
   line-height: 26px !important;
 }
 .el-select {
-  width: 86px !important;
+  width: 88px !important;
 }
 .el-icon-arrow-up:before {
   display: none;
@@ -606,6 +642,7 @@ input[type='number'] {
 /* 放回顶部 */
 .go_to_top .code:hover {
   background-image: url('./assets/ios/code_active.png');
+  border: none;
 }
 .go_to_top .code {
   background-image: url('./assets/ios/code.png');
@@ -617,6 +654,8 @@ input[type='number'] {
   cursor: pointer;
   border-radius: 4px;
   position: relative;
+  border: 1px solid #dddddd;
+  box-sizing: border-box;
 }
 .code_content div:last-child {
   margin-top: 12px;
@@ -643,6 +682,7 @@ input[type='number'] {
   text-align: center;
 }
 .go_to_top .message:hover {
+  border: none;
   background-image: url('./assets/ios/message_active.png');
 }
 .go_to_top .message {
@@ -652,12 +692,15 @@ input[type='number'] {
   background-size: 100% 100%;
   width: 36px;
   border-radius: 4px;
+  border: 1px solid #dddddd;
+  box-sizing: border-box;
   height: 36px;
   cursor: pointer;
   position: relative;
   z-index: 99999999;
 }
 .go_to_top .top:hover {
+  border: none;
   background-image: url('./assets/ios/top_active.png');
 }
 .go_to_top .top {
@@ -665,9 +708,11 @@ input[type='number'] {
   width: 36px;
   background-position: center center;
   border-radius: 4px;
+  box-sizing: border-box;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   height: 36px;
+  border: 1px solid #dddddd;
   cursor: pointer;
 }
 .go_to_top {
@@ -687,5 +732,8 @@ input[type='number'] {
 /* 放回顶部 */
 .el-tabs__nav.is-stretch {
   min-width: 50% !important;
+}
+.el-select-dropdown__item.selected {
+  font-weight: normal;
 }
 </style>

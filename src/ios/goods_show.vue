@@ -41,7 +41,6 @@
                         class="app_name pointer"
                         @click="go_to_page01(item.appId,item.appName)"
                       >{{item.appName}}>{{item.appName}}</div>
-                      <div class="now_app" v-show="index==0">当前应用</div>
                       <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                     </div>
                   </div>
@@ -124,7 +123,6 @@
                         class="app_name pointer"
                         @click="go_to_page01(item.appId,item.appName)"
                       >{{item.appName}}</div>
-                      <!-- <div class="now_app">当前应用</div> -->
                       <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                     </div>
                   </div>
@@ -271,14 +269,24 @@ export default {
     },
     go_to_page02(parm) {
       this.$router.push({
-        path: '/cover_compare'
+        path:
+          '/cover_compare?now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       this.$store.state.now_app_id02 = parm
       this.$store.state.now_app_id = this.$store.state.now_app_id
     },
     go_to_page03(parm, parm02) {
       this.$router.push({
-        path: '/ranking_compare?app_name02=' + parm02
+        path:
+          '/ranking_compare?app_name02=' +
+          parm02 +
+          '&now_country_name=' +
+          this.$store.state.now_country_name +
+          '&now_app_id=' +
+          this.$store.state.now_app_id
       })
       this.$store.state.now_app_id = this.$store.state.now_app_id
       this.$store.state.now_app_id02 = parm
@@ -322,28 +330,16 @@ td {
   text-overflow: ellipsis;
   text-align: left;
 }
-.use img {
-  border: solid 1px #f2f2f2;
-}
+
 .use > div:nth-child(1) {
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 14px;
   letter-spacing: 0.3px;
-  color: #888888;
+  color: #222;
 }
-tbody > tr:nth-child(1) .use > div:nth-child(1),
-tbody > tr:nth-child(2) .use > div:nth-child(1),
-tbody > tr:nth-child(3) .use > div:nth-child(1) {
-  font-weight: 600 !important;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 30px;
-  letter-spacing: 0.3px;
-  color: #222222;
-}
+
 .section_title {
   margin-top: 50px;
   font-weight: 600 !important;
@@ -389,22 +385,7 @@ tbody > tr:nth-child(3) .use > div:nth-child(1) {
   color: #009bef;
   margin-bottom: 9px;
 }
-.now_app {
-  width: 58px;
-  height: 20px;
-  background-color: #f5fcff;
-  border-radius: 4px;
 
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 20px;
-  letter-spacing: 0px;
-  color: #009bef;
-  position: absolute;
-  right: -115px;
-  top: 1px;
-}
 .rankingChangeFontColor {
   font-size: 13px;
   font-weight: normal;
@@ -414,9 +395,11 @@ tbody > tr:nth-child(3) .use > div:nth-child(1) {
 }
 
 .use img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
+  border: solid 1px #f2f2f2;
+  box-sizing: border-box;
   margin-left: 16px;
   margin-right: 9px;
 }
@@ -455,7 +438,7 @@ thead {
 }
 table {
   width: 100%;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }
@@ -528,6 +511,7 @@ table {
 }
 .left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

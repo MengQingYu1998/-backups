@@ -1,5 +1,5 @@
 <template>
-  <div id="version_message">
+  <div id="app_message">
     <div class="content">
       <!-- 自定义组件 -->
       <!-- <keep-alive> -->
@@ -238,7 +238,7 @@ import left_nav from './left_nav'
 import { videoPlayer } from 'vue-video-player'
 
 export default {
-  name: 'version_message',
+  name: 'app_message',
   components: { ios_header, left_nav, videoPlayer },
   data() {
     return {
@@ -422,8 +422,8 @@ export default {
   border: 1px solid #f2f2f2;
 }
 
-#version_message {
-  padding-bottom: 53px;
+#app_message {
+  padding-bottom: 50px;
   background-color: #f4f4f4;
 }
 #section_content {
@@ -498,7 +498,7 @@ export default {
   vertical-align: top;
 }
 .message .section_content > div span:last-child {
-  width: 850px;
+  width: 830px;
   display: inline-block;
 }
 .section_content .block {
@@ -572,7 +572,6 @@ export default {
   margin-right: 16px;
 }
 .video {
-  /* border: solid 1px #f2f2f2; */
   margin-bottom: 40px;
 }
 /* .section_video_flex > div:first-child > div {
@@ -645,6 +644,7 @@ export default {
 }
 .left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

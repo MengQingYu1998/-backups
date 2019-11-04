@@ -166,8 +166,8 @@ export default {
   -webkit-filter: grayscale(100%);
   -webkit-filter: grayscale(1);
   filter: grayscale(100%);
-  /* filter: url('../img/gray.svg#grayscale'); */
   filter: gray;
+  opacity: 0.4;
 }
 .white {
   width: 69px;
@@ -180,9 +180,11 @@ export default {
 .header_img > img:nth-child(2),
 .header_img > img:nth-child(3) {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 1px;
+  top: 1px;
   z-index: 10;
+  width: 41px;
+  height: 41px;
 }
 .header_img > img:nth-child(1) {
   border-radius: 10px;

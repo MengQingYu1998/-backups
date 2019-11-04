@@ -288,7 +288,7 @@
 		data(){
 			return{
 				// 标题
-				apptit:'App Store上架监控',
+				apptit:'App Store清榜监控',
 				showApplication:false,
 				showGame:false,
 				valueY:'应用',
@@ -303,7 +303,7 @@
 				downWG:false,
 				upWG:false,
 				// index:0,//选中应用index
-				isSelect:0,//选中应用字体样式
+				isSelect:2,//选中应用字体样式
 				shangjiatF:true,//上架标题
 				xiajiatF:false,//下架标题
 				shangjiaF:true,//上架表格
@@ -1123,14 +1123,15 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
-
 					this.apptit='App Store上架监控'
+
 					this.zongsdataList.length=0
 		      		this.page=1
 		      		this.getData()
 				}else if(this.isSelect==1){
 					// this.clixia=true
 					//下架应用
+					 this.apptit='App Store下架监控'
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=true//下架标题
 					
@@ -1139,7 +1140,7 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
-					this.apptit='App Store下架监控'
+
 					this.zongsdataList.length=0
 		      		this.page=1
 					this.getData()

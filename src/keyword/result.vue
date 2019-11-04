@@ -8,7 +8,7 @@
             <div class="options_01 option">
               <div class="margin_top_font">设备</div>
               <div>
-                <el-radio-group v-model="equipmentValue" size="mini">
+                <el-radio-group v-model="equipmentValue" size="mini"> 
                   <el-radio-button
                     v-for="item in  equipment "
                     :key="item.value"
@@ -557,7 +557,7 @@
           <div class="flex-row">
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
               <div>
-                <span>ios12&nbsp;</span>
+                <span>iOS13/12搜索结果&nbsp;</span>
                 <span v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</span>
               </div>
               <table>
@@ -840,18 +840,33 @@
             v-show="is_show_myChart_and_table&&!no_data"
           ></div>
           <div class="myChart_dialog" v-show="no_data">暂无数据</div>
-          <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
           <div class="bottom_image pointer">
             <img
+              v-if="!is_show_myChart_and_table"
               v-on:click="is_show_myChart_function"
               class="float_right"
               src="../assets/keyword/three.png"
               alt
             />
             <img
+              v-else
+              v-on:click="is_show_myChart_function"
+              class="float_right"
+              src="../assets/keyword/three_active.png"
+              alt
+            />
+            <img
+              v-if="is_show_myChart_and_table"
               v-on:click="is_show_table_function"
               class="float_right"
               src="../assets/keyword/calculator.png"
+              alt
+            />
+            <img
+              v-else
+              v-on:click="is_show_table_function"
+              class="float_right"
+              src="../assets/keyword/calculator_active.png"
               alt
             />
           </div>
@@ -2239,7 +2254,7 @@ export default {
       this.$store.state.now_app_id = parm
       this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-       path:
+        path:
           '/now_ranking?now_country_name=' +
           this.$store.state.now_country_name +
           '&now_app_id=' +
@@ -2326,8 +2341,7 @@ export default {
   width: 100%;
   table-layout: fixed;
 }
-.my_dialog table {
-  border: solid 1px #f2f2f2;
+.my_dialog table {border: solid 1px #eaeaea;
   table-layout: fixed;
   text-align: center;
   width: 900px;
@@ -2335,11 +2349,6 @@ export default {
   margin-top: 80px;
 }
 
-.my_dialog .bottom_image_table {
-  position: absolute;
-  top: 20px;
-  right: 66px;
-}
 .my_dialog .bottom_image img {
   margin-left: 10px;
   width: 17px;
@@ -2348,7 +2357,7 @@ export default {
 .my_dialog .bottom_image {
   float: right;
   position: absolute;
-  top: 7px;
+  top: 4px;
   right: 40px;
 }
 
@@ -2572,8 +2581,8 @@ export default {
 }
 .my_dialog > img {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: -15px;
+  right: -30px;
   width: 23px;
   height: 23px;
 }

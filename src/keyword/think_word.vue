@@ -93,10 +93,10 @@ export default {
           value: 'ios11'
         },
         {
-          value: 'ios12'
+          value: 'ios13/12'
         }
       ],
-      systemValue: 'ios12',
+      systemValue: 'ios13/12',
       now_country: '中国',
       response_data: null,
       input: ''

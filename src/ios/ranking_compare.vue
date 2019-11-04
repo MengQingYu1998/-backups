@@ -98,15 +98,31 @@
             ></div>
             <div class="bottom_image pointer">
               <img
+                v-if="!is_show_myChart_and_table"
                 v-on:click="is_show_myChart_function"
                 class="float_right"
                 src="../assets/keyword/three.png"
                 alt
               />
               <img
+                v-else
+                v-on:click="is_show_myChart_function"
+                class="float_right"
+                src="../assets/keyword/three_active.png"
+                alt
+              />
+              <img
+                v-if="is_show_myChart_and_table"
                 v-on:click="is_show_table_function"
                 class="float_right"
                 src="../assets/keyword/calculator.png"
+                alt
+              />
+              <img
+                v-else
+                v-on:click="is_show_table_function"
+                class="float_right"
+                src="../assets/keyword/calculator_active.png"
                 alt
               />
             </div>
@@ -135,20 +151,6 @@
               </tbody>
             </table>
           </div>
-          <!-- <div class="bottom_image_table pointer" v-show="!no_data&&!is_show_myChart_and_table">
-          <img
-            v-on:click="is_show_myChart_function"
-            class="float_right"
-            src="../assets/keyword/three.png"
-            alt
-          />
-          <img
-            v-on:click="is_show_table_function"
-            class="float_right"
-            src="../assets/keyword/calculator.png"
-            alt
-          />
-          </div>-->
 
           <div class="myChart" v-show="no_data">暂无数据</div>
           <div v-show="is_show_myChart_and_table">
@@ -910,7 +912,7 @@ thead {
   table-layout: fixed;
 }
 table {
-  border: solid 1px #f2f2f2;
+border: solid 1px #eaeaea;
   text-align: center;
   width: 100%;
 }
@@ -928,8 +930,8 @@ table {
 }
 .bottom_image {
   position: absolute;
-  top: 7px;
-  right: 30px;
+  top: 3px;
+  right: 43px;
 }
 .myChart_tips .float_right {
   float: right;
@@ -1071,8 +1073,10 @@ table {
 #ranking_compare {
   background-color: #f4f4f4;
   padding-bottom: 50px;
-}.left {
+}
+.left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

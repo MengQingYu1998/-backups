@@ -1,6 +1,6 @@
 <template>
   <div class="box" id="rank">
-    <div class="title">排名上升/下降监控</div>
+    <div class="title" v-html="ranktit"></div>
     <div class="content">
       <ul>
         <li
@@ -156,6 +156,8 @@
 export default {
   data() {
     return {
+      // 标题
+      ranktit:'排名上升监控',
       showApplication: false, //应用下拉框是否显示
       showGame: false, //游戏下拉框是否显示
       valueY: '应用', //应用html
@@ -546,8 +548,10 @@ export default {
       // this.zongsData.length=0
       if (this.isSelect == 0) {
         this.upfont = true
+        this.ranktit='排名上升监控'
       } else {
         this.upfont = false
+        this.ranktit='排名下降监控'
       }
       this.page = 1
       this.zongsData.length = 0
@@ -595,11 +599,11 @@ export default {
       this.$store.state.now_app_id = parm
       this.hand_save_vuex(this)
       let routerUrl = this.$router.resolve({
-        path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
+        // path: '/now_ranking'
+        path:'/now_ranking?now_country_name=' +
+              this.$store.state.now_country_name +
+              '&now_app_id=' +
+              this.$store.state.now_app_id
       })
       window.open(routerUrl.href, '_blank')
     }

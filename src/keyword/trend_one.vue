@@ -38,7 +38,8 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :picker-options="pickerOptions"
-              clear-icon prefix-icon="fasle"
+            clear-icon
+            prefix-icon="fasle"
           ></el-date-picker>
         </div>
         <div @click="change_time01">
@@ -51,22 +52,36 @@
       </div>
     </div>
 
-    <!-- <div class="table_title">【{{this.$store.state.now_app_name}}】搜索结果数走势</div> -->
     <div class="position_relative">
       <div ref="myChart_trend_one" class="myChart" v-show="is_show_myChart_and_table"></div>
 
-      <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
       <div class="bottom_image pointer">
         <img
+          v-if="!is_show_myChart_and_table"
           v-on:click="is_show_myChart_function"
           class="float_right"
           src="../assets/keyword/three.png"
           alt
         />
         <img
+          v-else
+          v-on:click="is_show_myChart_function"
+          class="float_right"
+          src="../assets/keyword/three_active.png"
+          alt
+        />
+        <img
+          v-if="is_show_myChart_and_table"
           v-on:click="is_show_table_function"
           class="float_right"
           src="../assets/keyword/calculator.png"
+          alt
+        />
+        <img
+          v-else
+          v-on:click="is_show_table_function"
+          class="float_right"
+          src="../assets/keyword/calculator_active.png"
           alt
         />
       </div>
@@ -93,21 +108,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="bottom_image bottom_image_for_table pointer" v-show="!is_show_myChart_and_table"> -->
-    <div class="bottom_image bottom_image_for_table pointer" v-show="false">
-      <img
-        v-on:click="is_show_myChart_function"
-        class="float_right"
-        src="../assets/keyword/three.png"
-        alt
-      />
-      <img
-        v-on:click="is_show_table_function"
-        class="float_right"
-        src="../assets/keyword/calculator.png"
-        alt
-      />
-    </div>
   </div>
 </template>
 
@@ -147,10 +147,10 @@ export default {
           value: 'ios11'
         },
         {
-          value: 'ios12'
+          value: 'ios13/12'
         }
       ],
-      systemValue: 'ios12',
+      systemValue: 'ios13/12',
       now_country: '中国',
 
       //日期选择
@@ -555,25 +555,20 @@ thead {
   width: 100%;
   table-layout: fixed;
 }
-table {
-  border: solid 1px #f2f2f2;
+table {border: solid 1px #eaeaea;
   table-layout: fixed;
   text-align: center;
   margin-top: 90px;
   margin-bottom: 50px;
 }
 
-.bottom_image_for_table {
-  position: static !important;
-  margin-top: 40px;
-}
 .bottom_image img {
   margin-left: 10px;
 }
 .bottom_image {
   position: absolute;
-  top: 7px;
-  right: 39px;
+  top: 3px;
+  right: 38px;
   z-index: 9999999999;
 }
 

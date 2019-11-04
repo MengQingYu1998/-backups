@@ -31,17 +31,21 @@
               <div class="option">
                 <div>设备</div>
                 <div>
-                  <el-select v-model="equipmentValue">
-                    <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
-                  </el-select>
+                  <el-radio-group v-model="equipmentValue" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
               <div class="option">
                 <div>系统</div>
                 <div>
-                  <el-select v-model="systemValue">
-                    <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
-                  </el-select>
+                  <el-radio-group v-model="systemValue" size="mini">
+                    <el-radio-button v-for="item in  system " :key="item.value" :label="item.value"></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
               <div class="option">
@@ -140,17 +144,21 @@
               <div class="option">
                 <div>设备</div>
                 <div>
-                  <el-select v-model="equipmentValue">
-                    <el-option v-for="item in equipment " :key="item.value" :value="item.value"></el-option>
-                  </el-select>
+                  <el-radio-group v-model="equipmentValue" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
               <div class="option">
                 <div>系统</div>
                 <div>
-                  <el-select v-model="systemValue">
-                    <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
-                  </el-select>
+                  <el-radio-group v-model="systemValue" size="mini">
+                    <el-radio-button v-for="item in  system " :key="item.value" :label="item.value"></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
               <div class="option">
@@ -384,18 +392,33 @@
                             v-show="is_show_myChart_and_table&&!no_data"
                           ></div>
                           <div class="myChart" v-show="no_data">暂无数据</div>
-                          <!-- <div class="bottom_image pointer" v-show="is_show_myChart_and_table"> -->
                           <div class="bottom_image pointer">
                             <img
+                              v-if="!is_show_myChart_and_table"
                               v-on:click="is_show_myChart_function"
                               class="float_right"
                               src="../assets/keyword/three.png"
                               alt
                             />
                             <img
+                              v-else
+                              v-on:click="is_show_myChart_function"
+                              class="float_right"
+                              src="../assets/keyword/three_active.png"
+                              alt
+                            />
+                            <img
+                              v-if="is_show_myChart_and_table"
                               v-on:click="is_show_table_function"
                               class="float_right"
                               src="../assets/keyword/calculator.png"
+                              alt
+                            />
+                            <img
+                              v-else
+                              v-on:click="is_show_table_function"
+                              class="float_right"
+                              src="../assets/keyword/calculator_active.png"
                               alt
                             />
                           </div>
@@ -425,24 +448,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          <!-- <div
-                          class="bottom_image_table pointer"
-                          v-show="!no_data&&!is_show_myChart_and_table"
-                          >-->
-                          <div class="bottom_image_table pointer" v-show="false">
-                            <img
-                              v-on:click="is_show_myChart_function"
-                              class="float_right"
-                              src="../assets/keyword/three.png"
-                              alt
-                            />
-                            <img
-                              v-on:click="is_show_table_function"
-                              class="float_right"
-                              src="../assets/keyword/calculator.png"
-                              alt
-                            />
-                          </div>
+
                           <div class="import_data_for_table" v-show="false">导出数据</div>
                           <div class="clear_float"></div>
                         </div>
@@ -583,13 +589,13 @@ export default {
       system: [
         // 系统选择
         {
-          value: 'ios11'
+          value: 'ios13/12'
         },
         {
-          value: 'ios12'
+          value: 'ios11'
         }
       ],
-      systemValue: 'ios12',
+      systemValue: 'ios13/12',
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
@@ -937,6 +943,7 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
+              console.log(555555555555555)
               console.log(response)
               this.loading_gif_first = false
 
@@ -1546,8 +1553,8 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.first_table tbody tr:last-child td:first-child{
-   color: #222;
+.first_table tbody tr:last-child td:first-child {
+  color: #222;
   font-size: 14px;
 }
 .first_table tbody tr:last-child {
@@ -1629,7 +1636,11 @@ export default {
   display: block;
   max-height: 366px;
   overflow-y: scroll;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
+}
+.scroll thead tr:hover {
+  background-color: #f7f7f7;
+  height: 40px;
 }
 .scroll thead tr {
   height: 40px;
@@ -1657,21 +1668,13 @@ export default {
   table-layout: fixed;
 }
 .scroll table {
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   table-layout: fixed;
   text-align: center;
   width: 900px;
   margin: 0 auto;
 }
 
-.bottom_image_table img {
-  margin-left: 5px;
-}
-.bottom_image_table {
-  float: right;
-  margin-top: -10px;
-  margin-right: 35px;
-}
 .echarts_middle:hover {
   background-color: #fff;
 }
@@ -1920,7 +1923,7 @@ thead {
 table {
   width: 100% !important;
   height: 121px;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
   margin-top: 40px;
 }
@@ -2169,6 +2172,7 @@ table {
 }
 .left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

@@ -166,7 +166,7 @@ thead {
 }
 table {
   width: 100%;
-  border: solid 1px #f2f2f2;
+  border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }
@@ -229,8 +229,10 @@ table {
 #apple_history {
   background-color: #f4f4f4;
   padding-bottom: 50px;
-}.left {
+}
+.left {
   width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

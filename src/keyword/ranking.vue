@@ -764,8 +764,7 @@ thead {
   color: #222222;
 }
 table {
-  width: 100%;
-  border: solid 1px #f2f2f2;
+  width: 100%;border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }
