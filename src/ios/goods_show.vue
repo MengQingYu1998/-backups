@@ -47,24 +47,36 @@
                 </td>
 
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
-                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div
+                    class="rankingChangeFontColor font_size_15"
+                    v-if="item.rank_a"
+                  >{{item.rank_a.rankID}}</div>
+                  <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                    v-if="item.rank_a"
+                  >{{item.rank_a.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
-                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div
+                    class="rankingChangeFontColor font_size_15"
+                    v-if="item.rank_b"
+                  >{{item.rank_b.rankID}}</div>
+                  <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                    v-if="item.rank_b"
+                  >{{item.rank_b.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
+                <td class="rankingChangeFontColor font_size_14">{{item.keywordCover}}</td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                  <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
                   <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                  <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
                   <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
                 </td>
                 <td class="operation">
@@ -129,24 +141,36 @@
                 </td>
 
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.rankID}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
-                  <div class="rankingChangeFontColor" v-if="item.rank_a">{{item.rank_a.genreName}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div
+                    class="rankingChangeFontColor font_size_15"
+                    v-if="item.rank_a"
+                  >{{item.rank_a.rankID}}</div>
+                  <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                    v-if="item.rank_a"
+                  >{{item.rank_a.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.rankID}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
-                  <div class="rankingChangeFontColor" v-if="item.rank_b">{{item.rank_b.genreName}}</div>
-                  <div class="rankingChangeFontColor" v-else>- -</div>
+                  <div
+                    class="rankingChangeFontColor font_size_15"
+                    v-if="item.rank_b"
+                  >{{item.rank_b.rankID}}</div>
+                  <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                  <div
+                    class="rankingChangeFontColor letter_spacing_1"
+                    v-if="item.rank_b"
+                  >{{item.rank_b.genreName}}</div>
+                  <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td class="rankingChangeFontColor">{{item.keywordCover}}</td>
+                <td class="rankingChangeFontColor font_size_14">{{item.keywordCover}}</td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.currentcomment.num}}</div>
+                  <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
                   <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
                 </td>
                 <td>
-                  <div class="rankingChangeFontColor">{{item.comment.num}}</div>
+                  <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
                   <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
                 </td>
                 <td>
@@ -295,6 +319,17 @@ export default {
 }
 </script>
 <style scoped>
+.font_size_14 {
+  font-size: 14px !important;
+  color: #222 !important;
+}
+.letter_spacing_1 {
+  letter-spacing: 1px !important;
+}
+.font_size_15 {
+  font-size: 15px !important;
+  color: #222 !important;
+}
 .loading_gif {
   margin: 0 auto;
   width: 50px;

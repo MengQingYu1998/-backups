@@ -5,7 +5,10 @@
       <ios_header @childFn="parentFn" />
       <div class="left_and_right">
         <div class="left">
-          <left_nav :position_fixed_form_father="position_fixed" />
+          <left_nav
+            :position_fixed_form_father="position_fixed"
+            :position_fixed_form_father02="position_fixed_02"
+          />
         </div>
         <div class="right">
           <!-- 第一部分 -->
@@ -419,6 +422,7 @@ export default {
     return {
       // 同时存在监听滚动条滚动事件
       position_fixed: false, // 1.在父组件的监听滚动条事件里面写子组件监听的逻辑代码,给子组件传递参数
+      position_fixed_02: false,
       // 同时存在监听滚动条滚动事件
       can_execute_scorll: true, //是否可以执行滚动
       it_is_over: false,
@@ -635,10 +639,17 @@ export default {
         var scrollHeight =
           document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
         var int = Math.round(scrollTop + windowHeight)
+        // 解决左侧导航跟随滚动的问题
         if (scrollTop > 160) {
           that.position_fixed = true
         } else {
           that.position_fixed = false
+        }
+        // 解决左侧导航到达底部溢出
+        if (scrollHeight - scrollTop <= 310 + 548 + 68) {
+          that.position_fixed_02 = true
+        } else {
+          that.position_fixed_02 = false
         }
         if (
           int == scrollHeight ||
@@ -650,7 +661,7 @@ export default {
             document.documentElement.scrollTop =
               document.documentElement.scrollHeight -
               document.documentElement.clientHeight -
-              1
+              500
             that.get_data_for_fourth_part()
           }
         }
@@ -680,7 +691,7 @@ export default {
           // console.log(country_id)
           let appId = this.$store.state.now_app_id
           let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
-          console.log(url)
+          // console.log(url)
 
           // 请求数据
           this.$axios
@@ -935,7 +946,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_second_part = response.data.Data
-              console.log(this.response_data_second_part)
+              // console.log(this.response_data_second_part)
               this.one_start_data = this.response_data_second_part.oneStar
               this.two_start_data = this.response_data_second_part.twoStar
               this.three_start_data = this.response_data_second_part.threeStar
@@ -1335,7 +1346,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_data_third_part = response.data.Data
-              console.log(this.response_data_third_part)
+              // console.log(this.response_data_third_part)
               this.one_start_data_third = this.response_data_third_part.oneStar
               this.two_start_data_third = this.response_data_third_part.twoStar
               this.three_start_data_third = this.response_data_third_part.threeStar
@@ -1466,19 +1477,18 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log('=========评论================')
-
               this.response_data_fourth_part = response.data.Data.slice(
                 0,
                 this.page * 20
               )
-              console.log(this.response_data_fourth_part)
               this.page += 1
               this.can_execute_scorll = true //是否可以执行滚动
               this.it_is_over =
                 this.response_data_fourth_part.length ==
                 response.data.Data.length
               this.loading = false
+              console.log('=========评论================')
+              console.log(this.response_data_fourth_part.length)
             })
             .catch(error => {
               console.log(error)
@@ -1491,7 +1501,7 @@ export default {
     show_more_function(parm, parm02) {
       let this_div02 = document.getElementById(parm02) //展开收起
       let this_div = document.getElementById(parm) //内容
-      console.log(this_div02.innerHTML)
+      // console.log(this_div02.innerHTML)
       if (this_div02.innerHTML == '展开更多') {
         this_div.style.height = 'auto'
         this_div.style.display = 'block'
@@ -1503,11 +1513,6 @@ export default {
       }
     },
 
-    // 格式化时间
-    // format(parm) {
-    //   // console.log(parm)
-    //   return myTime(parm)
-    // },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload
@@ -1563,7 +1568,6 @@ export default {
   margin-left: 5px;
 }
 .bottom_table_td02 {
-  padding: 0 30px;
   text-align: left;
   width: 480px !important;
   box-sizing: border-box;
@@ -1601,8 +1605,9 @@ table .table_description {
   overflow: hidden;
   min-height: 54px;
   height: 54px;
-  width: 100% !important;
+  width: 460px !important;
   word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .table_description_height {

@@ -118,14 +118,16 @@ export default {
       position_fixed_02: false
     }
   }, // 接受父组件的值
-  props: ['position_fixed_form_father'],
+  props: ['position_fixed_form_father', 'position_fixed_form_father02'],
 
   created: function() {
     this.$watch('position_fixed_form_father', function(newValue, oldValue) {
       this.position_fixed = this.position_fixed_form_father
     })
+    this.$watch('position_fixed_form_father02', function(newValue, oldValue) {
+      this.position_fixed_02 = this.position_fixed_form_father02
+    })
     // 第三部
-    console.log(this.$route.path)
     switch (this.$route.path) {
       case '/goods_show':
         this.blue_bg = true
@@ -163,7 +165,6 @@ export default {
           that.position_fixed = false
         }
         // 解决左侧导航到达底部溢出
-        let obj = $('.nav_meng')
         if (scrollHeight - scrollTop <= 310 + 548 + 68) {
           that.position_fixed_02 = true
         } else {

@@ -93,11 +93,40 @@ export function unique(arr) {
 }
 // 非选中状态下的时间组件的样式
 export function time_inactive(element) {
-  document.querySelector(element + ' .el-input__inner').style.backgroundColor =
-    '#fff'
-  document.querySelector(element + ' .el-input__inner').style.border =
-    '1px solid #dcdfe6'
-  document.querySelector(element + '  .el-input__inner').style.color = '#606266'
+  // 这些是单个日期选择器
+
+  if (document.querySelector(element + '  .el-input__inner')) {
+    document.querySelector(
+      element + ' .el-input__inner'
+    ).style.backgroundColor = '#fff'
+    document.querySelector(element + ' .el-input__inner').style.border =
+      '1px solid #dcdfe6'
+    document.querySelector(element + '  .el-input__inner').style.color =
+      '#606266'
+  }
+  // 这些是单个日期选择器
+  // 这些是多个日期选择器
+  if (
+    document.querySelectorAll(element + '  .el-date-editor .el-range-input')
+      .length == 2
+  ) {
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[0].style.backgroundColor = '#fff'
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[1].style.backgroundColor = '#fff'
+    document.querySelector(
+      element + '  .el-date-editor .el-range-separator'
+    ).style.color = '#606266'
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[0].style.color = '#606266'
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[1].style.color = '#606266'
+  }
+  // 这些是多个日期选择器
   document.styleSheets[0].addRule(
     element + ' .el-date-editor::after',
     'border-color: #888 transparent transparent transparent;'
@@ -105,11 +134,40 @@ export function time_inactive(element) {
 }
 //  选中状态下的时间组件的样式
 export function time_active(element) {
-  document.querySelector(element + '  .el-input__inner').style.backgroundColor =
-    '#009bef'
-  document.querySelector(element + '  .el-input__inner').style.border =
-    '1px solid #009bef'
-  document.querySelector(element + '  .el-input__inner').style.color = '#fff'
+  // 这些是单个日期选择器
+  if (document.querySelector(element + '  .el-input__inner')) {
+    document.querySelector(
+      element + '  .el-input__inner'
+    ).style.backgroundColor = '#009bef'
+    document.querySelector(element + '  .el-input__inner').style.border =
+      '1px solid #009bef'
+    document.querySelector(element + '  .el-input__inner').style.color = '#fff'
+  }
+  // 这些是单个日期选择器
+  // 这些是多个日期选择器
+  if (
+    document.querySelectorAll(element + '  .el-date-editor .el-range-input')
+      .length == 2
+  ) {
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[0].style.backgroundColor = '#009bef'
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[1].style.backgroundColor = '#009bef'
+    document.querySelector(
+      element + '  .el-date-editor .el-range-separator'
+    ).style.color = '#fff'
+
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[0].style.color = '#fff'
+    document.querySelectorAll(
+      element + '  .el-date-editor .el-range-input'
+    )[1].style.color = '#fff'
+  }
+  // 这些是多个日期选择器
+
   document.styleSheets[0].addRule(
     element + ' .el-date-editor::after',
     'border-color: #fff transparent transparent transparent;'

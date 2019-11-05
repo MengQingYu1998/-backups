@@ -297,7 +297,7 @@ export default {
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 /* 单选时间的长度 */
 .el-date-editor--date {
-  width: 108px !important;
+  width: 112px !important;
 }
 /* 时间的小三角 */
 .el-date-editor:after {
@@ -318,8 +318,8 @@ export default {
   display: none !important;
 }
 .el-date-editor .el-range-separator {
-  line-height: 19px !important;
-  color: #444444 !important;
+  line-height: 19px;
+  color: #444444;
 }
 
 .el-input__icon {

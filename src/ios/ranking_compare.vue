@@ -15,9 +15,13 @@
             <div class="option">
               <div>设备</div>
               <div>
-                <el-select v-model="equipmentValue">
-                  <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
-                </el-select>
+                <el-radio-group v-model="equipmentValue" size="mini">
+                  <el-radio-button
+                    v-for="item in  equipment "
+                    :key="item.value"
+                    :label="item.value"
+                  ></el-radio-button>
+                </el-radio-group>
               </div>
             </div>
             <div class="classify">
@@ -842,7 +846,7 @@ export default {
   margin-left: 10px !important;
 }
 .btn_group_time {
-  margin-left: 5px !important;
+  margin-left: 0px !important;
 }
 .type {
   z-index: 100;
@@ -912,7 +916,7 @@ thead {
   table-layout: fixed;
 }
 table {
-border: solid 1px #eaeaea;
+  border: solid 1px #eaeaea;
   text-align: center;
   width: 100%;
 }
@@ -1001,7 +1005,7 @@ border: solid 1px #eaeaea;
   margin-bottom: 16px;
 }
 .classify > div:nth-child(2) {
-  margin-left: 28px;
+  margin-left: 12px;
   margin-right: 10px;
 }
 .classify > div:nth-child(3) {
@@ -1022,9 +1026,7 @@ border: solid 1px #eaeaea;
   margin-right: 5px;
   margin-left: 10px;
 }
-.option div:last-child {
-  width: 86px;
-}
+
 .option {
   font-weight: 600 !important;
   display: inline-block;

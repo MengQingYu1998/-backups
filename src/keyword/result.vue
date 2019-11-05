@@ -4,775 +4,807 @@
       <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
         <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
         <el-tab-pane label="iOS13/12搜索结果" name="first">
-          <div class="options">
-            <div class="options_01 option">
-              <div class="margin_top_font">设备</div>
-              <div>
-                <el-radio-group v-model="equipmentValue" size="mini"> 
-                  <el-radio-button
-                    v-for="item in  equipment "
-                    :key="item.value"
-                    :label="item.value"
-                  ></el-radio-button>
-                </el-radio-group>
-              </div>
-            </div>
-            <div class="options_02 option">
-              <div class="margin_top_font">地区</div>
-              <div>
-                <!-- 选择国家 -->
-                <country
-                  v-if="is_show_country_component"
-                  @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
-                ></country>
-              </div>
-            </div>
-            <div class="options_03 option">
-              <div class="margin_top_font">日期</div>
-              <div id="dateValue01">
-                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
-                  <el-radio-button label="今日"></el-radio-button>
-                  <el-radio-button label="昨日"></el-radio-button>
-                </el-radio-group>
-                <!-- 饿了么的日期选择组件 -->
-                <el-date-picker
-                  v-model="dateValue"
-                  type="date"
-                  placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
-                  :picker-options="pickerOptions2"
-                  @blur="dateValue_blur01"
-                  @focus="dateValue_focus01"
-                ></el-date-picker>
-              </div>
-            </div>
-          </div>
-          <div class="keywordContentTable">
-            <div>
-              <div>{{this.$store.state.now_app_name}}</div>
-              <div>搜索关键词</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.Hint}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page02(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>搜索指数</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.SearchCount12}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page03(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>搜索结果数</div>
-            </div>
-            <div id="data_for_top_table_keyword01">
-              <span
-                class="pointer active_line"
-                @click="go_to_page04(item_son.keyword)"
-                v-for="(item_son, index_son) in data_for_top_table"
-                :key="'data_for_top_tablesss'+index_son"
-              >{{item_son.keyword}}</span>
-              <span
-                v-show="!data_for_top_table"
-                style="margin-left:90px;line-height: 50px;"
-              >暂无更多搜索联想词</span>
-              <span
-                v-show="data_for_top_table"
-                @click="go_to_page01(data_for_top_table02.Word)"
-                :class="{ 'active_line':true,'pointer':true, 'see_more':see_more, 'see_more01':see_more01}"
-              >更多>></span>
-            </div>
-          </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
-          <div class="result_title_line"></div>
-
-          <div class="left_and_right">
-            <div class="left tabsContentTable">
-              <table class="fitst_left">
-                <thead>
-                  <tr>
-                    <th class="th_width">应用</th>
-                    <th>搜索排名变动</th>
-                    <th>总榜排名</th>
-                    <th>分类榜排名</th>
-                    <th class="th_width_555">关键词覆盖数/top3</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-if="response_data_for_ios12">
-                    <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
-                      <td>
-                        <div class="use">
-                          <div class="first_div">{{item.rowid}}</div>
-                          <div class="second_div">
-                            <img
-                              :src="item.icon_url"
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
-                              alt
-                            />
-                          </div>
-                          <div
-                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
-                          >
-                            <div
-                              :class="{'app_name':true,'pointer':true} "
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
-                            >{{item.app_name}}</div>
-
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
-                            <div
-                              class="new_add_field"
-                              v-show="item.developer_name"
-                            >{{item.developer_name}}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="rankingChange">
-                          <img
-                            class="arrowsImg_0"
-                            v-show="item.Change==0"
-                            src="../assets/keyword/arrows (1).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change<0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (3).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change>0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (2).png"
-                            alt
-                          />
-                          <div
-                            :class="{'font_size_15':true ,'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                          >{{Math.abs(item.Change)}}</div>
-                          <img
-                            src="../assets/keyword/keyword01.png"
-                            class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
-                            alt
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                        >{{item.ranking.rank_class}}</div>
-                        <div
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
-
-                        <div
-                          v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
-                        >--</div>
-                      </td>
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                        >{{item.ranking.genre_class}}</div>
-                        <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
-                        <div
-                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
-                        >--</div>
-                      </td>
-                      <td
-                        class="pointer"
-                        @click="go_to_page06(item.AppStoreId,item.app_name)"
-                      >{{item.Cover+' / '+item.Top3}}</td>
-                    </tr>
-                  </template>
-                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
-                    <td colspan="6">暂无相关数据</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="loading margin_left" v-show="loading_12">
-                <img src="../assets/ios/loading.gif" alt />
-              </div>
-              <div
-                class="it_is_over margin_left"
-                v-show="it_is_over_12&&response_data_for_ios12.length!=0"
-              >我是有底线的～</div>
-              <div
-                class="it_is_over margin_left"
-                v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
-              >下拉加载更多</div>
-            </div>
-            <div :class="{'right':true,'position_fixed':position_fixed} " v-if="now_country=='中国'">
-              <div class="right_title">关键词搜索结果变化率</div>
-              <div class="right_btn">
+          <div v-if="activeName == 'first'">
+            <div class="options">
+              <div class="options_01 option">
+                <div class="margin_top_font">设备</div>
                 <div>
-                  <el-radio-group v-model="radio1" size="mini">
-                    <el-radio-button label="top10"></el-radio-button>
-                    <el-radio-button label="all"></el-radio-button>
+                  <el-radio-group v-model="equipmentValue" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
                   </el-radio-group>
                 </div>
               </div>
-              <div ref="myChart_result12" class="myChart"></div>
+              <div class="options_02 option">
+                <div class="margin_top_font">地区</div>
+                <div>
+                  <!-- 选择国家 -->
+                  <country
+                    v-if="is_show_country_component"
+                    @childFn="parentFn"
+                    :custom_country="this.$store.state.now_country_name"
+                  ></country>
+                </div>
+              </div>
+              <div class="options_03 option">
+                <div class="margin_top_font">日期</div>
+                <div id="dateValue01">
+                  <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                    <el-radio-button label="今日"></el-radio-button>
+                    <el-radio-button label="昨日"></el-radio-button>
+                  </el-radio-group>
+                  <!-- 饿了么的日期选择组件 -->
+                  <el-date-picker
+                    v-model="dateValue"
+                    type="date"
+                    placeholder="选择日期"
+                    clear-icon
+                    prefix-icon="fasle"
+                    :picker-options="pickerOptions2"
+                    @blur="dateValue_blur01"
+                    @focus="dateValue_focus01"
+                  ></el-date-picker>
+                </div>
+              </div>
+            </div>
+            <div class="keywordContentTable">
+              <div>
+                <div>{{this.$store.state.now_app_name}}</div>
+                <div>搜索关键词</div>
+              </div>
+              <div>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.Hint}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page02(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>搜索指数</div>
+              </div>
+              <div>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.SearchCount12}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page03(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>搜索结果数</div>
+              </div>
+              <div id="data_for_top_table_keyword01">
+                <span
+                  class="pointer active_line"
+                  @click="go_to_page04(item_son.keyword)"
+                  v-for="(item_son, index_son) in data_for_top_table"
+                  :key="'data_for_top_tablesss'+index_son"
+                >{{item_son.keyword}}</span>
+                <span
+                  v-show="!data_for_top_table"
+                  style="margin-left:90px;line-height: 50px;"
+                >暂无更多搜索联想词</span>
+                <span
+                  v-show="data_for_top_table"
+                  @click="go_to_page01(data_for_top_table02.Word)"
+                  :class="{ 'active_line':true,'pointer':true, 'see_more':see_more, 'see_more01':see_more01}"
+                >更多>></span>
+              </div>
+            </div>
+            <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+            <div class="result_title_line"></div>
+
+            <div class="left_and_right">
+              <div class="left tabsContentTable">
+                <table class="fitst_left">
+                  <thead>
+                    <tr>
+                      <th class="th_width">应用</th>
+                      <th>搜索排名变动</th>
+                      <th>总榜排名</th>
+                      <th>分类榜排名</th>
+                      <th class="th_width_555">关键词覆盖数/top3</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template v-if="response_data_for_ios12">
+                      <tr v-for="(item,index) in response_data_for_ios12" :key="'table'+index">
+                        <td>
+                          <div class="use">
+                            <div class="first_div">{{item.rowid}}</div>
+                            <div class="second_div">
+                              <img
+                                :src="item.icon_url"
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                                alt
+                              />
+                            </div>
+                            <div
+                              :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                            >
+                              <div
+                                :class="{'app_name':true,'pointer':true} "
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              >{{item.app_name}}</div>
+
+                              <div
+                                class="app_subtitle"
+                                v-show="item.subtitle!='无'"
+                              >{{item.subtitle}}</div>
+                              <div
+                                class="new_add_field"
+                                v-show="item.developer_name"
+                              >{{item.developer_name}}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="rankingChange">
+                            <img
+                              class="arrowsImg_0"
+                              v-show="item.Change==0"
+                              src="../assets/keyword/arrows (1).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change<0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (3).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change>0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (2).png"
+                              alt
+                            />
+                            <div
+                              :class="{'font_size_15':true ,'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            >{{Math.abs(item.Change)}}</div>
+                            <img
+                              src="../assets/keyword/keyword01.png"
+                              class="pointer img_width"
+                              @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
+                              alt
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            class="font_size_15"
+                            v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          >{{item.ranking.rank_class}}</div>
+                          <div
+                            v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
+
+                          <div
+                            v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
+                          >--</div>
+                        </td>
+                        <td>
+                          <div
+                            class="font_size_15"
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          >{{item.ranking.genre_class}}</div>
+                          <div
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                          <div
+                            v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                          >--</div>
+                        </td>
+                        <td
+                          class="pointer"
+                          @click="go_to_page06(item.AppStoreId,item.app_name)"
+                        >{{item.Cover+' / '+item.Top3}}</td>
+                      </tr>
+                    </template>
+                    <tr
+                      class="disable_hover"
+                      v-show="!loading_12&&response_data_for_ios12.length==0"
+                    >
+                      <td colspan="6">暂无相关数据</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="loading margin_left" v-show="loading_12">
+                  <img src="../assets/ios/loading.gif" alt />
+                </div>
+                <div
+                  class="it_is_over margin_left"
+                  v-show="it_is_over_12&&response_data_for_ios12.length!=0"
+                >我是有底线的～</div>
+                <div
+                  class="it_is_over margin_left"
+                  v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
+                >下拉加载更多</div>
+              </div>
+              <div
+                :class="{'right':true,'position_fixed':position_fixed} "
+                v-if="now_country=='中国'"
+              >
+                <div class="right_title">关键词搜索结果变化率</div>
+                <div class="right_btn">
+                  <div>
+                    <el-radio-group v-model="radio1" size="mini">
+                      <el-radio-button label="top10"></el-radio-button>
+                      <el-radio-button label="all"></el-radio-button>
+                    </el-radio-group>
+                  </div>
+                </div>
+                <div ref="myChart_result12" class="myChart"></div>
+              </div>
             </div>
           </div>
         </el-tab-pane>
         <!-- ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果 -->
-        <!-- <el-tab-pane label="　　iOS11搜索结果　　" name="second"> -->
         <el-tab-pane label="iOS11搜索结果" name="second">
-          <div class="options">
-            <div class="options_01 option">
-              <div class="margin_top_font">设备</div>
+          <div v-if="activeName == 'second'">
+            <div class="options">
+              <div class="options_01 option">
+                <div class="margin_top_font">设备</div>
+                <div>
+                  <el-radio-group v-model="equipmentValue" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
+                </div>
+              </div>
+              <div class="options_02 option">
+                <div class="margin_top_font">地区</div>
+                <div>
+                  <!-- 选择国家 -->
+                  <country
+                    v-if="is_show_country_component"
+                    @childFn="parentFn"
+                    :custom_country="this.$store.state.now_country_name"
+                  ></country>
+                </div>
+              </div>
+              <div class="options_03 option">
+                <div class="margin_top_font">日期</div>
+                <div id="dateValue02">
+                  <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                    <el-radio-button label="今日"></el-radio-button>
+                    <el-radio-button label="昨日"></el-radio-button>
+                  </el-radio-group>
+                  <!-- 饿了么的日期选择组件 -->
+                  <el-date-picker
+                    v-model="dateValue"
+                    type="date"
+                    placeholder="选择日期"
+                    clear-icon
+                    prefix-icon="fasle"
+                    :picker-options="pickerOptions2"
+                    @blur="dateValue_blur02"
+                    @focus="dateValue_focus02"
+                  ></el-date-picker>
+                </div>
+              </div>
+            </div>
+            <div class="keywordContentTable">
               <div>
-                <el-radio-group v-model="equipmentValue" size="mini">
-                  <el-radio-button
-                    v-for="item in  equipment "
-                    :key="item.value"
-                    :label="item.value"
-                  ></el-radio-button>
-                </el-radio-group>
+                <div>{{this.$store.state.now_app_name}}</div>
+                <div>搜索关键词</div>
               </div>
-            </div>
-            <div class="options_02 option">
-              <div class="margin_top_font">地区</div>
               <div>
-                <!-- 选择国家 -->
-                <country
-                  v-if="is_show_country_component"
-                  @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
-                ></country>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.Hint}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page02(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>搜索指数</div>
+              </div>
+              <div>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.SearchCount11}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page03(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>搜索结果数</div>
+              </div>
+              <div id="data_for_top_table_keyword02">
+                <span
+                  class="pointer active_line"
+                  @click="go_to_page04(item_son.keyword)"
+                  v-for="(item_son, index_son) in data_for_top_table"
+                  :key="'data_for_top_tablesss'+index_son"
+                >{{item_son.keyword}}</span>
+                <span
+                  v-show="!data_for_top_table"
+                  style="margin-left:90px;line-height: 50px;"
+                >暂无更多搜索联想词</span>
+                <span
+                  v-show="data_for_top_table"
+                  :class="{ 'active_line':true,'pointer':true, 'another_see_more':another_see_more, 'another_see_more01':another_see_more01}"
+                >...更多>></span>
               </div>
             </div>
-            <div class="options_03 option">
-              <div class="margin_top_font">日期</div>
-              <div id="dateValue02">
-                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
-                  <el-radio-button label="今日"></el-radio-button>
-                  <el-radio-button label="昨日"></el-radio-button>
-                </el-radio-group>
-                <!-- 饿了么的日期选择组件 -->
-                <el-date-picker
-                  v-model="dateValue"
-                  type="date"
-                  placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
-                  :picker-options="pickerOptions2"
-                  @blur="dateValue_blur02"
-                  @focus="dateValue_focus02"
-                ></el-date-picker>
-              </div>
-            </div>
-          </div>
-          <div class="keywordContentTable">
-            <div>
-              <div>{{this.$store.state.now_app_name}}</div>
-              <div>搜索关键词</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.Hint}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page02(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>搜索指数</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.SearchCount11}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page03(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>搜索结果数</div>
-            </div>
-            <div id="data_for_top_table_keyword02">
-              <span
-                class="pointer active_line"
-                @click="go_to_page04(item_son.keyword)"
-                v-for="(item_son, index_son) in data_for_top_table"
-                :key="'data_for_top_tablesss'+index_son"
-              >{{item_son.keyword}}</span>
-              <span
-                v-show="!data_for_top_table"
-                style="margin-left:90px;line-height: 50px;"
-              >暂无更多搜索联想词</span>
-              <span
-                v-show="data_for_top_table"
-                :class="{ 'active_line':true,'pointer':true, 'another_see_more':another_see_more, 'another_see_more01':another_see_more01}"
-              >...更多>></span>
-            </div>
-          </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
-          <div class="result_title_line"></div>
-          <div class="left_and_right">
-            <div class="left tabsContentTable">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="th_width">应用</th>
-                    <th>搜索排名变动</th>
-                    <th>总榜排名</th>
-                    <th>分类榜排名</th>
-                    <th>关键词覆盖数/top3</th>
-                  </tr>
-                </thead>
-                <tbody class="use_father">
-                  <template v-if="response_data_for_ios11">
-                    <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
-                      <td>
-                        <div class="use">
-                          <div class="first_div">{{item.rowid}}</div>
-                          <div class="second_div">
+            <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+            <div class="result_title_line"></div>
+            <div class="left_and_right">
+              <div class="left tabsContentTable">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="th_width">应用</th>
+                      <th>搜索排名变动</th>
+                      <th>总榜排名</th>
+                      <th>分类榜排名</th>
+                      <th>关键词覆盖数/top3</th>
+                    </tr>
+                  </thead>
+                  <tbody class="use_father">
+                    <template v-if="response_data_for_ios11">
+                      <tr v-for="(item,index) in response_data_for_ios11" :key="'table'+index">
+                        <td>
+                          <div class="use">
+                            <div class="first_div">{{item.rowid}}</div>
+                            <div class="second_div">
+                              <img
+                                :src="item.icon_url"
+                                alt
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              />
+                            </div>
+                            <div
+                              :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                            >
+                              <div
+                                :class="{'app_name':true,'pointer':true} "
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              >{{item.app_name}}</div>
+
+                              <div
+                                class="app_subtitle"
+                                v-show="item.subtitle!='无'"
+                              >{{item.subtitle}}</div>
+                              <div
+                                class="new_add_field"
+                                v-show="item.developer_name"
+                              >{{item.developer_name}}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="rankingChange">
                             <img
-                              :src="item.icon_url"
+                              class="arrowsImg_0"
+                              v-show="item.Change==0"
+                              src="../assets/keyword/arrows (1).png"
                               alt
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                            />
+                            <img
+                              v-show="item.Change<0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (3).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change>0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (2).png"
+                              alt
+                            />
+                            <div
+                              :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            >{{Math.abs(item.Change)}}</div>
+                            <img
+                              src="../assets/keyword/keyword01.png"
+                              class="pointer img_width"
+                              @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
+                              alt
                             />
                           </div>
+                        </td>
+                        <td>
                           <div
-                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
-                          >
-                            <div
-                              :class="{'app_name':true,'pointer':true} "
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
-                            >{{item.app_name}}</div>
-
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
-                            <div
-                              class="new_add_field"
-                              v-show="item.developer_name"
-                            >{{item.developer_name}}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="rankingChange">
-                          <img
-                            class="arrowsImg_0"
-                            v-show="item.Change==0"
-                            src="../assets/keyword/arrows (1).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change<0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (3).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change>0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (2).png"
-                            alt
-                          />
+                            class="font_size_15"
+                            v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                          >{{item.ranking.rank_class}}</div>
                           <div
-                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                          >{{Math.abs(item.Change)}}</div>
-                          <img
-                            src="../assets/keyword/keyword01.png"
-                            class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
-                            alt
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                        >{{item.ranking.rank_class}}</div>
-                        <div
-                          v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
+                            v-if="!(item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.rank_all+item.ranking.genre_allprice}}</div>
 
-                        <div
-                          v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
-                        >--</div>
-                      </td>
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                        >{{item.ranking.genre_class}}</div>
-                        <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                          <div
+                            v-if="item.ranking.rank_class=='-'&&item.ranking.rank_all=='-'&&item.ranking.genre_allprice=='-'"
+                          >--</div>
+                        </td>
+                        <td>
+                          <div
+                            class="font_size_15"
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          >{{item.ranking.genre_class}}</div>
+                          <div
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
 
-                        <div
-                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
-                        >--</div>
-                      </td>
-                      <td
-                        class="pointer"
-                        @click="go_to_page06(item.AppStoreId)"
-                      >{{item.Cover+' / '+item.Top3}}</td>
+                          <div
+                            v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                          >--</div>
+                        </td>
+                        <td
+                          class="pointer"
+                          @click="go_to_page06(item.AppStoreId)"
+                        >{{item.Cover+' / '+item.Top3}}</td>
+                      </tr>
+                    </template>
+                    <tr
+                      class="disable_hover"
+                      v-show="!loading_11&&response_data_for_ios11.length==0"
+                    >
+                      <td colspan="6">暂无相关数据</td>
                     </tr>
-                  </template>
-                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
-                    <td colspan="6">暂无相关数据</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="loading" v-show="loading_11">
-                <img src="../assets/ios/loading.gif" alt />
+                  </tbody>
+                </table>
+                <div class="loading" v-show="loading_11">
+                  <img src="../assets/ios/loading.gif" alt />
+                </div>
+                <div
+                  class="it_is_over"
+                  v-show="it_is_over_11&&response_data_for_ios11.length!=0"
+                >我是有底线的～</div>
+                <div
+                  class="it_is_over"
+                  v-show="!it_is_over_11&&response_data_for_ios11.length!=0&&!loading_11"
+                >下拉加载更多</div>
               </div>
-              <div
-                class="it_is_over"
-                v-show="it_is_over_11&&response_data_for_ios11.length!=0"
-              >我是有底线的～</div>
-              <div
-                class="it_is_over"
-                v-show="!it_is_over_11&&response_data_for_ios11.length!=0&&!loading_11"
-              >下拉加载更多</div>
             </div>
           </div>
         </el-tab-pane>
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
         <el-tab-pane label="搜索结果对比" name="third">
-          <div class="options">
-            <div class="options_01 option">
-              <div class="margin_top_font">设备</div>
+          <div v-if="activeName == 'third'">
+            <div class="options">
+              <div class="options_01 option">
+                <div class="margin_top_font">设备</div>
+                <div>
+                  <el-radio-group v-model="equipmentValue" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
+                </div>
+              </div>
+              <div class="options_02 option">
+                <div class="margin_top_font">地区</div>
+                <div>
+                  <!-- 选择国家 -->
+                  <country
+                    v-if="is_show_country_component"
+                    @childFn="parentFn"
+                    :custom_country="this.$store.state.now_country_name"
+                  ></country>
+                </div>
+              </div>
+              <div class="options_03 option">
+                <div class="margin_top_font">日期</div>
+                <div id="dateValue03">
+                  <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
+                    <el-radio-button label="今日"></el-radio-button>
+                    <el-radio-button label="昨日"></el-radio-button>
+                  </el-radio-group>
+                  <!-- 饿了么的日期选择组件 -->
+                  <el-date-picker
+                    v-model="dateValue"
+                    type="date"
+                    placeholder="选择日期"
+                    clear-icon
+                    prefix-icon="fasle"
+                    :picker-options="pickerOptions2"
+                    @blur="dateValue_blur03"
+                    @focus="dateValue_focus03"
+                  ></el-date-picker>
+                </div>
+              </div>
+            </div>
+            <div class="keywordContentTable">
               <div>
-                <el-radio-group v-model="equipmentValue" size="mini">
-                  <el-radio-button
-                    v-for="item in  equipment "
-                    :key="item.value"
-                    :label="item.value"
-                  ></el-radio-button>
-                </el-radio-group>
+                <div>{{this.$store.state.now_app_name}}</div>
+                <div>搜索关键词</div>
               </div>
-            </div>
-            <div class="options_02 option">
-              <div class="margin_top_font">地区</div>
               <div>
-                <!-- 选择国家 -->
-                <country
-                  v-if="is_show_country_component"
-                  @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
-                ></country>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.Hint}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page02(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>搜索指数</div>
               </div>
-            </div>
-            <div class="options_03 option">
-              <div class="margin_top_font">日期</div>
-              <div id="dateValue03">
-                <el-radio-group class="my_el_radio_group" v-model="date_button" size="mini">
-                  <el-radio-button label="今日"></el-radio-button>
-                  <el-radio-button label="昨日"></el-radio-button>
-                </el-radio-group>
-                <!-- 饿了么的日期选择组件 -->
-                <el-date-picker
-                  v-model="dateValue"
-                  type="date"
-                  placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
-                  :picker-options="pickerOptions2"
-                  @blur="dateValue_blur03"
-                  @focus="dateValue_focus03"
-                ></el-date-picker>
-              </div>
-            </div>
-          </div>
-          <div class="keywordContentTable">
-            <div>
-              <div>{{this.$store.state.now_app_name}}</div>
-              <div>搜索关键词</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.Hint}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page02(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>搜索指数</div>
-            </div>
-            <div>
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02&&data_for_top_table02.SearchCount11}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page03(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>iOS11搜索结果数</div>
-            </div>
-            <div class="same">
-              <div v-if="data_for_top_table02">
-                {{data_for_top_table02.SearchCount12}}
-                <img
-                  src="../assets/keyword/keyword01.png"
-                  class="pointer"
-                  @click="go_to_page03(data_for_top_table02.Word)"
-                  alt
-                />
-              </div>
-              <div v-else>--</div>
-              <div>iOS12搜索结果数</div>
-            </div>
-          </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
-          <div class="result_title_line"></div>
-          <div class="flex-row">
-            <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
               <div>
-                <span>iOS13/12搜索结果&nbsp;</span>
-                <span v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</span>
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02&&data_for_top_table02.SearchCount11}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page03(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>iOS11搜索结果数</div>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th class="th_width">应用</th>
-                    <th>排名/分类</th>
-                    <th>排名变动</th>
-                    <th>关键词覆盖</th>
-                    <th>评论数</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-if="response_data_for_ios12">
-                    <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
-                      <td>
-                        <div class="use">
-                          <div class="first_div">{{item.rowid}}</div>
-                          <div class="second_div">
+              <div class="same">
+                <div v-if="data_for_top_table02">
+                  {{data_for_top_table02.SearchCount12}}
+                  <img
+                    src="../assets/keyword/keyword01.png"
+                    class="pointer"
+                    @click="go_to_page03(data_for_top_table02.Word)"
+                    alt
+                  />
+                </div>
+                <div v-else>--</div>
+                <div>iOS12搜索结果数</div>
+              </div>
+            </div>
+            <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+            <div class="result_title_line"></div>
+            <div class="flex-row">
+              <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
+                <div>
+                  <span>iOS13/12搜索结果&nbsp;</span>
+                  <span v-if="response_data_for_ios12">更新时间 {{SearchDate_12}}</span>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="th_width">应用</th>
+                      <th>排名/分类</th>
+                      <th>排名变动</th>
+                      <th>关键词覆盖</th>
+                      <th>评论数</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template v-if="response_data_for_ios12">
+                      <tr v-for="(item,index) in response_data_for_ios12" :key="'tablesss'+index">
+                        <td>
+                          <div class="use">
+                            <div class="first_div">{{item.rowid}}</div>
+                            <div class="second_div">
+                              <img
+                                :src="item.icon_url"
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                                alt
+                              />
+                            </div>
+                            <div
+                              :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                            >
+                              <div
+                                :class="{'app_name':true,'pointer':true} "
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              >{{item.app_name}}</div>
+
+                              <div
+                                class="app_subtitle"
+                                v-show="item.subtitle!='无'"
+                              >{{item.subtitle}}</div>
+                              <div
+                                class="new_add_field"
+                                v-show="item.developer_name"
+                              >{{item.developer_name}}</div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div
+                            class="font_size_15"
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          >{{item.ranking.genre_class}}</div>
+                          <div
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                          <!-- <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                          >{{}}</div>-->
+                          <div
+                            v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                          >--</div>
+                        </td>
+                        <td>
+                          <div class="rankingChange">
                             <img
-                              :src="item.icon_url"
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              class="arrowsImg_0"
+                              v-show="item.Change==0"
+                              src="../assets/keyword/arrows (1).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change<0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (3).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change>0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (2).png"
+                              alt
+                            />
+                            <div
+                              :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            >{{Math.abs(item.Change)}}</div>
+                            <img
+                              src="../assets/keyword/keyword01.png"
+                              class="pointer img_width"
+                              @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                               alt
                             />
                           </div>
-                          <div
-                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
-                          >
-                            <div
-                              :class="{'app_name':true,'pointer':true} "
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
-                            >{{item.app_name}}</div>
-
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
-                            <div
-                              class="new_add_field"
-                              v-show="item.developer_name"
-                            >{{item.developer_name}}</div>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                        >{{item.ranking.genre_class}}</div>
-                        <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{}}</div>-->
-                        <div
-                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
-                        >--</div>
-                      </td>
-                      <td>
-                        <div class="rankingChange">
-                          <img
-                            class="arrowsImg_0"
-                            v-show="item.Change==0"
-                            src="../assets/keyword/arrows (1).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change<0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (3).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change>0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (2).png"
-                            alt
-                          />
-                          <div
-                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                          >{{Math.abs(item.Change)}}</div>
-                          <img
-                            src="../assets/keyword/keyword01.png"
-                            class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
-                            alt
-                          />
-                        </div>
-                      </td>
-                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                      <td>{{item.rating_count}}</td>
+                        </td>
+                        <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                        <td>{{item.rating_count}}</td>
+                      </tr>
+                    </template>
+                    <tr
+                      class="disable_hover"
+                      v-show="!loading_12&&response_data_for_ios12.length==0"
+                    >
+                      <td colspan="5">暂无相关数据</td>
                     </tr>
-                  </template>
-                  <tr class="disable_hover" v-show="!loading_12&&response_data_for_ios12.length==0">
-                    <td colspan="5">暂无相关数据</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
-              <div>
-                <span>ios11&nbsp;</span>
-                <span v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</span>
+                  </tbody>
+                </table>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th class="th_width">应用</th>
-                    <th>排名/分类</th>
-                    <th>排名变动</th>
-                    <th>关键词覆盖</th>
-                    <th>评论数</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-if="response_data_for_ios11">
-                    <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
-                      <td>
-                        <div class="use">
-                          <div class="first_div">{{item.rowid}}</div>
-                          <div class="second_div">
+              <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
+                <div>
+                  <span>ios11&nbsp;</span>
+                  <span v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</span>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="th_width">应用</th>
+                      <th>排名/分类</th>
+                      <th>排名变动</th>
+                      <th>关键词覆盖</th>
+                      <th>评论数</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template v-if="response_data_for_ios11">
+                      <tr v-for="(item,index) in response_data_for_ios11" :key="'tablesss'+index">
+                        <td>
+                          <div class="use">
+                            <div class="first_div">{{item.rowid}}</div>
+                            <div class="second_div">
+                              <img
+                                :src="item.icon_url"
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                                alt
+                              />
+                            </div>
+                            <div
+                              :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
+                            >
+                              <div
+                                :class="{'app_name':true,'pointer':true} "
+                                @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              >{{item.app_name}}</div>
+
+                              <div
+                                class="app_subtitle"
+                                v-show="item.subtitle!='无'"
+                              >{{item.subtitle}}</div>
+                              <div
+                                class="new_add_field"
+                                v-show="item.developer_name"
+                              >{{item.developer_name}}</div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div
+                            class="font_size_15"
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          >{{item.ranking.genre_class}}</div>
+                          <div
+                            v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                            class="rankingChangeFontColor"
+                          >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
+                          <!-- <div
+                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
+                          class="rankingChangeFontColor"
+                          >{{}}</div>-->
+                          <div
+                            v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
+                          >--</div>
+                        </td>
+                        <td>
+                          <div class="rankingChange">
                             <img
-                              :src="item.icon_url"
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
+                              class="arrowsImg_0"
+                              v-show="item.Change==0"
+                              src="../assets/keyword/arrows (1).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change<0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (3).png"
+                              alt
+                            />
+                            <img
+                              v-show="item.Change>0"
+                              class="arrowsImg"
+                              src="../assets/keyword/arrows (2).png"
+                              alt
+                            />
+                            <div
+                              :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                            >{{Math.abs(item.Change)}}</div>
+                            <img
+                              src="../assets/keyword/keyword01.png"
+                              class="pointer img_width"
+                              @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
                               alt
                             />
                           </div>
-                          <div
-                            :class="{'third_div':true,'third_div_padding':item.app_name=='无'||item.subtitle=='无'||item.developer_name==null}"
-                          >
-                            <div
-                              :class="{'app_name':true,'pointer':true} "
-                              @click="go_to_page05(item.AppStoreId,item.app_name)"
-                            >{{item.app_name}}</div>
-
-                            <div class="app_subtitle" v-show="item.subtitle!='无'">{{item.subtitle}}</div>
-                            <div
-                              class="new_add_field"
-                              v-show="item.developer_name"
-                            >{{item.developer_name}}</div>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td>
-                        <div
-                          class="font_size_15"
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                        >{{item.ranking.genre_class}}</div>
-                        <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{item.ranking.genre_all+item.ranking.genre_classprice}}</div>
-                        <!-- <div
-                          v-if="!(item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-')"
-                          class="rankingChangeFontColor"
-                        >{{}}</div>-->
-                        <div
-                          v-if="item.ranking.genre_class=='-'&&item.ranking.genre_all=='-'&&item.ranking.genre_classprice=='-'"
-                        >--</div>
-                      </td>
-                      <td>
-                        <div class="rankingChange">
-                          <img
-                            class="arrowsImg_0"
-                            v-show="item.Change==0"
-                            src="../assets/keyword/arrows (1).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change<0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (3).png"
-                            alt
-                          />
-                          <img
-                            v-show="item.Change>0"
-                            class="arrowsImg"
-                            src="../assets/keyword/arrows (2).png"
-                            alt
-                          />
-                          <div
-                            :class="{'pointer':true ,'font_size_15':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                          >{{Math.abs(item.Change)}}</div>
-                          <img
-                            src="../assets/keyword/keyword01.png"
-                            class="pointer img_width"
-                            @click="show_dialog(item.app_name,item.AppStoreId,item.WordId,item.rowid)"
-                            alt
-                          />
-                        </div>
-                      </td>
-                      <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
-                      <td>{{item.rating_count}}</td>
+                        </td>
+                        <td class="pointer" @click="go_to_page06(item.AppStoreId)">{{item.Cover}}</td>
+                        <td>{{item.rating_count}}</td>
+                      </tr>
+                    </template>
+                    <tr
+                      class="disable_hover"
+                      v-show="!loading_11&&response_data_for_ios11.length==0"
+                    >
+                      <td colspan="5">暂无相关数据</td>
                     </tr>
-                  </template>
-                  <tr class="disable_hover" v-show="!loading_11&&response_data_for_ios11.length==0">
-                    <td colspan="5">暂无相关数据</td>
-                  </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
             </div>
+            <div class="loading" v-show="loading_11||loading_12">
+              <img src="../assets/ios/loading.gif" alt />
+            </div>
+            <div
+              class="it_is_over"
+              v-show="it_is_over_11&&it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)"
+            >我是有底线的～</div>
+            <div
+              class="it_is_over"
+              v-show="!it_is_over_11&&!it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!(loading_11||loading_12)"
+            >下拉加载更多</div>
           </div>
-          <div class="loading" v-show="loading_11||loading_12">
-            <img src="../assets/ios/loading.gif" alt />
-          </div>
-          <div
-            class="it_is_over"
-            v-show="it_is_over_11&&it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)"
-          >我是有底线的～</div>
-          <div
-            class="it_is_over"
-            v-show="!it_is_over_11&&!it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!(loading_11||loading_12)"
-          >下拉加载更多</div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -798,7 +830,7 @@
           </div>
           <div class="classify bottom_time">
             <div></div>
-            <div @click="click_second_el_radio">
+            <div>
               <el-radio-group v-model="radio02_dialog" size="mini">
                 <!-- <el-radio-button label="近24小时"></el-radio-button> -->
                 <el-radio-button
@@ -817,7 +849,7 @@
             </div>
           </div>
           <div class="btn_item_01">
-            <div id="dateValue04">
+            <div id="dateValue04" @click="dateValue04_click">
               <el-date-picker
                 v-model="time_dialog"
                 type="daterange"
@@ -1086,17 +1118,6 @@ export default {
       this.$nextTick(() => {
         this.is_show_country_component = true
       })
-      // 保证切换的时候，国家统一
-      // console.log('当前国家发生变化，重新请求数据...')
-      this.response_data_for_ios11.length = 0
-      this.response_data_for_ios12.length = 0
-      this.page11 = 1
-      this.page12 = 1
-      this.get_data_for_top_table()
-      this.get_data_12()
-      this.get_data_11()
-      // alert('now_country')
-      this.get_data_column()
     })
     this.$watch('$store.state.now_country_name', function(newValue, oldValue) {
       // 保证切换的时候，国家统一
@@ -1220,13 +1241,16 @@ export default {
       this.get_data_dialog()
     })
     this.$watch('radio02_dialog', function(newValue, oldValue) {
+      if (newValue != '') {
+        time_inactive('#dateValue04')
+      }
       this.get_data_dialog()
     })
     this.$watch('time_dialog', function(newValue, oldValue) {
       if (newValue != '') {
         this.radio02_dialog = ''
+        time_active('#dateValue04')
       }
-      this.get_data_dialog()
     })
   },
   mounted() {
@@ -1278,8 +1302,15 @@ export default {
     })
   },
   methods: {
+    dateValue04_click() {
+      if (this.time_dialog) {
+        time_active('#dateValue04')
+        this.radio02_dialog = ''
+        this.get_data_dialog()
+      }
+    },
     // 控制时间组件旋转
-    // 1.给日期组件的父类添加一个新的id
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
 
     dateValue_blur01() {
       time_reset('#dateValue01')
@@ -1478,7 +1509,8 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              console.log(response)
+              // console.log(data)
+              // console.log(response)
               this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
               if (response.data.Code == 1) {
@@ -1545,6 +1577,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              // console.log(data)
               // console.log(response)
               this.loading_11 = false
               this.can_execute_scorll = true //是否可以执行滚动
@@ -1628,7 +1661,10 @@ export default {
     drawLine12: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
-      // console.log(this.$refs.myChart_result12)
+      if (!this.$refs.myChart_result12) {
+        return false
+      }
+
       let myChart = this.$echarts.init(this.$refs.myChart_result12)
       // 绘制图表
       myChart.setOption(
@@ -1831,34 +1867,38 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          // let system = this.systemValue == 'ios11' ? 11 : 12
           let sdate, edate
-          if (this.time_dialog) {
-            // console.log('--')
-            sdate = formatDate(this.time_dialog[0], 'yyyy-MM-dd')
-            edate = formatDate(this.time_dialog[1], 'yyyy-MM-dd')
-          } else if (this.radio02_dialog == '近24小时') {
-            // console.log近24小时
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            sdate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.radio02_dialog == '7天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-          } else if (this.radio02_dialog == '30天') {
-            // console.log('30天')
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-          } else if (this.radio02_dialog == '昨日') {
-            // console.log('昨日')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 1)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-            edate = sdate
+          switch (this.radio02_dialog) {
+            case '':
+              sdate = formatDate(this.time_dialog[0], 'yyyy-MM-dd')
+              edate = formatDate(this.time_dialog[1], 'yyyy-MM-dd')
+              break
+            case '近24小时':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              sdate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '7天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time02 = new Date()
+              time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
+              sdate = formatDate(time02, 'yyyy-MM-dd')
+              break
+            case '30天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time03 = new Date()
+              time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 30)
+              sdate = formatDate(time03, 'yyyy-MM-dd')
+              break
+            case '昨日':
+              let time04 = new Date()
+              time04.setTime(time04.getTime() - 24 * 60 * 60 * 1000 * 1)
+              sdate = formatDate(time04, 'yyyy-MM-dd')
+              edate = sdate
+              break
+            default:
+              break
           }
+
           let showType
           if (this.radio01_dialog == '按分钟') {
             showType = 2
@@ -2186,9 +2226,7 @@ export default {
       return series_data_arr
     },
     // 点击单选按钮组件组件
-    click_second_el_radio: function() {
-      this.time_dialog = ''
-    },
+
     // 点击日历组件
     // click_second_el_date_picker: function() {
     //   this.radio02_dialog = ''
@@ -2341,7 +2379,8 @@ export default {
   width: 100%;
   table-layout: fixed;
 }
-.my_dialog table {border: solid 1px #eaeaea;
+.my_dialog table {
+  border: solid 1px #eaeaea;
   table-layout: fixed;
   text-align: center;
   width: 900px;

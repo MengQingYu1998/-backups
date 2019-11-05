@@ -521,7 +521,7 @@ export default {
 }
 .nav {
   width: 1200px;
-  height: 66px;
+  height: 70px;
   margin: 0 auto;
 }
 .nav .logo {
@@ -586,7 +586,8 @@ export default {
   font-size: 14px;
   color: #222222;
   vertical-align: top;
-  margin-top: 9px;
+  margin-top: 3px;
+  line-height: 30px;
 }
 .nav .searchDiv input::placeholder {
   color: #bfbfbf;
@@ -621,6 +622,7 @@ export default {
   font-family: PingFangSC-Regular;
   color: #222222;
   font-size: 14px;
+  text-decoration: none;
 }
 .nav .denglu {
   border-right: 1px solid #888888;
@@ -641,19 +643,21 @@ export default {
   /*color: #ffffff;*/
 }
 .nav .ldiv {
+  width: 140px;
   height: 100%;
-  margin-left: 1142px;
+  margin-left: 1080px;
+  text-align: center;
 }
 .nav .ldiv img {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  margin-top: 13px;
+  margin-top: 15px;
   border: 2px solid #fcfcfc;
 }
 .nav .ldiv p {
   font-size: 14px;
-  color: #444;
+  color: #222;
   display: inline-block;
   vertical-align: top;
   margin-top: 25px;
@@ -686,7 +690,8 @@ export default {
   margin-left: 420px;
 }
 .Combox > div.mine {
-  margin-left: 1111px;
+  margin-left: 1100px;
+  margin-top: -2px;
 }
 .Combox > div.mine .lie p {
   width: 100px;
@@ -752,7 +757,7 @@ export default {
 .Combox > div > div p,
 .Combox > div > div p a {
   font-size: 13px;
-  color: #444444;
+  color: #222;
   /*margin: 0 25px;*/
   line-height: 30px;
 }
@@ -792,7 +797,13 @@ export default {
 .hovaso {
   width: 74px;
 }
-
+.nav .denglu a:hover,
+.nav .zhuce a:hover {
+  color: #009bef;
+}
+.nav .ldiv:hover {
+  cursor: pointer;
+}
 .popver_for_input {
   height: 36px;
 

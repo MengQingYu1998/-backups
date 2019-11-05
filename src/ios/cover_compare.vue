@@ -5,7 +5,10 @@
       <ios_header @childFn="parentFn" />
       <div class="left_and_right">
         <div class="left">
-          <left_nav :position_fixed_form_father="position_fixed" />
+          <left_nav
+            :position_fixed_form_father="position_fixed"
+            :position_fixed_form_father02="position_fixed_02"
+          />
         </div>
         <div class="right">
           <div class="right_nav">关键词覆盖对比</div>
@@ -160,6 +163,7 @@ export default {
     return {
       // 同时存在监听滚动条滚动事件
       position_fixed: false, // 1.在父组件的监听滚动条事件里面写子组件监听的逻辑代码,给子组件传递参数
+      position_fixed_02: false,
       // 同时存在监听滚动条滚动事件
       comOwn_no_data: false,
       myOwn_no_data: false,
@@ -225,6 +229,13 @@ export default {
         } else {
           that.position_fixed = false
         }
+        // 解决左侧导航到达底部溢出
+        let obj = $('.nav_meng')
+        if (scrollHeight - scrollTop <= 310 + 548 + 68) {
+          that.position_fixed_02 = true
+        } else {
+          that.position_fixed_02 = false
+        }
         if (
           int == scrollHeight ||
           int + 1 == scrollHeight ||
@@ -235,7 +246,7 @@ export default {
             document.documentElement.scrollTop =
               document.documentElement.scrollHeight -
               document.documentElement.clientHeight -
-              1
+              500
             that.get_data()
           }
         }
@@ -561,7 +572,8 @@ table {
   background-color: #fff !important;
 }
 .left {
-  width: 231px;position: relative;
+  width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

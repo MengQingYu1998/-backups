@@ -124,13 +124,6 @@
                     </td>
                   </tr>
                 </template>
-
-                <tr>
-                  <td>合计：</td>
-                  <td>{{request_data_first&&request_data_first.totalCount}}</td>
-                  <td>{{request_data_first&&request_data_first.top3Count}}</td>
-                  <td>{{request_data_first&&request_data_first.top10Count}}</td>
-                </tr>
               </tbody>
             </table>
             <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif_first" />
@@ -238,11 +231,6 @@
                 <div class="search">
                   <el-input v-model="search_input" placeholder="多个词同时搜索请用“，”隔开"></el-input>
                 </div>
-                <!-- <div class="search_confirm pointer" @click="search_input_function">搜索</div> -->
-                <!-- <div
-                class="search_confirm search_confirm_all pointer"
-                @click="search_input_all_function"
-                >全部</div>-->
               </div>
             </div>
             <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
@@ -265,254 +253,251 @@
                 >
                   <td colspan="6">暂无相关数据</td>
                 </tr>
-                <!-- <template v-if="request_data_second"> -->
-                <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
-                  <td>
-                    <span class="pointer item_word" @click="go_to_page03(item.Word)">{{item.Word}}</span>
-                  </td>
-                  <td>
-                    <div>{{item.Ranking}}</div>
-                  </td>
+                <template v-else>
+                  <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
+                    <td>
+                      <span class="pointer item_word" @click="go_to_page03(item.Word)">{{item.Word}}</span>
+                    </td>
+                    <td>
+                      <div>{{item.Ranking}}</div>
+                    </td>
 
-                  <td>
-                    <div>
-                      <img
-                        class="img_left arrowsImg_0"
-                        src="../assets/keyword/arrows (1).png"
-                        alt
-                        v-show="item.Change==0"
-                      />
-                      <img
-                        class="img_left arrowsImg"
-                        src="../assets/keyword/arrows (2).png"
-                        alt
-                        v-show="item.Change>0"
-                      />
-                      <img
-                        class="img_left arrowsImg"
-                        src="../assets/keyword/arrows (3).png"
-                        alt
-                        v-show="item.Change<0"
-                      />
-                      <span
-                        :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                      >{{Math.abs(item.Change)}}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="go_to_page02(item.Word)"
-                    >{{item.WordIdHint}}</div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="go_to_page01(item.Word)"
-                    >{{item.SearchCount}}</div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="middle_table_first(index,item.WordId,item.Word)"
-                    >排名趋势</div>
-                  </td>
-                </tr>
-                <transition name="fade">
-                  <tr v-show="is_show_bottom" class="echarts_middle">
-                    <td colspan="6">
-                      <!-- 底部 类型模块 -->
-                      <!-- 底部 类型模块 -->
-                      <!-- 底部 类型模块 -->
-
-                      <section class="bottom position_relative">
-                        <div class="btn_group">
-                          <div class="classify">
-                            <div>类型</div>
-                            <div>
-                              <el-radio-group v-model="bottom_radio1" size="mini">
-                                <el-radio-button label="按分钟"></el-radio-button>
-                                <el-radio-button label="按小时"></el-radio-button>
-                                <el-radio-button label="按天"></el-radio-button>
-                              </el-radio-group>
-                            </div>
-                          </div>
-                          <div class="classify bottom_time">
-                            <div>时间</div>
-                            <div @click="click_second_el_radio">
-                              <el-radio-group v-model="bottom_radio3" size="mini">
-                                <el-radio-button
-                                  label="近24小时"
-                                  v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
-                                ></el-radio-button>
-                                <el-radio-button
-                                  label="昨日"
-                                  v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
-                                ></el-radio-button>
-                                <el-radio-button
-                                  label="7天"
-                                  v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'||bottom_radio1=='按天'"
-                                ></el-radio-button>
-                                <el-radio-button
-                                  label="30天"
-                                  v-show="bottom_radio1=='按小时'||bottom_radio1=='按天'"
-                                ></el-radio-button>
-                                <el-radio-button
-                                  label="180天"
-                                  v-show="bottom_radio1=='按天'||bottom_radio1=='按天'"
-                                ></el-radio-button>
-                                <!-- <el-radio-button label="380天" v-show="bottom_radio1=='按天'"></el-radio-button> -->
-                              </el-radio-group>
-                            </div>
-                          </div>
-                          <div class="btn_item_01">
-                            <!-- <div>时间</div> -->
-                            <div>
-                              <el-date-picker
-                                v-model="middle_time01"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                :picker-options="middle_pickerOptions"
-                                clear-icon
-                                prefix-icon="fasle"
-                              ></el-date-picker>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <!-- <div
-                          class="table_title"
-                          >应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势</div>-->
-                          <div
-                            ref="myChart_data_table"
-                            class="myChart"
-                            v-show="is_show_myChart_and_table&&!no_data"
-                          ></div>
-                          <div class="myChart" v-show="no_data">暂无数据</div>
-                          <div class="bottom_image pointer">
-                            <img
-                              v-if="!is_show_myChart_and_table"
-                              v-on:click="is_show_myChart_function"
-                              class="float_right"
-                              src="../assets/keyword/three.png"
-                              alt
-                            />
-                            <img
-                              v-else
-                              v-on:click="is_show_myChart_function"
-                              class="float_right"
-                              src="../assets/keyword/three_active.png"
-                              alt
-                            />
-                            <img
-                              v-if="is_show_myChart_and_table"
-                              v-on:click="is_show_table_function"
-                              class="float_right"
-                              src="../assets/keyword/calculator.png"
-                              alt
-                            />
-                            <img
-                              v-else
-                              v-on:click="is_show_table_function"
-                              class="float_right"
-                              src="../assets/keyword/calculator_active.png"
-                              alt
-                            />
-                          </div>
-
-                          <table v-show="!no_data&&!is_show_myChart_and_table" class="scroll">
-                            <thead>
-                              <tr>
-                                <th>
-                                  <span>时间</span>
-                                </th>
-                                <th>
-                                  <span>{{keyword_data[0]}}</span>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody v-if="request_data_third">
-                              <tr
-                                v-for="(item ,index) in xAxis_data.length"
-                                :key="'trend_one_table02'+index"
-                              >
-                                <td>
-                                  <div>{{xAxis_data[index]}}</div>
-                                </td>
-                                <td>
-                                  <div>{{keyword_data_value[0][index]}}</div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <div class="import_data_for_table" v-show="false">导出数据</div>
-                          <div class="clear_float"></div>
-                        </div>
-                      </section>
-
-                      <!-- 底部 类型模块 -->
-                      <!-- 底部 类型模块 -->
-                      <!-- 底部 类型模块 -->
+                    <td>
+                      <div>
+                        <img
+                          class="img_left arrowsImg_0"
+                          src="../assets/keyword/arrows (1).png"
+                          alt
+                          v-show="item.Change==0"
+                        />
+                        <img
+                          class="img_left arrowsImg"
+                          src="../assets/keyword/arrows (2).png"
+                          alt
+                          v-show="item.Change>0"
+                        />
+                        <img
+                          class="img_left arrowsImg"
+                          src="../assets/keyword/arrows (3).png"
+                          alt
+                          v-show="item.Change<0"
+                        />
+                        <span
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{Math.abs(item.Change)}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="go_to_page02(item.Word)"
+                      >{{item.WordIdHint}}</div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="go_to_page01(item.Word)"
+                      >{{item.SearchCount}}</div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="middle_table_first(index,item.WordId,item.Word)"
+                      >排名趋势</div>
                     </td>
                   </tr>
-                </transition>
-                <tr v-for="(item ,index) in temp_request_data_second" :key="'tasbleasdf'+index">
-                  <td>
-                    <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
-                  </td>
-                  <td>
-                    <div>{{item.Ranking}}</div>
-                  </td>
+                  <transition name="fade">
+                    <tr v-show="is_show_bottom" class="echarts_middle">
+                      <td colspan="6">
+                        <!-- 底部 类型模块 -->
+                        <!-- 底部 类型模块 -->
+                        <!-- 底部 类型模块 -->
 
-                  <td>
-                    <div>
-                      <img
-                        class="img_left arrowsImg_0"
-                        src="../assets/keyword/arrows (1).png"
-                        alt
-                        v-show="item.Change==0"
-                      />
-                      <img
-                        class="img_left arrowsImg"
-                        src="../assets/keyword/arrows (2).png"
-                        alt
-                        v-show="item.Change>0"
-                      />
-                      <img
-                        class="img_left arrowsImg"
-                        src="../assets/keyword/arrows (3).png"
-                        alt
-                        v-show="item.Change<0"
-                      />
-                      <span
-                        :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
-                      >{{Math.abs(item.Change)}}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="go_to_page02(item.Word)"
-                    >{{item.WordIdHint}}</div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="go_to_page01(item.Word)"
-                    >{{item.SearchCount}}</div>
-                  </td>
-                  <td>
-                    <div
-                      class="table_font pointer"
-                      @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word)"
-                    >排名趋势</div>
-                  </td>
-                </tr>
-                <!-- </template> -->
+                        <section class="bottom position_relative">
+                          <div class="btn_group">
+                            <div class="classify">
+                              <div>类型</div>
+                              <div>
+                                <el-radio-group v-model="bottom_radio1" size="mini">
+                                  <el-radio-button label="按分钟"></el-radio-button>
+                                  <el-radio-button label="按小时"></el-radio-button>
+                                  <el-radio-button label="按天"></el-radio-button>
+                                </el-radio-group>
+                              </div>
+                            </div>
+                            <div class="classify bottom_time">
+                              <div>时间</div>
+                              <div @click="click_second_el_radio">
+                                <el-radio-group v-model="bottom_radio3" size="mini">
+                                  <el-radio-button
+                                    label="近24小时"
+                                    v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                                  ></el-radio-button>
+                                  <el-radio-button
+                                    label="昨日"
+                                    v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'"
+                                  ></el-radio-button>
+                                  <el-radio-button
+                                    label="7天"
+                                    v-show="bottom_radio1=='按小时'||bottom_radio1=='按分钟'||bottom_radio1=='按天'"
+                                  ></el-radio-button>
+                                  <el-radio-button
+                                    label="30天"
+                                    v-show="bottom_radio1=='按小时'||bottom_radio1=='按天'"
+                                  ></el-radio-button>
+                                  <el-radio-button
+                                    label="180天"
+                                    v-show="bottom_radio1=='按天'||bottom_radio1=='按天'"
+                                  ></el-radio-button>
+                                  <!-- <el-radio-button label="380天" v-show="bottom_radio1=='按天'"></el-radio-button> -->
+                                </el-radio-group>
+                              </div>
+                            </div>
+                            <div class="btn_item_01">
+                              <!-- <div>时间</div> -->
+                              <div>
+                                <el-date-picker
+                                  v-model="middle_time01"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  end-placeholder="结束日期"
+                                  :picker-options="middle_pickerOptions"
+                                  clear-icon
+                                  prefix-icon="fasle"
+                                ></el-date-picker>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div
+                              ref="myChart_data_table"
+                              class="myChart"
+                              v-show="is_show_myChart_and_table&&!no_data"
+                            ></div>
+                            <div class="myChart" v-show="no_data">暂无数据</div>
+                            <div class="bottom_image pointer">
+                              <img
+                                v-if="!is_show_myChart_and_table"
+                                v-on:click="is_show_myChart_function"
+                                class="float_right"
+                                src="../assets/keyword/three.png"
+                                alt
+                              />
+                              <img
+                                v-else
+                                v-on:click="is_show_myChart_function"
+                                class="float_right"
+                                src="../assets/keyword/three_active.png"
+                                alt
+                              />
+                              <img
+                                v-if="is_show_myChart_and_table"
+                                v-on:click="is_show_table_function"
+                                class="float_right"
+                                src="../assets/keyword/calculator.png"
+                                alt
+                              />
+                              <img
+                                v-else
+                                v-on:click="is_show_table_function"
+                                class="float_right"
+                                src="../assets/keyword/calculator_active.png"
+                                alt
+                              />
+                            </div>
+
+                            <table v-show="!no_data&&!is_show_myChart_and_table" class="scroll">
+                              <thead>
+                                <tr>
+                                  <th>
+                                    <span>时间</span>
+                                  </th>
+                                  <th>
+                                    <span>{{keyword_data[0]}}</span>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody v-if="request_data_third">
+                                <tr
+                                  v-for="(item ,index) in xAxis_data.length"
+                                  :key="'trend_one_table02'+index"
+                                >
+                                  <td>
+                                    <div>{{xAxis_data[index]}}</div>
+                                  </td>
+                                  <td>
+                                    <div>{{keyword_data_value[0][index]}}</div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <div class="import_data_for_table" v-show="false">导出数据</div>
+                            <div class="clear_float"></div>
+                          </div>
+                        </section>
+
+                        <!-- 底部 类型模块 -->
+                        <!-- 底部 类型模块 -->
+                        <!-- 底部 类型模块 -->
+                      </td>
+                    </tr>
+                  </transition>
+                  <tr v-for="(item ,index) in temp_request_data_second" :key="'tasbleasdf'+index">
+                    <td>
+                      <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
+                    </td>
+                    <td>
+                      <div>{{item.Ranking}}</div>
+                    </td>
+
+                    <td>
+                      <div>
+                        <img
+                          class="img_left arrowsImg_0"
+                          src="../assets/keyword/arrows (1).png"
+                          alt
+                          v-show="item.Change==0"
+                        />
+                        <img
+                          class="img_left arrowsImg"
+                          src="../assets/keyword/arrows (2).png"
+                          alt
+                          v-show="item.Change>0"
+                        />
+                        <img
+                          class="img_left arrowsImg"
+                          src="../assets/keyword/arrows (3).png"
+                          alt
+                          v-show="item.Change<0"
+                        />
+                        <span
+                          :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                        >{{Math.abs(item.Change)}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="go_to_page02(item.Word)"
+                      >{{item.WordIdHint}}</div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="go_to_page01(item.Word)"
+                      >{{item.SearchCount}}</div>
+                    </td>
+                    <td>
+                      <div
+                        class="table_font pointer"
+                        @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word)"
+                      >排名趋势</div>
+                    </td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </section>
@@ -599,6 +584,7 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      page: 1,
       loading_gif: false,
       search_input: '',
       stop_click_many_times: null,
@@ -664,126 +650,81 @@ export default {
       this.$store.state.now_app_id = this.$route.query.now_app_id
       this.$store.state.now_app_name = this.$route.query.now_app_name
     }
-    // 分页
-    this.$watch('currentPage', function(newValue, oldValue) {
-      this.temp01_request_data_second = this.request_data_second.slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100
-      )
-      this.temp_request_data_second = new Array()
-      this.is_show_bottom = false
-    })
 
     // ==================第一部分===========================
     // ==================第一部分===========================
     // ==================第一部分===========================
     this.get_data_for_first_part()
-    this.get_data_for_second_part(true)
+    this.get_data_for_second_part()
     this.change_time()
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.$store.state.now_country_name = this.now_country
       this.get_data_for_first_part()
-      this.get_data_for_second_part(true)
+      this.get_data_for_second_part()
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
       this.change_time()
       this.get_data_for_first_part()
-      this.get_data_for_second_part(true)
+      this.get_data_for_second_part()
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
       this.change_time_Compare()
       this.get_data_for_first_part()
-      this.get_data_for_second_part(true)
+      this.get_data_for_second_part()
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
-      this.get_data_for_second_part(true)
+      this.get_data_for_second_part()
       this.get_data_for_third_part()
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.get_data_for_first_part()
-      this.get_data_for_second_part(true)
+      this.get_data_for_second_part()
       this.get_data_for_third_part()
     })
     // ==================第二部分===========================
     // ==================第二 部分===========================
     // ==================第二部分===========================
-
-    this.$watch('search_input', function(newValue, oldValue) {
-      if (
-        this.result_min_input01 != '' ||
-        this.result_max_input01 != '' ||
-        this.result_min_input02 != '' ||
-        this.result_max_input02 != '' ||
-        this.result_min_input03 != '' ||
-        this.result_max_input03 != ''
-      ) {
-        this.result_min_input01 = ''
-        this.result_max_input01 = ''
-        this.result_min_input02 = ''
-        this.result_max_input02 = ''
-        this.result_min_input03 = ''
-        this.result_max_input03 = ''
-      }
+    // 分页
+    this.$watch('currentPage', function(newValue, oldValue) {
+      this.page = this.currentPage
+      this.get_data_for_second_part()
       this.is_show_bottom = false
-      if (this.search_input == '') {
-        // 重新复制四句话
-        this.request_data_second = this.copy_request_data_second
-        this.total = this.request_data_second.length //底部显示总共
-        this.temp01_request_data_second = this.request_data_second.slice(0, 100)
-        this.temp_request_data_second = new Array()
-        // 重新复制四句话
-      } else {
-        this.$nextTick(() => {
-          let new_array = new Array()
-          // this.search_input = this.search_input.trim().replace(/ /g, '，')
-          this.search_input = this.search_input.trim().replace(/,/g, '，')
-          // console.log(this.search_input)
-          let search_input_arr = this.search_input.trim().split('，')
-          search_input_arr.forEach((element_father, index_father) => {
-            this.copy_request_data_second.forEach((element, index) => {
-              // if (element.Word.indexOf(this.search_input.trim()) != -1) { //联想的
-              if (element.Word == search_input_arr[index_father]) {
-                new_array.push(element)
-              }
-            })
-          })
-
-          // 重新复制四句话
-          this.request_data_second = unique(new_array)
-          this.total = this.request_data_second.length //底部显示总共
-          this.temp01_request_data_second = this.request_data_second.slice(
-            0,
-            100
-          )
-          this.temp_request_data_second = new Array()
-          // 重新复制四句话
-        })
-      }
+    })
+    this.$watch('search_input', function(newValue, oldValue) {
+      console.log(this.search_input)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
-      this.before_change_number(1)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
-      this.before_change_number(1)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
-      this.before_change_number(2)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
-      this.before_change_number(2)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
-      this.before_change_number(3)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
-      this.before_change_number(3)
+      this.is_show_bottom = false
+      this.get_data_for_second_part()
     })
     // ==================第三部分===========================
     // ==================第三部分===========================
@@ -817,81 +758,6 @@ export default {
   },
 
   methods: {
-    // 最大值那块的搜索框改变，执行函数
-
-    before_change_number() {
-      if (this.result_min_input01 == '' && this.result_max_input01 == '') {
-        this.change_bg_result = true //全部 按钮   变颜色
-      } else {
-        this.change_bg_result = false //全部 按钮   变颜色
-      }
-      if (
-        this.result_min_input01 == '' &&
-        this.result_max_input01 == '' &&
-        this.result_min_input02 == '' &&
-        this.result_max_input02 == '' &&
-        this.result_min_input03 == '' &&
-        this.result_max_input03 == ''
-      ) {
-        // 重新复制四句话
-        this.request_data_second = this.copy_request_data_second
-        this.total = this.request_data_second.length //底部显示总共
-        this.temp01_request_data_second = this.request_data_second.slice(0, 100)
-        this.temp_request_data_second = new Array()
-        // 重新复制四句话
-        return false
-      } else {
-        this.change_number()
-      }
-    },
-    change_number() {
-      this.is_show_bottom = false
-      let code_block
-      let new_array = new Array()
-      this.copy_request_data_second.forEach((element, index) => {
-        let temp01 = this.result_min_input01
-        let temp02 = this.result_max_input01
-        let temp03 = this.result_min_input02
-        let temp04 = this.result_max_input02
-        let temp05 = this.result_min_input03
-        let temp06 = this.result_max_input03
-
-        if (this.result_min_input01 == '') {
-          temp01 = -999999999
-        }
-        if (this.result_max_input01 == '') {
-          temp02 = 999999999
-        }
-        if (this.result_min_input02 == '') {
-          temp03 = -999999999
-        }
-        if (this.result_max_input02 == '') {
-          temp04 = 999999999
-        }
-        if (this.result_min_input03 == '') {
-          temp05 = -999999999
-        }
-        if (this.result_max_input03 == '') {
-          temp06 = 999999999
-        }
-
-        if (
-          element.WordIdHint >= temp01 &&
-          element.WordIdHint <= temp02 &&
-          element.Ranking >= temp03 &&
-          element.Ranking <= temp04 &&
-          element.SearchCount >= temp05 &&
-          element.SearchCount <= temp06
-        ) {
-          new_array.push(element)
-        }
-      })
-      this.request_data_second = new_array
-      this.total = this.request_data_second.length //底部显示总共
-      let now_show_data = this.request_data_second.slice(0, 100)
-      this.temp01_request_data_second = now_show_data
-      this.temp_request_data_second = new Array()
-    },
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
@@ -943,8 +809,8 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(555555555555555)
-              console.log(response)
+              // console.log(555555555555555)
+              // console.log(response)
               this.loading_gif_first = false
 
               this.request_data_first = response.data.Data
@@ -981,16 +847,13 @@ export default {
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
-    get_data_for_second_part(parm) {
+    get_data_for_second_part() {
       this.loading_gif = true
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
       this.$axios
         .get('/GetCountry')
         .then(response => {
-          // 获取国家ID
-          // console.log(response)
-
           let country_id
           let arr_country = response.data.Data
           arr_country.forEach(element => {
@@ -1008,6 +871,8 @@ export default {
           let url = '/GetKeyWordDetail'
           let that = this
           let appId = this.$store.state.now_app_id
+          let page = this.page
+          let keywords = this.search_input
 
           let data = {
             appId: appId,
@@ -1021,33 +886,29 @@ export default {
             minRank: that.result_min_input02,
             maxRank: that.result_max_input02,
             minResult: that.result_min_input03,
-            maxResult: that.result_max_input03
+            maxResult: that.result_max_input03,
+            page: page,
+            size: 100,
+            keywords: keywords
           }
-
-          // console.log(url)
-
+          console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.loading_gif = false
               if (is_excute_function == this.db_number_is_same) {
-                if (response != null && response.length != 0) {
-                  this.copy_request_data_second = response.data.Data
-
-                  // 重新复制四句话
-                  this.request_data_second = this.copy_request_data_second
-                  this.total = this.request_data_second.length //底部显示总共
-                  this.temp01_request_data_second = this.request_data_second.slice(
-                    0,
-                    100
-                  )
-                  this.temp_request_data_second = new Array()
-                  // 重新复制四句话
-
-                  // console.log('=================明细=====')
-                  // console.log(this.request_data_second)
-                  // console.log('=================明细=====')
+                console.log('=================明细=====')
+                console.log(response)
+                console.log('=================明细=====')
+                if (
+                  response.data.Code != 1 &&
+                  response.data.Data.keys[0] != null
+                ) {
+                  this.request_data_second = response.data.Data.keys
+                  this.total = response.data.Data.totalCount //底部显示总共
+                  this.temp01_request_data_second = response.data.Data.keys //第一个tr
+                  this.temp_request_data_second = new Array() //第二个tr
                 } else {
                   this.temp_request_data_second = new Array() //折线图下面的tr
                   this.temp01_request_data_second = new Array() //折线图上面的tr
@@ -1055,6 +916,9 @@ export default {
               }
             })
             .catch(error => {
+              this.request_data_second = null
+              this.temp_request_data_second = new Array() //折线图下面的tr
+              this.temp01_request_data_second = new Array() //折线图上面的tr
               console.log(error)
             })
         })
@@ -1085,7 +949,7 @@ export default {
     },
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word) {
-      console.log(index)
+      // console.log(index)
       this.bottom_radio1 = '按小时'
       this.bottom_radio3 = '近24小时'
       this.middle_time01 = ''
@@ -1098,10 +962,7 @@ export default {
       this.stop_click_many_times = wordId + word
 
       // 当前页面 显示的数据
-      let now_show_data = this.request_data_second.slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100
-      )
+      let now_show_data = this.request_data_second
 
       this.temp01_request_data_second = now_show_data.slice(0, index + 1)
       this.temp_request_data_second = now_show_data.slice(index + 1)
@@ -1606,7 +1467,7 @@ export default {
   margin-bottom: 50px;
 }
 .search > div {
-  width: 210px !important;
+  width: 230px !important;
   margin-right: 10px;
 }
 .search_confirm_all {
@@ -1676,7 +1537,7 @@ export default {
 }
 
 .echarts_middle:hover {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 .gray {
   color: #888888;
@@ -1712,6 +1573,7 @@ export default {
   margin-right: 10px;
   display: inline-block;
 }
+
 .tr_width th,
 .td_width td {
   width: 16.667%;

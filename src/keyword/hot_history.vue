@@ -7,9 +7,9 @@
         <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
-          <el-select v-model="equipmentValue">
-            <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <el-radio-group v-model="equipmentValue" size="mini">
+            <el-radio-button v-for="item in  equipment" :key="item.value" :label="item.value"></el-radio-button>
+          </el-radio-group>
         </div>
       </div>
       <div class="options_02 option">
@@ -226,7 +226,8 @@ export default {
 }
 .table01 > div:first-child {
   height: 80px;
-  line-height: 80px;border: solid 1px #eaeaea;
+  line-height: 80px;
+  border: solid 1px #eaeaea;
 
   font-size: 14px;
   font-weight: normal;
@@ -275,7 +276,8 @@ thead {
 }
 table {
   width: 100%;
-  height: 121px;border: solid 1px #eaeaea;
+  height: 121px;
+  border: solid 1px #eaeaea;
   text-align: center;
   table-layout: fixed;
 }

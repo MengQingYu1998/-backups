@@ -21,9 +21,9 @@
       <div class="options_02 option">
         <div class="margin_top_font">系统</div>
         <div>
-          <el-select v-model="systemValue">
-            <el-option v-for="item in system " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <el-radio-group v-model="systemValue" size="mini">
+            <el-radio-button v-for="item in  system" :key="item.value" :label="item.value"></el-radio-button>
+          </el-radio-group>
         </div>
       </div>
       <div class="options_03 option">

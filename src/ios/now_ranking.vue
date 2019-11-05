@@ -148,13 +148,13 @@
               <div class="option">
                 <div>设备</div>
                 <div>
-                  <el-select v-model="equipmentValue01">
-                    <el-option
-                      v-for="item in equipment01 "
-                      :key="'equipment01'+item.value"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
+                  <el-radio-group v-model="equipmentValue01" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment01 "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
               <div class="classify">
@@ -257,9 +257,13 @@
               <div class="option">
                 <div>设备</div>
                 <div>
-                  <el-select v-model="equipmentValue01">
-                    <el-option v-for="item in equipment01 " :key="item.value" :value="item.value"></el-option>
-                  </el-select>
+                  <el-radio-group v-model="equipmentValue01" size="mini">
+                    <el-radio-button
+                      v-for="item in  equipment01 "
+                      :key="item.value"
+                      :label="item.value"
+                    ></el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
             </div>
@@ -1202,9 +1206,7 @@ export default {
 .option div:first-child {
   margin-left: 10px;
 }
-.option div:last-child {
-  width: 86px;
-}
+
 .option {
   font-weight: 600 !important;
   display: inline-block;
@@ -1341,7 +1343,7 @@ thead {
 table {
   width: 100%;
   height: 121px;
-border: solid 1px #eaeaea;
+  border: solid 1px #eaeaea;
   text-align: center;
 }
 .right {
@@ -1399,7 +1401,8 @@ border: solid 1px #eaeaea;
   padding-bottom: 50px;
 }
 .left {
-  width: 231px;position: relative;
+  width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>
