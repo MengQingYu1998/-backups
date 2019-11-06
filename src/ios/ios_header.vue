@@ -23,6 +23,21 @@
         <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
       </div>
       <div class="app_field">
+        <div>开发者</div>
+        <el-popover
+          popper-class="ios_header_popper"
+          placement="top-start"
+          trigger="hover"
+          :content="response_data&&response_data.developer"
+        >
+          <div
+            slot="reference"
+            class="app_field_developer"
+          >{{response_data&&response_data.developer}}</div>
+        </el-popover>
+      </div>
+      <div class="line"></div>
+      <div class="app_field">
         <div
           v-if="response_data"
         >{{response_data.expectedReleaseDate=='无'||response_data.expectedReleaseDate=='0001/1/1 0:00:00'?'版本更新时间':'预计上线时间'}}</div>
@@ -120,14 +135,7 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              // if (response.data.Data == null) {
-              //   this.$store.state.now_country_name = this.cache_country
-              //   this.is_show_country_component = false
-              //   this.$nextTick(() => {
-              //     this.is_show_country_component = true
-              //   })
-              // } else {
-              // console.log(response)
+              console.log(response)
               this.$store.state.now_country_name = this.now_country
               this.response_data = response.data.Data
               if (response.data.Data != null) {
@@ -158,6 +166,20 @@ export default {
 }
 </script>
 <style scoped>
+.app_field_developer {
+  width: 140px !important;
+  word-break: break-all;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  font-size: 14px !important;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px !important;
+  letter-spacing: 0px;
+  color: #444444 !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .header_img {
   width: 68px;
   position: relative;
@@ -194,7 +216,7 @@ export default {
 }
 .country {
   height: 65px;
-  width: 168px;
+  width: 100px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -207,7 +229,7 @@ export default {
   margin: 0 30px;
 }
 .app_field {
-  padding: 0 9px;
+  /* padding: 0 9px; */
 }
 .app_field div:last-child {
   font-size: 14px;
@@ -236,7 +258,7 @@ export default {
   letter-spacing: 0px;
   color: #222222;
 
-  width: 200px;
+  width: 150px;
   height: 30px;
 
   white-space: nowrap;
@@ -256,13 +278,12 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 
-  width: 200px;
+  width: 150px;
 }
 .app_description {
   display: inline-block;
   margin-left: 19px;
   width: 190px;
-  margin-right: 88px;
 }
 
 .wrap {

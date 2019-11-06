@@ -236,7 +236,6 @@
                         >
                           <div class="font_img">
                             <img :src="'../../static/flag/'+item_div.CountryCode+'.svg'" />
-                            <!-- <img src="../../static/flag/HK.svg" /> -->
                             <span class="country_name_width">{{item_div.CountryName}}</span>
                             <span class="country_rank_width">({{item_div.Ranking}})</span>
                           </div>
@@ -472,15 +471,15 @@ export default {
           // console.log(country_id)
 
           let url = '/PostRealTimeRank'
-          // console.log(url)
-          // let appId = 472208016
           let appId = this.$route.query.now_app_id
           let data = { appId: appId, countryId: country_id }
+          console.log(data)
+
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response)
+              console.log(response)
               if (
                 response.data.Data.rank_0 != null &&
                 response.data.Data.rank_1 != null &&
@@ -489,7 +488,6 @@ export default {
                 this.nothing_data_can_show = false
                 this.response_data_first = response.data.Data
                 this.response_data_first_title = response.data.Data.rank_0
-                // this.response_data_first.splice(0, 1)
                 delete this.response_data_first.rank_0
               } else {
                 // console.log('第一部分没数据')
@@ -729,7 +727,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -1079,10 +1077,12 @@ export default {
 </script>
 <style scoped>
 .country_rank_width {
-  width: 30px;
+  width: 50px;
+  text-align: left;
   display: inline-block;
 }
 .country_name_width {
+  text-align: left;
   display: inline-block;
   width: 70px;
   white-space: nowrap;
@@ -1104,6 +1104,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+
 .font_img {
   font-size: 14px !important;
   color: #222222 !important;
@@ -1120,6 +1121,8 @@ export default {
 .font_and_img {
   text-align: left;
   padding-left: 96px !important;
+  width: 250px;
+  text-overflow: ellipsis;
 }
 .font_and_img img {
   margin-right: 11px;

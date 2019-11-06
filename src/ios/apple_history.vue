@@ -183,6 +183,7 @@ table {
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
+  margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
@@ -192,9 +193,10 @@ table {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
-  border-bottom: 1px solid #009bef;
+  border-bottom: 2px solid #009bef;
   width: 100px;
   text-align: center;
+  position: relative;
 }
 .left_and_right {
   display: flex;

@@ -738,7 +738,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -978,7 +978,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -1108,7 +1108,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -1598,8 +1598,8 @@ table .table_description {
   font-weight: normal;
   color: #888888;
   margin-top: 7px;
-  -webkit-line-clamp: 3;
   line-height: 18px;
+  -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;

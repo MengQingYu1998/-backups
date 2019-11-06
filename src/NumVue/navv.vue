@@ -25,8 +25,8 @@
         <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         <el-popover
           width="270"
-          placement="bottom"
           :visible-arrow="false"
+          placement="bottom"
           v-model="is_show_nav_popover"
           trigger="manual"
         >
@@ -45,7 +45,7 @@
             @click="go_to_page01(item)"
           >{{item}}</div>
           <input
-            id="nav_input_value"
+            id="my_nav_input_value"
             slot="reference"
             @focus="is_show_nav_popover=(historyWord.length!=0)"
             @blur="is_show_nav_popover=false"
@@ -401,7 +401,7 @@ export default {
               this.response_data = response.data.Data
 
               // 查找你要判断的文本框
-              var myInput = document.getElementById('nav_input_value')
+              var myInput = document.getElementById('my_nav_input_value')
               // if (myInput == document.activeElement) {
               //   alert('获取焦点')
               // } else {
@@ -499,7 +499,6 @@ export default {
   padding: 0;
   list-style: none;
   text-decoration: none;
-  font-family: 'iconfont';
 }
 #navv {
   background-color: #fff;
@@ -666,6 +665,7 @@ export default {
   position: absolute;
   top: 69px;
   z-index: 1001;
+  font-family: 'iconfont';
 }
 .Combox a:active,
 .Combox a:link {

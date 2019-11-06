@@ -21,7 +21,7 @@
               v-if="response_data"
               v-html="response_data.description"
             ></div>
-            <div id="show_all" @click="show_more_function()" v-show="show_all">展开更多</div>
+            <div id="show_all" @click="show_more_function()" v-show="show_all" class="pointer">展开更多</div>
           </section>
           <!-- 第二部分 -->
           <!-- 第二部分 -->

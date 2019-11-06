@@ -177,7 +177,8 @@
 <script>
 	// 引入国家选择组件
 	import country from '../common/country_select/country'
-	import { formatDate } from '../common/util.js'
+	import { formatDate,time_rotate,time_reset } from '../common/util.js'
+	
 	export default{
 		components: { country },
 		data(){
@@ -345,12 +346,14 @@
 		    // 2.添加两个事件
 		    // 3.复制以下代码
 		    dateValue_blur01(){
-				console.log('失去焦点')
+				// console.log('失去焦点')
+				time_reset("#dateValue01")
 		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after',
 		        'transform:rotate(0deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
 		    },
 		    dateValue_focus01(){
-		        console.log('得到焦点')                      
+		//         console.log('得到焦点')     
+				time_rotate("#dateValue01")                 
 		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after','transform:rotate(-180deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
 		    },
 		
@@ -800,12 +803,13 @@
 		      this.$store.state.now_app_id = parm
 		      this.hand_save_vuex(this)
 		      let routerUrl = this.$router.resolve({
-		        path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
+		        // path: '/now_ranking'
+		         path:'/now_ranking?now_country_name=' +
+		          this.$store.state.now_country_name +
+		          '&now_app_id=' +
+		          this.$store.state.now_app_id
 		      })
+
 		      window.open(routerUrl.href, '_blank')
 		    }
 		}
@@ -817,6 +821,9 @@
 
 
 <style scoped>
+/*body{
+	font-family:"iconfont!important";
+}*/
 .weit{
 	font-weight: 600;
 	color: #222222!important;
@@ -907,6 +914,9 @@
 .down{
   width: 8px;
   height: 8px;
+  vertical-align: top;
+  margin-top: 9px;
+  margin-left: 2px;
 }
 .content{
   width: 1200px;
@@ -1124,7 +1134,7 @@ table thead tr{
 	height: 40px;
 }
 table thead tr th{
-	font-weight: 600;
+	font-weight: 600!important;
 	font-size: 13px;
 	color: #222222;
 	line-height: 40px;

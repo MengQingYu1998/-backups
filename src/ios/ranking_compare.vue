@@ -628,7 +628,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+               tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'

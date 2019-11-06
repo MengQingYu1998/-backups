@@ -355,10 +355,11 @@ export default {
       // console.log('version_message' + this.now_country)
     },
     go_to_page01(parm) {
+      this.$store.state.now_app_name = parm
+
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_name = parm
     },
     go_to_page02() {
       this.$router.push('ranking')

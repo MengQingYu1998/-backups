@@ -341,23 +341,25 @@ export default {
       if (this.search_input.trim() == '') {
         return false
       }
+      this.$store.state.now_app_name = this.search_input
 
       this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue
       this.$store.state.now_country_name = this.now_country
       this.$router.push({
         path: '/hot_history'
       })
-      this.$store.state.now_app_name = this.search_input
     },
     go_to_page01(parm) {
+      this.$store.state.now_app_name = parm
       this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue
       this.$store.state.now_country_name = this.now_country
       this.$router.push({
         path: '/hot_history'
       })
-      this.$store.state.now_app_name = parm
     },
     go_to_page02(parm, parm02) {
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
       this.$router.push({
         path:
           '/now_ranking?now_country_name=' +
@@ -365,8 +367,6 @@ export default {
           '&now_app_id=' +
           this.$store.state.now_app_id
       })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
     }
   }
 }

@@ -37,7 +37,7 @@ export function myTime(date) {
   var marr = tarr[0].split(':')
 
   var dd =
-    parseInt(darr[0]) + '/' + parseInt(darr[1]) + '/' + parseInt(darr[2]) + ' '
+    parseInt(darr[0]) + '-' + parseInt(darr[1]) + '-' + parseInt(darr[2]) + ' '
 
   return dd
 }

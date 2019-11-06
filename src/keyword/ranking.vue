@@ -525,6 +525,9 @@ export default {
       if (this.index_min_input == '' && this.index_max_input == '') {
         this.change_bg_index = true
       }
+      if (this.index_min_input == 4605) {
+        this.change_bg_index_number = true
+      }
       this.page = 1
       this.data_for_table.length = 0
       this.get_data_table()
@@ -610,18 +613,7 @@ export default {
 .margin_top_font {
   margin-top: 4px;
 }
-tbody tr:nth-child(1) .rowid {
-  color: #222222;
-  font-weight: bold;
-}
-tbody tr:nth-child(2) .rowid {
-  color: #222222;
-  font-weight: bold;
-}
-tbody tr:nth-child(3) .rowid {
-  color: #222222;
-  font-weight: bold;
-}
+
 thead th:nth-child(1) {
   width: 199px;
 }
@@ -724,7 +716,7 @@ tbody th:nth-child(5) {
   display: inline-block;
 }
 .keyword_input div {
-  width: 145px !important;
+  width: 180px !important;
 }
 .table_font {
   font-size: 14px;

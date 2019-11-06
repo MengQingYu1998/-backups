@@ -104,7 +104,7 @@
 
             <div class="left_and_right">
               <div class="left tabsContentTable">
-                <table class="fitst_left">
+                <table :class="{'fitst_left':now_country=='中国'}">
                   <thead>
                     <tr>
                       <th class="th_width">应用</th>
@@ -341,7 +341,7 @@
                 <span
                   v-show="data_for_top_table"
                   :class="{ 'active_line':true,'pointer':true, 'another_see_more':another_see_more, 'another_see_more01':another_see_more01}"
-                >...更多>></span>
+                >更多>></span>
               </div>
             </div>
             <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
@@ -527,11 +527,11 @@
               </div>
             </div>
             <div class="keywordContentTable">
-              <div>
+              <div class="keywordContentTable_width01">
                 <div>{{this.$store.state.now_app_name}}</div>
                 <div>搜索关键词</div>
               </div>
-              <div>
+              <div class="keywordContentTable_width02">
                 <div v-if="data_for_top_table02">
                   {{data_for_top_table02.Hint}}
                   <img
@@ -544,7 +544,7 @@
                 <div v-else>--</div>
                 <div>搜索指数</div>
               </div>
-              <div>
+              <div class="keywordContentTable_width03">
                 <div v-if="data_for_top_table02">
                   {{data_for_top_table02&&data_for_top_table02.SearchCount11}}
                   <img
@@ -557,7 +557,7 @@
                 <div v-else>--</div>
                 <div>iOS11搜索结果数</div>
               </div>
-              <div class="same">
+              <div class="same keywordContentTable_width04">
                 <div v-if="data_for_top_table02">
                   {{data_for_top_table02.SearchCount12}}
                   <img
@@ -685,7 +685,7 @@
               </div>
               <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(11)">
                 <div>
-                  <span>ios11&nbsp;</span>
+                  <span>iOS11&nbsp;</span>
                   <span v-if="response_data_for_ios11">更新时间 {{SearchDate_11}}</span>
                 </div>
                 <table>
@@ -1101,14 +1101,15 @@ export default {
     this.get_data_11()
     this.get_data_column()
     this.$watch('activeName', function(newValue, oldValue) {
-      if (newValue == 'third') {
-        this.page11 = 1
-        this.page12 = 1
-        this.response_data_for_ios12.length = 0
-        this.response_data_for_ios11.length = 0
-        this.get_data_12()
-        this.get_data_11()
-      }
+      // if (newValue == 'third') {
+      this.page11 = 1
+      this.page12 = 1
+      this.response_data_for_ios12.length = 0
+      this.response_data_for_ios11.length = 0
+      this.get_data_12()
+      this.get_data_11()
+      this.get_data_column()
+      // }
       this.get_data_for_top_table()
     })
     this.$watch('now_country', function(newValue, oldValue) {
@@ -1661,6 +1662,7 @@ export default {
     drawLine12: function() {
       let that = this
       // 基于准备好的dom，初始化echarts实例
+      // console.log(this.$refs.myChart_result12)
       if (!this.$refs.myChart_result12) {
         return false
       }
@@ -1673,7 +1675,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -1991,6 +1993,7 @@ export default {
       this.WordId = WordId
       this.rankId = rankId
       // alert(this.WordId)
+      this.is_show_myChart_and_table = true
       this.get_data_dialog()
     },
     // 控制显示echarts还是table
@@ -2010,7 +2013,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -2314,6 +2317,18 @@ export default {
 }
 </script>
 <style scoped>
+.keywordContentTable_width01 {
+  width: 300px !important;
+}
+.keywordContentTable_width02 {
+  width: 300px !important;
+}
+.keywordContentTable_width03 {
+  width: 300px !important;
+}
+.keywordContentTable_width04 {
+  width: 300px !important;
+}
 .fitst_left {
   width: 878px !important;
 }
@@ -2396,7 +2411,7 @@ export default {
 .my_dialog .bottom_image {
   float: right;
   position: absolute;
-  top: 4px;
+  top: 7px;
   right: 40px;
 }
 
@@ -2422,6 +2437,15 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+.keywordContentTable {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #d6d6d6;
+}
 .keywordContentTable > div:nth-child(4) span {
   font-size: 14px;
   font-weight: normal;
@@ -2433,9 +2457,8 @@ export default {
 .keywordContentTable > div:nth-child(4) {
   width: 330px;
   height: 50px;
-  /* -webkit-line-clamp: 2; */
-  /* display: -webkit-box;
-  -webkit-box-orient: vertical; */
+  margin-left: 60px;
+
   overflow: hidden;
   word-break: break-all;
   color: #009bef;
@@ -2460,6 +2483,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 200px;
+  border-right: 1px solid #d6d6d6;
 }
 .keywordContentTable > div:nth-child(2) > div:first-child {
   font-size: 22px;
@@ -2481,6 +2506,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 200px;
+  border-right: 1px solid #d6d6d6;
 }
 .keywordContentTable > div:nth-child(1) > div:first-child {
   font-size: 22px;
@@ -2508,6 +2535,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-right: 1px solid #d6d6d6;
+  width: 300px;
 }
 .keywordContentTable img {
   width: 15px;
@@ -2516,43 +2545,33 @@ export default {
 }
 .another_see_more01 {
   display: block;
-  background-color: #f7fcff;
+  background-color: transparent;
   position: absolute;
-  top: 40px;
+  top: 54px;
   right: 43px;
 }
 .another_see_more {
   display: block;
-  background-color: #f7fcff;
+  background-color: transparent;
   position: absolute;
-  top: 55px;
+  top: 54px;
   right: 43px;
 }
 .see_more01 {
   display: block;
-  background-color: #f7fcff;
+  background-color: #ffffff !important;
   position: absolute;
-  top: 40px;
+  top: 54px;
   right: 43px;
 }
 .see_more {
   display: block;
-  background-color: #f7fcff;
+  background-color: #ffffff !important;
   position: absolute;
-  top: 55px;
-  right: 47px;
+  top: 54px;
+  right: 43px;
 }
-.keywordContentTable {
-  position: relative;
-  width: 100%;
-  height: 110px;
-  background-color: #f7fcff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 105px;
-  box-sizing: border-box;
-}
+
 .gray {
   color: #888888;
 }
@@ -2754,7 +2773,7 @@ export default {
   width: 100%;
   line-height: 68px;
   border: solid 1px #f2f2f2;
-
+  border-bottom: none;
   padding-left: 46px;
   box-sizing: border-box;
 }

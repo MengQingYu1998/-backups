@@ -62,7 +62,7 @@
                 v-for="(item_son,index_son) in item"
                 :key="'Yvalue_son'+index_son"
               >
-                <div class="pointer" @click="go_to_page01(item.keyword)">{{item_son.keyword}}</div>
+                <div class="pointer" @click="go_to_page01(item_son.keyword)">{{item_son.keyword}}</div>
                 <div>{{item_son.hint}}</div>
               </td>
             </tr>
@@ -90,13 +90,13 @@ export default {
       system: [
         // 系统选择
         {
-          value: 'ios11'
+          value: 'iOS13/12'
         },
         {
-          value: 'ios13/12'
+          value: 'iOS11'
         }
       ],
-      systemValue: 'ios13/12',
+      systemValue: 'iOS13/12',
       now_country: '中国',
       response_data: null,
       input: ''
@@ -137,7 +137,7 @@ export default {
           // 请求数据
 
           // console.log(formatDate(this.dateValue, 'yyyy-MM-dd'))
-          let system = this.systemValue == 'ios11' ? 11 : 12
+          let system = this.systemValue == 'iOS11' ? 11 : 12
           let edate = formatDate(this.dateValue, 'yyyy-MM-dd')
           let time02 = new Date(this.dateValue)
           time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6)
@@ -176,10 +176,11 @@ export default {
     },
 
     go_to_page01(parm) {
+      this.$store.state.now_app_name = parm
+      console.log(parm)
       this.$router.push({
         path: '/result'
       })
-      this.$store.state.now_app_name = parm
     }
   }
 }
@@ -277,15 +278,15 @@ table {
   width: 48px;
   line-height: 26px;
   height: 24px;
-  background-color: #ffffff;
+  background-color: #009bef;
   border-radius: 4px;
-  border: 1px solid #dcdfe6;
+  border: 1px solid #009bef;
 
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  color: #444444;
+  color: #ffffff;
   text-align: center;
   margin-right: 10px;
 }

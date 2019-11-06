@@ -25,7 +25,7 @@
 					<p class="font" v-for="(brankLei,index) in brands" :class="{'selectFont':isSelectfont==index}"  @click="clibLei(index)" :key="index">{{brankLei.name}}</p>
 				</div>
 				
-				<div>
+				<div id="dateValue01">
 					<p>日期</p>
 					<!-- element日期选择插件 -->
 					<el-date-picker
@@ -33,7 +33,7 @@
 				        v-model="dateV"
 				        type="date"
 				        placeholder="选择日期"
-								clear-icon
+								clear-icon @focus="dateValue_focus01()" @blur="dateValue_blur01()"
 				    ></el-date-picker>
 				</div>
 			</div>
@@ -68,12 +68,12 @@
 								<p>{{tr1.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr1.UpNum}}</span>
-										<span>下降{{tr1.DownNum}}</span>
+										<span>上升 {{tr1.UpNum}}</span>
+										<span>下降 {{tr1.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr1.NewNum}}</span>
-										<span>落榜{{tr1.DropNum}}</span>
+										<span>新进 {{tr1.NewNum}}</span>
+										<span>落榜 {{tr1.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -92,12 +92,12 @@
 								<p>{{tr2.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr2.UpNum}}</span>
-										<span>下降{{tr2.DownNum}}</span>
+										<span>上升 {{tr2.UpNum}}</span>
+										<span>下降 {{tr2.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr2.NewNum}}</span>
-										<span>落榜{{tr2.DropNum}}</span>
+										<span>新进 {{tr2.NewNum}}</span>
+										<span>落榜 {{tr2.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -116,12 +116,12 @@
 								<p>{{tr3.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr3.UpNum}}</span>
-										<span>下降{{tr3.DownNum}}</span>
+										<span>上升 {{tr3.UpNum}}</span>
+										<span>下降 {{tr3.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr3.NewNum}}</span>
-										<span>落榜{{tr3.DropNum}}</span>
+										<span>新进 {{tr3.NewNum}}</span>
+										<span>落榜 {{tr3.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -140,12 +140,12 @@
 								<p>{{tr4.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr4.UpNum}}</span>
-										<span>下降{{tr4.DownNum}}</span>
+										<span>上升 {{tr4.UpNum}}</span>
+										<span>下降 {{tr4.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr4.NewNum}}</span>
-										<span>落榜{{tr4.DropNum}}</span>
+										<span>新进 {{tr4.NewNum}}</span>
+										<span>落榜 {{tr4.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -164,12 +164,12 @@
 								<p>{{tr5.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr5.UpNum}}</span>
-										<span>下降{{tr5.DownNum}}</span>
+										<span>上升 {{tr5.UpNum}}</span>
+										<span>下降 {{tr5.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr5.NewNum}}</span>
-										<span>落榜{{tr5.DropNum}}</span>
+										<span>新进 {{tr5.NewNum}}</span>
+										<span>落榜 {{tr5.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -188,12 +188,12 @@
 								<p>{{tr6.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr6.UpNum}}</span>
-										<span>下降{{tr6.DownNum}}</span>
+										<span>上升 {{tr6.UpNum}}</span>
+										<span>下降 {{tr6.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr6.NewNum}}</span>
-										<span>落榜{{tr6.DropNum}}</span>
+										<span>新进 {{tr6.NewNum}}</span>
+										<span>落榜 {{tr6.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -212,12 +212,12 @@
 								<p>{{tr7.HHmm}}</p>
 								<div>
 									<p>
-										<span>上升{{tr7.UpNum}}</span>
-										<span>下降{{tr7.DownNum}}</span>
+										<span>上升 {{tr7.UpNum}}</span>
+										<span>下降 {{tr7.DownNum}}</span>
 									</p>
 									<p>
-										<span>新进{{tr7.NewNum}}</span>
-										<span>落榜{{tr7.DropNum}}</span>
+										<span>新进 {{tr7.NewNum}}</span>
+										<span>落榜 {{tr7.DropNum}}</span>
 									</p>
 								</div>
 						</div>
@@ -319,7 +319,19 @@
 		    })
 		},
 		methods:{
-			
+			// 控制时间组件旋转
+		    // 1.给日期组件的父类添加一个新的id
+		    // 2.添加两个事件
+		    // 3.复制以下代码
+		    dateValue_blur01(){
+				console.log('失去焦点')
+		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after',
+		        'transform:rotate(0deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
+		    },
+		    dateValue_focus01(){
+		        console.log('得到焦点')                      
+		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after','transform:rotate(-180deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
+		    },
 			//请求数据
 			getData(){
 				// 传给后台的brand值
@@ -603,6 +615,9 @@
 .down{
   width: 8px;
   height: 8px;
+  vertical-align: top;
+  margin-top: 9px;
+  margin-left: 2px;
 }
 .content{
   width: 1200px;
@@ -722,6 +737,7 @@
 	color: #009bef;
 	padding-top: 3px;
 	text-align: center;
+	margin-bottom: 2px;
 }
 .trend>div p{
 	text-align: left;

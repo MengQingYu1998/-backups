@@ -263,7 +263,7 @@ export default {
   background-color: #f7f7f7;
 }
 .list {
-  border-top: 1px solid #d6d6d6;
+  border-top: 1px solid #eaeaea;
   margin-top: 10px;
   width: 95%;
   padding-top: 4px;
@@ -337,7 +337,7 @@ export default {
 }
 .country_content {
   padding-left: 24px;
-  height: 300px;
+  height: 359px;
   overflow-y: scroll;
   background-color: #fff;
 }
@@ -345,18 +345,18 @@ export default {
   width: 276px;
   margin-top: 6px;
 
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding-bottom: 14px;
-  border: solid 1px #dfdfdf;
   box-sizing: border-box;
   position: absolute;
-  background-color: #fff;
 }
 .country_header input {
   width: 242px;
   height: 34px;
   border-radius: 4px;
-  border: solid 1px #dfdfdf;
+  border: solid 1px #eaeaea;
   padding-left: 11px;
   padding-right: 40px;
   box-sizing: border-box;

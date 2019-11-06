@@ -363,6 +363,7 @@
 	margin-top: 12px;
 	font-size: 14px;
 	color: #222222;
+	height:18px;
 }
 .right .inpDiv .VeriInp input{
 	width: 200px;

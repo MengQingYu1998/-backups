@@ -500,6 +500,7 @@ export default {
   margin-top: 12px;
   font-size: 14px;
   color: #222222;
+  height:18px;
 }
 .right .inpDiv .veriInp input {
   width: 210px;

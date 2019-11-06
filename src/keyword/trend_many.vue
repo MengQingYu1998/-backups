@@ -7,9 +7,9 @@
         <div class="margin_top_font">设备</div>
         <div>
           <!-- 饿了么的select组件 -->
-          <el-select v-model="equipmentValue">
-            <el-option v-for="item in  equipment " :key="item.value" :value="item.value"></el-option>
-          </el-select>
+          <el-radio-group v-model="equipmentValue" size="mini">
+            <el-radio-button v-for="item in  equipment " :key="item.value" :label="item.value"></el-radio-button>
+          </el-radio-group>
         </div>
       </div>
       <div class="options_02 option">
@@ -317,7 +317,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'

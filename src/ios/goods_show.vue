@@ -20,12 +20,12 @@
                 <th>关键词覆盖数</th>
                 <th>当前版本评分</th>
                 <th>所有版本评分</th>
-                <th>竞品对比&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th class="width_th01">竞品对比</th>
               </tr>
             </thead>
             <tbody v-if="response_data!=null">
               <tr v-for="(item,index) in response_data.data_0" :key="'tabless'+index">
-                <td>
+                <td class="www_width01">
                   <div class="use">
                     <div>{{index+1}}</div>
                     <div>
@@ -46,55 +46,57 @@
                   </div>
                 </td>
 
-                <td>
+                <td class="www_width10">
                   <div
                     class="rankingChangeFontColor font_size_15"
                     v-if="item.rank_a"
                   >{{item.rank_a.rankID}}</div>
                   <div class="rankingChangeFontColor font_size_15" v-else>-</div>
                   <div
-                    class="rankingChangeFontColor letter_spacing_1"
+                    class="rankingChangeFontColor letter_spacing_1 mt_1"
                     v-if="item.rank_a"
                   >{{item.rank_a.genreName}}</div>
                   <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td>
+                <td class="www_width02">
                   <div
                     class="rankingChangeFontColor font_size_15"
                     v-if="item.rank_b"
                   >{{item.rank_b.rankID}}</div>
                   <div class="rankingChangeFontColor font_size_15" v-else>-</div>
                   <div
-                    class="rankingChangeFontColor letter_spacing_1"
+                    class="rankingChangeFontColor letter_spacing_1 mt_1"
                     v-if="item.rank_b"
                   >{{item.rank_b.genreName}}</div>
                   <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td class="rankingChangeFontColor font_size_14">{{item.keywordCover}}</td>
-                <td>
+                <td class="rankingChangeFontColor font_size_14 www_width03">{{item.keywordCover}}</td>
+                <td class="www_width03">
                   <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
-                  <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
+                  <div class="rankingChangeFontColor mt_1">{{item.currentcomment.rating}}</div>
                 </td>
-                <td>
+                <td class="www_width03">
                   <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
-                  <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
+                  <div class="rankingChangeFontColor mt_1">{{item.comment.rating}}</div>
                 </td>
-                <td class="operation">
-                  <div>
-                    <div v-show="index==0">当前应用</div>
-                    <div
-                      v-show="index!=0"
-                      class="pointer"
-                      @click="go_to_page03(item.appId,item.appName)"
-                    >实时排名</div>
-                    <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
+                <td class="width_td01">
+                  <div class="operation">
+                    <div>
+                      <div v-show="index==0">当前应用</div>
+                      <div
+                        v-show="index!=0"
+                        class="pointer"
+                        @click="go_to_page03(item.appId,item.appName)"
+                      >实时排名</div>
+                      <div v-show="index!=0" class="pointer" @click="go_to_page02(item.appId)">关键词</div>
+                    </div>
+                    <img
+                      :class="{opacity_0:index==0}"
+                      src="../assets/ios/compare_del.png"
+                      @click="remove_data(index)"
+                      alt
+                    />
                   </div>
-                  <img
-                    :class="{opacity_0:index==0}"
-                    src="../assets/ios/compare_del.png"
-                    @click="remove_data(index)"
-                    alt
-                  />
                 </td>
               </tr>
               <tr class="disable_hover" v-show="response_data.data_0.length==0">
@@ -119,7 +121,7 @@
             </thead>
             <tbody v-if="response_data!=null">
               <tr v-for="(item,index) in response_data.data_1" :key="'tablessss'+index">
-                <td>
+                <td class="tbody02_td01">
                   <div class="use">
                     <div>{{index+1}}</div>
                     <div>
@@ -140,40 +142,40 @@
                   </div>
                 </td>
 
-                <td>
+                <td class="tbody02_td02">
                   <div
                     class="rankingChangeFontColor font_size_15"
                     v-if="item.rank_a"
                   >{{item.rank_a.rankID}}</div>
                   <div class="rankingChangeFontColor font_size_15" v-else>-</div>
                   <div
-                    class="rankingChangeFontColor letter_spacing_1"
+                    class="rankingChangeFontColor letter_spacing_1 mt_1"
                     v-if="item.rank_a"
                   >{{item.rank_a.genreName}}</div>
                   <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td>
+                <td class="tbody02_td03">
                   <div
                     class="rankingChangeFontColor font_size_15"
                     v-if="item.rank_b"
                   >{{item.rank_b.rankID}}</div>
                   <div class="rankingChangeFontColor font_size_15" v-else>-</div>
                   <div
-                    class="rankingChangeFontColor letter_spacing_1"
+                    class="rankingChangeFontColor letter_spacing_1 mt_1"
                     v-if="item.rank_b"
                   >{{item.rank_b.genreName}}</div>
                   <div class="rankingChangeFontColor" v-else>-</div>
                 </td>
-                <td class="rankingChangeFontColor font_size_14">{{item.keywordCover}}</td>
-                <td>
+                <td class="rankingChangeFontColor font_size_14 tbody02_td04">{{item.keywordCover}}</td>
+                <td class="tbody02_td05">
                   <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
-                  <div class="rankingChangeFontColor">{{item.currentcomment.rating}}</div>
+                  <div class="rankingChangeFontColor mt_1">{{item.currentcomment.rating}}</div>
                 </td>
-                <td>
+                <td class="tbody02_td06">
                   <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
-                  <div class="rankingChangeFontColor">{{item.comment.rating}}</div>
+                  <div class="rankingChangeFontColor mt_1">{{item.comment.rating}}</div>
                 </td>
-                <td>
+                <td class="tbody02_td07">
                   <img src="../assets/ios/ios_add_blue.png" @click="add_data(index)" alt />
                 </td>
               </tr>
@@ -292,6 +294,7 @@ export default {
       })
     },
     go_to_page02(parm) {
+      this.$store.state.now_app_id02 = parm
       this.$router.push({
         path:
           '/cover_compare?now_country_name=' +
@@ -299,10 +302,9 @@ export default {
           '&now_app_id=' +
           this.$store.state.now_app_id
       })
-      this.$store.state.now_app_id02 = parm
-      this.$store.state.now_app_id = this.$store.state.now_app_id
     },
     go_to_page03(parm, parm02) {
+      this.$store.state.now_app_id02 = parm
       this.$router.push({
         path:
           '/ranking_compare?app_name02=' +
@@ -312,13 +314,53 @@ export default {
           '&now_app_id=' +
           this.$store.state.now_app_id
       })
-      this.$store.state.now_app_id = this.$store.state.now_app_id
-      this.$store.state.now_app_id02 = parm
     }
   }
 }
 </script>
 <style scoped>
+.tbody02_td07 img {
+  width: 18px;
+  height: 18px;
+}
+.www_width03 {
+  width: 99px;
+  /* background-color: blue; */
+}
+.www_width10 {
+  width: 88px;
+}
+.www_width01 {
+  width: 282px;
+  /* background-color: red; */
+}
+.www_width02 {
+  width: 100px;
+  /* background-color: red; */
+}
+.tbody02_td01 {
+  /* background-color: red; */
+  width: 282px;
+}
+.tbody02_td02 {
+  width: 100px;
+  /* background-color: red; */
+}
+.tbody02_td03 {
+  width: 135px;
+  /* background-color: blue; */
+}
+
+.width_th01 {
+  text-align: left;
+  padding-left: 24px;
+}
+.width_td01 {
+  width: 100px !important;
+}
+.mt_1 {
+  margin-top: 5px;
+}
 .font_size_14 {
   font-size: 14px !important;
   color: #222 !important;
@@ -342,7 +384,7 @@ export default {
   opacity: 0;
 }
 td {
-  height: 100px;
+  height: 76px;
   box-sizing: border-box;
 }
 .app_subtitle {
@@ -352,6 +394,7 @@ td {
   text-align: left;
   width: 179px;
   height: 18px;
+  margin-top: 3px;
 }
 
 .app_name:hover {
@@ -363,6 +406,7 @@ td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 1px;
   text-align: left;
 }
 
@@ -389,13 +433,15 @@ td {
 }
 .operation > img {
   margin-left: 21px;
+  width: 18px;
+  height: 18px;
 }
 .operation {
+  height: 76px;
   display: flex;
   align-items: center;
-  /* margin-top: 8px; */
-  justify-content: center;
-  height: 100px;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 .operation > div {
   display: flex;
@@ -490,6 +536,7 @@ table {
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
+  margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
@@ -499,9 +546,10 @@ table {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
-  border-bottom: 1px solid #009bef;
+  border-bottom: 2px solid #009bef;
   width: 100px;
   text-align: center;
+  position: relative;
 }
 .left_and_right {
   display: flex;

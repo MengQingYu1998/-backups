@@ -271,9 +271,9 @@ export default {
 #all table,
 #ams_artical_details table,
 #asm table,
-#classes_details table, {
+#classes_details table {
   tr {
-    border: 1px solid #eaeaea !important;
+    border: 1px solid #d6d6d6 !important;
   }
   tbody tr:hover {
     background-color: #ebf7ff;
@@ -289,7 +289,7 @@ export default {
   padding-right: 4px !important;
 }
 .el-input--suffix .el-input__inner {
-  padding-left: 12px;
+  padding-left: 10px;
   font-size: 13px;
   padding-right: 12px !important;
 }
@@ -297,7 +297,7 @@ export default {
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 /* 单选时间的长度 */
 .el-date-editor--date {
-  width: 112px !important;
+  width: 110px !important;
 }
 /* 时间的小三角 */
 .el-date-editor:after {
@@ -374,7 +374,7 @@ export default {
 }
 .el-radio-button__inner {
   /* border-left: none; */
-
+  color: #444;
   line-height: 23px !important;
   font-size: 13px !important;
   padding: 0 12px !important;
@@ -428,7 +428,9 @@ table thead tr th {
 }
 #result .el-tabs__nav-wrap:after {
   height: 1px !important;
+  background-color: #d6d6d6;
 }
+
 /* 应用信息的视频插件 */
 
 .video-js.vjs-fluid,
@@ -464,7 +466,7 @@ table thead tr th {
   font-size: 9px;
 }
 #version_message .el-timeline-item__timestamp.is-top {
-  margin-left: -130px;
+  margin-left: -108px;
 
   font-size: 13px;
   font-weight: normal;
@@ -482,6 +484,7 @@ table thead tr th {
   width: 17px !important;
   height: 17px !important;
   margin-left: -4px;
+  margin-top: -7px;
 }
 #version_message
   .el-timeline
@@ -505,6 +508,12 @@ table thead tr th {
   display: flex;
   align-items: center;
 }
+#version_message .el-timeline-item__wrapper {
+  padding-left: 6px;
+}
+#version_message .el-timeline-item__timestamp.is-top {
+  padding-top: 5px;
+}
 /* select组件自定义样式 */
 .el-select .el-input__inner {
   padding-right: 22px !important;
@@ -516,6 +525,7 @@ table thead tr th {
 .el-input__inner {
   height: 26px !important;
   line-height: 26px !important;
+  color: #444;
 }
 .el-select {
   width: 88px !important;
@@ -681,6 +691,7 @@ input[type='number'] {
   letter-spacing: 0px;
   text-align: center;
 }
+
 .go_to_top .message:hover {
   border: none;
   background-image: url('./assets/ios/message_active.png');
@@ -735,5 +746,28 @@ input[type='number'] {
 }
 .el-select-dropdown__item.selected {
   font-weight: normal;
+}
+// 改变input placeholder 的颜色
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #bfbfbf !important;
+}
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #bfbfbf !important;
+}
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #bfbfbf !important;
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #bfbfbf !important;
+}
+
+// 改变input placeholder 的颜色
+// ios_heade的悬浮框
+.ios_header_popper {
+  padding: 10px 20px !important;
 }
 </style>

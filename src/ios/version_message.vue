@@ -44,7 +44,7 @@
                       <div v-html="item.updateLog" :id="'show_more'+index"></div>
                     </div>
                     <div
-                      class="show_all"
+                      class="show_all pointer"
                       :id="'show_hide'+index"
                       v-if="item.updateLog.length>100"
                       @click="show_more_function('show_more'+index,'show_hide'+index)"
@@ -206,6 +206,12 @@ export default {
   min-height: 0 !important;
   height: auto !important;
 }
+.img_description_child {
+  height: 42px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
 .img_description_child div:first-child {
   font-weight: 600 !important;
   font-size: 14px;
@@ -222,8 +228,8 @@ export default {
   color: #888888;
 }
 .img_description img {
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   margin-right: 10px;
   border-radius: 10px;
   border: solid 1px #f2f2f2;
@@ -233,7 +239,7 @@ export default {
   align-items: center;
 }
 .time_line_item {
-  margin-top: -30px;
+  margin-top: -44px;
   margin-left: 30px;
   margin-bottom: 20px;
 }
@@ -315,7 +321,8 @@ export default {
   margin-top: 113px;
 }
 .left {
-  width: 231px;position: relative;
+  width: 231px;
+  position: relative;
   min-height: 621px;
 }
 </style>

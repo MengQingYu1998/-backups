@@ -104,22 +104,28 @@
                     <td>
                       <div>
                         <span>{{item.keyWordCount.num}}</span>
-                        <span>+{{item.keyWordCount.addNum}}</span>
-                        <span>-{{item.keyWordCount.difNum}}</span>
+                        <span v-if="item.keyWordCount.addNum!=0">+{{item.keyWordCount.addNum}}</span>
+                        <span v-else class="askljd">-</span>
+                        <span v-if="item.keyWordCount.difNum!=0">-{{item.keyWordCount.difNum}}</span>
+                        <span v-else class="askljd">-</span>
                       </div>
                     </td>
                     <td>
                       <div>
                         <span>{{item.top3.num}}</span>
-                        <span>+{{item.top3.addNum}}</span>
-                        <span>-{{item.top3.difNum}}</span>
+                        <span v-if="item.top3.addNum!=0">+{{item.top3.addNum}}</span>
+                        <span v-else class="askljd">-</span>
+                        <span v-if="item.top3.difNum!=0">-{{item.top3.difNum}}</span>
+                        <span v-else class="askljd">-</span>
                       </div>
                     </td>
                     <td>
                       <div>
                         <span>{{item.top10.num}}</span>
-                        <span>+{{item.top10.addNum}}</span>
-                        <span>-{{item.top10.difNum}}</span>
+                        <span v-if="item.top10.addNum!=0">+{{item.top10.addNum}}</span>
+                        <span v-else class="askljd">-</span>
+                        <span v-if="item.top10.difNum!=0">-{{item.top10.difNum}}</span>
+                        <span v-else class="askljd">-</span>
                       </div>
                     </td>
                   </tr>
@@ -574,13 +580,13 @@ export default {
       system: [
         // 系统选择
         {
-          value: 'ios13/12'
+          value: 'iOS13/12'
         },
         {
-          value: 'ios11'
+          value: 'iOS11'
         }
       ],
-      systemValue: 'ios13/12',
+      systemValue: 'iOS13/12',
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
@@ -782,7 +788,7 @@ export default {
           // console.log(country_id)
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let system = this.systemValue == 'ios11' ? 11 : 12
+          let system = this.systemValue == 'iOS11' ? 11 : 12
           // console.log(this.date_Now_for_top)
           // console.log(timestamp(this.dateCompare_for_top / 1000, 'Y-M-D'))
           let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
@@ -865,7 +871,7 @@ export default {
           // 请求数据
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let system = this.systemValue == 'ios11' ? 11 : 12
+          let system = this.systemValue == 'iOS11' ? 11 : 12
           let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
           let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
           let url = '/GetKeyWordDetail'
@@ -1042,7 +1048,7 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
-          let iosType = this.systemValue == 'ios11' ? 11 : 12
+          let iosType = this.systemValue == 'iOS11' ? 11 : 12
 
           let showType
           if (this.bottom_radio1 == '按分钟') {
@@ -1183,7 +1189,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-                tr += `<tr>
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'
@@ -1390,16 +1396,18 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
+      this.$store.state.now_app_name = parm
+
       this.$router.push({
         path: '/trend_one'
       })
-      this.$store.state.now_app_name = parm
     },
     go_to_page02(parm) {
+      this.$store.state.now_app_name = parm
+
       this.$router.push({
         path: '/trend_many'
       })
-      this.$store.state.now_app_name = parm
     },
     go_to_page03(parm) {
       this.$store.state.now_app_name = parm
@@ -1414,6 +1422,9 @@ export default {
 }
 </script>
 <style scoped lang="less">
+// .askljd {
+//   color: rgb(178, 178, 178) !important;
+// }
 .first_table tbody tr:last-child td:first-child {
   color: #222;
   font-size: 14px;
@@ -1433,7 +1444,7 @@ export default {
   color: #f50202;
 }
 .first_table td > div > span:nth-child(3) {
-  color: #009bef;
+  color: #05c898;
 }
 .first_table td > div > span:last-child {
   margin-right: 0;
@@ -1921,6 +1932,7 @@ table {
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
+  margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
@@ -1930,9 +1942,10 @@ table {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
-  border-bottom: 1px solid #009bef;
+  border-bottom: 2px solid #009bef;
   width: 100px;
   text-align: center;
+  position: relative;
 }
 .left_and_right {
   display: flex;

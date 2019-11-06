@@ -18,7 +18,6 @@
                 <th>应用</th>
                 <th>总榜排名</th>
                 <th>分类榜排名</th>
-                <th>关键词覆盖</th>
                 <th>上架日期</th>
                 <th>最后更新时间</th>
                 <th>状态</th>
@@ -55,7 +54,7 @@
                   </div>
                 </td>
 
-                <td>
+                <td class="third_td">
                   <div
                     class="rankingChangeFontColor font_size_15"
                   >{{item.totalRank==0?'-':item.totalRank}}</div>
@@ -63,7 +62,7 @@
                     class="rankingChangeFontColor letter_spacing_1"
                   >{{item.totalGenreName==null?'-':item.totalGenreName}}</div>
                 </td>
-                <td>
+                <td class="fourth_td">
                   <div
                     class="rankingChangeFontColor font_size_15"
                   >{{item.genreRank==0?'-':item.genreRank}}</div>
@@ -72,7 +71,6 @@
                   >{{item.genreName==null?'-':item.genreName}}</div>
                 </td>
 
-                <td class="rankingChangeFontColor font_size_14">{{item.keyWordHide}}</td>
                 <td>
                   <div class="rankingChangeFontColor font_size_14">{{item.onLineTime}}</div>
                 </td>
@@ -171,6 +169,8 @@ export default {
       // console.log(this.now_country)
     },
     go_to_page01(parm, parm02) {
+      this.$store.state.now_app_id = parm
+      this.$store.state.now_app_name = parm02
       this.$router.push({
         path:
           '/now_ranking?now_country_name=' +
@@ -178,8 +178,6 @@ export default {
           '&now_app_id=' +
           this.$store.state.now_app_id
       })
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
     }
   }
 }
@@ -204,8 +202,14 @@ export default {
   margin-top: 50px;
   margin-bottom: 50px;
 }
+.fourth_td {
+  width: 160px;
+}
+.third_td {
+  width: 115px;
+}
 .second_td {
-  width: 210px;
+  width: 230px;
 }
 .first_td {
   width: 50px;
@@ -327,6 +331,7 @@ table {
   height: 1px;
   background-color: #f2f2f2;
   margin-bottom: 22px;
+  margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
@@ -336,9 +341,10 @@ table {
   line-height: 30px;
   letter-spacing: 0px;
   color: #222222;
-  border-bottom: 1px solid #009bef;
+  border-bottom: 2px solid #009bef;
   width: 100px;
   text-align: center;
+  position: relative;
 }
 .left_and_right {
   display: flex;

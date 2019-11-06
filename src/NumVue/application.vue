@@ -1268,6 +1268,9 @@
 .down{
   width: 8px;
   height: 8px;
+  vertical-align: top;
+  margin-top: 9px;
+  margin-left: 2px;
 }
 .content{
   width: 1200px;
@@ -1450,7 +1453,7 @@ table thead tr{
 	height: 40px;
 }
 table thead tr th{
-	font-weight: 600;
+	font-weight: 600!important;
 	font-size: 13px;
 	color: #222222;
 	line-height: 40px;
