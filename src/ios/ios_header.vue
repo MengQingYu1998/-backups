@@ -135,7 +135,7 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(response)
+              // console.log(response)
               this.$store.state.now_country_name = this.now_country
               this.response_data = response.data.Data
               if (response.data.Data != null) {
@@ -172,6 +172,7 @@ export default {
   -webkit-line-clamp: 1;
   display: -webkit-box;
   font-size: 14px !important;
+  text-align: center;
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px !important;

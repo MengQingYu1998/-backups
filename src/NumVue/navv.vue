@@ -25,11 +25,13 @@
         <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
         <el-popover
           width="270"
+          popper-class="nav_popover_class"
           :visible-arrow="false"
           placement="bottom"
           v-model="is_show_nav_popover"
           trigger="manual"
         >
+          <div class="search_history" v-show="nav_input_value==''">搜索记录</div>
           <div
             v-show="nav_input_value!=''"
             class="pointer popver_for_input"
@@ -39,11 +41,16 @@
           >{{item.keyword}}</div>
           <div
             v-show="nav_input_value==''"
-            class="pointer popver_for_input"
+            class="pointer popver_for_input add_img"
             v-for="(item,index) in historyWord"
             :key="'nav_input01'+index"
             @click="go_to_page01(item)"
-          >{{item}}</div>
+            @mouseover="add_active($event)"
+            @mouseout="remove_active($event)"
+          >
+            {{item}}
+            <img src="../assets/ios/close_nav.png" @click.stop="delete_item(index)" />
+          </div>
           <input
             id="my_nav_input_value"
             slot="reference"
@@ -433,6 +440,17 @@ export default {
           console.log(error)
         })
     },
+    delete_item(parm) {
+      this.historyWord.splice(parm, 1)
+      localStorage.setItem('searchWord', this.historyWord)
+    },
+    remove_active(event) {
+      event.currentTarget.className = 'pointer popver_for_input add_img'
+    },
+    add_active(event) {
+      event.currentTarget.className =
+        'pointer popver_for_input add_img img_active'
+    },
     // 历史索索记录
     search_history(val) {
       let searchWord = localStorage.getItem('searchWord')
@@ -597,8 +615,10 @@ export default {
   background-color: #009bef;
   border-radius: 0px 4px 4px 0px;
   float: right;
+  margin-right: -2px;
   text-align: center;
 }
+
 .nav .searchDiv > p img {
   width: 18px;
   height: 18px;
@@ -612,7 +632,7 @@ export default {
   line-height: 14px;
   text-align: center;
   float: left;
-  margin-top: 25px;
+  margin-top: 27px;
   font-family: PingFangSC-Regular;
   color: #222222;
 }
@@ -806,7 +826,7 @@ export default {
 }
 .popver_for_input {
   height: 36px;
-
+  padding: 0 20px;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -825,5 +845,29 @@ export default {
   font-stretch: normal;
   letter-spacing: 0px;
   color: #009bef !important;
+}
+.add_img {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.add_img img {
+  display: none;
+  width: 10px;
+  height: 10px;
+}
+.img_active img {
+  display: block !important;
+  width: 10px;
+  height: 10px;
+}
+.search_history {
+  font-size: 12px;
+  padding: 0 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #888888;
 }
 </style>

@@ -49,7 +49,7 @@
           <div class="btn_group">
             <div class="classify middle_top_time">
               <div class="time_width">时间</div>
-              <div @click="click_second_el_radio" class="btn_group_time">
+              <div class="btn_group_time">
                 <el-radio-group v-model="middle_top_radio3" size="mini">
                   <el-radio-button
                     label="今日"
@@ -74,7 +74,7 @@
             </div>
             <div class="btn_item_01">
               <!-- <div>时间</div> -->
-              <div>
+              <div id="dateValue01" @click="dateValue01_click">
                 <el-date-picker
                   v-model="middle_top_time01"
                   type="daterange"
@@ -84,6 +84,8 @@
                   clear-icon
                   prefix-icon="fasle"
                   :picker-options="middle_top_pickerOptions"
+                  @blur="dateValue_blur01"
+                  @focus="dateValue_focus01"
                 ></el-date-picker>
               </div>
             </div>
@@ -179,7 +181,15 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { formatDate, timestamp, replace_some_chart } from '../common/util.js'
+import {
+  formatDate,
+  timestamp,
+  replace_some_chart,
+  time_reset,
+  time_rotate,
+  time_inactive,
+  time_active
+} from '../common/util.js'
 export default {
   name: 'ranking_compare',
   components: { ios_header, left_nav },
@@ -251,8 +261,8 @@ export default {
     this.$watch('middle_top_time01', function(newValue, oldValue) {
       if (newValue != '') {
         this.middle_top_radio3 = ''
+        time_active('#dateValue01')
       }
-
       this.get_data_second()
     })
     this.$watch('middle_top_radio1', function(newValue, oldValue) {
@@ -277,6 +287,9 @@ export default {
       this.get_data_second()
     })
     this.$watch('middle_top_radio3', function(newValue, oldValue) {
+      if (newValue != '') {
+        time_inactive('#dateValue01')
+      }
       // 1.解决切换隐藏所有的bug
       this.selected_data_function(this.canvas_is_show_all)
       this.get_data_second()
@@ -286,6 +299,22 @@ export default {
     this.get_data_second()
   },
   methods: {
+    dateValue01_click() {
+      if (this.middle_top_time01) {
+        time_active('#dateValue01')
+        this.middle_top_radio3 = ''
+        this.get_data_second()
+      }
+    },
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
     get_data_second() {
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
@@ -310,47 +339,60 @@ export default {
               return false
             }
           })
-          // 请求数据
-          //      middle_top_radio1: '按分钟',
-          // middle_top_radio2: '全部',
-          // middle_top_radio3: '30天',
+
           let endDate, startDate
-          if (this.middle_top_radio3 == '今日') {
-            startDate = formatDate(new Date(), 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '昨日') {
-            let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000)
-            startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '7天') {
-            let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 7)
-            startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '30天') {
-            let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 30)
-            startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '180天') {
-            let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 180)
-            startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '360天') {
-            let yesterday = new Date()
-            yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000 * 360)
-            startDate = formatDate(yesterday, 'yyyy-MM-dd')
-            endDate = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_top_radio3 == '') {
-            let middle_top_time01 = this.middle_top_time01
-            startDate = formatDate(middle_top_time01[0], 'yyyy-MM-dd')
-            endDate = formatDate(middle_top_time01[1], 'yyyy-MM-dd')
+
+          switch (this.middle_top_radio3) {
+            case '':
+              let middle_top_time01 = this.middle_top_time01
+              startDate = formatDate(middle_top_time01[0], 'yyyy-MM-dd')
+              endDate = formatDate(middle_top_time01[1], 'yyyy-MM-dd')
+              break
+            case '今日':
+              startDate = formatDate(new Date(), 'yyyy-MM-dd')
+              endDate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '昨日':
+              let yesterday = new Date()
+              yesterday.setTime(yesterday.getTime() - 24 * 60 * 60 * 1000)
+              startDate = formatDate(yesterday, 'yyyy-MM-dd')
+              endDate = startDate
+              break
+            case '7天':
+              let yesterday01 = new Date()
+              yesterday01.setTime(
+                yesterday01.getTime() - 24 * 60 * 60 * 1000 * 7
+              )
+              startDate = formatDate(yesterday01, 'yyyy-MM-dd')
+              endDate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '30天':
+              let yesterday02 = new Date()
+              yesterday02.setTime(
+                yesterday02.getTime() - 24 * 60 * 60 * 1000 * 30
+              )
+              startDate = formatDate(yesterday02, 'yyyy-MM-dd')
+              endDate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '180天':
+              let yesterday03 = new Date()
+              yesterday03.setTime(
+                yesterday03.getTime() - 24 * 60 * 60 * 1000 * 180
+              )
+              startDate = formatDate(yesterday03, 'yyyy-MM-dd')
+              endDate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '360天':
+              let yesterday04 = new Date()
+              yesterday04.setTime(
+                yesterday04.getTime() - 24 * 60 * 60 * 1000 * 360
+              )
+              startDate = formatDate(yesterday04, 'yyyy-MM-dd')
+              endDate = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            default:
+              break
           }
-          // console.log(endDate)
-          // console.log('=================')
-          // console.log(startDate)
           let brand
           if (this.middle_top_radio2 == '全部') {
             brand = 0
@@ -401,7 +443,7 @@ export default {
             })
             .then(response => {
               if (is_excute_function == this.db_number_is_same) {
-                console.log(response.data)
+                // console.log(response.data)
                 // console.log(response.data.Data.length)
                 this.is_show_myChart_and_table = false
                 if (
@@ -411,7 +453,7 @@ export default {
                   this.no_data = false
                   // this.selected_data_function(false)
                   this.is_show_myChart_and_table = true
-                  console.log('有数据')
+                  // console.log('有数据')
                   this.keyword_data_value = new Array()
                   this.xAxis_data.length = new Array()
                   this.keyword_data.length = new Array()
@@ -478,13 +520,13 @@ export default {
                   document.getElementsByClassName(
                     'myChart'
                   )[0].style.height = legend_height
-                  console.log(this.legend_array)
+                  // console.log(this.legend_array)
 
                   this.drawLine()
 
                   this.myChart.hideLoading()
                 } else {
-                  console.log('无数据')
+                  // console.log('无数据')
                   this.no_data = true
                   this.is_show_myChart_and_table = false
                 }
@@ -509,10 +551,6 @@ export default {
 
     // 点击日历组件
 
-    // 点击单选按钮组件组件
-    click_second_el_radio: function() {
-      this.middle_top_time01 = ''
-    },
     // 控制全部数据隐藏
     selected_data_function: function(bol) {
       let obj = new Object()
@@ -628,7 +666,7 @@ export default {
             formatter: function(data) {
               let tr = ''
               data.forEach(element => {
-               tr += `<tr  style="border:none !important">
+                tr += `<tr  style="border:none !important">
                   <td>${element.marker.replace(
                     'width:10px;height:10px;',
                     'width:6px;height:6px;vertical-align:2px;'

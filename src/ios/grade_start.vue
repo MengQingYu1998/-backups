@@ -205,7 +205,7 @@
             <div class="btn_group">
               <div class="btn_item_01">
                 <div>时间</div>
-                <div>
+                <div id="dateValue01" @click="dateValue01_click">
                   <el-date-picker
                     v-model="middle_top_time01"
                     type="daterange"
@@ -215,13 +215,12 @@
                     prefix-icon="fasle"
                     end-placeholder="结束日期"
                     :picker-options="middle_top_pickerOptions"
+                    @blur="dateValue_blur01"
+                    @focus="dateValue_focus01"
                   ></el-date-picker>
                 </div>
-                <!-- <div
-                :class="{'font_block':true,'change_bg':click_near_month,'pointer':true}"
-                @click="click_near_month_function"
-                >近一个月</div>-->
-                <div @click="click_near_month_function">
+
+                <div>
                   <el-radio-group v-model="middle_bottom_radio_update" size="mini">
                     <el-radio-button label="近一个月"></el-radio-button>
                   </el-radio-group>
@@ -248,7 +247,7 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-                <div>
+                <div id="dateValue02" @click="dateValue02_click">
                   <el-date-picker
                     v-model="middle_bottom_time01"
                     type="daterange"
@@ -258,9 +257,11 @@
                     prefix-icon="fasle"
                     end-placeholder="结束日期"
                     :picker-options="middle_bottom_pickerOptions"
+                    @blur="dateValue_blur02"
+                    @focus="dateValue_focus02"
                   ></el-date-picker>
                 </div>
-                <div @click="change_middle_bottom_time01">
+                <div>
                   <el-radio-group v-model="middle_bottom_radio02" size="mini">
                     <el-radio-button label="今日"></el-radio-button>
                     <el-radio-button label="昨日"></el-radio-button>
@@ -317,7 +318,7 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-                <div>
+                <div id="dateValue03" @click="dateValue03_click">
                   <el-date-picker
                     v-model="bottom_time01"
                     type="daterange"
@@ -327,9 +328,11 @@
                     prefix-icon="fasle"
                     end-placeholder="结束日期"
                     :picker-options="pickerOptions2"
+                    @blur="dateValue_blur03"
+                    @focus="dateValue_focus03"
                   ></el-date-picker>
                 </div>
-                <div @click="change_bottom_time01">
+                <div>
                   <el-radio-group v-model="bottom_radio04" size="mini">
                     <el-radio-button label="今日"></el-radio-button>
                     <el-radio-button label="昨日"></el-radio-button>
@@ -414,7 +417,13 @@
 import ios_header from './ios_header'
 import left_nav from './left_nav'
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import {
+  formatDate,
+  time_reset,
+  time_rotate,
+  time_inactive,
+  time_active
+} from '../common/util.js'
 export default {
   name: 'grade_start',
   components: { ios_header, left_nav },
@@ -581,28 +590,42 @@ export default {
     })
     // 监听第二部分的时间变化
     this.$watch('middle_top_time01', function(newValue, oldValue) {
-      this.middle_bottom_radio_update = ''
+      if (newValue != '') {
+        this.middle_bottom_radio_update = ''
+        time_active('#dateValue01')
+      }
       this.get_data_for_second_part()
     })
     this.$watch('middle_bottom_radio_update', function(newValue, oldValue) {
-      //
+      if (newValue != '') {
+        time_inactive('#dateValue01')
+      }
       this.get_data_for_second_part()
     })
 
     // 监听第三部分的时间变化
     this.$watch('middle_bottom_radio02', function(newValue, oldValue) {
+      if (newValue != '') {
+        time_inactive('#dateValue02')
+      }
       this.get_data_for_third_part()
     })
     this.$watch('middle_bottom_radio01', function(newValue, oldValue) {
       this.get_data_for_third_part()
     })
     this.$watch('middle_bottom_time01', function(newValue, oldValue) {
-      this.middle_bottom_radio02 = ''
+      if (newValue != '') {
+        this.middle_bottom_radio02 = ''
+        time_active('#dateValue02')
+      }
       this.get_data_for_third_part()
     })
     //'当前第四部分=》评论部分的    时间  发生变化，重新请求数据...'
     this.$watch('bottom_time01', function(newValue, oldValue) {
-      this.bottom_radio04 = ''
+      if (newValue != '') {
+        this.bottom_radio04 = ''
+        time_active('#dateValue03')
+      }
       this.page = 1
       this.get_data_for_fourth_part()
     })
@@ -619,6 +642,9 @@ export default {
       this.get_data_for_fourth_part()
     })
     this.$watch('bottom_radio04', function(newValue, oldValue) {
+      if (newValue != '') {
+        time_inactive('#dateValue03')
+      }
       this.page = 1
       this.get_data_for_fourth_part()
     })
@@ -669,6 +695,48 @@ export default {
     })
   },
   methods: {
+    dateValue01_click() {
+      if (this.middle_top_time01) {
+        time_active('#dateValue01')
+        this.middle_bottom_radio_update = ''
+        this.get_data_for_second_part()
+      }
+    },
+    dateValue02_click() {
+      if (this.middle_bottom_time01) {
+        time_active('#dateValue02')
+        this.middle_bottom_radio02 = ''
+        this.get_data_for_third_part()
+      }
+    },
+    dateValue03_click() {
+      if (this.bottom_time01) {
+        time_active('#dateValue03')
+        this.bottom_radio04 = ''
+        this.get_data_for_fourth_part()
+      }
+    },
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
+    dateValue_blur02() {
+      time_reset('#dateValue02')
+    },
+    dateValue_focus02() {
+      time_rotate('#dateValue02')
+    },
+    dateValue_blur03() {
+      time_reset('#dateValue03')
+    },
+    dateValue_focus03() {
+      time_rotate('#dateValue03')
+    },
     // ==========================请求第一部分评分统计的数据==============================
     // ==========================请求第一部分评分统计的数据==============================
     // ==========================请求第一部分评分统计的数据==============================
@@ -717,11 +785,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-
-    // 当点击第四部分的单选框的时候，把和单选框一起的时间置空
-    change_bottom_time01: function() {
-      this.bottom_time01 = ''
     },
 
     // ====================第二部分=========================
@@ -885,9 +948,6 @@ export default {
         },
         true
       )
-    },
-    click_near_month_function: function() {
-      this.middle_top_time01 = ''
     },
 
     // 请求第二部分的图标参数
@@ -1256,9 +1316,6 @@ export default {
       )
     },
 
-    change_middle_bottom_time01() {
-      this.middle_bottom_time01 = ''
-    },
     get_data_for_third_part() {
       this.myChart03 = this.$echarts.init(this.$refs.grade_start_three)
       this.myChart01 = this.$echarts.init(this.$refs.common_one)
@@ -1286,36 +1343,43 @@ export default {
           })
           // 请求数据
           let time
-          if (this.middle_bottom_time01) {
-            let middle_bottom_time01 = this.middle_bottom_time01
-            time =
-              formatDate(middle_bottom_time01[0], 'yyyy-MM-dd') +
-              '-' +
-              formatDate(middle_bottom_time01[1], 'yyyy-MM-dd')
-          }
-          if (this.middle_bottom_radio02 == '今日') {
-            let time01 = new Date()
-            time =
-              formatDate(time01, 'yyyy-MM-dd') +
-              '-' +
-              formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_bottom_radio02 == '昨日') {
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
-            time =
-              formatDate(time02, 'yyyy-MM-dd') +
-              '-' +
-              formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.middle_bottom_radio02 == '近一个月') {
-            let time03 = new Date()
-            time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 30)
-            time =
-              formatDate(time03, 'yyyy-MM-dd') +
-              '-' +
-              formatDate(new Date(), 'yyyy-MM-dd')
-          }
-          // console.log(time)
 
+          // console.log(time)
+          switch (this.middle_bottom_radio02) {
+            case '':
+              let middle_bottom_time01 = this.middle_bottom_time01
+              time =
+                formatDate(middle_bottom_time01[0], 'yyyy-MM-dd') +
+                '-' +
+                formatDate(middle_bottom_time01[1], 'yyyy-MM-dd')
+              break
+            case '今日':
+              let time01 = new Date()
+              time =
+                formatDate(time01, 'yyyy-MM-dd') +
+                '-' +
+                formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '昨日':
+              let time02 = new Date()
+              time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
+              time =
+                formatDate(time02, 'yyyy-MM-dd') +
+                '-' +
+                formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '近一个月':
+              let time03 = new Date()
+              time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 30)
+              time =
+                formatDate(time03, 'yyyy-MM-dd') +
+                '-' +
+                formatDate(new Date(), 'yyyy-MM-dd')
+              break
+
+            default:
+              break
+          }
           let type = 0
           if (this.middle_bottom_radio01 == '全部') {
             this.grade_start_three = false //五星图表显示
@@ -1442,25 +1506,36 @@ export default {
             orderType = 4
           }
           let time
-          if (this.bottom_radio04 == '今日') {
-            time = formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.bottom_radio04 == '昨日') {
-            let day1 = new Date()
-            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
-            time = formatDate(day1, 'yyyy-MM-dd')
-          } else if (this.bottom_radio04 == '近一个月') {
-            let day1 = new Date()
-            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 31)
-            let time1 = formatDate(new Date(), 'yyyy-MM-dd')
-            let time2 = formatDate(day1, 'yyyy-MM-dd')
-            time = time2 + '-' + time1
-          } else if (this.bottom_radio04 == '') {
-            let arr = []
-            this.bottom_time01.forEach(element => {
-              let arr_item = formatDate(element, 'yyyy-MM-dd')
-              arr.push(arr_item)
-            })
-            time = arr.join('-')
+
+          switch (this.bottom_radio04) {
+            case '':
+              let arr = []
+              this.bottom_time01.forEach(element => {
+                let arr_item = formatDate(element, 'yyyy-MM-dd')
+                arr.push(arr_item)
+              })
+              time = arr.join('-')
+              break
+            case '今日':
+              time = formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            case '昨日':
+              let day1 = new Date()
+              day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
+              time = formatDate(day1, 'yyyy-MM-dd')
+              break
+            case '近一个月':
+              let day2 = new Date()
+              day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000 * 31)
+              let time1 = formatDate(new Date(), 'yyyy-MM-dd')
+              let time2 = formatDate(day2, 'yyyy-MM-dd')
+              time = time2 + '-' + time1
+              break
+            case value:
+              break
+
+            default:
+              break
           }
           // console.log(time)
           let appId = this.$store.state.now_app_id

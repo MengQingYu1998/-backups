@@ -769,5 +769,11 @@ input[type='number'] {
 // ios_heade的悬浮框
 .ios_header_popper {
   padding: 10px 20px !important;
+  text-align: center;
+}
+// nav的悬浮框
+.nav_popover_class {
+  margin-left: 117px;
+  padding: 15px 0;
 }
 </style>

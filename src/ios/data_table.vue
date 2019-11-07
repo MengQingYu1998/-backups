@@ -50,7 +50,7 @@
               </div>
               <div class="option">
                 <div>当前日期</div>
-                <div class="date">
+                <div class="date" id="dateValue01">
                   <!-- 饿了么的日期选择组件 -->
                   <el-date-picker
                     v-model="date_Now_for_top"
@@ -59,12 +59,14 @@
                     clear-icon
                     prefix-icon="fasle"
                     :picker-options="pickerOptions"
+                    @blur="dateValue_blur01"
+                    @focus="dateValue_focus01"
                   ></el-date-picker>
                 </div>
               </div>
               <div class="option option_date">
                 <div>对比日期</div>
-                <div class="date">
+                <div class="date" id="dateValue02">
                   <!-- 饿了么的日期选择组件 -->
                   <el-date-picker
                     v-model="dateCompare_for_top"
@@ -73,6 +75,8 @@
                     clear-icon
                     prefix-icon="fasle"
                     :picker-options="pickerOptions"
+                    @blur="dateValue_blur02"
+                    @focus="dateValue_focus02"
                   ></el-date-picker>
                 </div>
               </div>
@@ -103,28 +107,54 @@
                     </td>
                     <td>
                       <div>
-                        <span>{{item.keyWordCount.num}}</span>
-                        <span v-if="item.keyWordCount.addNum!=0">+{{item.keyWordCount.addNum}}</span>
+                        <span
+                          @click="change_something(item.keyWordCount.allIds)"
+                        >{{item.keyWordCount.num}}</span>
+                        <span
+                          :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='keyWordCount01'}"
+                          @click="change_something(item.keyWordCount.addIds,index,'keyWordCount01')"
+                          v-if="item.keyWordCount.addNum!=0"
+                        >+{{item.keyWordCount.addNum}}</span>
                         <span v-else class="askljd">-</span>
-                        <span v-if="item.keyWordCount.difNum!=0">-{{item.keyWordCount.difNum}}</span>
+                        <span
+                          :class="{'change_span_bg_color':change_span_bg_color[0]==index&&change_span_bg_color[1]=='keyWordCount02'}"
+                          @click="change_something(item.keyWordCount.difIds,index,'keyWordCount02')"
+                          v-if="item.keyWordCount.difNum!=0"
+                        >-{{item.keyWordCount.difNum}}</span>
                         <span v-else class="askljd">-</span>
                       </div>
                     </td>
                     <td>
                       <div>
-                        <span>{{item.top3.num}}</span>
-                        <span v-if="item.top3.addNum!=0">+{{item.top3.addNum}}</span>
+                        <span @click="change_something(item.top3.allIds)">{{item.top3.num}}</span>
+                        <span
+                          :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top301'}"
+                          @click="change_something(item.top3.addIds,index,'top301')"
+                          v-if="item.top3.addNum!=0"
+                        >+{{item.top3.addNum}}</span>
                         <span v-else class="askljd">-</span>
-                        <span v-if="item.top3.difNum!=0">-{{item.top3.difNum}}</span>
+                        <span
+                          :class="{'change_span_bg_color':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top302'}"
+                          @click="change_something(item.top3.difIds,index,'top302')"
+                          v-if="item.top3.difNum!=0"
+                        >-{{item.top3.difNum}}</span>
                         <span v-else class="askljd">-</span>
                       </div>
                     </td>
                     <td>
                       <div>
-                        <span>{{item.top10.num}}</span>
-                        <span v-if="item.top10.addNum!=0">+{{item.top10.addNum}}</span>
+                        <span @click="change_something(item.top10.allIds)">{{item.top10.num}}</span>
+                        <span
+                          :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top1001'}"
+                          @click="change_something(item.top10.addIds,index,'top1002')"
+                          v-if="item.top10.addNum!=0"
+                        >+{{item.top10.addNum}}</span>
                         <span v-else class="askljd">-</span>
-                        <span v-if="item.top10.difNum!=0">-{{item.top10.difNum}}</span>
+                        <span
+                          :class="{'change_span_bg_color':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top1002'}"
+                          @click="change_something(item.top10.difIds,index,'top1002')"
+                          v-if="item.top10.difNum!=0"
+                        >-{{item.top10.difNum}}</span>
                         <span v-else class="askljd">-</span>
                       </div>
                     </td>
@@ -162,7 +192,7 @@
               </div>
               <div class="option">
                 <div>当前日期</div>
-                <div class="date">
+                <div class="date" id="dateValue03">
                   <!-- 饿了么的日期选择组件 -->
                   <el-date-picker
                     v-model="date_Now_for_top"
@@ -171,12 +201,14 @@
                     clear-icon
                     prefix-icon="fasle"
                     :picker-options="pickerOptions"
+                    @blur="dateValue_blur03"
+                    @focus="dateValue_focus03"
                   ></el-date-picker>
                 </div>
               </div>
               <div class="option option_date">
                 <div>对比日期</div>
-                <div class="date">
+                <div class="date" id="dateValue04">
                   <!-- 饿了么的日期选择组件 -->
                   <el-date-picker
                     v-model="dateCompare_for_top"
@@ -185,6 +217,8 @@
                     clear-icon
                     prefix-icon="fasle"
                     :picker-options="pickerOptions"
+                    @blur="dateValue_blur04"
+                    @focus="dateValue_focus04"
                   ></el-date-picker>
                 </div>
               </div>
@@ -255,11 +289,13 @@
               <tbody class="td_width">
                 <tr
                   class="disable_hover"
-                  v-if="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
+                  v-show="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
                 >
                   <td colspan="6">暂无相关数据</td>
                 </tr>
-                <template v-else>
+                <template
+                  v-show="temp01_request_data_second.length!=0&&temp_request_data_second.length!=0"
+                >
                   <tr v-for="(item ,index) in temp01_request_data_second" :key="'tableasdf'+index">
                     <td>
                       <span class="pointer item_word" @click="go_to_page03(item.Word)">{{item.Word}}</span>
@@ -269,7 +305,7 @@
                     </td>
 
                     <td>
-                      <div>
+                      <div class="img_left_father">
                         <img
                           class="img_left arrowsImg_0"
                           src="../assets/keyword/arrows (1).png"
@@ -333,7 +369,7 @@
                             </div>
                             <div class="classify bottom_time">
                               <div>时间</div>
-                              <div @click="click_second_el_radio">
+                              <div>
                                 <el-radio-group v-model="bottom_radio3" size="mini">
                                   <el-radio-button
                                     label="近24小时"
@@ -361,7 +397,7 @@
                             </div>
                             <div class="btn_item_01">
                               <!-- <div>时间</div> -->
-                              <div>
+                              <div id="dateValue05" @click="dateValue05_click">
                                 <el-date-picker
                                   v-model="middle_time01"
                                   type="daterange"
@@ -371,6 +407,8 @@
                                   :picker-options="middle_pickerOptions"
                                   clear-icon
                                   prefix-icon="fasle"
+                                  @blur="dateValue_blur05"
+                                  @focus="dateValue_focus05"
                                 ></el-date-picker>
                               </div>
                             </div>
@@ -536,7 +574,11 @@ import {
   formatDate,
   timestamp,
   replace_some_chart,
-  unique
+  unique,
+  time_reset,
+  time_rotate,
+  time_inactive,
+  time_active
 } from '../common/util.js'
 export default {
   name: 'data_table',
@@ -552,6 +594,8 @@ export default {
       // 第一部分的参数
       // 第一部分的参数
       // 第一部分的参数
+      change_span_bg_color: new Array(),
+      wordIds: '',
       loading_gif_first: false,
 
       now_country: '中国',
@@ -666,29 +710,50 @@ export default {
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+
       this.$store.state.now_country_name = this.now_country
       this.get_data_for_first_part()
       this.get_data_for_second_part()
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_time()
       this.get_data_for_first_part()
       this.get_data_for_second_part()
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_time_Compare()
       this.get_data_for_first_part()
       this.get_data_for_second_part()
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.get_data_for_first_part()
       this.get_data_for_second_part()
       this.get_data_for_third_part()
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.get_data_for_first_part()
       this.get_data_for_second_part()
       this.get_data_for_third_part()
@@ -703,32 +768,60 @@ export default {
       this.is_show_bottom = false
     })
     this.$watch('search_input', function(newValue, oldValue) {
-      console.log(this.search_input)
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      // console.log(this.search_input)
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.change_span_bg_color = [null, null]
+      this.wordIds = ''
+      // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
@@ -749,21 +842,61 @@ export default {
       this.get_data_for_third_part()
     })
     this.$watch('bottom_radio3', function(newValue, oldValue) {
-      if (this.bottom_radio3 != '') {
-        this.middle_time01 = ''
+      if (newValue != '') {
+        time_inactive('#dateValue05')
       }
       this.get_data_for_third_part()
     })
     this.$watch('middle_time01', function(newValue, oldValue) {
       if (newValue != '') {
         this.bottom_radio3 = ''
+        time_active('#dateValue05')
       }
-
       this.get_data_for_third_part()
     })
   },
 
   methods: {
+    dateValue05_click() {
+      if (this.middle_time01) {
+        time_active('#dateValue05')
+        this.bottom_radio3 = ''
+        this.get_data_for_third_part()
+      }
+    },
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
+    dateValue_blur02() {
+      time_reset('#dateValue02')
+    },
+    dateValue_focus02() {
+      time_rotate('#dateValue02')
+    },
+    dateValue_blur03() {
+      time_reset('#dateValue03')
+    },
+    dateValue_focus03() {
+      time_rotate('#dateValue03')
+    },
+    dateValue_blur04() {
+      time_reset('#dateValue04')
+    },
+    dateValue_focus04() {
+      time_rotate('#dateValue04')
+    },
+    dateValue_blur05() {
+      time_reset('#dateValue05')
+    },
+    dateValue_focus05() {
+      time_rotate('#dateValue05')
+    },
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
     // ===========================第一部分数据=================================
@@ -829,6 +962,13 @@ export default {
           console.log(error)
         })
     },
+    change_something(parm, parm01, parm02) {
+      this.is_show_bottom = false
+      this.change_span_bg_color[0] = parm01
+      this.change_span_bg_color[1] = parm02
+      this.wordIds = parm
+      this.get_data_for_second_part()
+    },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
       // console.log(new Date(this.dateCompare_for_top).getTime())
@@ -879,7 +1019,7 @@ export default {
           let appId = this.$store.state.now_app_id
           let page = this.page
           let keywords = this.search_input
-
+          let wordIds = this.wordIds
           let data = {
             appId: appId,
             countryId: country_id,
@@ -895,18 +1035,19 @@ export default {
             maxResult: that.result_max_input03,
             page: page,
             size: 100,
-            keywords: keywords
+            keywords: keywords,
+            wordIds: wordIds
           }
-          console.log(data)
+          // console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               this.loading_gif = false
               if (is_excute_function == this.db_number_is_same) {
-                console.log('=================明细=====')
-                console.log(response)
-                console.log('=================明细=====')
+                // console.log('=================明细=====')
+                // console.log(response)
+                // console.log('=================明细=====')
                 if (
                   response.data.Code != 1 &&
                   response.data.Data.keys[0] != null
@@ -989,6 +1130,7 @@ export default {
         text: '',
         color: '#D3D3D3'
       })
+
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1007,44 +1149,53 @@ export default {
           // 请求数据
           let url = '/GetKeyWordApp'
           let time, sdate, edate
-          if (this.middle_time01) {
-            sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
-            edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
-            time = sdate + '-' + edate
-          } else if (this.bottom_radio3 == '近24小时') {
-            time = 1
-            if (this.middle_time01 != '') {
+
+          switch (this.bottom_radio3) {
+            case '':
               sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
               edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
               time = sdate + '-' + edate
-            }
-          } else if (this.bottom_radio3 == '昨日') {
-            // edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-            edate = sdate
-            time = sdate + '-' + edate
-          } else if (this.bottom_radio3 == '7天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-            time = sdate + '-' + edate
-          } else if (this.bottom_radio3 == '30天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-            time = sdate + '-' + edate
-          } else if (this.bottom_radio3 == '180天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 180)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-            time = sdate + '-' + edate
-          }
+              break
+            case '近24小时':
+              time = 1
+              if (this.middle_time01 != '') {
+                sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
+                edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
+                time = sdate + '-' + edate
+              }
+              break
+            case '昨日':
+              let time02 = new Date()
+              time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000)
+              sdate = formatDate(time02, 'yyyy-MM-dd')
+              edate = sdate
+              time = sdate + '-' + edate
+              break
+            case '7天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time03 = new Date()
+              time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 7)
+              sdate = formatDate(time03, 'yyyy-MM-dd')
+              time = sdate + '-' + edate
+              break
+            case '30天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time04 = new Date()
+              time04.setTime(time04.getTime() - 24 * 60 * 60 * 1000 * 30)
+              sdate = formatDate(time04, 'yyyy-MM-dd')
+              time = sdate + '-' + edate
+              break
+            case '180天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time05 = new Date()
+              time05.setTime(time05.getTime() - 24 * 60 * 60 * 1000 * 180)
+              sdate = formatDate(time05, 'yyyy-MM-dd')
+              time = sdate + '-' + edate
+              break
 
+            default:
+              break
+          }
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           // 系统选择
@@ -1117,8 +1268,6 @@ export default {
                 this.myChart.hideLoading()
               } else if (response.data.Data == null) {
                 this.no_data = true
-
-                this.drawLine()
               }
             })
             .catch(error => {
@@ -1129,10 +1278,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-    // 点击单选按钮组件组件
-    click_second_el_radio: function() {
-      this.middle_time01 = ''
     },
 
     // 便利keyword_data生成canvas的series数据
@@ -1425,25 +1570,45 @@ export default {
 // .askljd {
 //   color: rgb(178, 178, 178) !important;
 // }
+.change_span_bg_color01 {
+  display: inline-block;
+  background-color: #f50202 !important;
+  color: #ffffff !important;
+}
+.change_span_bg_color {
+  display: inline-block;
+  background-color: #05c898 !important;
+  color: #ffffff !important;
+}
 .first_table tbody tr:last-child td:first-child {
   color: #222;
-  font-size: 14px;
 }
-.first_table tbody tr:last-child {
+.first_table tbody tr:last-child div {
+  font-size: 17px !important;
+  line-height: 17px !important;
+}
+.first_table tbody tr:last-child span {
   color: #009bef;
-  font-size: 17px;
+  font-size: 17px !important;
+  line-height: 17px !important;
 }
 .first_table {
   table-layout: fixed;
 }
 
 .first_table td > div > span:nth-child(1) {
+  font-size: 14px;
+  line-height: 14px;
   color: #009bef;
 }
 .first_table td > div > span:nth-child(2) {
+  font-size: 14px;
+  line-height: 14px;
   color: #f50202;
 }
 .first_table td > div > span:nth-child(3) {
+  font-size: 14px;
+  line-height: 14px;
   color: #05c898;
 }
 .first_table td > div > span:last-child {
@@ -1451,6 +1616,7 @@ export default {
 }
 .first_table td > div > span {
   margin-right: 16px;
+  cursor: pointer;
 }
 .first_table td > div {
   padding: 5px 0;
@@ -1562,7 +1728,11 @@ export default {
 .img_left {
   margin-right: 8px;
 }
-
+.img_left_father {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .change_bg {
   color: #ffffff !important;
   background-color: #009bef;

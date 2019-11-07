@@ -11,6 +11,7 @@ import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 // 引入字体样式   luye
 import './common/font/iconfont.css'
+
 import Vue from 'vue'
 
 import axios from 'axios'

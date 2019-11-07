@@ -4,7 +4,6 @@
       <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
         <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
         <el-tab-pane label="iOS13/12搜索结果" name="first">
-          <div v-if="activeName == 'first'">
             <div class="options">
               <div class="options_01 option">
                 <div class="margin_top_font">设备</div>
@@ -218,15 +217,15 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="loading margin_left" v-show="loading_12">
+                <div :class="{'loading':true,'margin_left':now_country=='中国'}" v-show="loading_12">
                   <img src="../assets/ios/loading.gif" alt />
                 </div>
                 <div
-                  class="it_is_over margin_left"
+                  :class="{'it_is_over':true,'margin_left':now_country=='中国'}"
                   v-show="it_is_over_12&&response_data_for_ios12.length!=0"
                 >我是有底线的～</div>
                 <div
-                  class="it_is_over margin_left"
+                  :class="{'it_is_over':true,'margin_left':now_country=='中国'}"
                   v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
                 >下拉加载更多</div>
               </div>
@@ -246,11 +245,10 @@
                 <div ref="myChart_result12" class="myChart"></div>
               </div>
             </div>
-          </div>
+          
         </el-tab-pane>
         <!-- ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果ios11搜索结果 -->
         <el-tab-pane label="iOS11搜索结果" name="second">
-          <div v-if="activeName == 'second'">
             <div class="options">
               <div class="options_01 option">
                 <div class="margin_top_font">设备</div>
@@ -476,11 +474,9 @@
                 >下拉加载更多</div>
               </div>
             </div>
-          </div>
         </el-tab-pane>
         <!-- 搜索结果对比  搜索结果对比   搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比  搜索结果对比   -->
         <el-tab-pane label="搜索结果对比" name="third">
-          <div v-if="activeName == 'third'">
             <div class="options">
               <div class="options_01 option">
                 <div class="margin_top_font">设备</div>
@@ -804,7 +800,6 @@
               class="it_is_over"
               v-show="!it_is_over_11&&!it_is_over_12&&(response_data_for_ios12.length!=0||response_data_for_ios11.length!=0)&&!(loading_11||loading_12)"
             >下拉加载更多</div>
-          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -1242,7 +1237,7 @@ export default {
       this.get_data_dialog()
     })
     this.$watch('radio02_dialog', function(newValue, oldValue) {
-      if (newValue != '') {
+      if (newValue != '') { 
         time_inactive('#dateValue04')
       }
       this.get_data_dialog()

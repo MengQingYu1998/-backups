@@ -6,7 +6,7 @@
       <div class="options_01 option">
         <div class="margin_top_font">日期</div>
         <div class="days">7天</div>
-        <div>
+        <div id="dateValue01">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
             v-model="dateValue"
@@ -15,6 +15,8 @@
             clear-icon
             prefix-icon="fasle"
             :picker-options="pickerOptions"
+            @blur="dateValue_blur01"
+            @focus="dateValue_focus01"
           ></el-date-picker>
         </div>
       </div>
@@ -75,7 +77,7 @@
 
 <script>
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate, time_reset, time_rotate } from '../common/util.js'
 export default {
   name: 'think_word',
   data() {
@@ -120,6 +122,15 @@ export default {
     })
   },
   methods: {
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
     // 请求数据
     get_data() {
       this.$axios

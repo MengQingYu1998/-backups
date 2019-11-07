@@ -91,7 +91,7 @@
       </div>
       <div class="options_03 option options_03_ml">
         <div class="margin_top_font">日期</div>
-        <div class="date">
+        <div class="date" id="dateValue">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
             v-model="dateValue"
@@ -100,6 +100,8 @@
             clear-icon
             prefix-icon="fasle"
             :picker-options="pickerOptions"
+            @blur="dateValue_blur"
+            @focus="dateValue_focus"
           ></el-date-picker>
         </div>
       </div>
@@ -205,7 +207,7 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate, time_reset, time_rotate } from '../common/util.js'
 export default {
   name: 'ranking',
   components: { country },
@@ -363,6 +365,12 @@ export default {
     })
   },
   methods: {
+    dateValue_blur() {
+      time_reset('#dateValue')
+    },
+    dateValue_focus() {
+      time_rotate('#dateValue')
+    },
     // 请求悬浮框的数据
     get_data_classify() {
       let genreID

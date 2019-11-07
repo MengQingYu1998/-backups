@@ -304,11 +304,11 @@
 				upWG:false,
 				// index:0,//选中应用index
 				isSelect:2,//选中应用字体样式
-				shangjiatF:true,//上架标题
+				shangjiatF:false,//上架标题
 				xiajiatF:false,//下架标题
-				shangjiaF:true,//上架表格
+				shangjiaF:false,//上架表格
 				xiajiaF:false,//下架表格
-				qingbangF:false,//清榜标题
+				qingbangF:true,//清榜标题
 				qingciF:false,//清词标题
 				shangT:true,//上架时间显示
 				now_Application:'',//当前选中类别
@@ -427,7 +427,7 @@
 		
 		created(){
 
-			this.getData()
+			this.getDataB()
 			
 			this.$watch('dateV',function(Value, oldValue) {
 				// console.log(this.isSelect)

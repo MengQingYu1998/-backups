@@ -1,12 +1,20 @@
 <template>
   <div id="country_select">
-    <div class="country_name" @click.stop="country_show_hidden=!country_show_hidden">
-      <!-- <img :src="'../../../static/flag/'+country_code+'.svg'" alt /> -->
+    <div
+      ref="country_name"
+      class="country_name"
+      @click.stop="country_show_hidden=!country_show_hidden"
+      @mouseleave="direction"
+    >
       <span>{{country_name}}</span>
       <img src="./arrows.png" alt :class="{'arrows':true,'arrows_active':country_show_hidden}" />
     </div>
     <transition name="fade">
-      <div class="country_wrap" v-show="country_show_hidden">
+      <div
+        class="country_wrap"
+        v-show="country_show_hidden"
+        @mouseleave="country_show_hidden = false"
+      >
         <div class="country_header" @click.stop>
           <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
           <img src="./search.png" alt />
@@ -130,7 +138,6 @@ export default {
   // 监听,当路由发生变化的时候执行
   watch: {
     $route(to, from) {
-      // alert(555555)
       this.$emit('childFn', this.country_name)
     }
   },
@@ -145,16 +152,38 @@ export default {
       this.$emit('childFn', this.country_name)
     })
   },
-  mounted() {
-    this.globalClick(() => {
-      this.country_show_hidden = false
-    })
-    // console.log(this.$parent.$parent.$refs.body)
-    // this.$parent.$parent.$refs.body.addEventListener('click', function() {
-    //   console.log(5555555555)
-    // })
-  },
   methods: {
+    // 通过鼠标移出的方向去判断下拉框显隐
+    direction(ev) {
+      let ele = this.$refs.country_name
+
+      var w = parseInt(
+        window.getComputedStyle(ele, null).getPropertyValue('width')
+      )
+
+      var h = parseInt(
+        window.getComputedStyle(ele, null).getPropertyValue('height')
+      )
+      var dirs = ['top', 'right', 'bottom', 'left']
+
+      var toTop =
+        ele.getBoundingClientRect().top + document.documentElement.scrollTop
+      var x =
+        (ev.pageX - ele.getBoundingClientRect().left - w / 2) *
+        (w > h ? h / w : 1) //获取当前鼠标的x轴位置
+      var y = (ev.pageY - toTop - h / 2) * (h > w ? w / h : 1)
+      var direction =
+        Math.round(((Math.atan2(y, x) * 180) / Math.PI + 180) / 90 + 3) % 4 //direction的值为“0,1,2,3”分别对应着“上，右，下，左”
+      var res = Math.atan2(y, x) / (Math.PI / 180)
+      // console.log('方向:' + direction)
+      if (direction != 2) {
+        this.country_show_hidden = false
+      }
+      // 0=》上
+      // 1=》右
+      // 2=》下
+      // 3=》左
+    },
     get_data() {
       // 亚洲是1 Asia
       // 欧洲是4 Europe
@@ -344,7 +373,6 @@ export default {
 .country_wrap {
   width: 276px;
   margin-top: 6px;
-
   background-color: #ffffff;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
   border-radius: 4px;

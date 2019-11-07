@@ -21,7 +21,7 @@
       </div>
       <div class="options_03 option">
         <div class="margin_top_font">日期</div>
-        <div class="date">
+        <div class="date" id="dateValue01">
           <!-- 饿了么的日期选择组件 -->
           <el-date-picker
             :picker-options="pickerOptions2"
@@ -30,6 +30,8 @@
             placeholder="选择日期"
             clear-icon
             prefix-icon="fasle"
+            @blur="dateValue_blur01"
+            @focus="dateValue_focus01"
           ></el-date-picker>
         </div>
         <div
@@ -126,7 +128,7 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate, time_reset, time_rotate } from '../common/util.js'
 export default {
   name: 'hot_search',
   components: { country },
@@ -188,6 +190,15 @@ export default {
     })
   },
   methods: {
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
     // 请求数据
     get_data() {
       // alert('444444444444')

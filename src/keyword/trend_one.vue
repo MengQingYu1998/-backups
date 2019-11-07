@@ -31,7 +31,7 @@
       </div>
       <div class="btn_item_03">
         <div class="margin_top_font">时间</div>
-        <div class="date">
+        <div id="dateValue01" @click="dateValue01_click">
           <el-date-picker
             v-model="dateValue"
             type="daterange"
@@ -41,9 +41,11 @@
             :picker-options="pickerOptions"
             clear-icon
             prefix-icon="fasle"
+            @blur="dateValue_blur01"
+            @focus="dateValue_focus01"
           ></el-date-picker>
         </div>
-        <div @click="change_time01">
+        <div>
           <el-radio-group v-model="radio02" size="mini">
             <el-radio-button label="7天"></el-radio-button>
             <el-radio-button label="30天"></el-radio-button>
@@ -117,7 +119,14 @@
 import country from '../common/country_select/country'
 
 // 引入工具类
-import { formatDate, timestamp } from '../common/util.js'
+import {
+  formatDate,
+  timestamp,
+  time_reset,
+  time_rotate,
+  time_inactive,
+  time_active
+} from '../common/util.js'
 export default {
   name: 'trend_one',
   components: {
@@ -177,10 +186,16 @@ export default {
     })
     // 监听第二部分的时间变化
     this.$watch('radio02', function(newValue, oldValue) {
+      if (newValue != '') {
+        time_inactive('#dateValue01')
+      }
       this.get_data()
     })
     this.$watch('dateValue', function(newValue, oldValue) {
-      this.radio02 = ''
+      if (newValue != '') {
+        this.radio02 = ''
+        time_active('#dateValue01')
+      }
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -195,6 +210,22 @@ export default {
     this.get_data()
   },
   methods: {
+    dateValue01_click() {
+      if (this.dateValue) {
+        time_active('#dateValue01')
+        this.radio02 = ''
+        this.get_data()
+      }
+    },
+    // 控制时间组件旋转
+    // 1.给日期组件的父类添加一个新的id,然后调用方法
+
+    dateValue_blur01() {
+      time_reset('#dateValue01')
+    },
+    dateValue_focus01() {
+      time_rotate('#dateValue01')
+    },
     // 便利keyword_data生成canvas的series数据
     series_data: function() {
       let series_data_arr = new Array()
@@ -237,29 +268,34 @@ export default {
           // 请求数据
           let url = '/Word/FindSearchNumber'
           let sdate, edate
-          if (this.dateValue) {
-            // alert(this.dateValue[0])
 
-            sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
-            edate = formatDate(this.dateValue[1], 'yyyy-MM-dd')
-          } else if (this.radio02 == '7天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-          } else if (this.radio02 == '30天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 30)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
-          } else if (this.radio02 == '90天') {
-            edate = formatDate(new Date(), 'yyyy-MM-dd')
-            let time02 = new Date()
-            time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 90)
-            sdate = formatDate(time02, 'yyyy-MM-dd')
+          switch (this.radio02) {
+            case '7天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time02 = new Date()
+              time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 7)
+              sdate = formatDate(time02, 'yyyy-MM-dd')
+              break
+            case '30天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time03 = new Date()
+              time03.setTime(time03.getTime() - 24 * 60 * 60 * 1000 * 30)
+              sdate = formatDate(time03, 'yyyy-MM-dd')
+              break
+            case '90天':
+              edate = formatDate(new Date(), 'yyyy-MM-dd')
+              let time04 = new Date()
+              time04.setTime(time04.getTime() - 24 * 60 * 60 * 1000 * 90)
+              sdate = formatDate(time04, 'yyyy-MM-dd')
+              break
+            case '':
+              sdate = formatDate(this.dateValue[0], 'yyyy-MM-dd')
+              edate = formatDate(this.dateValue[1], 'yyyy-MM-dd')
+              break
+
+            default:
+              break
           }
-          // console.log(sdate)
-          // console.log(edate)
           if (sdate == undefined && edate == undefined) {
             // console.log('时间未定义')
             return false
@@ -462,9 +498,6 @@ export default {
       )
     },
 
-    change_time01() {
-      this.dateValue = ''
-    },
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload

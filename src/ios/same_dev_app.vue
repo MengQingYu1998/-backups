@@ -49,7 +49,7 @@
                         class="pointer appName"
                         @click="go_to_page01(item.appId,item.appName)"
                       >{{item.appName}}</div>
-                      <div class="rankingChangeFontColor">{{item.subtitle!='无'?item.subtitle:''}}</div>
+                      <div class="rankingChangeFontColor">{{item.developer}}</div>
                     </div>
                   </div>
                 </td>
