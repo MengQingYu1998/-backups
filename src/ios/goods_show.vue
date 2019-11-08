@@ -534,13 +534,13 @@ table {
 .line {
   width: 100%;
   height: 1px;
-  background-color: #f2f2f2;
+  background-color: #d6d6d6;
   margin-bottom: 22px;
   margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px;

@@ -341,7 +341,6 @@ option:first-child {
   line-height: 18px;
   font-size: 16px;
   font-stretch: normal;
-  letter-spacing: 1px;
   color: #222222;
   border-left: 2px solid #429ae8;
   margin: 20px 0;

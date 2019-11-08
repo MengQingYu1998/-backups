@@ -722,11 +722,10 @@ export default{
 		      this.$store.state.now_app_id = parm
 		      this.hand_save_vuex(this)
 		      let routerUrl = this.$router.resolve({
-		        path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
+		        path:'/now_ranking?now_country_name=' +
+		          this.$store.state.now_country_name +
+		          '&now_app_id=' +
+		          this.$store.state.now_app_id
 		      })
 		      window.open(routerUrl.href, '_blank')
 	    }
@@ -765,7 +764,7 @@ export default{
 	line-height: 24px;
 	padding:0 11px;
 	border-radius: 4px;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #d6d6d6;
 	display: inline-block;
 	font-size: 13px;
 	color: #444444;
@@ -840,14 +839,16 @@ export default{
 	display: inline-block;
 	vertical-align: top;
 	margin-top: -1px;
+	line-height: 16px;
+	border:1px solid transparent;
 }
 .appDiv>div .Titdiv .font{
-	margin-top: -3px;
+	/*margin-top: -3px;*/
 }
 .bodyDiv>div .lidiv{
 	width: 556px;
 	height: 281px;
-	border: solid 1px #f2f2f2;
+	border: solid 1px #d6d6d6;
 	margin-top: 30px;
 	margin-left: 29px;
 	display: inline-block;
@@ -1130,7 +1131,7 @@ export default{
 .bodyDiv>div .div4 .left,
 .bodyDiv>div .div6 .left{
 	background-image: none;
-	border-right:1px solid #f2f2f2;
+	border-right:1px solid #d6d6d6;
 }
 /*第四种*/
 .div4 ul {
@@ -1329,6 +1330,9 @@ export default{
 	display: inline-block;
 	
 }
+.appDiv .otherDiv ul li>img:hover{
+	cursor: pointer;
+}
 .appDiv .otherDiv ul li>div{
 	width: 1080px;
 	border-bottom: 1px solid #f2f2f2;
@@ -1371,6 +1375,10 @@ export default{
 	color: #222222;
 	width: 130px;
 	margin-top: 2px;
+}
+.appDiv .otherDiv ul li>div div.namDiv p:first-child:hover{
+	cursor: pointer;
+	color: #009bef;
 }
 .appDiv .otherDiv ul li>div div.namDiv p:last-child{
 	font-size: 13px;

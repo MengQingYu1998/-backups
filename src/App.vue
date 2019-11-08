@@ -379,7 +379,7 @@ export default {
   font-size: 13px !important;
   padding: 0 12px !important;
   padding-top: 1px !important;
-  border: solid 1px #dfdfdf !important;
+  border: solid 1px #d6d6d6 !important;
   border-radius: 4px !important;
   box-sizing: border-box;
   font-weight: normal !important;
@@ -526,6 +526,7 @@ table thead tr th {
   height: 26px !important;
   line-height: 26px !important;
   color: #444;
+  border: 1px solid #d6d6d6;
 }
 .el-select {
   width: 88px !important;
@@ -552,6 +553,7 @@ table thead tr th {
 /* Aso关键词 解决时间下拉框覆盖单选框 */
 .el-picker-panel {
   z-index: 999 !important;
+  border: none;
 }
 #app {
   padding-top: 67px;
@@ -742,7 +744,7 @@ input[type='number'] {
 }
 /* 放回顶部 */
 .el-tabs__nav.is-stretch {
-  min-width: 50% !important;
+  min-width: 43% !important;
 }
 .el-select-dropdown__item.selected {
   font-weight: normal;

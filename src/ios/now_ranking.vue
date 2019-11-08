@@ -1395,24 +1395,7 @@ table {
   width: 100%;
   box-sizing: border-box;
 }
-.line {
-  width: 985px;
-  height: 1px;
-  background-color: #f2f2f2;
-  margin-bottom: 22px;
-}
-.right_nav {
-  font-weight: 600 !important;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 30px;
-  letter-spacing: 0px;
-  color: #222222;
-  border-bottom: 1px solid #009bef;
-  width: 100px;
-  text-align: center;
-}
+
 .left_and_right {
   display: flex;
   margin-top: 14px;
@@ -1426,8 +1409,6 @@ table {
   color: #bfbfbf !important;
 }
 .disable_hover {
-  border-bottom: solid 1px #f2f2f2;
-
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

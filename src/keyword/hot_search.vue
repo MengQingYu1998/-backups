@@ -479,7 +479,7 @@ export default {
   color: #444444;
 }
 .table_hover_line {
-  width: 263px;
+  width: 294px;
   height: 1px;
   background-color: #f2f2f2;
   margin: 15px auto;

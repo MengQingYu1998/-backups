@@ -226,8 +226,8 @@ export default {
 .line {
   width: 1px;
   height: 20px;
-  background-color: #f2f2f2;
-  margin: 0 30px;
+  background-color: #d6d6d6;
+  margin: 0 34px;
 }
 .app_field {
   /* padding: 0 9px; */
@@ -259,7 +259,7 @@ export default {
   letter-spacing: 0px;
   color: #222222;
 
-  width: 150px;
+  width: 180px;
   height: 30px;
 
   white-space: nowrap;
@@ -279,12 +279,12 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 
-  width: 150px;
+  width: 180px;
 }
 .app_description {
   display: inline-block;
   margin-left: 19px;
-  width: 190px;
+  margin-right: 40px;
 }
 
 .wrap {

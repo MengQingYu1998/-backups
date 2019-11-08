@@ -7,13 +7,13 @@
           <router-link :to="{path:'/index'}">首页</router-link>
         </li>
         <li @mouseover="showAppstore()" @mouseout="hideAppstore()">
-          <p v-bind:class="{up:isUp}" v-html="appVal"></p>
+          <p v-bind:class="{upT:isUp}" v-html="appVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="down" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
           <p class="borB" :class="{hovB:ishovB}"></p>
         </li>
         <li @mouseover="showAso()" @mouseout="hideAso()">
-          <p v-bind:class="{up:isUpaso}" v-html="asoVal"></p>
+          <p v-bind:class="{upT:isUpaso}" v-html="asoVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="downaso" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
           <p class="borB" :class="{hovaso:ishovaso}"></p>
@@ -517,6 +517,7 @@ export default {
   padding: 0;
   list-style: none;
   text-decoration: none;
+  /*font-family:'iconfont';*/
 }
 #navv {
   background-color: #fff;
@@ -527,11 +528,6 @@ export default {
   z-index: 999;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
-/*#navv > .line {
-  border-bottom: 1px solid #efefef;
-    box-shadow: 0px 10px 0px 0px 
-    rgba(0, 0, 0, 0.5);
-}*/
 .down {
   width: 8px;
   height: 8px;
@@ -552,7 +548,8 @@ export default {
   line-height: 66px;
   font-size: 16px;
   color: #222222;
-  margin-left: 65px;
+  /*margin-left: 28px;*/
+  margin-left: 55px;
 }
 .nav ul li a {
   font-size: 16px;
@@ -568,24 +565,32 @@ export default {
   text-decoration: none;
 }
 .nav ul li:first-child {
-  margin-left: 40px;
+  margin-left: 60px;
 }
 .nav ul li p {
   display: inline-block;
   font-size: 15px;
   color: #222222;
 }
+.nav ul li span {
+  font-family: 'iconfont' !important;
+}
+
 .up {
+  color: #009bef !important;
+  border: 1px solid #009bef !important;
+}
+.upT {
   color: #009bef !important;
 }
 .nav .searchDiv {
   width: 320px;
   height: 34px;
   float: left;
+  /*margin-left: 154px;*/
   margin-left: 230px;
   margin-top: 17px;
   border: solid 1px #009bef;
-  /*background-color: #f2f2f2;*/
   border-radius: 4px;
 }
 .nav .searchDiv > img {
@@ -618,7 +623,6 @@ export default {
   margin-right: -2px;
   text-align: center;
 }
-
 .nav .searchDiv > p img {
   width: 18px;
   height: 18px;
@@ -643,29 +647,23 @@ export default {
   font-size: 14px;
   text-decoration: none;
 }
+.nav .denglu a:hover,
+.nav .zhuce a:hover {
+  color: #009bef;
+}
 .nav .denglu {
   border-right: 1px solid #888888;
   margin-left: 20px;
-  /*  border: solid 1px #009bef;
-  color: #009bef;
-  margin-left: 13px;*/
 }
-.nav .denglu a {
-  /*color: #009bef;*/
-}
-/*.nav .zhuce {
-  background-color: #009bef;
-  color: #ffffff;
-  margin-left: 13px;
-}*/
-.nav .zhuce a {
-  /*color: #ffffff;*/
-}
+
 .nav .ldiv {
   width: 140px;
   height: 100%;
   margin-left: 1080px;
   text-align: center;
+}
+.nav .ldiv:hover {
+  cursor: pointer;
 }
 .nav .ldiv img {
   width: 36px;
@@ -701,9 +699,11 @@ export default {
   text-align: center;
 }
 .Combox > div.appstore {
+  /*margin-left: 98px;*/
   margin-left: 119px;
 }
 .Combox > div.aso {
+  /*margin-left: 300px;*/
   margin-left: 370px;
 }
 .Combox > div.asm {
@@ -748,7 +748,7 @@ export default {
   width: 176px;
   height: 38px;
   border-radius: 4px;
-  border: solid 1px #f2f2f2;
+  /*border: solid 1px #d6d6d6;*/
   display: inline-block;
   margin-top: 16px;
   margin-left: 12px;
@@ -769,7 +769,6 @@ export default {
   line-height: 38px;
   margin-left: 10px;
 }
-
 .Combox > div.aso > div.lie {
   width: 204px;
 }
@@ -778,24 +777,24 @@ export default {
 .Combox > div > div p a {
   font-size: 13px;
   color: #222;
-  /*margin: 0 25px;*/
   line-height: 30px;
 }
 .Combox > div > div p a {
   margin: 0;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  border: solid 1px #d6d6d6;
+  border-radius: 4px;
 }
 .Combox > div > div p:hover,
 .Combox > div > div p a:hover {
   color: #009bef;
   cursor: pointer;
 }
-.Combox > div > div p:first-child {
-  /*margin-top: 15px;*/
+.Combox > div > div p a:hover {
+  border: 1px solid #009bef;
 }
-.Combox > div > div p:last-child {
-  /*margin-bottom: 15px;*/
-}
-
 .borB {
   display: block !important;
   width: 0px;
@@ -816,13 +815,6 @@ export default {
 }
 .hovaso {
   width: 74px;
-}
-.nav .denglu a:hover,
-.nav .zhuce a:hover {
-  color: #009bef;
-}
-.nav .ldiv:hover {
-  cursor: pointer;
 }
 .popver_for_input {
   height: 36px;

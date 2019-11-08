@@ -640,7 +640,7 @@
 	line-height: 25px;
 	text-align: center;
 	border-radius: 4px;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #d6d6d6;
 	font-size: 13px;
 	color: #444444;
 	display: inline-block;
@@ -678,7 +678,7 @@
 
 .dataTable{
 	width: 100%;
-	border: solid 1px #f2f2f2;
+	border: solid 1px #d6d6d6;
 	margin-top: 25px;
 	margin-bottom: 55px;
 	border-collapse:collapse;
@@ -688,14 +688,14 @@
 .dataTable>div{
 	width: 171.28px;
 	display: inline-block;
-	border-left: solid 1px #f2f2f2;
+	border-left: solid 1px #d6d6d6;
 }
 .dataTable>div:first-child{
 	border-left: none;
 }
 .dataTable>div .dataCon{
 	height: 82px;
-	border-bottom: 1px solid #f2f2f2;
+	border-bottom: 1px solid #d6d6d6;
 }
 .dataTable>div .dataCon:last-child{
 	border-bottom:none;
@@ -703,6 +703,7 @@
 .dataTable .thead{
 	text-align: center;
 	background-color: #f7f7f7;
+	border-bottom: 1px solid #d6d6d6;
 }
 .dataTable .thead p{
 	font-weight: 600;

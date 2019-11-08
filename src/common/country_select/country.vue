@@ -292,8 +292,6 @@ export default {
   background-color: #f7f7f7;
 }
 .list {
-  border-top: 1px solid #eaeaea;
-  margin-top: 10px;
   width: 95%;
   padding-top: 4px;
 }
@@ -303,7 +301,10 @@ export default {
   font-stretch: normal;
   cursor: pointer;
   letter-spacing: 0px;
+  line-height: 30px;
   color: #666;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 5px;
 }
 .arrows_active {
   transform: rotate(180deg) !important;
@@ -333,7 +334,7 @@ export default {
   height: 26px;
   background-color: #fff;
   border-radius: 4px;
-  border: solid 1px #dfdfdf;
+  border: solid 1px #d6d6d6;
   font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
@@ -379,9 +380,10 @@ export default {
   padding-bottom: 14px;
   box-sizing: border-box;
   position: absolute;
+  margin-left: -20px;
 }
 .country_header input {
-  width: 242px;
+  width: 232px;
   height: 34px;
   border-radius: 4px;
   border: solid 1px #eaeaea;
@@ -389,15 +391,18 @@ export default {
   padding-right: 40px;
   box-sizing: border-box;
   outline: none;
+  font-size: 14px;
   margin-top: 14px;
 }
 .country_header img {
   position: absolute;
   right: 40px;
   top: 24px;
+  width: 16px;
+  height: 16px;
 }
 .country_header {
-  padding-left: 14px;
+  padding-left: 22px;
   position: relative;
   background-color: #fff;
 }

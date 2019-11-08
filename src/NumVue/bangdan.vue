@@ -110,7 +110,7 @@
 						<tbody v-if="hasbangdata">
 							<tr v-for="tr in zongsData" :key="tr.index">
 								<th class="yingyong" @click="go_to_page01(tr.appID,tr.appName)">
-									<p class="ranking" :class="[tr.index<4?'weit':'']">{{tr.index}}</p>
+									<p class="ranking">{{tr.index}}</p>
 									<img :src="tr.icon" class="logo" />
 									<div class="msg">
 										<p class="appname">{{tr.appName}}</p>
@@ -821,13 +821,7 @@
 
 
 <style scoped>
-/*body{
-	font-family:"iconfont!important";
-}*/
-.weit{
-	font-weight: 600;
-	color: #222222!important;
-}
+
 .el-popover>div{
 	width: 120px;
 	margin:0 auto;
@@ -924,19 +918,20 @@
 }
 .content ul{
 	width: 100%;
-	height: 45px;
-	border-bottom: 1px solid #f2f2f2;
+	height: 52px;
+	border-bottom: 1px solid #d6d6d6;
 }
 .content ul li{
-	width: 80px;
-	height: 33px;
-	line-height: 33px;
+	width: 96px;
+	height: 40px;
+	line-height: 40px;
 	text-align: center;
-	font-size: 14px;
-	color: #888888;
+	font-size: 16px;
+	color: #222;
 	float: left;
 	margin-top:12px;
 	margin-left: 27px;
+	font-weight: 600;
 }
 .content ul li:hover{
 	color: #009bef;
@@ -946,15 +941,13 @@
 	margin-left: 0;
 }
 .select{
-	font-weight: 600;
-	color: #222222!important;
-	border-bottom: 1px solid #009bef;
+	border-bottom: 2px solid #009bef;
 }
 
 
 .content > div {
 	margin-top: 16px;
-	clear: both;
+	/*clear: both;*/
 }
 .content > div.kuaizhao{
 	/*margin-top: -210px;*/
@@ -978,7 +971,7 @@
 	line-height: 25px;
 	text-align: center;
 	border-radius: 4px;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #d6d6d6;
 	font-size: 13px;
 	color: #444444;
 	display: inline-block;
@@ -1073,7 +1066,7 @@
 	line-height: 25px;
 	text-align: center;
 	border-radius: 4px;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #d6d6d6;
 	font-size: 13px;
 	color: #888888;
 	display: inline-block;
@@ -1119,7 +1112,7 @@
 .content .zongbang>div table{
 	width: 1200px;
 	height: 100%;
-	border: solid 1px #f2f2f2;
+	border: solid 1px #d6d6d6;
 	margin-bottom: 12px;
 	margin-top: 12px;
 	border-collapse: collapse;
@@ -1143,9 +1136,9 @@ th{
 	font-weight: inherit!important;
 }
 table tbody tr{
-	height: 100px;
+	height: 76px;
 	display: inline-table;
-	border-top: 1px solid #f2f2f2;
+	border-top: 1px solid #d6d6d6;
 }
 table tr th{
 	width: 141px;
@@ -1165,7 +1158,7 @@ table tbody tr th.companyb{
 	text-align: center;
 }
 table tbody tr th{
-	height: 100px;
+	height: 76px;
 	font-size: 14px;
 	color: #444444;
 }
@@ -1175,10 +1168,10 @@ table tbody tr th .shejiao{
 }
 table tbody tr th .ranking{
 	font-size: 14px;
-	color: #888888;
+	color: #222;
 	float: left;
 	margin-left: 24px;
-	margin-top: 10px;
+	margin-top: 15px;
 }
 table tbody tr:first-child th .ranking p,
 table tbody tr:nth-child(2) th .ranking p,
@@ -1186,8 +1179,8 @@ table tbody tr:nth-child(3) th .ranking p{
 	color: red;
 }
 table tbody tr th .logo{
-	width: 40px;
-	height: 40px;
+	width: 48px;
+	height: 48px;
 	border-radius: 10px;
 	border: solid 1px #f2f2f2;
 	float: left;
@@ -1198,6 +1191,7 @@ table tbody tr th .msg{
 	color: #888888;
 	float: left;
 	margin-left: 9px;
+	margin-top: 5px;
 }
 table tbody tr th .msg .appname{
 	width: 122px;
@@ -1240,7 +1234,8 @@ table tbody tr th>.dir{
 }
 table tbody tr th.zongrank>img{
 	margin-top: 5px;
-	margin-left: 0;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 

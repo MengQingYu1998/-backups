@@ -106,7 +106,7 @@
                       <div>{{item.hintRange}}</div>
                     </td>
                     <td>
-                      <div>
+                      <div class="flex_div">
                         <span
                           @click="change_something(item.keyWordCount.allIds)"
                         >{{item.keyWordCount.num}}</span>
@@ -125,7 +125,7 @@
                       </div>
                     </td>
                     <td>
-                      <div>
+                      <div class="flex_div">
                         <span @click="change_something(item.top3.allIds)">{{item.top3.num}}</span>
                         <span
                           :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top301'}"
@@ -142,11 +142,11 @@
                       </div>
                     </td>
                     <td>
-                      <div>
+                      <div class="flex_div">
                         <span @click="change_something(item.top10.allIds)">{{item.top10.num}}</span>
                         <span
                           :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top1001'}"
-                          @click="change_something(item.top10.addIds,index,'top1002')"
+                          @click="change_something(item.top10.addIds,index,'top1001')"
                           v-if="item.top10.addNum!=0"
                         >+{{item.top10.addNum}}</span>
                         <span v-else class="askljd">-</span>
@@ -768,6 +768,7 @@ export default {
       this.is_show_bottom = false
     })
     this.$watch('search_input', function(newValue, oldValue) {
+      this.search_input = this.search_input.replace(/\s+/g, '，')
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -1580,6 +1581,9 @@ export default {
   background-color: #05c898 !important;
   color: #ffffff !important;
 }
+.first_table tbody tr:hover {
+  background-color: #fff !important;
+}
 .first_table tbody tr:last-child td:first-child {
   color: #222;
 }
@@ -1590,7 +1594,7 @@ export default {
 .first_table tbody tr:last-child span {
   color: #009bef;
   font-size: 17px !important;
-  line-height: 17px !important;
+  line-height: 27px !important;
 }
 .first_table {
   table-layout: fixed;
@@ -1600,15 +1604,18 @@ export default {
   font-size: 14px;
   line-height: 14px;
   color: #009bef;
+  width: 50px;
+  text-align: right;
 }
 .first_table td > div > span:nth-child(2) {
   font-size: 14px;
-  line-height: 14px;
+  line-height: 25px;
   color: #f50202;
 }
 .first_table td > div > span:nth-child(3) {
   font-size: 14px;
   line-height: 14px;
+  line-height: 25px;
   color: #05c898;
 }
 .first_table td > div > span:last-child {
@@ -1617,10 +1624,12 @@ export default {
 .first_table td > div > span {
   margin-right: 16px;
   cursor: pointer;
+  // width: 48px;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 0px 5px;
 }
-.first_table td > div {
-  padding: 5px 0;
-}
+
 .arrowsImg_0 {
   width: 5px;
   height: 11px;
@@ -1824,6 +1833,7 @@ table img {
 .middle table {
   margin-bottom: 33px;
 }
+
 .top table {
   margin-top: 0;
   margin-bottom: 53px;
@@ -1835,7 +1845,7 @@ table img {
 .table_top_green {
   width: 100%;
   height: 40px;
-  background-color: #f5fcff;
+  // background-color: #f5fcff;
   box-sizing: border-box;
   font-size: 14px;
   font-weight: normal;
@@ -1843,10 +1853,12 @@ table img {
   line-height: 40px;
   letter-spacing: 0px;
   color: #444444;
-  padding-left: 16px;
-  margin-top: 22px;
+  // padding-left: 16px;
+  margin-top: 10px;
 }
-
+.top .section_title {
+  margin-top: 32px;
+}
 .section_title {
   font-weight: 600 !important;
   font-size: 16px;
@@ -2100,13 +2112,13 @@ table {
 .line {
   width: 100%;
   height: 1px;
-  background-color: #f2f2f2;
+  background-color: #d6d6d6;
   margin-bottom: 22px;
   margin-top: -1px;
 }
 .right_nav {
   font-weight: 600 !important;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   line-height: 30px;
@@ -2219,5 +2231,10 @@ table {
   width: 231px;
   position: relative;
   min-height: 621px;
+}
+.flex_div {
+  display: flex;
+  align-items: center;
+  margin-left: 32px;
 }
 </style>

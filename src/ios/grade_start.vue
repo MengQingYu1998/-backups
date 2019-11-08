@@ -467,7 +467,7 @@ export default {
             show: true,
             onZero: false,
             lineStyle: {
-              color: '#DCDFE6'
+              color: '#d6d6d6'
             }
           },
           axisLabel: {
@@ -512,7 +512,7 @@ export default {
           show: true,
           onZero: false,
           lineStyle: {
-            color: '#DCDFE6'
+            color: '#d6d6d6'
           }
         },
         axisLabel: {
@@ -855,7 +855,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#d6d6d6'
               }
             },
             axisTick: {
@@ -1092,7 +1092,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#d6d6d6'
               }
             },
             axisTick: {
@@ -1222,7 +1222,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#d6d6d6'
               }
             },
             axisTick: {
