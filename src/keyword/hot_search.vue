@@ -34,14 +34,17 @@
             @focus="dateValue_focus01"
           ></el-date-picker>
         </div>
-        <div
+        <!-- <div
           :class=" {'change_bg':change_bg_day,'font_block':true,'pointer':true}"
           @click="change_day_dateValue()"
         >昨日</div>
         <div
           :class=" {'change_bg':change_bg_week,'font_block':true,'pointer':true}"
           @click="change_week_dateValue()"
-        >近七天</div>
+        >近七天</div>-->
+        <el-radio-group v-model="time_radio_Value" size="mini">
+          <el-radio-button v-for="item in  time " :key="item.value" :label="item.value"></el-radio-button>
+        </el-radio-group>
       </div>
       <div class="options_04 option">
         <div class="margin_top_font">搜索</div>
@@ -128,7 +131,13 @@
 // 引入国家选择组件
 import country from '../common/country_select/country'
 // 引入工具类
-import { formatDate, time_reset, time_rotate } from '../common/util.js'
+import {
+  formatDate,
+  time_reset,
+  time_rotate,
+  time_inactive,
+  time_active
+} from '../common/util.js'
 export default {
   name: 'hot_search',
   components: { country },
@@ -151,9 +160,17 @@ export default {
         }
       ],
       equipmentValue: 'iPhone',
-      // 动态改变本周 昨日的类样式
-      change_bg_week: false,
-      change_bg_day: false,
+      // 时间选择
+      time: [
+        {
+          value: '昨日'
+        },
+        {
+          value: '近七天'
+        }
+      ],
+      time_radio_Value: '',
+
       //当前选中的日期
       dateValue: new Date(),
       pickerOptions2: {
@@ -174,10 +191,16 @@ export default {
     this.$watch('dateValue', function(newValue, oldValue) {
       // console.log('当前日期发生变化，重新请求数据...')
       if (newValue != '') {
-        this.change_bg_week = false
-        this.change_bg_day = false
+        this.time_radio_Value = ''
+        time_active('#dateValue01')
       }
-
+      this.get_data()
+    })
+    this.$watch('time_radio_Value', function(newValue, oldValue) {
+      // console.log('当前日期发生变化，重新请求数据...')
+      if (newValue != '') {
+        time_inactive('#dateValue01')
+      }
       this.get_data()
     })
     this.$watch('equipmentValue', function(newValue, oldValue) {
@@ -188,6 +211,9 @@ export default {
       // console.log('当前国家发生变化，重新请求数据...')
       this.get_data()
     })
+  },
+  mounted() {
+    time_active('#dateValue01')
   },
   methods: {
     // 控制时间组件旋转
@@ -217,49 +243,52 @@ export default {
           // 请求数据
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          // console.log(555)
-          // alert(this.dateValue)
 
           let url
-          if (this.change_bg_week) {
-            let day1 = new Date()
-            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 7)
-            // console.log(day1)
-            // console.log(formatDate(new Date(), 'yyyy-MM-dd'))
-            url =
-              '/Word/HotSearch?deviceType=' +
-              deviceType +
-              '&countryId=' +
-              country_id +
-              '&startDate=' +
-              formatDate(day1, 'yyyy-MM-dd') +
-              '&endDate=' +
-              formatDate(new Date(), 'yyyy-MM-dd')
-          } else if (this.change_bg_day) {
-            let day1 = new Date()
-            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
-            url =
-              '/Word/HotSearch?deviceType=' +
-              deviceType +
-              '&countryId=' +
-              country_id +
-              '&startDate=' +
-              formatDate(day1, 'yyyy-MM-dd') +
-              '&endDate=' +
-              formatDate(day1, 'yyyy-MM-dd')
-          } else {
-            let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
-            url =
-              '/Word/HotSearch?deviceType=' +
-              deviceType +
-              '&countryId=' +
-              country_id +
-              '&startDate=' +
-              startDate +
-              '&endDate=' +
-              startDate
+
+          switch (this.time_radio_Value) {
+            case '':
+              let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
+              url =
+                '/Word/HotSearch?deviceType=' +
+                deviceType +
+                '&countryId=' +
+                country_id +
+                '&startDate=' +
+                startDate +
+                '&endDate=' +
+                startDate
+              break
+            case '昨日':
+              let day1 = new Date()
+              day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
+              url =
+                '/Word/HotSearch?deviceType=' +
+                deviceType +
+                '&countryId=' +
+                country_id +
+                '&startDate=' +
+                formatDate(day1, 'yyyy-MM-dd') +
+                '&endDate=' +
+                formatDate(day1, 'yyyy-MM-dd')
+              break
+            case '近七天':
+              let day2 = new Date()
+              day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000 * 7)
+              url =
+                '/Word/HotSearch?deviceType=' +
+                deviceType +
+                '&countryId=' +
+                country_id +
+                '&startDate=' +
+                formatDate(day2, 'yyyy-MM-dd') +
+                '&endDate=' +
+                formatDate(new Date(), 'yyyy-MM-dd')
+              break
+            default:
+              break
           }
-          // console.log(url)
+          console.log(url)
           // 请求数据
           this.$axios
             .get(url)
@@ -326,21 +355,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-
-    //点击昨日按钮
-    change_day_dateValue() {
-      this.dateValue = ''
-      this.change_bg_week = false
-      this.change_bg_day = true
-      this.get_data()
-    },
-    //点击本周按钮
-    change_week_dateValue() {
-      this.dateValue = ''
-      this.change_bg_week = true
-      this.change_bg_day = false
-      this.get_data()
     },
 
     // 获取当前选中的国家
@@ -434,11 +448,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.change_bg {
-  color: #ffffff !important;
-  background-color: #009bef;
-  border: solid 1px #ffffff !important;
-}
+
 .table_font_other {
   color: #009bef;
 }
@@ -542,22 +552,6 @@ table {
   border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
-}
-.font_block {
-  text-align: center;
-  line-height: 27px;
-
-  font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  width: 48px !important;
-  height: 26px;
-  border-radius: 4px;
-  border: solid 1px #dfdfdf;
-  letter-spacing: 0px;
-  color: #444444;
-  margin-right: 10px;
-  display: inline-block;
 }
 .options_04 {
   margin-left: 20px !important;

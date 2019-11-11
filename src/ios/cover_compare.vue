@@ -220,6 +220,7 @@ export default {
             deviceType +
             '&page=' +
             this.currentPage
+
           console.log(url)
           // 请求数据
           this.$axios

@@ -162,25 +162,7 @@ export default {
           console.log(error)
         })
     },
-    // 点击日历
-    change_prop() {
-      this.change_bg_week = false
-      this.change_bg_day = false
-    },
-    //点击昨日按钮
-    change_day_dateValue() {
-      this.dateValue = ''
-      this.change_bg_week = false
-      this.change_bg_day = true
-      this.get_data()
-    },
-    //点击本周按钮
-    change_week_dateValue() {
-      this.dateValue = ''
-      this.change_bg_week = true
-      this.change_bg_day = false
-      this.get_data()
-    },
+
     formatDate_wrap(parm01, parm02) {
       return timestamp(parm01, parm02)
     },

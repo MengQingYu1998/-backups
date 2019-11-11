@@ -140,6 +140,7 @@ export default {
               this.response_data = response.data.Data
               if (response.data.Data != null) {
                 this.$store.state.now_app_name = response.data.Data.appName
+                this.price_to_now_ranking(response.data.Data.price)
               }
 
               // }
@@ -157,6 +158,10 @@ export default {
     parentFn(payload) {
       this.now_country = payload
       // console.log('ios_header' + this.now_country)
+    },
+    // 把获取到的价格传递给父组件的now_ranking.vue
+    price_to_now_ranking(parm) {
+      this.$emit('price_to_now_ranking', parm)
     },
     // 把获取到的国家传递给父组件
     click: function() {

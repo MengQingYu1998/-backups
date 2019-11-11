@@ -425,8 +425,15 @@ export default {
                 title: '保存',
                 iconStyle: {
                   opacity: 1,
-                  borderWidth: 2,
-                  borderColor: '#555'
+                  borderWidth: 1.7,
+                  borderColor: '#444'
+                },
+                emphasis: {
+                  iconStyle: {
+                    opacity: 1,
+                    borderWidth: 1.7,
+                    borderColor: '#009bef'
+                  }
                 }
               }
             }
@@ -599,10 +606,12 @@ table {
 
 .bottom_image img {
   margin-left: 10px;
+  width: 17px;
+  height: 16px;
 }
 .bottom_image {
   position: absolute;
-  top: 3px;
+  top: 6px;
   right: 38px;
   z-index: 9999999999;
 }

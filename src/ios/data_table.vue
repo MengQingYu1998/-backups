@@ -273,20 +273,89 @@
                 </div>
               </div>
             </div>
-            <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
-
-            <table v-show="!loading_gif">
+            <div class="export_data" @click="export_data()">导出Excel数据</div>
+            <table>
               <thead>
                 <tr class="tr_width">
-                  <th>关键词</th>
-                  <th>排名</th>
-                  <th>变动</th>
-                  <th>搜索指数</th>
-                  <th>搜索结果数</th>
+                  <th>
+                    <div class="display_flex">
+                      关键词
+                      <div class="triangle_groups">
+                        <span
+                          :class="{'sort_bg_color':this.sort==1}"
+                          @click="get_data_for_second_part(1)"
+                        ></span>
+                        <span
+                          :class="{'sort_bg_color':this.sort==2}"
+                          @click="get_data_for_second_part(2)"
+                        ></span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="display_flex">
+                      排名
+                      <div class="triangle_groups">
+                        <span
+                          :class="{'sort_bg_color':this.sort==3}"
+                          @click="get_data_for_second_part(3)"
+                        ></span>
+                        <span
+                          :class="{'sort_bg_color':this.sort==4}"
+                          @click="get_data_for_second_part(4)"
+                        ></span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="display_flex">
+                      变动
+                      <div class="triangle_groups">
+                        <span
+                          :class="{'sort_bg_color':this.sort==5}"
+                          @click="get_data_for_second_part(5)"
+                        ></span>
+                        <span
+                          :class="{'sort_bg_color':this.sort==6}"
+                          @click="get_data_for_second_part(6)"
+                        ></span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="display_flex">
+                      搜索指数
+                      <div class="triangle_groups">
+                        <span
+                          :class="{'sort_bg_color':this.sort==7}"
+                          @click="get_data_for_second_part(7)"
+                        ></span>
+                        <span
+                          :class="{'sort_bg_color':this.sort==8}"
+                          @click="get_data_for_second_part(8)"
+                        ></span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="display_flex">
+                      搜索结果数
+                      <div class="triangle_groups">
+                        <span
+                          :class="{'sort_bg_color':this.sort==9}"
+                          @click="get_data_for_second_part(9)"
+                        ></span>
+                        <span
+                          :class="{'sort_bg_color':this.sort==10}"
+                          @click="get_data_for_second_part(10)"
+                        ></span>
+                      </div>
+                    </div>
+                  </th>
                   <th>操作</th>
                 </tr>
               </thead>
-              <tbody class="td_width">
+              <tbody class="td_width" v-show="!loading_gif">
                 <tr
                   class="disable_hover"
                   v-show="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
@@ -305,7 +374,8 @@
                     </td>
 
                     <td>
-                      <div class="img_left_father">
+                      <div v-if="item.Str!=null">{{item.Str}}</div>
+                      <div class="img_left_father" v-else>
                         <img
                           class="img_left arrowsImg_0"
                           src="../assets/keyword/arrows (1).png"
@@ -544,13 +614,14 @@
                 </template>
               </tbody>
             </table>
+            <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
           </section>
 
           <div
             class="paging"
             v-if="!loading_gif&&(temp01_request_data_second.length!=0||temp_request_data_second.length!=0)"
           >
-            <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
+            <div>显示第 {{(currentPage-1)*100+1}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
             <div>
               <el-pagination
                 background
@@ -634,6 +705,8 @@ export default {
       // 第二部分参数
       // 第二部分参数
       // 第二部分参数
+      can_click_export_data: true,
+      sort: 0,
       page: 1,
       loading_gif: false,
       search_input: '',
@@ -710,6 +783,7 @@ export default {
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -721,6 +795,7 @@ export default {
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -730,6 +805,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -740,6 +816,7 @@ export default {
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -750,6 +827,7 @@ export default {
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -772,13 +850,16 @@ export default {
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
+
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
+      this.sort = ''
       // console.log(this.search_input)
       this.is_show_bottom = false
       this.get_data_for_second_part()
     })
     // 最大值最小值的改变
     this.$watch('result_min_input01', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -787,6 +868,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input01', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -795,6 +877,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('result_min_input02', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -803,6 +886,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input02', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -811,6 +895,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('result_min_input03', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -819,6 +904,7 @@ export default {
       this.get_data_for_second_part()
     })
     this.$watch('result_max_input03', function(newValue, oldValue) {
+      this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
@@ -964,6 +1050,7 @@ export default {
         })
     },
     change_something(parm, parm01, parm02) {
+      this.page = 1
       this.is_show_bottom = false
       this.change_span_bg_color[0] = parm01
       this.change_span_bg_color[1] = parm02
@@ -994,7 +1081,10 @@ export default {
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
     // ===========================第二部分数据=================================
-    get_data_for_second_part() {
+    get_data_for_second_part(parm) {
+      if (parm) {
+        this.sort = parm
+      }
       this.loading_gif = true
       this.db_number_is_same++
       let is_excute_function = this.db_number_is_same
@@ -1021,6 +1111,7 @@ export default {
           let page = this.page
           let keywords = this.search_input
           let wordIds = this.wordIds
+          let sort = this.sort
           let data = {
             appId: appId,
             countryId: country_id,
@@ -1037,9 +1128,10 @@ export default {
             page: page,
             size: 100,
             keywords: keywords,
-            wordIds: wordIds
+            wordIds: wordIds,
+            sort: sort
           }
-          // console.log(data)
+          console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
@@ -1073,6 +1165,99 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    export_data() {
+      if (!this.can_click_export_data) {
+        return false
+      }
+      this.can_click_export_data = false
+
+      this.$axios
+        .get('/GetCountry')
+        .then(response => {
+          let country_id
+          let arr_country = response.data.Data
+          arr_country.forEach(element => {
+            if (element.name == this.now_country) {
+              country_id = element.id
+              return false
+            }
+          })
+          // 请求数据
+          // 设备选择
+          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let system = this.systemValue == 'iOS11' ? 11 : 12
+          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
+          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
+          let url = '/ToExcel'
+          let that = this
+          let appId = this.$store.state.now_app_id
+          let page = this.page
+          let keywords = this.search_input
+          let wordIds = this.wordIds
+          let sort = this.sort
+          let data = {
+            appId: appId,
+            countryId: country_id,
+            device: deviceType,
+            system: system,
+            nowDate: nowDate,
+            compareDate: compareDate,
+            minHint: that.result_min_input01,
+            maxHint: that.result_max_input01,
+            minRank: that.result_min_input02,
+            maxRank: that.result_max_input02,
+            minResult: that.result_min_input03,
+            maxResult: that.result_max_input03,
+            keywords: keywords,
+            wordIds: wordIds,
+            sort: sort
+          }
+          console.log(data)
+          // 请求数据
+          this.$axios
+            .post(url, data)
+            .then(response => {
+              this.can_click_export_data = true
+              console.log(response)
+              this.openDownload(response.data.Data.url)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    openDownload(url) {
+      alert(url)
+      let d = new Date().getTime()
+      let saveName = d + '.' + url.replace(/(.*\.)/, '') //这里文件名我用了毫秒数加上后缀
+      var $a = document.createElement('a')
+      $a.setAttribute('href', url)
+      $a.setAttribute('download', saveName)
+      $a.setAttribute('target', '_blank') //弹出窗体
+      //模拟js事件
+      var evObj = document.createEvent('MouseEvents')
+      evObj.initMouseEvent(
+        'click',
+        true,
+        true,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        true,
+        false,
+        0,
+        null
+      )
+      $a.dispatchEvent(evObj)
     },
 
     // 点击搜索结果数的全部
@@ -1214,13 +1399,6 @@ export default {
           let appId = this.$store.state.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
-          // console.log(time)
-          // console.log(wordId)
-          // console.log(deviceType)
-          // console.log(country_id)
-          // console.log(iosType)
-          // console.log(showType)
-          // console.log(appId)
 
           let data = {
             countryId: country_id,
@@ -1231,14 +1409,14 @@ export default {
             showType: showType,
             date: time
           }
-          // console.log('==============')
+          console.log(data)
           this.keyword_data = new Array()
           this.keyword_data.push(this.word)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response)
+              console.log(response)
               // console.log(this.word)
 
               if (response.data.Data != null) {
@@ -1386,8 +1564,15 @@ export default {
                 title: '保存',
                 iconStyle: {
                   opacity: 1,
-                  borderWidth: 2,
-                  borderColor: '#555'
+                  borderWidth: 1.7,
+                  borderColor: '#444'
+                },
+                emphasis: {
+                  iconStyle: {
+                    opacity: 1,
+                    borderWidth: 1.7,
+                    borderColor: '#009bef'
+                  }
                 }
               }
             }
@@ -1980,21 +2165,21 @@ table {
   height: 121px;
   border: solid 1px #eaeaea;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .bottom_image img {
   margin-left: 10px;
   width: 17px;
-  height: 15px;
+  height: 16px;
 }
 .bottom_image:hover {
   z-index: 999999999;
 }
 .bottom_image {
   position: absolute;
-  top: 73px;
-  right: 40px;
+  top: 72px;
+  right: 38px;
   z-index: 1;
 }
 .bottom {
@@ -2051,6 +2236,9 @@ table {
   height: 24px;
   border-radius: 4px;
   border: solid 1px #dfdfdf;
+}
+.middle {
+  position: relative;
 }
 .middle .btn_group {
   margin-top: 16px;
@@ -2236,5 +2424,66 @@ table {
   display: flex;
   align-items: center;
   margin-left: 32px;
+}
+.display_flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.triangle_groups {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 12px;
+  margin-left: 4px;
+}
+
+.triangle_groups span:first-child:hover {
+  border-color: transparent transparent #009bef transparent;
+}
+.triangle_groups span:first-child {
+  cursor: pointer;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent transparent #888 transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-top: none;
+}
+.triangle_groups span:last-child:hover {
+  border-color: #009bef transparent transparent transparent;
+}
+.triangle_groups span:last-child {
+  cursor: pointer;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-bottom: none;
+
+  border-width: 5px;
+}
+.sort_bg_color {
+  border-color: #009bef transparent #009bef transparent !important;
+}
+.export_data {
+  position: absolute;
+  right: 5px;
+  top: 100px;
+  width: 111px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #009bef;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
+  cursor: pointer;
 }
 </style>

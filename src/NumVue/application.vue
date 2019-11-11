@@ -1337,6 +1337,7 @@
 	color: #444444;
 	padding-left: 10px;
 	margin-left: 10px;
+	outline:none;
 }
 .content .lei>div:last-child button{
 	width: 48px!important;

@@ -5,10 +5,7 @@
       <ios_header @childFn="parentFn" />
       <div class="left_and_right">
         <div class="left">
-          <left_nav
-            :position_fixed_form_father="position_fixed"
-            :position_fixed_form_father02="position_fixed_02"
-          />
+          <left_nav :position_fixed_form_father="position_fixed" />
         </div>
         <div class="right">
           <!-- 第一部分 -->
@@ -353,7 +350,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="disable_hover" v-if="response_data_fourth_part.length==0">
+                <tr class="disable_hover" v-if="!loading&&response_data_fourth_part.length==0">
                   <td colspan="3">暂无相关数据</td>
                 </tr>
                 <template v-if="response_data_fourth_part.length!=0">
@@ -395,17 +392,21 @@
                 </template>
               </tbody>
             </table>
-            <div class="loading" v-show="!response_data_fourth_part.length==0&&loading">
+            <div class="loading" v-show="loading">
               <img src="../assets/ios/loading.gif" alt />
             </div>
-            <div
-              class="it_is_over"
-              v-show="!it_is_over&&!loading&&response_data_fourth_part.length!=0"
-            >下拉加载更多</div>
-            <div
-              class="it_is_over"
-              v-show=" response_data_fourth_part.length!=0 &&it_is_over"
-            >我是有底线的～</div>
+
+            <div class="paging" v-if="!loading">
+              <div>显示第 {{(currentPage-1)*20+1}} 至 {{currentPage*20}} 项结果，共 {{total}} 项</div>
+              <div>
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :total="total/2"
+                  :current-page.sync="currentPage"
+                ></el-pagination>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -429,12 +430,12 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      // 分页
+      currentPage: 1,
+      total: 0,
       // 同时存在监听滚动条滚动事件
       position_fixed: false, // 1.在父组件的监听滚动条事件里面写子组件监听的逻辑代码,给子组件传递参数
-      position_fixed_02: false,
-      // 同时存在监听滚动条滚动事件
-      can_execute_scorll: true, //是否可以执行滚动
-      it_is_over: false,
+
       loading: false,
       page: 1,
       // 第一部分参数
@@ -578,8 +579,12 @@ export default {
   created: function() {
     // 请求数据
     this.get_data_for_first_part()
-    this.page = 1
     this.get_data_for_fourth_part()
+    // 分页
+    this.$watch('currentPage', function(newValue, oldValue) {
+      this.page = this.currentPage
+      this.get_data_for_fourth_part()
+    })
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
       this.$store.state.now_country_name = this.now_country
@@ -652,47 +657,6 @@ export default {
   mounted() {
     this.get_data_for_second_part()
     this.get_data_for_third_part()
-    this.$nextTick(() => {
-      let that = this
-      window.onscroll = function() {
-        //变量scrollTop是滚动条滚动时，距离顶部的距离
-        var scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop
-        //变量windowHeight是可视区的高度
-        var windowHeight =
-          document.documentElement.clientHeight || document.body.clientHeight
-        //变量scrollHeight是滚动条的总高度
-        var scrollHeight =
-          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        var int = Math.round(scrollTop + windowHeight)
-        // 解决左侧导航跟随滚动的问题
-        if (scrollTop > 160) {
-          that.position_fixed = true
-        } else {
-          that.position_fixed = false
-        }
-        // 解决左侧导航到达底部溢出
-        if (scrollHeight - scrollTop <= 310 + 548 + 68) {
-          that.position_fixed_02 = true
-        } else {
-          that.position_fixed_02 = false
-        }
-        if (
-          int == scrollHeight ||
-          int + 1 == scrollHeight ||
-          int - 1 == scrollHeight
-        ) {
-          // 需要执行的代码
-          if (that.can_execute_scorll) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              500
-            that.get_data_for_fourth_part()
-          }
-        }
-      }
-    })
   },
   methods: {
     dateValue01_click() {
@@ -1449,9 +1413,8 @@ export default {
     // ==================第四部分===========================
     // 请求第四部分=》评论部分的数据
     get_data_for_fourth_part() {
-      this.can_execute_scorll = false
       this.loading = true
-      this.it_is_over = false
+
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -1539,31 +1502,28 @@ export default {
           }
           // console.log(time)
           let appId = this.$store.state.now_app_id
-
+          let page = this.page
           let data = {
             appId: appId,
             countryId: country_id,
             commentType: commentType,
             starLevel: starLevel,
             orderType: orderType,
-            time: time
+            time: time,
+            page: page,
+            size: 20
           }
+          console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              this.response_data_fourth_part = response.data.Data.slice(
-                0,
-                this.page * 20
-              )
-              this.page += 1
-              this.can_execute_scorll = true //是否可以执行滚动
-              this.it_is_over =
-                this.response_data_fourth_part.length ==
-                response.data.Data.length
-              this.loading = false
               console.log('=========评论================')
-              console.log(this.response_data_fourth_part.length)
+              console.log(response)
+              this.response_data_fourth_part = response.data.Data.comments
+              this.total = response.data.Data.totalCount //底部显示总共
+              console.log(this.total)
+              this.loading = false
             })
             .catch(error => {
               console.log(error)
@@ -1956,17 +1916,7 @@ table {
   width: 1200px;
   margin: 0 auto;
 }
-.it_is_over {
-  text-align: center;
 
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 74px;
-  letter-spacing: 0px;
-  color: #bfbfbf;
-  margin-top: -50px;
-}
 .loading {
   width: 100%;
   text-align: center;
@@ -1999,5 +1949,17 @@ table {
   width: 231px;
   position: relative;
   min-height: 621px;
+}
+.paging {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #888888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0;
+  margin-bottom: 30px;
 }
 </style>

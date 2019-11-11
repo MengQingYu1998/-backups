@@ -2034,8 +2034,15 @@ export default {
                 title: '保存',
                 iconStyle: {
                   opacity: 1,
-                  borderWidth: 2,
-                  borderColor: '#555'
+                  borderWidth: 1.7,
+                  borderColor: '#444'
+                },
+                emphasis: {
+                  iconStyle: {
+                    opacity: 1,
+                    borderWidth: 1.7,
+                    borderColor: '#009bef'
+                  }
                 }
               }
             }
@@ -2373,7 +2380,7 @@ export default {
 .my_dialog .bottom_image img {
   margin-left: 10px;
   width: 17px;
-  height: 15px;
+  height: 16px;
 }
 .my_dialog .bottom_image {
   float: right;

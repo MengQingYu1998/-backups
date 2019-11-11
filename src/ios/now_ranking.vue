@@ -2,7 +2,7 @@
   <div id="now_ranking">
     <div class="content">
       <!-- 自定义组件 -->
-      <ios_header @childFn="parentFn" />
+      <ios_header @childFn="parentFn" @price_to_now_ranking="parentFn02" />
       <div class="left_and_right">
         <div class="left">
           <left_nav />
@@ -125,7 +125,7 @@
 
             <div ref="EChart_now_ranking" class="myChart" v-show="is_show_mychart"></div>
 
-            <div class="myChart" v-show="!is_show_mychart">暂无数据</div>
+            <div class="myChart" v-show="!is_show_mychart">未进入当前榜单</div>
 
             <div>
               <div
@@ -328,6 +328,7 @@ export default {
   data() {
     let that = this
     return {
+      price_to_now_ranking: null,
       nothing_data_can_show: false,
       // 第一部分图表的数据
       // 第一部分图表的数据
@@ -405,6 +406,17 @@ export default {
     // alert('created')
     this.get_data_first()
     this.get_data_third()
+    this.$watch('price_to_now_ranking', function(newValue, oldValue) {
+      switch (this.price_to_now_ranking) {
+        case '免费':
+          this.middle_top_radio2 = '免费'
+          break
+
+        default:
+          this.middle_top_radio2 = '付费'
+          break
+      }
+    })
     this.$watch('now_country', function(newValue, oldValue) {
       // alert('now_country')
       this.$store.state.now_country_name = this.now_country
@@ -828,8 +840,15 @@ export default {
                 title: '保存',
                 iconStyle: {
                   opacity: 1,
-                  borderWidth: 2,
-                  borderColor: '#555'
+                  borderWidth: 1.7,
+                  borderColor: '#444'
+                },
+                emphasis: {
+                  iconStyle: {
+                    opacity: 1,
+                    borderWidth: 1.7,
+                    borderColor: '#009bef'
+                  }
                 }
               }
             }
@@ -1104,12 +1123,12 @@ export default {
     replace_some_chart_wrap(parm) {
       return replace_some_chart(parm)
     },
+    parentFn02(parm) {
+      this.price_to_now_ranking = parm
+    },
     // 获取当前选中的国家
     parentFn(payload) {
-      // alert(this.now_country)
-
       this.now_country = payload
-      // console.log(this.now_country)
     }
   }
 }
@@ -1159,7 +1178,7 @@ export default {
 }
 .font_and_img {
   text-align: left;
-  padding-left: 96px !important;
+  padding-left: 87px !important;
   width: 250px;
   text-overflow: ellipsis;
 }

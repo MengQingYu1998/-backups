@@ -481,7 +481,7 @@ export default {
       // 调用存储历史记录的方法
       this.search_history(this.nav_input_value)
       if (
-        parseInt(this.nav_input_value) >= 10000 &&
+        parseInt(this.nav_input_value) >= 100000 &&
         parseInt(this.nav_input_value) <= 999999999999
       ) {
         this.$store.state.now_country_name = this.now_country
