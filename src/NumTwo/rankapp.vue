@@ -57,7 +57,7 @@
           <div v-show="contentShow" class="scrollDiv">
                   <div>
                     <p v-show="infiniteMsgShow" class="tips">
-                      <img src="../assets/NumimgTwo/loading.gif"/>
+                      <i class="el-icon-loading"></i>
                     </p>
                     <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"> </p>
                   </div>
@@ -406,7 +406,7 @@ table thead tr {
   height: 40px;
 }
 table thead tr th {
-  font-weight: 600;
+  font-weight: 600!important;
   font-size: 13px;
   color: #222222;
   line-height: 40px;
@@ -547,8 +547,11 @@ table tbody tr th.zongrank > img {
   height:50px;
 }
 .tips{
-  /*font-family: SourceHanSansCN-Normal;*/
   font-size: 14px;
   color: #bfbfbf;
 }
+.tips:first-child{
+  font-size: 30px;
+}
+
 </style>

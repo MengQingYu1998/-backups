@@ -17,31 +17,16 @@
 					<span class="valY" v-html="valueY"></span>
 					<img src="../assets/NumImg/down.png" class="down" v-show="downL"/>
 					<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
-					<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>
+					<!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/> -->
 				</p>
 				<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 					<span class="valG" v-html="valueG"></span>
 					<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>
 					<img src="../assets/NumImg/downW.png" class="down" v-show="downWG"/>
-					<img src="../assets/NumImg/upW.png" class="down" v-show="upWG"/>
+					<!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWG"/> -->
 				</p>
 			</div>
-			<div class="Leibox">
-				<!-- 应用下拉框 -->
-				<div class="ying" v-if="showApplication" >
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="Application in Applications.Data" :key="Application.id"  v-html="Application.name" @click="cliLie(Application)"></span>
-					</div>
-				</div>
-				<!-- 游戏下拉框 -->
-				<div class="game" v-show="showGame">
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="game in games.Data" :key="game.id" v-html="game.name" @click="cliGame(game)"></span>
-					</div>
-				</div>
-			</div>
+			
 			<div class="date">
 				<p>日期</p>
 				<!-- element日期组件 -->
@@ -54,10 +39,21 @@
 				></el-date-picker>
 			</div>	
 		</div>
+		<div class="sonlei" v-show="showson">
+		        <div>
+		          <p>子分类</p>
+		          <div>
+		            <p v-for="(Application,index) in sons.Data" v-bind:class="{'selectFont':isSons==index}" :key="Application.id" @click="cliLie(Application,index)">{{Application.name}}</p>
+		          </div>
+		            
+		        </div>
+		          
+		    </div>
 		<!-- today -->
 		<div class="bodyDiv" v-show="bodyDiv">
 			<div class="loading" v-show="load">
-				<img src="../assets/NumimgTwo/loading.gif"/>
+				<i class="el-icon-loading"></i>
+				<!-- <img src="../assets/NumimgTwo/loading.gif"/> -->
 			</div>
 				            	
 			<div v-show="!load">
@@ -204,7 +200,8 @@
 		<!-- 应用,游戏 -->
 		<div class="appDiv" v-show="appDiv">
 			<div class="loading" v-show="load">
-				<img src="../assets/NumimgTwo/loading.gif"/>
+				<i class="el-icon-loading"></i>
+				<!-- <img src="../assets/NumimgTwo/loading.gif"/> -->
 			</div>
 			<div c-show="!load">
 				<div class="nowDiv">
@@ -295,12 +292,12 @@ export default{
       		// 应用下拉三角
       		downL:true,
       		downWL:false,
-      		upWL:false,
+      		// upWL:false,
 
       		// 游戏下拉三角
       		downG:true,
       		downWG:false,
-      		upWG:false,
+      		// upWG:false,
 
       		// 当前选中日期
 			dateV: new Date(),
@@ -331,16 +328,13 @@ export default{
 			tdate:'',//是否显示today
 			bodyDiv:true,
 			appDiv:false,
-			showApplication:false,//应用框
-			showGame:false,//游戏框
-			// 应用
-			Applications:{
-				Data:[]
-			},
-			// 游戏
-			games:{
-				Data:[]
-			},
+			// 子分类
+      		sons:{
+        		Data:[]
+      		},
+      		showson:false,
+      		isSons:0,
+			
 			showfont:'',//选中类别
 			todayshow:true,//国家组件
 			tod:true,
@@ -473,8 +467,7 @@ export default{
 				// console.log(res.data.Code)
 				if (res.data.Code == 0) {
 					this.load=false
-					this.Applications=res.data
-					this.games=res.data
+					this.sons=res.data
 					for(var i=0;i<res.data.Data.length;i++){
 							if(this.now_Application==res.data.Data[i].name){
 								geid = res.data.Data[i].id
@@ -495,9 +488,9 @@ export default{
 						}
 					})
 					.then(res=>{
-						console.log(res.data.Code)
+						// console.log(res.data.Code)
 						if(res.data.Code==0){
-							console.log(res.data.Data)
+							// console.log(res.data.Data)
 							this.load=false
 							this.tuijiandata=res.data
 						}
@@ -537,8 +530,7 @@ export default{
 				
 				if (res.data.Code == 0) {
 					// console.log(res.data.Data)
-					this.Applications=res.data
-					this.games=res.data
+					this.sons=res.data
 					for(var i=0;i<res.data.Data.length;i++){
 						if(this.now_Application==res.data.Data[i].name){
 							geid = res.data.Data[i].id
@@ -559,7 +551,7 @@ export default{
 						}
 					})
 					.then(res=>{
-						console.log("其他推荐"+res.data.Data)
+						// console.log("其他推荐"+res.data.Data)
 						if(res.data.Code==0){
 							this.otherdata=res.data
 						}
@@ -577,61 +569,39 @@ export default{
 		},
 		// 点击today
 		showZ(){
-
+			this.showson=false//子分类
 			this.appDiv=false//应用div隐藏
 			this.bodyDiv=true//Today显示
 			this.tod=true
-			
+			// 小三角
+	        this.downWG=false
+	        this.downG=true
+	        this.downL=true
+	        this.downWL=false
 		    this.todayshow=true//国家组件
-		    this.valueY="应用"
-		    this.valueG="游戏"
 		    // Today
 		    this.isFontZ=true
       		// 选中应用
       		this.isFont=false
       		// 选中游戏
       		this.isFontG=false
-      		// 应用小图标
-      		this.downL=true
-      		this.downWL=false
-      		this.upWL=false
-      		// 游戏小图标
-      		this.downG=true
-      		this.downWG=false
-      		this.upWG=false
+      		
 
       		this.todaydata.length=0
 		    this.gettodayData()
-
-      		this.showApplication=false
-      		this.showGame=false
 		},
 		// 点击应用
 		showY(){
-			if(this.now_Application==""||this.now_Application==undefined){
+			this.isSons=0
+			this.showson=true//子分类
+			this.now_Application="全部应用"
+			this.showfont="全部应用"
+			// 小三角
+	        this.downWG=false
+	        this.downG=true
+	        this.downL=false
+	        this.downWL=true
 
-				this.now_Application="全部应用"
-			}
-			
-			if(this.showApplication==false){
-					this.showApplication = true
-					// 应用小三角
-					this.upWL=true
-					this.downL=false
-					this.downWL=false
-				}else{
-					this.showApplication = false
-					
-					// 应用小三角
-					this.upWL=false
-					this.downL=true
-					this.downWL=false
-				}
-				// 游戏小三角
-				this.downG=true
-				this.downWG=false
-				this.upWG=false
-			this.showfont=this.now_Application
 			this.appDiv=true//应用div显示
 			this.bodyDiv=false//Today隐藏
 			this.todayshow=false//国家组件
@@ -650,32 +620,19 @@ export default{
 		},
 		// 点击游戏
 		showG(){
-			if(this.now_Application==""||this.now_Application==undefined){
-				this.now_Application="全部游戏"
-			}
-			if(this.showGame==true){
-					this.showGame=false
-					//游戏小三角
-					this.upWG=false
-					this.downG=false
-					this.downWG=true
-				}else{
-					this.showGame=true
-					//游戏小三角
-					this.upWG=true
-					this.downG=false
-					this.downWG=false
-				}
-			// 应用小三角
-				this.downL=true
-				this.downWL=false
-				this.upWL=false
-			// console.log(this.now_Application)
-			this.showfont=this.now_Application
+			this.isSons=0
+			this.showson=true//子分类
+			this.now_Application="全部游戏"
+			this.showfont="全部应用"
+			// 小三角
+	        this.downWG=true
+	        this.downG=false
+	        this.downL=true
+	        this.downWL=false
 			this.appDiv=true//应用div显示
 			this.bodyDiv=false//Today隐藏
 			this.todayshow=false//国家组件
-			this.valueY="应用"
+			
 			// Today
 		    this.isFontZ=false
       		// 选中应用
@@ -683,18 +640,14 @@ export default{
       		// 选中游戏
       		this.isFontG=true
       		
-      		this.showApplication=false
 			this.tuijiandata.length=0
 		    this.gettuijianData()
 		    this.otherdata.length=0
 		    this.getotherData()
 		},
-		// 点击应用option
-		cliLie(Application){
-			this.valueY=Application.name
-			this.showApplication=false
-			this.upWL=false
-			this.downWL=true
+		// 点击子分类
+		cliLie(Application,index){
+			this.isSons=index
 			
 			this.now_Application=Application.name
 			this.showfont=Application.name
@@ -703,19 +656,7 @@ export default{
 		    this.otherdata.length=0
 		    this.getotherData()	
 		},
-		// 点击游戏option
-		cliGame(game){
-			this.valueG=game.name
-			this.showGame=false
-			this.upWG=false
-			this.downWG=true
-			this.now_Application=game.name
-			this.showfont=game.name
-			this.tuijiandata.length=0
-		    this.gettuijianData()
-		    this.otherdata.length=0
-		    this.getotherData()
-		},
+		
 		go_to_page04(parm, parm02) {
 		      this.$store.state.now_country_name = this.now_country
 		      this.$store.state.now_app_name = parm02
@@ -986,7 +927,7 @@ export default{
 	width: 229px;
 	height: 68px;
 	background-color: rgba(0,0,0,.26);
-	margin-top: 31px;
+	margin-top: 32px;
 }
 .bodyDiv>div .div5 .left>div{
 	margin-top: 122px;
@@ -1444,7 +1385,44 @@ export default{
     vertical-align: top;
     margin-top: 8px;
 }
- 
+/*子分类*/
+.content .sonlei{
+  margin-left: 0!important;
+  margin-top: 10px;
+}
+.content .sonlei>div>div p{
+  height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 4px;
+    border: solid 1px #d6d6d6;
+    font-size: 13px;
+    color: #444444;
+    display: inline-block;
+    padding: 0 12px;
+    margin-left: 10px;
+    font-weight: inherit;
+}
+.sonlei>div>div p:hover{
+  cursor: pointer;
+}
+.sonlei div div{
+  display: inline-block;
+  margin-left: 2px;
+  line-height: 38px;
+  width: 1144px;
+}
+.content .sonlei>div>p{
+  height: 24px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+  font-weight: 600;
+    color: #222222;
+    vertical-align: top;
+    margin-top: 6px;
+}
 
 /*暂无数据*/
 .null{
@@ -1471,12 +1449,12 @@ export default{
 	color: #555555;
 }
 .coun{
-	width: 81px;
-    height: 28px;
+	width: 73px;
+    height: 25px;
     border-radius: 4px;
     border: solid 1px #dfdfdf;
     font-size: 13px;
-    line-height: 28px;
+    line-height: 25px;
     color: #444444;
     display: inline-block;
     text-align: center;
@@ -1485,9 +1463,9 @@ export default{
 .loading {
 	text-align: center;
 }
-.loading img{
-	width: 60px;
-	height:60px;
+.loading i{
+	font-size: 30px;
+	color: #bfbfbf;
 	margin-top: 200px;
 }
 </style>

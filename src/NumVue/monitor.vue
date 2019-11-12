@@ -11,13 +11,13 @@
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/> 
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
-						<img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/> 
+						<!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>  -->
 					</p>
 					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWG"/>
-						<img src="../assets/NumImg/upW.png" class="down" v-show="upWG"/>
+						<!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWG"/> -->
 					</p>
 				</div>
 				<div>
@@ -36,23 +36,18 @@
 								clear-icon @focus="dateValue_focus01()" @blur="dateValue_blur01()"
 				    ></el-date-picker>
 				</div>
-			</div>
-			<div class="Leibox">
-				<!-- 应用下拉框 -->
-				<div class="ying" v-if="showApplication" >
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="Application in Applications.Data" v-html="Application.name" @click="cliLie(Application)" :key="Application.id"></span>
+				<div class="sonlei" v-show="showson">
+					<div>
+						<p>子分类</p>
+						<div>
+							<p v-for="(Application,index) in sons.Data" v-bind:class="{'selectFont':isSons==index}" :key="Application.id" @click="cliLie(Application,index)">{{Application.name}}</p>
+						</div>
+						
 					</div>
-				</div>
-				<!-- 游戏下拉框 -->
-				<div class="game" v-show="showGame">
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="game in games.Data" v-html="game.name" @click="cliGame(game)" :key="game.id"></span>
-					</div>
+					
 				</div>
 			</div>
+			
 			
 			<div class="dataTable">
 				<div>
@@ -246,10 +241,10 @@
 				isFontG:false,
 				downL:true,
 				downWL:false,
-				upWL:false,
+				// upWL:false,
 				downG:true,
 				downWG:false,
-				upWG:false,
+				// upWG:false,
 				// 榜单分类样式
 				isSelectfont:'',
 				index:0,
@@ -268,7 +263,7 @@
 			          // 这里就是设置当天后的日期不能被点击
 			        }
 			    },
-				now_Application:'应用',
+				now_Application:'总榜',
 				// 榜单分类
 				brands:[
 					{name:'免费'},
@@ -283,7 +278,14 @@
 				games:{
 					Data:[]
 				},
+				// 
 				fontTimeY:true,
+				// 子分类
+				sons:{
+					Data:[]
+				},
+				isSons:0,
+				showson:false,
 				// 表格
 				// trs:[]
 				clockInfoList:[],
@@ -324,12 +326,12 @@
 		    // 2.添加两个事件
 		    // 3.复制以下代码
 		    dateValue_blur01(){
-				console.log('失去焦点')
+				// console.log('失去焦点')
 		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after',
 		        'transform:rotate(0deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
 		    },
 		    dateValue_focus01(){
-		        console.log('得到焦点')                      
+		//         console.log('得到焦点')                      
 		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after','transform:rotate(-180deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
 		    },
 			//请求数据
@@ -367,8 +369,7 @@
 				})
 				.then(res => {
 					if (res.data.Code == 0) {
-						this.Applications=res.data
-						this.games=res.data
+						this.sons=res.data
 						if(pidV==36){
 					        geid=36	
 					    }else{
@@ -423,102 +424,64 @@
 			},
 			// 点击总榜
 			showZ(){
-				// 应用小三角
-				this.upWL=false
+				this.now_Application="总榜"
+				// 小三角
+				this.downWG=false
+				this.downG=true
 				this.downL=true
 				this.downWL=false
-				//游戏小三角
-				this.upWG=false
-				this.downG=true
-				this.downWG=false
 
+				this.showson=false
 				this.isFontZ=true
 				this.isFont=false
 				this.isFontG=false
 				this.showApplication = false;
 				this.showGame=false;
-				this.valueY="应用"
-				this.valueG="游戏"
 				this.getData()
 			},
 			// 点击应用榜
 			showY(){
-				if(this.now_Application==""){
-					this.now_Application="全部应用"
-				}
-				if(this.showApplication==false){
-					this.showApplication = true
-					// 应用小三角
-					this.upWL=true
-					this.downL=false
-					this.downWL=false
-				}else{
-					this.showApplication = false
-					
-					// 应用小三角
-					this.upWL=false
-					this.downL=false
-					this.downWL=true
-				}
+				this.isSons=0
+				this.showson=true
+				this.now_Application="全部应用"
+				// 小三角
+				this.downWG=false
+				this.downG=true
+				this.downL=false
+				this.downWL=true
+
 				this.showGame=false
 				this.isFont=true
 				this.isFontZ=false
 				this.isFontG=false
 				
-				//游戏小三角
-				this.upWG=false
-				this.downG=true
-				this.downWG=false
+
 
 				this.valueG="游戏"
 				this.getData()
 			},
 			// 点击游戏榜
 			showG(){
-				if(this.now_Application==""){
-					this.now_Application="全部游戏"
-				}
-				if(this.showGame==true){
-					this.showGame=false
-					//游戏小三角
-					this.upWG=false
-					this.downG=false
-					this.downWG=true
-				}else{
-					this.showGame=true
-					//游戏小三角
-					this.upWG=true
-					this.downG=false
-					this.downWG=false
-				}
-				
+				this.isSons=0
+				this.showson=true
+				this.now_Application="全部游戏"
+				// 小三角
+				this.downWG=true
+				this.downG=false
+				this.downL=true
+				this.downWL=false
+
 				this.showApplication=false
 				this.isFontZ=false
 				this.isFontG=true
 				this.isFont=false
-				// 应用小三角
-				this.upWL=false
-				this.downL=true
-				this.downWL=false
 				
-				this.valueY="应用"
 				this.getData()
 			},
 			// 点击应用option
-			cliLie(Application){
-				this.valueY=Application.name
-				this.showApplication=false
-				this.upWL=false
-				this.downWL=true
+			cliLie(Application,index){
+				this.isSons=index
 				this.now_Application=Application.name
-				this.getData()
-			},
-			cliGame(game){
-				this.valueG=game.name
-				this.showGame=false
-				this.upWG=false
-				this.downWG=true
-				this.now_Application=game.name
 				this.getData()
 			},
 			//点击榜单分类
@@ -631,11 +594,11 @@
 	display: inline-block;
 }
 .content .lei>div:nth-child(2),
-.content .lei>div:last-child{
+.content .lei>div:nth-child(3){
 	margin-left: 30px;
 }
 
-.content .lei>div p{
+.content .lei>div>p{
 	height: 24px;
 	line-height: 25px;
 	text-align: center;
@@ -662,14 +625,14 @@
 	background-color: #38aded!important;
 	border: 1px solid #38aded!important;
 }
-.content .lei>div p:first-child{
+.content .lei>div>p:first-child{
 	font-weight: 600;
 	color: #222222;
 	border:none;
 	padding: 0;
 	margin-left: 0;
 }
-.content .lei>div p:first-child:hover{
+.content .lei>div>p:first-child:hover{
 	background-color: transparent;
 	color: #222222!important;
 	border: none!important;
@@ -752,5 +715,42 @@
 	width:65px;
 	display: inline-block;
 }
-
+/*子分类*/
+.sonlei{
+	margin-left: 0!important;
+	margin-top: 10px;
+}
+.content .sonlei>div>div p{
+	height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 4px;
+    border: solid 1px #d6d6d6;
+    font-size: 13px;
+    color: #444444;
+    display: inline-block;
+    padding: 0 12px;
+    margin-left: 10px;
+    font-weight: inherit;
+}
+.sonlei>div>div p:hover{
+	cursor: pointer;
+}
+.sonlei div div{
+	display: inline-block;
+	margin-left: 2px;
+	line-height: 38px;
+	width: 1144px;
+}
+.content .sonlei>div>p{
+	height: 24px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+	font-weight: 600;
+    color: #222222;
+    vertical-align: top;
+    margin-top: 6px;
+}
 </style>

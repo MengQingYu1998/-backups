@@ -242,6 +242,8 @@ export default {
     this.historyWord = localStorage.getItem('searchWord')
     if (this.historyWord != null) {
       this.historyWord = this.historyWord.split(',') //将字符串转成数组
+    } else {
+      this.historyWord = new Array()
     }
 
     this.fun()
@@ -405,6 +407,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+              // console.log(response)
               this.response_data = response.data.Data
 
               // 查找你要判断的文本框

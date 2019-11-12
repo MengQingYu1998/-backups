@@ -778,4 +778,14 @@ input[type='number'] {
   margin-left: 117px;
   padding: 15px 0;
 }
+// 饿了么loading
+#data_table .el-icon-loading:before {
+  font-size: 20px;
+}
+#data_table .el-loading-spinner {
+  display: flex;
+  margin-top: -16px;
+  align-items: center;
+  justify-content: center;
+}
 </style>

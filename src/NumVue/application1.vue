@@ -46,22 +46,17 @@
 					<button class="search" @click="search()">搜索</button>
 				</div>
 			</div>
-			<div class="Leibox">
-				<!-- 应用下拉框 -->
-				<div class="ying" v-if="showApplication" >
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="Application in Applications.Data" v-html="Application.name" @click="cliLie(Application)" :key="Application.id"></span>
+			<div class="sonlei" v-show="showson">
+				<div>
+					<p>子分类</p>
+					<div>
+						<p v-for="(Application,index) in sons.Data" v-bind:class="{'selectFont':isSons==index}" :key="Application.id" @click="cliLie(Application,index)">{{Application.name}}</p>
 					</div>
+						
 				</div>
-				<!-- 游戏下拉框 -->
-				<div class="game" v-show="showGame">
-					<img src="../assets/NumImg/jiao.png" class="jiao" />
-					<div class="lie">
-						<span v-for="game in games.Data" v-html="game.name" @click="cliGame(game)" :key="game.id"></span>
-					</div>
-				</div>
+					
 			</div>
+			
 			<div class="zongbang">
 				<div class="tit">
 					<p class="line"></p>
@@ -263,7 +258,8 @@
 					<div class="scrollDiv aaaaa" v-show="contentShow">
 			            <div>
 				            <p v-show="infiniteMsgShow" class="tips">
-				            	<img src="../assets/NumimgTwo/loading.gif"/>
+				            	<i class="el-icon-loading"></i>
+				            	<!-- <img src="../assets/NumimgTwo/loading.gif"/> -->
 				            </p>
 				            <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"></p>
 			            </div>
@@ -288,7 +284,7 @@
 		data(){
 			return{
 				// 标题
-				apptit:'App Store清榜监控',
+				apptit:'App Store上架监控',
 				showApplication:false,
 				showGame:false,
 				valueY:'应用',
@@ -351,6 +347,12 @@
 					{name:'清榜应用',id:3},
 					{name:'清词应用',id:4}
 				],
+				// 子分类
+				sons:{
+					Data:[]
+				},
+				showson:false,
+				isSons:0,
 				// 应用
 				Applications:{
 					Data:[]
@@ -551,8 +553,9 @@
 						})
 						.then(res => {
 							if (res.data.Code == 0) {
-								this.Applications=res.data
-								this.games=res.data
+								// this.Applications=res.data
+								// this.games=res.data
+								this.sons=res.data
 								if(pidV==36){
 							        geid=36	
 							       	
@@ -598,7 +601,6 @@
 								})
 								.then(res=>{
 									if(res.data.Code==0){
-										// console.log("data:"+res.data.Data)
 										this.onlinFont=res.data.pageCount
 										
 										if(this.onlinFont>0&&this.onlinFont<21){
@@ -620,7 +622,13 @@
 										if(this.total_number==number){
 											    this.zongsdataList=this.zongsdataList.concat(res.data.Data)
 											    this.page+=1
-											    this.xiajiaId=this.zongsdataList[0].id
+
+											    if(this.zongsdataList==""){
+											    	this.xiajiaId=0
+											    }else{
+											    	this.xiajiaId=this.zongsdataList[0].id
+											    }
+											    
 											    // console.log("page:"+this.page)
 											    // console.log("第一个的id:"+this.xiajiaId)
 											    // console.log(res.data.Data)
@@ -648,7 +656,6 @@
 									console.log(error)
 									this.hasup=false
 									this.contentShow = false
-									// this.infiniteMsgShow = false
 								})
 
 
@@ -720,8 +727,7 @@
 						})
 						.then(res => {
 							if (res.data.Code == 0) {
-								this.Applications=res.data
-								this.games=res.data
+								this.sons=res.data
 								if(pidV==36){
 							        geid=36	
 							       	
@@ -733,6 +739,8 @@
 								    }
 
 							    }
+							    
+							  
 							    // 获取清榜接口
 							  	this.$axios({
 									method:"post",
@@ -749,7 +757,6 @@
 									}
 								})
 								.then(res=>{
-									// console.log(res.data)
 									if(res.data.Code==0){
 										this.onlinFontB=res.data.pageCount
 										if(this.onlinFontB>0&&this.onlinFontB<21){
@@ -859,8 +866,7 @@
 						})
 						.then(res => {
 							if (res.data.Code == 0) {
-								this.Applications=res.data
-								this.games=res.data
+								this.sons=res.data
 								if(pidV==36){
 							        geid=36	
 							       	
@@ -956,19 +962,17 @@
 			},
 			// 点击总榜
 			showZ(){
-				this.downG=true
-				this.downWG=false
-				this.downL=true
-				this.downWL=false
+				this.showson=false
+				
 				this.isFontZ=true
 				this.isFont=false
 				this.isFontG=false
-				this.upWG=false
-				this.upWL=false
-				this.showApplication = false
-				this.showGame=false
-				this.valueG="游戏"
-				this.valueY="应用"
+				// 小三角
+				this.downWG=false
+				this.downG=true
+				this.downL=true
+				this.downWL=false
+				this.now_Application="总榜"
 				if(this.isSelect==0||this.isSelect==1){
 					this.zongsdataList.length=0
 				    this.page=1
@@ -985,85 +989,76 @@
 			},
 			// 点击应用榜
 			showY(){
-				if(this.now_Application==""){
-					this.now_Application="全部应用"
-				}
+				this.isSons=0
+				this.showson=true
+				// 小三角
+				this.downWG=false
+				this.downG=true
+				this.downL=false
+				this.downWL=true
 				
-				if(this.showApplication==false){
-					this.showApplication = true
-					// 应用小三角
-					this.upWL=true
-					this.downL=false
-					this.downWL=false
-				}else{
-					this.showApplication = false
-					
-					// 应用小三角
-					this.upWL=false
-					this.downL=false
-					this.downWL=true
-				}
-				this.showGame=false
-				this.valueG="游戏"
 				this.isFont=true
 				this.isFontZ=false
 				this.isFontG=false
-				
-				// 游戏小三角
-				this.downG=true
-				this.downWG=false
-				this.upWG=false
+				this.now_Application="全部应用"
 				if(this.isSelect==0||this.isSelect==1){
+					this.zongsBList.length=0
+					this.cidataList.length=0
+					this.zongsdataList.length=0
+				    this.page=1
 				    this.getData()
 				}else if(this.isSelect==2){
+					this.cidataList.length=0
+					this.zongsdataList.length=0
+					this.zongsBList.length=0
+				    this.page2=1
 				    this.getDataB()
 				}else if(this.isSelect==3){
+					this.zongsdataList.length=0
+					this.zongsBList.length=0
+					this.cidataList.length=0
+				    this.page3=1
 				    this.getDataci()
 				}
 			},
 			// 点击游戏榜
 			showG(){
-				if(this.now_Application==""){
-					this.now_Application="全部游戏"
-				}
+				this.isSons=0
+				this.showson=true
+				// 小三角
+				this.downWG=true
+				this.downG=false
+				this.downL=true
+				this.downWL=false
 				
-				
-				if(this.showGame==true){
-					this.showGame=false
-					//游戏小三角
-					this.upWG=false
-					this.downG=false
-					this.downWG=true
-				}else{
-					this.showGame=true
-					//游戏小三角
-					this.upWG=true
-					this.downG=false
-					this.downWG=false
-				}
-				this.showApplication=false
-				this.valueY="应用"
 				this.isFontZ=false
 				this.isFontG=true
 				this.isFont=false
-				// 应用小三角
-				this.downL=true
-				this.downWL=false
-				this.upWL=false
+				this.now_Application="全部游戏"
 				if(this.isSelect==0||this.isSelect==1){
+					this.zongsBList.length=0
+					this.cidataList.length=0
+					this.zongsdataList.length=0
+				    this.page=1
 				    this.getData()
 				}else if(this.isSelect==2){
+					this.cidataList.length=0
+					this.zongsdataList.length=0
+					this.zongsBList.length=0
+				    this.page2=1
 				    this.getDataB()
 				}else if(this.isSelect==3){
+					this.zongsdataList.length=0
+					this.zongsBList.length=0
+					this.cidataList.length=0
+				    this.page3=1
 				    this.getDataci()
 				}
 			},
 			// 点击应用option
-			cliLie(Application){
-				this.valueY=Application.name
-				this.showApplication=false
-				this.upWL=false
-				this.downWL=true
+			cliLie(Application,index){
+				this.isSons=index
+				
 				this.now_Application=Application.name
 				if(this.isSelect==0||this.isSelect==1){
 					this.zongsBList.length=0
@@ -1085,26 +1080,7 @@
 				    this.getDataci()
 				}
 			},
-			cliGame(game){
-				this.valueG=game.name
-				this.showGame=false
-				this.upWG=false
-				this.downWG=true
-				this.now_Application=game.name
-				if(this.isSelect==0||this.isSelect==1){
-					this.zongsdataList.length=0
-				    this.page=1
-				    this.getData()
-				}else if(this.isSelect==2){
-					this.zongsBList.length=0
-				    this.page2=1
-				    this.getDataB()
-				}else if(this.isSelect==3){
-					this.cidataList.length=0
-				    this.page3=1
-				    this.getDataci()
-				}
-			},
+			
 			// 判断显示上架应用还是下架应用
 			selectLei(i){
 				this.searchval=""
@@ -1123,15 +1099,14 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=true//表格上架时间显示
-					this.apptit='App Store上架监控'
 
+					this.apptit='App Store上架监控'
 					this.zongsdataList.length=0
 		      		this.page=1
 		      		this.getData()
 				}else if(this.isSelect==1){
 					// this.clixia=true
 					//下架应用
-					 this.apptit='App Store下架监控'
 					this.shangjiatF=false//上架标题
 					this.xiajiatF=true//下架标题
 					
@@ -1140,7 +1115,7 @@
 					this.qingbangF=false//清榜表格
 					this.qingciF=false//清词表格
 					this.shangT=false//表格下架时间显示
-
+					this.apptit='App Store下架监控'
 					this.zongsdataList.length=0
 		      		this.page=1
 					this.getData()
@@ -1195,6 +1170,7 @@
 
 
 <style scoped>
+
 .content{
 	min-height: 600px;
 }
@@ -1298,6 +1274,8 @@
 	margin-left: 0;
 }
 .select{
+	font-weight: 600;
+	color: #222222!important;
 	border-bottom: 2px solid #009bef;
 }
 
@@ -1574,7 +1552,7 @@ table tbody tr th .right{
 	margin-right: 3px;
 }
 table tbody tr th>.dir{
-	margin-top: 6px;
+	margin-top: 4px;
 	width: 8px;
 	height: 8px;
 	vertical-align: top;
@@ -1585,6 +1563,44 @@ table tbody tr th span:last-child{
 table tbody tr th.zongrank>img{
 	margin-top: 5px;
 	margin-left: 0;
+}
+/*子分类*/
+.content .sonlei{
+	margin-left: 0!important;
+	margin-top: 10px;
+}
+.content .sonlei>div>div p{
+	height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 4px;
+    border: solid 1px #d6d6d6;
+    font-size: 13px;
+    color: #444444;
+    display: inline-block;
+    padding: 0 12px;
+    margin-left: 10px;
+    font-weight: inherit;
+}
+.sonlei>div>div p:hover{
+	cursor: pointer;
+}
+.sonlei div div{
+	display: inline-block;
+	margin-left: 2px;
+	line-height: 38px;
+	width: 1144px;
+}
+.content .sonlei>div>p{
+	height: 24px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+	font-weight: 600;
+    color: #222222;
+    vertical-align: top;
+    margin-top: 6px;
 }
 /*暂无数据*/
 .null{
@@ -1611,5 +1627,8 @@ table tbody tr th.zongrank>img{
 .tips{
 	font-size: 14px;
 	color: #bfbfbf;
+}
+.tips:first-child{
+	font-size: 30px;
 }
 </style>

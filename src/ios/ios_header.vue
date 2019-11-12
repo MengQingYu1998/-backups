@@ -195,7 +195,7 @@ export default {
   -webkit-filter: grayscale(1);
   filter: grayscale(100%);
   filter: gray;
-  opacity: 0.4;
+  opacity: 0.7;
 }
 .white {
   width: 69px;
@@ -289,7 +289,7 @@ export default {
 .app_description {
   display: inline-block;
   margin-left: 19px;
-  margin-right: 40px;
+  margin-right: 30px;
 }
 
 .wrap {

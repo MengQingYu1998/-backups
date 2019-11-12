@@ -18,13 +18,13 @@
             <span class="valY" v-html="valueY"></span>
             <img src="../assets/NumImg/down.png" class="down" v-show="downL" />
             <img src="../assets/NumImg/downW.png" class="down" v-show="downWL" />
-            <img src="../assets/NumImg/upW.png" class="down" v-show="upWL" />
+            <!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWL" /> -->
           </p>
           <p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
             <span class="valG" v-html="valueG"></span>
             <img src="../assets/NumImg/down.png" class="down" v-show="downG" />
             <img src="../assets/NumImg/downW.png" class="down" v-show="downWG" />
-            <img src="../assets/NumImg/upW.png" class="down" v-show="upWG" />
+            <!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWG" /> -->
           </p>
         </div>
         <div>
@@ -36,49 +36,24 @@
             @click="clibLei(index)"
             :key="index"
           >{{brankLei.name}}</p>
-          <!-- <p class="font">付费</p>
-          <p class="font">畅销</p>-->
         </div>
         <div>
           <p>日期</p>
           <!-- element下拉菜单组件 -->
-          <p @click="cliDate()">
-            <span v-html="datefont"></span>
-            <img src="../assets/NumImg/down.png" />
+          <p @click="cliDate(index)" :class="{'selectFont':isSelectdate==index}" v-for="(item,index) in timDs">
+            {{item.name}}
           </p>
         </div>
       </div>
-      <div class="Leibox">
-        <!-- 应用下拉框 -->
-        <div class="ying" v-if="showApplication">
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
-          <div class="lie">
-            <span
-              v-for="Application in Applications.Data"
-              @click="cliLie(Application)"
-              :key="Application.id"
-            >{{Application.name}}</span>
+      <div class="sonlei" v-show="showson">
+        <div>
+          <p>子分类</p>
+          <div>
+            <p v-for="(Application,index) in sons.Data" v-bind:class="{'selectFont':isSons==index}" :key="Application.id" @click="cliLie(Application,index)">{{Application.name}}</p>
           </div>
+            
         </div>
-        <!-- 游戏下拉框 -->
-        <div class="game" v-show="showGame">
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
-          <div class="lie">
-            <span
-              v-for="game in games.Data"
-              v-html="game.name"
-              @click="cliGame(game)"
-              :key="game.id"
-            ></span>
-          </div>
-        </div>
-        <!-- 日期下拉框 -->
-        <div class="date" v-show="showdate">
-          <img src="../assets/NumImg/jiao.png" class="jiao" />
-          <div class="lie">
-            <span v-for="(timD,index) in timDs" @click="clitime(index)" :key="index">{{timD.name}}</span>
-          </div>
-        </div>
+          
       </div>
       <div class="zongbang">
         <div class="tit">
@@ -139,7 +114,8 @@
           <div v-show="contentShow" class="scrollDiv">
             <div>
               <p v-show="infiniteMsgShow" class="tips">
-                <img src="../assets/NumimgTwo/loading.gif"/>
+                <i class="el-icon-loading"></i>
+                <!-- <img src="../assets/NumimgTwo/loading.gif"/> -->
               </p>
               <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"> </p>
             </div>
@@ -152,14 +128,12 @@
 
 
 <script>
-// import { formatDate } from '../common/util.js'
+
 export default {
   data() {
     return {
       // 标题
       ranktit:'排名上升监控',
-      showApplication: false, //应用下拉框是否显示
-      showGame: false, //游戏下拉框是否显示
       valueY: '应用', //应用html
       valueG: '游戏', //游戏html
       isFontZ: true, //总榜样式
@@ -167,19 +141,15 @@ export default {
       isFontG: false, //游戏榜样式
       downL: true,
       downWL: false,
-      upWL: false,
       downG: true,
       downWG: false,
-      upWG: false,
-      index: 0,
-      isSelect: '', //排名上升下降加样式
+      
+      isSelectdate:0,//日期
+      isSelect: 0, //排名上升下降加样式
       upfontval: '24小时内上升榜',
       upfont: true,
-      isSelectfont: '', //榜单分类加样式
-      index: 0, //榜单分类index
+      isSelectfont: 0, //榜单分类加样式
       now_Application: '',
-      showdate: false, //是否显示日期下拉框
-      datefont: '24小时内', //日期html
       zongsData: [],
       page: 1,
       pageSize: 20,
@@ -190,21 +160,19 @@ export default {
       lis: [{ name: '排名上升榜' }, { name: '排名下降榜' }],
       // 榜单分类
       brands: [{ name: '免费' }, { name: '付费' }, { name: '畅销' }],
-      // 应用
-      Applications: {
-        Data: []
-      },
+      
       // 日期
       timDs: [
         { name: '24小时内' },
         { name: '3天内' },
-        { name: '7天内' },
-        { name: '30天内' }
+        { name: '7天内' }
       ],
-      // 游戏
-      games: {
-        Data: []
+      // 子分类
+      sons:{
+        Data:[]
       },
+      showson:false,
+      isSons:0,
       // 是否有数据
       hasrankdata:true,
 
@@ -292,34 +260,28 @@ export default {
       }
       // 传给后台的dayNum值
       let dayNumV = 1
-      if (this.datefont == '24小时内') {
+      if (this.isSelectdate == 0) {
         dayNumV = 1
-      } else if (this.datefont == '3天内') {
+      } else if (this.isSelectdate == 1) {
         dayNumV = 3
-      } else if (this.datefont == '7天内') {
+      } else if (this.isSelectdate == 2) {
         dayNumV = 7
-      } else if (this.datefont == '30天内') {
-        dayNumV = 3
       }
 
       // 判断标题显示html
-      if (this.isSelect == 0 && this.datefont == '24小时内') {
+      if (this.isSelect == 0 && this.isSelectdate == 0) {
         this.upfontval = '24小时内上升榜'
-      } else if (this.isSelect == 0 && this.datefont == '3天内') {
+      } else if (this.isSelect == 0 && this.isSelectdate == 1) {
         this.upfontval = '3天内上升榜'
-      } else if (this.isSelect == 0 && this.datefont == '7天内') {
+      } else if (this.isSelect == 0 && this.isSelectdate == 2) {
         this.upfontval = '7天内上升榜'
-      } else if (this.isSelect == 0 && this.datefont == '30天内') {
-        this.upfontval = '30天内上升榜'
-      } else if (this.isSelect == 1 && this.datefont == '24小时内') {
+      }else if (this.isSelect == 1 && this.isSelectdate == 0) {
         this.upfontval = '24小时内下降榜'
-      } else if (this.isSelect == 1 && this.datefont == '3天内') {
+      } else if (this.isSelect == 1 && this.isSelectdate == 1) {
         this.upfontval = '3天内下降榜'
-      } else if (this.isSelect == 1 && this.datefont == '7天内') {
+      } else if (this.isSelect == 1 && this.isSelectdate == 2) {
         this.upfontval = '7天内下降榜'
-      } else if (this.isSelect == 1 && this.datefont == '30天内') {
-        this.upfontval = '30天内下降榜'
-      }
+      } 
 
       // 获取分类id
       let apliId = ''
@@ -329,8 +291,7 @@ export default {
       })
         .then(res => {
           if (res.data.Code == 0) {
-            this.Applications = res.data
-            this.games = res.data
+            this.sons=res.data
             if (pidV == 36) {
               apliId = 36
             } else {
@@ -431,19 +392,17 @@ export default {
     },
     // 点击总榜
     showZ() {
-      this.downG = true
-      this.downWG = false
-      this.downL = true
-      this.downWL = false
+      this.showson=false
+      // 小三角
+        this.downWG=false
+        this.downG=true
+        this.downL=true
+        this.downWL=false
+
       this.isFontZ = true
       this.isFont = false
       this.isFontG = false
-      this.upWG = false
-      this.upWL = false
-      this.showApplication = false
-      this.showGame = false
-      this.valueG="游戏"
-      this.valueY="应用"
+      
       this.showdate = false
       this.zongsData.length = 0
       this.page = 1
@@ -451,94 +410,53 @@ export default {
     },
     // 点击应用榜
     showY() {
-        if(this.now_Application==""){
-          this.now_Application="全部应用"
-        }
-          
-        if(this.showApplication==false){
-          this.showApplication = true
-          // 应用小三角
-          this.upWL=true
-          this.downL=false
-          this.downWL=false
-        }else{
-          this.showApplication = false
-          
-          // 应用小三角
-          this.upWL=false
-          this.downL=false
-          this.downWL=true
-        }
-      this.showGame = false
+      this.isSons=0
+      this.showson=true
+      this.now_Application="全部应用"
+      // 小三角
+        this.downWG=false
+        this.downG=true
+        this.downL=false
+        this.downWL=true
+
       this.isFont = true
       this.isFontZ = false
       this.isFontG = false
       
-      // 游戏小三角
-      this.downG = true
-      this.downWG = false
-      this.upWG = false
-      this.showdate = false
-      this.valueG="游戏"
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
     // 点击游戏榜
     showG() {
-        if(this.now_Application==""){
-          this.now_Application="全部游戏"
-        }
-        console.log(this.now_Application)
-        if(this.showGame==true){
-          this.showGame=false
-          //游戏小三角
-          this.upWG=false
-          this.downG=false
-          this.downWG=true
-        }else{
-          this.showGame=true
-          //游戏小三角
-          this.upWG=true
-          this.downG=false
-          this.downWG=false
-        }
-      this.showApplication = false
+      this.isSons=0
+      this.showson=true
+      this.now_Application="全部游戏"
+
+      // 小三角
+        this.downWG=true
+        this.downG=false
+        this.downL=true
+        this.downWL=false
+        
       this.isFontZ = false
       this.isFontG = true
       this.isFont = false
-      // 应用小三角
-      this.downL = true
-      this.downWL = false
-      this.upWL = false
-      this.showdate = false
-      this.valueY="应用"
+      
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
-    // 点击应用option
-    cliLie(Application) {
-      this.valueY = Application.name
-      this.showApplication = false
-      this.upWL = false
-      this.downWL = true
+    // 点击子分类
+    cliLie(Application,index) {
+      this.isSons=index
+      
       this.now_Application = Application.name
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
-    //点击游戏option
-    cliGame(game) {
-      this.valueG = game.name
-      this.showGame = false
-      this.upWG = false
-      this.downWG = true
-      this.now_Application = game.name
-      this.zongsData.length = 0
-      this.page = 1
-      this.getData()
-    },
+    
     //点击排名上升/下降
     selectLei(index) {
       this.isSelect = index
@@ -569,30 +487,13 @@ export default {
       this.getData()
     },
     // 点击日期
-    cliDate() {
-      this.showApplication = false
-      this.showGame = false
-      this.showdate = true
-      // this.zongsData.length = 0
-      // this.page = 1
-      // this.getData()
-    },
-    // 点击日期option
-    clitime(index) {
-      if (index == 0) {
-        this.datefont = '24小时内'
-      } else if (index == 1) {
-        this.datefont = '3天内'
-      } else if (index == 2) {
-        this.datefont = '7天内'
-      } else if (index == 3) {
-        this.datefont = '30天内'
-      }
-      this.showdate = false
+    cliDate(index) {
+      this.isSelectdate=index
       this.zongsData.length = 0
       this.page = 1
       this.getData()
     },
+   
     go_to_page01(parm, parm02) {
       this.$store.state.now_country_name = this.now_country
       this.$store.state.now_app_name = parm02
@@ -694,7 +595,7 @@ export default {
   vertical-align: top;
   margin-top: 11px;
   margin-left: 2px;
-  margin-right: 5px;
+  /*margin-right: 5px;*/
 }
 .content {
   width: 1200px;
@@ -957,7 +858,44 @@ table tbody tr th.zongrank > img {
   margin-top: 5px;
   margin-left: 0;
 }
-
+/*子分类*/
+.content .sonlei{
+  margin-left: 0!important;
+  margin-top: 10px;
+}
+.content .sonlei>div>div p{
+  height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 4px;
+    border: solid 1px #d6d6d6;
+    font-size: 13px;
+    color: #444444;
+    display: inline-block;
+    padding: 0 12px;
+    margin-left: 10px;
+    font-weight: inherit;
+}
+.sonlei>div>div p:hover{
+  cursor: pointer;
+}
+.sonlei div div{
+  display: inline-block;
+  margin-left: 2px;
+  line-height: 38px;
+  width: 1144px;
+}
+.content .sonlei>div>p{
+  height: 24px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+  font-weight: 600;
+    color: #222222;
+    vertical-align: top;
+    margin-top: 6px;
+}
 
 /*暂无数据*/
 .null{
@@ -984,5 +922,8 @@ table tbody tr th.zongrank > img {
 .tips{
   font-size: 14px;
   color: #bfbfbf;
+}
+.tips:first-child{
+  font-size: 30px;
 }
 </style>
