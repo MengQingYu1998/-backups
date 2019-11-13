@@ -81,8 +81,9 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  clear-icon
-                  prefix-icon="fasle"
+                  :clearable="false"
+                  unlink-panels
+                  prefix-icon="el-icon-caret-bottom"
                   :picker-options="middle_top_pickerOptions"
                   @blur="dateValue_blur01"
                   @focus="dateValue_focus01"
@@ -90,11 +91,7 @@
               </div>
             </div>
           </div>
-          <!-- <div
-          class="table_title"
-          v-if="response_data_second"
-        >{{response_data_second[0].appName+' 与 '+response_data_second[1].appName}} 排名对比</div>
-          <div class="table_sub_title">【{{middle_top_radio3}}】榜单排名走势</div>-->
+
           <div class="position_relative">
             <div
               ref="ranking_compare"

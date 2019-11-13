@@ -10,79 +10,80 @@
         <div class="right">
           <div class="right_nav">同开发者应用</div>
           <div class="line"></div>
-          <img class="loading_gif" src="../assets/ios/loading.gif" v-show="loading_gif" />
-          <table v-show="!loading_gif">
-            <thead>
-              <tr>
-                <th></th>
-                <th>应用</th>
-                <th>总榜排名</th>
-                <th>分类榜排名</th>
-                <th>上架日期</th>
-                <th>最后更新时间</th>
-                <th>状态</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="disable_hover" v-if="nothing_data_can_show">
-                <td colspan="8">
-                  <div class="no_data_img">
-                    <img src="../assets/ios/null.png" alt />
-                    <div>暂无相关数据</div>
-                  </div>
-                </td>
-              </tr>
-              <tr v-for="(item ,index) in response_data" :key="index">
-                <td class="first_td">{{index+1}}</td>
-                <td class="second_td">
-                  <div class="use">
-                    <div>
-                      <img
-                        :src="item.icon"
-                        class="pointer"
-                        @click="go_to_page01(item.appId,item.appName)"
-                        alt
-                      />
+          <div v-loading="loading_gif" element-loading-spinner="el-icon-loading">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>应用</th>
+                  <th>总榜排名</th>
+                  <th>分类榜排名</th>
+                  <th>上架日期</th>
+                  <th>最后更新时间</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="disable_hover" v-if="nothing_data_can_show">
+                  <td colspan="8">
+                    <div class="no_data_img">
+                      <img src="../assets/ios/null.png" alt />
+                      <div>暂无相关数据</div>
                     </div>
-                    <div>
-                      <div
-                        class="pointer appName"
-                        @click="go_to_page01(item.appId,item.appName)"
-                      >{{item.appName}}</div>
-                      <div class="rankingChangeFontColor">{{item.developer}}</div>
+                  </td>
+                </tr>
+                <tr v-for="(item ,index) in response_data" :key="index">
+                  <td class="first_td">{{index+1}}</td>
+                  <td class="second_td">
+                    <div class="use">
+                      <div>
+                        <img
+                          :src="item.icon"
+                          class="pointer"
+                          @click="go_to_page01(item.appId,item.appName)"
+                          alt
+                        />
+                      </div>
+                      <div>
+                        <div
+                          class="pointer appName"
+                          @click="go_to_page01(item.appId,item.appName)"
+                        >{{item.appName}}</div>
+                        <div class="rankingChangeFontColor">{{item.developer}}</div>
+                      </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
 
-                <td class="third_td">
-                  <div
-                    class="rankingChangeFontColor font_size_15"
-                  >{{item.totalRank==0?'-':item.totalRank}}</div>
-                  <div
-                    class="rankingChangeFontColor letter_spacing_1"
-                  >{{item.totalGenreName==null?'-':item.totalGenreName}}</div>
-                </td>
-                <td class="fourth_td">
-                  <div
-                    class="rankingChangeFontColor font_size_15"
-                  >{{item.genreRank==0?'-':item.genreRank}}</div>
-                  <div
-                    class="rankingChangeFontColor letter_spacing_1"
-                  >{{item.genreName==null?'-':item.genreName}}</div>
-                </td>
+                  <td class="third_td">
+                    <div
+                      class="rankingChangeFontColor font_size_15"
+                    >{{item.totalRank==0?'-':item.totalRank}}</div>
+                    <div
+                      class="rankingChangeFontColor letter_spacing_1"
+                    >{{item.totalGenreName==null?'-':item.totalGenreName}}</div>
+                  </td>
+                  <td class="fourth_td">
+                    <div
+                      class="rankingChangeFontColor font_size_15"
+                    >{{item.genreRank==0?'-':item.genreRank}}</div>
+                    <div
+                      class="rankingChangeFontColor letter_spacing_1"
+                    >{{item.genreName==null?'-':item.genreName}}</div>
+                  </td>
 
-                <td>
-                  <div class="rankingChangeFontColor font_size_14">{{item.onLineTime}}</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor font_size_14">{{item.updateTime}}</div>
-                </td>
-                <td>
-                  <div class="rankingChangeFontColor">{{item.status}}</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>
+                    <div class="rankingChangeFontColor font_size_14">{{item.onLineTime}}</div>
+                  </td>
+                  <td>
+                    <div class="rankingChangeFontColor font_size_14">{{item.updateTime}}</div>
+                  </td>
+                  <td>
+                    <div class="rankingChangeFontColor">{{item.status}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -194,14 +195,7 @@ export default {
   font-size: 15px !important;
   color: #222 !important;
 }
-.loading_gif {
-  margin: 0 auto;
-  width: 50px;
-  height: 50px;
-  margin-left: 47%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
+
 .fourth_td {
   width: 160px;
 }

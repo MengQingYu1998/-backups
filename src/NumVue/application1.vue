@@ -29,7 +29,7 @@
 					<!-- 选择国家 -->
           			<country @childFn="parentFn"></country>
 				</div>
-				<div>
+				<div id="dateValue01">
 					<p>日期</p>
 					<!-- element日期组件 -->
 					<el-date-picker
@@ -38,6 +38,7 @@
 				            type="date"
 				            placeholder="选择日期"
 				            clear-icon
+				            @focus="dateValue_focus01()" @blur="dateValue_blur01()" prefix-icon="el-icon-caret-bottom"
 				    ></el-date-picker>
 				</div>
 				<div>
@@ -278,7 +279,7 @@
 <script>
 	// 引入国家选择组件
 	import country from '../common/country_select/country'
-	import { formatDate } from '../common/util.js'
+	import { formatDate,time_rotate,time_reset } from '../common/util.js'
 	export default{
 		components: { country },
 		data(){
@@ -471,7 +472,19 @@
 		    })
 		},
 		methods:{
-
+			// 控制时间组件旋转
+		    // 1.给日期组件的父类添加一个新的id
+		    // 2.添加两个事件
+		    // 3.复制以下代码
+			dateValue_blur01(){
+				// console.log('失去焦点')
+				time_reset("#dateValue01")
+		    },
+		    dateValue_focus01(){
+				// console.log('得到焦点1')   
+				time_rotate('#dateValue01')
+			
+			},
 			// 获取搜索关键词
 			getsearchVal(searval){
 				this.searchval=searval
@@ -1342,6 +1355,9 @@
 	display: inline-block;
 	padding: 0 12px;
 	margin-left: 10px;
+}
+.content .lei>div:first-child>p:nth-child(2) {
+    margin-left: 25px;
 }
 .content .lei>div p:hover,
 .content .country>div p:hover{

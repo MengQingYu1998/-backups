@@ -10,35 +10,36 @@
         <div class="right">
           <div class="right_nav">苹果历史推荐</div>
           <div class="line"></div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>推荐位置</th>
-                <th>推荐主题</th>
-                <th>开始/结束时间</th>
-                <th v-show="false">排名</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="no_data_img">
-                <td colspan="4">
-                  <div class="no_data_img">
-                    <img src="../assets/ios/null.png" alt />
-                    <div>暂无相关数据</div>
-                    <div>&nbsp;</div>
-                    <div v-show="now_country!='中国'">该模块仅对中国地区开发</div>
-                  </div>
-                </td>
-              </tr>
-              <tr v-for="(item,index) in response_data" :key="'apple_history'+index">
-                <td>{{item.Genre}}</td>
-                <td>{{item.Name}}</td>
-                <td class>{{item.Stime+'至'+item.Etime}}</td>
-                <td class="td_width04" v-show="false">{{item.GenreId}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div v-loading="loading" element-loading-spinner="el-icon-loading">
+            <table>
+              <thead>
+                <tr>
+                  <th>推荐位置</th>
+                  <th>推荐主题</th>
+                  <th>开始/结束时间</th>
+                  <th v-show="false">排名</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="no_data_img">
+                  <td colspan="4">
+                    <div class="no_data_img">
+                      <img src="../assets/ios/null.png" alt />
+                      <div>暂无相关数据</div>
+                      <div>&nbsp;</div>
+                      <div v-show="now_country!='中国'">该模块仅对中国地区开发</div>
+                    </div>
+                  </td>
+                </tr>
+                <tr v-for="(item,index) in response_data" :key="'apple_history'+index">
+                  <td>{{item.Genre}}</td>
+                  <td>{{item.Name}}</td>
+                  <td class>{{item.Stime+'至'+item.Etime}}</td>
+                  <td class="td_width04" v-show="false">{{item.GenreId}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +54,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      loading: false,
       now_country: '中国',
       response_data: null,
       no_data_img: false
@@ -72,6 +74,7 @@ export default {
         this.response_data = new Array()
         return false
       }
+      this.loading = true
       this.$axios
         .get('/GetCountry')
         .then(response => {
@@ -96,9 +99,9 @@ export default {
           this.$axios
             .get(url)
             .then(response => {
-              console.log(55555555555555555)
-              console.log(response)
-
+              // console.log(55555555555555555)
+              // console.log(response)
+              this.loading = false
               if (response.data.Code == 0) {
                 this.response_data = response.data.Data
                 this.no_data_img = false

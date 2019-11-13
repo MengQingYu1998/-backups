@@ -39,8 +39,9 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :picker-options="pickerOptions"
-            clear-icon
-            prefix-icon="fasle"
+            :clearable="false"
+            unlink-panels
+            prefix-icon="el-icon-caret-bottom"
             @blur="dateValue_blur01"
             @focus="dateValue_focus01"
           ></el-date-picker>

@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import Navv from './NumVue/navv'
-import Foot from './NumVue/foot'
+import Navv from "./NumVue/navv";
+import Foot from "./NumVue/foot";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Navv,
     Foot
@@ -49,51 +49,51 @@ export default {
   data() {
     return {
       is_show_go_to_top: false
-    }
+    };
   },
   created() {
-    this.refresh_save_vuex(this)
+    this.refresh_save_vuex(this);
   },
   mounted() {
-    window.addEventListener('scroll', this.scrollToTop)
+    window.addEventListener("scroll", this.scrollToTop);
   },
   destroyed() {
-    window.removeEventListener('scroll', this.scrollToTop)
+    window.removeEventListener("scroll", this.scrollToTop);
   },
 
   methods: {
     // 点击图片回到顶部方法，加计时器是为了过渡顺滑
     backTop() {
-      const that = this
+      const that = this;
       let timer = setInterval(() => {
-        let ispeed = Math.floor(-that.scrollTop / 2)
+        let ispeed = Math.floor(-that.scrollTop / 2);
         document.documentElement.scrollTop = document.body.scrollTop =
-          that.scrollTop + ispeed
+          that.scrollTop + ispeed;
         if (that.scrollTop === 0) {
-          clearInterval(timer)
+          clearInterval(timer);
         }
-      }, 16)
+      }, 16);
     },
 
     // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
     scrollToTop() {
-      const that = this
+      const that = this;
       let scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop
-      that.scrollTop = scrollTop
+        document.body.scrollTop;
+      that.scrollTop = scrollTop;
       if (that.scrollTop > 300) {
-        that.is_show_go_to_top = true
+        that.is_show_go_to_top = true;
       } else {
-        that.is_show_go_to_top = false
+        that.is_show_go_to_top = false;
       }
     }
   }
-}
+};
 </script>
 
-<style lang="less" >
+<style lang="less">
 .el-icon-date:before {
   display: none;
 }
@@ -135,7 +135,7 @@ export default {
 .successicon {
   width: 18px;
   height: 18px;
-  background-image: url('assets/NumImg/tick.png');
+  background-image: url("assets/NumImg/tick.png");
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -285,62 +285,53 @@ export default {
 }
 /* DatePicker日期组件自定义样式 */
 
-.el-input__inner {
-  padding-right: 4px !important;
-}
-.el-input--suffix .el-input__inner {
-  padding-left: 10px;
-  font-size: 13px;
-  padding-right: 12px !important;
-}
-
 /* 时间选择组件===》开始时间与结束时间共存组件 */
 /* 单选时间的长度 */
 .el-date-editor--date {
-  width: 110px !important;
+  width: 105px !important;
 }
-/* 时间的小三角 */
-.el-date-editor:after {
-  position: absolute;
-  top: 11px;
-  right: 12px;
-  display: block;
-  width: 0;
-  height: 0;
-  content: ' ';
-  border-color: #888 transparent transparent transparent;
-  border-style: solid;
-  border-bottom: none;
-  border-width: 4px;
+/* 多选时间的长度 */
+.el-date-editor--daterange.el-input,
+.el-date-editor--daterange.el-input__inner,
+.el-date-editor--timerange.el-input,
+.el-date-editor--timerange.el-input__inner {
+  width: 225px !important;
 }
-.el-date-editor .el-range__icon,
-.el-date-editor .el-range__close-icon {
-  display: none !important;
+
+.el-input--suffix .el-input__inner {
+  padding-left: 12px;
+  padding-right: 0px !important;
+  font-size: 13px;
 }
+
+// 时间组件的"至"这个字
 .el-date-editor .el-range-separator {
   line-height: 19px;
   color: #444444;
 }
-
+.el-input__icon_ffffff {
+  color: #ffffff !important;
+}
 .el-input__icon {
-  line-height: 21px !important;
+  line-height: 26px !important;
+  color: #888;
 }
-.el-range-editor.el-input__inner:after {
+.el-date-editor .el-range__icon {
+  color: #888;
+}
+.el-date-editor .el-range__close-icon {
+  display: none;
+}
+// 多选的时间的小三角
+.el-date-editor--daterange .el-icon-caret-bottom {
+  right: 0 !important;
+  line-height: 24px !important;
+}
+/* 单选的时间的小三角 */
+.el-icon-caret-bottom {
+  font-size: 12px !important;
   position: absolute;
-  top: 11px;
-  right: 12px;
-  display: block;
-  width: 0;
-  height: 0;
-  content: ' ';
-  border-color: #888 transparent transparent transparent;
-  border-style: solid;
-  border-bottom: none;
-  border-width: 4px;
-}
-.el-range-editor.el-input__inner {
-  width: 222px;
-  padding-left: 8px;
+  right: -97px;
 }
 /*  elementUI的提示框，鼠标悬浮白色提示 */
 .el-popover {
@@ -441,7 +432,7 @@ table thead tr th {
 .vjs-icon-play:before,
 .video-js .vjs-big-play-button .vjs-icon-placeholder:before,
 .video-js .vjs-play-control .vjs-icon-placeholder:before {
-  content: '\F101';
+  content: "\F101";
   font-size: 1.8em;
 }
 .vjs-custom-skin > .video-js .vjs-big-play-button {
@@ -539,7 +530,7 @@ table thead tr th {
 }
 
 .el-select .el-input__icon {
-  background-image: url('./assets/keyword/arrows_up.png');
+  background-image: url("./assets/keyword/arrows_up.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 8px 4px;
@@ -647,17 +638,17 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 /* input[type='number']去掉箭头 */
 /* 放回顶部 */
 .go_to_top .code:hover {
-  background-image: url('./assets/ios/code_active.png');
+  background-image: url("./assets/ios/code_active.png");
   border: none;
 }
 .go_to_top .code {
-  background-image: url('./assets/ios/code.png');
+  background-image: url("./assets/ios/code.png");
   width: 36px;
   height: 36px;
   background-position: center center;
@@ -696,10 +687,10 @@ input[type='number'] {
 
 .go_to_top .message:hover {
   border: none;
-  background-image: url('./assets/ios/message_active.png');
+  background-image: url("./assets/ios/message_active.png");
 }
 .go_to_top .message {
-  background-image: url('./assets/ios/message.png');
+  background-image: url("./assets/ios/message.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -714,10 +705,10 @@ input[type='number'] {
 }
 .go_to_top .top:hover {
   border: none;
-  background-image: url('./assets/ios/top_active.png');
+  background-image: url("./assets/ios/top_active.png");
 }
 .go_to_top .top {
-  background-image: url('./assets/ios/top.png');
+  background-image: url("./assets/ios/top.png");
   width: 36px;
   background-position: center center;
   border-radius: 4px;
@@ -779,13 +770,27 @@ input[type='number'] {
   padding: 15px 0;
 }
 // 饿了么loading
-#data_table .el-icon-loading:before {
-  font-size: 20px;
+#data_table .export_data .el-loading-spinner i {
+  font-size: 20px !important;
+  color: #009bef !important;
 }
 #data_table .el-loading-spinner {
   display: flex;
-  margin-top: -16px;
+  margin-top: -18px;
   align-items: center;
   justify-content: center;
+}
+.el-loading-spinner i {
+  font-size: 30px;
+  color: #bfbfbf;
+}
+.el-loading-mask {
+  background-color: hsla(0, 0%, 100%, 1);
+  -webkit-transition: opacity 0s;
+  transition: opacity 0s;
+}
+.el-loading-parent--relative {
+  height: 200px;
+  overflow: hidden;
 }
 </style>

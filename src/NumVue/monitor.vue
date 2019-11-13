@@ -33,7 +33,7 @@
 				        v-model="dateV"
 				        type="date"
 				        placeholder="选择日期"
-								clear-icon @focus="dateValue_focus01()" @blur="dateValue_blur01()"
+						clear-icon @focus="dateValue_focus01()" @blur="dateValue_blur01()" prefix-icon="el-icon-caret-bottom"
 				    ></el-date-picker>
 				</div>
 				<div class="sonlei" v-show="showson">
@@ -227,7 +227,7 @@
 
 
 <script>
-	import { formatDate } from '../common/util.js'
+	import { formatDate,time_rotate,time_reset } from '../common/util.js'
 	export default{
 		data(){
 			return{
@@ -326,14 +326,15 @@
 		    // 2.添加两个事件
 		    // 3.复制以下代码
 		    dateValue_blur01(){
-				// console.log('失去焦点')
-		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after',
-		        'transform:rotate(0deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
+				//console.log('失去焦点')
+				time_reset("#dateValue01")
+		       
 		    },
 		    dateValue_focus01(){
-		//         console.log('得到焦点')                      
-		        document.styleSheets[0].addRule('#dateValue01 .el-date-editor:after','transform:rotate(-180deg)!important;-webkit-transition-duration:.3s;transition-duration:.3s')
-		    },
+		       // console.log('得到焦点1')     
+				time_rotate("#dateValue01")    
+				
+			},
 			//请求数据
 			getData(){
 				// 传给后台的brand值
@@ -610,12 +611,16 @@
 	padding: 0 12px;
 	margin-left: 10px;
 }
+.content .lei>div:first-child>p:nth-child(2) {
+    margin-left: 25px;
+}
 .content .lei>div p:hover{
 	background-color: #f2f2f2;
 	color: #444;
 	cursor: pointer;
 	border: solid 1px #dfdfdf;
 }
+
 .selectFont{
 	background-color: #009bef;
 	color: #ffffff!important;

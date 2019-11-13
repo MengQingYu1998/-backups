@@ -174,7 +174,7 @@
               </div>
               <div v-if="response_data&&response_data.detailInfo.support_url!='无'">
                 <span>支持网站</span>
-                <span>{{response_data.detailInfo.support_url}}</span>
+                <span class="web_url">{{response_data.detailInfo.support_url}}</span>
               </div>
               <div v-if="response_data&&response_data.detailInfo.developer_url!='无'">
                 <span>开发者网站</span>
@@ -646,5 +646,8 @@ export default {
   width: 231px;
   position: relative;
   min-height: 621px;
+}
+.web_url{
+  word-break: break-all;
 }
 </style>

@@ -52,9 +52,9 @@
             <img src="../assets/ios/close_nav.png" @click.stop="delete_item(index)" />
           </div>
           <input
-            id="my_nav_input_value"
+            ref="my_nav_input_value"
             slot="reference"
-            @focus="is_show_nav_popover=(historyWord.length!=0)"
+            @focus="is_show_nav_popover=true"
             @blur="is_show_nav_popover=false"
             type="text"
             placeholder="应用名称或APPID"
@@ -411,16 +411,13 @@ export default {
               this.response_data = response.data.Data
 
               // 查找你要判断的文本框
-              var myInput = document.getElementById('my_nav_input_value')
+              var myInput = this.$refs.my_nav_input_value
               // if (myInput == document.activeElement) {
               //   alert('获取焦点')
               // } else {
               //   alert('未获取焦点')
               // }
-              if (
-                this.$route.fullPath == '/result' &&
-                myInput == document.activeElement
-              ) {
+              if (myInput == document.activeElement) {
                 if (response.data.Data) {
                   this.is_show_nav_popover = true
                 } else {

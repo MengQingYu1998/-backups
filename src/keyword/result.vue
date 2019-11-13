@@ -40,8 +40,8 @@
                   v-model="dateValue"
                   type="date"
                   placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
+                  :clearable="false"
+                  prefix-icon="el-icon-caret-bottom"
                   :picker-options="pickerOptions2"
                   @blur="dateValue_blur01"
                   @focus="dateValue_focus01"
@@ -212,7 +212,7 @@
                 </tbody>
               </table>
               <div :class="{'loading':true,'margin_left':now_country=='中国'}" v-show="loading_12">
-                <img src="../assets/ios/loading.gif" alt />
+                <i class="el-icon-loading"></i>
               </div>
               <div
                 :class="{'it_is_over':true,'margin_left':now_country=='中国'}"
@@ -275,8 +275,8 @@
                   v-model="dateValue"
                   type="date"
                   placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
+                  :clearable="false"
+                  prefix-icon="el-icon-caret-bottom"
                   :picker-options="pickerOptions2"
                   @blur="dateValue_blur02"
                   @focus="dateValue_focus02"
@@ -446,7 +446,7 @@
                 </tbody>
               </table>
               <div class="loading" v-show="loading_11">
-                <img src="../assets/ios/loading.gif" alt />
+                <i class="el-icon-loading"></i>
               </div>
               <div
                 class="it_is_over"
@@ -497,8 +497,8 @@
                   v-model="dateValue"
                   type="date"
                   placeholder="选择日期"
-                  clear-icon
-                  prefix-icon="fasle"
+                  :clearable="false"
+                  prefix-icon="el-icon-caret-bottom"
                   :picker-options="pickerOptions2"
                   @blur="dateValue_blur03"
                   @focus="dateValue_focus03"
@@ -762,7 +762,7 @@
             </div>
           </div>
           <div class="loading" v-show="loading_11||loading_12">
-            <img src="../assets/ios/loading.gif" alt />
+            <i class="el-icon-loading"></i>
           </div>
           <div
             class="it_is_over"
@@ -822,10 +822,11 @@
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
-                clear-icon
+                :clearable="false"
+                unlink-panels
                 @blur="dateValue_blur04"
                 @focus="dateValue_focus04"
-                prefix-icon="fasle"
+                prefix-icon="el-icon-caret-bottom"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
               ></el-date-picker>
@@ -2940,11 +2941,10 @@ option:first-child {
   width: 100%;
   text-align: center;
   margin-top: 30px;
+  font-size: 30px;
+  color: #bfbfbf;
 }
-.loading > img {
-  width: 50px;
-  height: 50px;
-}
+
 #result {
   margin-bottom: 30px;
 }

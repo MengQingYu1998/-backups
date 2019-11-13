@@ -131,7 +131,7 @@
             </table>
           </div>
           <div class="paging">
-            <div>显示第 {{(currentPage-1)*100}} 至 {{currentPage*100}} 项结果，共 {{total}} 项</div>
+            <div>显示第 {{(currentPage-1)*100+1}} 至 {{currentPage==Math.ceil(total/100)?((currentPage-1)*100)+(total%100):currentPage*100}} 项结果，共 {{total}} 项</div>
             <div>
               <el-pagination
                 background

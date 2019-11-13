@@ -1,4 +1,4 @@
- <template>
+<template>
   <div id="ranking" class="content">
     <div class="ranking_title">搜索指数排名</div>
     <div class="line"></div>
@@ -8,7 +8,11 @@
         <div>
           <!-- 饿了么的select组件 -->
           <el-radio-group v-model="equipmentValue" size="mini">
-            <el-radio-button v-for="item in  equipment" :key="item.value" :label="item.value"></el-radio-button>
+            <el-radio-button
+              v-for="item in equipment"
+              :key="item.value"
+              :label="item.value"
+            ></el-radio-button>
           </el-radio-group>
         </div>
       </div>
@@ -24,66 +28,108 @@
         <!-- 选择总榜 -->
         <div>
           <div
-            :class=" {'change_bg':change_bg_all,'select_radio_one':true,'pointer':true}"
+            :class="{
+              change_bg: change_bg_all,
+              select_radio_one: true,
+              pointer: true
+            }"
             @click="change_all_dateValue()"
-          >总榜</div>
+          >
+            总榜
+          </div>
         </div>
         <!-- 选择应用 -->
-        <el-popover placement="bottom" trigger="click" width="168" v-model="visible01">
+        <el-popover
+          placement="bottom"
+          trigger="click"
+          width="168"
+          v-model="visible01"
+        >
           <div class="selected_popover">
             <div
               class="pointer"
-              v-for="(item,index) in data_for_classify"
-              :key="'classify'+index"
-              @click="my_genreId=item.id;visible01=false"
-            >{{item.name}}</div>
+              v-for="(item, index) in data_for_classify"
+              :key="'classify' + index"
+              @click="
+                my_genreId = item.id;
+                visible01 = false;
+              "
+            >
+              {{ item.name }}
+            </div>
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_app,'select_radio_one':true,'pointer':true}"
+              :class="{
+                change_bg: change_bg_app,
+                select_radio_one: true,
+                pointer: true
+              }"
               @click="change_app_dateValue()"
             >
               应用
-              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_app" />
+              <img
+                src="../assets/keyword/arrows_down.png"
+                alt
+                v-show="!change_bg_app"
+              />
               <img
                 src="../assets/keyword/white_arrows_up.png"
                 alt
-                v-show="change_bg_app&&visible01==true"
+                v-show="change_bg_app && visible01 == true"
               />
               <img
                 src="../assets/keyword/white_arrows_down.png"
                 alt
-                v-show="change_bg_app&&visible01==false"
+                v-show="change_bg_app && visible01 == false"
               />
             </div>
           </div>
         </el-popover>
         <!-- 选择游戏 -->
-        <el-popover placement="bottom" trigger="click" width="168" v-model="visible">
+        <el-popover
+          placement="bottom"
+          trigger="click"
+          width="168"
+          v-model="visible"
+        >
           <div class="selected_popover">
             <div
-              v-for="(item,index) in data_for_classify"
+              v-for="(item, index) in data_for_classify"
               class="pointer"
-              :key="'classify'+index"
-              @click="my_genreId=item.id;visible=false"
-            >{{item.name}}</div>
+              :key="'classify' + index"
+              @click="
+                my_genreId = item.id;
+                visible = false;
+              "
+            >
+              {{ item.name }}
+            </div>
           </div>
           <div slot="reference">
             <div
-              :class=" {'change_bg':change_bg_game,'select_radio_one':true,'pointer':true}"
+              :class="{
+                change_bg: change_bg_game,
+                select_radio_one: true,
+                pointer: true
+              }"
               @click="change_game_dateValue()"
             >
               游戏
-              <img src="../assets/keyword/arrows_down.png" alt v-show="!change_bg_game" />
+              <img
+                src="../assets/keyword/arrows_down.png"
+                alt
+                v-show="!change_bg_game"
+              />
               <img
                 src="../assets/keyword/white_arrows_up.png"
                 alt
-                v-show="change_bg_game&&visible==true"
+                v-show="change_bg_game && visible == true"
               />
               <img
                 src="../assets/keyword/white_arrows_down.png"
                 alt
-                v-show="change_bg_game&&visible==false"
+                v-show="change_bg_game && visible == false"
               />
             </div>
           </div>
@@ -97,8 +143,8 @@
             v-model="dateValue"
             type="date"
             placeholder="选择日期"
-            clear-icon
-            prefix-icon="fasle"
+            :clearable="false"
+            prefix-icon="el-icon-caret-bottom"
             :picker-options="pickerOptions"
             @blur="dateValue_blur"
             @focus="dateValue_focus"
@@ -110,43 +156,82 @@
       <div class="options_01 option">
         <div class="margin_top_font">搜索结果数</div>
         <div
-          :class=" {'change_bg':change_bg_result,'radio_one':true,'change_something':true,'pointer':true}"
+          :class="{
+            change_bg: change_bg_result,
+            radio_one: true,
+            change_something: true,
+            pointer: true
+          }"
           @click="result_all()"
-        >全部</div>
+        >
+          全部
+        </div>
         <div class="min_max">
           <div>
-            <el-input v-model="result_min_input" placeholder="最小值" type="number"></el-input>
+            <el-input
+              v-model="result_min_input"
+              placeholder="最小值"
+              type="number"
+            ></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="result_max_input" placeholder="最大值" type="number"></el-input>
+            <el-input
+              v-model="result_max_input"
+              placeholder="最大值"
+              type="number"
+            ></el-input>
           </div>
         </div>
       </div>
       <div class="options_02 option options_02_last_one">
         <div class="margin_top_font">搜索指数</div>
         <div
-          :class=" {'change_bg':change_bg_index_all,'radio_one':true,'pointer':true }"
+          :class="{
+            change_bg: change_bg_index_all,
+            radio_one: true,
+            pointer: true
+          }"
           @click="index_all()"
-        >全部</div>
+        >
+          全部
+        </div>
         <div
-          :class=" {'change_bg':change_bg_index_number,'radio_one':true,'change_something':true,'pointer':true}"
+          :class="{
+            change_bg: change_bg_index_number,
+            radio_one: true,
+            change_something: true,
+            pointer: true
+          }"
           @click="index_number()"
-        >≥4605</div>
+        >
+          ≥4605
+        </div>
         <div class="min_max">
           <div>
-            <el-input v-model="index_min_input" placeholder="最小值" type="number"></el-input>
+            <el-input
+              v-model="index_min_input"
+              placeholder="最小值"
+              type="number"
+            ></el-input>
           </div>
           <div>---</div>
           <div>
-            <el-input v-model="index_max_input" placeholder="最大值" type="number"></el-input>
+            <el-input
+              v-model="index_max_input"
+              placeholder="最大值"
+              type="number"
+            ></el-input>
           </div>
         </div>
       </div>
       <div class="options_03 option">
         <div class="margin_top_font">搜索</div>
         <div class="keyword_input">
-          <el-input v-model="keyword_input" placeholder="请输入搜索关键词"></el-input>
+          <el-input
+            v-model="keyword_input"
+            placeholder="请输入搜索关键词"
+          ></el-input>
         </div>
       </div>
     </div>
@@ -161,7 +246,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="!loading&&data_for_table.length == 0">
+        <tr v-if="!loading && data_for_table.length == 0">
           <td colspan="5">
             <div class="no_data_img">
               <img src="../assets/ios/null.png" alt />
@@ -169,47 +254,57 @@
             </div>
           </td>
         </tr>
-        <template v-if="data_for_table.length!=0">
-          <tr v-for="(item ,index) in data_for_table" :key="'table'+index">
+        <template v-if="data_for_table.length != 0">
+          <tr v-for="(item, index) in data_for_table" :key="'table' + index">
             <td>
-              <div class="rowid">{{item.rowid}}</div>
+              <div class="rowid">{{ item.rowid }}</div>
             </td>
             <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
+              <div class="pointer" @click="go_to_page01(item.Word)">
+                {{ item.Word }}
+              </div>
             </td>
             <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page02((item.Word))">{{item.WordIdHint}}</div>
+              <div class="pointer" @click="go_to_page02(item.Word)">
+                {{ item.WordIdHint }}
+              </div>
             </td>
             <!-- 给下一个页面传递参数 -->
             <td class="table_font pointer" @click="go_to_page03(item.Word)">
-              <div>{{item.SearchCount}}</div>
+              <div>{{ item.SearchCount }}</div>
             </td>
             <td class="table_font pointer">
               <div
                 class="pointer"
-                @click="go_to_page04(item.AppStoreId,item.app_name)"
-              >{{item.app_name}}</div>
+                @click="go_to_page04(item.AppStoreId, item.app_name)"
+              >
+                {{ item.app_name }}
+              </div>
             </td>
           </tr>
         </template>
       </tbody>
     </table>
-    <!-- <div class="loading" v-show="data_for_table.length != 0&&loading"> -->
     <div class="loading" v-show="loading">
-      <img src="../assets/ios/loading.gif" alt />
+      <i class="el-icon-loading"></i>
     </div>
-    <div class="it_is_over" v-show="!it_is_over&&data_for_table.length != 0&&!loading">下拉加载更多</div>
+    <div
+      class="it_is_over"
+      v-show="!it_is_over && data_for_table.length != 0 && !loading"
+    >
+      下拉加载更多
+    </div>
     <div class="it_is_over" v-show="it_is_over">我是有底线的～</div>
   </div>
 </template>
 
 <script>
 // 引入国家选择组件
-import country from '../common/country_select/country'
+import country from "../common/country_select/country";
 // 引入工具类
-import { formatDate, time_reset, time_rotate } from '../common/util.js'
+import { formatDate, time_reset, time_rotate } from "../common/util.js";
 export default {
-  name: 'ranking',
+  name: "ranking",
   components: { country },
   data() {
     return {
@@ -236,117 +331,117 @@ export default {
       change_bg_result: true,
       change_bg_index: true,
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: "中国",
       // which_country: null,
       //请输入搜索关键词
-      keyword_input: '',
+      keyword_input: "",
       // 搜索结果数最小值和最大值
-      result_min_input: '',
-      result_max_input: '',
+      result_min_input: "",
+      result_max_input: "",
       // 搜索指数最小值和最大值
-      index_min_input: '',
-      index_max_input: '',
+      index_min_input: "",
+      index_max_input: "",
       // 设备选择
       equipment: [
         {
-          value: 'iPhone'
+          value: "iPhone"
         },
         {
-          value: 'iPad'
+          value: "iPad"
         }
       ],
-      equipmentValue: 'iPhone',
+      equipmentValue: "iPhone",
 
       //日期选择
       dateValue: new Date(),
       pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now();
           // 这里就是设置当天后的日期不能被点击
         }
       }
-    }
+    };
   },
 
   created: function() {
     // 请求悬浮框的数据
-    this.get_data_classify()
-    this.get_data_table()
+    this.get_data_classify();
+    this.get_data_table();
     // this.$watch('page', function(newValue, oldValue) {
     //   this.get_data_classify()
     //   this.get_data_table()
     // })
 
-    this.$watch('my_genreId', function(newValue, oldValue) {
-      this.data_for_table.length = 0
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('equipmentValue', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.data_for_table.length = 0
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('now_country', function(newValue, oldValue) {
+    this.$watch("my_genreId", function(newValue, oldValue) {
+      this.data_for_table.length = 0;
+      this.page = 1;
+      this.get_data_table();
+    });
+    this.$watch("equipmentValue", function(newValue, oldValue) {
+      this.get_data_classify();
+      this.data_for_table.length = 0;
+      this.page = 1;
+      this.get_data_table();
+    });
+    this.$watch("now_country", function(newValue, oldValue) {
       // alert(this.$store.state.now_country_name)
-      this.get_data_classify()
-      this.data_for_table.length = 0
-      this.page = 1
-      this.get_data_table()
-    })
+      this.get_data_classify();
+      this.data_for_table.length = 0;
+      this.page = 1;
+      this.get_data_table();
+    });
 
-    this.$watch('dateValue', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.data_for_table.length = 0
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('keyword_input', function(newValue, oldValue) {
-      this.get_data_classify()
-      this.data_for_table.length = 0
-      this.page = 1
-      this.get_data_table()
-    })
-    this.$watch('result_min_input', function(newValue, oldValue) {
-      if (newValue != '') {
-        this.change_bg_result_function()
+    this.$watch("dateValue", function(newValue, oldValue) {
+      this.get_data_classify();
+      this.data_for_table.length = 0;
+      this.page = 1;
+      this.get_data_table();
+    });
+    this.$watch("keyword_input", function(newValue, oldValue) {
+      this.get_data_classify();
+      this.data_for_table.length = 0;
+      this.page = 1;
+      this.get_data_table();
+    });
+    this.$watch("result_min_input", function(newValue, oldValue) {
+      if (newValue != "") {
+        this.change_bg_result_function();
       }
-      this.blur()
-    })
-    this.$watch('result_max_input', function(newValue, oldValue) {
-      if (newValue != '') {
-        this.change_bg_result_function()
+      this.blur();
+    });
+    this.$watch("result_max_input", function(newValue, oldValue) {
+      if (newValue != "") {
+        this.change_bg_result_function();
       }
-      this.blur()
-    })
-    this.$watch('index_min_input', function(newValue, oldValue) {
-      if (newValue != '') {
-        this.change_bg_index_function()
+      this.blur();
+    });
+    this.$watch("index_min_input", function(newValue, oldValue) {
+      if (newValue != "") {
+        this.change_bg_index_function();
       }
-      this.blur()
-    })
-    this.$watch('index_max_input', function(newValue, oldValue) {
-      if (newValue != '') {
-        this.change_bg_index_function()
+      this.blur();
+    });
+    this.$watch("index_max_input", function(newValue, oldValue) {
+      if (newValue != "") {
+        this.change_bg_index_function();
       }
-      this.blur()
-    })
+      this.blur();
+    });
   },
   mounted() {
     this.$nextTick(() => {
-      let that = this
+      let that = this;
       window.onscroll = function() {
         //变量scrollTop是滚动条滚动时，距离顶部的距离
         var scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop
+          document.documentElement.scrollTop || document.body.scrollTop;
         //变量windowHeight是可视区的高度
         var windowHeight =
-          document.documentElement.clientHeight || document.body.clientHeight
+          document.documentElement.clientHeight || document.body.clientHeight;
         //变量scrollHeight是滚动条的总高度
         var scrollHeight =
-          document.documentElement.scrollHeight || document.body.scrollHeight //滚动条到底部的条件
-        var int = Math.round(scrollTop + windowHeight)
+          document.documentElement.scrollHeight || document.body.scrollHeight; //滚动条到底部的条件
+        var int = Math.round(scrollTop + windowHeight);
         if (
           int == scrollHeight ||
           int + 1 == scrollHeight ||
@@ -357,72 +452,72 @@ export default {
             document.documentElement.scrollTop =
               document.documentElement.scrollHeight -
               document.documentElement.clientHeight -
-              1
-            that.get_data_table()
+              1;
+            that.get_data_table();
           }
         }
-      }
-    })
+      };
+    });
   },
   methods: {
     dateValue_blur() {
-      time_reset('#dateValue')
+      time_reset("#dateValue");
     },
     dateValue_focus() {
-      time_rotate('#dateValue')
+      time_rotate("#dateValue");
     },
     // 请求悬浮框的数据
     get_data_classify() {
-      let genreID
+      let genreID;
       if (this.change_bg_all) {
-        genreID = 36
+        genreID = 36;
       } else if (this.change_bg_app) {
-        genreID = 5000
+        genreID = 5000;
       } else if (this.change_bg_game) {
-        genreID = 6014
+        genreID = 6014;
       }
       // console.log(genreID)
-      let url = '/GetGenre?genreID=' + genreID
+      let url = "/GetGenre?genreID=" + genreID;
       // console.log(url)
       // 请求数据
       this.$axios
         .get(url)
         .then(response => {
-          this.data_for_classify = response.data.Data
+          this.data_for_classify = response.data.Data;
           // console.log(555555555555555555555555555)
 
           // console.log(response)
           // console.log(this.data_for_classify)
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     // 请求表格数据
     get_data_table() {
-      this.can_execute_scorll = false
-      this.loading = true
-      this.it_is_over = false
-      this.db_number_is_same++
-      let is_excute_function = this.db_number_is_same
+      this.can_execute_scorll = false;
+      this.loading = true;
+      this.it_is_over = false;
+      this.db_number_is_same++;
+      let is_excute_function = this.db_number_is_same;
       // console.log('=======请求表格数据=======')
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 设备选择
-          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
 
-          let url = '/Word/FindWordRank'
-          let that = this
+          let url = "/Word/FindWordRank";
+          let that = this;
           let data = {
             page: that.page,
             deviceType: deviceType,
@@ -432,9 +527,9 @@ export default {
             minResult: that.result_min_input,
             maxResult: that.result_max_input,
             word: that.keyword_input,
-            time: formatDate(that.dateValue, 'yyyy-MM-dd'),
+            time: formatDate(that.dateValue, "yyyy-MM-dd"),
             GenreId: that.my_genreId
-          }
+          };
           // console.log(url)
           // 请求数据
           this.$axios
@@ -448,153 +543,153 @@ export default {
                 // console.log('数组拼接成功')
                 this.data_for_table = this.data_for_table.concat(
                   response.data.Data
-                )
-                this.page += 1
-                this.can_execute_scorll = true //是否可以执行滚动
-                this.it_is_over = response.data.Data.length < 20
-                this.loading = false
+                );
+                this.page += 1;
+                this.can_execute_scorll = true; //是否可以执行滚动
+                this.it_is_over = response.data.Data.length < 20;
+                this.loading = false;
               } else {
-                this.loading = false
+                this.loading = false;
               }
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 点击总榜按钮
     change_all_dateValue() {
-      this.change_bg_all = true
-      this.change_bg_app = false
-      this.change_bg_game = false
-      this.my_genreId = 36
+      this.change_bg_all = true;
+      this.change_bg_app = false;
+      this.change_bg_game = false;
+      this.my_genreId = 36;
       // 请求悬浮框的数据
-      this.get_data_classify()
+      this.get_data_classify();
     },
     // 点击应用按钮
     change_app_dateValue() {
-      this.change_bg_all = false
-      this.change_bg_app = true
-      this.change_bg_game = false
+      this.change_bg_all = false;
+      this.change_bg_app = true;
+      this.change_bg_game = false;
       // this.my_genreId = 5000
       // 请求悬浮框的数据
-      this.get_data_classify()
+      this.get_data_classify();
     },
     // 点击游戏按钮
     change_game_dateValue() {
-      this.change_bg_all = false
-      this.change_bg_app = false
-      this.change_bg_game = true
+      this.change_bg_all = false;
+      this.change_bg_app = false;
+      this.change_bg_game = true;
       // this.my_genreId = 6014
       // 请求悬浮框的数据
-      this.get_data_classify()
+      this.get_data_classify();
     },
     // 点击搜索结果数的全部
     result_all() {
-      this.result_min_input = ''
-      this.result_max_input = ''
-      this.change_bg_result = true
+      this.result_min_input = "";
+      this.result_max_input = "";
+      this.change_bg_result = true;
     },
     // 点击搜索结果数的min_mix
     change_bg_result_function() {
-      this.change_bg_result = false
+      this.change_bg_result = false;
     },
     // 点击搜索指数的全部
     index_all() {
-      this.index_min_input = ''
-      this.index_max_input = ''
-      this.change_bg_index_all = true
-      this.change_bg_index_number = false
-      this.page = 1
-      this.data_for_table.length = 0
-      this.get_data_table()
+      this.index_min_input = "";
+      this.index_max_input = "";
+      this.change_bg_index_all = true;
+      this.change_bg_index_number = false;
+      this.page = 1;
+      this.data_for_table.length = 0;
+      this.get_data_table();
     },
     // 点击搜索指数的数字
     index_number() {
-      this.index_min_input = '4605'
-      this.index_max_input = ''
-      this.change_bg_index_all = false
-      this.change_bg_index_number = true
+      this.index_min_input = "4605";
+      this.index_max_input = "";
+      this.change_bg_index_all = false;
+      this.change_bg_index_number = true;
     },
     // 点击搜索指数的min_max
     change_bg_index_function() {
-      this.change_bg_index_all = false
-      this.change_bg_index_number = false
+      this.change_bg_index_all = false;
+      this.change_bg_index_number = false;
     },
     // 输入框失去焦点
     blur: function() {
-      if (this.result_min_input == '' && this.result_max_input == '') {
-        this.change_bg_result = true
+      if (this.result_min_input == "" && this.result_max_input == "") {
+        this.change_bg_result = true;
       }
-      if (this.index_min_input == '' && this.index_max_input == '') {
-        this.change_bg_index = true
+      if (this.index_min_input == "" && this.index_max_input == "") {
+        this.change_bg_index = true;
       }
       if (this.index_min_input == 4605) {
-        this.change_bg_index_number = true
+        this.change_bg_index_number = true;
       }
-      this.page = 1
-      this.data_for_table.length = 0
-      this.get_data_table()
+      this.page = 1;
+      this.data_for_table.length = 0;
+      this.get_data_table();
     },
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log(this.now_country)
     },
     go_to_page01(parm) {
-      let that = this
+      let that = this;
       // this.$store.state.ranking_to_result_equipmentValue = this.equipmentValue
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
-      this.hand_save_vuex(this)
-      let temo_time = formatDate(this.dateValue, 'yyyy-MM-dd hh:mm:ss')
+      this.$store.state.now_country_name = this.now_country;
+      this.$store.state.now_app_name = parm;
+      this.hand_save_vuex(this);
+      let temo_time = formatDate(this.dateValue, "yyyy-MM-dd hh:mm:ss");
       let routerUrl = this.$router.resolve({
         path:
-          '/result?equipmentValue_from_ranking=' +
+          "/result?equipmentValue_from_ranking=" +
           this.equipmentValue +
-          '&dateValue_from_ranking=' +
+          "&dateValue_from_ranking=" +
           temo_time
-      })
-      window.open(routerUrl.href, '_blank')
+      });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page02(parm) {
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
-      this.hand_save_vuex(this)
+      this.$store.state.now_country_name = this.now_country;
+      this.$store.state.now_app_name = parm;
+      this.hand_save_vuex(this);
       let routerUrl = this.$router.resolve({
-        path: '/trend_many'
-      })
-      window.open(routerUrl.href, '_blank')
+        path: "/trend_many"
+      });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page03(parm) {
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
+      this.$store.state.now_country_name = this.now_country;
+      this.$store.state.now_app_name = parm;
 
-      this.hand_save_vuex(this)
+      this.hand_save_vuex(this);
       let routerUrl = this.$router.resolve({
-        path: '/trend_one'
-      })
-      window.open(routerUrl.href, '_blank')
+        path: "/trend_one"
+      });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page04(parm, parm02) {
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_id = parm
-      this.hand_save_vuex(this)
+      this.$store.state.now_country_name = this.now_country;
+      this.$store.state.now_app_id = parm;
+      this.hand_save_vuex(this);
       let routerUrl = this.$router.resolve({
         path:
-          '/now_ranking?now_country_name=' +
+          "/now_ranking?now_country_name=" +
           this.$store.state.now_country_name +
-          '&now_app_id=' +
+          "&now_app_id=" +
           this.$store.state.now_app_id
-      })
-      window.open(routerUrl.href, '_blank')
+      });
+      window.open(routerUrl.href, "_blank");
     }
   }
-}
+};
 </script>
 <style scoped>
 .it_is_over {
@@ -613,11 +708,10 @@ export default {
   text-align: center;
   margin-bottom: 30px;
   margin-top: -20px;
+  font-size: 30px;
+  color: #bfbfbf;
 }
-.loading > img {
-  width: 50px;
-  height: 50px;
-}
+
 .margin_top_font {
   margin-top: 4px;
 }

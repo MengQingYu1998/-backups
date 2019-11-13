@@ -33,8 +33,8 @@
               v-model="dateValue"
               type="date"
               placeholder="选择日期"
-              clear-icon
-              prefix-icon="fasle"
+              :clearable="false"
+              prefix-icon="el-icon-caret-bottom"
             ></el-date-picker>
           </div>
         </div>

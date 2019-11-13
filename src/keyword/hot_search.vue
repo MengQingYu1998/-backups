@@ -8,7 +8,11 @@
         <div>
           <!-- 饿了么的select组件 -->
           <el-radio-group v-model="equipmentValue" size="mini">
-            <el-radio-button v-for="item in  equipment" :key="item.value" :label="item.value"></el-radio-button>
+            <el-radio-button
+              v-for="item in equipment"
+              :key="item.value"
+              :label="item.value"
+            ></el-radio-button>
           </el-radio-group>
         </div>
       </div>
@@ -21,115 +25,145 @@
       </div>
       <div class="options_03 option">
         <div class="margin_top_font">日期</div>
-        <div class="date" id="dateValue01">
+
+        <el-radio-group v-model="time_radio_Value" size="mini">
+          <el-radio-button
+            v-for="item in time"
+            :key="item.value"
+            :label="item.value"
+          ></el-radio-button>
+        </el-radio-group>
+        <div class="date" id="dateValue01" @click="dateValue01_click">
           <!-- 饿了么的日期选择组件 -->
+
           <el-date-picker
-            :picker-options="pickerOptions2"
             v-model="dateValue"
-            type="date"
-            placeholder="选择日期"
-            clear-icon
-            prefix-icon="fasle"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions2"
+            :clearable="false"
+            unlink-panels
+            prefix-icon="el-icon-caret-bottom"
             @blur="dateValue_blur01"
             @focus="dateValue_focus01"
           ></el-date-picker>
         </div>
-        <!-- <div
-          :class=" {'change_bg':change_bg_day,'font_block':true,'pointer':true}"
-          @click="change_day_dateValue()"
-        >昨日</div>
-        <div
-          :class=" {'change_bg':change_bg_week,'font_block':true,'pointer':true}"
-          @click="change_week_dateValue()"
-        >近七天</div>-->
-        <el-radio-group v-model="time_radio_Value" size="mini">
-          <el-radio-button v-for="item in  time " :key="item.value" :label="item.value"></el-radio-button>
-        </el-radio-group>
       </div>
       <div class="options_04 option">
         <div class="margin_top_font">搜索</div>
         <div class="search">
-          <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
+          <el-input
+            v-model="search_input"
+            placeholder="请输入搜索关键词"
+          ></el-input>
         </div>
         <div class="search_confirm pointer" @click="go_to_page01_son">搜索</div>
       </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>更新时间</th>
-          <th>热门搜索关键词</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-if="no_data_img">
-          <td colspan="2">
-            <div class="no_data_img">
-              <img src="../assets/ios/null.png" alt />
-              <div>暂无相关数据</div>
-            </div>
-          </td>
-        </tr>
-
-        <tr v-for="(item,index) in response_data" :key="index">
-          <td>
-            <div class="table_font">{{item.strtime}}</div>
-          </td>
-          <td>
-            <div class="table_font table_font_other">
-              <div
-                v-for="(item_list,index_list) in item.list"
-                :key="index_list"
-                @mouseover="get_data_for_popover(item_list.word,item.time)"
-              >
-                <el-popover
-                  placement="bottom"
-                  width="320"
-                  trigger="hover"
-                  :open-delay="300"
-                  :visible-arrow="true"
-                >
-                  <div class="table_hover_title">
-                    <span v-if="response_datafor_popover">搜索指数 {{response_datafor_popover.Hint}}</span>
-                    <span class="pointer" @click="go_to_page01(item_list.word)">热搜历史</span>
-                  </div>
-                  <div class="table_hover_line"></div>
-                  <div>热词搜索前5名搜索结果</div>
-                  <div class="table_hover_app_group" v-if="response_datafor_popover">
-                    <div
-                      v-for="(item_for_popover ,index_for_popover) in response_datafor_popover.Appinfo"
-                      :key="index_for_popover"
-                    >
-                      <img
-                        :src="item_for_popover.icon_url"
-                        class="pointer"
-                        @click="go_to_page02(item_for_popover.app_id,item_for_popover.app_name)"
-                        alt
-                      />
-                      <div
-                        class="hide_font pointer"
-                        @click="go_to_page02(item_for_popover.app_id,item_for_popover.app_name)"
-                      >{{item_for_popover.app_name}}</div>
-                    </div>
-                  </div>
-                  <div
-                    slot="reference"
-                    class="pointer font_word"
-                    @click="go_to_page01(item_list.word)"
-                  >{{item_list.word}}</div>
-                </el-popover>
+    <div v-loading="loading" element-loading-spinner="el-icon-loading">
+      <table>
+        <thead>
+          <tr>
+            <th>更新时间</th>
+            <th>热门搜索关键词</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="no_data_img">
+            <td colspan="2">
+              <div class="no_data_img">
+                <img src="../assets/ios/null.png" alt />
+                <div>暂无相关数据</div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+
+          <tr v-for="(item, index) in response_data" :key="index">
+            <td>
+              <div class="table_font">{{ item.strtime }}</div>
+            </td>
+            <td>
+              <div class="table_font table_font_other">
+                <div
+                  v-for="(item_list, index_list) in item.list"
+                  :key="index_list"
+                  @mouseover="get_data_for_popover(item_list.word, item.time)"
+                >
+                  <el-popover
+                    placement="bottom"
+                    width="320"
+                    trigger="hover"
+                    :open-delay="300"
+                    :visible-arrow="true"
+                  >
+                    <div class="table_hover_title">
+                      <span v-if="response_datafor_popover"
+                        >搜索指数 {{ response_datafor_popover.Hint }}</span
+                      >
+                      <span
+                        class="pointer"
+                        @click="go_to_page01(item_list.word)"
+                        >热搜历史</span
+                      >
+                    </div>
+                    <div class="table_hover_line"></div>
+                    <div>热词搜索前5名搜索结果</div>
+                    <div
+                      class="table_hover_app_group"
+                      v-if="response_datafor_popover"
+                    >
+                      <div
+                        v-for="(item_for_popover,
+                        index_for_popover) in response_datafor_popover.Appinfo"
+                        :key="index_for_popover"
+                      >
+                        <img
+                          :src="item_for_popover.icon_url"
+                          class="pointer"
+                          @click="
+                            go_to_page02(
+                              item_for_popover.app_id,
+                              item_for_popover.app_name
+                            )
+                          "
+                          alt
+                        />
+                        <div
+                          class="hide_font pointer"
+                          @click="
+                            go_to_page02(
+                              item_for_popover.app_id,
+                              item_for_popover.app_name
+                            )
+                          "
+                        >
+                          {{ item_for_popover.app_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      slot="reference"
+                      class="pointer font_word"
+                      @click="go_to_page01(item_list.word)"
+                    >
+                      {{ item_list.word }}
+                    </div>
+                  </el-popover>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
 // 引入国家选择组件
-import country from '../common/country_select/country'
+import country from "../common/country_select/country";
 // 引入工具类
 import {
   formatDate,
@@ -137,264 +171,269 @@ import {
   time_rotate,
   time_inactive,
   time_active
-} from '../common/util.js'
+} from "../common/util.js";
 export default {
-  name: 'hot_search',
+  name: "hot_search",
   components: { country },
   data() {
     return {
+      loading: false,
       no_data_img: false,
       response_data: null,
       response_datafor_popover: null,
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: "中国",
       // 请输入搜索关键词
-      search_input: '',
+      search_input: "",
       // 设备选择
       equipment: [
         {
-          value: 'iPhone'
+          value: "iPhone"
         },
         {
-          value: 'iPad'
+          value: "iPad"
         }
       ],
-      equipmentValue: 'iPhone',
+      equipmentValue: "iPhone",
       // 时间选择
       time: [
         {
-          value: '昨日'
+          value: "今日"
         },
         {
-          value: '近七天'
+          value: "近七天"
         }
       ],
-      time_radio_Value: '',
+      time_radio_Value: "今日",
 
       //当前选中的日期
-      dateValue: new Date(),
+      dateValue: "",
       pickerOptions2: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now();
           // 这里就是设置当天后的日期不能被点击
         }
-      },
-      //给后台传递的参数endDate
-      endDate: ''
-    }
+      }
+    };
   },
 
   created: function() {
-    // 设置默认endDate的值与日历值一样、
-    this.endDate = formatDate(this.dateValue, 'yyyy-MM-dd')
-    this.get_data()
-    this.$watch('dateValue', function(newValue, oldValue) {
+    this.get_data();
+    this.$watch("dateValue", function(newValue, oldValue) {
       // console.log('当前日期发生变化，重新请求数据...')
-      if (newValue != '') {
-        this.time_radio_Value = ''
-        time_active('#dateValue01')
+      if (newValue != "") {
+        this.time_radio_Value = "";
+        time_active("#dateValue01");
       }
-      this.get_data()
-    })
-    this.$watch('time_radio_Value', function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("time_radio_Value", function(newValue, oldValue) {
       // console.log('当前日期发生变化，重新请求数据...')
-      if (newValue != '') {
-        time_inactive('#dateValue01')
+      if (newValue != "") {
+        time_inactive("#dateValue01");
       }
-      this.get_data()
-    })
-    this.$watch('equipmentValue', function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("equipmentValue", function(newValue, oldValue) {
       // console.log('当前日期发生变化，重新请求数据...')
-      this.get_data()
-    })
-    this.$watch('now_country', function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("now_country", function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
-      this.get_data()
-    })
+      this.get_data();
+    });
   },
-  mounted() {
-    time_active('#dateValue01')
-  },
+
   methods: {
+    dateValue01_click() {
+      if (this.dateValue) {
+        time_active("#dateValue01");
+        this.time_radio_Value = "";
+        this.get_data();
+      }
+    },
     // 控制时间组件旋转
     // 1.给日期组件的父类添加一个新的id,然后调用方法
 
     dateValue_blur01() {
-      time_reset('#dateValue01')
+      time_reset("#dateValue01");
     },
     dateValue_focus01() {
-      time_rotate('#dateValue01')
+      time_rotate("#dateValue01");
     },
     // 请求数据
     get_data() {
       // alert('444444444444')
+      this.loading = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
-          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
 
-          let url
+          let url;
 
           switch (this.time_radio_Value) {
-            case '':
-              let startDate = formatDate(this.dateValue, 'yyyy-MM-dd')
+            case "":
+              // console.log(this.dateValue);
+
               url =
-                '/Word/HotSearch?deviceType=' +
+                "/Word/HotSearch?deviceType=" +
                 deviceType +
-                '&countryId=' +
+                "&countryId=" +
                 country_id +
-                '&startDate=' +
-                startDate +
-                '&endDate=' +
-                startDate
-              break
-            case '昨日':
-              let day1 = new Date()
-              day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000)
+                "&startDate=" +
+                formatDate(this.dateValue[0], "yyyy-MM-dd") +
+                "&endDate=" +
+                formatDate(this.dateValue[1], "yyyy-MM-dd");
+              break;
+            case "今日":
+              let day1 = new Date();
+              day1.setTime(day1.getTime());
               url =
-                '/Word/HotSearch?deviceType=' +
+                "/Word/HotSearch?deviceType=" +
                 deviceType +
-                '&countryId=' +
+                "&countryId=" +
                 country_id +
-                '&startDate=' +
-                formatDate(day1, 'yyyy-MM-dd') +
-                '&endDate=' +
-                formatDate(day1, 'yyyy-MM-dd')
-              break
-            case '近七天':
-              let day2 = new Date()
-              day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000 * 7)
+                "&startDate=" +
+                formatDate(day1, "yyyy-MM-dd") +
+                "&endDate=" +
+                formatDate(day1, "yyyy-MM-dd");
+              break;
+            case "近七天":
+              let day2 = new Date();
+              day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000 * 7);
               url =
-                '/Word/HotSearch?deviceType=' +
+                "/Word/HotSearch?deviceType=" +
                 deviceType +
-                '&countryId=' +
+                "&countryId=" +
                 country_id +
-                '&startDate=' +
-                formatDate(day2, 'yyyy-MM-dd') +
-                '&endDate=' +
-                formatDate(new Date(), 'yyyy-MM-dd')
-              break
+                "&startDate=" +
+                formatDate(day2, "yyyy-MM-dd") +
+                "&endDate=" +
+                formatDate(new Date(), "yyyy-MM-dd");
+              break;
             default:
-              break
+              break;
           }
-          console.log(url)
+          // console.log(url);
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.no_data_img = false
+              this.loading = false;
+              this.no_data_img = false;
 
               if (
                 response.data.Data == null ||
                 response.data.Data.length == 0
               ) {
-                this.no_data_img = true
+                this.no_data_img = true;
               }
-              this.response_data = response.data.Data
+              this.response_data = response.data.Data;
               // console.log(this.response_data)
               // console.log(555555555555555555555555)
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     // 请求鼠标悬浮的框框数据
     get_data_for_popover(word, time) {
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
-          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
+          let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
           let url =
-            '/Word/HotSearchApps?deviceType=' +
+            "/Word/HotSearchApps?deviceType=" +
             deviceType +
-            '&countryId=' +
+            "&countryId=" +
             country_id +
-            '&word=' +
+            "&word=" +
             encodeURIComponent(word) +
-            '&time=' +
-            time
+            "&time=" +
+            time;
           // console.log(url)
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.response_datafor_popover = response.data
+              this.response_datafor_popover = response.data;
               // console.log(this.response_datafor_popover)
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log(this.now_country)
     },
     go_to_page01_son() {
-      if (this.search_input.trim() == '') {
-        return false
+      if (this.search_input.trim() == "") {
+        return false;
       }
-      this.$store.state.now_app_name = this.search_input
+      this.$store.state.now_app_name = this.search_input;
 
-      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue
-      this.$store.state.now_country_name = this.now_country
+      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue;
+      this.$store.state.now_country_name = this.now_country;
       this.$router.push({
-        path: '/hot_history'
-      })
+        path: "/hot_history"
+      });
     },
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm
-      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue
-      this.$store.state.now_country_name = this.now_country
+      this.$store.state.now_app_name = parm;
+      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue;
+      this.$store.state.now_country_name = this.now_country;
       this.$router.push({
-        path: '/hot_history'
-      })
+        path: "/hot_history"
+      });
     },
     go_to_page02(parm, parm02) {
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
+      this.$store.state.now_app_id = parm;
+      this.$store.state.now_app_name = parm02;
       this.$router.push({
         path:
-          '/now_ranking?now_country_name=' +
+          "/now_ranking?now_country_name=" +
           this.$store.state.now_country_name +
-          '&now_app_id=' +
+          "&now_app_id=" +
           this.$store.state.now_app_id
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -455,9 +494,9 @@ export default {
 .table_font_other > div {
   margin-right: 20px;
 }
-.table_font_other > div:nth-child(10),
-.table_font_other > div:nth-child(8),
-.table_font_other > div:nth-child(9) {
+.table_font_other > div:nth-last-child(1),
+.table_font_other > div:nth-last-child(2),
+.table_font_other > div:nth-last-child(3) {
   color: #888888;
 }
 .table_hover_app_group > div {
@@ -561,7 +600,7 @@ table {
 }
 
 .options_03 .date {
-  margin-right: 10px;
+  margin-left: 12px;
 }
 
 .option > div:first-child {

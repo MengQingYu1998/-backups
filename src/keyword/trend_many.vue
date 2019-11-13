@@ -28,8 +28,9 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-            clear-icon
-            prefix-icon="fasle"
+            :clearable="false"
+            unlink-panels
+            prefix-icon="el-icon-caret-bottom"
             :picker-options="pickerOptions"
             @blur="dateValue_blur01"
             @focus="dateValue_focus01"

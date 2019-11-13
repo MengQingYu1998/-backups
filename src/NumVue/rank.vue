@@ -661,6 +661,9 @@ export default {
   padding: 0 12px;
   margin-left: 10px;
 }
+.content .lei>div:first-child>p:nth-child(2) {
+    margin-left: 25px;
+}
 .content .lei > div:last-child p span {
   font-size: 13px;
   color: #444444;

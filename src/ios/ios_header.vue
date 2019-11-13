@@ -2,25 +2,41 @@
   <div id="ios_header">
     <div class="breadcrumb">
       <span>iOS应用</span>
-      <span>> {{this.$store.state.now_app_name}}</span>
+      <span>> {{ this.$store.state.now_app_name }}</span>
     </div>
     <div class="wrap">
       <div class="header_img" v-if="response_data">
-        <img :src="response_data.icon" :class="{'gray':response_data.is_online==0}" alt />
         <img
-          v-if="response_data.expectedReleaseDate!='无'&&response_data.expectedReleaseDate!='0001/1/1 0:00:00'"
+          :src="response_data.icon"
+          :class="{ gray: response_data.is_online == 0 }"
+          alt
+        />
+        <img
+          v-if="
+            response_data.expectedReleaseDate != '无' &&
+              response_data.expectedReleaseDate != '0001/1/1 0:00:00'
+          "
           src="../assets/ios/order.png"
           alt
         />
-        <img v-if="response_data.is_online==0" src="../assets/ios/death.png" alt />
+        <img
+          v-if="response_data.is_online == 0"
+          src="../assets/ios/death.png"
+          alt
+        />
         <div
           class="white"
-          v-if="response_data.expectedReleaseDate=='无'&&response_data.expectedReleaseDate=='0001/1/1 0:00:00'"
+          v-if="
+            response_data.expectedReleaseDate == '无' &&
+              response_data.expectedReleaseDate == '0001/1/1 0:00:00'
+          "
         ></div>
       </div>
       <div class="app_description" v-if="response_data">
-        <div v-if="response_data">{{response_data.appName}}</div>
-        <div v-if="response_data">{{response_data.subtitle=='无'?'':response_data.subtitle}}</div>
+        <div v-if="response_data">{{ response_data.appName }}</div>
+        <div v-if="response_data">
+          {{ response_data.subtitle == "无" ? "" : response_data.subtitle }}
+        </div>
       </div>
       <div class="app_field">
         <div>开发者</div>
@@ -28,37 +44,47 @@
           popper-class="ios_header_popper"
           placement="top-start"
           trigger="hover"
-          :content="response_data&&response_data.developer"
+          :content="response_data && response_data.developer"
         >
-          <div
-            slot="reference"
-            class="app_field_developer"
-          >{{response_data&&response_data.developer}}</div>
+          <div slot="reference" class="app_field_developer">
+            {{ response_data && response_data.developer }}
+          </div>
         </el-popover>
       </div>
       <div class="line"></div>
       <div class="app_field">
-        <div
-          v-if="response_data"
-        >{{response_data.expectedReleaseDate=='无'||response_data.expectedReleaseDate=='0001/1/1 0:00:00'?'版本更新时间':'预计上线时间'}}</div>
-        <div
-          v-if="response_data"
-        >{{response_data.expectedReleaseDate=='无'||response_data.expectedReleaseDate=='0001/1/1 0:00:00'?response_data.appUpdateTime.slice(0,10):response_data.expectedReleaseDate.slice(0,10)}}</div>
+        <div v-if="response_data">
+          {{
+            response_data.expectedReleaseDate == "无" ||
+            response_data.expectedReleaseDate == "0001/1/1 0:00:00" ||
+            response_data.expectedReleaseDate <= new Date()
+              ? "版本更新时间"
+              : "预计上线时间"
+          }}
+        </div>
+        <div v-if="response_data">
+          {{
+            response_data.expectedReleaseDate == "无" ||
+            response_data.expectedReleaseDate == "0001/1/1 0:00:00"
+              ? response_data.appUpdateTime.slice(0, 10)
+              : response_data.expectedReleaseDate.slice(0, 10)
+          }}
+        </div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>分类</div>
-        <div v-if="response_data">{{response_data.genreName}}</div>
+        <div v-if="response_data">{{ response_data.genreName }}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>价格</div>
-        <div v-if="response_data">{{response_data.price}}</div>
+        <div v-if="response_data">{{ response_data.price }}</div>
       </div>
       <div class="line"></div>
       <div class="app_field">
         <div>APPID</div>
-        <div>{{this.$store.state.now_app_id}}</div>
+        <div>{{ this.$store.state.now_app_id }}</div>
       </div>
       <div class="line"></div>
       <div class="app_field country" @mousemove="click">
@@ -78,56 +104,56 @@
 
 <script>
 // 引入国家选择组件
-import country from '../common/country_select/country'
+import country from "../common/country_select/country";
 // 引入工具类
-import { myTime } from '../common/util.js'
+import { myTime } from "../common/util.js";
 export default {
-  name: 'ios_header',
+  name: "ios_header",
   components: { country },
   data() {
     return {
       // is_show_header: true,
-      now_country: '中国',
+      now_country: "中国",
       response_data: null,
       cache_country: null,
       is_show_country_component: true
-    }
+    };
   },
 
   created: function() {
-    this.$store.state.now_app_name = ''
-    this.get_data()
+    this.$store.state.now_app_name = "";
+    this.get_data();
     //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      this.cache_country = oldValue
+    this.$watch("now_country", function(newValue, oldValue) {
+      this.cache_country = oldValue;
       // alert(555)
-      this.click()
-      this.get_data()
-    })
+      this.click();
+      this.get_data();
+    });
   },
   methods: {
     // 请求数据
     get_data() {
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
 
           let url =
-            '/GetAppSynopsis?countryId=' +
+            "/GetAppSynopsis?countryId=" +
             country_id +
-            '&appId=' +
-            this.$store.state.now_app_id
+            "&appId=" +
+            this.$store.state.now_app_id;
           // console.log(this.$store.state.now_app_id)
           // console.log(url)
 
@@ -136,39 +162,39 @@ export default {
             .get(url)
             .then(response => {
               // console.log(response)
-              this.$store.state.now_country_name = this.now_country
-              this.response_data = response.data.Data
+              this.$store.state.now_country_name = this.now_country;
+              this.response_data = response.data.Data;
               if (response.data.Data != null) {
-                this.$store.state.now_app_name = response.data.Data.appName
-                this.price_to_now_ranking(response.data.Data.price)
+                this.$store.state.now_app_name = response.data.Data.appName;
+                this.price_to_now_ranking(response.data.Data.price);
               }
 
               // }
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log('ios_header' + this.now_country)
     },
     // 把获取到的价格传递给父组件的now_ranking.vue
     price_to_now_ranking(parm) {
-      this.$emit('price_to_now_ranking', parm)
+      this.$emit("price_to_now_ranking", parm);
     },
     // 把获取到的国家传递给父组件
     click: function() {
-      this.$emit('childFn', this.now_country)
+      this.$emit("childFn", this.now_country);
     }
   }
-}
+};
 </script>
 <style scoped>
 .app_field_developer {

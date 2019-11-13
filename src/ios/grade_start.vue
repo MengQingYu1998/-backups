@@ -208,8 +208,9 @@
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
-                    clear-icon
-                    prefix-icon="fasle"
+                    :clearable="false"
+                    unlink-panels
+                    prefix-icon="el-icon-caret-bottom"
                     end-placeholder="结束日期"
                     :picker-options="middle_top_pickerOptions"
                     @blur="dateValue_blur01"
@@ -250,8 +251,9 @@
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
-                    clear-icon
-                    prefix-icon="fasle"
+                    :clearable="false"
+                    unlink-panels
+                    prefix-icon="el-icon-caret-bottom"
                     end-placeholder="结束日期"
                     :picker-options="middle_bottom_pickerOptions"
                     @blur="dateValue_blur02"
@@ -321,8 +323,9 @@
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
-                    clear-icon
-                    prefix-icon="fasle"
+                    :clearable="false"
+                    unlink-panels
+                    prefix-icon="el-icon-caret-bottom"
                     end-placeholder="结束日期"
                     :picker-options="pickerOptions2"
                     @blur="dateValue_blur03"
@@ -341,6 +344,7 @@
             <div class="table_top_green">
               <span>置顶的评论是指在 App Store 应用详情页面直接显示的评论。其他评论需在 App Store 点击“查看全部”才能查看。</span>
             </div>
+            <!-- <div v-loading="loading" element-loading-spinner="el-icon-loading"> -->
             <table>
               <thead>
                 <tr>
@@ -350,7 +354,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="disable_hover" v-if="!loading&&response_data_fourth_part.length==0">
+                <tr class="disable_hover" v-if="response_data_fourth_part.length==0">
                   <td colspan="3">暂无相关数据</td>
                 </tr>
                 <template v-if="response_data_fourth_part.length!=0">
@@ -392,12 +396,10 @@
                 </template>
               </tbody>
             </table>
-            <div class="loading" v-show="loading">
-              <img src="../assets/ios/loading.gif" alt />
-            </div>
+            <!-- </div> -->
 
-            <div class="paging" v-if="!loading">
-              <div>显示第 {{(currentPage-1)*20+1}} 至 {{currentPage*20}} 项结果，共 {{total}} 项</div>
+            <div class="paging">
+              <div>显示第 {{(currentPage-1)*20+1}} 至 {{currentPage==Math.ceil(total/20)?((currentPage-1)*20)+(total%20):currentPage*20}} 项结果，共 {{total}} 项</div>
               <div>
                 <el-pagination
                   background
@@ -436,7 +438,7 @@ export default {
       // 同时存在监听滚动条滚动事件
       position_fixed: false, // 1.在父组件的监听滚动条事件里面写子组件监听的逻辑代码,给子组件传递参数
 
-      loading: false,
+      // loading: false,
       page: 1,
       // 第一部分参数
       // 第一部分参数
@@ -1413,7 +1415,7 @@ export default {
     // ==================第四部分===========================
     // 请求第四部分=》评论部分的数据
     get_data_for_fourth_part() {
-      this.loading = true
+      // this.loading = true
 
       this.$axios
         .get('/GetCountry')
@@ -1523,7 +1525,7 @@ export default {
               this.response_data_fourth_part = response.data.Data.comments
               this.total = response.data.Data.totalCount //底部显示总共
               console.log(this.total)
-              this.loading = false
+              // this.loading = false
             })
             .catch(error => {
               console.log(error)
@@ -1915,17 +1917,6 @@ table {
 .content {
   width: 1200px;
   margin: 0 auto;
-}
-
-.loading {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 30px;
-  margin-top: -20px;
-}
-.loading > img {
-  width: 50px;
-  height: 50px;
 }
 
 .disable_hover {
