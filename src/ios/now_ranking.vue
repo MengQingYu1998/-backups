@@ -84,6 +84,7 @@
                     end-placeholder="结束日期"
                     :picker-options="middle_top_pickerOptions"
                     :clearable="false"
+                    value-format="yyyy-MM-dd"
                     unlink-panels
                     prefix-icon="el-icon-caret-bottom"
                     @blur="dateValue_blur01"
@@ -416,6 +417,7 @@ export default {
   },
 
   created: function() {
+    // this.now_ranking_time=[timestamp(new Date().getTime()/1000,'Y-M-D')  ,timestamp(new Date().getTime()/1000,'Y-M-D')  ]
     // alert('created')
     this.get_data_first();
     this.get_data_third();
@@ -549,7 +551,6 @@ export default {
     // =============================请求第二部分数据=============================
     // =============================请求第二部分数据=============================
     get_data_second() {
-      // console.log(66666666666666666)
       this.db_number_is_same++;
       let is_excute_function = this.db_number_is_same;
       this.myChart = this.$echarts.init(this.$refs.EChart_now_ranking);
@@ -579,9 +580,8 @@ export default {
 
           switch (this.middle_top_radio3) {
             case "":
-              let now_ranking_time = this.now_ranking_time;
-              startDate = formatDate(now_ranking_time[0], "yyyy-MM-dd");
-              endDate = formatDate(now_ranking_time[1], "yyyy-MM-dd");
+              startDate = this.now_ranking_time[0];
+              endDate = this.now_ranking_time[1];
               // 判断时间相差多少天，大于七天类型timeType传递 按天    小于timeType传递按小时
               let nTime =
                 new Date(endDate).getTime() - new Date(startDate).getTime();
@@ -668,7 +668,7 @@ export default {
             timeType: that.timeType,
             device: 1
           };
-          // console.log(data)
+          // console.log(data);
 
           // 请求数据
           this.$axios
@@ -679,9 +679,9 @@ export default {
             })
             // .post(url, data)
             .then(response => {
-              // console.log(66666666666666666)
-              // console.log(response.data)
-              // console.log(66666666666666666)
+              // console.log(666666666666666);
+              // console.log(response.data);
+              // console.log(666666666666);
               if (is_excute_function == this.db_number_is_same) {
                 if (response.data.Code == 0 && response.data.Data.length > 0) {
                   // console.log('有数据')

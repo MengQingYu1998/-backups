@@ -3,11 +3,15 @@
     <div
       ref="country_name"
       class="country_name"
-      @click.stop="country_show_hidden=!country_show_hidden"
+      @click.stop="country_show_hidden = !country_show_hidden"
       @mouseleave="direction"
     >
-      <span>{{country_name}}</span>
-      <img src="./arrows.png" alt :class="{'arrows':true,'arrows_active':country_show_hidden}" />
+      <span>{{ country_name }}</span>
+      <img
+        src="./arrows.png"
+        alt
+        :class="{ arrows: true, arrows_active: country_show_hidden }"
+      />
     </div>
     <transition name="fade">
       <div
@@ -16,102 +20,125 @@
         @mouseleave="country_show_hidden = false"
       >
         <div class="country_header" @click.stop>
-          <input type="text" placeholder="搜索地区/国家" v-model="input" @input="inputChange" />
+          <input
+            type="text"
+            placeholder="搜索地区/国家"
+            v-model="input"
+            @input="inputChange"
+          />
           <img src="./search.png" alt />
         </div>
-        <div class="country_content" v-if="arr_country!=null">
-          <div class="list" v-show="input.trim()==''&&!app_id">
+        <div class="country_content" v-if="arr_country != null">
+          <div class="list" v-show="input.trim() == '' && !app_id">
             <div class="list_header">热门国家</div>
-            <div class="item" @click="change_country_name('中国','CN')">
+            <div class="item" @click="change_country_name('中国', 'CN')">
               <img :src="'../../../static/flag/CN.svg'" alt />
               <span>中国</span>
             </div>
-            <div class="item" @click="change_country_name('美国','US')">
+            <div class="item" @click="change_country_name('美国', 'US')">
               <img :src="'../../../static/flag/US.svg'" alt />
               <span>美国</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()!=''">
+          <div class="list" v-show="input.trim() != ''">
             <div
               class="item"
-              v-for="(item,index) in arr_country[0]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[0]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[0].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[0].length != 0"
+          >
             <div class="list_header">亚洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[0]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[0]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[1].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[1].length != 0"
+          >
             <div class="list_header">北美洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[1]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[1]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[2].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[2].length != 0"
+          >
             <div class="list_header">南美洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[2]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[2]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[3].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[3].length != 0"
+          >
             <div class="list_header">欧洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[3]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[3]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[4].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[4].length != 0"
+          >
             <div class="list_header">大洋洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[4]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[4]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
-          <div class="list" v-show="input.trim()==''&&arr_country[5].length!=0">
+          <div
+            class="list"
+            v-show="input.trim() == '' && arr_country[5].length != 0"
+          >
             <div class="list_header">非洲</div>
             <div
               class="item"
-              v-for="(item,index) in arr_country[5]"
-              :key="'arr_country'+index"
-              @click="change_country_name(item.name,item.code)"
+              v-for="(item, index) in arr_country[5]"
+              :key="'arr_country' + index"
+              @click="change_country_name(item.name, item.code)"
             >
-              <img :src="'../../../static/flag/'+item.code+'.svg'" alt />
-              <span>{{item.name}}</span>
+              <img :src="'../../../static/flag/' + item.code + '.svg'" alt />
+              <span>{{ item.name }}</span>
             </div>
           </div>
         </div>
@@ -122,62 +149,62 @@
 
 <script>
 export default {
-  name: 'country_select',
+  name: "country_select",
   components: {},
 
   data() {
     return {
       arr_country: null,
-      input: '',
+      input: "",
       country_show_hidden: false,
-      country_name: '中国',
-      country_code: 'CN'
-    }
+      country_name: "中国",
+      country_code: "CN"
+    };
   },
-  props: ['custom_country', 'app_id'],
+  props: ["custom_country", "app_id"],
   // 监听,当路由发生变化的时候执行
   watch: {
     $route(to, from) {
-      this.$emit('childFn', this.country_name)
+      this.$emit("childFn", this.country_name);
     }
   },
   created() {
     if (this.custom_country) {
-      this.country_name = this.custom_country
+      this.country_name = this.custom_country;
     }
 
-    this.get_data()
-    this.$emit('childFn', this.country_name)
-    this.$watch('country_name', function(newValue, oldValue) {
-      this.$emit('childFn', this.country_name)
-    })
+    this.get_data();
+    this.$emit("childFn", this.country_name);
+    this.$watch("country_name", function(newValue, oldValue) {
+      this.$emit("childFn", this.country_name);
+    });
   },
   methods: {
     // 通过鼠标移出的方向去判断下拉框显隐
     direction(ev) {
-      let ele = this.$refs.country_name
+      let ele = this.$refs.country_name;
 
       var w = parseInt(
-        window.getComputedStyle(ele, null).getPropertyValue('width')
-      )
+        window.getComputedStyle(ele, null).getPropertyValue("width")
+      );
 
       var h = parseInt(
-        window.getComputedStyle(ele, null).getPropertyValue('height')
-      )
-      var dirs = ['top', 'right', 'bottom', 'left']
+        window.getComputedStyle(ele, null).getPropertyValue("height")
+      );
+      var dirs = ["top", "right", "bottom", "left"];
 
       var toTop =
-        ele.getBoundingClientRect().top + document.documentElement.scrollTop
+        ele.getBoundingClientRect().top + document.documentElement.scrollTop;
       var x =
         (ev.pageX - ele.getBoundingClientRect().left - w / 2) *
-        (w > h ? h / w : 1) //获取当前鼠标的x轴位置
-      var y = (ev.pageY - toTop - h / 2) * (h > w ? w / h : 1)
+        (w > h ? h / w : 1); //获取当前鼠标的x轴位置
+      var y = (ev.pageY - toTop - h / 2) * (h > w ? w / h : 1);
       var direction =
-        Math.round(((Math.atan2(y, x) * 180) / Math.PI + 180) / 90 + 3) % 4 //direction的值为“0,1,2,3”分别对应着“上，右，下，左”
-      var res = Math.atan2(y, x) / (Math.PI / 180)
+        Math.round(((Math.atan2(y, x) * 180) / Math.PI + 180) / 90 + 3) % 4; //direction的值为“0,1,2,3”分别对应着“上，右，下，左”
+      var res = Math.atan2(y, x) / (Math.PI / 180);
       // console.log('方向:' + direction)
       if (direction != 2) {
-        this.country_show_hidden = false
+        this.country_show_hidden = false;
       }
       // 0=》上
       // 1=》右
@@ -191,98 +218,98 @@ export default {
       // 大洋洲是5 Oceania
       // 北美洲是2  North_America
       // 非洲是6 Africa
-      let url
+      let url;
       if (this.app_id) {
-        url = '/GetCountry?appId=' + this.app_id
+        url = "/GetCountry?appId=" + this.app_id;
       } else {
-        url = '/GetCountry'
+        url = "/GetCountry";
       }
       this.$axios
         .get(url)
         .then(response => {
           // 获取国家ID
 
-          this.arr_country = new Array()
-          if (this.input.trim() == '') {
+          this.arr_country = new Array();
+          if (this.input.trim() == "") {
             // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia // 亚洲是1 Asia
-            let Asia = new Array()
+            let Asia = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 1) {
-                Asia.push(element)
+                Asia.push(element);
               }
-            })
-            this.arr_country.push(Asia)
+            });
+            this.arr_country.push(Asia);
             // 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America// 北美洲是2  North_America
-            let North_America = new Array()
+            let North_America = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 2) {
-                North_America.push(element)
+                North_America.push(element);
               }
-            })
-            this.arr_country.push(North_America)
+            });
+            this.arr_country.push(North_America);
             // 南美洲是3 South_America// 南美洲是3 South_America// 南美洲是3 South_America// 南美洲是3 South_America
-            let South_America = new Array()
+            let South_America = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 3) {
-                South_America.push(element)
+                South_America.push(element);
               }
-            })
-            this.arr_country.push(South_America)
+            });
+            this.arr_country.push(South_America);
             // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe // 欧洲是4 Europe
-            let Europe = new Array()
+            let Europe = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 4) {
-                Europe.push(element)
+                Europe.push(element);
               }
-            })
-            this.arr_country.push(Europe)
+            });
+            this.arr_country.push(Europe);
             // 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania// 大洋洲是5 Oceania
-            let Oceania = new Array()
+            let Oceania = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 5) {
-                Oceania.push(element)
+                Oceania.push(element);
               }
-            })
-            this.arr_country.push(Oceania)
+            });
+            this.arr_country.push(Oceania);
             // 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa// 非洲是6 Africa
-            let Africa = new Array()
+            let Africa = new Array();
             response.data.Data.forEach(element => {
               if (element.areaid == 6) {
-                Africa.push(element)
+                Africa.push(element);
               }
-            })
-            this.arr_country.push(Africa)
-          } else if (this.input.trim() != '') {
-            let nothing = new Array()
+            });
+            this.arr_country.push(Africa);
+          } else if (this.input.trim() != "") {
+            let nothing = new Array();
             response.data.Data.forEach(element => {
               if (element.name.indexOf(this.input) != -1) {
-                nothing.push(element)
+                nothing.push(element);
               }
-            })
-            this.arr_country.push(nothing)
+            });
+            this.arr_country.push(nothing);
           }
           // console.log(this.arr_country)
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     inputChange() {
-      this.get_data()
+      this.get_data();
     },
     change_country_name(parm, parm1) {
-      console.log(parm)
-      console.log(parm1)
+      // console.log(parm)
+      // console.log(parm1)
       if (parm) {
-        this.country_name = parm
+        this.country_name = parm;
       }
       if (parm1) {
-        this.country_code = parm1
+        this.country_code = parm1;
       }
-      this.country_show_hidden = false
+      this.country_show_hidden = false;
     }
   }
-}
+};
 </script>
 <style scoped>
 .item span {
@@ -326,8 +353,8 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'PingFangSC', 'helvetica neue', 'hiragino sans gb', 'arial',
-    'microsoft yahei ui', 'microsoft yahei', 'simsun', 'sans-serif' !important;
+  font-family: "PingFangSC", "helvetica neue", "hiragino sans gb", "arial",
+    "microsoft yahei ui", "microsoft yahei", "simsun", "sans-serif" !important;
 }
 .country_name {
   /* width: 81px; */

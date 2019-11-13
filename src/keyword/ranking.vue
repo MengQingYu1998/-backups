@@ -264,13 +264,13 @@
                 {{ item.Word }}
               </div>
             </td>
-            <td class="table_font pointer">
+            <td class="color_444 pointer">
               <div class="pointer" @click="go_to_page02(item.Word)">
                 {{ item.WordIdHint }}
               </div>
             </td>
             <!-- 给下一个页面传递参数 -->
-            <td class="table_font pointer" @click="go_to_page03(item.Word)">
+            <td class="color_444 pointer" @click="go_to_page03(item.Word)">
               <div>{{ item.SearchCount }}</div>
             </td>
             <td class="table_font pointer">
@@ -833,7 +833,7 @@ thead tr {
 }
 
 td {
-  height: 54px !important;
+  height: 41px !important;
 }
 
 tbody tr {
@@ -987,5 +987,8 @@ option:first-child {
   line-height: 13px;
   letter-spacing: 0px;
   color: #555555;
+}
+.color_444 {
+  color: #444;
 }
 </style>

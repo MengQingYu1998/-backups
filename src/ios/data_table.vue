@@ -57,13 +57,14 @@
                   <div>当前日期</div>
                   <div class="date" id="dateValue01">
                     <!-- 饿了么的日期选择组件 -->
-                    <el-date-picker
+                    <el-date-picker 
                       v-model="date_Now_for_top"
                       type="date"
                       placeholder="选择日期"
                       :clearable="false"
                       prefix-icon="el-icon-caret-bottom"
                       :picker-options="pickerOptions"
+                      value-format="yyyy-MM-dd"
                       @blur="dateValue_blur01"
                       @focus="dateValue_focus01"
                     ></el-date-picker>
@@ -80,6 +81,7 @@
                       :clearable="false"
                       prefix-icon="el-icon-caret-bottom"
                       :picker-options="pickerOptions"
+                       value-format="yyyy-MM-dd"
                       @blur="dateValue_blur02"
                       @focus="dateValue_focus02"
                     ></el-date-picker>
@@ -87,7 +89,7 @@
                 </div>
               </div>
               <div class="table_top_green">
-                {{timestamp_wrap(date_Now_for_top / 1000, 'Y年M月D日')}}，关键词总覆盖数：
+                 {{timestamp_wrap(date_Now_for_top / 1000, 'Y年M月D日')}}，关键词总覆盖数：
                 <span>{{request_data_first&&request_data_first.totalCount}}</span> 前三关键词：
                 <span>{{request_data_first&&request_data_first.top3Count}}</span> 前十关键词：
                 <span>{{request_data_first&&request_data_first.top10Count}}</span>
@@ -219,10 +221,12 @@
                     <!-- 饿了么的日期选择组件 -->
                     <el-date-picker
                       v-model="date_Now_for_top"
+                   
                       type="date"
                       placeholder="选择日期"
                       :clearable="false"
                       prefix-icon="el-icon-caret-bottom"
+                         value-format="yyyy-MM-dd"
                       :picker-options="pickerOptions"
                       @blur="dateValue_blur03"
                       @focus="dateValue_focus03"
@@ -240,6 +244,7 @@
                       :clearable="false"
                       prefix-icon="el-icon-caret-bottom"
                       :picker-options="pickerOptions"
+                       value-format="yyyy-MM-dd"
                       @blur="dateValue_blur04"
                       @focus="dateValue_focus04"
                     ></el-date-picker>
@@ -494,7 +499,7 @@
                                 <div class="btn_item_01">
                                   <!-- <div>时间</div> -->
                                   <div id="dateValue05" @click="dateValue05_click">
-                                    <el-date-picker
+                                    <el-date-picker 
                                       v-model="middle_time01"
                                       type="daterange"
                                       range-separator="至"
@@ -503,7 +508,8 @@
                                       :picker-options="middle_pickerOptions"
                                       :clearable="false"
                                       unlink-panels
-                                      prefix-icon="el-icon-caret-bottom"
+                                      prefix-icon="el-icon-caret-bottom" 
+                                      value-format="yyyy-MM-dd"
                                       @blur="dateValue_blur05"
                                       @focus="dateValue_focus05"
                                     ></el-date-picker>
@@ -694,7 +700,7 @@ export default {
   data() {
     let that = this
     return {
-      // nothing_data_can_show02: false,
+      now_app_id: null,
       is_login: false, //用户是否登录
       // 分页
       currentPage: 1,
@@ -805,16 +811,38 @@ export default {
     }
   },
 
+watch:{
+  $route(to,from){
+
+this.$route.query.now_country? this.now_country=this.$route.query.now_country:this.now_country='中国'
+this.$route.query.equipmentValue? this.equipmentValue=this.$route.query.equipmentValue:this.equipmentValue='iPhone'
+this.$route.query.systemValue? this.systemValue=this.$route.query.systemValue:this.systemValue='iOS13/12'
+this.$route.query.date_Now_for_top? this.date_Now_for_top=this.$route.query.date_Now_for_top:this.date_Now_for_top= timestamp(new Date().getTime()/1000,'Y-M-D')  
+this.$route.query.dateCompare_for_top? this.dateCompare_for_top=this.$route.query.dateCompare_for_top:this.dateCompare_for_top=timestamp(new Date().getTime()/1000,'Y-M-D')  
+this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.now_app_id=null
+      this.get_data_for_first_part()
+    this.get_data_for_second_part()
+  }
+},
+
   created: function() {
     if (localStorage.getItem('userId')) {
       this.is_login = true
     } else {
       this.is_login = false
     }
-    if (this.$route.query.now_app_id && this.$route.query.now_app_name) {
-      this.$store.state.now_app_id = this.$route.query.now_app_id
-      this.$store.state.now_app_name = this.$route.query.now_app_name
-    }
+
+
+this.$route.query.now_country? this.now_country=this.$route.query.now_country:this.now_country='中国'
+this.$route.query.equipmentValue? this.equipmentValue=this.$route.query.equipmentValue:this.equipmentValue='iPhone'
+this.$route.query.systemValue? this.systemValue=this.$route.query.systemValue:this.systemValue='iOS13/12'
+this.$route.query.date_Now_for_top? this.date_Now_for_top=this.$route.query.date_Now_for_top:this.date_Now_for_top=timestamp(new Date().getTime()/1000,'Y-M-D')  
+this.$route.query.dateCompare_for_top? this.dateCompare_for_top=this.$route.query.dateCompare_for_top:this.dateCompare_for_top=timestamp(new Date().getTime()/1000,'Y-M-D')  
+this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.now_app_id=null
+
+
+    
+
 
     // ==================第一部分===========================
     // ==================第一部分===========================
@@ -825,18 +853,20 @@ export default {
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
+      this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
 
-      this.$store.state.now_country_name = this.now_country
-      this.get_data_for_first_part()
-      this.get_data_for_second_part()
+    
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
+       
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
@@ -844,10 +874,13 @@ export default {
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
       this.change_time()
-      this.get_data_for_first_part()
-      this.get_data_for_second_part()
+      this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
+    
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
+      
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
@@ -856,32 +889,36 @@ export default {
       this.is_show_bottom = false
 
       this.change_time_Compare()
-      this.get_data_for_first_part()
-      this.get_data_for_second_part()
+        this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
+     
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
+        this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
-      this.get_data_for_first_part()
-      this.get_data_for_second_part()
-      this.get_data_for_third_part()
+     
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
+         this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
-      this.get_data_for_first_part()
-      this.get_data_for_second_part()
-      this.get_data_for_third_part()
+  
     })
     // ==================第二部分===========================
     // ==================第二 部分===========================
@@ -1034,14 +1071,13 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let system = this.systemValue == 'iOS11' ? 11 : 12
-          // console.log(this.date_Now_for_top)
-          // console.log(timestamp(this.dateCompare_for_top / 1000, 'Y-M-D'))
-          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
-          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
-          let appId = this.$store.state.now_app_id
+        
+          let nowDate = this.date_Now_for_top
+          let compareDate =this.dateCompare_for_top
+          let appId = this.now_app_id
+          
           let url =
             '/GetKeyWordSynopsis?' +
-            // 'appId=112' +
             'appId=' +
             appId +
             '&countryId=' +
@@ -1116,11 +1152,9 @@ export default {
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
-      // console.log(new Date(this.dateCompare_for_top).getTime())
-      // console.log(new Date(this.date_Now_for_top).getTime())
-
+      
       this.dateCompare_for_top =
-        new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
+      timestamp((new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000)/1000,'Y-M-D')  
     },
     change_time_Compare() {
       if (
@@ -1128,7 +1162,7 @@ export default {
         new Date(this.date_Now_for_top).getTime()
       ) {
         this.dateCompare_for_top =
-          new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
+            timestamp((new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000)/1000,'Y-M-D')  
       }
     },
     timestamp_wrap(parm01, parm02) {
@@ -1160,11 +1194,11 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let system = this.systemValue == 'iOS11' ? 11 : 12
-          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
-          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
+          let nowDate = this.date_Now_for_top
+          let compareDate = this.dateCompare_for_top
           let url = '/GetKeyWordDetail'
           let that = this
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let page = this.page
           let keywords = this.search_input
           // alert(this.wordIds)
@@ -1189,12 +1223,12 @@ export default {
             wordIds: wordIds,
             sort: sort
           }
-          console.log(data)
+          // console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              setTimeout(() => {
+             
                 this.loading_gif = false
                 if (is_excute_function == this.db_number_is_same) {
                   // console.log('=================明细=====')
@@ -1213,7 +1247,7 @@ export default {
                     this.temp01_request_data_second = new Array() //折线图上面的tr
                   }
                 }
-              }, 20000)
+         
             })
             .catch(error => {
               this.request_data_second = null
@@ -1248,11 +1282,11 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let system = this.systemValue == 'iOS11' ? 11 : 12
-          let nowDate = formatDate(this.date_Now_for_top, 'yyyy-MM-dd')
-          let compareDate = timestamp(this.dateCompare_for_top / 1000, 'Y-M-D')
+          let nowDate = this.date_Now_for_top
+          let compareDate = this.dateCompare_for_top
           let url = '/ToExcel'
           let that = this
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let page = this.page
           let keywords = this.search_input
           let wordIds = this.wordIds
@@ -1307,20 +1341,7 @@ export default {
       this.result_max_input01 = ''
       this.change_bg_result = true
     },
-    // 设置对比日期永远比当前日期小一天 第二部分
-    change_time01() {
-      this.dateCompare_for_top =
-        new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
-    },
-    change_time_Compare01() {
-      if (
-        new Date(this.dateCompare_for_top).getTime() >=
-        new Date(this.date_Now_for_top).getTime()
-      ) {
-        this.dateCompare_for_top =
-          new Date(this.date_Now_for_top).getTime() - 24 * 60 * 60 * 1000
-      }
-    },
+    
     // 控制折线图在表格的中间显示
     middle_table_first(index, wordId, word, position) {
       this.bottom_radio1 = '按小时'
@@ -1475,7 +1496,7 @@ export default {
             showType = 3
           }
           let wordId = this.wordId
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           // wordId	是	int	关键词id
           // showType	是	int	appId
 

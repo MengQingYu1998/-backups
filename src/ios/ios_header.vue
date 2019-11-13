@@ -2,7 +2,7 @@
   <div id="ios_header">
     <div class="breadcrumb">
       <span>iOS应用</span>
-      <span>> {{ this.$store.state.now_app_name }}</span>
+      <span>> {{ response_data && response_data.appName }}</span>
     </div>
     <div class="wrap">
       <div class="header_img" v-if="response_data">
@@ -87,14 +87,13 @@
         <div>{{ this.$store.state.now_app_id }}</div>
       </div>
       <div class="line"></div>
-      <div class="app_field country" @mousemove="click">
+      <div class="app_field country">
         <div>国家/地区</div>
         <!-- 选择国家 -->
         <country
           @childFn="parentFn"
-          :custom_country="this.$store.state.now_country_name"
+          :custom_country="this.$route.query.now_country"
           :app_id="this.$store.state.now_app_id"
-          v-if="is_show_country_component"
         ></country>
       </div>
     </div>
@@ -112,23 +111,32 @@ export default {
   components: { country },
   data() {
     return {
-      // is_show_header: true,
       now_country: "中国",
       response_data: null,
-      cache_country: null,
-      is_show_country_component: true
+      now_app_id: null
     };
   },
 
   created: function() {
-    this.$store.state.now_app_name = "";
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+
     this.get_data();
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
-      this.cache_country = oldValue;
-      // alert(555)
-      this.click();
-      this.get_data();
+      let that = this;
+      this.$router.push({
+        path:
+          that.$route.path +
+          "?now_country=" +
+          this.now_country +
+          "&now_app_id=" +
+          this.now_app_id
+      });
     });
   },
   methods: {
@@ -153,19 +161,16 @@ export default {
             "/GetAppSynopsis?countryId=" +
             country_id +
             "&appId=" +
-            this.$store.state.now_app_id;
-          // console.log(this.$store.state.now_app_id)
-          // console.log(url)
+            this.now_app_id;
+          // console.log(url);
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response)
-              this.$store.state.now_country_name = this.now_country;
+              // console.log(response);
               this.response_data = response.data.Data;
               if (response.data.Data != null) {
-                this.$store.state.now_app_name = response.data.Data.appName;
                 this.price_to_now_ranking(response.data.Data.price);
               }
 
@@ -183,15 +188,10 @@ export default {
     // 获取当前选中的国家
     parentFn(payload) {
       this.now_country = payload;
-      // console.log('ios_header' + this.now_country)
     },
     // 把获取到的价格传递给父组件的now_ranking.vue
     price_to_now_ranking(parm) {
       this.$emit("price_to_now_ranking", parm);
-    },
-    // 把获取到的国家传递给父组件
-    click: function() {
-      this.$emit("childFn", this.now_country);
     }
   }
 };

@@ -16,7 +16,7 @@
               <div>
                 <el-radio-group v-model="equipmentValue" size="mini">
                   <el-radio-button
-                    v-for="item in  equipment "
+                    v-for="item in equipment"
                     :key="item.value"
                     :label="item.value"
                   ></el-radio-button>
@@ -24,121 +24,177 @@
               </div>
             </div>
           </div>
-          <div class="vs">
-            <div class="vs_div">
-              <img :src="response_data&&response_data.currentApp.icon" alt />
-              <span>{{response_data&&response_data.currentApp.appName }}</span>
+          <div v-loading="loading" element-loading-spinner="el-icon-loading">
+            <div class="vs">
+              <div class="vs_div">
+                <img
+                  :src="response_data && response_data.currentApp.icon"
+                  alt
+                />
+                <span>{{
+                  response_data && response_data.currentApp.appName
+                }}</span>
+              </div>
+              <img src="../assets/ios/vs.png" alt />
+              <div class="vs_div">
+                <img
+                  :src="response_data && response_data.compareApp.icon"
+                  alt
+                />
+                <span>{{
+                  response_data && response_data.compareApp.appName
+                }}</span>
+              </div>
             </div>
-            <img src="../assets/ios/vs.png" alt />
-            <div class="vs_div">
-              <img :src="response_data&&response_data.compareApp.icon" alt />
-              <span>{{response_data&&response_data.compareApp.appName }}</span>
+            <div class="table_group">
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="3">
+                      我的独家关键词({{
+                        response_data && response_data.myCount
+                      }})
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="disable_hover"
+                    v-if="response_data && response_data.myOwn.length == 0"
+                  >
+                    <td colspan="3">暂无相关数据</td>
+                  </tr>
+                  <tr v-else>
+                    <td>关键词</td>
+                    <td>搜索指数</td>
+                    <td>排名</td>
+                  </tr>
+                  <tr
+                    v-for="(item, index) in response_data &&
+                      response_data.myOwn"
+                    :key="'table01' + index"
+                  >
+                    <td>
+                      <div class="pointer" @click="go_to_page01(item.Word)">
+                        {{ item.Word }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="pointer" @click="go_to_page02()">
+                        {{ item.WordIdHint }}
+                      </div>
+                    </td>
+                    <td>
+                      <div>{{ item.Ranking }}</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="3">
+                      公共覆盖关键词({{
+                        response_data && response_data.commonCount
+                      }})
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="disable_hover"
+                    v-if="response_data && response_data.common.length == 0"
+                  >
+                    <td colspan="3">暂无相关数据</td>
+                  </tr>
+                  <tr v-else>
+                    <td>关键词</td>
+                    <td>搜索指数</td>
+                    <td>排名</td>
+                  </tr>
+                  <tr
+                    v-for="(item, index) in response_data &&
+                      response_data.common"
+                    :key="'table02' + index"
+                  >
+                    <td>
+                      <div class="pointer" @click="go_to_page01(item.Word)">
+                        {{ item.Word }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="pointer" @click="go_to_page02">
+                        {{ item.WordIdHint }}
+                      </div>
+                    </td>
+                    <td>
+                      <div>{{ item.Ranking }}</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="3">
+                      竞品独家关键词({{
+                        response_data && response_data.myCount
+                      }})
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="disable_hover"
+                    v-if="response_data && response_data.comOwn.length == 0"
+                  >
+                    <td colspan="3">暂无相关数据</td>
+                  </tr>
+                  <tr v-else>
+                    <td>关键词</td>
+                    <td>搜索指数</td>
+                    <td>排名</td>
+                  </tr>
+                  <tr
+                    v-for="(item, index) in response_data &&
+                      response_data.comOwn"
+                    :key="'table03' + index"
+                  >
+                    <td>
+                      <div class="pointer" @click="go_to_page01(item.Word)">
+                        {{ item.Word }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="pointer" @click="go_to_page02">
+                        {{ item.WordIdHint }}
+                      </div>
+                    </td>
+                    <td>
+                      <div>{{ item.Ranking }}</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div class="table_group">
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3">我的独家关键词({{response_data&&response_data.myCount}})</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="disable_hover" v-if="response_data&&response_data.myOwn.length==0">
-                  <td colspan="3">暂无相关数据</td>
-                </tr>
-                <tr v-else>
-                  <td>关键词</td>
-                  <td>搜索指数</td>
-                  <td>排名</td>
-                </tr>
-                <tr
-                  v-for="(item,index) in response_data&&response_data.myOwn"
-                  :key="'table01'+index"
-                >
-                  <td>
-                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                  </td>
-                  <td>
-                    <div class="pointer" @click="go_to_page02()">{{item.WordIdHint}}</div>
-                  </td>
-                  <td>
-                    <div>{{item.Ranking}}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3">公共覆盖关键词({{response_data&&response_data.commonCount}})</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="disable_hover" v-if="response_data&&response_data.common.length==0">
-                  <td colspan="3">暂无相关数据</td>
-                </tr>
-                <tr v-else>
-                  <td>关键词</td>
-                  <td>搜索指数</td>
-                  <td>排名</td>
-                </tr>
-                <tr
-                  v-for="(item,index) in response_data&&response_data.common"
-                  :key="'table02'+index"
-                >
-                  <td>
-                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                  </td>
-                  <td>
-                    <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
-                  </td>
-                  <td>
-                    <div>{{item.Ranking}}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3">竞品独家关键词({{response_data&&response_data.myCount}})</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="disable_hover" v-if="response_data&&response_data.comOwn.length==0">
-                  <td colspan="3">暂无相关数据</td>
-                </tr>
-                <tr v-else>
-                  <td>关键词</td>
-                  <td>搜索指数</td>
-                  <td>排名</td>
-                </tr>
-                <tr
-                  v-for="(item,index) in response_data&&response_data.comOwn"
-                  :key="'table03'+index"
-                >
-                  <td>
-                    <div class="pointer" @click="go_to_page01(item.Word)">{{item.Word}}</div>
-                  </td>
-                  <td>
-                    <div class="pointer" @click="go_to_page02">{{item.WordIdHint}}</div>
-                  </td>
-                  <td>
-                    <div>{{item.Ranking}}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="paging">
-            <div>显示第 {{(currentPage-1)*100+1}} 至 {{currentPage==Math.ceil(total/100)?((currentPage-1)*100)+(total%100):currentPage*100}} 项结果，共 {{total}} 项</div>
-            <div>
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="total/10"
-                :current-page.sync="currentPage"
-              ></el-pagination>
+            <div class="paging">
+              <div>
+                显示第 {{ (currentPage - 1) * 100 + 1 }} 至
+                {{
+                  currentPage == Math.ceil(total / 100)
+                    ? (currentPage - 1) * 100 + (total % 100)
+                    : currentPage * 100
+                }}
+                项结果，共 {{ total }} 项
+              </div>
+              <div>
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :total="total / 10"
+                  :current-page.sync="currentPage"
+                ></el-pagination>
+              </div>
             </div>
           </div>
         </div>
@@ -146,15 +202,16 @@
     </div>
   </div>
 </template>
- 
+
 <script>
-import ios_header from './ios_header'
-import left_nav from './left_nav'
+import ios_header from "./ios_header";
+import left_nav from "./left_nav";
 export default {
-  name: 'cover_compare',
+  name: "cover_compare",
   components: { ios_header, left_nav },
   data() {
     return {
+      loading: false,
       // 分页
       currentPage: 1,
       total: 0,
@@ -162,110 +219,112 @@ export default {
       // 设备选择
       equipment: [
         {
-          value: 'iPhone'
+          value: "iPhone"
         },
         {
-          value: 'iPad'
+          value: "iPad"
         }
       ],
-      equipmentValue: 'iPhone',
-      now_country: '中国'
-    }
+      equipmentValue: "iPhone",
+      now_country: "中国"
+    };
   },
   created: function() {
-    this.get_data()
+    this.get_data();
     //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      this.get_data()
-    })
-    this.$watch('equipmentValue', function(newValue, oldValue) {
-      this.get_data()
-    })
-    this.$watch('currentPage', function(newValue, oldValue) {
-      this.get_data()
-    })
+    this.$watch("now_country", function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("equipmentValue", function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("currentPage", function(newValue, oldValue) {
+      this.get_data();
+    });
   },
   methods: {
     // 请求数据
     get_data() {
+      this.loading = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
 
           // 设备选择
-          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let system = 11
-          let appid = this.$store.state.now_app_id
-          let comappId = this.$store.state.now_app_id02
+          let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
+          let system = 11;
+          let appid = this.$store.state.now_app_id;
+          let comappId = this.$store.state.now_app_id02;
 
           let url =
-            '/GetKeyWordCompare?countryId=' +
+            "/GetKeyWordCompare?countryId=" +
             country_id +
-            '&appId=' +
+            "&appId=" +
             appid +
-            '&comappId=' +
+            "&comappId=" +
             comappId +
-            '&system=' +
+            "&system=" +
             system +
-            '&device=' +
+            "&device=" +
             deviceType +
-            '&page=' +
-            this.currentPage
+            "&page=" +
+            this.currentPage;
 
-          console.log(url)
+          console.log(url);
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
+              this.loading = false;
               if (response.data.Data != null) {
-                console.log(response)
-                this.response_data = response.data.Data
+                console.log(response);
+                this.response_data = response.data.Data;
                 let max =
                   this.response_data.comCount > this.response_data.commonCount
                     ? this.response_data.comCount
-                    : this.response_data.commonCount
+                    : this.response_data.commonCount;
                 max =
                   max > this.response_data.myCount
                     ? max
-                    : this.response_data.myCount
-                this.total = max //底部显示总共
+                    : this.response_data.myCount;
+                this.total = max; //底部显示总共
               }
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log('version_message' + this.now_country)
     },
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm
+      this.$store.state.now_app_name = parm;
 
       this.$router.push({
-        path: '/result'
-      })
+        path: "/result"
+      });
     },
     go_to_page02() {
-      this.$router.push('ranking')
+      this.$router.push("ranking");
     }
   }
-}
+};
 </script>
 <style scoped>
 .vs_div span {
