@@ -2,7 +2,7 @@
   <div id="data_table">
     <div class="content">
       <!-- 自定义组件 -->
-      <ios_header @childFn="parentFn" />
+      <ios_header @childFn="parentFn"   @appname_to_data_table="parentFn02"/>
       <div class="left_and_right">
         <div class="left">
           <left_nav />
@@ -89,7 +89,7 @@
                 </div>
               </div>
               <div class="table_top_green">
-                 {{timestamp_wrap(date_Now_for_top / 1000, 'Y年M月D日')}}，关键词总覆盖数：
+                 {{timestamp_wrap(new Date(date_Now_for_top).getTime() / 1000, 'Y年M月D日')}}，关键词总覆盖数：
                 <span>{{request_data_first&&request_data_first.totalCount}}</span> 前三关键词：
                 <span>{{request_data_first&&request_data_first.top3Count}}</span> 前十关键词：
                 <span>{{request_data_first&&request_data_first.top10Count}}</span>
@@ -700,6 +700,7 @@ export default {
   data() {
     let that = this
     return {
+      now_app_name:'',
       now_app_id: null,
       is_login: false, //用户是否登录
       // 分页
@@ -1231,9 +1232,9 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
              
                 this.loading_gif = false
                 if (is_excute_function == this.db_number_is_same) {
-                  // console.log('=================明细=====')
-                  // console.log(response)
-                  // console.log('=================明细=====')
+                  console.log('=================明细=====')
+                  console.log(response)
+                  console.log('=================明细=====')
                   if (
                     response.data.Code != 1 &&
                     response.data.Data.keys[0] != null
@@ -1291,7 +1292,8 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
           let keywords = this.search_input
           let wordIds = this.wordIds
           let sort = this.sort
-          let appName = this.$store.state.now_app_name
+          alert(this.now_app_name)
+          let appName = this.now_app_name
           let data = {
             appId: appId,
             appName: appName,
@@ -1517,17 +1519,15 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
             .post(url, data)
             .then(response => {
               // console.log(response)
-              // console.log(this.word)
+      
 
               if (response.data.Data != null) {
                 this.no_data = false
                 this.request_data_third = response.data.Data
-                // console.log(this.request_data_third)
-                // this.keyword_data = new Array()
+                
                 this.keyword_data_value = new Array()
                 this.xAxis_data = new Array()
-                // console.log(this.word)
-                // this.keyword_data.push(this.word) //需要把第二部分的APP名字传过来
+           
                 this.xAxis_data = this.request_data_third.timeList
                 this.keyword_data_value.push(this.request_data_third.rankList)
 
@@ -1540,9 +1540,7 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
                     return timestamp(element, 'M月D日 h点m分')
                   }
                 })
-                // console.log(this.xAxis_data)
-                // console.log(this.keyword_data)
-                // console.log(this.keyword_data_value)
+             
                 this.drawLine()
                 this.myChart.hideLoading()
               } else if (response.data.Data == null) {
@@ -1593,11 +1591,10 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
       // 绘制图表
       this.myChart.setOption(
         {
-          // 应用【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】在关键词【{{keyword_data[0]}}】的排名趋势
           title: {
             text:
               '应用【' +
-              that.replace_some_chart_wrap(that.$store.state.now_app_name) +
+              that.replace_some_chart_wrap(that.now_app_name) +
               '】在关键词【' +
               that.keyword_data[0] +
               '】的排名趋势',
@@ -1826,28 +1823,29 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
       this.now_country = payload
       // console.log(this.now_country)
     },
+     parentFn02(parm) {
+      this.now_app_name = parm;
+    },
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm
-
-      this.$router.push({
-        path: '/trend_one'
-      })
-    },
-    go_to_page02(parm) {
-      this.$store.state.now_app_name = parm
-
-      this.$router.push({
-        path: '/trend_many'
-      })
-    },
-    go_to_page03(parm) {
-      this.$store.state.now_app_name = parm
-      this.hand_save_vuex(this)
-
-      let routerUrl = this.$router.resolve({
-        path: '/result'
+       let that=this
+     let routerUrl =this.$router.resolve({
+       path: "/trend_one?now_country=" + that.now_country+"&now_app_name="+parm
       })
       window.open(routerUrl.href, '_blank')
+    },
+    go_to_page02(parm) {
+     let that=this
+     let routerUrl =this.$router.resolve({
+       path: "/trend_many?now_country=" + that.now_country+"&now_app_name="+parm
+      })
+      window.open(routerUrl.href, '_blank')
+    },
+    go_to_page03(parm) {
+       let that=this
+      this.$router.push({
+        path:
+          "/result?now_country=" + that.now_country + "&now_app_name=" + parm
+      });
     }
   }
 }

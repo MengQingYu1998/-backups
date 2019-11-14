@@ -405,32 +405,34 @@ export default {
       if (this.search_input.trim() == "") {
         return false;
       }
-      this.$store.state.now_app_name = this.search_input;
-
-      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue;
-      this.$store.state.now_country_name = this.now_country;
-      this.$router.push({
-        path: "/hot_history"
+      let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/hot_history",
+        query: {
+          now_country: that.now_country,
+          now_app_name: that.search_input
+        }
       });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm;
-      this.$store.state.hot_search_to_hot_history_equipmentValue = this.equipmentValue;
-      this.$store.state.now_country_name = this.now_country;
-      this.$router.push({
-        path: "/hot_history"
+      let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/hot_history",
+        query: {
+          now_country: that.now_country,
+          now_app_name: parm
+        }
       });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page02(parm, parm02) {
-      this.$store.state.now_app_id = parm;
-      this.$store.state.now_app_name = parm02;
-      this.$router.push({
-        path:
-          "/now_ranking?now_country_name=" +
-          this.$store.state.now_country_name +
-          "&now_app_id=" +
-          this.$store.state.now_app_id
+      let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/now_ranking",
+        query: { now_country: that.now_country, now_app_id: parm }
       });
+      window.open(routerUrl.href, "_blank");
     }
   }
 };

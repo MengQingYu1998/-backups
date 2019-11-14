@@ -51,9 +51,7 @@ export default {
       is_show_go_to_top: false
     };
   },
-  created() {
-    this.refresh_save_vuex(this);
-  },
+  created() {},
   mounted() {
     window.addEventListener("scroll", this.scrollToTop);
   },
@@ -788,6 +786,7 @@ input[type="number"] {
   background-color: hsla(0, 0%, 100%, 1);
   -webkit-transition: opacity 0s;
   transition: opacity 0s;
+  z-index: 998;
 }
 .el-loading-parent--relative {
   height: 200px;

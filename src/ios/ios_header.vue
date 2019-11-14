@@ -84,7 +84,7 @@
       <div class="line"></div>
       <div class="app_field">
         <div>APPID</div>
-        <div>{{ this.$store.state.now_app_id }}</div>
+        <div>{{ $route.query.now_app_id }}</div>
       </div>
       <div class="line"></div>
       <div class="app_field country">
@@ -93,7 +93,7 @@
         <country
           @childFn="parentFn"
           :custom_country="this.$route.query.now_country"
-          :app_id="this.$store.state.now_app_id"
+          :app_id="$route.query.now_app_id"
         ></country>
       </div>
     </div>
@@ -129,14 +129,31 @@ export default {
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
       let that = this;
-      this.$router.push({
-        path:
-          that.$route.path +
-          "?now_country=" +
-          this.now_country +
-          "&now_app_id=" +
-          this.now_app_id
-      });
+
+      if (
+        that.$route.path == "/ranking_compare" ||
+        that.$route.path == "/cover_compare"
+      ) {
+        this.$router.push({
+          path:
+            that.$route.path +
+            "?now_country=" +
+            this.now_country +
+            "&now_app_id=" +
+            this.now_app_id +
+            "&now_app_id02=" +
+            this.$route.query.now_app_id02
+        });
+      } else {
+        this.$router.push({
+          path:
+            that.$route.path +
+            "?now_country=" +
+            this.now_country +
+            "&now_app_id=" +
+            this.now_app_id
+        });
+      }
     });
   },
   methods: {
@@ -172,6 +189,7 @@ export default {
               this.response_data = response.data.Data;
               if (response.data.Data != null) {
                 this.price_to_now_ranking(response.data.Data.price);
+                this.appname_to_data_table(response.data.Data.appName);
               }
 
               // }
@@ -192,6 +210,10 @@ export default {
     // 把获取到的价格传递给父组件的now_ranking.vue
     price_to_now_ranking(parm) {
       this.$emit("price_to_now_ranking", parm);
+    },
+    // 把应用面名字传递给父组件的data_table.vue
+    appname_to_data_table(parm) {
+      this.$emit("appname_to_data_table", parm);
     }
   }
 };

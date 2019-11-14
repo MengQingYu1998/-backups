@@ -1163,22 +1163,12 @@
 					this.getDataci()
 				}
 			},
-			go_to_page01(parm,parm02) {
-		      this.$store.state.now_country_name = this.now_country
-		      this.$store.state.now_app_name = parm02
-		      this.$store.state.now_app_id = parm
-		      this.hand_save_vuex(this)
-		      let routerUrl = this.$router.resolve({
-		       
-		        path:'/now_ranking?now_country_name=' +
-		          this.$store.state.now_country_name +
-		          '&now_app_id=' +
-		          this.$store.state.now_app_id
-		      })
-		      window.open(routerUrl.href, '_blank')
-
-
-		    }
+			go_to_page01(parm, parm02) {
+		      let that=this
+		      let routerUrl = this.$router.resolve(
+		       {path: '/now_ranking', query: {now_country: that.now_country,now_app_id:parm}})
+		      window.open(routerUrl.href, '_blank')
+		    },
 		}
 	}
 
@@ -1511,7 +1501,8 @@ table tbody tr th .ranking{
 	font-size: 14px;
 	color: #222;
 	float: left;
-	margin-left: 24px;
+	width:40px;
+	margin-left: 10px;
 	margin-top: 15px;
 }
 table tbody tr:first-child th .ranking p,
@@ -1525,7 +1516,7 @@ table tbody tr th .logo{
 	border-radius: 10px;
 	border: solid 1px #f2f2f2;
 	float: left;
-	margin-left: 22px;
+	margin-left: 10px;
 }
 table tbody tr th .msg{
 	font-size: 14px;

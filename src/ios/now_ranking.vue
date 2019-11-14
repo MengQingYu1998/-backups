@@ -60,7 +60,7 @@
           <section class="middle_top">
             <div class="section_title">排名走势</div>
             <div class="btn_group">
-              <div class="classify middle_top_time">
+              <div class="classify ">
                 <div>时间</div>
                 <div>
                   <el-radio-group v-model="middle_top_radio3" size="mini">
@@ -354,6 +354,7 @@ export default {
   data() {
     let that = this;
     return {
+      now_app_id: null,
       price_to_now_ranking: null,
       nothing_data_can_show: false,
       // 第一部分图表的数据
@@ -415,12 +416,27 @@ export default {
       equipmentValue01: "iPhone"
     };
   },
-
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+        this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+      this.get_data_first();
+      this.get_data_second();
+      this.get_data_third();
+    }
+  },
   created: function() {
-    // this.now_ranking_time=[timestamp(new Date().getTime()/1000,'Y-M-D')  ,timestamp(new Date().getTime()/1000,'Y-M-D')  ]
-    // alert('created')
-    this.get_data_first();
-    this.get_data_third();
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+
     this.$watch("price_to_now_ranking", function(newValue, oldValue) {
       switch (this.price_to_now_ranking) {
         case "免费":
@@ -432,12 +448,17 @@ export default {
           break;
       }
     });
+    this.get_data_first();
+    this.get_data_third();
     this.$watch("now_country", function(newValue, oldValue) {
-      // alert('now_country')
-      this.$store.state.now_country_name = this.now_country;
-      this.get_data_first();
-      this.get_data_second();
-      this.get_data_third();
+        let that = this;
+      this.$router.push({
+        path:
+          "/now_ranking?now_country=" +
+          that.now_country +
+          "&now_app_id=" +
+          that.now_app_id
+      });
     });
     this.$watch("now_ranking_time", function(newValue, oldValue) {
       if (newValue != "") {
@@ -462,11 +483,10 @@ export default {
       this.get_data_second();
     });
     this.$watch("equipmentValue01", function(newValue, oldValue) {
-      // alert('equipmentValue01')
       this.get_data_third();
     });
     this.$watch("radio3", function(newValue, oldValue) {
-      this.send_data_to_world_map();
+         this.send_data_to_world_map();
       this.draw_world_map();
     });
   },
@@ -512,7 +532,7 @@ export default {
           // console.log(country_id)
 
           let url = "/PostRealTimeRank";
-          let appId = this.$route.query.now_app_id;
+          let appId = this.now_app_id;
           let data = { appId: appId, countryId: country_id };
           console.log(data);
 
@@ -655,7 +675,7 @@ export default {
             brand = 3;
           }
 
-          let appId = this.$route.query.now_app_id;
+          let appId = this.now_app_id;
 
           let url = "/PostRandTrend";
           let that = this;
@@ -1010,7 +1030,7 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue01 == "iPhone" ? 1 : 2;
           // let appId = 472208016
-          let appId = this.$route.query.now_app_id;
+          let appId = this.now_app_id;
           let url = "/GetGlobalRank?appid=" + appId + "&device=" + deviceType;
           console.log(url);
           // 请求数据
@@ -1099,6 +1119,7 @@ export default {
       // console.log(this.country_temp02)
       // console.log(this.country_temp03)
       // console.log(this.country_temp04)
+      this.draw_world_map();
     },
     // 绘制世界地图
     draw_world_map() {

@@ -211,8 +211,8 @@ export default {
       this.blue_bg = true;
       this.$router.push({
         path:
-          "/goods_show?now_country_name=" +
-          this.$route.query.now_country_name +
+          "/goods_show?now_country=" +
+          this.$route.query.now_country +
           "&now_app_id=" +
           this.$route.query.now_app_id
       });

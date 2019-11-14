@@ -48,14 +48,14 @@
                           <img
                             :src="item.icon"
                             class="pointer"
-                            @click="go_to_page01(item.appId,item.appName)"
+                            @click="go_to_page01(item.appId)"
                             alt
                           />
                         </div>
                         <div>
                           <div
                             class="app_name pointer"
-                            @click="go_to_page01(item.appId,item.appName)"
+                            @click="go_to_page01(item.appId)"
                           >{{item.appName}}>{{item.appName}}</div>
                           <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                         </div>
@@ -104,7 +104,7 @@
                           <div
                             v-show="index!=0"
                             class="pointer"
-                            @click="go_to_page03(item.appId,item.appName)"
+                            @click="go_to_page03(item.appId)"
                           >实时排名</div>
                           <div
                             v-show="index!=0"
@@ -154,14 +154,14 @@
                           <img
                             :src="item.icon"
                             class="pointer"
-                            @click="go_to_page01(item.appId,item.appName)"
+                            @click="go_to_page01(item.appId)"
                             alt
                           />
                         </div>
                         <div>
                           <div
                             class="app_name pointer"
-                            @click="go_to_page01(item.appId,item.appName)"
+                            @click="go_to_page01(item.appId)"
                           >{{item.appName}}</div>
                           <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
                         </div>
@@ -236,7 +236,7 @@ export default {
   name: 'goods_show',
   components: { ios_header, left_nav },
   data() {
-    return {
+    return { now_app_id: null,
       is_login: false,
       loading: false,
       loading02: false,
@@ -245,21 +245,43 @@ export default {
       now_country: '中国'
     }
   },
+   watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
+      this.get_data_top()
+    this.get_data_bottom()
+    }
+  },
   created: function() {
     if (localStorage.getItem('userId')) {
       this.is_login = true
     } else {
       this.is_login = false
     }
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
     this.get_data_top()
     this.get_data_bottom()
 
-    this.$watch('now_country', function(newValue, oldValue) {
-      // console.log('当前国家发生变化，重新请求数据...')
-      this.$store.state.now_country_name = this.now_country
-      this.get_data_top()
-      this.get_data_bottom()
-    })
+    this.$watch("now_country", function(newValue, oldValue) {
+      let that=this
+      this.$router.push({
+        path:
+          "/goods_show?now_country=" +
+          that.now_country +
+          "&now_app_id=" +
+          that.now_app_id
+      });
+    });
   },
   methods: {
     // 请求数据
@@ -281,7 +303,7 @@ export default {
 
           let url =
             '/GetCompetingProducts?appId=' +
-            this.$store.state.now_app_id +
+            this.now_app_id +
             '&countryID=' +
             country_id +
             '&device=' +
@@ -329,7 +351,7 @@ export default {
 
           let url =
             '/GetCompetingAppRelation?appId=' +
-            this.$store.state.now_app_id +
+            this.now_app_id +
             '&countryID=' +
             country_id +
             '&accountId=' +
@@ -363,7 +385,7 @@ export default {
 
       let that = this
       let data = {
-        appId: that.$store.state.now_app_id,
+        appId: that.now_app_id,
         CompetingAppId: CompetingAppId,
         accountId: localStorage.getItem('userId')
       }
@@ -386,7 +408,7 @@ export default {
       this.response_data_top.splice(index, 1)
       let that = this
       let data = {
-        appId: that.$store.state.now_app_id,
+        appId: that.now_app_id,
         CompetingAppId: CompetingAppId,
         accountId: localStorage.getItem('userId')
       }
@@ -406,38 +428,33 @@ export default {
       this.now_country = payload
       // console.log('version_message' + this.now_country)
     },
-    go_to_page01(parm, parm02) {
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
-      this.$router.push({
-        path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
-      })
+    go_to_page01(parm) {
+         let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/now_ranking",
+        query: { now_country: that.now_country, now_app_id: parm }
+      });
+      window.open(routerUrl.href, "_blank");
     },
     go_to_page02(parm) {
-      this.$store.state.now_app_id02 = parm
-      this.$router.push({
-        path:
-          '/cover_compare?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
-      })
+    
+         let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/cover_compare",
+       query: { now_country: that.now_country, now_app_id: that.now_app_id, now_app_id02: parm }
+      });
+      window.open(routerUrl.href, "_blank");
     },
-    go_to_page03(parm, parm02) {
-      this.$store.state.now_app_id02 = parm
-      this.$router.push({
-        path:
-          '/ranking_compare?app_name02=' +
-          parm02 +
-          '&now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
-      })
+    go_to_page03(parm) {
+      
+         let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/ranking_compare",
+        query: { now_country: that.now_country, now_app_id: that.now_app_id, now_app_id02: parm }
+      });
+      window.open(routerUrl.href, "_blank");
+
+     
     }
   }
 }

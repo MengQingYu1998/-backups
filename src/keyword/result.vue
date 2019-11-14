@@ -22,9 +22,9 @@
               <div>
                 <!-- 选择国家 -->
                 <country
-                  v-if="is_show_country_component"
+                v-if="activeName=='first'"
                   @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
+                :custom_country="this.$route.query.now_country"
                 ></country>
               </div>
             </div>
@@ -51,7 +51,7 @@
           </div>
           <div class="keywordContentTable">
             <div>
-              <div>{{this.$store.state.now_app_name}}</div>
+              <div>{{this.$route.query.now_app_name}}</div>
               <div>搜索关键词</div>
             </div>
             <div>
@@ -98,7 +98,7 @@
               >更多>></span>
             </div>
           </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title">「{{this.$route.query.now_app_name}}」搜索结果</div>
           <div class="result_title_line"></div>
 
           <div class="left_and_right">
@@ -257,9 +257,9 @@
               <div>
                 <!-- 选择国家 -->
                 <country
-                  v-if="is_show_country_component"
+                v-if="activeName=='second'"
                   @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
+               :custom_country="this.$route.query.now_country"
                 ></country>
               </div>
             </div>
@@ -286,7 +286,7 @@
           </div>
           <div class="keywordContentTable">
             <div>
-              <div>{{this.$store.state.now_app_name}}</div>
+              <div>{{this.$route.query.now_app_name}}</div>
               <div>搜索关键词</div>
             </div>
             <div>
@@ -332,7 +332,7 @@
               >更多>></span>
             </div>
           </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title">「{{this.$route.query.now_app_name}}」搜索结果</div>
           <div class="result_title_line"></div>
           <div class="left_and_right">
             <div class="left tabsContentTable">
@@ -479,9 +479,9 @@
               <div>
                 <!-- 选择国家 -->
                 <country
-                  v-if="is_show_country_component"
+                v-if="activeName=='third'"
+                :custom_country="this.$route.query.now_country"
                   @childFn="parentFn"
-                  :custom_country="this.$store.state.now_country_name"
                 ></country>
               </div>
             </div>
@@ -508,7 +508,7 @@
           </div>
           <div class="keywordContentTable">
             <div class="keywordContentTable_width01">
-              <div>{{this.$store.state.now_app_name}}</div>
+              <div>{{this.$route.query.now_app_name}}</div>
               <div>搜索关键词</div>
             </div>
             <div class="keywordContentTable_width02">
@@ -551,7 +551,7 @@
               <div>iOS12搜索结果数</div>
             </div>
           </div>
-          <div class="result_title">「{{this.$store.state.now_app_name}}」搜索结果</div>
+          <div class="result_title">「{{this.$route.query.now_app_name}}」搜索结果</div>
           <div class="result_title_line"></div>
           <div class="flex-row">
             <div class="compare_iOS tabsContentTable" @click="result_compare_iosType(12)">
@@ -782,7 +782,7 @@
         <img src="../assets/keyword/dialog_02.png" alt @click="dialogVisible=false" />
         <div
           class="result_title"
-        >【{{replace_some_chart_wrap(word)}}】在【{{replace_some_chart_wrap(this.$store.state.now_app_name)}}】搜索结果中排名趋势</div>
+        >【{{replace_some_chart_wrap(word)}}】在【{{replace_some_chart_wrap(this.$route.query.now_app_name)}}】搜索结果中排名趋势</div>
 
         <div class="btn_group">
           <div class="classify">
@@ -878,7 +878,7 @@
                 <span>时间</span>
               </th>
               <th>
-                <span>{{this.$store.state.now_app_name}}</span>
+                <span>{{this.$route.query.now_app_name}}</span>
               </th>
             </tr>
           </thead>
@@ -920,35 +920,14 @@ export default {
   components: {
     country
   },
-  beforeRouteEnter(to, from, next) {
-    if (
-      from.name == 'think_word' ||
-      from.name == 'trend_many' ||
-      from.name == 'trend_one'
-    ) {
-      to.meta.isBack = true
-      //判断是从哪个路由过来的，
-      //如果是page2过来的，表明当前页面不需要刷新获取新数据，直接用之前缓存的数据即可
-    }
-    // alert(to.meta.isBack)
-    next(vm => {
-      // 通过 `vm` 访问组件实例
-      // console.log(from)
-      // if (from.name == 'ranking') {
-      //   vm.equipmentValue = vm.$store.state.ranking_to_result_equipmentValue
-      // }
-    })
-  },
+ 
   data() {
     let that = this
     return {
-      is_show_country_component: true, //强制刷新国家组件
+      
       loading_first: false,
       can_execute_scorll: true, //是否可以执行滚动
-      custom_country: null, //自定义显示国家
-      isFirstEnter: false, // 是否第一次进入，默认false
-      // can_excute12: false,
-      // can_excute11: false,
+
       // 请求分页
       page11: 1,
       page12: 1,
@@ -1052,22 +1031,31 @@ export default {
       keyword_data_value01: []
     }
   },
-  created: function() {
-    // alert(this.$store.state.now_country_name)
-    // 与上一页面的参数保持一致
-    if (this.$route.query.equipmentValue_from_ranking) {
-      this.equipmentValue = this.$route.query.equipmentValue_from_ranking
-    }
-    if (this.$route.query.dateValue_from_ranking) {
-      this.dateValue = new Date(
-        Date.parse(this.$route.query.dateValue_from_ranking.replace(/-/g, '/'))
-      )
-    }
-    // 与上一页面的参数保持一致
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+    
     this.get_data_for_top_table()
     this.get_data_12()
     this.get_data_11()
     this.get_data_column()
+    }
+  },
+  created: function() {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.get_data_for_top_table()
+      this.get_data_12()
+      this.get_data_11()
+       this.$watch('now_country', function(newValue, oldValue) {
+      let that=this
+      this.$router.push({
+         path: "/result?now_country=" + that.now_country+"&now_app_name="+that.$route.query.now_app_name
+      });
+    })
     this.$watch('activeName', function(newValue, oldValue) {
       // if (newValue == 'third') {
       this.page11 = 1
@@ -1080,50 +1068,9 @@ export default {
       // }
       this.get_data_for_top_table()
     })
-    this.$watch('now_country', function(newValue, oldValue) {
-      // 保证切换的时候，国家统一
-      this.$store.state.now_country_name = this.now_country
-      this.is_show_country_component = false
-      this.$nextTick(() => {
-        this.is_show_country_component = true
-      })
-    })
-    this.$watch('$store.state.now_country_name', function(newValue, oldValue) {
-      // 保证切换的时候，国家统一
-      this.is_show_country_component = false
-      this.$nextTick(() => {
-        this.is_show_country_component = true
-      })
-      // 保证切换的时候，国家统一
-      // console.log('当前国家发生变化，重新请求数据...')
-      this.response_data_for_ios11.length = 0
-      this.response_data_for_ios12.length = 0
-      this.page11 = 1
-      this.page12 = 1
-      this.get_data_for_top_table()
-      // alert('$store.state.now_app_name')
-      this.get_data_12()
-      this.get_data_11()
-      this.get_data_column()
-    })
-    this.$watch('$store.state.now_app_name', function(newValue, oldValue) {
-      // 保证切换的时候，国家统一
-      this.is_show_country_component = false
-      this.$nextTick(() => {
-        this.is_show_country_component = true
-      })
-      // 保证切换的时候，国家统一
-      // console.log('当前国家发生变化，重新请求数据...')
-      this.response_data_for_ios11.length = 0
-      this.response_data_for_ios12.length = 0
-      this.page11 = 1
-      this.page12 = 1
-      this.get_data_for_top_table()
-      // alert('$store.state.now_app_name')
-      this.get_data_12()
-      this.get_data_11()
-      this.get_data_column()
-    })
+ 
+  
+    
     this.$watch('equipmentValue', function(newValue, oldValue) {
       this.response_data_for_ios11.length = 0
       this.response_data_for_ios12.length = 0
@@ -1223,6 +1170,8 @@ export default {
     })
   },
   mounted() {
+    this.get_data_column()
+
     this.$nextTick(() => {
       let that = this
       window.onscroll = function() {
@@ -1336,7 +1285,7 @@ export default {
           }
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let url = '/Word/FindTodayJoinWord'
-          let word = this.$store.state.now_app_name.trim()
+          let word = this.$route.query.now_app_name.trim()
           let data = {
             deviceType: deviceType,
             countryId: country_id,
@@ -1462,7 +1411,7 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$store.state.now_app_name.trim()
+          let word = this.$route.query.now_app_name.trim()
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1531,7 +1480,7 @@ export default {
           // 1:iPhone 2:ipad
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let word = this.$store.state.now_app_name.trim()
+          let word = this.$route.query.now_app_name.trim()
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1591,7 +1540,7 @@ export default {
           })
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let type = this.radio1 == 'all' ? 1 : 0
-          let word = this.$store.state.now_app_name.trim()
+          let word = this.$route.query.now_app_name.trim()
           let url =
             '/Word/FindSearchRate?' +
             '&deviceType=' +
@@ -1894,7 +1843,7 @@ export default {
             page: 1,
             deviceType: deviceType,
             countryId: country_id,
-            word: that.$store.state.now_app_name,
+            word: that.$route.query.now_app_name,
             wordid: wordid,
             edate: edate,
             sdate: sdate,
@@ -2229,42 +2178,34 @@ export default {
       this.now_country = payload
     },
     go_to_page01(parm) {
-      // this.get_data_12()
-      // this.get_data_11()
-      this.$router.push({
-        path: '/think_word'
-      })
-      this.$store.state.now_app_name = parm
+      let routerUrl = this.$router.resolve(
+       {path: "/think_word?now_app_name=" + parm})
+      window.open(routerUrl.href, '_blank')
     },
-    go_to_page02(parm) {
-      this.$router.push({
-        path: '/trend_many'
+    go_to_page02(parm) {  
+      let that=this
+     let routerUrl =this.$router.resolve({
+       path: "/trend_many?now_country=" + that.now_country+"&now_app_name="+parm
       })
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     },
-    go_to_page03(parm) {
-      this.$router.push({
-        path: '/trend_one'
+    go_to_page03(parm) { 
+       let that=this
+     let routerUrl =this.$router.resolve({
+       path: "/trend_one?now_country=" + that.now_country+"&now_app_name="+parm
       })
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page04(parm) {
-      // console.log(parm)
-      this.get_data_for_top_table()
-      this.response_data_for_ios11.length = 0
-      this.response_data_for_ios12.length = 0
+  let that=this
+      this.response_data_for_ios11=new Array()
+      this.response_data_for_ios12=new Array()
       this.page11 = 1
       this.page12 = 1
-      this.$store.state.now_country_name = this.now_country
-      this.$store.state.now_app_name = parm
       this.$router.push({
-        path: '/result'
+       path: "/result?now_country=" + that.now_country+"&now_app_name="+parm
       })
-      this.get_data_12()
-      this.get_data_11()
-      this.get_data_column()
+   
     },
     go_to_page05(parm, parm02) {
       let that=this

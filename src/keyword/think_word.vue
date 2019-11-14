@@ -1,6 +1,6 @@
 <template>
   <div id="think_word" class="content">
-    <div class="think_word_title">「{{input}}」关键词搜索联想词</div>
+    <div class="think_word_title">「{{ input }}」关键词搜索联想词</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -24,7 +24,11 @@
         <div class="margin_top_font">系统</div>
         <div>
           <el-radio-group v-model="systemValue" size="mini">
-            <el-radio-button v-for="item in  system" :key="item.value" :label="item.value"></el-radio-button>
+            <el-radio-button
+              v-for="item in system"
+              :key="item.value"
+              :label="item.value"
+            ></el-radio-button>
           </el-radio-group>
         </div>
       </div>
@@ -32,17 +36,29 @@
         <div class="margin_top_font">搜索</div>
         <div>
           <!-- 饿了么的input组件 -->
-          <el-input v-model="input" placeholder="请输入关键词查询联想词"></el-input>
+          <el-input
+            v-model="input"
+            placeholder="请输入关键词查询联想词"
+          ></el-input>
         </div>
       </div>
     </div>
-    <div class="table_group">
+    <div
+      class="table_group"
+      v-loading="loading"
+      element-loading-spinner="el-icon-loading"
+    >
       <table class="table_first">
         <thead>
           <tr>
             <th></th>
             <template v-if="response_data">
-              <th v-for="(item,index) in response_data.Xtime" :key="'Xtime'+index">{{item}}</th>
+              <th
+                v-for="(item, index) in response_data.Xtime"
+                :key="'Xtime' + index"
+              >
+                {{ item }}
+              </th>
             </template>
           </tr>
         </thead>
@@ -57,15 +73,20 @@
               </td>
             </tr>
 
-            <tr v-for="(item,index) in response_data.Yvalue" :key="'Yvalue'+index">
-              <td class="td_first">{{index+1}}</td>
+            <tr
+              v-for="(item, index) in response_data.Yvalue"
+              :key="'Yvalue' + index"
+            >
+              <td class="td_first">{{ index + 1 }}</td>
               <td
                 class="table_font"
-                v-for="(item_son,index_son) in item"
-                :key="'Yvalue_son'+index_son"
+                v-for="(item_son, index_son) in item"
+                :key="'Yvalue_son' + index_son"
               >
-                <div class="pointer" @click="go_to_page01(item_son.keyword)">{{item_son.keyword}}</div>
-                <div>{{item_son.hint}}</div>
+                <div class="pointer" @click="go_to_page01(item_son.keyword)">
+                  {{ item_son.keyword }}
+                </div>
+                <div>{{ item_son.hint }}</div>
               </td>
             </tr>
           </template>
@@ -77,84 +98,87 @@
 
 <script>
 // 引入工具类
-import { formatDate, time_reset, time_rotate } from '../common/util.js'
+import { formatDate, time_reset, time_rotate } from "../common/util.js";
 export default {
-  name: 'think_word',
+  name: "think_word",
   data() {
     return {
+      loading: false,
       dateValue: new Date(),
       pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now();
           // 这里就是设置当天后的日期不能被点击
         }
       },
       system: [
         // 系统选择
         {
-          value: 'iOS13/12'
+          value: "iOS13/12"
         },
         {
-          value: 'iOS11'
+          value: "iOS11"
         }
       ],
-      systemValue: 'iOS13/12',
-      now_country: '中国',
+      systemValue: "iOS13/12",
+      now_country: "中国",
       response_data: null,
-      input: ''
-    }
+      input: ""
+    };
   },
+
   created: function() {
-    this.input = this.$store.state.now_app_name
-    this.get_data()
+    this.input = this.$route.query.now_app_name;
+    this.get_data();
     //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      this.get_data()
-    })
-    this.$watch('systemValue', function(newValue, oldValue) {
-      this.get_data()
-    })
-    this.$watch('dateValue', function(newValue, oldValue) {
-      this.get_data()
-    })
-    this.$watch('input', function(newValue, oldValue) {
-      this.get_data()
-    })
+    this.$watch("now_country", function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("systemValue", function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("dateValue", function(newValue, oldValue) {
+      this.get_data();
+    });
+    this.$watch("input", function(newValue, oldValue) {
+      this.get_data();
+    });
   },
   methods: {
     // 控制时间组件旋转
     // 1.给日期组件的父类添加一个新的id,然后调用方法
 
     dateValue_blur01() {
-      time_reset('#dateValue01')
+      time_reset("#dateValue01");
     },
     dateValue_focus01() {
-      time_rotate('#dateValue01')
+      time_rotate("#dateValue01");
     },
     // 请求数据
     get_data() {
+      this.loading = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
 
           // console.log(formatDate(this.dateValue, 'yyyy-MM-dd'))
-          let system = this.systemValue == 'iOS11' ? 11 : 12
-          let edate = formatDate(this.dateValue, 'yyyy-MM-dd')
-          let time02 = new Date(this.dateValue)
-          time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6)
-          let sdate = formatDate(time02, 'yyyy-MM-dd')
-          let word = this.input
-          let url = '/Word/FindJoinWord'
+          let system = this.systemValue == "iOS11" ? 11 : 12;
+          let edate = formatDate(this.dateValue, "yyyy-MM-dd");
+          let time02 = new Date(this.dateValue);
+          time02.setTime(time02.getTime() - 24 * 60 * 60 * 1000 * 6);
+          let sdate = formatDate(time02, "yyyy-MM-dd");
+          let word = this.input;
+          let url = "/Word/FindJoinWord";
           let data = {
             countryId: country_id,
             deviceType: 1,
@@ -162,39 +186,39 @@ export default {
             sdate: sdate,
             word: word,
             iosType: system
-          }
+          };
           // console.log(data)
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              this.response_data = response.data
-              console.log(this.response_data)
+              this.loading = false;
+              this.response_data = response.data;
+              console.log(this.response_data);
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
-      // console.log('version_message' + this.now_country)
+      this.now_country = payload;
     },
 
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm
-      console.log(parm)
+      let that = this;
       this.$router.push({
-        path: '/result'
-      })
+        path:
+          "/result?now_country=" + that.now_country + "&now_app_name=" + parm
+      });
     }
   }
-}
+};
 </script>
 <style scoped>
 .no_data_img:hover {

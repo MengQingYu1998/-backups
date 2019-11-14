@@ -28,21 +28,33 @@
             <div class="vs">
               <div class="vs_div">
                 <img
-                  :src="response_data && response_data.currentApp.icon"
+                  :src="
+                    response_data &&
+                      response_data.currentApp &&
+                      response_data.currentApp.icon
+                  "
                   alt
                 />
                 <span>{{
-                  response_data && response_data.currentApp.appName
+                  response_data &&
+                    response_data.currentApp &&
+                    response_data.currentApp.appName
                 }}</span>
               </div>
               <img src="../assets/ios/vs.png" alt />
               <div class="vs_div">
                 <img
-                  :src="response_data && response_data.compareApp.icon"
+                  :src="
+                    response_data &&
+                      response_data.compareApp &&
+                      response_data.compareApp.icon
+                  "
                   alt
                 />
                 <span>{{
-                  response_data && response_data.compareApp.appName
+                  response_data &&
+                    response_data.compareApp &&
+                    response_data.compareApp.appName
                 }}</span>
               </div>
             </div>
@@ -177,7 +189,15 @@
                 </tbody>
               </table>
             </div>
-            <div class="paging">
+            <div
+              class="paging"
+              v-if="
+                !loading &&
+                  (response_data.common.length != 0 ||
+                    response_data.comOwn.length != 0 ||
+                    response_data.myOwn.length != 0)
+              "
+            >
               <div>
                 显示第 {{ (currentPage - 1) * 100 + 1 }} 至
                 {{
@@ -211,6 +231,8 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      now_app_id: null,
+      now_app_id02: null,
       loading: false,
       // 分页
       currentPage: 1,
@@ -229,11 +251,42 @@ export default {
       now_country: "中国"
     };
   },
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
+      this.$route.query.now_app_id02
+        ? (this.now_app_id02 = this.$route.query.now_app_id02)
+        : (this.now_app_id02 = null);
+      this.get_data();
+    }
+  },
   created: function() {
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+    this.$route.query.now_app_id02
+      ? (this.now_app_id02 = this.$route.query.now_app_id02)
+      : (this.now_app_id02 = null);
     this.get_data();
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
-      this.get_data();
+      let that = this;
+      this.$router.push({
+        path: "/cover_compare",
+        query: {
+          now_country: that.now_country,
+          now_app_id: that.now_app_id,
+          now_app_id02: that.now_app_id02
+        }
+      });
     });
     this.$watch("equipmentValue", function(newValue, oldValue) {
       this.get_data();
@@ -262,8 +315,8 @@ export default {
           // 设备选择
           let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
           let system = 11;
-          let appid = this.$store.state.now_app_id;
-          let comappId = this.$store.state.now_app_id02;
+          let appid = this.now_app_id;
+          let comappId = this.now_app_id02;
 
           let url =
             "/GetKeyWordCompare?countryId=" +
@@ -279,14 +332,15 @@ export default {
             "&page=" +
             this.currentPage;
 
-          console.log(url);
+          // console.log(url);
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
               this.loading = false;
+              // console.log(response);
+
               if (response.data.Data != null) {
-                console.log(response);
                 this.response_data = response.data.Data;
                 let max =
                   this.response_data.comCount > this.response_data.commonCount
@@ -297,6 +351,12 @@ export default {
                     ? max
                     : this.response_data.myCount;
                 this.total = max; //底部显示总共
+              } else {
+                this.response_data = {
+                  myOwn: new Array(),
+                  comOwn: new Array(),
+                  common: new Array()
+                };
               }
             })
             .catch(error => {
@@ -314,10 +374,10 @@ export default {
       // console.log('version_message' + this.now_country)
     },
     go_to_page01(parm) {
-      this.$store.state.now_app_name = parm;
-
+      let that = this;
       this.$router.push({
-        path: "/result"
+        path:
+          "/result?now_country=" + that.now_country + "&now_app_name=" + parm
       });
     },
     go_to_page02() {
@@ -390,7 +450,7 @@ thead {
   color: #009bef;
 }
 table {
-  width: 100%;
+  width: 303px;
   height: 121px;
   border: solid 1px #eaeaea;
   text-align: center;

@@ -11,16 +11,24 @@
           <section class="top">
             <div class="section_title">版本记录</div>
             <div class="search_input">
-              <el-input placeholder="请输入日期或者版本号" suffix-icon="el-icon-search" v-model="input1"></el-input>
+              <el-input
+                placeholder="请输入日期或者版本号"
+                suffix-icon="el-icon-search"
+                v-model="input1"
+              ></el-input>
             </div>
-            <div class="no_data_img" v-if="response_data" v-show="response_data.length == 0">
+            <div
+              class="no_data_img"
+              v-if="response_data"
+              v-show="response_data.length == 0"
+            >
               <img src="../assets/ios/null.png" alt />
               <div>暂无相关数据</div>
             </div>
             <div class="timeline">
               <el-timeline>
                 <el-timeline-item
-                  v-for="(item ,index) in response_data"
+                  v-for="(item, index) in response_data"
                   :key="index"
                   :timestamp="format(item.publishTime)"
                   placement="top"
@@ -28,27 +36,47 @@
                   icon="el-icon-time"
                   size="large"
                 >
-                  <div class="time_line_item_title">版本{{item.versionNum}}</div>
+                  <div class="time_line_item_title">
+                    版本{{ item.versionNum }}
+                  </div>
                   <div class="time_line_item">
                     <div class="img_description">
-                      <img :src="item.Icon" alt v-if="item.Icon!='无'" />
+                      <img :src="item.Icon" alt v-if="item.Icon != '无'" />
                       <img src="../assets/ios/no_img.png" alt v-else />
                       <div class="img_description_child">
-                        <div>{{item.appName!='无'?item.appName:''}}</div>
-                        <div>{{item.subtitle!='无'?item.subtitle:''}}</div>
+                        <div>
+                          {{ item.appName != "无" ? item.appName : "" }}
+                        </div>
+                        <div>
+                          {{ item.subtitle != "无" ? item.subtitle : "" }}
+                        </div>
                       </div>
                     </div>
                     <div
-                      :class="{'time_line_item_content':true,'time_line_item_content_height':item.updateLog.length<100}"
+                      :class="{
+                        time_line_item_content: true,
+                        time_line_item_content_height:
+                          item.updateLog.length < 100
+                      }"
                     >
-                      <div v-html="item.updateLog" :id="'show_more'+index"></div>
+                      <div
+                        v-html="item.updateLog"
+                        :id="'show_more' + index"
+                      ></div>
                     </div>
                     <div
                       class="show_all pointer"
-                      :id="'show_hide'+index"
-                      v-if="item.updateLog.length>100"
-                      @click="show_more_function('show_more'+index,'show_hide'+index)"
-                    >展开更多</div>
+                      :id="'show_hide' + index"
+                      v-if="item.updateLog.length > 100"
+                      @click="
+                        show_more_function(
+                          'show_more' + index,
+                          'show_hide' + index
+                        )
+                      "
+                    >
+                      展开更多
+                    </div>
                   </div>
                 </el-timeline-item>
               </el-timeline>
@@ -61,107 +89,129 @@
 </template>
 
 <script>
-import ios_header from './ios_header'
-import left_nav from './left_nav'
+import ios_header from "./ios_header";
+import left_nav from "./left_nav";
 // 引入工具类
-import { myTime } from '../common/util.js'
+import { myTime } from "../common/util.js";
 export default {
-  name: 'version_message',
+  name: "version_message",
   components: { ios_header, left_nav },
   data() {
     return {
       // 顶部搜索框
-      input1: '',
-
+      input1: "",
+      now_app_id: null,
       response_data: null,
       // response_data_first: null,
-      now_country: '中国'
+      now_country: "中国"
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
+      this.get_data();
     }
   },
   created: function() {
-    this.get_data()
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+    this.get_data();
     //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      this.$store.state.now_country_name = this.now_country
-      this.get_data()
-    })
-    this.$watch('input1', function(newValue, oldValue) {
-      this.get_data()
-    })
+    this.$watch("now_country", function(newValue, oldValue) {
+       let that = this;
+      this.$router.push({
+        path:
+          "/version_message?now_country=" +
+          that.now_country +
+          "&now_app_id=" +
+          that.now_app_id
+      });
+    });
+    this.$watch("input1", function(newValue, oldValue) {
+      this.get_data();
+    });
   },
   methods: {
     // 请求数据
     get_data() {
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
           let timeOrVerNum =
-            this.input1 == '' ? '&timeOrVerNum' : '&timeOrVerNum=' + this.input1
-          // console.log(country_id)
-          let appId = this.$store.state.now_app_id
-          // console.log(appId)
+            this.input1 == ""
+              ? "&timeOrVerNum"
+              : "&timeOrVerNum=" + this.input1;
+          let appId = this.now_app_id;
 
           let url =
-            '/GetVersionLogs?countryId=' +
+            "/GetVersionLogs?countryId=" +
             country_id +
             timeOrVerNum +
-            // '&appId=281736535'
-            '&appId=' +
-            appId
+            "&appId=" +
+            appId;
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
+              this.response_data = response.data.Data;
               // this.response_data = response.data.Data.slice(1)
               // this.response_data_first = response.data.Data.slice(0, 1)
               // console.log(response)
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     show_more_function(parm, parm02) {
-      let this_div02 = document.getElementById(parm02) //展开收起
-      let this_div = document.getElementById(parm) //内容
+      let this_div02 = document.getElementById(parm02); //展开收起
+      let this_div = document.getElementById(parm); //内容
       // console.log(this_div02.innerHTML)
-      if (this_div02.innerHTML == '展开更多') {
-        this_div.style.height = 'auto'
-        this_div.style.display = 'block'
-        this_div02.innerHTML = '收起'
-      } else if (this_div02.innerHTML == '收起') {
-        this_div.style.height = '63px'
-        this_div.style.display = '-webkit-box '
-        this_div02.innerHTML = '展开更多'
+      if (this_div02.innerHTML == "展开更多") {
+        this_div.style.height = "auto";
+        this_div.style.display = "block";
+        this_div02.innerHTML = "收起";
+      } else if (this_div02.innerHTML == "收起") {
+        this_div.style.height = "63px";
+        this_div.style.display = "-webkit-box ";
+        this_div02.innerHTML = "展开更多";
       }
     },
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log('version_message' + this.now_country)
     },
     format(parm) {
       // console.log(parm)
-      return myTime(parm)
+      return myTime(parm);
     }
   }
-}
+};
 </script>
 <style scoped>
 .show_all {

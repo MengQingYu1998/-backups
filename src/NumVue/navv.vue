@@ -1,28 +1,35 @@
 <template>
   <div id="navv">
     <div class="nav">
-      <img src="../assets/NumImg/logo.png" class="logo pointer" @click="$router.push('index')" />
+      <img
+        src="../assets/NumImg/logo.png"
+        class="logo pointer"
+        @click="$router.push('index')"
+      />
       <ul>
         <li>
-          <router-link :to="{path:'/index'}">首页</router-link>
+          <router-link :to="{ path: '/index' }">首页</router-link>
         </li>
         <li @mouseover="showAppstore()" @mouseout="hideAppstore()">
-          <p v-bind:class="{upT:isUp}" v-html="appVal"></p>
+          <p v-bind:class="{ upT: isUp }" v-html="appVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="down" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
-          <p class="borB" :class="{hovB:ishovB}"></p>
+          <p class="borB" :class="{ hovB: ishovB }"></p>
         </li>
         <li @mouseover="showAso()" @mouseout="hideAso()">
-          <p v-bind:class="{upT:isUpaso}" v-html="asoVal"></p>
+          <p v-bind:class="{ upT: isUpaso }" v-html="asoVal"></p>
           <img src="../assets/NumImg/down.png" class="down" v-if="downaso" />
           <img src="../assets/NumImg/shang.png" class="down" v-else />
-          <p class="borB" :class="{hovaso:ishovaso}"></p>
+          <p class="borB" :class="{ hovaso: ishovaso }"></p>
         </li>
       </ul>
       <div class="searchDiv">
         <img src="../assets/NumImg/pingguo.png" class="ios" />
 
-        <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
+        <country
+          @childFn="parentFn"
+          :custom_country="this.$route.query.now_country"
+        ></country>
         <el-popover
           width="270"
           popper-class="nav_popover_class"
@@ -31,31 +38,38 @@
           v-model="is_show_nav_popover"
           trigger="manual"
         >
-          <div class="search_history" v-show="nav_input_value==''">搜索记录</div>
+          <div class="search_history" v-show="nav_input_value == ''">
+            搜索记录
+          </div>
           <div
-            v-show="nav_input_value!=''"
+            v-show="nav_input_value != ''"
             class="pointer popver_for_input"
-            v-for="(item,index) in response_data"
-            :key="'nav_input02'+index"
+            v-for="(item, index) in response_data"
+            :key="'nav_input02' + index"
             @click="go_to_page01(item.keyword)"
-          >{{item.keyword}}</div>
+          >
+            {{ item.keyword }}
+          </div>
           <div
-            v-show="nav_input_value==''"
+            v-show="nav_input_value == ''"
             class="pointer popver_for_input add_img"
-            v-for="(item,index) in historyWord"
-            :key="'nav_input01'+index"
+            v-for="(item, index) in historyWord"
+            :key="'nav_input01' + index"
             @click="go_to_page01(item)"
             @mouseover="add_active($event)"
             @mouseout="remove_active($event)"
           >
-            {{item}}
-            <img src="../assets/ios/close_nav.png" @click.stop="delete_item(index)" />
+            {{ item }}
+            <img
+              src="../assets/ios/close_nav.png"
+              @click.stop="delete_item(index)"
+            />
           </div>
           <input
             ref="my_nav_input_value"
             slot="reference"
-            @focus="is_show_nav_popover=true"
-            @blur="is_show_nav_popover=false"
+            @focus="is_show_nav_popover = true"
+            @blur="is_show_nav_popover = false"
             type="text"
             placeholder="应用名称或APPID"
             v-model="nav_input_value"
@@ -70,10 +84,10 @@
       <!-- 未登录 -->
       <div v-if="unlogin">
         <div class="denglu">
-          <router-link :to="{ path: '/login'}">登录</router-link>
+          <router-link :to="{ path: '/login' }">登录</router-link>
         </div>
         <div class="zhuce">
-          <router-link :to="{ path: '/register'}">注册</router-link>
+          <router-link :to="{ path: '/register' }">注册</router-link>
         </div>
       </div>
       <!-- 登录 -->
@@ -141,7 +155,12 @@
           </div>
         </div>
         <!-- aso优化下拉框 -->
-        <div class="aso" v-show="aso" @mouseover="showAso()" @mouseout="hideAso()">
+        <div
+          class="aso"
+          v-show="aso"
+          @mouseover="showAso()"
+          @mouseout="hideAso()"
+        >
           <div class="lie">
             <div>
               <p @click="closeclie()">
@@ -163,11 +182,20 @@
         </div>
 
         <!-- 个人中心下拉框 -->
-        <div class="mine" v-show="mine" @mouseover="showMine()" @mouseout="hideMine()">
+        <div
+          class="mine"
+          v-show="mine"
+          @mouseover="showMine()"
+          @mouseout="hideMine()"
+        >
           <!-- <img src="../assets/NumImg/jiao.png" class="jiao" /> -->
           <div class="lie">
-            <p v-for="(mine,index) in mines" @click="climsg(index)" :key="'LY'+index">
-              {{mine.name}}
+            <p
+              v-for="(mine, index) in mines"
+              @click="climsg(index)"
+              :key="'LY' + index"
+            >
+              {{ mine.name }}
               <!-- <router-link :to="{path:mine.path}">		
 								
               </router-link>-->
@@ -181,21 +209,21 @@
 
 <script>
 // 引入国家选择组件
-import country from '../common/country_select/country'
+import country from "../common/country_select/country";
 // 引入工具类
-import { formatDate } from '../common/util.js'
+import { formatDate } from "../common/util.js";
 export default {
   components: { country },
   data() {
     return {
-      historyWord: '',
-      nav_input_value: '',
+      historyWord: "",
+      nav_input_value: "",
       is_show_nav_popover: false,
       response_data: null,
       unlogin: true, //未登录
-      telnow: '', //当前手机号
-      codnow: '', //当前密码
-      uid: '', //用户id
+      telnow: "", //当前手机号
+      codnow: "", //当前密码
+      uid: "", //用户id
       mine: false,
       appstore: false,
       aso: false,
@@ -203,215 +231,221 @@ export default {
       downaso: true,
       isUp: false,
       isUpaso: false,
-      appVal: 'APP Store监控',
-      asoVal: 'ASO优化',
+      appVal: "APP Store监控",
+      asoVal: "ASO优化",
       // app store监控
       apps: [
-        { name: '榜单实时排名' },
-        { name: '榜单更新监控' },
-        { name: '排名上升/下降监控' },
-        { name: 'App Store上下架监控' },
-        { name: 'App Store精品推荐' }
+        { name: "榜单实时排名" },
+        { name: "榜单更新监控" },
+        { name: "排名上升/下降监控" },
+        { name: "App Store上下架监控" },
+        { name: "App Store精品推荐" }
         // { name: 'App Store数据统计'},
       ],
       // aso优化
-      asos: [{ name: '搜索指数排名' }, { name: '实时热搜榜' }],
+      asos: [{ name: "搜索指数排名" }, { name: "实时热搜榜" }],
       // 个人中心
-      mines: [{ name: '消息中心' }, { name: '账号设置' }, { name: '退出' }],
+      mines: [{ name: "消息中心" }, { name: "账号设置" }, { name: "退出" }],
       // 获取当前选中的国家
-      now_country: '中国',
-      touxiang: require('../assets/NumImg/touxiang.png'),
+      now_country: "中国",
+      touxiang: require("../assets/NumImg/touxiang.png"),
       ishovB: false,
       ishovaso: false,
       nohover: -1,
       noasoh: -1
-    }
+    };
   },
 
   watch: {
     $route(val, old) {
-      if (val.path != '/result') {
-        this.nav_input_value = ''
-        this.is_show_nav_popover = false
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      if (val.path != "/result") {
+        this.nav_input_value = "";
+        this.is_show_nav_popover = false;
       }
       // 上一个路由
     }
   },
   created() {
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
     // 第一步 localStorage的历史记录搜索
-    this.historyWord = localStorage.getItem('searchWord')
+    this.historyWord = localStorage.getItem("searchWord");
     if (this.historyWord != null) {
-      this.historyWord = this.historyWord.split(',') //将字符串转成数组
+      this.historyWord = this.historyWord.split(","); //将字符串转成数组
     } else {
-      this.historyWord = new Array()
+      this.historyWord = new Array();
     }
 
-    this.fun()
-    this.$watch('nav_input_value', function(newValue, oldValue) {
-      this.get_data_for_nav_input()
-    })
-    this.$watch('now_country', function(newValue, oldValue) {
+    this.fun();
+    this.$watch("nav_input_value", function(newValue, oldValue) {
+      this.get_data_for_nav_input();
+    });
+    this.$watch("now_country", function(newValue, oldValue) {
       // document.getElementById('nav_input_value').focus()
-      this.get_data_for_nav_input()
-    })
+      this.get_data_for_nav_input();
+    });
   },
 
   methods: {
     closecli() {
-      this.appstore = false
+      this.appstore = false;
     },
     closeclie() {
-      this.aso = false
+      this.aso = false;
     },
     // 获取当前选中的国家
     parentFn(payload) {
       // console.log(payload)
-      this.now_country = payload
+      this.now_country = payload;
     },
     fun() {
-      let userId = localStorage.getItem('userId') //获取userId
+      let userId = localStorage.getItem("userId"); //获取userId
 
-      this.uid = userId
-      if (this.uid == '' || this.uid == null) {
-        this.unlogin = true
+      this.uid = userId;
+      if (this.uid == "" || this.uid == null) {
+        this.unlogin = true;
       } else {
-        this.unlogin = false
+        this.unlogin = false;
         this.$axios({
-          method: 'get',
-          url: 'GetAccount?accountId=' + this.uid
+          method: "get",
+          url: "GetAccount?accountId=" + this.uid
         })
           .then(res => {
             // console.log(res.data)
-            this.uid = res.data.Data.id
-            this.telnow = res.data.Data.Phone //当前手机号
-            this.nowemail = res.data.Data.Email // 当前邮箱
+            this.uid = res.data.Data.id;
+            this.telnow = res.data.Data.Phone; //当前手机号
+            this.nowemail = res.data.Data.Email; // 当前邮箱
             if (res.data.Data.Avatar != null) {
-              this.touxiang = res.data.Data.Avatar //头像
+              this.touxiang = res.data.Data.Avatar; //头像
             }
 
             if (this.nowemail == null) {
-              this.unemail = true
+              this.unemail = true;
             } else {
-              this.unemail = false
+              this.unemail = false;
             }
           })
           .catch(error => {
-            console.log(error)
-          })
+            console.log(error);
+          });
       }
     },
     // 显示app store监控下拉框
     showAppstore() {
-      ;(this.appstore = true),
+      (this.appstore = true),
         (this.down = false),
         (this.isUp = true),
-        (this.ishovB = true)
+        (this.ishovB = true);
     },
     // 隐藏app store监控下拉框
     hideAppstore() {
-      ;(this.appstore = false),
+      (this.appstore = false),
         (this.down = true),
         (this.isUp = false),
-        (this.ishovB = false)
+        (this.ishovB = false);
     },
     // 显示aso监控下拉框
     showAso() {
-      ;(this.aso = true),
+      (this.aso = true),
         (this.downaso = false),
         (this.isUpaso = true),
-        (this.ishovaso = true)
+        (this.ishovaso = true);
     },
     // 隐藏aso监控下拉框
     hideAso() {
-      ;(this.aso = false),
+      (this.aso = false),
         (this.downaso = true),
         (this.isUpaso = false),
-        (this.ishovaso = false)
+        (this.ishovaso = false);
     },
     // 显示个人中心下拉框
     showMine() {
-      this.mine = true
+      this.mine = true;
     },
     // 隐藏个人中心下拉框
     hideMine() {
-      this.mine = false
+      this.mine = false;
     },
     // app store监控点击跳转
     goapp(index) {
       // this.nohover=index
       if (index == 0) {
-        this.$router.push({ path: '/bangdan' })
+        this.$router.push({ path: "/bangdan" });
       } else if (index == 1) {
-        this.$router.push({ path: '/monitor' })
+        this.$router.push({ path: "/monitor" });
       } else if (index == 2) {
-        this.$router.push({ path: '/rank' })
+        this.$router.push({ path: "/rank" });
       } else if (index == 3) {
-        this.$router.push({ path: '/application' })
+        this.$router.push({ path: "/application" });
       } else if (index == 4) {
-        this.$router.push({ path: '/recommend' })
+        this.$router.push({ path: "/recommend" });
       }
       // else if(index==5){
       //   this.$router.push({ path: '/data_monitor' })
       // }
-      this.appstore = false
+      this.appstore = false;
     },
     overapp(index) {
-      this.nohover = index
+      this.nohover = index;
     },
     outapp(index) {
-      this.nohover = -1
+      this.nohover = -1;
     },
     overaso(index) {
-      this.noasoh = index
+      this.noasoh = index;
     },
     outaso(index) {
-      this.noasoh = -1
+      this.noasoh = -1;
     },
     climsg(index) {
-      this.mine = false
+      this.mine = false;
       if (index == 0 || index == 1) {
-        this.$router.push({ path: '/message' })
+        this.$router.push({ path: "/message" });
       } else if (index == 2) {
-        this.unlogin = true
-        localStorage.clear()
-        this.$router.push({ path: '/index' })
+        this.unlogin = true;
+        localStorage.clear();
+        this.$router.push({ path: "/index" });
       }
     },
     get_data_for_nav_input() {
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
-          let deviceType = 1
-          let iosType = 11
-          let time = formatDate(new Date(), 'yyyy-MM-dd')
-          let word = this.nav_input_value
-          let url = '/Word/FindTodayJoinWord'
+          });
+          let deviceType = 1;
+          let iosType = 11;
+          let time = formatDate(new Date(), "yyyy-MM-dd");
+          let word = this.nav_input_value;
+          let url = "/Word/FindTodayJoinWord";
           let data = {
             deviceType: deviceType,
             countryId: country_id,
             sdate: time,
             word: word,
             iosType: iosType
-          }
+          };
 
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
               // console.log(response)
-              this.response_data = response.data.Data
+              this.response_data = response.data.Data;
 
               // 查找你要判断的文本框
-              var myInput = this.$refs.my_nav_input_value
+              var myInput = this.$refs.my_nav_input_value;
               // if (myInput == document.activeElement) {
               //   alert('获取焦点')
               // } else {
@@ -419,13 +453,13 @@ export default {
               // }
               if (myInput == document.activeElement) {
                 if (response.data.Data) {
-                  this.is_show_nav_popover = true
+                  this.is_show_nav_popover = true;
                 } else {
-                  this.is_show_nav_popover = false
+                  this.is_show_nav_popover = false;
                 }
 
-                if (this.nav_input_value == '') {
-                  this.is_show_nav_popover = true
+                if (this.nav_input_value == "") {
+                  this.is_show_nav_popover = true;
                 }
               }
 
@@ -433,82 +467,76 @@ export default {
               // console.log('88888888888888888888888888888')
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     delete_item(parm) {
-      this.historyWord.splice(parm, 1)
-      localStorage.setItem('searchWord', this.historyWord)
+      this.historyWord.splice(parm, 1);
+      localStorage.setItem("searchWord", this.historyWord);
     },
     remove_active(event) {
-      event.currentTarget.className = 'pointer popver_for_input add_img'
+      event.currentTarget.className = "pointer popver_for_input add_img";
     },
     add_active(event) {
       event.currentTarget.className =
-        'pointer popver_for_input add_img img_active'
+        "pointer popver_for_input add_img img_active";
     },
     // 历史索索记录
     search_history(val) {
-      let searchWord = localStorage.getItem('searchWord')
+      let searchWord = localStorage.getItem("searchWord");
       if (searchWord == null) {
-        localStorage.setItem('searchWord', val)
+        localStorage.setItem("searchWord", val);
       } else {
-        let arr = localStorage.getItem('searchWord')
-        arr = arr.split(',')
+        let arr = localStorage.getItem("searchWord");
+        arr = arr.split(",");
         if (arr.indexOf(val) != -1) {
-          arr = arr
+          arr = arr;
         } else {
-          arr.unshift(val)
+          arr.unshift(val);
         }
-        this.historyWord = arr
+        this.historyWord = arr;
         if (this.historyWord.length > 10) {
-          this.historyWord.pop()
+          this.historyWord.pop();
         }
-        localStorage.setItem('searchWord', this.historyWord)
+        localStorage.setItem("searchWord", this.historyWord);
       }
     },
     go_to_page01(parm) {
-      if (parm.trim() == '') {
-        return false
+      if (parm.trim() == "") {
+        return false;
       }
-      this.nav_input_value = parm
-      this.is_show_nav_popover = false
+      let that = this;
+      this.nav_input_value = parm;
+      this.is_show_nav_popover = false;
 
       // 调用存储历史记录的方法
-      this.search_history(this.nav_input_value)
+      this.search_history(this.nav_input_value);
       if (
         parseInt(this.nav_input_value) >= 100000 &&
         parseInt(this.nav_input_value) <= 999999999999
       ) {
-        this.$store.state.now_country_name = this.now_country
-        this.$store.state.now_app_id = parseInt(this.nav_input_value)
-        this.hand_save_vuex(this)
+        
         let routerUrl = this.$router.resolve({
-          path:
-            '/now_ranking?now_country_name=' +
-            this.$store.state.now_country_name +
-            '&now_app_id=' +
-            this.$store.state.now_app_id
-        })
-        window.open(routerUrl.href, '_blank')
-        return false
+          path: "/now_ranking",
+          query: {
+            now_country: that.now_country,
+            now_app_id: parseInt(that.nav_input_value)
+          }
+        });
+        window.open(routerUrl.href, "_blank");
+        return false;
       }
-
-      this.$store.state.now_app_name = parm
-      this.$store.state.now_country_name = this.now_country
-
-      this.hand_save_vuex(this)
-
       this.$router.push({
-        path: '/result'
-      })
+        path:
+          "/result?now_country=" + that.now_country + "&now_app_name=" + parm
+      });
     }
   }
-}
+};
 </script>
 
 <style>
@@ -573,7 +601,7 @@ export default {
   color: #222222;
 }
 .nav ul li span {
-  font-family: 'iconfont' !important;
+  font-family: "iconfont" !important;
 }
 
 .up {
@@ -683,7 +711,7 @@ export default {
   position: absolute;
   top: 69px;
   z-index: 1001;
-  font-family: 'iconfont';
+  font-family: "iconfont";
 }
 .Combox a:active,
 .Combox a:link {

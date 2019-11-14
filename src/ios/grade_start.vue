@@ -398,7 +398,7 @@
             </table>
             <!-- </div> -->
 
-            <div class="paging">
+            <div class="paging" v-show="response_data_fourth_part.length!=0">
               <div>显示第 {{(currentPage-1)*20+1}} 至 {{currentPage==Math.ceil(total/20)?((currentPage-1)*20)+(total%20):currentPage*20}} 项结果，共 {{total}} 项</div>
               <div>
                 <el-pagination
@@ -432,6 +432,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+       now_app_id: null,
       // 分页
       currentPage: 1,
       total: 0,
@@ -577,8 +578,27 @@ export default {
       now_country: '中国'
     }
   },
-
+ watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
+      this.get_data_for_first_part()
+      this.get_data_for_fourth_part()
+      this.get_data_for_third_part()
+      this.get_data_for_second_part()
+    }
+  },
   created: function() {
+        this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
     // 请求数据
     this.get_data_for_first_part()
     this.get_data_for_fourth_part()
@@ -588,13 +608,17 @@ export default {
       this.get_data_for_fourth_part()
     })
     //'当前国家发生变化，重新请求数据...'
-    this.$watch('now_country', function(newValue, oldValue) {
-      this.$store.state.now_country_name = this.now_country
-      this.get_data_for_first_part()
-      this.get_data_for_fourth_part()
-      this.get_data_for_third_part()
-      this.get_data_for_second_part()
-    })
+
+    this.$watch("now_country", function(newValue, oldValue) {
+       let that=this
+      this.$router.push({
+        path:
+          "/grade_start?now_country=" +
+          that.now_country +
+          "&now_app_id=" +
+          that.now_app_id
+      });
+    });
     // 监听第二部分的时间变化
     this.$watch('middle_top_time01', function(newValue, oldValue) {
       if (newValue != '') {
@@ -723,7 +747,7 @@ export default {
           })
           // 请求数据
           // console.log(country_id)
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let url = '/GetRating?countryId=' + country_id + '&appId=' + appId
           // console.log(url)
 
@@ -957,7 +981,7 @@ export default {
               formatDate(middle_top_time01[1], 'yyyy-MM-dd')
           }
           // console.log(time)
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let url =
             // appId=112&
             '/GetCommentCount?time=' +
@@ -1360,7 +1384,7 @@ export default {
             this.common_one = false //在线删除图表隐藏
             type = 2
           }
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let url =
             // appId=112
             '/GetIsDelete?time=' +
@@ -1503,7 +1527,7 @@ export default {
               break
           }
           // console.log(time)
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id
           let page = this.page
           let data = {
             appId: appId,

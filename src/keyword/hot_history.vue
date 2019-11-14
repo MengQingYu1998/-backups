@@ -1,6 +1,6 @@
 <template>
   <div id="hot_history" class="content">
-    <div class="hot_history_title">热搜词「{{search_input}}」</div>
+    <div class="hot_history_title">热搜词「{{ search_input }}」</div>
     <div class="line"></div>
     <div class="options">
       <div class="options_01 option">
@@ -8,7 +8,11 @@
         <div>
           <!-- 饿了么的select组件 -->
           <el-radio-group v-model="equipmentValue" size="mini">
-            <el-radio-button v-for="item in  equipment" :key="item.value" :label="item.value"></el-radio-button>
+            <el-radio-button
+              v-for="item in equipment"
+              :key="item.value"
+              :label="item.value"
+            ></el-radio-button>
           </el-radio-group>
         </div>
       </div>
@@ -16,21 +20,33 @@
         <div class="margin_top_font">地区</div>
         <div>
           <!-- 选择国家 -->
-          <country @childFn="parentFn" :custom_country="this.$store.state.now_country_name"></country>
+          <country
+            @childFn="parentFn"
+            :custom_country="this.$route.query.now_country"
+          ></country>
         </div>
       </div>
 
       <div class="options_04 option">
         <div class="margin_top_font">搜索</div>
         <div class="search">
-          <el-input v-model="search_input" placeholder="请输入搜索关键词"></el-input>
+          <el-input
+            v-model="search_input"
+            placeholder="请输入搜索关键词"
+          ></el-input>
         </div>
         <div class="search_confirm pointer" @click="blur">搜索</div>
       </div>
     </div>
-    <div class="table01" v-for="(item,index) in response_data" :key="'table01'+index">
+    <div
+      class="table01"
+      v-for="(item, index) in response_data"
+      :key="'table01' + index"
+    >
       <!-- <div>{{new Date(item.time).getTime()}}</div> -->
-      <div>{{formatDate_wrap(new Date(item.time).getTime()/1000, 'Y年M月D日')}}</div>
+      <div>
+        {{ formatDate_wrap(new Date(item.time).getTime() / 1000, "Y年M月D日") }}
+      </div>
 
       <table>
         <thead>
@@ -42,23 +58,26 @@
         </thead>
         <tbody>
           <tr
-            v-for="(table01_tr_item,table01_tr_index) in item.list"
-            :key="'table01_tr'+table01_tr_index"
+            v-for="(table01_tr_item, table01_tr_index) in item.list"
+            :key="'table01_tr' + table01_tr_index"
           >
             <td>
-              <div>{{table01_tr_item.stime}}</div>
+              <div>{{ table01_tr_item.stime }}</div>
             </td>
             <td>
-              <div>{{table01_tr_item.etime}}</div>
+              <div>{{ table01_tr_item.etime }}</div>
             </td>
             <td>
-              <div>{{table01_tr_item.hours}}</div>
+              <div>{{ table01_tr_item.hours }}</div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="no_data_img" v-show="response_data==null||response_data.length == 0">
+    <div
+      class="no_data_img"
+      v-show="response_data == null || response_data.length == 0"
+    >
       <img src="../assets/ios/null.png" alt />
       <div>暂无相关数据</div>
     </div>
@@ -67,14 +86,14 @@
 
 <script>
 // 引入国家选择组件
-import country from '../common/country_select/country'
+import country from "../common/country_select/country";
 // 引入工具类
-import { timestamp } from '../common/util.js'
+import { timestamp } from "../common/util.js";
 export default {
-  name: 'hot_history',
+  name: "hot_history",
   components: { country },
   data() {
-    let that = this
+    let that = this;
     return {
       // 动态改变本周 昨日的类样式
       change_bg_week: false,
@@ -83,100 +102,118 @@ export default {
       dateValue: new Date(),
       pickerOptions2: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now();
           // 这里就是设置当天后的日期不能被点击
         }
       },
       response_data: null,
       // 获取当前选中的国家
-      now_country: '中国',
+      now_country: "中国",
       // 请输入搜索关键词
       search_input: null,
       // 设备选择
       equipment: [
         {
-          value: 'iPhone'
+          value: "iPhone"
         },
         {
-          value: 'iPad'
+          value: "iPad"
         }
       ],
-      equipmentValue:
-        that.$store.state.hot_search_to_hot_history_equipmentValue,
+      equipmentValue: "iPhone",
 
       // 国家选择
-      countryValue: '中国'
+      countryValue: "中国"
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+
+      this.get_data();
     }
   },
   created: function() {
-    this.search_input = this.$store.state.now_app_name
-    this.get_data()
-    this.$watch('now_country', function(newValue, oldValue) {
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.search_input = this.$route.query.now_app_name;
+    this.get_data();
+    this.$watch("now_country", function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
-      this.get_data()
-    })
-    this.$watch('equipmentValue', function(newValue, oldValue) {
+      let that = this;
+      this.$router.push({
+        path: "/hot_history",
+        query: {
+          now_country: that.now_country,
+          now_app_name: that.$route.query.now_app_name
+        }
+      });
+    });
+    this.$watch("equipmentValue", function(newValue, oldValue) {
       // console.log('当前国家发生变化，重新请求数据...')
-      this.get_data()
-    })
+      this.get_data();
+    });
   },
   methods: {
     // 请求数据
     get_data() {
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
-          let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
-          let searchWord = this.search_input
+          let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
+          let searchWord = this.search_input;
           let url =
-            '/Word/HotSearchDetail?deviceType=' +
+            "/Word/HotSearchDetail?deviceType=" +
             deviceType +
-            '&countryId=' +
+            "&countryId=" +
             country_id +
-            '&searchWord=' +
-            encodeURIComponent(searchWord)
+            "&searchWord=" +
+            encodeURIComponent(searchWord);
 
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.response_data = response.data.Data
-              console.log(this.response_data)
+              this.response_data = response.data.Data;
+              console.log(this.response_data);
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     formatDate_wrap(parm01, parm02) {
-      return timestamp(parm01, parm02)
+      return timestamp(parm01, parm02);
     },
     // 输入框失去焦点
     blur: function() {
-      this.get_data()
+      this.get_data();
     },
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log(this.now_country)
     }
   }
-}
+};
 </script>
 
 <style scoped>

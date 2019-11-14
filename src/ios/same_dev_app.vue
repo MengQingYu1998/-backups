@@ -10,7 +10,10 @@
         <div class="right">
           <div class="right_nav">同开发者应用</div>
           <div class="line"></div>
-          <div v-loading="loading_gif" element-loading-spinner="el-icon-loading">
+          <div
+            v-loading="loading_gif"
+            element-loading-spinner="el-icon-loading"
+          >
             <table>
               <thead>
                 <tr>
@@ -32,53 +35,63 @@
                     </div>
                   </td>
                 </tr>
-                <tr v-for="(item ,index) in response_data" :key="index">
-                  <td class="first_td">{{index+1}}</td>
+                <tr v-for="(item, index) in response_data" :key="index">
+                  <td class="first_td">{{ index + 1 }}</td>
                   <td class="second_td">
                     <div class="use">
                       <div>
                         <img
                           :src="item.icon"
                           class="pointer"
-                          @click="go_to_page01(item.appId,item.appName)"
+                          @click="go_to_page01(item.appId, item.appName)"
                           alt
                         />
                       </div>
                       <div>
                         <div
                           class="pointer appName"
-                          @click="go_to_page01(item.appId,item.appName)"
-                        >{{item.appName}}</div>
-                        <div class="rankingChangeFontColor">{{item.developer}}</div>
+                          @click="go_to_page01(item.appId, item.appName)"
+                        >
+                          {{ item.appName }}
+                        </div>
+                        <div class="rankingChangeFontColor">
+                          {{ item.developer }}
+                        </div>
                       </div>
                     </div>
                   </td>
 
                   <td class="third_td">
-                    <div
-                      class="rankingChangeFontColor font_size_15"
-                    >{{item.totalRank==0?'-':item.totalRank}}</div>
-                    <div
-                      class="rankingChangeFontColor letter_spacing_1"
-                    >{{item.totalGenreName==null?'-':item.totalGenreName}}</div>
+                    <div class="rankingChangeFontColor font_size_15">
+                      {{ item.totalRank == 0 ? "-" : item.totalRank }}
+                    </div>
+                    <div class="rankingChangeFontColor letter_spacing_1">
+                      {{
+                        item.totalGenreName == null ? "-" : item.totalGenreName
+                      }}
+                    </div>
                   </td>
                   <td class="fourth_td">
-                    <div
-                      class="rankingChangeFontColor font_size_15"
-                    >{{item.genreRank==0?'-':item.genreRank}}</div>
-                    <div
-                      class="rankingChangeFontColor letter_spacing_1"
-                    >{{item.genreName==null?'-':item.genreName}}</div>
+                    <div class="rankingChangeFontColor font_size_15">
+                      {{ item.genreRank == 0 ? "-" : item.genreRank }}
+                    </div>
+                    <div class="rankingChangeFontColor letter_spacing_1">
+                      {{ item.genreName == null ? "-" : item.genreName }}
+                    </div>
                   </td>
 
                   <td>
-                    <div class="rankingChangeFontColor font_size_14">{{item.onLineTime}}</div>
+                    <div class="rankingChangeFontColor font_size_14">
+                      {{ item.onLineTime }}
+                    </div>
                   </td>
                   <td>
-                    <div class="rankingChangeFontColor font_size_14">{{item.updateTime}}</div>
+                    <div class="rankingChangeFontColor font_size_14">
+                      {{ item.updateTime }}
+                    </div>
                   </td>
                   <td>
-                    <div class="rankingChangeFontColor">{{item.status}}</div>
+                    <div class="rankingChangeFontColor">{{ item.status }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -91,97 +104,118 @@
 </template>
 
 <script>
-import ios_header from './ios_header'
-import left_nav from './left_nav'
+import ios_header from "./ios_header";
+import left_nav from "./left_nav";
 export default {
-  name: 'same_dev_app',
+  name: "same_dev_app",
   components: { ios_header, left_nav },
   data() {
     return {
       loading_gif: false,
-      now_country: '中国',
+      now_country: "中国",
       response_data: null,
+      now_app_id: null,
       nothing_data_can_show: false
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.$route.query.now_country
+        ? (this.now_country = this.$route.query.now_country)
+        : (this.now_country = "中国");
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
+      this.get_data();
     }
   },
   created: function() {
-    this.get_data()
-    this.$watch('now_country', function(newValue, oldValue) {
-      // console.log('当前国家发生变化，重新请求数据...')
-      this.$store.state.now_country_name = this.now_country
-      this.get_data()
-    })
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+    this.get_data();
+    //'当前国家发生变化，重新请求数据...'
+    this.$watch("now_country", function(newValue, oldValue) {
+      let that = this;
+      this.$router.push({
+        path:
+          "/same_dev_app?now_country=" +
+          that.now_country +
+          "&now_app_id=" +
+          that.now_app_id
+      });
+    });
   },
   methods: {
     // 请求数据
     get_data() {
-      this.loading_gif = true
+      this.loading_gif = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
           // 1:iPhone 2:ipad
           // console.log(country_id)
-          let appId = this.$store.state.now_app_id
+          let appId = this.now_app_id;
           let url =
-            '/GetSameDevApps?countryId=' +
+            "/GetSameDevApps?countryId=" +
             country_id +
-            '&deviceType=1' +
-            '&appId=' +
-            appId
+            "&deviceType=1" +
+            "&appId=" +
+            appId;
           // &appId=291322250
           // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.loading_gif = false
+              this.loading_gif = false;
 
-              this.response_data = response.data.Data
+              this.response_data = response.data.Data;
               if (response.data.Data == null) {
-                this.nothing_data_can_show = true
+                this.nothing_data_can_show = true;
               } else {
-                this.nothing_data_can_show = false
+                this.nothing_data_can_show = false;
               }
               // console.log(55555555555555555)
-              console.log(response)
+              console.log(response);
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
 
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log(this.now_country)
     },
     go_to_page01(parm, parm02) {
-      this.$store.state.now_app_id = parm
-      this.$store.state.now_app_name = parm02
-      this.$router.push({
-        path:
-          '/now_ranking?now_country_name=' +
-          this.$store.state.now_country_name +
-          '&now_app_id=' +
-          this.$store.state.now_app_id
-      })
+      let that = this;
+      let routerUrl = this.$router.resolve({
+        path: "/now_ranking",
+        query: { now_country: that.now_country, now_app_id: parm }
+      });
+      window.open(routerUrl.href, "_blank");
     }
   }
-}
+};
 </script>
 <style scoped>
 .letter_spacing_1 {

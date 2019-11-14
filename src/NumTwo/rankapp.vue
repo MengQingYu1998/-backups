@@ -4,13 +4,15 @@
     <div class="content">
       <ul>
         <li
-          v-for="(li,index) in lis"
-          :class="{'select':isSelect==index}"
+          v-for="(li, index) in lis"
+          :class="{ select: isSelect == index }"
           @click="selectLei(index)"
           :key="index"
-        >{{li.name}}</li>  
+        >
+          {{ li.name }}
+        </li>
       </ul>
-      
+
       <div class="zongbang">
         <div class="tit">
           <p class="line"></p>
@@ -27,40 +29,64 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(tr,index) in zongsData.Data" :key="index">
+              <tr v-for="(tr, index) in zongsData.Data" :key="index">
                 <th class="yingyong">
-                  <p class="ranking">{{tr.index}}</p>
-                  <img :src="tr.icon" class="logo" @click="go_to_page01(tr.appID,tr.appName)"/>
+                  <p class="ranking">{{ tr.index }}</p>
+                  <img
+                    :src="tr.icon"
+                    class="logo"
+                    @click="go_to_page01(tr.appID, tr.appName)"
+                  />
                   <div class="msg">
-                    <p class="appname" @click="go_to_page01(tr.appID,tr.appName)">{{tr.appName}}</p>
-                    <p class="company" v-if="tr.publisher">{{tr.publisher}}</p>
+                    <p
+                      class="appname"
+                      @click="go_to_page01(tr.appID, tr.appName)"
+                    >
+                      {{ tr.appName }}
+                    </p>
+                    <p class="company" v-if="tr.publisher">
+                      {{ tr.publisher }}
+                    </p>
                     <p class="company" v-else>--</p>
                   </div>
                 </th>
                 <th class="zongrank" v-if="showup">
-                  <span>{{tr.rank_id}}</span>
-                  <img src="../assets/NumImg/up.png" class="dir right" v-show="tr.rankchange>0"/>
-                  <img src="../assets/NumimgTwo/xia.png" class="dir right" v-show="tr.rankchange<0"/>
-                  <span class="redB" v-if="tr.rankchange>0">{{tr.rankchange}}</span>
-                  <span class="blueB" v-if="tr.rankchange<0">{{-(tr.rankchange)}}</span>
+                  <span>{{ tr.rank_id }}</span>
+                  <img
+                    src="../assets/NumImg/up.png"
+                    class="dir right"
+                    v-show="tr.rankchange > 0"
+                  />
+                  <img
+                    src="../assets/NumimgTwo/xia.png"
+                    class="dir right"
+                    v-show="tr.rankchange < 0"
+                  />
+                  <span class="redB" v-if="tr.rankchange > 0">{{
+                    tr.rankchange
+                  }}</span>
+                  <span class="blueB" v-if="tr.rankchange < 0">{{
+                    -tr.rankchange
+                  }}</span>
                   <p class="xinjin" v-show="xinjin">新进榜</p>
                 </th>
                 <th class="zongrank" v-else>落榜</th>
-                <th>{{tr.LastReleaseDate}}</th>
-                <th class="change" v-if="tr.company.name">{{tr.company.name}}</th>
+                <th>{{ tr.LastReleaseDate }}</th>
+                <th class="change" v-if="tr.company.name">
+                  {{ tr.company.name }}
+                </th>
                 <th class="change" v-else>--</th>
               </tr>
             </tbody>
-            
           </table>
           <!-- scroll -->
           <div v-show="contentShow" class="scrollDiv">
-                  <div>
-                    <p v-show="infiniteMsgShow" class="tips">
-                      <i class="el-icon-loading"></i>
-                    </p>
-                    <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"> </p>
-                  </div>
+            <div>
+              <p v-show="infiniteMsgShow" class="tips">
+                <i class="el-icon-loading"></i>
+              </p>
+              <p v-show="!infiniteMsgShow" class="tips" v-html="bomfont"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -68,39 +94,41 @@
   </div>
 </template>
 
-
 <script>
-
 export default {
   data() {
     return {
       // index:0,
       isSelect: 0, //排名上升下降加样式
-      upfontval: '',
+      upfontval: "",
       upfont: true,
-      isSelectfont: '', //榜单分类加样式
+      isSelectfont: "", //榜单分类加样式
       index: 0, //榜单分类index
       // zongsData: [],
-      zongsData:{
-        Data:[]
+      zongsData: {
+        Data: []
       },
-      ranktitle:'',//标题
+      ranktitle: "", //标题
       // page: 1,
       // pageSize: 20,
       contentShow: false,
       infiniteMsgShow: false,
-      bomfont:'我是有底线的~',
+      bomfont: "我是有底线的~",
       // 总分类
-      lis: [{ name: '排名上升应用' }, { name: '排名下降应用' },{ name: '新进榜应用' },{ name: '落榜应用' }],
-      showup:true,//是否显示落榜
-      xinjin:false,// 新进榜字样
+      lis: [
+        { name: "排名上升应用" },
+        { name: "排名下降应用" },
+        { name: "新进榜应用" },
+        { name: "落榜应用" }
+      ],
+      showup: true, //是否显示落榜
+      xinjin: false, // 新进榜字样
       scrollHeight: 0,
       total_number: 0 //修改排序错乱
-
-    }
+    };
   },
   created() {
-    this.getData()
+    this.getData();
   },
   // mounted() {
   //   this.$nextTick(() => {
@@ -129,127 +157,120 @@ export default {
   //   })
   // },
   methods: {
-    
     //请求数据
-    getData(){
-      this.contentShow=true
-      this.infiniteMsgShow=true
-      this.zongsData="";
-      
+    getData() {
+      this.contentShow = true;
+      this.infiniteMsgShow = true;
+      this.zongsData = "";
+
       // 时间
-      let time = this.$route.query.time.replace("T"," ")
+      let time = this.$route.query.time.replace("T", " ");
       // 选中哪个应用
-      let option=""
-      if(this.isSelect==0){
-        option=1//上升
-        this.xinjin=false
-        this.showup=true
-      }else if(this.isSelect==1){
-        option=2//下降
-        this.xinjin=false
-        this.showup=true
-      }else if(this.isSelect==2){
-        option=3//新进
-        this.xinjin=true
-        this.showup=true
-      }else if(this.isSelect==3){
-        option=4//落榜
-        this.xinjin=false
-        this.showup=false
+      let option = "";
+      if (this.isSelect == 0) {
+        option = 1; //上升
+        this.xinjin = false;
+        this.showup = true;
+      } else if (this.isSelect == 1) {
+        option = 2; //下降
+        this.xinjin = false;
+        this.showup = true;
+      } else if (this.isSelect == 2) {
+        option = 3; //新进
+        this.xinjin = true;
+        this.showup = true;
+      } else if (this.isSelect == 3) {
+        option = 4; //落榜
+        this.xinjin = false;
+        this.showup = false;
       }
       // 设备
-      let device="";
-      if(this.$route.query.device==1){
-        device="iphone"
-      }else{
-        device="ipad"
+      let device = "";
+      if (this.$route.query.device == 1) {
+        device = "iphone";
+      } else {
+        device = "ipad";
       }
       // 类型
-      let lei=""
-      if(this.$route.query.brand==1){
-        lei="免费榜"
-      }else if(this.$route.query.brand==2){
-        lei="付费榜"
-      }else{
-        lei="畅销榜"
+      let lei = "";
+      if (this.$route.query.brand == 1) {
+        lei = "免费榜";
+      } else if (this.$route.query.brand == 2) {
+        lei = "付费榜";
+      } else {
+        lei = "畅销榜";
       }
       // title
-      this.ranktitle=time +'/中国-'+device +'-'+lei
+      this.ranktitle = time + "/中国-" + device + "-" + lei;
       // 数据接口
-          this.$axios({
-            method:"post",
-            url:"/PostRankSnapshotChange",
-            data:{
-              brand:this.$route.query.brand,
-              device:this.$route.query.device,
-              countryid:1,
-              option:option,
-              date:time,
-              genreid:this.$route.query.gid,
-              pid:this.$route.query.pid
-            }
-           })  
-            .then(res=>{
-              if(res.data.Code==0){
-                this.contentShow=true
-                this.infiniteMsgShow=false
+      this.$axios({
+        method: "post",
+        url: "/PostRankSnapshotChange",
+        data: {
+          brand: this.$route.query.brand,
+          device: this.$route.query.device,
+          countryid: 1,
+          option: option,
+          date: time,
+          genreid: this.$route.query.gid,
+          pid: this.$route.query.pid
+        }
+      })
+        .then(res => {
+          if (res.data.Code == 0) {
+            this.contentShow = true;
+            this.infiniteMsgShow = false;
 
-                 this.zongsData=res.data
-                 
-                 this.upfontval="对比前一榜单共有"+res.data.Data.length+"个排名上升应用"
-                 if(this.isSelect==0){
-                    this.upfontval="对比前一榜单共有"+res.data.Data.length+"个排名上升应用"//上升
-                  }else if(this.isSelect==1){
-                    this.upfontval="对比前一榜单共有"+res.data.Data.length+"个排名下降应用"//下降
-                  }else if(this.isSelect==2){
-                    this.upfontval="对比前一榜单共有"+res.data.Data.length+"个新进榜应用"//新进
-                  }else if(this.isSelect==3){
-                    this.upfontval="对比前一榜单共有"+res.data.Data.length+"个落榜应用"//落榜
-                  }
-              }
-             
-            })
-            .catch(error=>{
-              console.log(error)
-            })
-                        
-        
-       
+            this.zongsData = res.data;
+
+            this.upfontval =
+              "对比前一榜单共有" + res.data.Data.length + "个排名上升应用";
+            if (this.isSelect == 0) {
+              this.upfontval =
+                "对比前一榜单共有" + res.data.Data.length + "个排名上升应用"; //上升
+            } else if (this.isSelect == 1) {
+              this.upfontval =
+                "对比前一榜单共有" + res.data.Data.length + "个排名下降应用"; //下降
+            } else if (this.isSelect == 2) {
+              this.upfontval =
+                "对比前一榜单共有" + res.data.Data.length + "个新进榜应用"; //新进
+            } else if (this.isSelect == 3) {
+              this.upfontval =
+                "对比前一榜单共有" + res.data.Data.length + "个落榜应用"; //落榜
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //点击排名上升/下降
     selectLei(index) {
-      this.isSelect = index
-      this.showApplication = false
-      this.showGame = false
+      this.isSelect = index;
+      this.showApplication = false;
+      this.showGame = false;
 
-      this.zongsData.length = 0
-      this.getData()
-      
+      this.zongsData.length = 0;
+      this.getData();
     },
-    go_to_page01(parm,parm02) {
-          this.$store.state.now_country_name = this.now_country
-          this.$store.state.now_app_name = parm02
-          this.$store.state.now_app_id = parm
-          this.hand_save_vuex(this)
-          let routerUrl = this.$router.resolve({
-            path:'/now_ranking?now_country_name=' +
-              this.$store.state.now_country_name +
-              '&now_app_id=' +
-              this.$store.state.now_app_id
-          })
-          window.open(routerUrl.href, '_blank')
-        }
+    go_to_page01(parm, parm02) {
+      let that = this;
+
+      let routerUrl = this.$router.resolve({
+        path: "/now_ranking",
+        query: { now_country: "中国", now_app_id: parm }
+      });
+      window.open(routerUrl.href, "_blank");
+    }
   }
-}
+};
 </script>
-
-
 
 <style scoped>
 .title {
   width: 100%;
   height: 86px;
-  background-image: url('../assets/NumImg/tit.png');
+  background-image: url("../assets/NumImg/tit.png");
   background-size: 100% 86px;
   background-repeat: no-repeat;
   font-weight: 600;
@@ -406,7 +427,7 @@ table thead tr {
   height: 40px;
 }
 table thead tr th {
-  font-weight: 600!important;
+  font-weight: 600 !important;
   font-size: 13px;
   color: #222222;
   line-height: 40px;
@@ -443,7 +464,8 @@ table tbody tr th .ranking {
   font-size: 14px;
   color: #222;
   float: left;
-  margin-left: 24px;
+  width: 40px;
+  margin-left: 10px;
   margin-top: 15px;
 }
 table tbody tr:first-child th .ranking p,
@@ -457,7 +479,7 @@ table tbody tr th .logo {
   border-radius: 10px;
   border: solid 1px #f2f2f2;
   float: left;
-  margin-left: 22px;
+  margin-left: 10px;
 }
 table tbody tr th .msg {
   font-size: 14px;
@@ -475,7 +497,6 @@ table tbody tr th .msg .appname {
   text-overflow: ellipsis;
   text-align: left;
   margin-top: 2px;
-
 }
 table tbody tr th .msg .appname:hover {
   color: #009bef;
@@ -501,57 +522,55 @@ table tbody tr th .right {
   margin-top: 12px;
   margin-left: 5px;
 }
-table tbody tr th >.dir{
+table tbody tr th > .dir {
   margin-top: 17px;
   width: 8px;
   height: 8px;
   vertical-align: top;
 }
 table tbody tr th.zongrank > img {
- 
   margin: 0px 5px;
   margin-top: 5px;
 }
-.redB{
-    color: #f50202;
+.redB {
+  color: #f50202;
 }
-.blueB{
-    color: #009bef;
+.blueB {
+  color: #009bef;
 }
-.xinjin{
+.xinjin {
   font-size: 13px;
   color: #009bef;
   margin-top: 5px;
 }
 /*暂无数据*/
-.null{
+.null {
   width: 100%;
-  height:606px;
+  height: 606px;
   text-align: center;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.null img{
+.null img {
   width: 210px;
-  height:162px;
-  margin:0 auto;
+  height: 162px;
+  margin: 0 auto;
   margin-top: 190px;
 }
-.null p{
+.null p {
   /*font-family: SourceHanSansCN-Regular;*/
   font-size: 13px;
   color: #555555;
 }
 /*加载中*/
-.tips img{
+.tips img {
   width: 50px;
-  height:50px;
+  height: 50px;
 }
-.tips{
+.tips {
   font-size: 14px;
   color: #bfbfbf;
 }
-.tips:first-child{
+.tips:first-child {
   font-size: 30px;
 }
-
 </style>
