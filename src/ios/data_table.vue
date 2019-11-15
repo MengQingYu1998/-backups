@@ -377,19 +377,14 @@
                     </tr>
                   </thead>
                   <tbody class="td_width">
-                    <tr
-                      class="disable_hover"
-                      v-show="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
-                    >
-                      <td colspan="6">暂无相关数据</td>
-                    </tr>
+                 
                     <template
                       v-show="temp01_request_data_second.length!=0&&temp_request_data_second.length!=0"
                     >
                       <tr
                         v-for="(item ,index) in temp01_request_data_second"
                         :key="'tableasdf'+index"
-                        :ref="'temp01_request_data_second'+index"
+                        
                       >
                         <td>
                           <span
@@ -442,7 +437,7 @@
                         <td>
                           <div class="table_font pointer">
                             <img
-                              @click="middle_table_first(index,item.WordId,item.Word,'top')"
+                              @click="middle_table_first(index,item.WordId,item.Word)"
                               class="table_font_three_active"
                               src="../assets/keyword/three_active.png"
                             />
@@ -595,7 +590,7 @@
                       <tr
                         v-for="(item ,index) in temp_request_data_second"
                         :key="'tasbleasdf'+index"
-                        :ref="'temp_request_data_second'+index"
+                        
                       >
                         <td>
                           <div class="pointer" @click="go_to_page03(item.Word)">{{item.Word}}</div>
@@ -645,7 +640,7 @@
                         <td>
                           <div class="table_font pointer">
                             <img
-                              @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word,'bottom')"
+                              @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word)"
                               class="table_font_three_active"
                               src="../assets/keyword/three_active.png"
                             />
@@ -653,6 +648,12 @@
                         </td>
                       </tr>
                     </template>
+                       <tr
+                      class="disable_hover"
+                      v-show="temp01_request_data_second.length==0&&temp_request_data_second.length==0"
+                    >
+                      <td colspan="6">暂无相关数据</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -854,20 +855,20 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
 
     //'当前国家发生变化，重新请求数据...'
     this.$watch('now_country', function(newValue, oldValue) {
-      this.$router.push({
-        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
-      })
+     
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
-
-    
+this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为重复点击
+     this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
     })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
-       
+       this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为重复点击
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
@@ -881,7 +882,6 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
     
     })
     this.$watch('dateCompare_for_top', function(newValue, oldValue) {
-      
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
@@ -897,19 +897,22 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
     })
     // 下拉框，系统 第一部分
     this.$watch('systemValue', function(newValue, oldValue) {
-        this.$router.push({
-        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
-      })
+      
+     
       this.sort = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.change_span_bg_color = [null, null]
       this.wordIds = ''
       // 去掉第一部分的span背景色，并且把第二部分传参的wordIDS置空
       this.is_show_bottom = false
+   this.$router.push({
+        path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
+      })
      
     })
     //  下拉框，设备 第一部分
     this.$watch('equipmentValue', function(newValue, oldValue) {
+
          this.$router.push({
         path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
       })
@@ -1099,9 +1102,11 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
             .then(response => {
               // console.log(555555555555555)
               // console.log(response)
+                
+            
               this.loading_gif_first = false
 
-              this.request_data_first = response.data.Data
+              this.request_data_first = response.data.Data  
             })
             .catch(error => {
               console.log(error)
@@ -1113,7 +1118,7 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
     },
     change_something(parm, parm01, parm02) {
       // 跳转位置
-      this.$refs.section_title.scrollIntoView()
+      this.$refs.section_title.scrollIntoView({behavior:'smooth'})
       switch (parm01) {
         case 0:
           this.result_min_input01 = 8000
@@ -1138,6 +1143,10 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
         case 5:
           this.result_min_input01 = ''
           this.result_max_input01 = 4605
+          break
+           case 6:
+          this.result_min_input01 = ''
+          this.result_max_input01 = ''
           break
         default:
           break
@@ -1239,6 +1248,7 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
                     response.data.Code != 1 &&
                     response.data.Data.keys[0] != null
                   ) {
+                    this.stop_click_many_times=null;//防止判断为重复点击
                     this.request_data_second = response.data.Data.keys
                     this.total = response.data.Data.totalCount //底部显示总共
                     this.temp01_request_data_second = response.data.Data.keys //第一个tr
@@ -1345,10 +1355,12 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
     },
     
     // 控制折线图在表格的中间显示
-    middle_table_first(index, wordId, word, position) {
+    middle_table_first(index, wordId, word) {
       this.bottom_radio1 = '按小时'
       this.bottom_radio3 = '近24小时'
       this.middle_time01 = ''
+        // console.log(this.stop_click_many_times)
+        // console.log(wordId + word)
       // 防止多次点击
       if (this.stop_click_many_times == wordId + word) {
         this.is_show_bottom = !this.is_show_bottom
@@ -1359,7 +1371,7 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
 
       // 当前页面 显示的数据
       let now_show_data = this.request_data_second
-
+// console.log(index)
       this.temp01_request_data_second = now_show_data.slice(0, index + 1)
       this.temp_request_data_second = now_show_data.slice(index + 1)
       this.wordId = wordId
@@ -1367,24 +1379,8 @@ this.$route.query.now_app_id? this.now_app_id=this.$route.query.now_app_id:this.
       this.is_show_myChart_and_table = true
       this.is_show_bottom = true
       this.$nextTick(() => {
-        switch (position) {
-          case 'top':
-            this.$refs['temp01_request_data_second' + index][0].scrollIntoView()
-            window.scrollTo(0, this.ScollPostion().top - 70)
-
-            break
-          case 'bottom':
-            this.$refs[
-              'temp01_request_data_second' +
-                (this.temp01_request_data_second.length - 1)
-            ][0].scrollIntoView()
-            window.scrollTo(0, this.ScollPostion().top - 70)
-            break
-          default:
-            break
-        }
+          this.$refs.myChart_data_table.scrollIntoView({behavior:'smooth',block:'center' })
       })
-
       this.get_data_for_third_part()
     },
     // 获取滚动条的位置

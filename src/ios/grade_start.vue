@@ -926,8 +926,7 @@ export default {
             {
               name: '五星',
               stack: 'start',
-              barWidth: 22, //宽度
-
+              barMaxWidth: 22, //宽度
               type: 'bar',
               itemStyle: {
                 color: '#33aff2'
@@ -1137,7 +1136,7 @@ export default {
               name: '已删除评论',
               stack: 'start',
               type: 'bar',
-              barWidth: 22, //宽度
+              barMaxWidth: 22, //宽度
               itemStyle: {
                 color: '#c5c5c5'
               },
@@ -1292,7 +1291,7 @@ export default {
             },
             {
               name: '五星',
-              barWidth: 22, //宽度
+              barMaxWidth: 22, //宽度
               stack: 'start',
               type: 'bar',
               itemStyle: {
@@ -1563,11 +1562,11 @@ export default {
       let this_div02 = document.getElementById(parm02) //展开收起
       let this_div = document.getElementById(parm) //内容
       // console.log(this_div02.innerHTML)
-      if (this_div02.innerHTML == '展开更多') {
+      if (this_div02.innerHTML.trim() == '展开更多') {
         this_div.style.height = 'auto'
         this_div.style.display = 'block'
         this_div02.innerHTML = '收起'
-      } else if (this_div02.innerHTML == '收起') {
+      } else if (this_div02.innerHTML.trim() == '收起') {
         this_div.style.height = '54px'
         this_div.style.display = '-webkit-box '
         this_div02.innerHTML = '展开更多'

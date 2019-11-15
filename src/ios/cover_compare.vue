@@ -58,164 +58,210 @@
                 }}</span>
               </div>
             </div>
-            <div class="table_group">
-              <table>
-                <thead>
-                  <tr>
-                    <th colspan="3">
-                      我的独家关键词({{
-                        response_data && response_data.myCount
-                      }})
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    class="disable_hover"
-                    v-if="response_data && response_data.myOwn.length == 0"
-                  >
-                    <td colspan="3">暂无相关数据</td>
-                  </tr>
-                  <tr v-else>
-                    <td>关键词</td>
-                    <td>搜索指数</td>
-                    <td>排名</td>
-                  </tr>
-                  <tr
-                    v-for="(item, index) in response_data &&
-                      response_data.myOwn"
-                    :key="'table01' + index"
-                  >
-                    <td>
-                      <div class="pointer" @click="go_to_page01(item.Word)">
-                        {{ item.Word }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="pointer" @click="go_to_page02()">
-                        {{ item.WordIdHint }}
-                      </div>
-                    </td>
-                    <td>
-                      <div>{{ item.Ranking }}</div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr>
-                    <th colspan="3">
-                      公共覆盖关键词({{
-                        response_data && response_data.commonCount
-                      }})
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    class="disable_hover"
-                    v-if="response_data && response_data.common.length == 0"
-                  >
-                    <td colspan="3">暂无相关数据</td>
-                  </tr>
-                  <tr v-else>
-                    <td>关键词</td>
-                    <td>搜索指数</td>
-                    <td>排名</td>
-                  </tr>
-                  <tr
-                    v-for="(item, index) in response_data &&
-                      response_data.common"
-                    :key="'table02' + index"
-                  >
-                    <td>
-                      <div class="pointer" @click="go_to_page01(item.Word)">
-                        {{ item.Word }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="pointer" @click="go_to_page02">
-                        {{ item.WordIdHint }}
-                      </div>
-                    </td>
-                    <td>
-                      <div>{{ item.Ranking }}</div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr>
-                    <th colspan="3">
-                      竞品独家关键词({{
-                        response_data && response_data.myCount
-                      }})
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    class="disable_hover"
-                    v-if="response_data && response_data.comOwn.length == 0"
-                  >
-                    <td colspan="3">暂无相关数据</td>
-                  </tr>
-                  <tr v-else>
-                    <td>关键词</td>
-                    <td>搜索指数</td>
-                    <td>排名</td>
-                  </tr>
-                  <tr
-                    v-for="(item, index) in response_data &&
-                      response_data.comOwn"
-                    :key="'table03' + index"
-                  >
-                    <td>
-                      <div class="pointer" @click="go_to_page01(item.Word)">
-                        {{ item.Word }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="pointer" @click="go_to_page02">
-                        {{ item.WordIdHint }}
-                      </div>
-                    </td>
-                    <td>
-                      <div>{{ item.Ranking }}</div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div
-              class="paging"
-              v-if="
-                !loading &&
-                  (response_data.common.length != 0 ||
-                    response_data.comOwn.length != 0 ||
-                    response_data.myOwn.length != 0)
-              "
-            >
-              <div>
-                显示第 {{ (currentPage - 1) * 100 + 1 }} 至
-                {{
-                  currentPage == Math.ceil(total / 100)
-                    ? (currentPage - 1) * 100 + (total % 100)
-                    : currentPage * 100
-                }}
-                项结果，共 {{ total }} 项
-              </div>
-              <div>
-                <el-pagination
-                  background
-                  layout="prev, pager, next"
-                  :total="total / 10"
-                  :current-page.sync="currentPage"
-                ></el-pagination>
-              </div>
-            </div>
+            <el-tabs v-model="activeName" :stretch="true">
+              <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
+              <el-tab-pane label="我的独家关键词" name="first">
+                <table>
+                  <thead>
+                    <tr>
+                      <th colspan="3">
+                        我的独家关键词({{
+                          response_data && response_data.myCount
+                        }})
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="disable_hover"
+                      v-if="response_data && response_data.myOwn.length == 0"
+                    >
+                      <td colspan="3">暂无相关数据</td>
+                    </tr>
+                    <tr v-else>
+                      <td>关键词</td>
+                      <td>搜索指数</td>
+                      <td>排名</td>
+                    </tr>
+                    <tr
+                      v-for="(item, index) in response_data &&
+                        response_data.myOwn"
+                      :key="'table01' + index"
+                    >
+                      <td>
+                        <div class="pointer" @click="go_to_page01(item.Word)">
+                          {{ item.Word }}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="pointer" @click="go_to_page02()">
+                          {{ item.WordIdHint }}
+                        </div>
+                      </td>
+                      <td>
+                        <div>{{ item.Ranking }}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="paging"
+                  v-if="!loading && response_data.myOwn.length != 0"
+                >
+                  <div>
+                    显示第 {{ (currentPage - 1) * 100 + 1 }} 至
+                    {{
+                      currentPage == Math.ceil(total / 100)
+                        ? (currentPage - 1) * 100 + (total % 100)
+                        : currentPage * 100
+                    }}
+                    项结果，共 {{ total }} 项
+                  </div>
+                  <div>
+                    <el-pagination
+                      background
+                      layout="prev, pager, next"
+                      :total="total / 10"
+                      :current-page.sync="currentPage"
+                    ></el-pagination>
+                  </div>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="公共覆盖关键词" name="second">
+                <table>
+                  <thead>
+                    <tr>
+                      <th colspan="3">
+                        公共覆盖关键词({{
+                          response_data && response_data.commonCount
+                        }})
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="disable_hover"
+                      v-if="response_data && response_data.common.length == 0"
+                    >
+                      <td colspan="3">暂无相关数据</td>
+                    </tr>
+                    <tr v-else>
+                      <td>关键词</td>
+                      <td>搜索指数</td>
+                      <td>排名</td>
+                    </tr>
+                    <tr
+                      v-for="(item, index) in response_data &&
+                        response_data.common"
+                      :key="'table02' + index"
+                    >
+                      <td>
+                        <div class="pointer" @click="go_to_page01(item.Word)">
+                          {{ item.Word }}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="pointer" @click="go_to_page02">
+                          {{ item.WordIdHint }}
+                        </div>
+                      </td>
+                      <td>
+                        <div>{{ item.Ranking }}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="paging"
+                  v-if="!loading && response_data.common.length != 0"
+                >
+                  <div>
+                    显示第 {{ (currentPage - 1) * 100 + 1 }} 至
+                    {{
+                      currentPage == Math.ceil(total / 100)
+                        ? (currentPage - 1) * 100 + (total % 100)
+                        : currentPage * 100
+                    }}
+                    项结果，共 {{ total }} 项
+                  </div>
+                  <div>
+                    <el-pagination
+                      background
+                      layout="prev, pager, next"
+                      :total="total / 10"
+                      :current-page.sync="currentPage"
+                    ></el-pagination>
+                  </div>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="竞品独家关键词" name="third">
+                <table>
+                  <thead>
+                    <tr>
+                      <th colspan="3">
+                        竞品独家关键词({{
+                          response_data && response_data.comCount
+                        }})
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="disable_hover"
+                      v-if="response_data && response_data.comOwn.length == 0"
+                    >
+                      <td colspan="3">暂无相关数据</td>
+                    </tr>
+                    <tr v-else>
+                      <td>关键词</td>
+                      <td>搜索指数</td>
+                      <td>排名</td>
+                    </tr>
+                    <tr
+                      v-for="(item, index) in response_data &&
+                        response_data.comOwn"
+                      :key="'table03' + index"
+                    >
+                      <td>
+                        <div class="pointer" @click="go_to_page01(item.Word)">
+                          {{ item.Word }}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="pointer" @click="go_to_page02">
+                          {{ item.WordIdHint }}
+                        </div>
+                      </td>
+                      <td>
+                        <div>{{ item.Ranking }}</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="paging"
+                  v-if="!loading && response_data.comOwn.length != 0"
+                >
+                  <div>
+                    显示第 {{ (currentPage - 1) * 100 + 1 }} 至
+                    {{
+                      currentPage == Math.ceil(total / 100)
+                        ? (currentPage - 1) * 100 + (total % 100)
+                        : currentPage * 100
+                    }}
+                    项结果，共 {{ total }} 项
+                  </div>
+                  <div>
+                    <el-pagination
+                      background
+                      layout="prev, pager, next"
+                      :total="total / 10"
+                      :current-page.sync="currentPage"
+                    ></el-pagination>
+                  </div>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
           </div>
         </div>
       </div>
@@ -231,6 +277,8 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      // tab-pane选择面板
+      activeName: "first",
       now_app_id: null,
       now_app_id02: null,
       loading: false,
@@ -262,6 +310,7 @@ export default {
       this.$route.query.now_app_id02
         ? (this.now_app_id02 = this.$route.query.now_app_id02)
         : (this.now_app_id02 = null);
+      this.currentPage = 1;
       this.get_data();
     }
   },
@@ -289,6 +338,11 @@ export default {
       });
     });
     this.$watch("equipmentValue", function(newValue, oldValue) {
+      this.currentPage = 1;
+      this.get_data();
+    });
+    this.$watch("activeName", function(newValue, oldValue) {
+      this.currentPage = 1;
       this.get_data();
     });
     this.$watch("currentPage", function(newValue, oldValue) {
@@ -338,19 +392,23 @@ export default {
             .get(url)
             .then(response => {
               this.loading = false;
-              // console.log(response);
-
+              console.log(response);
               if (response.data.Data != null) {
                 this.response_data = response.data.Data;
-                let max =
-                  this.response_data.comCount > this.response_data.commonCount
-                    ? this.response_data.comCount
-                    : this.response_data.commonCount;
-                max =
-                  max > this.response_data.myCount
-                    ? max
-                    : this.response_data.myCount;
-                this.total = max; //底部显示总共
+
+                switch (this.activeName) {
+                  case "first":
+                    this.total = this.response_data.myCount; //底部显示总共
+                    break;
+                  case "second":
+                    this.total = this.response_data.commonCount; //底部显示总共
+                    break;
+                  case "third":
+                    this.total = this.response_data.comCount; //底部显示总共
+                    break;
+                  default:
+                    break;
+                }
               } else {
                 this.response_data = {
                   myOwn: new Array(),
@@ -398,16 +456,7 @@ export default {
   color: #444444;
   text-align: center;
 }
-.table_group table:last-child {
-  margin-right: 0;
-}
-.table_group table {
-  margin-right: 22px;
-}
-.table_group {
-  display: flex;
-  justify-content: space-around;
-}
+
 thead tr {
   height: 40px;
 }
@@ -450,13 +499,12 @@ thead {
   color: #009bef;
 }
 table {
-  width: 303px;
-  height: 121px;
+  width: 100%;
   border: solid 1px #eaeaea;
   text-align: center;
-  margin-top: 40px;
   /* 表格定长 */
   table-layout: fixed;
+  margin-top: 30px;
 }
 
 .vs_div img {
@@ -479,6 +527,7 @@ table {
   justify-content: space-between;
   padding: 0 202px;
   margin-top: 60px;
+  margin-bottom: 30px;
 }
 .option > div:first-child {
   margin-right: 12px;
@@ -564,6 +613,7 @@ table {
   line-height: 14px;
   letter-spacing: 0px;
   color: #bfbfbf;
+  height: 80px;
 }
 .disable_hover :hover {
   background-color: #fff !important;

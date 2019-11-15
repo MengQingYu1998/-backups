@@ -404,7 +404,7 @@ export default {
             textStyle: {
               color: "#222222",
               fontSize: 16,
-              fontFamily: "SourceHanSansCN-Medium",
+              // fontFamily: "SourceHanSansCN-Medium",
               fontWeight: "normal"
             }
           },

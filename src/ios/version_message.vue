@@ -127,7 +127,7 @@ export default {
     this.get_data();
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
-       let that = this;
+      let that = this;
       this.$router.push({
         path:
           "/version_message?now_country=" +
@@ -191,11 +191,11 @@ export default {
       let this_div02 = document.getElementById(parm02); //展开收起
       let this_div = document.getElementById(parm); //内容
       // console.log(this_div02.innerHTML)
-      if (this_div02.innerHTML == "展开更多") {
+      if (this_div02.innerHTML.trim() == "展开更多") {
         this_div.style.height = "auto";
         this_div.style.display = "block";
         this_div02.innerHTML = "收起";
-      } else if (this_div02.innerHTML == "收起") {
+      } else if (this_div02.innerHTML.trim() == "收起") {
         this_div.style.height = "63px";
         this_div.style.display = "-webkit-box ";
         this_div02.innerHTML = "展开更多";

@@ -399,7 +399,7 @@ export default {
     this.get_data();
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
-      let that=this
+      let that = this;
       this.$router.push({
         path:
           "/app_message?now_country=" +
@@ -481,14 +481,6 @@ export default {
 
                 // 判断展开收起更多的按钮是否出现 小于125px 则不出现
                 this.$nextTick(() => {
-                  // console.log(
-                  //   window
-                  //     .getComputedStyle(
-                  //       document.getElementById('section_content'),
-                  //       null
-                  //     )
-                  //     .getPropertyValue('height')
-                  // )
                   if (
                     parseInt(
                       window
@@ -529,13 +521,12 @@ export default {
     show_more_function() {
       let this_div02 = document.getElementById("show_all"); //展开收起
       let this_div = document.getElementById("section_content"); //内容
-      // console.log(this_div)
-      // console.log(this_div02)
-      if (this_div02.innerHTML == "展开更多") {
+      console.log(this_div02.innerHTML);
+      if (this_div02.innerHTML.trim() == "展开更多") {
         this_div.style.height = "auto";
         this_div.style.display = "block";
         this_div02.innerHTML = "收起";
-      } else if (this_div02.innerHTML == "收起") {
+      } else if (this_div02.innerHTML.trim() == "收起") {
         this_div.style.display = "-webkit-box";
         this_div02.innerHTML = "展开更多";
       }
@@ -590,18 +581,18 @@ export default {
 }
 .video_iPad {
   width: 332px;
-  height: 249px;
+  /* height: 249px; */
   overflow: hidden;
 }
 .video_watch {
   width: 340px;
-  height: 272px;
+  /* height: 272px; */
   overflow: hidden;
 }
 
 .video_iPhone {
   width: 225px;
-  height: 399px;
+  /* height: 399px; */
   overflow: hidden;
   margin-left: 30px;
 }

@@ -402,10 +402,15 @@ table thead tr th {
   margin: 0 auto;
 }
 /* 搜索结果的切换 */
+#result .el-tabs__nav.is-stretch {
+  min-width: 43% !important;
+}
+#cover_compare .el-tabs__active-bar,
 #result .el-tabs__active-bar {
   height: 2px !important;
 }
 
+#cover_compare .el-tabs__item,
 #result .el-tabs__item {
   font-size: 16px;
   font-weight: normal;
@@ -415,6 +420,8 @@ table thead tr th {
   color: #222222;
   font-weight: 600;
 }
+
+#cover_compare .el-tabs__nav-wrap:after,
 #result .el-tabs__nav-wrap:after {
   height: 1px !important;
   background-color: #d6d6d6;
@@ -732,9 +739,7 @@ input[type="number"] {
   cursor: pointer;
 }
 /* 放回顶部 */
-.el-tabs__nav.is-stretch {
-  min-width: 43% !important;
-}
+
 .el-select-dropdown__item.selected {
   font-weight: normal;
 }

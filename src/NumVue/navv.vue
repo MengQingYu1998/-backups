@@ -519,7 +519,6 @@ export default {
         parseInt(this.nav_input_value) >= 100000 &&
         parseInt(this.nav_input_value) <= 999999999999
       ) {
-        
         let routerUrl = this.$router.resolve({
           path: "/now_ranking",
           query: {
@@ -553,7 +552,7 @@ export default {
   position: fixed;
   left: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 1200;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .down {
@@ -699,6 +698,7 @@ export default {
   border-radius: 50%;
   margin-top: 15px;
   border: 2px solid #fcfcfc;
+  margin-left: -40px;
 }
 .nav .ldiv p {
   font-size: 14px;
@@ -738,7 +738,7 @@ export default {
   margin-left: 420px;
 }
 .Combox > div.mine {
-  margin-left: 1100px;
+  margin-left: 1080px;
   margin-top: -2px;
 }
 .Combox > div.mine .lie p {

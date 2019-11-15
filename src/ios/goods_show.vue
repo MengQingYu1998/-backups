@@ -309,7 +309,8 @@ export default {
             '&device=' +
             1 +
             '&date=' +
-            formatDate(new Date(), 'yyyy-MM-dd')
+            formatDate(new Date(), 'yyyy-MM-dd')+'&accountId=' +
+            localStorage.getItem('userId') //获取userId
           // console.log(url)
           // 请求数据
           this.$axios

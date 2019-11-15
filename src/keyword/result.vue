@@ -223,7 +223,7 @@
                 v-show="!it_is_over_12&&response_data_for_ios12.length!=0&&!loading_12"
               >下拉加载更多</div>
             </div>
-            <div :class="{'right':true,'position_fixed':position_fixed} " v-if="now_country=='中国'">
+            <div :class="{'right':true,'position_fixed':position_fixed,'position_fixed_02':position_fixed_02} " v-if="now_country=='中国'">
               <div class="right_title">关键词搜索结果变化率</div>
               <div class="right_btn">
                 <div>
@@ -983,6 +983,7 @@ export default {
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       position_fixed: false,
+      position_fixed_02: false,
       another_see_more: false,
       another_see_more01: false,
       see_more: false,
@@ -1036,7 +1037,10 @@ export default {
       this.$route.query.now_country
         ? (this.now_country = this.$route.query.now_country)
         : (this.now_country = "中国");
-    
+      this.response_data_for_ios11.length = 0
+      this.response_data_for_ios12.length = 0
+      this.page11 = 1
+      this.page12 = 1
     this.get_data_for_top_table()
     this.get_data_12()
     this.get_data_11()
@@ -1057,7 +1061,6 @@ export default {
       });
     })
     this.$watch('activeName', function(newValue, oldValue) {
-      // if (newValue == 'third') {
       this.page11 = 1
       this.page12 = 1
       this.response_data_for_ios12.length = 0
@@ -1065,7 +1068,6 @@ export default {
       this.get_data_12()
       this.get_data_11()
       this.get_data_column()
-      // }
       this.get_data_for_top_table()
     })
  
@@ -1190,6 +1192,12 @@ export default {
           that.position_fixed = true
         } else {
           that.position_fixed = false
+        }
+        // 解决右侧柱状图到达底部溢出
+        if (scrollHeight - scrollTop <= 310 + 548 + 68) {
+          that.position_fixed_02 = true;
+        } else {
+          that.position_fixed_02 = false;
         }
         if (
           int == scrollHeight ||
@@ -1412,6 +1420,8 @@ export default {
           let deviceType = this.equipmentValue == 'iPhone' ? 1 : 2
           let time = formatDate(this.dateValue, 'yyyy-MM-dd')
           let word = this.$route.query.now_app_name.trim()
+          // alert(word)
+
           let that = this
           let url = '/Word/FindSearch'
           let data = {
@@ -1428,7 +1438,7 @@ export default {
             .post(url, data)
             .then(response => {
               // console.log(data)
-              // console.log(response)
+              console.log(response)
               this.loading_12 = false
               this.can_execute_scorll = true //是否可以执行滚动
               if (response.data.Code == 1) {
@@ -1436,19 +1446,20 @@ export default {
                 return false
               }
               if (is_excute_function == this.db_number_is_same12) {
+                // alert(1111)
                 this.SearchDate_12 = response.data.SearchDate
                 this.response_data_for_ios12 = this.response_data_for_ios12.concat(
                   response.data.AppInfoList
                 )
+                //  console.log(response.data.AppInfoList)
+              console.log(this.response_data_for_ios12)
                 this.page12 += 1
                 // if (response.data.AppInfoList > 0) {
                 this.it_is_over_12 =
                   response.data.AppInfoList.length < 10 &&
                   response.data.AppInfoList.length >= 0
               }
-              // console.log(this.it_is_over_12)
-              // console.log(response.data.AppInfoList)
-              // console.log(this.response_data_for_ios12)
+             
             })
             .catch(error => {
               console.log(error)
@@ -2237,6 +2248,10 @@ export default {
 }
 .fitst_left {
   width: 878px !important;
+}
+.position_fixed_02 {
+  position: absolute !important;
+  bottom: 79px;
 }
 .position_fixed {
   position: fixed;

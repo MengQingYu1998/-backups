@@ -75,7 +75,7 @@
             <div
               ref="ranking_compare"
               class="myChart"
-              style="height: 460px;"
+              style="height: 473px;"
               v-show="is_show_myChart_and_table && !no_data"
             ></div>
             <div class="bottom_image pointer">
@@ -418,11 +418,6 @@ export default {
             brand = 3;
           }
 
-          // console.log(endDate)
-          // console.log(startDate)
-          // console.log('country_id' + country_id)
-          // console.log('brand' + brand)
-          // console.log('timeType' + timeType)
           // 设备选择
           let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
           let url = "/PostRandTrend";
@@ -523,12 +518,12 @@ export default {
                       times += 1;
                     }
                   });
-                  let legend_height =
-                    Math.ceil(this.keyword_data.length / 4) * 30 + 330 + "px";
-                  document.getElementsByClassName(
-                    "myChart"
-                  )[0].style.height = legend_height;
-                  // console.log(this.legend_array)
+                  // let legend_height =
+                  //   Math.ceil(this.keyword_data.length / 4) * 30 + 330 + "px";
+                  // document.getElementsByClassName(
+                  //   "myChart"
+                  // )[0].style.height
+                  // console.log(legend_height)
 
                   this.drawLine();
 
@@ -608,13 +603,13 @@ export default {
             textStyle: {
               color: "#222222",
               fontSize: 16,
-              fontFamily: "SourceHanSansCN-Medium",
+              // fontFamily: "SourceHanSansCN-Medium",
               fontWeight: "normal"
             },
             subtextStyle: {
               color: "#222222",
               fontSize: 14,
-              fontFamily: "SourceHanSansCN-Medium",
+              // fontFamily: "SourceHanSansCN-Medium",
               fontWeight: "normal"
             }
           },

@@ -434,7 +434,7 @@ export default {
   background-color: #fff;
 }
 #country_select {
-  z-index: 300 !important;
+  z-index: 1000 !important;
   position: relative;
 }
 .fade-enter-active,

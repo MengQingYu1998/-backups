@@ -26,10 +26,10 @@
                     <div class="no_data_img">
                       <img src="../assets/ios/null.png" alt />
                       <div>暂无相关数据</div>
-                      <div>&nbsp;</div>
+                      <!-- <div>&nbsp;</div>
                       <div v-show="now_country != '中国'">
                         该模块仅对中国地区开发
-                      </div>
+                      </div> -->
                     </div>
                   </td>
                 </tr>
@@ -87,7 +87,7 @@ export default {
     this.get_data();
     //'当前国家发生变化，重新请求数据...'
     this.$watch("now_country", function(newValue, oldValue) {
-      let that=this
+      let that = this;
       this.$router.push({
         path:
           "/apple_history?now_country=" +
