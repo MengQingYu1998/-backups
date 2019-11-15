@@ -403,8 +403,10 @@ export default {
     },
     climsg(index) {
       this.mine = false;
-      if (index == 0 || index == 1) {
+      if (index == 0) {
         this.$router.push({ path: "/message" });
+      } else if (index == 1) {
+        this.$router.push({ path: "/setting" });
       } else if (index == 2) {
         this.unlogin = true;
         localStorage.clear();

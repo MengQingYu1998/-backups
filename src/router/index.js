@@ -8,6 +8,19 @@ export default new Router({
   linkActiveClass: "active",
   routes: [
     {
+      path: "/mineleft",
+      name: "mineleft",
+      component: () => import("../NumTwo/mineleft")
+    },
+    {
+      meta: {
+        title: "账户设置"
+      },
+      path: "/setting",
+      name: "setting",
+      component: () => import("../NumVue/setting")
+    },
+    {
       meta: {
         title: "掌上互动"
       },

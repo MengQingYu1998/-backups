@@ -469,12 +469,11 @@ export default {
           // console.log('country_id' + country_id)
           let appId = this.now_app_id;
           let url = "/GetAppInfo?countryId=" + country_id + "&appId=" + appId;
-          console.log(url);
+          // console.log(url);
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              // console.log(response)
               if (response.data.Data) {
                 this.no_data_img = false;
                 this.response_data = response.data.Data;
@@ -499,6 +498,26 @@ export default {
                 // 判断展开收起更多的按钮是否出现
 
                 // 获取数据并且设置到视频插件的配置项
+                console.log(this.response_data);
+
+                if (this.response_data.prtscrUrl.watch != "无") {
+                  this.radio02 = "watch";
+                }
+                if (this.response_data.prtscrUrl.ipad != "无") {
+                  this.radio02 = "iPad";
+                }
+                if (this.response_data.prtscrUrl.iphone != "无") {
+                  this.radio02 = "iPhone";
+                }
+                if (this.response_data.videoUrl.watch != "无") {
+                  this.radio01 = "watch";
+                }
+                if (this.response_data.videoUrl.ipad != "无") {
+                  this.radio01 = "iPad";
+                }
+                if (this.response_data.videoUrl.iphone != "无") {
+                  this.radio01 = "iPhone";
+                }
                 if (this.radio01 == "iPhone") {
                   this.onPlayerPlay(this.response_data.videoUrl.iphone);
                 } else if (this.radio01 == "iPad") {

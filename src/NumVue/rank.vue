@@ -497,7 +497,7 @@ export default {
     go_to_page01(parm, parm02) {
       let that=this
       let routerUrl = this.$router.resolve(
-       {path: '/now_ranking', query: {now_country: that.now_country,now_app_id:parm}})
+       {path: '/now_ranking', query: {now_country: '中国',now_app_id:parm}})
       window.open(routerUrl.href, '_blank')
     },
   }

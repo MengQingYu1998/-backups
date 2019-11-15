@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont";
-  src:url('iconfont.ttf');
+  src: url('iconfont.ttf');
 }
 
 .iconfont {
@@ -57,5 +57,41 @@
 
 .iconicon-test8:before {
   content: "\e625";
+}
+
+.iconxiazai:before {
+  content: "\e627";
+}
+
+.iconshang:before {
+  content: "\e628";
+}
+
+.iconicon-test9:before {
+  content: "\e629";
+}
+
+.iconicon-test12:before {
+  content: "\e62c";
+}
+
+.iconicon-test13:before {
+  content: "\e62d";
+}
+
+.iconicon-test14:before {
+  content: "\e62e";
+}
+
+.iconicon-test16:before {
+  content: "\e630";
+}
+
+.iconicon-test10:before {
+  content: "\e631";
+}
+
+.iconicon-test11:before {
+  content: "\e632";
 }
 

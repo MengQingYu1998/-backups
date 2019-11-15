@@ -1451,6 +1451,7 @@ export default {
                 this.response_data_for_ios12 = this.response_data_for_ios12.concat(
                   response.data.AppInfoList
                 )
+                this.position_fixed_02 = false;
                 //  console.log(response.data.AppInfoList)
               console.log(this.response_data_for_ios12)
                 this.page12 += 1
@@ -1519,6 +1520,7 @@ export default {
                 this.response_data_for_ios11 = this.response_data_for_ios11.concat(
                   response.data.AppInfoList
                 )
+                this.position_fixed_02 = false;
                 this.page11 += 1
                 this.it_is_over_11 =
                   response.data.AppInfoList.length < 10 &&
@@ -2252,6 +2254,7 @@ export default {
 .position_fixed_02 {
   position: absolute !important;
   bottom: 79px;
+  right: -40px;
 }
 .position_fixed {
   position: fixed;
@@ -2730,6 +2733,7 @@ export default {
 .left_and_right {
   display: flex;
   position: relative;
+  min-height: 400px;
 }
 .rankingChangeFontColor {
   font-size: 13px;
