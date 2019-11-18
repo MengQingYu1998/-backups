@@ -377,7 +377,7 @@ export default {
   margin-left: 0 !important;
 }
 .app_div {
-  min-height: 90vh;
+  min-height: 80vh;
 }
 table thead tr th {
   font-size: 13px;

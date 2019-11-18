@@ -39,101 +39,55 @@
           </div>
         </div>
         <!-- 选择应用 -->
-        <el-popover
-          placement="bottom"
-          trigger="click"
-          width="168"
-          v-model="visible01"
-        >
-          <div class="selected_popover">
-            <div
-              class="pointer"
-              v-for="(item, index) in data_for_classify"
-              :key="'classify' + index"
-              @click="
-                my_genreId = item.id;
-                visible01 = false;
-              "
-            >
-              {{ item.name }}
-            </div>
+
+        <div>
+          <div
+            :class="{
+              change_bg: change_bg_app,
+              select_radio_one: true,
+              pointer: true
+            }"
+            @click="change_app_dateValue()"
+          >
+            应用
+            <img
+              src="../assets/keyword/arrows_down.png"
+              alt
+              v-show="!change_bg_app"
+            />
+
+            <img
+              src="../assets/keyword/white_arrows_down.png"
+              alt
+              v-show="change_bg_app"
+            />
           </div>
-          <div slot="reference">
-            <div
-              :class="{
-                change_bg: change_bg_app,
-                select_radio_one: true,
-                pointer: true
-              }"
-              @click="change_app_dateValue()"
-            >
-              应用
-              <img
-                src="../assets/keyword/arrows_down.png"
-                alt
-                v-show="!change_bg_app"
-              />
-              <img
-                src="../assets/keyword/white_arrows_up.png"
-                alt
-                v-show="change_bg_app && visible01 == true"
-              />
-              <img
-                src="../assets/keyword/white_arrows_down.png"
-                alt
-                v-show="change_bg_app && visible01 == false"
-              />
-            </div>
-          </div>
-        </el-popover>
+        </div>
         <!-- 选择游戏 -->
-        <el-popover
-          placement="bottom"
-          trigger="click"
-          width="168"
-          v-model="visible"
-        >
-          <div class="selected_popover">
-            <div
-              v-for="(item, index) in data_for_classify"
-              class="pointer"
-              :key="'classify' + index"
-              @click="
-                my_genreId = item.id;
-                visible = false;
-              "
-            >
-              {{ item.name }}
-            </div>
+
+        <div>
+          <div
+            :class="{
+              change_bg: change_bg_game,
+              select_radio_one: true,
+              pointer: true
+            }"
+            @click="change_game_dateValue()"
+          >
+            游戏
+            <img
+              src="../assets/keyword/arrows_down.png"
+              alt
+              v-show="!change_bg_game"
+            />
+
+            <img
+              src="../assets/keyword/white_arrows_down.png"
+              alt
+              v-show="change_bg_game"
+            />
           </div>
-          <div slot="reference">
-            <div
-              :class="{
-                change_bg: change_bg_game,
-                select_radio_one: true,
-                pointer: true
-              }"
-              @click="change_game_dateValue()"
-            >
-              游戏
-              <img
-                src="../assets/keyword/arrows_down.png"
-                alt
-                v-show="!change_bg_game"
-              />
-              <img
-                src="../assets/keyword/white_arrows_up.png"
-                alt
-                v-show="change_bg_game && visible == true"
-              />
-              <img
-                src="../assets/keyword/white_arrows_down.png"
-                alt
-                v-show="change_bg_game && visible == false"
-              />
-            </div>
-          </div>
-        </el-popover>
+        </div>
       </div>
       <div class="options_03 option options_03_ml">
         <div class="margin_top_font">日期</div>
@@ -149,6 +103,22 @@
             @blur="dateValue_blur"
             @focus="dateValue_focus"
           ></el-date-picker>
+        </div>
+      </div>
+    </div>
+    <div class="options" v-show="!change_bg_all">
+      <div class="new_class">
+        <div class="margin_top_font">子分类</div>
+        <div>
+          <!-- 饿了么的select组件 -->
+          <el-radio-group v-model="data_for_classify_item" size="mini">
+            <el-radio-button
+              v-for="item in data_for_classify"
+              :key="item.id"
+              :label="item.name"
+              @click="demo(item.id)"
+            ></el-radio-button>
+          </el-radio-group>
         </div>
       </div>
     </div>
@@ -302,7 +272,12 @@
 // 引入国家选择组件
 import country from "../common/country_select/country";
 // 引入工具类
-import { formatDate, time_reset, time_rotate } from "../common/util.js";
+import {
+  formatDate,
+  time_reset,
+  time_rotate,
+  debounce
+} from "../common/util.js";
 export default {
   name: "ranking",
   components: { country },
@@ -311,14 +286,14 @@ export default {
       can_execute_scorll: true, //是否可以执行滚动
       it_is_over: false,
       loading: false,
-      visible: false, //悬浮框是否隐藏
-      visible01: false, //悬浮框是否隐藏
+
       db_number_is_same: 0, //修复用户输入过快的bug
       // can_excute: false,
       // 请求分页
       page: 1,
       // 请求的分类数据
       data_for_classify: null,
+      data_for_classify_item: null,
       my_genreId: null,
       // 请求的表格数据
       data_for_table: new Array(),
@@ -373,6 +348,7 @@ export default {
     // })
 
     this.$watch("my_genreId", function(newValue, oldValue) {
+      console.log(this.my_genreId);
       this.data_for_table.length = 0;
       this.page = 1;
       this.get_data_table();
@@ -396,36 +372,52 @@ export default {
       this.page = 1;
       this.get_data_table();
     });
-    this.$watch("keyword_input", function(newValue, oldValue) {
-      this.get_data_classify();
-      this.data_for_table.length = 0;
-      this.page = 1;
-      this.get_data_table();
-    });
-    this.$watch("result_min_input", function(newValue, oldValue) {
-      if (newValue != "") {
-        this.change_bg_result_function();
-      }
-      this.blur();
-    });
-    this.$watch("result_max_input", function(newValue, oldValue) {
-      if (newValue != "") {
-        this.change_bg_result_function();
-      }
-      this.blur();
-    });
-    this.$watch("index_min_input", function(newValue, oldValue) {
-      if (newValue != "") {
-        this.change_bg_index_function();
-      }
-      this.blur();
-    });
-    this.$watch("index_max_input", function(newValue, oldValue) {
-      if (newValue != "") {
-        this.change_bg_index_function();
-      }
-      this.blur();
-    });
+    this.$watch(
+      "keyword_input",
+      debounce((newValue, oldValue) => {
+        this.get_data_classify();
+        this.data_for_table.length = 0;
+        this.page = 1;
+        this.get_data_table();
+      }, 500)
+    );
+
+    this.$watch(
+      "result_min_input",
+      debounce((newValue, oldValue) => {
+        if (newValue != "") {
+          this.change_bg_result_function();
+        }
+        this.blur();
+      }, 500)
+    );
+    this.$watch(
+      "result_max_input",
+      debounce((newValue, oldValue) => {
+        if (newValue != "") {
+          this.change_bg_result_function();
+        }
+        this.blur();
+      }, 500)
+    );
+    this.$watch(
+      "index_min_input",
+      debounce((newValue, oldValue) => {
+        if (newValue != "") {
+          this.change_bg_index_function();
+        }
+        this.blur();
+      }, 500)
+    );
+    this.$watch(
+      "index_max_input",
+      debounce((newValue, oldValue) => {
+        if (newValue != "") {
+          this.change_bg_index_function();
+        }
+        this.blur();
+      }, 500)
+    );
   },
   mounted() {
     this.$nextTick(() => {
@@ -448,10 +440,6 @@ export default {
         ) {
           //是否可以执行滚动
           if (that.can_execute_scorll) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              1;
             that.get_data_table();
           }
         }
@@ -483,10 +471,10 @@ export default {
         .get(url)
         .then(response => {
           this.data_for_classify = response.data.Data;
-          // console.log(555555555555555555555555555)
+          console.log(555555555555555555555555555);
 
           // console.log(response)
-          // console.log(this.data_for_classify)
+          console.log(this.data_for_classify);
         })
         .catch(error => {
           console.log(error);
@@ -544,8 +532,15 @@ export default {
                   response.data.Data
                 );
                 this.page += 1;
-                this.can_execute_scorll = true; //是否可以执行滚动
-                this.it_is_over = response.data.Data.length < 20;
+                if (response.data.Data.length == 20) {
+                  this.can_execute_scorll = true; //是否可以执行滚动
+                } else {
+                  this.can_execute_scorll = false; //是否可以执行滚动
+                }
+
+                this.it_is_over =
+                  response.data.Data.length < 20 &&
+                  response.data.Data.length != 0;
                 this.loading = false;
               } else {
                 this.loading = false;
@@ -559,7 +554,9 @@ export default {
           console.log(error);
         });
     },
-
+    demo(parm) {
+      this.my_genreId = parm;
+    },
     // 点击总榜按钮
     change_all_dateValue() {
       this.change_bg_all = true;
@@ -571,19 +568,22 @@ export default {
     },
     // 点击应用按钮
     change_app_dateValue() {
+      this.data_for_classify_item = "全部应用";
+
       this.change_bg_all = false;
       this.change_bg_app = true;
       this.change_bg_game = false;
-      // this.my_genreId = 5000
+      this.my_genreId = 5000;
       // 请求悬浮框的数据
       this.get_data_classify();
     },
     // 点击游戏按钮
     change_game_dateValue() {
+      this.data_for_classify_item = "全部游戏";
       this.change_bg_all = false;
       this.change_bg_app = false;
       this.change_bg_game = true;
-      // this.my_genreId = 6014
+      this.my_genreId = 6014;
       // 请求悬浮框的数据
       this.get_data_classify();
     },
@@ -904,12 +904,22 @@ table {
   font-weight: 600 !important;
   margin-right: 12px;
 }
-
-/* .options_03 div:last-child,
-.options_02 div:last-child {
-  width: 74px;
-  height: 24px;
-} */
+.new_class {
+  font-weight: 600 !important;
+  display: flex;
+  margin-right: 12px;
+}
+.new_class > div:first-child {
+  width: 51px !important;
+}
+.new_class > div:nth-child(2) {
+  width: 1050px !important;
+}
+.new_class .el-radio-button {
+  margin-bottom: 12px !important;
+  margin-left: 0 !important;
+  margin-right: 12px !important;
+}
 .option {
   display: flex;
   margin-left: 29px;

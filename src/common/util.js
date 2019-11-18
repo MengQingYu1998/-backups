@@ -201,3 +201,15 @@ export function time_reset(element) {
     "transform: rotate(0deg) !important;-webkit-transition-duration: .3s;transition-duration: .3s; "
   );
 }
+// 函数防抖动
+export function debounce(func, delay) {
+  let timer;
+  return function(...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}

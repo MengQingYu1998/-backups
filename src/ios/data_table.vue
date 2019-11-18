@@ -513,6 +513,7 @@
                               </div>
 
                               <div>
+                                <div class="margin_top_flag" ref="margin_top_flag"></div>
                                 <div
                                   ref="myChart_data_table"
                                   class="myChart"
@@ -692,7 +693,8 @@ import {
   time_reset,
   time_rotate,
   time_inactive,
-  time_active
+  time_active,
+  debounce
 } from '../common/util.js'
 export default {
   name: 'data_table',
@@ -771,7 +773,7 @@ export default {
       result_max_input02: '',
       result_min_input03: '',
       result_max_input03: '',
-
+hidden_parm:0,
       // 第三部分参数
       // 第三部分参数
       // 第三部分参数
@@ -812,7 +814,12 @@ export default {
       keyword_data_value: []
     }
   },
-
+computed:{
+  listenChange () {
+        const {hidden_parm,result_min_input01,result_max_input01,result_min_input02,result_max_input02,result_min_input03,result_max_input03} = this
+        return {hidden_parm,result_min_input01,result_max_input01,result_min_input02,result_max_input02,result_min_input03,result_max_input03}
+      }
+},
 watch:{
   $route(to,from){
 
@@ -942,42 +949,14 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
       this.get_data_for_second_part()
     })
     // 最大值最小值的改变
-    this.$watch('result_min_input01', function(newValue, oldValue) {
+     this.$watch('listenChange', debounce((newValue, oldValue) => {
+      //  console.log(newValue)
       this.sort = ''
-
       this.is_show_bottom = false
       this.get_data_for_second_part()
-    })
-    this.$watch('result_max_input01', function(newValue, oldValue) {
-      this.sort = ''
+     }, 500)
+    );
 
-      this.is_show_bottom = false
-      this.get_data_for_second_part()
-    })
-    this.$watch('result_min_input02', function(newValue, oldValue) {
-      this.sort = ''
-
-      this.is_show_bottom = false
-      this.get_data_for_second_part()
-    })
-    this.$watch('result_max_input02', function(newValue, oldValue) {
-      this.sort = ''
-
-      this.is_show_bottom = false
-      this.get_data_for_second_part()
-    })
-    this.$watch('result_min_input03', function(newValue, oldValue) {
-      this.sort = ''
-
-      this.is_show_bottom = false
-      this.get_data_for_second_part()
-    })
-    this.$watch('result_max_input03', function(newValue, oldValue) {
-      this.sort = ''
-
-      this.is_show_bottom = false
-      this.get_data_for_second_part()
-    })
     // ==================第三部分===========================
     // ==================第三部分===========================
     // ==================第三部分===========================
@@ -1147,6 +1126,8 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
            case 6:
           this.result_min_input01 = ''
           this.result_max_input01 = ''
+          this.hidden_parm+=1
+
           break
         default:
           break
@@ -1158,7 +1139,7 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
       this.change_span_bg_color[1] = parm02
       this.wordIds = parm
       // alert(this.wordIds)
-      this.get_data_for_second_part()
+      // this.get_data_for_second_part()
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
@@ -1241,9 +1222,9 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
              
                 this.loading_gif = false
                 if (is_excute_function == this.db_number_is_same) {
-                  console.log('=================明细=====')
-                  console.log(response)
-                  console.log('=================明细=====')
+                  // console.log('=================明细=====')
+                  // console.log(response)
+                  // console.log('=================明细=====')
                   if (
                     response.data.Code != 1 &&
                     response.data.Data.keys[0] != null
@@ -1379,7 +1360,7 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
       this.is_show_myChart_and_table = true
       this.is_show_bottom = true
       this.$nextTick(() => {
-          this.$refs.myChart_data_table.scrollIntoView({behavior:'smooth',block:'center' })
+          this.$refs.margin_top_flag.scrollIntoView({behavior:'smooth',block:'start' })
       })
       this.get_data_for_third_part()
     },
@@ -2585,5 +2566,14 @@ table {
 }
 .table_font_three_active {
   width: 15px;
+}
+.margin_top_flag{
+  background-color: red;
+  margin-top: -30px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top:-121px;
+  opacity: 0;
 }
 </style>

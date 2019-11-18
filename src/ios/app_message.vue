@@ -215,9 +215,11 @@
             v-if="response_data && response_data.advertisingText != '无'"
           >
             <div class="section_title">宣传文本</div>
-            <div class="section_content" v-if="response_data">
-              {{ response_data.advertisingText }}
-            </div>
+            <div
+              class="section_content"
+              v-if="response_data"
+              v-html="response_data.advertisingText"
+            ></div>
           </section>
           <!-- 第五部分 -->
           <!-- 第五部分 -->
@@ -410,7 +412,7 @@ export default {
     });
 
     this.$watch("radio01", function(newValue, oldValue) {
-      this.get_data();
+      // this.get_data();
     });
   },
   mounted() {},

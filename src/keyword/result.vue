@@ -926,7 +926,8 @@ export default {
     return {
       
       loading_first: false,
-      can_execute_scorll: true, //是否可以执行滚动
+      can_execute_scorll11: true, //是否可以执行滚动
+      can_execute_scorll12: true, //是否可以执行滚动
 
       // 请求分页
       page11: 1,
@@ -1204,25 +1205,24 @@ export default {
           int + 1 == scrollHeight ||
           int - 1 == scrollHeight
         ) {
-          if (that.can_execute_scorll) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight -
-              1
             // 需要执行的代码
             if (that.activeName == 'first') {
-              that.get_data_12()
-              // console.log('yes12')
+              if (that.can_execute_scorll12) {
+                      that.get_data_12()
+              }
             } else if (that.activeName == 'second') {
-              that.get_data_11()
-              // console.log('yes11')
+               if (that.can_execute_scorll11) {
+                      that.get_data_11()
+              }
             } else if (that.activeName == 'third') {
-              that.get_data_12()
-              // console.log('yes12')
-              that.get_data_11()
-              // console.log('yes11')
+                if (that.can_execute_scorll12) {
+                      that.get_data_12()
+              }
+               if (that.can_execute_scorll11) {
+                      that.get_data_11()
+              }
+              
             }
-          }
         }
       }
     })
@@ -1398,7 +1398,7 @@ export default {
     // =============================tab可切换部分============================
     // 请求数据  ios12 ios12 ios12
     get_data_12() {
-      this.can_execute_scorll = false
+      this.can_execute_scorll12 = false
       this.loading_12 = true
       this.it_is_over_12 = false
       this.db_number_is_same12++
@@ -1438,9 +1438,8 @@ export default {
             .post(url, data)
             .then(response => {
               // console.log(data)
-              console.log(response)
+              // console.log(response)
               this.loading_12 = false
-              this.can_execute_scorll = true //是否可以执行滚动
               if (response.data.Code == 1) {
                 this.it_is_over_12 = true
                 return false
@@ -1452,8 +1451,13 @@ export default {
                   response.data.AppInfoList
                 )
                 this.position_fixed_02 = false;
+                //  console.log(121212121)
                 //  console.log(response.data.AppInfoList)
-              console.log(this.response_data_for_ios12)
+               if (response.data.AppInfoList.length == 10) {
+                  this.can_execute_scorll12 = true; //是否可以执行滚动
+                } else {
+                  this.can_execute_scorll12 = false; //是否可以执行滚动
+                }
                 this.page12 += 1
                 // if (response.data.AppInfoList > 0) {
                 this.it_is_over_12 =
@@ -1472,7 +1476,7 @@ export default {
     },
     get_data_11() {
       this.loading_11 = true
-      this.can_execute_scorll = false //是否可以执行滚动
+      this.can_execute_scorll11 = false //是否可以执行滚动
       this.it_is_over_11 = false
       this.db_number_is_same11++
       let is_excute_function = this.db_number_is_same11
@@ -1510,7 +1514,6 @@ export default {
               // console.log(data)
               // console.log(response)
               this.loading_11 = false
-              this.can_execute_scorll = true //是否可以执行滚动
               if (response.data.Code == 1) {
                 this.it_is_over_11 = true
                 return false
@@ -1522,6 +1525,13 @@ export default {
                 )
                 this.position_fixed_02 = false;
                 this.page11 += 1
+                //  console.log(11111111111)
+                //  console.log(response.data.AppInfoList)
+                if (response.data.AppInfoList.length == 10) {
+                  this.can_execute_scorll11 = true; //是否可以执行滚动
+                } else {
+                  this.can_execute_scorll11 = false; //是否可以执行滚动
+                }
                 this.it_is_over_11 =
                   response.data.AppInfoList.length < 10 &&
                   response.data.AppInfoList.length >= 0
@@ -2556,7 +2566,7 @@ export default {
   background-color: rgb(9, 22, 42, 0.6);
   left: 0;
   top: 0;
-  z-index: 300;
+  z-index: 1500;
   display: flex;
   align-items: center;
   justify-content: space-around;

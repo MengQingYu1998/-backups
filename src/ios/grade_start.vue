@@ -375,13 +375,15 @@
                         >该条评论已被删除</span>
                       </div>
                       <div
-                        :id="'show_more'+index"
-                        :class="{'table_description':true,'table_description_height':response_data_fourth_part_item.commentContent.length<90} "
+                        :ref="'show_more'+index"
+                        :class="{'table_description':table_description} "
                       >{{response_data_fourth_part_item.commentContent}}</div>
+                       <!-- v-if="response_data_fourth_part_item.commentContent.length>90" -->
+                         <!-- v-if="calculate_height('show_hide'+index)" -->
                       <div
-                        v-if="response_data_fourth_part_item.commentContent.length>90"
+                       v-if="response_data_fourth_part_item.commentContent.length>97"
                         class="show_all pointer"
-                        :id="'show_hide'+index"
+                        :ref="'show_hide'+index"
                         @click="show_more_function('show_more'+index,'show_hide'+index)"
                       >展开更多</div>
                       <div class="table_author">
@@ -432,6 +434,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+      table_description:true,
        now_app_id: null,
       // 分页
       currentPage: 1,
@@ -578,6 +581,7 @@ export default {
       now_country: '中国'
     }
   },
+
  watch: {
     $route(to, from) {
       this.$route.query.now_country
@@ -685,6 +689,14 @@ export default {
     this.get_data_for_third_part()
   },
   methods: {
+    // calculate_height(parm){
+    //     this.$nextTick(() => {
+      //  console.log(parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height"))> 54 )
+      //  let boolean =parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54 
+      //  this.table_description=true
+    //         return parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54 
+    //     })
+    // },
     dateValue01_click() {
       if (this.middle_top_time01) {
         time_active('#dateValue01')
@@ -1559,17 +1571,18 @@ export default {
         })
     },
     show_more_function(parm, parm02) {
-      let this_div02 = document.getElementById(parm02) //展开收起
-      let this_div = document.getElementById(parm) //内容
-      // console.log(this_div02.innerHTML)
+      let this_div02 = this.$refs[parm02][0] //展开收起
+      let this_div = this.$refs[parm][0]  //内容
+      // console.log(this_div02)
       if (this_div02.innerHTML.trim() == '展开更多') {
         this_div.style.height = 'auto'
         this_div.style.display = 'block'
         this_div02.innerHTML = '收起'
       } else if (this_div02.innerHTML.trim() == '收起') {
-        this_div.style.height = '54px'
+        // this_div.style.height = '54px'
         this_div.style.display = '-webkit-box '
         this_div02.innerHTML = '展开更多'
+        
       }
     },
 
@@ -1663,17 +1676,17 @@ table .table_description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 54px;
-  height: 54px;
+  /* min-height: 54px; */
+  /* height: 54px; */
   width: 460px !important;
   word-break: break-all;
   overflow-wrap: break-word;
 }
 
-.table_description_height {
+/* .table_description_height {
   height: auto !important;
   min-height: 0px !important;
-}
+} */
 table .table_title {
   font-size: 14px;
   font-weight: normal;
