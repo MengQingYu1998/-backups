@@ -54,10 +54,10 @@
 						<el-popover  trigger="hover" placement="bottom">
 
 							<div>
-								<p>上升应用<span>{{tim.UpNum}}</span></p>
-								<p>下降应用<span>{{tim.DownNum}}</span></p>
-								<p>新进榜应用<span>{{tim.NewNum}}</span></p>
-								<p>落榜应用<span>{{tim.DropNum}}</span></p>
+								<p @click="goDetail(tim.Brand,tim.DeviceType,tim.AddTime,tim.GenreID,tim.pid,1)">上升应用<span>{{tim.UpNum}}</span></p>
+								<p @click="goDetail(tim.Brand,tim.DeviceType,tim.AddTime,tim.GenreID,tim.pid,2)">下降应用<span>{{tim.DownNum}}</span></p>
+								<p @click="goDetail(tim.Brand,tim.DeviceType,tim.AddTime,tim.GenreID,tim.pid,3)">新进榜应用<span>{{tim.NewNum}}</span></p>
+								<p @click="goDetail(tim.Brand,tim.DeviceType,tim.AddTime,tim.GenreID,tim.pid,4)">落榜应用<span>{{tim.DropNum}}</span></p>
 							</div>
 
 						    <p slot="reference" v-html="gettim(tim.AddTime)" :class="{'has':tim.UpNum!=0||tim.DownNum!=0||tim.NewNum!=0||tim.DropNum!=0}" @click="clitim(tim)"></p>
@@ -302,6 +302,10 @@
 		   	  
 		},
 		methods:{
+			// 跳转到榜单更新检测的排名页面
+			goDetail(parm01,parm02,parm03,parm04,parm05,parm06){
+				this.$router.push({path:'/rankapp',query:{brand:parm01,device:parm02,time:parm03,gid:parm04,pid:parm05,index:parm06} })
+			} ,
 		    // 获取当前选中的国家
 			parentFn(payload) {
 				this.now_country = payload
@@ -621,8 +625,9 @@
 			},
 			go_to_page01(parm, parm02) {
 		      let that=this
+		console.log(that.now_country)
 		      let routerUrl = this.$router.resolve(
-		       {path: '/now_ranking', query: {now_country: that.now_country,now_app_id:parm}})
+		       {path: '/now_ranking', query: {now_country:that.now_country,now_app_id:parm}})
 		      window.open(routerUrl.href, '_blank')
 		    },
 		}
@@ -640,6 +645,11 @@
 }
 .el-popover p{
   line-height: 30px;
+  padding: 0 7px;
+}
+.el-popover p:hover{
+	cursor: pointer;
+	background-color: #e9f7ff;
 }
 .el-popover p span{
   float: right;

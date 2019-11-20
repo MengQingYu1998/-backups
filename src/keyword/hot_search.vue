@@ -36,7 +36,13 @@
         <div class="date" id="dateValue01" @click="dateValue01_click">
           <!-- 饿了么的日期选择组件 -->
 
+          <div
+            :class="{ custom_time: true, opacity_0: dateValue != '' }"
+          >
+            自定义<i class="el-icon-caret-top"></i>
+          </div>
           <el-date-picker
+            :class="{ opacity_0: dateValue == '' }"
             v-model="dateValue"
             type="daterange"
             range-separator="至"
@@ -141,6 +147,12 @@
                         >
                           {{ item_for_popover.app_name }}
                         </div>
+                      </div>
+                      <div
+                        class="nothing_response_datafor_popover"
+                        v-if="!response_datafor_popover.Appinfo"
+                      >
+                        暂无搜索结果
                       </div>
                     </div>
                     <div
@@ -385,7 +397,7 @@ export default {
             .get(url)
             .then(response => {
               this.response_datafor_popover = response.data;
-              // console.log(this.response_datafor_popover)
+              console.log(this.response_datafor_popover);
             })
             .catch(error => {
               console.log(error);
@@ -650,5 +662,14 @@ option:first-child {
 .content {
   width: 1200px;
   margin: 0 auto;
+}
+.nothing_response_datafor_popover {
+  font-size: 14px;
+  font-weight: 400;
+  font-stretch: normal;
+  line-height: 14px;
+  letter-spacing: 0;
+  color: #bfbfbf;
+  margin-bottom: 10px;
 }
 </style>

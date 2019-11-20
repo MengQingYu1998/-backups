@@ -68,8 +68,8 @@
           <input
             ref="my_nav_input_value"
             slot="reference"
-            @focus="is_show_nav_popover = true"
-            @blur="is_show_nav_popover = false"
+            @focus="input_focus"
+            @blur="input_blur"
             type="text"
             placeholder="应用名称或APPID"
             v-model="nav_input_value"
@@ -219,7 +219,7 @@ export default {
       historyWord: "",
       nav_input_value: "",
       is_show_nav_popover: false,
-      response_data: null,
+      response_data: new Array(),
       unlogin: true, //未登录
       telnow: "", //当前手机号
       codnow: "", //当前密码
@@ -443,7 +443,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response)
+              console.log(response);
               this.response_data = response.data.Data;
 
               // 查找你要判断的文本框
@@ -475,6 +475,17 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    input_focus() {
+      if (this.response_data && this.response_data.length != 0) {
+        this.is_show_nav_popover = true;
+      }
+      if (this.nav_input_value == "" && this.historyWord.length != 0) {
+        this.is_show_nav_popover = true;
+      }
+    },
+    input_blur() {
+      this.is_show_nav_popover = false;
     },
     delete_item(parm) {
       this.historyWord.splice(parm, 1);

@@ -190,7 +190,7 @@ export default {
                 this.nothing_data_can_show = false;
               }
               // console.log(55555555555555555)
-              console.log(response);
+              // console.log(response);
             })
             .catch(error => {
               console.log(error);

@@ -234,7 +234,7 @@ export default {
 }
 .blue_bg {
   color: #009bef !important;
-  background-color: rgba(0, 155, 239, 0.12);
+  background-color: #e5f3fd;
 }
 /* 第五步 */
 .shade:hover {
@@ -262,7 +262,7 @@ export default {
 
 .active {
   color: #009bef !important;
-  background-color: rgba(0, 155, 239, 0.12);
+  background-color: #e5f3fd;
 }
 .nav_content:hover {
   color: #009bef;

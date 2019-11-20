@@ -190,6 +190,11 @@ export default {
               if (response.data.Data != null) {
                 this.price_to_now_ranking(response.data.Data.price);
                 this.appname_to_data_table(response.data.Data.appName);
+
+                // console.log(this.$route);
+                if (this.$route.name == "now_ranking") {
+                  document.title = response.data.Data.appName;
+                }
               }
 
               // }

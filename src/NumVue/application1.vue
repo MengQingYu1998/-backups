@@ -336,7 +336,7 @@
 				// 清榜tbody
 				zongsBList:[],
 				page2:1,
-				pageSize2:20,
+				pageSize2:100,
 				// 清词tbody
 				cidataList:[],
 				page3:1,
@@ -1457,7 +1457,7 @@ table.qingbang tr th{
 	width: 147px;
 }
 table.qingci tr th{
-	width: 109px;
+	width: 110px;
 }
 table tr th.yingyong{
 	width: 321px;

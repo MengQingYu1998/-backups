@@ -817,7 +817,13 @@
           </div>
           <div class="btn_item_01">
             <div id="dateValue04" @click="dateValue04_click">
-              <el-date-picker
+             <div
+            :class="{ custom_time: true, opacity_0: time_dialog != '' }"
+          >
+            自定义<i class="el-icon-caret-top"></i>
+          </div>
+          <el-date-picker
+            :class="{ opacity_0: time_dialog == '' }"
                 v-model="time_dialog"
                 type="daterange"
                 range-separator="至"
@@ -829,6 +835,7 @@
                 prefix-icon="el-icon-caret-bottom"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
+                popper-class="result_time_picker"
               ></el-date-picker>
             </div>
           </div>
@@ -2003,7 +2010,7 @@ export default {
           },
           toolbox: {
             feature: {
-              saveAsImage: {
+              saveAsImage: {pixelRatio :3,
                 title: '保存',
                 iconStyle: {
                   opacity: 1,

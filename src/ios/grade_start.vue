@@ -202,8 +202,21 @@
             <div class="btn_group">
               <div class="btn_item_01">
                 <div>时间</div>
-                <div id="dateValue01" @click="dateValue01_click">
+           
+
+                <div>
+                  <el-radio-group v-model="middle_bottom_radio_update" size="mini">
+                    <el-radio-button label="近一个月"></el-radio-button>
+                  </el-radio-group>
+                </div>
+                     <div id="dateValue01" @click="dateValue01_click">
+                  <div
+                    :class="{'custom_time':true,'opacity_0':middle_top_time01!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
                   <el-date-picker
+                    :class="{ opacity_0: middle_top_time01 == '' }"
                     v-model="middle_top_time01"
                     type="daterange"
                     range-separator="至"
@@ -216,12 +229,6 @@
                     @blur="dateValue_blur01"
                     @focus="dateValue_focus01"
                   ></el-date-picker>
-                </div>
-
-                <div>
-                  <el-radio-group v-model="middle_bottom_radio_update" size="mini">
-                    <el-radio-button label="近一个月"></el-radio-button>
-                  </el-radio-group>
                 </div>
               </div>
             </div>
@@ -245,8 +252,22 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-                <div id="dateValue02" @click="dateValue02_click">
+               
+                <div>
+                  <el-radio-group v-model="middle_bottom_radio02" size="mini">
+                    <el-radio-button label="今日"></el-radio-button>
+                    <el-radio-button label="昨日"></el-radio-button>
+                    <el-radio-button label="近一个月"></el-radio-button>
+                  </el-radio-group>
+                </div>
+                 <div id="dateValue02" @click="dateValue02_click">
+                 <div
+                    :class="{'custom_time':true,'opacity_0':middle_bottom_time01!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
                   <el-date-picker
+                    :class="{ opacity_0: middle_bottom_time01 == '' }"
                     v-model="middle_bottom_time01"
                     type="daterange"
                     range-separator="至"
@@ -259,13 +280,6 @@
                     @blur="dateValue_blur02"
                     @focus="dateValue_focus02"
                   ></el-date-picker>
-                </div>
-                <div>
-                  <el-radio-group v-model="middle_bottom_radio02" size="mini">
-                    <el-radio-button label="今日"></el-radio-button>
-                    <el-radio-button label="昨日"></el-radio-button>
-                    <el-radio-button label="近一个月"></el-radio-button>
-                  </el-radio-group>
                 </div>
               </div>
             </div>
@@ -317,8 +331,22 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-                <div id="dateValue03" @click="dateValue03_click">
+               
+                <div>
+                  <el-radio-group v-model="bottom_radio04" size="mini">
+                    <el-radio-button label="今日"></el-radio-button>
+                    <el-radio-button label="昨日"></el-radio-button>
+                    <el-radio-button label="近一个月"></el-radio-button>
+                  </el-radio-group>
+                </div>
+                 <div id="dateValue03" @click="dateValue03_click">
+                  <div
+                    :class="{'custom_time':true,'opacity_0':bottom_time01!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
                   <el-date-picker
+                    :class="{ opacity_0: bottom_time01 == '' }"
                     v-model="bottom_time01"
                     type="daterange"
                     range-separator="至"
@@ -331,13 +359,6 @@
                     @blur="dateValue_blur03"
                     @focus="dateValue_focus03"
                   ></el-date-picker>
-                </div>
-                <div>
-                  <el-radio-group v-model="bottom_radio04" size="mini">
-                    <el-radio-button label="今日"></el-radio-button>
-                    <el-radio-button label="昨日"></el-radio-button>
-                    <el-radio-button label="近一个月"></el-radio-button>
-                  </el-radio-group>
                 </div>
               </div>
             </div>

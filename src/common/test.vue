@@ -132,7 +132,7 @@ export default {
       this.keyword_data.forEach((element, index) => {
         series_data_arr.push(new Obj(element, this.keyword_data_value[index]))
       })
-      console.log(series_data_arr)
+      // console.log(series_data_arr)
       return series_data_arr
     },
 
@@ -212,7 +212,7 @@ export default {
 
         toolbox: {
           feature: {
-            saveAsImage: {
+            saveAsImage: {pixelRatio :3,
               title: '保存',
               iconStyle: {
                 opacity: 1,
@@ -309,7 +309,7 @@ export default {
       this.myChart.setOption(option, true)
       this.myChart.hideLoading()
       this.myChart.on('click', function(params) {
-        console.log(params)
+        // console.log(params)
       })
     }
   }

@@ -500,7 +500,7 @@ export default {
                 // 判断展开收起更多的按钮是否出现
 
                 // 获取数据并且设置到视频插件的配置项
-                console.log(this.response_data);
+                // console.log(this.response_data);
 
                 if (this.response_data.prtscrUrl.watch != "无") {
                   this.radio02 = "watch";
@@ -542,7 +542,7 @@ export default {
     show_more_function() {
       let this_div02 = document.getElementById("show_all"); //展开收起
       let this_div = document.getElementById("section_content"); //内容
-      console.log(this_div02.innerHTML);
+      // console.log(this_div02.innerHTML);
       if (this_div02.innerHTML.trim() == "展开更多") {
         this_div.style.height = "auto";
         this_div.style.display = "block";

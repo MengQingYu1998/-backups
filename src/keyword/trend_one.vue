@@ -44,8 +44,20 @@
       </div>
       <div class="btn_item_03">
         <div class="margin_top_font">时间</div>
+
+        <div>
+          <el-radio-group v-model="radio02" size="mini">
+            <el-radio-button label="7天"></el-radio-button>
+            <el-radio-button label="30天"></el-radio-button>
+            <el-radio-button label="90天"></el-radio-button>
+          </el-radio-group>
+        </div>
         <div id="dateValue01" @click="dateValue01_click">
+          <div :class="{ custom_time: true, opacity_0: dateValue != '' }">
+            自定义<i class="el-icon-caret-top"></i>
+          </div>
           <el-date-picker
+            :class="{ opacity_0: dateValue == '' }"
             v-model="dateValue"
             type="daterange"
             range-separator="至"
@@ -58,13 +70,6 @@
             @blur="dateValue_blur01"
             @focus="dateValue_focus01"
           ></el-date-picker>
-        </div>
-        <div>
-          <el-radio-group v-model="radio02" size="mini">
-            <el-radio-button label="7天"></el-radio-button>
-            <el-radio-button label="30天"></el-radio-button>
-            <el-radio-button label="90天"></el-radio-button>
-          </el-radio-group>
         </div>
       </div>
     </div>
@@ -463,6 +468,7 @@ export default {
           toolbox: {
             feature: {
               saveAsImage: {
+                pixelRatio: 3,
                 title: "保存",
                 iconStyle: {
                   opacity: 1,
@@ -654,7 +660,7 @@ table {
   position: absolute;
   top: 6px;
   right: 38px;
-  z-index: 9999999999;
+  z-index: 100;
 }
 
 .myChart {

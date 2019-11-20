@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    <div class="options" v-show="!change_bg_all">
+    <div class="options margin_bottom" v-show="!change_bg_all">
       <div class="new_class">
         <div class="margin_top_font">子分类</div>
         <div>
@@ -116,7 +116,7 @@
               v-for="item in data_for_classify"
               :key="item.id"
               :label="item.name"
-              @click="demo(item.id)"
+              @click.native="change_my_genreId(item.id)"
             ></el-radio-button>
           </el-radio-group>
         </div>
@@ -229,26 +229,31 @@
             <td>
               <div class="rowid">{{ item.rowid }}</div>
             </td>
-            <td class="table_font pointer">
-              <div class="pointer" @click="go_to_page01(item.Word)">
-                {{ item.Word }}
+            <td class="table_font ">
+              <div>
+                <span class="pointer" @click="go_to_page01(item.Word)">{{
+                  item.Word
+                }}</span>
               </div>
             </td>
-            <td class="color_444 pointer">
-              <div class="pointer" @click="go_to_page02(item.Word)">
-                {{ item.WordIdHint }}
+            <td class="color_444 ">
+              <div>
+                <span class="pointer" @click="go_to_page02(item.Word)">{{
+                  item.WordIdHint
+                }}</span>
               </div>
             </td>
             <!-- 给下一个页面传递参数 -->
             <td class="color_444 pointer" @click="go_to_page03(item.Word)">
               <div>{{ item.SearchCount }}</div>
             </td>
-            <td class="table_font pointer">
-              <div
-                class="pointer"
-                @click="go_to_page04(item.AppStoreId, item.app_name)"
-              >
-                {{ item.app_name }}
+            <td class="table_font ">
+              <div>
+                <span
+                  class="pointer"
+                  @click="go_to_page04(item.AppStoreId, item.app_name)"
+                  >{{ item.app_name }}</span
+                >
               </div>
             </td>
           </tr>
@@ -294,7 +299,7 @@ export default {
       // 请求的分类数据
       data_for_classify: null,
       data_for_classify_item: null,
-      my_genreId: null,
+      my_genreId: 36,
       // 请求的表格数据
       data_for_table: new Array(),
       //以下几个变量模仿单选框
@@ -348,7 +353,7 @@ export default {
     // })
 
     this.$watch("my_genreId", function(newValue, oldValue) {
-      console.log(this.my_genreId);
+      // console.log(this.my_genreId);
       this.data_for_table.length = 0;
       this.page = 1;
       this.get_data_table();
@@ -471,10 +476,10 @@ export default {
         .get(url)
         .then(response => {
           this.data_for_classify = response.data.Data;
-          console.log(555555555555555555555555555);
+          // console.log(555555555555555555555555555);
 
           // console.log(response)
-          console.log(this.data_for_classify);
+          // console.log(this.data_for_classify);
         })
         .catch(error => {
           console.log(error);
@@ -517,7 +522,7 @@ export default {
             time: formatDate(that.dateValue, "yyyy-MM-dd"),
             GenreId: that.my_genreId
           };
-          // console.log(url)
+          // console.log(data);
           // 请求数据
           this.$axios
             .post(url, data)
@@ -554,8 +559,9 @@ export default {
           console.log(error);
         });
     },
-    demo(parm) {
+    change_my_genreId(parm) {
       this.my_genreId = parm;
+      // console.log(parm);
     },
     // 点击总榜按钮
     change_all_dateValue() {
@@ -903,6 +909,9 @@ table {
 .option > div:first-child {
   font-weight: 600 !important;
   margin-right: 12px;
+}
+.margin_bottom {
+  margin-bottom: -12px !important;
 }
 .new_class {
   font-weight: 600 !important;

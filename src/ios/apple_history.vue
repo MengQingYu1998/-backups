@@ -17,12 +17,11 @@
                   <th>推荐位置</th>
                   <th>推荐主题</th>
                   <th>开始/结束时间</th>
-                  <th v-show="false">排名</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-if="no_data_img">
-                  <td colspan="4">
+                  <td colspan="3">
                     <div class="no_data_img">
                       <img src="../assets/ios/null.png" alt />
                       <div>暂无相关数据</div>
@@ -40,7 +39,7 @@
                   <td>{{ item.Genre }}</td>
                   <td>{{ item.Name }}</td>
                   <td class>{{ item.Stime + "至" + item.Etime }}</td>
-                  <td class="td_width04" v-show="false">{{ item.GenreId }}</td>
+                  <!-- <td class="td_width04" v-show="false">{{ item.GenreId }}</td> -->
                 </tr>
               </tbody>
             </table>
@@ -131,7 +130,7 @@ export default {
             .get(url)
             .then(response => {
               // console.log(55555555555555555)
-              console.log(response);
+              // console.log(response);
               this.loading = false;
               if (response.data.Code == 0) {
                 this.response_data = response.data.Data;
@@ -161,16 +160,8 @@ export default {
 };
 </script>
 <style scoped>
-.td_width04 {
-  width: 176px;
-}
-.td_width03 {
-  width: 360px;
-}
 tbody tr {
   height: 60px;
-  border-bottom: 1px solid #f2f2f2;
-
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -189,7 +180,7 @@ tbody {
   color: #444444;
 }
 thead {
-  width: 1200px;
+  /* width: 1200px; */
   background-color: #f7f7f7;
   font-weight: 600 !important;
   font-size: 13px;
@@ -200,7 +191,6 @@ thead {
 }
 table {
   width: 100%;
-  border: solid 1px #eaeaea;
   text-align: center;
   margin-bottom: 50px;
 }

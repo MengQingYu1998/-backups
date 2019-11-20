@@ -55,9 +55,12 @@ import App from "./App";
 import router from "./router";
 router.beforeEach((to, from, next) => {
   // to来自  from  去哪
-  if (to.meta.title) {
-    document.title = to.meta.title;
+  if (to.name != "now_ranking") {
+    if (to.meta.title) {
+      document.title = to.meta.title;
+    }
   }
+
   next();
 });
 /* eslint-disable no-new */

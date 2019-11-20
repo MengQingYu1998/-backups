@@ -53,7 +53,13 @@
             <div class="btn_item_01">
               <!-- <div>时间</div> -->
               <div id="dateValue01" @click="dateValue01_click">
-                <el-date-picker
+               <div
+                    :class="{'custom_time':true,'opacity_0':middle_top_time01!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
+                  <el-date-picker
+                    :class="{ opacity_0: middle_top_time01 == '' }"
                   v-model="middle_top_time01"
                   type="daterange"
                   range-separator="至"
@@ -711,7 +717,7 @@ export default {
           },
           toolbox: {
             feature: {
-              saveAsImage: {
+              saveAsImage: {pixelRatio :3,
                 title: "保存",
                 iconStyle: {
                   opacity: 1,

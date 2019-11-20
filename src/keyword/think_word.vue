@@ -194,7 +194,7 @@ export default {
             .then(response => {
               this.loading = false;
               this.response_data = response.data;
-              console.log(this.response_data);
+              // console.log(this.response_data);
             })
             .catch(error => {
               console.log(error);

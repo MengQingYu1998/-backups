@@ -183,12 +183,14 @@
                     </template>
                   </tbody>
                 </table>
+                 <div class="clear_content02" @click="clear_change_span_bg_color" v-show="change_span_bg_color[0]">返回查看全部关键词</div>
               </div>
             </section>
             <!-- 中部 关键词明细 -->
             <!-- 中部 关键词明细 -->
             <!-- 中部 关键词明细 -->
             <section class="middle">
+              <div class="position_red" ref="position_red"></div>
               <div class="section_title" ref="section_title">关键词明细</div>
               <div class="btn_group">
                 <div class="option">
@@ -292,6 +294,7 @@
                     </div>
                   </div>
                 </div>
+                <div class="clear_content" @click="clear_content" v-show="result_min_input01!=''||result_max_input01!=''||result_min_input02!=''||result_max_input02!=''||result_min_input03!=''||result_max_input03!=''">清空</div>
               </div>
               <div class="btn_group">
                 <div class="option option_search">
@@ -418,7 +421,7 @@
                               v-show="item.Change<0"
                             />
                             <span
-                              :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                              :class="{ 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                             >{{Math.abs(item.Change)}}</span>
                           </div>
                         </td>
@@ -494,7 +497,13 @@
                                 <div class="btn_item_01">
                                   <!-- <div>时间</div> -->
                                   <div id="dateValue05" @click="dateValue05_click">
-                                    <el-date-picker 
+                                   <div
+                    :class="{'custom_time':true,'opacity_0':middle_time01!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
+                  <el-date-picker
+                    :class="{ opacity_0: middle_time01 == '' }"
                                       v-model="middle_time01"
                                       type="daterange"
                                       range-separator="至"
@@ -622,7 +631,7 @@
                               v-show="item.Change<0"
                             />
                             <span
-                              :class="{'pointer':true , 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
+                              :class="{ 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}"
                             >{{Math.abs(item.Change)}}</span>
                           </div>
                         </td>
@@ -873,6 +882,11 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
         path: '/data_table?now_country='+this.now_country+"&now_app_id="+this.now_app_id+"&equipmentValue="+this.equipmentValue+"&systemValue="+this.systemValue+"&date_Now_for_top="+this.date_Now_for_top+"&dateCompare_for_top="+this.dateCompare_for_top
       })
     })
+    //  this.$watch('change_span_bg_color', function(newValue, oldValue) {
+    //   //  console.log(this.change_span_bg_color)
+    //   alert(111)
+    //    this.get_data_for_second_part()
+    // })
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
        this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为重复点击
@@ -1095,51 +1109,67 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
           console.log(error)
         })
     },
+      clear_change_span_bg_color(){
+      this.change_span_bg_color=new Array()
+      this.page = 1
+      this.is_show_bottom = false
+      this.wordIds = ''
+      this.sort= 0
+      this.result_min_input01 =''
+            this.result_max_input01 = ''
+      this.get_data_for_second_part()
+    },
     change_something(parm, parm01, parm02) {
+       this.loading_gif = true
       // 跳转位置
-      this.$refs.section_title.scrollIntoView({behavior:'smooth'})
-      switch (parm01) {
-        case 0:
-          this.result_min_input01 = 8000
-          this.result_max_input01 = ''
-          break
-        case 1:
-          this.result_min_input01 = 7000
-          this.result_max_input01 = 7999
-          break
-        case 2:
-          this.result_min_input01 = 6000
-          this.result_max_input01 = 6999
-          break
-        case 3:
-          this.result_min_input01 = 5000
-          this.result_max_input01 = 5999
-          break
-        case 4:
-          this.result_min_input01 = 4605
-          this.result_max_input01 = 4999
-          break
-        case 5:
-          this.result_min_input01 = ''
-          this.result_max_input01 = 4605
-          break
-           case 6:
-          this.result_min_input01 = ''
-          this.result_max_input01 = ''
-          this.hidden_parm+=1
+      this.$refs.position_red.scrollIntoView({behavior:'smooth'})
 
-          break
-        default:
-          break
+
+      if (parm02=='keyWordCount03'||parm02=='top303'||parm02=='top1003') {
+            switch (parm01) {
+          case 0:
+            this.result_min_input01 = 8000
+            this.result_max_input01 = ''
+            break
+          case 1:
+            this.result_min_input01 = 7000
+            this.result_max_input01 = 7999
+            break
+          case 2:
+            this.result_min_input01 = 6000
+            this.result_max_input01 = 6999
+            break
+          case 3:
+            this.result_min_input01 = 5000
+            this.result_max_input01 = 5999
+            break
+          case 4:
+            this.result_min_input01 = 4605
+            this.result_max_input01 = 4999
+            break
+          case 5:
+            this.result_min_input01 = ''
+            this.result_max_input01 = 4605
+            break
+            case 6:
+            this.result_min_input01 = ''
+            this.result_max_input01 = ''
+
+            break
+          default:
+            break
+        }
+      }else{
+         this.result_min_input01 =''
+            this.result_max_input01 = ''
       }
-
+  
+      this.hidden_parm+=1
       this.page = 1
       this.is_show_bottom = false
       this.change_span_bg_color[0] = parm01
       this.change_span_bg_color[1] = parm02
       this.wordIds = parm
-      // alert(this.wordIds)
-      // this.get_data_for_second_part()
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
@@ -1283,7 +1313,7 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
           let keywords = this.search_input
           let wordIds = this.wordIds
           let sort = this.sort
-          alert(this.now_app_name)
+          // alert(this.now_app_name)
           let appName = this.now_app_name
           let data = {
             appId: appId,
@@ -1327,7 +1357,15 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
       document.body.appendChild(elemIF)
       this.loading = false
     },
-
+  
+clear_content(){
+      this.result_min_input01=''
+      this.result_max_input01=''
+      this.result_min_input02=''
+      this.result_max_input02=''
+      this.result_min_input03=''
+      this.result_max_input03=''
+},
     // 点击搜索结果数的全部
     result_all() {
       this.result_min_input01 = ''
@@ -1417,17 +1455,12 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
 
           switch (this.bottom_radio3) {
             case '':
-              sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
-              edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
+              sdate =this.middle_time01[0]
+              edate = this.middle_time01[1]
               time = sdate + '-' + edate
               break
             case '近24小时':
               time = 1
-              if (this.middle_time01 != '') {
-                sdate = formatDate(this.middle_time01[0], 'yyyy-MM-dd')
-                edate = formatDate(this.middle_time01[1], 'yyyy-MM-dd')
-                time = sdate + '-' + edate
-              }
               break
             case '昨日':
               let time02 = new Date()
@@ -1488,7 +1521,7 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
             showType: showType,
             date: time
           }
-          // console.log(data)
+          console.log(data)
           this.keyword_data = new Array()
           this.keyword_data.push(this.word)
           // 请求数据
@@ -1634,7 +1667,7 @@ this.stop_click_many_times=null;//防止点击第一个的时候， 被判断为
           },
           toolbox: {
             feature: {
-              saveAsImage: {
+              saveAsImage: {pixelRatio :3,
                 title: '保存',
                 iconStyle: {
                   opacity: 1,
@@ -2575,5 +2608,48 @@ table {
   position: absolute;
   top:-121px;
   opacity: 0;
+}
+.position_red{
+   background-color: red;
+  margin-top: -30px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top:-55px;
+  opacity: 0; 
+}
+.clear_content02{
+  width: 150px;
+  height: 26px; background-color: #009bef;
+      border-radius: 4px;
+box-sizing: border-box;
+position: relative;
+z-index: 100;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 26px;
+      letter-spacing: 0px;
+      color: #ffffff;
+      text-align: center;
+      cursor: pointer;
+          float: right;
+      margin-top: -7px;
+}
+.clear_content{
+    padding: 0 12px;
+      height: 26px;
+      background-color: #009bef;
+      border-radius: 4px;
+box-sizing: border-box;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 26px;
+      letter-spacing: 0px;
+      color: #ffffff;
+      text-align: center;
+      cursor: pointer;
+      margin-left: 29px;
 }
 </style>

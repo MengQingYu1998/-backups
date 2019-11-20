@@ -12,7 +12,7 @@
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/> 
 						<img src="../assets/NumImg/downW.png" class="down" v-show="downWL"/>
 						<!-- <img src="../assets/NumImg/upW.png" class="down" v-show="upWL"/>  -->
-					</p>
+					</p> 
 					<p class="font" @click.stop="showG()" v-bind:class="{selectFont:isFontG}">
 						<span class="valG" v-html="valueG"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downG"/>

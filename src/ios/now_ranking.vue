@@ -76,7 +76,13 @@
               <div class="btn_item_01">
                 <!-- <div>时间</div> -->
                 <div id="dateValue01" @click="dateValue01_click">
+                  <div
+                    :class="{'custom_time':true,'opacity_0':now_ranking_time!=''}"
+                  >
+                    自定义<i class="el-icon-caret-top"></i>
+                  </div>
                   <el-date-picker
+                    :class="{ opacity_0: now_ranking_time == '' }"
                     v-model="now_ranking_time"
                     type="daterange"
                     range-separator="至"
@@ -85,7 +91,7 @@
                     :picker-options="middle_top_pickerOptions"
                     :clearable="false"
                     value-format="yyyy-MM-dd"
-                    unlink-panels
+                    :unlink-panels="true"
                     prefix-icon="el-icon-caret-bottom"
                     @blur="dateValue_blur01"
                     @focus="dateValue_focus01"
@@ -421,9 +427,9 @@ export default {
       this.$route.query.now_country
         ? (this.now_country = this.$route.query.now_country)
         : (this.now_country = "中国");
-        this.$route.query.now_app_id
-      ? (this.now_app_id = this.$route.query.now_app_id)
-      : (this.now_app_id = null);
+      this.$route.query.now_app_id
+        ? (this.now_app_id = this.$route.query.now_app_id)
+        : (this.now_app_id = null);
       this.get_data_first();
       this.get_data_second();
       this.get_data_third();
@@ -451,7 +457,7 @@ export default {
     this.get_data_first();
     this.get_data_third();
     this.$watch("now_country", function(newValue, oldValue) {
-        let that = this;
+      let that = this;
       this.$router.push({
         path:
           "/now_ranking?now_country=" +
@@ -486,7 +492,7 @@ export default {
       this.get_data_third();
     });
     this.$watch("radio3", function(newValue, oldValue) {
-         this.send_data_to_world_map();
+      this.send_data_to_world_map();
       this.draw_world_map();
     });
   },
@@ -867,6 +873,8 @@ export default {
           toolbox: {
             feature: {
               saveAsImage: {
+                pixelRatio: 3,
+
                 title: "保存",
                 iconStyle: {
                   opacity: 1,
@@ -981,14 +989,25 @@ export default {
             min: 1,
             max: function(value) {
               let max_value = value.max;
+
               if (max_value < 5) {
                 that.yAxis_max = 5;
+              } else if (max_value < 10) {
+                that.yAxis_max = 10;
               } else if (max_value < 20) {
                 that.yAxis_max = 20;
               } else if (max_value < 50) {
                 that.yAxis_max = 50;
               } else if (max_value < 100) {
                 that.yAxis_max = 100;
+              } else if (max_value < 150) {
+                that.yAxis_max = 150;
+              } else if (max_value < 200) {
+                that.yAxis_max = 200;
+              } else if (max_value < 300) {
+                that.yAxis_max = 300;
+              } else if (max_value < 400) {
+                that.yAxis_max = 400;
               } else if (max_value < 500) {
                 that.yAxis_max = 500;
               } else if (max_value < 1000) {
@@ -1383,7 +1402,7 @@ tbody tr {
   border-bottom: 1px solid #f2f2f2;
 }
 /* tbody tr td:last-child {
-  
+
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -1454,4 +1473,5 @@ table {
   position: relative;
   min-height: 621px;
 }
+
 </style>

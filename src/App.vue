@@ -22,15 +22,7 @@
 
     <navv />
     <div class="app_div">
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive">
-          <!-- 这里是会被缓存的视图组件，比如 page1,page2 -->
-        </router-view>
-      </keep-alive>
-
-      <router-view v-if="!$route.meta.keepAlive">
-        <!-- 这里是不被缓存的视图组件，比如 page3 -->
-      </router-view>
+      <router-view> </router-view>
     </div>
     <foot />
   </div>
@@ -293,7 +285,7 @@ export default {
 .el-date-editor--daterange.el-input__inner,
 .el-date-editor--timerange.el-input,
 .el-date-editor--timerange.el-input__inner {
-  width: 225px !important;
+  width: 225px;
 }
 
 .el-input--suffix .el-input__inner {
@@ -797,4 +789,38 @@ input[type="number"] {
   height: 200px;
   overflow: hidden;
 }
+// 搜索结果页面弹出时间选择器
+.result_time_picker {
+  z-index: 1800 !important;
+}
+// 开始时间结束时间的自定义按钮类样式
+.custom_time {
+  background-color: #fff;
+  height: 26px;
+  padding: 0 12px;
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  font-stretch: normal;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  color: #444;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+.custom_time .el-icon-caret-top {
+  color: #888;
+  margin-left: 2px;
+  font-size: 12px;
+  vertical-align: 1px;
+  transform: rotate(180deg) !important;
+}
+.opacity_0 {
+  opacity: 0;
+  width: 82px !important;
+}
+// 开始时间结束时间的自定义按钮类样式
 </style>

@@ -24,40 +24,41 @@
               </div>
             </div>
           </div>
-          <div v-loading="loading" element-loading-spinner="el-icon-loading">
-            <div class="vs">
-              <div class="vs_div">
-                <img
-                  :src="
-                    response_data &&
-                      response_data.currentApp &&
-                      response_data.currentApp.icon
-                  "
-                  alt
-                />
-                <span>{{
+
+          <div class="vs" v-once>
+            <div class="vs_div">
+              <img
+                :src="
                   response_data &&
                     response_data.currentApp &&
-                    response_data.currentApp.appName
-                }}</span>
-              </div>
-              <img src="../assets/ios/vs.png" alt />
-              <div class="vs_div">
-                <img
-                  :src="
-                    response_data &&
-                      response_data.compareApp &&
-                      response_data.compareApp.icon
-                  "
-                  alt
-                />
-                <span>{{
+                    response_data.currentApp.icon
+                "
+                alt
+              />
+              <span>{{
+                response_data &&
+                  response_data.currentApp &&
+                  response_data.currentApp.appName
+              }}</span>
+            </div>
+            <img src="../assets/ios/vs.png" alt />
+            <div class="vs_div">
+              <img
+                :src="
                   response_data &&
                     response_data.compareApp &&
-                    response_data.compareApp.appName
-                }}</span>
-              </div>
+                    response_data.compareApp.icon
+                "
+                alt
+              />
+              <span>{{
+                response_data &&
+                  response_data.compareApp &&
+                  response_data.compareApp.appName
+              }}</span>
             </div>
+          </div>
+          <div v-loading="loading" element-loading-spinner="el-icon-loading">
             <el-tabs v-model="activeName" :stretch="true">
               <!-- ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果ios12搜索结果 -->
               <el-tab-pane label="我的独家关键词" name="first">
@@ -368,7 +369,7 @@ export default {
 
           // 设备选择
           let deviceType = this.equipmentValue == "iPhone" ? 1 : 2;
-          let system = 11;
+          let system = 12;
           let appid = this.now_app_id;
           let comappId = this.now_app_id02;
 
@@ -392,7 +393,7 @@ export default {
             .get(url)
             .then(response => {
               this.loading = false;
-              console.log(response);
+              // console.log(response);
               if (response.data.Data != null) {
                 this.response_data = response.data.Data;
 
