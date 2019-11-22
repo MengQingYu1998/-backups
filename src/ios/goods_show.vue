@@ -38,12 +38,13 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item,index) in response_data_top&&response_data_top"
-                    :key="'tabless'+index"
+                    v-for="(item, index) in response_data_top &&
+                      response_data_top"
+                    :key="'tabless' + index"
                   >
                     <td class="www_width01">
                       <div class="use">
-                        <div>{{index+1}}</div>
+                        <div>{{ index + 1 }}</div>
                         <div>
                           <img
                             :src="item.icon"
@@ -56,8 +57,12 @@
                           <div
                             class="app_name pointer"
                             @click="go_to_page01(item.appId)"
-                          >{{item.appName}}>{{item.appName}}</div>
-                          <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
+                          >
+                            {{ item.appName }}>{{ item.appName }}
+                          </div>
+                          <div class="rankingChangeFontColor app_subtitle">
+                            {{ item.publisher }}
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -66,62 +71,89 @@
                       <div
                         class="rankingChangeFontColor font_size_15"
                         v-if="item.rank_a"
-                      >{{item.rank_a.rankID}}</div>
-                      <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                      >
+                        {{ item.rank_a.rankID }}
+                      </div>
+                      <div class="rankingChangeFontColor font_size_15" v-else>
+                        -
+                      </div>
                       <div
                         class="rankingChangeFontColor letter_spacing_1 mt_1"
                         v-if="item.rank_a"
-                      >{{item.rank_a.genreName}}</div>
+                      >
+                        {{ item.rank_a.genreName }}
+                      </div>
                       <div class="rankingChangeFontColor" v-else>-</div>
                     </td>
                     <td class="www_width02">
                       <div
                         class="rankingChangeFontColor font_size_15"
                         v-if="item.rank_b"
-                      >{{item.rank_b.rankID}}</div>
-                      <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                      >
+                        {{ item.rank_b.rankID }}
+                      </div>
+                      <div class="rankingChangeFontColor font_size_15" v-else>
+                        -
+                      </div>
                       <div
                         class="rankingChangeFontColor letter_spacing_1 mt_1"
                         v-if="item.rank_b"
-                      >{{item.rank_b.genreName}}</div>
+                      >
+                        {{ item.rank_b.genreName }}
+                      </div>
                       <div class="rankingChangeFontColor" v-else>-</div>
                     </td>
-                    <td
-                      class="rankingChangeFontColor font_size_14 www_width03"
-                    >{{item.keywordCover}}</td>
-                    <td class="www_width03">
-                      <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
-                      <div class="rankingChangeFontColor mt_1">{{item.currentcomment.rating}}</div>
+                    <td class="rankingChangeFontColor font_size_14 www_width03">
+                      {{ item.keywordCover }}
                     </td>
                     <td class="www_width03">
-                      <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
-                      <div class="rankingChangeFontColor mt_1">{{item.comment.rating}}</div>
+                      <div class="rankingChangeFontColor font_size_15">
+                        {{ item.currentcomment.num }}
+                      </div>
+                      <div class="rankingChangeFontColor mt_1">
+                        {{ item.currentcomment.rating }}
+                      </div>
+                    </td>
+                    <td class="www_width03">
+                      <div class="rankingChangeFontColor font_size_15">
+                        {{ item.comment.num }}
+                      </div>
+                      <div class="rankingChangeFontColor mt_1">
+                        {{ item.comment.rating }}
+                      </div>
                     </td>
                     <td class="width_td01">
                       <div class="operation">
                         <div>
-                          <div v-show="index==0">当前应用</div>
+                          <div v-show="index == 0">当前应用</div>
                           <div
-                            v-show="index!=0"
+                            v-show="index != 0"
                             class="pointer"
                             @click="go_to_page03(item.appId)"
-                          >实时排名</div>
+                          >
+                            实时排名
+                          </div>
                           <div
-                            v-show="index!=0"
+                            v-show="index != 0"
                             class="pointer"
                             @click="go_to_page02(item.appId)"
-                          >关键词</div>
+                          >
+                            关键词
+                          </div>
                         </div>
                         <img
-                          :class="{opacity_0:index==0}"
+                          :class="{ opacity_0: index == 0 }"
                           src="../assets/ios/compare_del.png"
-                          @click="remove_data(index,item.appId)"
+                          @click="remove_data(index, item.appId)"
                           alt
                         />
                       </div>
                     </td>
                   </tr>
-                  <tr class="disable_hover" v-show="response_data_top&&response_data_top.length==0">
+                  <tr
+                    class="disable_hover"
+                    v-show="response_data_top && response_data_top.length == 0"
+                  >
                     <td colspan="7">暂无相关数据</td>
                   </tr>
                 </tbody>
@@ -129,7 +161,10 @@
             </div>
             <!-- ================================ -->
             <div class="section_title">竞品推荐</div>
-            <div v-loading="loading02" element-loading-spinner="el-icon-loading">
+            <div
+              v-loading="loading02"
+              element-loading-spinner="el-icon-loading"
+            >
               <table>
                 <thead>
                   <tr>
@@ -144,12 +179,13 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item,index) in response_data_bottom&&response_data_bottom"
-                    :key="'tablessss'+index"
+                    v-for="(item, index) in response_data_bottom &&
+                      response_data_bottom"
+                    :key="'tablessss' + index"
                   >
                     <td class="tbody02_td01">
                       <div class="use">
-                        <div>{{index+1}}</div>
+                        <div>{{ index + 1 }}</div>
                         <div>
                           <img
                             :src="item.icon"
@@ -162,8 +198,12 @@
                           <div
                             class="app_name pointer"
                             @click="go_to_page01(item.appId)"
-                          >{{item.appName}}</div>
-                          <div class="rankingChangeFontColor app_subtitle">{{item.publisher}}</div>
+                          >
+                            {{ item.appName }}
+                          </div>
+                          <div class="rankingChangeFontColor app_subtitle">
+                            {{ item.publisher }}
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -172,48 +212,72 @@
                       <div
                         class="rankingChangeFontColor font_size_15"
                         v-if="item.rank_a"
-                      >{{item.rank_a.rankID}}</div>
-                      <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                      >
+                        {{ item.rank_a.rankID }}
+                      </div>
+                      <div class="rankingChangeFontColor font_size_15" v-else>
+                        -
+                      </div>
                       <div
                         class="rankingChangeFontColor letter_spacing_1 mt_1"
                         v-if="item.rank_a"
-                      >{{item.rank_a.genreName}}</div>
+                      >
+                        {{ item.rank_a.genreName }}
+                      </div>
                       <div class="rankingChangeFontColor" v-else>-</div>
                     </td>
                     <td class="tbody02_td03">
                       <div
                         class="rankingChangeFontColor font_size_15"
                         v-if="item.rank_b"
-                      >{{item.rank_b.rankID}}</div>
-                      <div class="rankingChangeFontColor font_size_15" v-else>-</div>
+                      >
+                        {{ item.rank_b.rankID }}
+                      </div>
+                      <div class="rankingChangeFontColor font_size_15" v-else>
+                        -
+                      </div>
                       <div
                         class="rankingChangeFontColor letter_spacing_1 mt_1"
                         v-if="item.rank_b"
-                      >{{item.rank_b.genreName}}</div>
+                      >
+                        {{ item.rank_b.genreName }}
+                      </div>
                       <div class="rankingChangeFontColor" v-else>-</div>
                     </td>
                     <td
                       class="rankingChangeFontColor font_size_14 tbody02_td04"
-                    >{{item.keywordCover}}</td>
+                    >
+                      {{ item.keywordCover }}
+                    </td>
                     <td class="tbody02_td05">
-                      <div class="rankingChangeFontColor font_size_15">{{item.currentcomment.num}}</div>
-                      <div class="rankingChangeFontColor mt_1">{{item.currentcomment.rating}}</div>
+                      <div class="rankingChangeFontColor font_size_15">
+                        {{ item.currentcomment.num }}
+                      </div>
+                      <div class="rankingChangeFontColor mt_1">
+                        {{ item.currentcomment.rating }}
+                      </div>
                     </td>
                     <td class="tbody02_td06">
-                      <div class="rankingChangeFontColor font_size_15">{{item.comment.num}}</div>
-                      <div class="rankingChangeFontColor mt_1">{{item.comment.rating}}</div>
+                      <div class="rankingChangeFontColor font_size_15">
+                        {{ item.comment.num }}
+                      </div>
+                      <div class="rankingChangeFontColor mt_1">
+                        {{ item.comment.rating }}
+                      </div>
                     </td>
                     <td class="tbody02_td07">
                       <img
                         src="../assets/ios/ios_add_blue.png"
-                        @click="add_data(index,item.appId)"
+                        @click="add_data(index, item.appId)"
                         alt
                       />
                     </td>
                   </tr>
                   <tr
                     class="disable_hover"
-                    v-show="response_data_bottom&&response_data_bottom.length==0"
+                    v-show="
+                      response_data_bottom && response_data_bottom.length == 0
+                    "
                   >
                     <td colspan="7">暂无相关数据</td>
                   </tr>
@@ -229,23 +293,24 @@
 
 <script>
 // 引入工具类
-import { formatDate } from '../common/util.js'
-import ios_header from './ios_header'
-import left_nav from './left_nav'
+import { formatDate } from "../common/util.js";
+import ios_header from "./ios_header";
+import left_nav from "./left_nav";
 export default {
-  name: 'goods_show',
+  name: "goods_show",
   components: { ios_header, left_nav },
   data() {
-    return { now_app_id: null,
+    return {
+      now_app_id: null,
       is_login: false,
       loading: false,
       loading02: false,
       response_data_bottom: null,
       response_data_top: null,
-      now_country: '中国'
-    }
+      now_country: "中国"
+    };
   },
-   watch: {
+  watch: {
     $route(to, from) {
       this.$route.query.now_country
         ? (this.now_country = this.$route.query.now_country)
@@ -253,27 +318,27 @@ export default {
       this.$route.query.now_app_id
         ? (this.now_app_id = this.$route.query.now_app_id)
         : (this.now_app_id = null);
-      this.get_data_top()
-    this.get_data_bottom()
+      this.get_data_top();
+      this.get_data_bottom();
     }
   },
   created: function() {
-    if (localStorage.getItem('userId')) {
-      this.is_login = true
+    if (localStorage.getItem("userId")) {
+      this.is_login = true;
     } else {
-      this.is_login = false
+      this.is_login = false;
     }
-      this.$route.query.now_country
-        ? (this.now_country = this.$route.query.now_country)
-        : (this.now_country = "中国");
-      this.$route.query.now_app_id
-        ? (this.now_app_id = this.$route.query.now_app_id)
-        : (this.now_app_id = null);
-    this.get_data_top()
-    this.get_data_bottom()
+    this.$route.query.now_country
+      ? (this.now_country = this.$route.query.now_country)
+      : (this.now_country = "中国");
+    this.$route.query.now_app_id
+      ? (this.now_app_id = this.$route.query.now_app_id)
+      : (this.now_app_id = null);
+    this.get_data_top();
+    this.get_data_bottom();
 
     this.$watch("now_country", function(newValue, oldValue) {
-      let that=this
+      let that = this;
       this.$router.push({
         path:
           "/goods_show?now_country=" +
@@ -286,151 +351,152 @@ export default {
   methods: {
     // 请求数据
     get_data_bottom() {
-      this.loading02 = true
+      this.loading02 = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
 
           let url =
-            '/GetCompetingProducts?appId=' +
+            "/GetCompetingProducts?appId=" +
             this.now_app_id +
-            '&countryID=' +
+            "&countryID=" +
             country_id +
-            '&device=' +
+            "&device=" +
             1 +
-            '&date=' +
-            formatDate(new Date(), 'yyyy-MM-dd')+'&accountId=' +
-            localStorage.getItem('userId') //获取userId
+            "&date=" +
+            formatDate(new Date(), "yyyy-MM-dd") +
+            "&accountId=" +
+            localStorage.getItem("userId"); //获取userId
           // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.loading02 = false
+              this.loading02 = false;
               if (response.data.Code == 0) {
-                this.response_data_bottom = response.data.Data.data_1
+                this.response_data_bottom = response.data.Data.data_1;
                 // console.log(88888888888)
                 // console.log(this.response_data_bottom)
               } else {
-                this.response_data_bottom = null
+                this.response_data_bottom = null;
               }
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     // 请求数据
     get_data_top() {
-      this.loading = true
+      this.loading = true;
       this.$axios
-        .get('/GetCountry')
+        .get("/GetCountry")
         .then(response => {
           // 获取国家ID
-          let country_id
-          let arr_country = response.data.Data
+          let country_id;
+          let arr_country = response.data.Data;
           arr_country.forEach(element => {
             if (element.name == this.now_country) {
-              country_id = element.id
-              return false
+              country_id = element.id;
+              return false;
             }
-          })
+          });
           // 请求数据
 
           let url =
-            '/GetCompetingAppRelation?appId=' +
+            "/GetCompetingAppRelation?appId=" +
             this.now_app_id +
-            '&countryID=' +
+            "&countryID=" +
             country_id +
-            '&accountId=' +
-            localStorage.getItem('userId') //获取userId
+            "&accountId=" +
+            localStorage.getItem("userId"); //获取userId
           // console.log(url)
           // 请求数据
           this.$axios
             .get(url)
             .then(response => {
-              this.loading = false
+              this.loading = false;
               if (response.data.Code == 0) {
-                this.response_data_top = response.data.Data
+                this.response_data_top = response.data.Data;
 
-                console.log(9999999999999)
-                console.log(this.response_data_top)
+                console.log(9999999999999);
+                console.log(this.response_data_top);
               } else {
-                this.response_data_top = null
+                this.response_data_top = null;
               }
             })
             .catch(error => {
-              console.log(error)
-            })
+              console.log(error);
+            });
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     add_data(index, CompetingAppId) {
-      this.response_data_top.push(this.response_data_bottom[index])
-      this.response_data_bottom.splice(index, 1)
+      this.response_data_top.push(this.response_data_bottom[index]);
+      this.response_data_bottom.splice(index, 1);
 
-      let that = this
+      let that = this;
       let data = {
         appId: that.now_app_id,
         CompetingAppId: CompetingAppId,
-        accountId: localStorage.getItem('userId')
-      }
+        accountId: localStorage.getItem("userId")
+      };
       // console.log(url)
       // 请求数据
       this.$axios
-        .post('/AddCompetingApp', data)
+        .post("/AddCompetingApp", data)
         .then(response => {
-          console.log(response)
+          console.log(response);
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     remove_data(index, CompetingAppId) {
       if (index == 0) {
-        return false
+        return false;
       }
-      this.response_data_bottom.unshift(this.response_data_top[index])
-      this.response_data_top.splice(index, 1)
-      let that = this
+      this.response_data_bottom.unshift(this.response_data_top[index]);
+      this.response_data_top.splice(index, 1);
+      let that = this;
       let data = {
         appId: that.now_app_id,
         CompetingAppId: CompetingAppId,
-        accountId: localStorage.getItem('userId')
-      }
+        accountId: localStorage.getItem("userId")
+      };
       // console.log(url)
       // 请求数据
       this.$axios
-        .post('/DelCompetingApp', data)
+        .post("/DelCompetingApp", data)
         .then(response => {
-          console.log(response)
+          console.log(response);
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
     // 获取当前选中的国家
     parentFn(payload) {
-      this.now_country = payload
+      this.now_country = payload;
       // console.log('version_message' + this.now_country)
     },
     go_to_page01(parm) {
-         let that = this;
+      let that = this;
       let routerUrl = this.$router.resolve({
         path: "/now_ranking",
         query: { now_country: that.now_country, now_app_id: parm }
@@ -438,29 +504,33 @@ export default {
       window.open(routerUrl.href, "_blank");
     },
     go_to_page02(parm) {
-    
-         let that = this;
+      let that = this;
       let routerUrl = this.$router.resolve({
         path: "/cover_compare",
-       query: { now_country: that.now_country, now_app_id: that.now_app_id, now_app_id02: parm }
+        query: {
+          now_country: that.now_country,
+          now_app_id: that.now_app_id,
+          now_app_id02: parm
+        }
       });
       window.open(routerUrl.href, "_blank");
     },
     go_to_page03(parm) {
-      
-         let that = this;
+      let that = this;
       let routerUrl = this.$router.resolve({
         path: "/ranking_compare",
-        query: { now_country: that.now_country, now_app_id: that.now_app_id, now_app_id02: parm }
+        query: {
+          now_country: that.now_country,
+          now_app_id: that.now_app_id,
+          now_app_id02: parm
+        }
       });
       window.open(routerUrl.href, "_blank");
-
-     
     }
   }
-}
+};
 </script>
-<style scoped  lang="less">
+<style scoped lang="less">
 .tbody02_td07 img {
   width: 18px;
   height: 18px;
@@ -537,7 +607,7 @@ td {
 }
 .app_name {
   height: 23px;
-  width: 122px;
+  width: 176px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -625,7 +695,7 @@ td {
   position: relative;
   padding-left: 20px;
   box-sizing: border-box;
-  width: 160px;
+  // width: 160px;
 }
 thead tr {
   height: 40px;

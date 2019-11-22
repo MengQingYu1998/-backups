@@ -262,8 +262,9 @@ export default {
 #ams_artical_details table,
 #asm table,
 #classes_details table {
+     border: 1px solid #d6d6d6 !important;
   tr {
-    border: 1px solid #d6d6d6 !important;
+    border-bottom: 1px solid #d6d6d6 !important;
   }
   tbody tr:hover {
     background-color: #ebf7ff;
@@ -279,6 +280,7 @@ export default {
 /* 单选时间的长度 */
 .el-date-editor--date {
   width: 105px !important;
+  cursor: pointer;
 }
 /* 多选时间的长度 */
 .el-date-editor--daterange.el-input,
@@ -286,12 +288,14 @@ export default {
 .el-date-editor--timerange.el-input,
 .el-date-editor--timerange.el-input__inner {
   width: 225px;
+  cursor: pointer;
 }
 
 .el-input--suffix .el-input__inner {
   padding-left: 12px;
   padding-right: 0px !important;
   font-size: 13px;
+cursor: pointer;
 }
 
 // 时间组件的"至"这个字
@@ -509,6 +513,9 @@ table thead tr th {
 #version_message .el-input__inner {
   height: 36px !important;
   line-height: 36px !important;
+}
+.el-input__inner input{
+    cursor: pointer;
 }
 .el-input__inner {
   height: 26px !important;

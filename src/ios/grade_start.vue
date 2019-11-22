@@ -20,7 +20,8 @@
                   <div class="start_left_bottom_child_left">
                     <div>{{response_data_first_part&&response_data_first_part.current.ratingAverage}}</div>
                     <div>
-                      <el-rate v-model="start_left" disabled></el-rate>
+                      <el-rate v-model="start_left"
+                               disabled></el-rate>
                     </div>
                     <div>评分次数：{{response_data_first_part&&response_data_first_part.current.totalCount}}</div>
                   </div>
@@ -28,77 +29,57 @@
                     <section>
                       <div>5星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.current.gradeList[4].percent.slice(0, -1))"
-                          color=" #33aff2"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.current.gradeList[4].percent.slice(0, -1))"
+                                     color=" #33aff2"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.current.gradeList[4].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.current.gradeList[4].count}}</div>
                     </section>
                     <section>
                       <div>4星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.current.gradeList[3].percent.slice(0, -1))"
-                          color=" #37d3ad "
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.current.gradeList[3].percent.slice(0, -1))"
+                                     color=" #37d3ad "></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.current.gradeList[3].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.current.gradeList[3].count}}</div>
                     </section>
                     <section>
                       <div>3星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.current.gradeList[2].percent.slice(0, -1))"
-                          color=" #ec7c6d"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.current.gradeList[2].percent.slice(0, -1))"
+                                     color=" #ec7c6d"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.current.gradeList[2].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.current.gradeList[2].count}}</div>
                     </section>
                     <section>
                       <div>2星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.current.gradeList[1].percent.slice(0, -1))"
-                          color="#f6b06c"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.current.gradeList[1].percent.slice(0, -1))"
+                                     color="#f6b06c"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.current.gradeList[1].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.current.gradeList[1].count}}</div>
                     </section>
                     <section>
                       <div>1星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.current.gradeList[0].percent.slice(0, -1))"
-                          color=" #f9d36d"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.current.gradeList[0].percent.slice(0, -1))"
+                                     color=" #f9d36d"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.current.gradeList[0].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.current.gradeList[0].count}}</div>
                     </section>
                   </div>
                 </div>
@@ -109,7 +90,8 @@
                   <div class="start_left_bottom_child_left">
                     <div>{{response_data_first_part&&response_data_first_part.all.ratingAverage}}</div>
                     <div>
-                      <el-rate v-model="start_right" disabled></el-rate>
+                      <el-rate v-model="start_right"
+                               disabled></el-rate>
                     </div>
                     <div>评分次数：{{response_data_first_part&&response_data_first_part.all.totalCount}}</div>
                   </div>
@@ -117,77 +99,57 @@
                     <section>
                       <div>5星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.all.gradeList[4].percent.slice(0, -1))"
-                          color="#33aff2"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.all.gradeList[4].percent.slice(0, -1))"
+                                     color="#33aff2"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.all.gradeList[4].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.all.gradeList[4].count}}</div>
                     </section>
                     <section>
                       <div>4星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.all.gradeList[3].percent.slice(0, -1))"
-                          color=" #37d3ad "
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.all.gradeList[3].percent.slice(0, -1))"
+                                     color=" #37d3ad "></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.all.gradeList[3].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.all.gradeList[3].count}}</div>
                     </section>
                     <section>
                       <div>3星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.all.gradeList[2].percent.slice(0, -1))"
-                          color="#ec7c6d"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.all.gradeList[2].percent.slice(0, -1))"
+                                     color="#ec7c6d"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.all.gradeList[2].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.all.gradeList[2].count}}</div>
                     </section>
                     <section>
                       <div>2星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.all.gradeList[1].percent.slice(0, -1))"
-                          color="#f6b06c"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.all.gradeList[1].percent.slice(0, -1))"
+                                     color="#f6b06c"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.all.gradeList[1].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.all.gradeList[1].count}}</div>
                     </section>
                     <section>
                       <div>1星</div>
                       <div>
-                        <el-progress
-                          v-if="response_data_first_part"
-                          :text-inside="true"
-                          :stroke-width="22"
-                          :percentage="parseInt(response_data_first_part.all.gradeList[0].percent.slice(0, -1))"
-                          color="#f9d36d"
-                        ></el-progress>
+                        <el-progress v-if="response_data_first_part"
+                                     :text-inside="true"
+                                     :stroke-width="22"
+                                     :percentage="parseInt(response_data_first_part.all.gradeList[0].percent.slice(0, -1))"
+                                     color="#f9d36d"></el-progress>
                       </div>
-                      <div
-                        v-if="response_data_first_part"
-                      >{{response_data_first_part.all.gradeList[0].count}}</div>
+                      <div v-if="response_data_first_part">{{response_data_first_part.all.gradeList[0].count}}</div>
                     </section>
                   </div>
                 </div>
@@ -202,37 +164,35 @@
             <div class="btn_group">
               <div class="btn_item_01">
                 <div>时间</div>
-           
 
                 <div>
-                  <el-radio-group v-model="middle_bottom_radio_update" size="mini">
+                  <el-radio-group v-model="middle_bottom_radio_update"
+                                  size="mini">
                     <el-radio-button label="近一个月"></el-radio-button>
                   </el-radio-group>
                 </div>
-                     <div id="dateValue01" @click="dateValue01_click">
-                  <div
-                    :class="{'custom_time':true,'opacity_0':middle_top_time01!=''}"
-                  >
+                <div id="dateValue01"
+                     @click="dateValue01_click">
+                  <div :class="{'custom_time':true,'opacity_0':middle_top_time01!=''}">
                     自定义<i class="el-icon-caret-top"></i>
                   </div>
-                  <el-date-picker
-                    :class="{ opacity_0: middle_top_time01 == '' }"
-                    v-model="middle_top_time01"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    :clearable="false"
-                    unlink-panels
-                    prefix-icon="el-icon-caret-bottom"
-                    end-placeholder="结束日期"
-                    :picker-options="middle_top_pickerOptions"
-                    @blur="dateValue_blur01"
-                    @focus="dateValue_focus01"
-                  ></el-date-picker>
+                  <el-date-picker :class="{ opacity_0: middle_top_time01 == '' }"
+                                  v-model="middle_top_time01"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  :clearable="false"
+                                  unlink-panels
+                                  prefix-icon="el-icon-caret-bottom"
+                                  end-placeholder="结束日期"
+                                  :picker-options="middle_top_pickerOptions"
+                                  @blur="dateValue_blur01"
+                                  @focus="dateValue_focus01"></el-date-picker>
                 </div>
               </div>
             </div>
-            <div ref="grade_start_one" class="myChart"></div>
+            <div ref="grade_start_one"
+                 class="myChart"></div>
           </section>
           <!-- ===================第三部分====================== -->
           <!-- ====================第三部分===================== -->
@@ -243,7 +203,8 @@
               <div class="btn_item_02">
                 <div>类型</div>
                 <div>
-                  <el-radio-group v-model="middle_bottom_radio01" size="mini">
+                  <el-radio-group v-model="middle_bottom_radio01"
+                                  size="mini">
                     <el-radio-button label="全部"></el-radio-button>
                     <el-radio-button label="在线评论"></el-radio-button>
                     <el-radio-button label="已删除评论"></el-radio-button>
@@ -252,39 +213,41 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-               
+
                 <div>
-                  <el-radio-group v-model="middle_bottom_radio02" size="mini">
+                  <el-radio-group v-model="middle_bottom_radio02"
+                                  size="mini">
                     <el-radio-button label="今日"></el-radio-button>
                     <el-radio-button label="昨日"></el-radio-button>
                     <el-radio-button label="近一个月"></el-radio-button>
                   </el-radio-group>
                 </div>
-                 <div id="dateValue02" @click="dateValue02_click">
-                 <div
-                    :class="{'custom_time':true,'opacity_0':middle_bottom_time01!=''}"
-                  >
+                <div id="dateValue02"
+                     @click="dateValue02_click">
+                  <div :class="{'custom_time':true,'opacity_0':middle_bottom_time01!=''}">
                     自定义<i class="el-icon-caret-top"></i>
                   </div>
-                  <el-date-picker
-                    :class="{ opacity_0: middle_bottom_time01 == '' }"
-                    v-model="middle_bottom_time01"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    :clearable="false"
-                    unlink-panels
-                    prefix-icon="el-icon-caret-bottom"
-                    end-placeholder="结束日期"
-                    :picker-options="middle_bottom_pickerOptions"
-                    @blur="dateValue_blur02"
-                    @focus="dateValue_focus02"
-                  ></el-date-picker>
+                  <el-date-picker :class="{ opacity_0: middle_bottom_time01 == '' }"
+                                  v-model="middle_bottom_time01"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  :clearable="false"
+                                  unlink-panels
+                                  prefix-icon="el-icon-caret-bottom"
+                                  end-placeholder="结束日期"
+                                  :picker-options="middle_bottom_pickerOptions"
+                                  @blur="dateValue_blur02"
+                                  @focus="dateValue_focus02"></el-date-picker>
                 </div>
               </div>
             </div>
-            <div ref="common_one" class="myChart" v-show="common_one"></div>
-            <div ref="grade_start_three" class="myChart" v-show="grade_start_three"></div>
+            <div ref="common_one"
+                 class="myChart"
+                 v-show="common_one"></div>
+            <div ref="grade_start_three"
+                 class="myChart"
+                 v-show="grade_start_three"></div>
           </section>
           <!-- ===================第四部分====================== -->
           <!-- ====================第四部分===================== -->
@@ -295,7 +258,8 @@
               <div class="btn_item_02">
                 <div>评论类型</div>
                 <div>
-                  <el-radio-group v-model="bottom_radio01" size="mini">
+                  <el-radio-group v-model="bottom_radio01"
+                                  size="mini">
                     <el-radio-button label="全部"></el-radio-button>
                     <el-radio-button label="在线评论"></el-radio-button>
                     <el-radio-button label="已删除评论"></el-radio-button>
@@ -306,7 +270,8 @@
               <div class="btn_item_02">
                 <div>评论</div>
                 <div>
-                  <el-radio-group v-model="bottom_radio02" size="mini">
+                  <el-radio-group v-model="bottom_radio02"
+                                  size="mini">
                     <el-radio-button label="全部"></el-radio-button>
                     <el-radio-button label="五星"></el-radio-button>
                     <el-radio-button label="四星"></el-radio-button>
@@ -321,7 +286,8 @@
               <div class="btn_item_02">
                 <div>排序</div>
                 <div>
-                  <el-radio-group v-model="bottom_radio03" size="mini">
+                  <el-radio-group v-model="bottom_radio03"
+                                  size="mini">
                     <el-radio-button label="最有帮助"></el-radio-button>
                     <el-radio-button label="最高评价"></el-radio-button>
                     <el-radio-button label="最低评价"></el-radio-button>
@@ -331,34 +297,32 @@
               </div>
               <div class="btn_item_03">
                 <div>时间</div>
-               
+
                 <div>
-                  <el-radio-group v-model="bottom_radio04" size="mini">
+                  <el-radio-group v-model="bottom_radio04"
+                                  size="mini">
                     <el-radio-button label="今日"></el-radio-button>
                     <el-radio-button label="昨日"></el-radio-button>
                     <el-radio-button label="近一个月"></el-radio-button>
                   </el-radio-group>
                 </div>
-                 <div id="dateValue03" @click="dateValue03_click">
-                  <div
-                    :class="{'custom_time':true,'opacity_0':bottom_time01!=''}"
-                  >
+                <div id="dateValue03"
+                     @click="dateValue03_click">
+                  <div :class="{'custom_time':true,'opacity_0':bottom_time01!=''}">
                     自定义<i class="el-icon-caret-top"></i>
                   </div>
-                  <el-date-picker
-                    :class="{ opacity_0: bottom_time01 == '' }"
-                    v-model="bottom_time01"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    :clearable="false"
-                    unlink-panels
-                    prefix-icon="el-icon-caret-bottom"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptions2"
-                    @blur="dateValue_blur03"
-                    @focus="dateValue_focus03"
-                  ></el-date-picker>
+                  <el-date-picker :class="{ opacity_0: bottom_time01 == '' }"
+                                  v-model="bottom_time01"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  :clearable="false"
+                                  unlink-panels
+                                  prefix-icon="el-icon-caret-bottom"
+                                  end-placeholder="结束日期"
+                                  :picker-options="pickerOptions2"
+                                  @blur="dateValue_blur03"
+                                  @focus="dateValue_focus03"></el-date-picker>
                 </div>
               </div>
             </div>
@@ -375,38 +339,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="disable_hover" v-if="response_data_fourth_part.length==0">
+                <tr class="disable_hover"
+                    v-if="response_data_fourth_part.length==0">
                   <td colspan="3">暂无相关数据</td>
                 </tr>
                 <template v-if="response_data_fourth_part.length!=0">
-                  <tr
-                    v-for="(response_data_fourth_part_item,index) in response_data_fourth_part"
-                    :key="'response_data_fourth_part'+index"
-                  >
+                  <tr v-for="(response_data_fourth_part_item,index) in response_data_fourth_part"
+                      :key="'response_data_fourth_part'+index">
                     <td class="bottom_table_td01">
                       <div>
-                        <el-rate v-model="response_data_fourth_part_item.starLevel" disabled></el-rate>
+                        <el-rate v-model="response_data_fourth_part_item.starLevel"
+                                 disabled></el-rate>
                       </div>
                     </td>
                     <td class="bottom_table_td02">
                       <div class="table_title">
                         {{response_data_fourth_part_item.title}}
-                        <span
-                          v-if="response_data_fourth_part_item.isDelete"
-                        >该条评论已被删除</span>
+                        <span v-if="response_data_fourth_part_item.isDelete">该条评论已被删除</span>
                       </div>
-                      <div
-                        :ref="'show_more'+index"
-                        :class="{'table_description':table_description} "
-                      >{{response_data_fourth_part_item.commentContent}}</div>
-                       <!-- v-if="response_data_fourth_part_item.commentContent.length>90" -->
-                         <!-- v-if="calculate_height('show_hide'+index)" -->
-                      <div
-                       v-if="response_data_fourth_part_item.commentContent.length>97"
-                        class="show_all pointer"
-                        :ref="'show_hide'+index"
-                        @click="show_more_function('show_more'+index,'show_hide'+index)"
-                      >展开更多</div>
+                      <div :ref="'show_more'+index"
+                           :class="{'table_description':table_description} ">{{response_data_fourth_part_item.commentContent}}</div>
+                      <!-- v-if="response_data_fourth_part_item.commentContent.length>90" -->
+                      <!-- v-if="calculate_height('show_hide'+index)" -->
+                      <div v-if="response_data_fourth_part_item.commentContent.length>97"
+                           class="show_all pointer"
+                           :ref="'show_hide'+index"
+                           @click="show_more_function('show_more'+index,'show_hide'+index)">展开更多</div>
                       <div class="table_author">
                         作者：
                         <span>{{response_data_fourth_part_item.authorName}}</span>
@@ -421,15 +379,14 @@
             </table>
             <!-- </div> -->
 
-            <div class="paging" v-show="response_data_fourth_part.length!=0">
+            <div class="paging"
+                 v-show="response_data_fourth_part.length!=0">
               <div>显示第 {{(currentPage-1)*20+1}} 至 {{currentPage==Math.ceil(total/20)?((currentPage-1)*20)+(total%20):currentPage*20}} 项结果，共 {{total}} 项</div>
               <div>
-                <el-pagination
-                  background
-                  layout="prev, pager, next"
-                  :total="total/2"
-                  :current-page.sync="currentPage"
-                ></el-pagination>
+                <el-pagination background
+                               layout="prev, pager, next"
+                               :total="total/2"
+                               :current-page.sync="currentPage"></el-pagination>
               </div>
             </div>
           </section>
@@ -455,8 +412,8 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
-      table_description:true,
-       now_app_id: null,
+      table_description: true,
+      now_app_id: null,
       // 分页
       currentPage: 1,
       total: 0,
@@ -603,14 +560,14 @@ export default {
     }
   },
 
- watch: {
+  watch: {
     $route(to, from) {
       this.$route.query.now_country
         ? (this.now_country = this.$route.query.now_country)
-        : (this.now_country = "中国");
+        : (this.now_country = '中国')
       this.$route.query.now_app_id
         ? (this.now_app_id = this.$route.query.now_app_id)
-        : (this.now_app_id = null);
+        : (this.now_app_id = null)
       this.get_data_for_first_part()
       this.get_data_for_fourth_part()
       this.get_data_for_third_part()
@@ -618,12 +575,12 @@ export default {
     }
   },
   created: function() {
-        this.$route.query.now_country
+    this.$route.query.now_country
       ? (this.now_country = this.$route.query.now_country)
-      : (this.now_country = "中国");
+      : (this.now_country = '中国')
     this.$route.query.now_app_id
       ? (this.now_app_id = this.$route.query.now_app_id)
-      : (this.now_app_id = null);
+      : (this.now_app_id = null)
     // 请求数据
     this.get_data_for_first_part()
     this.get_data_for_fourth_part()
@@ -634,16 +591,16 @@ export default {
     })
     //'当前国家发生变化，重新请求数据...'
 
-    this.$watch("now_country", function(newValue, oldValue) {
-       let that=this
+    this.$watch('now_country', function(newValue, oldValue) {
+      let that = this
       this.$router.push({
         path:
-          "/grade_start?now_country=" +
+          '/grade_start?now_country=' +
           that.now_country +
-          "&now_app_id=" +
+          '&now_app_id=' +
           that.now_app_id
-      });
-    });
+      })
+    })
     // 监听第二部分的时间变化
     this.$watch('middle_top_time01', function(newValue, oldValue) {
       if (newValue != '') {
@@ -712,31 +669,37 @@ export default {
   methods: {
     // calculate_height(parm){
     //     this.$nextTick(() => {
-      //  console.log(parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height"))> 54 )
-      //  let boolean =parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54 
-      //  this.table_description=true
-    //         return parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54 
+    //  console.log(parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height"))> 54 )
+    //  let boolean =parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54
+    //  this.table_description=true
+    //         return parseInt(window.getComputedStyle(this.$refs[parm][0],null).getPropertyValue("height")) > 54
     //     })
     // },
     dateValue01_click() {
       if (this.middle_top_time01) {
         time_active('#dateValue01')
-        this.middle_bottom_radio_update = ''
-        this.get_data_for_second_part()
+        if (this.middle_bottom_radio_update != '') {
+          this.middle_bottom_radio_update = ''
+          this.get_data_for_second_part()
+        }
       }
     },
     dateValue02_click() {
       if (this.middle_bottom_time01) {
         time_active('#dateValue02')
-        this.middle_bottom_radio02 = ''
-        this.get_data_for_third_part()
+        if (this.middle_bottom_radio02 != '') {
+          this.middle_bottom_radio02 = ''
+          this.get_data_for_third_part()
+        }
       }
     },
     dateValue03_click() {
       if (this.bottom_time01) {
         time_active('#dateValue03')
-        this.bottom_radio04 = ''
-        this.get_data_for_fourth_part()
+        if (this.bottom_radio04 != '') {
+          this.bottom_radio04 = ''
+          this.get_data_for_fourth_part()
+        }
       }
     },
     // 控制时间组件旋转
@@ -833,7 +796,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`
               })
-              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
               return str
             },
             axisPointer: {
@@ -1069,7 +1032,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`
               })
-              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
               return str
             },
             axisPointer: {
@@ -1199,7 +1162,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`
               })
-              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+              let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
               return str
             },
             axisPointer: {
@@ -1593,7 +1556,7 @@ export default {
     },
     show_more_function(parm, parm02) {
       let this_div02 = this.$refs[parm02][0] //展开收起
-      let this_div = this.$refs[parm][0]  //内容
+      let this_div = this.$refs[parm][0] //内容
       // console.log(this_div02)
       if (this_div02.innerHTML.trim() == '展开更多') {
         this_div.style.height = 'auto'
@@ -1603,7 +1566,6 @@ export default {
         // this_div.style.height = '54px'
         this_div.style.display = '-webkit-box '
         this_div02.innerHTML = '展开更多'
-        
       }
     },
 

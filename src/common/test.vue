@@ -195,7 +195,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`
             })
-            let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`
+            let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
             return str
           }
         },

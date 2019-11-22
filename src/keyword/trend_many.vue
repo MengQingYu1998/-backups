@@ -289,8 +289,11 @@ export default {
     dateValue01_click() {
       if (this.dateValue) {
         time_active("#dateValue01");
-        this.radio02 = "";
+        if (this.radio02 != "") {
+            this.radio02 = "";
         this.get_data();
+        }
+        
       }
     },
     // 控制时间组件旋转
@@ -428,7 +431,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`;
               });
-              let str = `<p>${data[0].axisValue}</p><table><tbody>${tr}</tbody></table>`;
+              let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`;
               return str;
             },
             axisPointer: {
@@ -475,7 +478,7 @@ export default {
           toolbox: {
             feature: {
               saveAsImage: {
-                pixelRatio: 3,
+                pixelRatio: 1.5,
                 title: "保存",
                 iconStyle: {
                   opacity: 1,

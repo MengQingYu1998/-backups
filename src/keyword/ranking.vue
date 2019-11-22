@@ -922,7 +922,7 @@ table {
   width: 51px !important;
 }
 .new_class > div:nth-child(2) {
-  width: 1050px !important;
+  width: 1144px !important;
 }
 .new_class .el-radio-button {
   margin-bottom: 12px !important;

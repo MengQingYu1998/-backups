@@ -177,8 +177,15 @@ export default {
     // 第三部
   },
   mounted() {
+    let that = this;
+    // 判断横向是否出现滚动条 不然left_nav会跟着动
+    $(window).resize(function() {
+      if ($("body")[0].clientWidth < 1200) {
+        // alert(111);
+        that.position_fixed = false;
+      }
+    });
     this.$nextTick(() => {
-      let that = this;
       window.onscroll = function() {
         //变量scrollTop是滚动条滚动时，距离顶部的距离
         var scrollTop =
@@ -192,13 +199,21 @@ export default {
         var int = Math.round(scrollTop + windowHeight);
         // 这个if是让左侧导航固定到某一个位置
         if (scrollTop > 160) {
-          that.position_fixed = true;
+          // 判断横向是否出现滚动条 不然left_nav会跟着动
+          if ($("body")[0].clientWidth > 1200) {
+            that.position_fixed = true;
+          }
         } else {
           that.position_fixed = false;
         }
+
         // 解决左侧导航到达底部溢出
         if (scrollHeight - scrollTop <= 310 + 548 + 68) {
-          that.position_fixed_02 = true;
+          if ($("body")[0].clientWidth > 1200) {
+            that.position_fixed_02 = true;
+          } else {
+            that.position_fixed_02 = false;
+          }
         } else {
           that.position_fixed_02 = false;
         }

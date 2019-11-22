@@ -163,7 +163,7 @@
 		data(){
 			
 			return{
-				rankfont:'应用/游戏榜排名',//排名文字
+				rankfont:'应用榜排名',//排名文字
 				countryname:'中国',//导航条上面的国家
 				isFont:0,
 				isSelect:0,
@@ -171,7 +171,7 @@
 				hasNum:true,//是否有数据
 				timnow:'',//最接近当前时间榜单快照
 				kuaizTim:'',//点击的榜单快照时间
-				fenFont:'总榜',//总分类文字
+				fenFont:'应用总榜',//总分类文字
 				// 当前选中日期
 				dateV: new Date(),
 			    pickerOptions2: {
@@ -181,7 +181,7 @@
 			        }
 			    },
 			    // 当前选中类别
-			    now_Application:'',
+			    now_Application:'全部应用',
 			    equipmentValue: 'iPhone',
 			    // 获取当前选中的国家
       			 now_country: '中国',
@@ -203,7 +203,7 @@
 				bomfont:'我是有底线的~',
 				// 总分类
 				lis:[
-					{name:'总榜'},{name:'应用榜'},{name:'游戏榜'}
+					{name:'应用总榜'},{name:'游戏总榜'},{name:'iOS10总榜'}
 				],
 				// 榜单分类
 				genres:[
@@ -221,7 +221,7 @@
 					Data:[]
 
 				},
-				showson:false,
+				showson:true,
 			    //当前时间font
 				timFont:'当前时间',
 				scrollHeight:0,
@@ -327,6 +327,7 @@
 		
 			// 获取数据
 			getData(){
+
 				this.can_execute_scorll = false
 				this.contentShow=true
                 this.infiniteMsgShow=true
@@ -346,19 +347,19 @@
 				}
 
 				// 传给后台的pid
-				let pidV=36
+				let pidV=5000
 				let geid=''
 
 				if(this.isSelect==0){
-					// 点击总榜
-					pidV=36
-			
-				}else if(this.isSelect==1){
+					
 					// 点击应用榜
 					pidV=5000
-				}else if(this.isSelect==2){
+				}else if(this.isSelect==1){
 					// 点击游戏榜
 					pidV=6014
+				}else if(this.isSelect==2){
+					// 点击总榜
+					pidV=36
 				}
 				
 				// 传给后台的date值
@@ -374,6 +375,7 @@
 				})
 				.then(res => {
 					if (res.data.Code == 0) {
+
 						this.sons=res.data
 						if(pidV==36){
 					        geid=36	
@@ -385,14 +387,6 @@
 							    }
 					    }
 
-
-					    if(this.isFont==true&&geid==""){
-					    		geid=5000	
-					    	}else if(this.isFontG==true&&geid==""){
-					    		geid=6014	
-					    	}
-					        
-					    
 					    //传给后台的countryid值
 						let country_id=1
 						this.$axios({
@@ -588,26 +582,27 @@
 				this.isSelect=index
 				this.isFont=0
 				if(this.isSelect==0){
-					this.rankfont="应用/游戏榜排名"
-					this.fenFont='总榜'
-					this.showson=false
+					this.rankfont="应用榜排名"
+					this.fenFont='应用总榜'
+					this.showson=true
+					this.now_Application="全部应用"
 					this.zongsData.length=0
 					this.page=1
 					this.getData()
 				}else if(this.isSelect==1){
-					this.rankfont="应用榜排名"
-					this.fenFont='应用榜'
-					this.now_Application="全部应用"
+					this.rankfont="游戏榜排名"
+					this.fenFont='游戏总榜'
+					this.now_Application="全部游戏"
 					this.showson=true
 					this.zongsData.length=0
 					this.page=1
 					this.getData()
 				}else{
-					this.rankfont="游戏榜排名"
-					this.fenFont='游戏榜'
+					this.rankfont="应用/游戏榜排名"
+					this.fenFont='IOS10总榜'
 					
-					this.now_Application="全部游戏"
-					this.showson=true
+					// this.now_Application="全部游戏"
+					this.showson=false
 					this.zongsData.length=0
 					this.page=1
 					this.getData()
