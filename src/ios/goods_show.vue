@@ -142,7 +142,7 @@
                           </div>
                         </div>
                         <img
-                          :class="{ opacity_0: index == 0 }"
+                          :class="{ opacity_0ss: index == 0 }"
                           src="../assets/ios/compare_del.png"
                           @click="remove_data(index, item.appId)"
                           alt
@@ -585,7 +585,7 @@ export default {
   color: #222 !important;
 }
 
-.opacity_0 {
+.opacity_0ss {
   opacity: 0;
 }
 td {

@@ -1019,11 +1019,10 @@ export default {
     dateValue05_click() {
       if (this.middle_time01) {
         time_active('#dateValue05')
-          if (this.bottom_radio3 != '') {
-             this.bottom_radio3 = ''
-        this.get_data_for_third_part()
+        if (this.bottom_radio3 != '') {
+          this.bottom_radio3 = ''
+          this.get_data_for_third_part()
         }
-       
       }
     },
     // 控制时间组件旋转
@@ -1734,7 +1733,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-                color: '#DCDFE6'
+               color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -1810,7 +1809,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             type: 'category',
@@ -1825,7 +1824,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -1835,43 +1834,24 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                 color: ['#d6d6d6']
               }
             },
             type: 'value',
             inverse: true,
             minInterval: 1,
-            min: 'dataMin',
-            max: function(value) {
-              let max_value = value.max
-              if (max_value < 5) {
-                that.yAxis_max = 5
-              } else if (max_value < 10) {
-                that.yAxis_max = 10
-              } else if (max_value < 20) {
-                that.yAxis_max = 20
-              } else if (max_value < 50) {
-                that.yAxis_max = 50
-              } else if (max_value < 100) {
-                that.yAxis_max = 100
-              } else if (max_value < 150) {
-                that.yAxis_max = 150
-              } else if (max_value < 200) {
-                that.yAxis_max = 200
-              } else if (max_value < 300) {
-                that.yAxis_max = 300
-              } else if (max_value < 400) {
-                that.yAxis_max = 400
-              } else if (max_value < 500) {
-                that.yAxis_max = 500
-              } else if (max_value < 1000) {
-                that.yAxis_max = 1000
-              } else if (max_value < 1500) {
-                that.yAxis_max = 1500
-              } else {
-                that.yAxis_max = max_value + 100
+            splitNumber: 4,
+            min: function(value) {
+              if (value.min == Infinity) {
+                return 1
               }
-              return that.yAxis_max
+              return value.min - 2 <= 1 ? 1 : value.min-2
+            },
+            max: function(value) {
+              if (value.max == -Infinity) {
+                return 5
+              }
+              return value.max+2 <= 5 ? 5 : value.max + 2
             }
           },
 

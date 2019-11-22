@@ -1055,6 +1055,17 @@ table tbody tr th.zongrank>img{
 	margin-left: 5px;
 	margin-right: 5px;
 }
+table tbody tr th.zongrank span{
+	width: 30px;
+	display: inline-block;
+	/*border:1px solid red;*/
+}
+table tbody tr th.zongrank span:first-child{
+	text-align: right;
+}
+table tbody tr th.zongrank span:last-child{
+	text-align: left;
+}
 /*子分类*/
 .sonlei>div>div p{
 	height: 25px;

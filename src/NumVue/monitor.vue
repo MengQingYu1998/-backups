@@ -6,7 +6,7 @@
 			<div class="lei">
 				<div>
 					<p class="category">类别</p>
-					<p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">总榜</p>
+					<p class="font" v-bind:class="{selectFont:isFontZ}" @click="showZ()">全部</p>
 					<p class="font" @click.stop="showY()" id="myPanel" v-bind:class="{selectFont:isFont}">
 						<span class="valY" v-html="valueY"></span>
 						<img src="../assets/NumImg/down.png" class="down" v-show="downL"/> 

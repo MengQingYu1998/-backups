@@ -452,7 +452,7 @@ export default {
             show: true,
             onZero: false,
             lineStyle: {
-              color: '#d6d6d6'
+             color: '#c0c0c0'
             }
           },
           axisLabel: {
@@ -465,7 +465,7 @@ export default {
           splitLine: {
             show: true,
             lineStyle: {
-              color: ['#f2f2f2']
+              color: ['#d6d6d6']
             }
           },
 
@@ -497,7 +497,7 @@ export default {
           show: true,
           onZero: false,
           lineStyle: {
-            color: '#d6d6d6'
+            color: '#c0c0c0'
           }
         },
         axisLabel: {
@@ -510,7 +510,7 @@ export default {
         splitLine: {
           show: true,
           lineStyle: {
-            color: ['#f2f2f2']
+            color: ['#d6d6d6']
           }
         },
         type: 'category',
@@ -828,7 +828,7 @@ export default {
             icon: 'rect'
           },
           grid: {
-            left: '7%',
+            left: '8%',
             right: '3%',
             bottom: '19%',
             top: '7%'
@@ -841,7 +841,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#d6d6d6'
+                color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -851,7 +851,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             type: 'value',
@@ -1077,7 +1077,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#d6d6d6'
+              color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -1087,7 +1087,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                 color: ['#d6d6d6']
               }
             },
             type: 'value',
@@ -1207,7 +1207,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#d6d6d6'
+             color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -1217,7 +1217,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             type: 'value',

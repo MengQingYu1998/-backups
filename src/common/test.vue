@@ -237,7 +237,7 @@ export default {
             show: true,
             onZero: false,
             lineStyle: {
-              color: '#999'
+              color: '#c0c0c0'
             }
           },
           axisLabel: {
@@ -258,7 +258,7 @@ export default {
           splitLine: {
             show: true,
             lineStyle: {
-              color: ['#f2f2f2']
+              color: ['#d6d6d6']
             }
           },
 
@@ -285,7 +285,7 @@ export default {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#999'
+              color: '#c0c0c0'
             }
           },
           axisTick: {
@@ -295,7 +295,7 @@ export default {
           splitLine: {
             show: true,
             lineStyle: {
-              color: ['#f2f2f2']
+              color: ['#d6d6d6']
             }
           },
           minInterval: 1,

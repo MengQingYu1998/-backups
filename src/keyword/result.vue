@@ -838,7 +838,7 @@ export default {
       xAxis_data: [],
       // 数据
       keyword_data_value: [],
-      yAxis_max: 5,
+    //   yAxis_max: 5,
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
@@ -1543,7 +1543,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-                color: '#d6d6d6'
+               color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -1559,7 +1559,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             type: 'category',
@@ -1576,7 +1576,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#d6d6d6'
+             color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -1586,7 +1586,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             type: 'value',
@@ -1913,7 +1913,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -1989,7 +1989,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                 color: ['#d6d6d6']
               }
             },
             type: 'category',
@@ -2003,7 +2003,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+              color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -2013,33 +2013,24 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
-            minInterval: 1,
             type: 'value',
             inverse: true,
-            min: 1,
-            max: function(value) {
-              let max_value = value.max
-              if (max_value < 5) {
-                that.yAxis_max = 5
-              } else if (max_value < 20) {
-                that.yAxis_max = 20
-              } else if (max_value < 50) {
-                that.yAxis_max = 50
-              } else if (max_value < 100) {
-                that.yAxis_max = 100
-              } else if (max_value < 500) {
-                that.yAxis_max = 500
-              } else if (max_value < 1000) {
-                that.yAxis_max = 1000
-              } else if (max_value < 1500) {
-                that.yAxis_max = 1500
-              } else {
-                that.yAxis_max = max_value + 100
+            minInterval: 1,
+            splitNumber: 4,
+        min: function(value) {
+              if (value.min == Infinity) {
+                return 1
               }
-              return that.yAxis_max
+              return value.min - 2 <= 1 ? 1 : value.min-2
+            },
+            max: function(value) {
+              if (value.max == -Infinity) {
+                return 5
+              }
+              return value.max+2 <= 5 ? 5 : value.max + 2
             }
           },
           series: that.series_data()

@@ -502,6 +502,7 @@ export default {
           this.$axios
             .post(url, data)
             .then(response => {
+                // console.log(response)
               if (
                 response.data.Data.rank_0 != null &&
                 response.data.Data.rank_1 != null &&
@@ -513,7 +514,7 @@ export default {
                 this.response_data_first.push(response.data.Data.rank_1)
                 this.response_data_first.push(response.data.Data.rank_2)
                 this.response_data_first_title = response.data.Data.rank_0
-                //  console.log(this.response_data_first_title)
+                 console.log(this.response_data_first_title)
                 delete this.response_data_first.rank_0
               } else {
                 // console.log('第一部分没数据')
@@ -521,7 +522,7 @@ export default {
                 this.response_data_first = new Array()
                 this.response_data_first_title = new Array()
               }
-              //   console.log(this.response_data_first)
+                console.log(this.response_data_first)
             })
             .catch(error => {
               console.log(error)
@@ -854,7 +855,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-                color: '#DCDFE6'
+                color: '#c0c0c0'
               }
             },
 
@@ -913,7 +914,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color: ['#d6d6d6']
               }
             },
             position: 'bottom',
@@ -928,7 +929,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#DCDFE6'
+             color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -938,13 +939,14 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ['#f2f2f2']
+                color:  ['#d6d6d6']
               }
             },
             minInterval: 1,
             type: 'value',
             inverse: true,
             min: 1,
+            splitNumber: 4,
             max: function(value) {
               let max_value = value.max
 
@@ -978,6 +980,29 @@ export default {
               return that.yAxis_max
             }
           },
+        //   graphic: [
+        //     {
+        //       type: 'group',
+
+        //       bounding: 'raw',
+        //       left: 150,
+        //       bottom: 110,
+        //       z: 100,
+        //       children: [
+        //         {
+        //           type: 'text',
+        //           left: 'center',
+        //           top: 'center',
+        //           z: 100,
+        //           style: {
+        //             fill: '#D5D5D5',
+        //             text: '掌上互动',
+        //             font: '26px Microsoft YaHei'
+        //           }
+        //         }
+        //       ]
+        //     }
+        //   ],
           series: that.series_data()
         },
         true

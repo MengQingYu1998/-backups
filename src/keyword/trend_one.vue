@@ -493,7 +493,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-                color: "#DCDFE6"
+               color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -506,7 +506,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ["#f2f2f2"]
+                color: ['#d6d6d6']
               }
             },
             type: "category",
@@ -520,7 +520,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: "#DCDFE6"
+               color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -530,12 +530,12 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: ["#f2f2f2"]
+                 color: ['#d6d6d6']
               }
             },
             type: "value",
 
-            minInterval: 1,
+            minInterval: 1,splitNumber: 4,
             min: function(value) {
               if (value.min == Infinity) {
                 return 0;
