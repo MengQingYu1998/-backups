@@ -376,6 +376,12 @@ export default new Router({
       component: () => import("../hand_school/all")
     }
   ],
-
+  scrollBehavior(to, from, saveTop){
+    if (saveTop) {
+        return saveTop;
+    } else {
+        return {x: 0, y: 0}
+    }
+},
   mode: "history"
 });

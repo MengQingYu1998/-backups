@@ -232,8 +232,8 @@ export default {
       this.isSelect = index
       // this.showApplication = false
       // this.showGame = false
-
-      this.zongsData.length = 0
+      this.upfontval=""
+      this.zongsData = ""
       this.getData()
       
     },
@@ -515,9 +515,19 @@ table tbody tr th >.dir{
   vertical-align: top;
 }
 table tbody tr th.zongrank > img {
- 
   margin: 0px 5px;
   margin-top: 5px;
+}
+table tbody tr th.zongrank span{
+  width: 30px;
+  display: inline-block;
+  text-align: left;
+}
+table tbody tr th.zongrank span:first-child{
+  text-align: right;
+}
+table tbody tr th.zongrank span:last-child{
+  text-align: left;
 }
 .redB{
     color: #f50202;

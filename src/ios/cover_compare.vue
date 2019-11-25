@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="vs" v-once>
+          <div class="vs" >
             <div class="vs_div">
               <img
                 :src="
@@ -278,6 +278,7 @@ export default {
   components: { ios_header, left_nav },
   data() {
     return {
+        
       // tab-pane选择面板
       activeName: "first",
       now_app_id: null,
@@ -340,6 +341,7 @@ export default {
     });
     this.$watch("equipmentValue", function(newValue, oldValue) {
       this.currentPage = 1;
+    this.loading = true;
       this.get_data();
     });
     this.$watch("activeName", function(newValue, oldValue) {
@@ -353,7 +355,7 @@ export default {
   methods: {
     // 请求数据
     get_data() {
-      this.loading = true;
+      
       this.$axios
         .get("/GetCountry")
         .then(response => {
@@ -393,7 +395,7 @@ export default {
             .get(url)
             .then(response => {
               this.loading = false;
-              // console.log(response);
+              console.log(response);
               if (response.data.Data != null) {
                 this.response_data = response.data.Data;
 
@@ -456,6 +458,10 @@ export default {
   letter-spacing: 0px;
   color: #444444;
   text-align: center;
+  -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 thead tr {
@@ -513,12 +519,13 @@ table {
   height: 94px;
   border-radius: 8px;
   border: solid 1px #f7f7f7;
+  margin-bottom: 20px;
 }
 .vs_div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   width: 150px;
   height: 172px;
 }

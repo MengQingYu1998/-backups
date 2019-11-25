@@ -838,7 +838,7 @@ export default {
       xAxis_data: [],
       // 数据
       keyword_data_value: [],
-    //   yAxis_max: 5,
+      //   yAxis_max: 5,
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
       // =============================tab可切换部分============================
@@ -1504,7 +1504,7 @@ export default {
               'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
-              fontSize: 13,
+              fontSize: 14,
               align: 'left'
             },
             trigger: 'axis'
@@ -1543,7 +1543,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-               color: '#c0c0c0'
+                color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -1576,7 +1576,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-             color: '#c0c0c0'
+                color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -1861,7 +1861,7 @@ export default {
               'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
-              fontSize: 13,
+              fontSize: 14,
               align: 'left'
             },
             trigger: 'axis'
@@ -1989,7 +1989,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                 color: ['#d6d6d6']
+                color: ['#d6d6d6']
               }
             },
             type: 'category',
@@ -2003,7 +2003,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-              color: '#c0c0c0'
+                color: '#c0c0c0'
               }
             },
             axisTick: {
@@ -2020,17 +2020,17 @@ export default {
             inverse: true,
             minInterval: 1,
             splitNumber: 4,
-        min: function(value) {
+            min: function(value) {
               if (value.min == Infinity) {
                 return 1
               }
-              return value.min - 2 <= 1 ? 1 : value.min-2
+              return value.min - 3 <= 1 ? 1 : value.min-3
             },
             max: function(value) {
               if (value.max == -Infinity) {
                 return 5
               }
-              return value.max+2 <= 5 ? 5 : value.max + 2
+              return value.max + 3 <= 5 ? 5 : value.max + 3
             }
           },
           series: that.series_data()
@@ -2110,10 +2110,11 @@ export default {
       this.response_data_for_ios12 = new Array()
       this.page11 = 1
       this.page12 = 1
-      this.$router.push({
+      let routerUrl = this.$router.resolve({
         path:
           '/result?now_country=' + that.now_country + '&now_app_name=' + parm
       })
+      window.open(routerUrl.href, '_blank')
     },
     go_to_page05(parm, parm02) {
       let that = this

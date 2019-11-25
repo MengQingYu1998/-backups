@@ -1,4 +1,4 @@
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -6,17 +6,17 @@ h5 {
   color: #4a7296;
   font-family: 'Oswald', sans-serif;
   margin: 13px 0 3px 0;
-}
-a {
+} */
+/* a {
   color: #3a72ab;
 }
 * a:hover {
   text-decoration: none;
   color: orange;
-}
-p {
-  color: #515151;
-}
+} */
+/* p {
+  color: #222;
+} */
 .top-line .navbar {
   height: 20px;
 }

@@ -996,4 +996,7 @@ option:first-child {
 .color_444 {
   color: #444;
 }
+.color_444:hover {
+  color: #009bef;
+}
 </style>

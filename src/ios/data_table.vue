@@ -115,7 +115,7 @@
                           <div class="flex_div">
                             <span>
                               <span :class="{'change_span_bg_color03':change_span_bg_color[0]==index&&change_span_bg_color[1]=='keyWordCount03'}"
-                                    @click="change_something(item.keyWordCount.allIds,index,'keyWordCount03')">{{item.keyWordCount.num}}</span>
+                                    @click="change_something(item.keyWordCount.allIds,index,'keyWordCount03',item.keyWordCount.num)">{{item.keyWordCount.num}}</span>
                             </span>
                             <span>
                               <span :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='keyWordCount01'}"
@@ -135,7 +135,7 @@
                           <div class="flex_div">
                             <span>
                               <span :class="{'change_span_bg_color03':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top303'}"
-                                    @click="change_something(item.top3.allIds,index,'top303')">{{item.top3.num}}</span>
+                                    @click="change_something(item.top3.allIds,index,'top303',item.top3.num)">{{item.top3.num}}</span>
                             </span><span>
                               <span :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top301'}"
                                     @click="change_something(item.top3.addIds,index,'top301')"
@@ -153,7 +153,7 @@
                           <div class="flex_div">
                             <span>
                               <span :class="{'change_span_bg_color03':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top1003'}"
-                                    @click="change_something(item.top10.allIds,index,'top1003')">{{item.top10.num}}</span>
+                                    @click="change_something(item.top10.allIds,index,'top1003',item.top10.num)">{{item.top10.num}}</span>
                             </span>
                             <span> <span :class="{'change_span_bg_color01':change_span_bg_color[0]==index&&change_span_bg_color[1]=='top1001'}"
                                     @click="change_something(item.top10.addIds,index,'top1001')"
@@ -173,7 +173,7 @@
                 </table>
                 <div class="clear_content02"
                      @click="clear_change_span_bg_color"
-                     v-show="change_span_bg_color[0]">返回查看全部关键词</div>
+                     v-show="(change_span_bg_color[0]==6&&change_span_bg_color[1]=='keyWordCount03')?false:change_span_bg_color[0]!=null">查看全部关键词</div>
               </div>
             </section>
             <!-- 中部 关键词明细 -->
@@ -369,42 +369,42 @@
                           :key="'tableasdf'+index">
                         <td>
                           <span class="pointer item_word"
-                                @click="go_to_page03(item.Word)">{{item.Word}}</span>
+                                @click="go_to_page03(item.w)">{{item.w}}</span>
                         </td>
                         <td>
-                          <div>{{item.Ranking}}</div>
+                          <div>{{item.r}}</div>
                         </td>
 
                         <td>
-                          <div v-if="item.Str!=null">{{item.Str}}</div>
+                          <div v-if="item.s!=null">{{item.s}}</div>
                           <div class="img_left_father"
                                v-else>
                             <img class="img_left arrowsImg_0"
                                  src="../assets/keyword/arrows (1).png"
                                  alt
-                                 v-show="item.Change==0" />
+                                 v-show="item.c==0" />
                             <img class="img_left arrowsImg"
                                  src="../assets/keyword/arrows (2).png"
                                  alt
-                                 v-show="item.Change>0" />
+                                 v-show="item.c>0" />
                             <img class="img_left arrowsImg"
                                  src="../assets/keyword/arrows (3).png"
                                  alt
-                                 v-show="item.Change<0" />
-                            <span :class="{ 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}">{{Math.abs(item.Change)}}</span>
+                                 v-show="item.c<0" />
+                            <span :class="{ 'gray':item.c==0 , 'blue':item.c<0 , 'red':item.c>0}">{{Math.abs(item.c)}}</span>
                           </div>
                         </td>
                         <td>
                           <span class="table_font pointer"
-                                @click="go_to_page02(item.Word)">{{item.WordIdHint}}</span>
+                                @click="go_to_page02(item.w)">{{item.h}}</span>
                         </td>
                         <td>
                           <span class="table_font pointer"
-                                @click="go_to_page01(item.Word)">{{item.SearchCount}}</span>
+                                @click="go_to_page01(item.w)">{{item.n}}</span>
                         </td>
                         <td>
                           <div class="table_font pointer">
-                            <img @click="middle_table_first(index,item.WordId,item.Word)"
+                            <img @click="middle_table_first(index,item.i,item.w)"
                                  class="table_font_three_active"
                                  src="../assets/keyword/three_active.png" />
                           </div>
@@ -547,41 +547,41 @@
                           :key="'tasbleasdf'+index">
                         <td>
                           <div class="pointer"
-                               @click="go_to_page03(item.Word)">{{item.Word}}</div>
+                               @click="go_to_page03(item.w)">{{item.w}}</div>
                         </td>
                         <td>
-                          <div>{{item.Ranking}}</div>
+                          <div>{{item.r}}</div>
                         </td>
 
                         <td>
-                          <div v-if="item.Str!=null">{{item.Str}}</div>
+                          <div v-if="item.s!=null">{{item.s}}</div>
                           <div v-else>
                             <img class="img_left arrowsImg_0"
                                  src="../assets/keyword/arrows (1).png"
                                  alt
-                                 v-show="item.Change==0" />
+                                 v-show="item.c==0" />
                             <img class="img_left arrowsImg"
                                  src="../assets/keyword/arrows (2).png"
                                  alt
-                                 v-show="item.Change>0" />
+                                 v-show="item.c>0" />
                             <img class="img_left arrowsImg"
                                  src="../assets/keyword/arrows (3).png"
                                  alt
-                                 v-show="item.Change<0" />
-                            <span :class="{ 'gray':item.Change==0 , 'blue':item.Change<0 , 'red':item.Change>0}">{{Math.abs(item.Change)}}</span>
+                                 v-show="item.c<0" />
+                            <span :class="{ 'gray':item.c==0 , 'blue':item.c<0 , 'red':item.c>0}">{{Math.abs(item.c)}}</span>
                           </div>
                         </td>
                         <td>
                           <span class="table_font pointer"
-                                @click="go_to_page02(item.Word)">{{item.WordIdHint}}</span>
+                                @click="go_to_page02(item.w)">{{item.h}}</span>
                         </td>
                         <td>
                           <span class="table_font pointer"
-                                @click="go_to_page01(item.Word)">{{item.SearchCount}}</span>
+                                @click="go_to_page01(item.w)">{{item.n}}</span>
                         </td>
                         <td>
                           <div class="table_font pointer">
-                            <img @click="middle_table_first(temp01_request_data_second.length+index,item.WordId,item.Word)"
+                            <img @click="middle_table_first(temp01_request_data_second.length+index,item.i,item.w)"
                                  class="table_font_three_active"
                                  src="../assets/keyword/three_active.png" />
                           </div>
@@ -859,11 +859,7 @@ export default {
           this.dateCompare_for_top
       })
     })
-    //  this.$watch('change_span_bg_color', function(newValue, oldValue) {
-    //   //  console.log(this.change_span_bg_color)
-    //   alert(111)
-    //    this.get_data_for_second_part()
-    // })
+
     // 对日期做限制 第一部分
     this.$watch('date_Now_for_top', function(newValue, oldValue) {
       this.stop_click_many_times = null //防止点击第一个的时候， 被判断为重复点击
@@ -1124,7 +1120,7 @@ export default {
         })
     },
     clear_change_span_bg_color() {
-      this.change_span_bg_color = new Array()
+      this.change_span_bg_color = [null, null]
       this.page = 1
       this.is_show_bottom = false
       this.wordIds = ''
@@ -1133,11 +1129,36 @@ export default {
       this.result_max_input01 = ''
       this.get_data_for_second_part()
     },
-    change_something(parm, parm01, parm02) {
+    change_something(parm, parm01, parm02, parm04) {
       this.loading_gif = true
       // 跳转位置
       this.$refs.position_red.scrollIntoView({ behavior: 'smooth' })
-
+      this.hidden_parm += 1
+      this.page = 1
+      this.currentPage = 1
+      this.is_show_bottom = false
+      this.change_span_bg_color[0] = parm01
+      this.change_span_bg_color[1] = parm02
+      console.log(parm04)
+      if (
+        !(
+          this.change_span_bg_color[0] == 6 &&
+          this.change_span_bg_color[1] == 'keyWordCount03'
+        )
+      ) {
+        if (parm04 == 0) {
+          this.wordIds = '-1'
+        } else {
+          this.wordIds = parm
+        }
+      } else {
+        if (parm04 == 0) {
+          this.wordIds = '-1'
+        } else {
+          this.wordIds = parm
+        }
+      }
+      console.log(this.wordIds)
       if (
         parm02 == 'keyWordCount03' ||
         parm02 == 'top303' ||
@@ -1180,13 +1201,6 @@ export default {
         this.result_min_input01 = ''
         this.result_max_input01 = ''
       }
-
-      this.hidden_parm += 1
-      this.page = 1
-      this.is_show_bottom = false
-      this.change_span_bg_color[0] = parm01
-      this.change_span_bg_color[1] = parm02
-      this.wordIds = parm
     },
     // 设置对比日期永远比当前日期小一天 第一部分
     change_time() {
@@ -1415,6 +1429,7 @@ export default {
       this.temp_request_data_second = now_show_data.slice(index + 1)
       this.wordId = wordId
       this.word = word
+      console.log(this.word)
       this.is_show_myChart_and_table = true
       this.is_show_bottom = true
       this.$nextTick(() => {
@@ -1484,7 +1499,7 @@ export default {
               // 判断时间相差多少天
               let nTime = new Date(edate).getTime() - new Date(sdate).getTime()
               let day = Math.floor(nTime / 86400000)
-              console.log(day)
+            //   console.log(day)
               switch (this.bottom_radio1) {
                 case '按分钟':
                   if (day > 7 && day <= 30) {
@@ -1565,14 +1580,14 @@ export default {
             showType: showType,
             date: time
           }
-          console.log(data)
+        //   console.log(data)
           this.keyword_data = new Array()
-          this.keyword_data.push(this.word)
+          this.keyword_data.push('排名')
           // 请求数据
           this.$axios
             .post(url, data)
             .then(response => {
-              // console.log(response)
+            //   console.log(response)
 
               if (response.data.Data != null) {
                 this.no_data = false
@@ -1649,7 +1664,7 @@ export default {
               '应用【' +
               that.replace_some_chart_wrap(that.now_app_name) +
               '】在关键词【' +
-              that.keyword_data[0] +
+              that.word +
               '】的排名趋势',
             left: 'center',
             textStyle: {
@@ -1672,7 +1687,7 @@ export default {
                   <td>${element.value}</td>
                   </tr>`
               })
-              let str = `<p>${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
+              let str = `<p">${data[0].axisValue}</p><table style="border:none !important"><tbody>${tr}</tbody></table>`
               return str
             },
             backgroundColor: '#fff',
@@ -1681,7 +1696,7 @@ export default {
             textStyle: {
               align: 'left',
               color: '#222222;',
-              fontSize: 13
+              fontSize: 14
             },
 
             trigger: 'axis'
@@ -1733,7 +1748,7 @@ export default {
               show: true,
               onZero: false,
               lineStyle: {
-               color: '#c0c0c0'
+                color: '#c0c0c0'
               }
             },
             axisLabel: {
@@ -1834,7 +1849,7 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                 color: ['#d6d6d6']
+                color: ['#d6d6d6']
               }
             },
             type: 'value',
@@ -1845,13 +1860,13 @@ export default {
               if (value.min == Infinity) {
                 return 1
               }
-              return value.min - 2 <= 1 ? 1 : value.min-2
+              return value.min - 3 <= 1 ? 1 : value.min - 3
             },
             max: function(value) {
               if (value.max == -Infinity) {
                 return 5
               }
-              return value.max+2 <= 5 ? 5 : value.max + 2
+              return value.max + 3 <= 5 ? 5 : value.max + 3
             }
           },
 
@@ -1892,10 +1907,11 @@ export default {
     },
     go_to_page03(parm) {
       let that = this
-      this.$router.push({
+      let routerUrl = this.$router.resolve({
         path:
           '/result?now_country=' + that.now_country + '&now_app_name=' + parm
       })
+      window.open(routerUrl.href, '_blank')
     }
   }
 }
@@ -2662,23 +2678,21 @@ table {
   opacity: 0;
 }
 .clear_content02 {
-  width: 150px;
-  height: 26px;
-  background-color: #009bef;
+  width: 111px;
+  height: 32px;
   border-radius: 4px;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 100;
+  border: solid 1px #009bef;
   font-size: 14px;
   font-weight: normal;
-  font-stretch: normal;
-  line-height: 26px;
-  letter-spacing: 0px;
-  color: #ffffff;
   text-align: center;
+  font-stretch: normal;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #009bef;
   cursor: pointer;
+  margin-right: 5px;
   float: right;
-  margin-top: -7px;
+  margin-top: -15px;
 }
 .clear_content {
   padding: 0 12px;

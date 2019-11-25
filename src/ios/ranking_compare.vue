@@ -675,7 +675,7 @@ export default {
               'box-shadow: 0px 0px 4px 0px  rgba(0, 0, 0, 0.18);line-height:25px;padding:10px 15px',
             textStyle: {
               color: '#222222;',
-              fontSize: 13,
+              fontSize: 14,
               align: 'left'
             },
 
